@@ -1,0 +1,30 @@
+name: client
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_secure_storage: ^10.0.0
+  get: ^4.7.3
+  ndk: ^0.6.1-dev.4
+  path_provider: ^2.1.5
+  sembast: ^3.8.6
+  toastification: ^3.0.3
+  nostr_mail:
+    path: ../nostr-mail-dart
+  ndk_rust_verifier: ^0.4.2
+  sembast_cache_manager: ^1.0.5
+  http: ^1.6.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
