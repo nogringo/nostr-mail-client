@@ -1,30 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
-class EmailTile extends StatelessWidget {
+import '../../../services/nostr_mail_service.dart';
+
+class EmailTile extends StatefulWidget {
   final Email email;
   final VoidCallback onTap;
 
   const EmailTile({super.key, required this.email, required this.onTap});
 
   @override
+  State<EmailTile> createState() => _EmailTileState();
+}
+
+class _EmailTileState extends State<EmailTile> {
+  Metadata? _metadata;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMetadata();
+  }
+
+  Future<void> _loadMetadata() async {
+    try {
+      final ndk = Get.find<NostrMailService>().ndk;
+      final metadata = await ndk.metadata.loadMetadata(
+        widget.email.senderPubkey,
+      );
+      if (mounted && metadata != null) {
+        setState(() => _metadata = metadata);
+      }
+    } catch (_) {}
+  }
+
+  String get _displayName {
+    if (_metadata?.name != null && _metadata!.name!.isNotEmpty) {
+      return _metadata!.name!;
+    }
+    // Fallback to short npub
+    final pk = widget.email.senderPubkey;
+    if (pk.length > 16) {
+      return 'npub...${pk.substring(pk.length - 6)}';
+    }
+    return widget.email.from;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ListTile(
-          onTap: onTap,
-          leading: CircleAvatar(
-            backgroundColor: Colors.deepPurple.shade100,
-            child: Text(
-              _getInitial(email.from),
-              style: TextStyle(
-                color: Colors.deepPurple.shade700,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          onTap: widget.onTap,
+          leading: _buildAvatar(),
           title: Text(
-            email.subject.isEmpty ? '(No subject)' : email.subject,
+            widget.email.subject.isEmpty
+                ? '(No subject)'
+                : widget.email.subject,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontWeight: FontWeight.w600),
@@ -33,14 +67,14 @@ class EmailTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                email.from,
+                _displayName,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: Colors.grey[600], fontSize: 12),
               ),
               const SizedBox(height: 2),
               Text(
-                email.body,
+                widget.email.body,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: Colors.grey[500], fontSize: 13),
@@ -48,7 +82,7 @@ class EmailTile extends StatelessWidget {
             ],
           ),
           trailing: Text(
-            _formatDate(email.date),
+            _formatDate(widget.email.date),
             style: TextStyle(color: Colors.grey[500], fontSize: 11),
           ),
           isThreeLine: true,
@@ -58,10 +92,31 @@ class EmailTile extends StatelessWidget {
     );
   }
 
-  String _getInitial(String from) {
-    if (from.isEmpty) return '?';
-    final name = from.split('@').first;
-    return name.isNotEmpty ? name[0].toUpperCase() : '?';
+  Widget _buildAvatar() {
+    if (_metadata?.picture != null && _metadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        backgroundImage: NetworkImage(_metadata!.picture!),
+        backgroundColor: Colors.deepPurple.shade100,
+      );
+    }
+    return CircleAvatar(
+      backgroundColor: Colors.deepPurple.shade100,
+      child: Text(
+        _getInitial(),
+        style: TextStyle(
+          color: Colors.deepPurple.shade700,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  String _getInitial() {
+    if (_metadata?.name != null && _metadata!.name!.isNotEmpty) {
+      return _metadata!.name![0].toUpperCase();
+    }
+    final pk = widget.email.senderPubkey;
+    return pk.isNotEmpty ? pk[0].toUpperCase() : '?';
   }
 
   String _formatDate(DateTime date) {

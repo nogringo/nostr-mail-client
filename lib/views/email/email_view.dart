@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../controllers/inbox_controller.dart';
@@ -15,6 +16,7 @@ class EmailView extends StatefulWidget {
 
 class _EmailViewState extends State<EmailView> {
   Email? email;
+  Metadata? _senderMetadata;
   bool isLoading = true;
 
   @override
@@ -33,10 +35,24 @@ class _EmailViewState extends State<EmailView> {
     final nostrMailService = Get.find<NostrMailService>();
     final loaded = await nostrMailService.client.getEmail(emailId);
 
+    if (loaded != null) {
+      _loadSenderMetadata(loaded.senderPubkey);
+    }
+
     setState(() {
       email = loaded;
       isLoading = false;
     });
+  }
+
+  Future<void> _loadSenderMetadata(String pubkey) async {
+    try {
+      final ndk = Get.find<NostrMailService>().ndk;
+      final metadata = await ndk.metadata.loadMetadata(pubkey);
+      if (mounted && metadata != null) {
+        setState(() => _senderMetadata = metadata);
+      }
+    } catch (_) {}
   }
 
   Future<void> _deleteEmail() async {
@@ -132,16 +148,77 @@ class _EmailViewState extends State<EmailView> {
     );
   }
 
+  String get _senderDisplayName {
+    if (_senderMetadata?.name != null && _senderMetadata!.name!.isNotEmpty) {
+      return _senderMetadata!.name!;
+    }
+    final pk = email!.senderPubkey;
+    if (pk.length > 16) {
+      return 'npub...${pk.substring(pk.length - 6)}';
+    }
+    return email!.from;
+  }
+
   Widget _buildHeader() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildHeaderRow('From', email!.from),
-        const SizedBox(height: 8),
+        Row(
+          children: [
+            _buildSenderAvatar(),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _senderDisplayName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    _formatDateTime(email!.date),
+                    style: TextStyle(color: Colors.grey[600], fontSize: 13),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
         _buildHeaderRow('To', email!.to),
-        const SizedBox(height: 8),
-        _buildHeaderRow('Date', _formatDateTime(email!.date)),
       ],
+    );
+  }
+
+  Widget _buildSenderAvatar() {
+    if (_senderMetadata?.picture != null &&
+        _senderMetadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: 24,
+        backgroundImage: NetworkImage(_senderMetadata!.picture!),
+        backgroundColor: Colors.deepPurple.shade100,
+      );
+    }
+    final initial = _senderMetadata?.name?.isNotEmpty == true
+        ? _senderMetadata!.name![0].toUpperCase()
+        : email!.senderPubkey.isNotEmpty
+        ? email!.senderPubkey[0].toUpperCase()
+        : '?';
+    return CircleAvatar(
+      radius: 24,
+      backgroundColor: Colors.deepPurple.shade100,
+      child: Text(
+        initial,
+        style: TextStyle(
+          color: Colors.deepPurple.shade700,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+      ),
     );
   }
 
@@ -150,7 +227,7 @@ class _EmailViewState extends State<EmailView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 60,
+          width: 40,
           child: Text(
             label,
             style: TextStyle(
