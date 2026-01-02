@@ -9,9 +9,11 @@ import 'widgets/email_tile.dart';
 class InboxView extends GetView<InboxController> {
   const InboxView({super.key});
 
-  Color _avatarColor() {
+  Color _avatarColor(BuildContext context) {
     final pubkey = Get.find<AuthController>().publicKey;
-    if (pubkey == null || pubkey.isEmpty) return Colors.deepPurple;
+    if (pubkey == null || pubkey.isEmpty) {
+      return Theme.of(context).colorScheme.primary;
+    }
     final hash = pubkey.hashCode;
     return Color.fromARGB(
       255,
@@ -21,16 +23,17 @@ class InboxView extends GetView<InboxController> {
     ).withValues(alpha: 1);
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
     final authController = Get.find<AuthController>();
     final metadata = authController.userMetadata.value;
     final pubkey = authController.publicKey;
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (metadata?.picture != null && metadata!.picture!.isNotEmpty) {
       return CircleAvatar(
         radius: 18,
         backgroundImage: NetworkImage(metadata.picture!),
-        backgroundColor: _avatarColor(),
+        backgroundColor: _avatarColor(context),
       );
     }
 
@@ -42,11 +45,11 @@ class InboxView extends GetView<InboxController> {
 
     return CircleAvatar(
       radius: 18,
-      backgroundColor: _avatarColor(),
+      backgroundColor: _avatarColor(context),
       child: Text(
         initial,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: colorScheme.onPrimary,
           fontWeight: FontWeight.bold,
           fontSize: 12,
         ),
@@ -71,7 +74,7 @@ class InboxView extends GetView<InboxController> {
               padding: const EdgeInsets.only(right: 8),
               child: GestureDetector(
                 onTap: () => Scaffold.of(context).openDrawer(),
-                child: Obx(() => _buildAvatar()),
+                child: Obx(() => _buildAvatar(context)),
               ),
             ),
           ),
@@ -125,8 +128,8 @@ class InboxView extends GetView<InboxController> {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.toNamed('/compose'),
-        backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.edit, color: Colors.white),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: Icon(Icons.edit, color: Theme.of(context).colorScheme.onPrimary),
       ),
     );
   }

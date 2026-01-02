@@ -10,6 +10,7 @@ class LoginView extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       body: SafeArea(
@@ -19,11 +20,7 @@ class LoginView extends GetView<AuthController> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(
-                Icons.mail_outline,
-                size: 80,
-                color: Colors.deepPurple,
-              ),
+              Icon(Icons.mail_outline, size: 80, color: colorScheme.primary),
               const SizedBox(height: 24),
               const Text(
                 'Nostr Mail',
@@ -71,16 +68,16 @@ class LoginView extends GetView<AuthController> {
                         },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: Colors.deepPurple,
-                    foregroundColor: Colors.white,
+                    backgroundColor: colorScheme.primary,
+                    foregroundColor: colorScheme.onPrimary,
                   ),
                   child: controller.isLoading.value
-                      ? const SizedBox(
+                      ? SizedBox(
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: Colors.white,
+                            color: colorScheme.onPrimary,
                           ),
                         )
                       : const Text('Login', style: TextStyle(fontSize: 16)),

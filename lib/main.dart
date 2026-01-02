@@ -26,6 +26,9 @@ class MainApp extends StatelessWidget {
     return ToastificationWrapper(
       child: GetMaterialApp(
         title: 'Nostr Mail',
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        // themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         initialBinding: InitialBinding(),
         getPages: AppRoutes.routes,

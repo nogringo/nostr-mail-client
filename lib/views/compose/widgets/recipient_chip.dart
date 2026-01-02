@@ -26,49 +26,51 @@ class RecipientChip extends StatelessWidget {
     }
 
     if (recipient.isNostr) {
-      return _buildNostrChip();
+      return _buildNostrChip(context);
     }
 
     return _buildLegacyChip();
   }
 
-  Widget _buildNostrChip() {
+  Widget _buildNostrChip(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Chip(
       shape: const StadiumBorder(),
-      backgroundColor: Colors.deepPurple.shade50,
-      side: BorderSide(color: Colors.deepPurple.shade200),
-      avatar: _buildAvatar(),
+      backgroundColor: colorScheme.primaryContainer,
+      side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
+      avatar: _buildAvatar(context),
       label: Text(
         recipient.label,
         style: TextStyle(
-          color: Colors.deepPurple.shade700,
+          color: colorScheme.primary,
           fontWeight: FontWeight.w500,
         ),
       ),
       deleteIcon: Icon(
         Icons.close,
         size: 18,
-        color: Colors.deepPurple.shade400,
+        color: colorScheme.primary.withValues(alpha: 0.6),
       ),
       onDeleted: onDelete,
     );
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     if (recipient.picture != null && recipient.picture!.isNotEmpty) {
       return CircleAvatar(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: colorScheme.primary,
         radius: 12,
         backgroundImage: NetworkImage(recipient.picture!),
       );
     }
     return CircleAvatar(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: colorScheme.primary,
       radius: 12,
       child: Text(
         _getAvatarText(),
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: colorScheme.onPrimary,
           fontSize: 10,
           fontWeight: FontWeight.bold,
         ),

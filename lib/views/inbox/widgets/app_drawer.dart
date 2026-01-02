@@ -28,9 +28,11 @@ class AppDrawer extends StatelessWidget {
     );
   }
 
-  Color _avatarColor() {
+  Color _avatarColor(BuildContext context) {
     final pubkey = Get.find<AuthController>().publicKey;
-    if (pubkey == null || pubkey.isEmpty) return Colors.deepPurple;
+    if (pubkey == null || pubkey.isEmpty) {
+      return Theme.of(context).colorScheme.primary;
+    }
     final hash = pubkey.hashCode;
     return Color.fromARGB(
       255,
@@ -40,7 +42,7 @@ class AppDrawer extends StatelessWidget {
     ).withValues(alpha: 1);
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
     final authController = Get.find<AuthController>();
     final metadata = authController.userMetadata.value;
     final pubkey = authController.publicKey;
@@ -49,7 +51,7 @@ class AppDrawer extends StatelessWidget {
       return CircleAvatar(
         radius: 28,
         backgroundImage: NetworkImage(metadata.picture!),
-        backgroundColor: _avatarColor(),
+        backgroundColor: _avatarColor(context),
       );
     }
 
@@ -61,11 +63,11 @@ class AppDrawer extends StatelessWidget {
 
     return CircleAvatar(
       radius: 28,
-      backgroundColor: _avatarColor(),
+      backgroundColor: _avatarColor(context),
       child: Text(
         initial,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onPrimary,
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
@@ -87,11 +89,13 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<InboxController>();
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Drawer(
       child: Column(
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: Colors.deepPurple.shade50),
+            decoration: BoxDecoration(color: colorScheme.primaryContainer),
             child: Obx(
               () => Row(
                 children: [
@@ -102,24 +106,24 @@ class AppDrawer extends StatelessWidget {
                     },
                     child: Stack(
                       children: [
-                        _buildAvatar(),
+                        _buildAvatar(context),
                         Positioned(
                           right: 0,
                           bottom: 0,
                           child: Container(
                             padding: const EdgeInsets.all(2),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: colorScheme.surface,
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color: Colors.deepPurple.shade50,
+                                color: colorScheme.primaryContainer,
                                 width: 1,
                               ),
                             ),
                             child: Icon(
                               Icons.edit,
                               size: 12,
-                              color: Colors.deepPurple.shade700,
+                              color: colorScheme.primary,
                             ),
                           ),
                         ),
@@ -178,7 +182,7 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.inbox),
               title: const Text('Inbox'),
               selected: controller.currentFolder.value == MailFolder.inbox,
-              selectedTileColor: Colors.deepPurple.shade50,
+              selectedTileColor: colorScheme.primaryContainer,
               onTap: () {
                 controller.setFolder(MailFolder.inbox);
                 Navigator.pop(context);
@@ -190,7 +194,7 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.send),
               title: const Text('Sent'),
               selected: controller.currentFolder.value == MailFolder.sent,
-              selectedTileColor: Colors.deepPurple.shade50,
+              selectedTileColor: colorScheme.primaryContainer,
               onTap: () {
                 controller.setFolder(MailFolder.sent);
                 Navigator.pop(context);

@@ -54,7 +54,7 @@ class _EmailTileState extends State<EmailTile> {
       children: [
         ListTile(
           onTap: widget.onTap,
-          leading: _buildAvatar(),
+          leading: _buildAvatar(context),
           title: Text(
             widget.email.subject.isEmpty
                 ? '(No subject)'
@@ -92,19 +92,20 @@ class _EmailTileState extends State<EmailTile> {
     );
   }
 
-  Widget _buildAvatar() {
+  Widget _buildAvatar(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     if (_metadata?.picture != null && _metadata!.picture!.isNotEmpty) {
       return CircleAvatar(
         backgroundImage: NetworkImage(_metadata!.picture!),
-        backgroundColor: Colors.deepPurple.shade100,
+        backgroundColor: colorScheme.primaryContainer,
       );
     }
     return CircleAvatar(
-      backgroundColor: Colors.deepPurple.shade100,
+      backgroundColor: colorScheme.primaryContainer,
       child: Text(
         _getInitial(),
         style: TextStyle(
-          color: Colors.deepPurple.shade700,
+          color: colorScheme.primary,
           fontWeight: FontWeight.bold,
         ),
       ),

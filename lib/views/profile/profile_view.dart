@@ -126,7 +126,7 @@ class _ProfileViewState extends State<ProfileView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Center(child: _buildAvatarPreview()),
+                  Center(child: _buildAvatarPreview(context)),
                   const SizedBox(height: 24),
                   TextField(
                     controller: _nameController,
@@ -165,16 +165,17 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildAvatarPreview() {
+  Widget _buildAvatarPreview(BuildContext context) {
     final pictureUrl = _pictureController.text.trim();
     final name = _nameController.text.trim();
     final pubkey = Get.find<AuthController>().publicKey;
+    final colorScheme = Theme.of(context).colorScheme;
 
     if (pictureUrl.isNotEmpty) {
       return CircleAvatar(
         radius: 50,
         backgroundImage: NetworkImage(pictureUrl),
-        backgroundColor: Colors.deepPurple.shade100,
+        backgroundColor: colorScheme.primaryContainer,
         onBackgroundImageError: (e, s) {},
       );
     }
@@ -187,11 +188,11 @@ class _ProfileViewState extends State<ProfileView> {
 
     return CircleAvatar(
       radius: 50,
-      backgroundColor: Colors.deepPurple.shade100,
+      backgroundColor: colorScheme.primaryContainer,
       child: Text(
         initial,
         style: TextStyle(
-          color: Colors.deepPurple.shade700,
+          color: colorScheme.primary,
           fontWeight: FontWeight.bold,
           fontSize: 32,
         ),

@@ -118,7 +118,7 @@ class _EmailViewState extends State<EmailView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(),
+            _buildHeader(context),
             const Divider(height: 32),
             SelectableText(
               email!.body,
@@ -142,8 +142,11 @@ class _EmailViewState extends State<EmailView> {
             },
           );
         },
-        backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.reply, color: Colors.white),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        child: Icon(
+          Icons.reply,
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
       ),
     );
   }
@@ -159,13 +162,13 @@ class _EmailViewState extends State<EmailView> {
     return email!.from;
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            _buildSenderAvatar(),
+            _buildSenderAvatar(context),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -194,13 +197,14 @@ class _EmailViewState extends State<EmailView> {
     );
   }
 
-  Widget _buildSenderAvatar() {
+  Widget _buildSenderAvatar(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     if (_senderMetadata?.picture != null &&
         _senderMetadata!.picture!.isNotEmpty) {
       return CircleAvatar(
         radius: 24,
         backgroundImage: NetworkImage(_senderMetadata!.picture!),
-        backgroundColor: Colors.deepPurple.shade100,
+        backgroundColor: colorScheme.primaryContainer,
       );
     }
     final initial = _senderMetadata?.name?.isNotEmpty == true
@@ -210,11 +214,11 @@ class _EmailViewState extends State<EmailView> {
         : '?';
     return CircleAvatar(
       radius: 24,
-      backgroundColor: Colors.deepPurple.shade100,
+      backgroundColor: colorScheme.primaryContainer,
       child: Text(
         initial,
         style: TextStyle(
-          color: Colors.deepPurple.shade700,
+          color: colorScheme.primary,
           fontWeight: FontWeight.bold,
           fontSize: 18,
         ),
