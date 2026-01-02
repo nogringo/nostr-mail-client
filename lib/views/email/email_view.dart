@@ -17,6 +17,7 @@ class EmailView extends StatefulWidget {
 class _EmailViewState extends State<EmailView> {
   Email? email;
   Metadata? _senderMetadata;
+  Metadata? _recipientMetadata;
   bool isLoading = true;
 
   @override
@@ -37,6 +38,7 @@ class _EmailViewState extends State<EmailView> {
 
     if (loaded != null) {
       _loadSenderMetadata(loaded.senderPubkey);
+      _loadRecipientMetadata(loaded.to);
     }
 
     setState(() {
@@ -51,6 +53,26 @@ class _EmailViewState extends State<EmailView> {
       final metadata = await ndk.metadata.loadMetadata(pubkey);
       if (mounted && metadata != null) {
         setState(() => _senderMetadata = metadata);
+      }
+    } catch (_) {}
+  }
+
+  Future<void> _loadRecipientMetadata(String toAddress) async {
+    try {
+      // Extract npub from address (format: npub1...@nostr or just npub1...)
+      String npub = toAddress;
+      if (toAddress.contains('@')) {
+        npub = toAddress.split('@').first;
+      }
+
+      // Only load if it's an npub
+      if (!npub.startsWith('npub1')) return;
+
+      final ndk = Get.find<NostrMailService>().ndk;
+      final pubkey = Nip19.decode(npub);
+      final metadata = await ndk.metadata.loadMetadata(pubkey);
+      if (mounted && metadata != null) {
+        setState(() => _recipientMetadata = metadata);
       }
     } catch (_) {}
   }
@@ -162,6 +184,22 @@ class _EmailViewState extends State<EmailView> {
     return email!.from;
   }
 
+  String get _recipientDisplayName {
+    if (_recipientMetadata?.name != null &&
+        _recipientMetadata!.name!.isNotEmpty) {
+      return _recipientMetadata!.name!;
+    }
+    // Fallback to shortened address
+    final to = email!.to;
+    if (to.contains('@nostr')) {
+      final npub = to.split('@').first;
+      if (npub.length > 16) {
+        return 'npub...${npub.substring(npub.length - 6)}';
+      }
+    }
+    return to;
+  }
+
   Widget _buildHeader(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,8 +230,63 @@ class _EmailViewState extends State<EmailView> {
           ],
         ),
         const SizedBox(height: 12),
-        _buildHeaderRow('To', email!.to),
+        _buildRecipientRow(context),
       ],
+    );
+  }
+
+  Widget _buildRecipientRow(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 40,
+          child: Text(
+            'To',
+            style: TextStyle(
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+        _buildRecipientAvatar(context),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            _recipientDisplayName,
+            style: const TextStyle(fontSize: 14),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildRecipientAvatar(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    if (_recipientMetadata?.picture != null &&
+        _recipientMetadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: 12,
+        backgroundImage: NetworkImage(_recipientMetadata!.picture!),
+        backgroundColor: colorScheme.primaryContainer,
+      );
+    }
+    final initial = _recipientMetadata?.name?.isNotEmpty == true
+        ? _recipientMetadata!.name![0].toUpperCase()
+        : email!.to.isNotEmpty
+        ? email!.to[0].toUpperCase()
+        : '?';
+    return CircleAvatar(
+      radius: 12,
+      backgroundColor: colorScheme.primaryContainer,
+      child: Text(
+        initial,
+        style: TextStyle(
+          color: colorScheme.primary,
+          fontWeight: FontWeight.bold,
+          fontSize: 10,
+        ),
+      ),
     );
   }
 
@@ -223,27 +316,6 @@ class _EmailViewState extends State<EmailView> {
           fontSize: 18,
         ),
       ),
-    );
-  }
-
-  Widget _buildHeaderRow(String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          width: 40,
-          child: Text(
-            label,
-            style: TextStyle(
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-        Expanded(
-          child: SelectableText(value, style: const TextStyle(fontSize: 14)),
-        ),
-      ],
     );
   }
 
