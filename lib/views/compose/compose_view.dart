@@ -196,17 +196,19 @@ class _ComposeViewState extends State<ComposeView> {
   }
 
   Future<void> _send() async {
-    if (fromController.text.isEmpty) {
-      ToastHelper.error(context, 'Enter a From address');
-      return;
-    }
     if (controller.recipients.isEmpty) {
       ToastHelper.error(context, 'Add at least one recipient');
       return;
     }
 
+    final hasLegacyRecipient = controller.recipients.any((r) => r.isLegacy);
+    if (hasLegacyRecipient && fromController.text.isEmpty) {
+      ToastHelper.error(context, 'Enter a From address for legacy email');
+      return;
+    }
+
     final success = await controller.send(
-      from: fromController.text,
+      from: fromController.text.isNotEmpty ? fromController.text : null,
       subject: subjectController.text,
       body: bodyController.text,
     );

@@ -120,12 +120,11 @@ class ComposeController extends GetxController {
   }
 
   Future<bool> send({
-    required String from,
+    String? from,
     required String subject,
     required String body,
   }) async {
     if (recipients.isEmpty) return false;
-    if (from.isEmpty) return false;
 
     isSending.value = true;
     try {
