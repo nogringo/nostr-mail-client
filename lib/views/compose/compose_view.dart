@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/compose_controller.dart';
+import '../../models/from_option.dart';
 import '../../utils/toast_helper.dart';
+import 'widgets/from_selector_sheet.dart';
 import 'widgets/recipient_chip.dart';
 
 class ComposeView extends StatefulWidget {
@@ -15,7 +17,6 @@ class ComposeView extends StatefulWidget {
 class _ComposeViewState extends State<ComposeView> {
   final controller = Get.find<ComposeController>();
 
-  late final TextEditingController fromController;
   late final TextEditingController toController;
   late final TextEditingController subjectController;
   late final TextEditingController bodyController;
@@ -25,17 +26,12 @@ class _ComposeViewState extends State<ComposeView> {
     super.initState();
     final args = Get.arguments as Map<String, dynamic>?;
 
-    fromController = TextEditingController(
-      text: args?['from'] as String? ?? '',
-    );
     toController = TextEditingController();
     subjectController = TextEditingController(text: args?['subject'] ?? '');
     bodyController = TextEditingController();
 
-    // Load default from if not provided
-    if (fromController.text.isEmpty) {
-      _loadDefaultFrom();
-    }
+    // Load from options
+    controller.loadFromOptions();
 
     // Add replyTo as recipient if provided
     final replyTo = args?['replyTo'] as String?;
@@ -44,16 +40,8 @@ class _ComposeViewState extends State<ComposeView> {
     }
   }
 
-  Future<void> _loadDefaultFrom() async {
-    final defaultFrom = await controller.getDefaultFrom();
-    if (defaultFrom != null && fromController.text.isEmpty) {
-      fromController.text = defaultFrom;
-    }
-  }
-
   @override
   void dispose() {
-    fromController.dispose();
     toController.dispose();
     subjectController.dispose();
     bodyController.dispose();
@@ -101,19 +89,7 @@ class _ComposeViewState extends State<ComposeView> {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: fromController,
-              decoration: InputDecoration(
-                hintText: 'From',
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                border: InputBorder.none,
-              ),
-              style: const TextStyle(fontSize: 16),
-              keyboardType: TextInputType.emailAddress,
-            ),
-          ),
+          _buildFromSelector(context),
           const Divider(height: 1),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -201,14 +177,15 @@ class _ComposeViewState extends State<ComposeView> {
       return;
     }
 
+    final selectedFrom = controller.selectedFrom.value;
     final hasLegacyRecipient = controller.recipients.any((r) => r.isLegacy);
-    if (hasLegacyRecipient && fromController.text.isEmpty) {
-      ToastHelper.error(context, 'Enter a From address for legacy email');
+    if (hasLegacyRecipient && selectedFrom == null) {
+      ToastHelper.error(context, 'Select a From address for legacy email');
       return;
     }
 
     final success = await controller.send(
-      from: fromController.text.isNotEmpty ? fromController.text : null,
+      from: selectedFrom?.address,
       subject: subjectController.text,
       body: bodyController.text,
     );
@@ -223,5 +200,98 @@ class _ComposeViewState extends State<ComposeView> {
         ToastHelper.error(context, 'Failed to send email');
       }
     }
+  }
+
+  Widget _buildFromSelector(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return InkWell(
+      onTap: () => FromSelectorSheet.show(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Text(
+              'From',
+              style: TextStyle(
+                color: colorScheme.onSurfaceVariant,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Obx(() {
+                final selected = controller.selectedFrom.value;
+                if (selected == null) {
+                  return Text(
+                    'Loading...',
+                    style: TextStyle(color: colorScheme.outline),
+                  );
+                }
+                return Row(
+                  children: [
+                    _buildFromAvatar(context, selected),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            selected.label,
+                            style: const TextStyle(fontSize: 16),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          if (selected.displayName != null &&
+                              selected.displayName!.isNotEmpty)
+                            Text(
+                              selected.shortAddress,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                        ],
+                      ),
+                    ),
+                    Icon(Icons.arrow_drop_down, color: colorScheme.primary),
+                  ],
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFromAvatar(BuildContext context, FromOption option) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (option.picture != null && option.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: 14,
+        backgroundImage: NetworkImage(option.picture!),
+        backgroundColor: colorScheme.primaryContainer,
+      );
+    }
+
+    final initial = option.displayName?.isNotEmpty == true
+        ? option.displayName![0].toUpperCase()
+        : 'N';
+
+    return CircleAvatar(
+      radius: 14,
+      backgroundColor: colorScheme.primaryContainer,
+      child: Text(
+        initial,
+        style: TextStyle(
+          color: colorScheme.primary,
+          fontWeight: FontWeight.bold,
+          fontSize: 10,
+        ),
+      ),
+    );
   }
 }

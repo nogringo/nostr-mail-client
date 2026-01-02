@@ -4,14 +4,20 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
 
+import '../models/from_option.dart';
 import '../models/recipient.dart';
 import '../services/nostr_mail_service.dart';
+import 'auth_controller.dart';
+
+const String _defaultBridgeDomain = 'uid.ovh';
 
 class ComposeController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();
 
   final isSending = false.obs;
   final recipients = <Recipient>[].obs;
+  final Rxn<FromOption> selectedFrom = Rxn<FromOption>();
+  final fromOptions = <FromOption>[].obs;
 
   Future<void> addRecipient(String input) async {
     final trimmed = input.trim();
@@ -169,5 +175,133 @@ class ComposeController extends GetxController {
     } catch (_) {}
 
     return null;
+  }
+
+  /// Load all available From options
+  Future<void> loadFromOptions() async {
+    final options = <FromOption>[];
+    final authController = Get.find<AuthController>();
+    final npub = authController.npub;
+    final metadata = authController.userMetadata.value;
+
+    if (npub == null) return;
+
+    // 1. Always add npub@nostr
+    options.add(
+      FromOption(
+        address: '$npub@nostr',
+        displayName: metadata?.name,
+        picture: metadata?.picture,
+        source: FromSource.npubNostr,
+      ),
+    );
+
+    // 2. Always add npub@uid.ovh (default bridge)
+    options.add(
+      FromOption(
+        address: '$npub@$_defaultBridgeDomain',
+        displayName: metadata?.name,
+        picture: metadata?.picture,
+        source: FromSource.npubBridge,
+      ),
+    );
+
+    // 3. Check if user's NIP-05 domain is a bridge
+    final nip05 = metadata?.nip05;
+    if (nip05 != null && nip05.contains('@')) {
+      final domain = nip05.split('@').last;
+      // Don't add if it's the default bridge domain (already added)
+      if (domain != _defaultBridgeDomain) {
+        final isBridge = await _isDomainBridge(domain);
+        if (isBridge) {
+          options.add(
+            FromOption(
+              address: nip05,
+              displayName: metadata?.name,
+              picture: metadata?.picture,
+              source: FromSource.nip05Bridge,
+            ),
+          );
+        }
+      }
+    }
+
+    // 4. Scan emails for history
+    final historyAddresses = await _getHistoryFromAddresses();
+    for (final address in historyAddresses) {
+      // Don't add duplicates
+      if (!options.any((o) => o.address == address)) {
+        options.add(FromOption(address: address, source: FromSource.history));
+      }
+    }
+
+    fromOptions.value = options;
+
+    // Set default selection
+    if (selectedFrom.value == null && options.isNotEmpty) {
+      await _selectDefaultFrom(options);
+    }
+  }
+
+  Future<void> _selectDefaultFrom(List<FromOption> options) async {
+    // Try to find last used From address
+    final lastFrom = await getDefaultFrom();
+    if (lastFrom != null) {
+      final match = options.firstWhereOrNull((o) => o.address == lastFrom);
+      if (match != null) {
+        selectedFrom.value = match;
+        return;
+      }
+    }
+
+    // Fallback to npub@nostr
+    selectedFrom.value = options.first;
+  }
+
+  /// Check if a domain is a bridge by looking up _smtp@domain
+  Future<bool> _isDomainBridge(String domain) async {
+    final url = Uri.https(domain, '/.well-known/nostr.json', {'name': '_smtp'});
+
+    try {
+      final response = await http.get(url);
+      if (response.statusCode != 200) return false;
+
+      final json = jsonDecode(response.body) as Map<String, dynamic>;
+      final names = json['names'] as Map<String, dynamic>?;
+
+      // If _smtp exists and has a pubkey, it's a bridge
+      return names != null && names.containsKey('_smtp');
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Get From addresses from email history
+  Future<Set<String>> _getHistoryFromAddresses() async {
+    final addresses = <String>{};
+
+    try {
+      final myPubkey = _nostrMailService.getPublicKey();
+      if (myPubkey == null) return addresses;
+
+      final emails = await _nostrMailService.client.getEmails();
+
+      for (final email in emails) {
+        // From sent emails: use the "from" field
+        if (email.senderPubkey == myPubkey && email.from.isNotEmpty) {
+          addresses.add(email.from);
+        }
+        // From received emails: use the "to" field (my address)
+        if (email.senderPubkey != myPubkey && email.to.isNotEmpty) {
+          addresses.add(email.to);
+        }
+      }
+    } catch (_) {}
+
+    return addresses;
+  }
+
+  void selectFrom(FromOption option) {
+    selectedFrom.value = option;
   }
 }
