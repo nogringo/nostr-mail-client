@@ -25,7 +25,9 @@ class _ComposeViewState extends State<ComposeView> {
     super.initState();
     final args = Get.arguments as Map<String, dynamic>?;
 
-    fromController = TextEditingController(text: args?['from'] as String? ?? '');
+    fromController = TextEditingController(
+      text: args?['from'] as String? ?? '',
+    );
     toController = TextEditingController();
     subjectController = TextEditingController(text: args?['subject'] ?? '');
     bodyController = TextEditingController();
@@ -136,7 +138,9 @@ class _ComposeViewState extends State<ComposeView> {
                         child: TextField(
                           controller: toController,
                           decoration: InputDecoration(
-                            hintText: controller.recipients.isEmpty ? 'To' : 'Add more',
+                            hintText: controller.recipients.isEmpty
+                                ? 'To'
+                                : 'Add more',
                             hintStyle: TextStyle(color: Colors.grey[400]),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.zero,

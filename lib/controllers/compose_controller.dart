@@ -153,13 +153,17 @@ class ComposeController extends GetxController {
       final emails = await _nostrMailService.client.getEmails();
 
       // Check sent emails first
-      final sentEmail = emails.where((e) => e.senderPubkey == myPubkey).firstOrNull;
+      final sentEmail = emails
+          .where((e) => e.senderPubkey == myPubkey)
+          .firstOrNull;
       if (sentEmail != null) {
         return sentEmail.from;
       }
 
       // Fallback to received emails (use "to" which is my address)
-      final receivedEmail = emails.where((e) => e.senderPubkey != myPubkey).firstOrNull;
+      final receivedEmail = emails
+          .where((e) => e.senderPubkey != myPubkey)
+          .firstOrNull;
       if (receivedEmail != null) {
         return receivedEmail.to;
       }

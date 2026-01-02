@@ -47,7 +47,9 @@ class InboxView extends GetView<InboxController> {
       appBar: AppBar(
         title: Obx(
           () => Text(
-            controller.currentFolder.value == MailFolder.inbox ? 'Inbox' : 'Sent',
+            controller.currentFolder.value == MailFolder.inbox
+                ? 'Inbox'
+                : 'Sent',
           ),
         ),
         actions: [

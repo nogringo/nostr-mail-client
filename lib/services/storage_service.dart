@@ -1,9 +1,11 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sembast/sembast_io.dart';
+import 'package:sembast_web/sembast_web.dart';
+
+import 'storage_service_io.dart'
+    if (dart.library.html) 'storage_service_stub.dart'
+    as io;
 
 class StorageService extends GetxService {
   late final Database db;
@@ -12,13 +14,11 @@ class StorageService extends GetxService {
   static const _privateKeyKey = 'nostr_private_key';
 
   Future<StorageService> init() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final dbDir = Directory('${dir.path}/nostr_mail');
-    if (!await dbDir.exists()) {
-      await dbDir.create(recursive: true);
+    if (kIsWeb) {
+      db = await databaseFactoryWeb.openDatabase('nostr_mail');
+    } else {
+      db = await io.openDatabaseIo();
     }
-    final dbPath = '${dbDir.path}/nostr_mail.db';
-    db = await databaseFactoryIo.openDatabase(dbPath);
     return this;
   }
 

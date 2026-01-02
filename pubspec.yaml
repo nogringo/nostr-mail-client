@@ -19,6 +19,7 @@ dependencies:
   ndk_rust_verifier: ^0.4.2
   sembast_cache_manager: ^1.0.5
   http: ^1.6.0
+  sembast_web: ^2.4.3
 
 dev_dependencies:
   flutter_test:

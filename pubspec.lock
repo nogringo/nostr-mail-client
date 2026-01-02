@@ -304,6 +304,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  idb_shim:
+    dependency: transitive
+    description:
+      name: idb_shim
+      sha256: b26b2ad126be411d0072d1dfc4d97ebe02121a863e4eadc635b511b9bc138489
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.7.1+2"
   intl:
     dependency: transitive
     description:
@@ -544,6 +552,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  sembast_web:
+    dependency: "direct main"
+    description:
+      name: sembast_web
+      sha256: df69191fc035101894156d714e029bbc5706394df2af63e23c859f68fbdfb4ec
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.3"
   sky_engine:
     dependency: transitive
     description: flutter
