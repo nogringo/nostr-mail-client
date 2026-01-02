@@ -40,64 +40,137 @@ class AppDrawer extends StatelessWidget {
     ).withValues(alpha: 1);
   }
 
+  Widget _buildAvatar() {
+    final authController = Get.find<AuthController>();
+    final metadata = authController.userMetadata.value;
+    final pubkey = authController.publicKey;
+
+    if (metadata?.picture != null && metadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: 28,
+        backgroundImage: NetworkImage(metadata.picture!),
+        backgroundColor: _avatarColor(),
+      );
+    }
+
+    final initial = metadata?.name?.isNotEmpty == true
+        ? metadata!.name![0].toUpperCase()
+        : pubkey != null && pubkey.isNotEmpty
+        ? pubkey.substring(0, 2).toUpperCase()
+        : '?';
+
+    return CircleAvatar(
+      radius: 28,
+      backgroundColor: _avatarColor(),
+      child: Text(
+        initial,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
+
+  String _displayName() {
+    final authController = Get.find<AuthController>();
+    final metadata = authController.userMetadata.value;
+
+    if (metadata?.name != null && metadata!.name!.isNotEmpty) {
+      return metadata.name!;
+    }
+    return _shortNpub();
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<InboxController>();
-    final pubkey = Get.find<AuthController>().publicKey;
-    final initial = pubkey != null && pubkey.isNotEmpty
-        ? pubkey.substring(0, 2).toUpperCase()
-        : '?';
 
     return Drawer(
       child: Column(
         children: [
           DrawerHeader(
             decoration: BoxDecoration(color: Colors.deepPurple.shade50),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundColor: _avatarColor(),
-                  child: Text(
-                    initial,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: InkWell(
-                    onTap: () => _copyNpub(context),
-                    borderRadius: BorderRadius.circular(8),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 8,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              _shortNpub(),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
+            child: Obx(
+              () => Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Get.toNamed('/profile');
+                    },
+                    child: Stack(
+                      children: [
+                        _buildAvatar(),
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.deepPurple.shade50,
+                                width: 1,
                               ),
-                              overflow: TextOverflow.ellipsis,
+                            ),
+                            child: Icon(
+                              Icons.edit,
+                              size: 12,
+                              color: Colors.deepPurple.shade700,
                             ),
                           ),
-                          const SizedBox(width: 4),
-                          const Icon(Icons.copy, size: 16),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _displayName(),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        InkWell(
+                          onTap: () => _copyNpub(context),
+                          borderRadius: BorderRadius.circular(4),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: Text(
+                                  _shortNpub(),
+                                  style: TextStyle(
+                                    color: Colors.grey[600],
+                                    fontSize: 12,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                Icons.copy,
+                                size: 12,
+                                color: Colors.grey[600],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Obx(

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:ndk/shared/nips/nip19/nip19.dart';
+import 'package:ndk/ndk.dart';
 
 import '../services/nostr_mail_service.dart';
 import '../services/storage_service.dart';
@@ -10,6 +10,7 @@ class AuthController extends GetxController {
 
   final isLoading = false.obs;
   final isLoggedIn = false.obs;
+  final Rxn<Metadata> userMetadata = Rxn<Metadata>();
 
   @override
   void onInit() {
@@ -24,12 +25,24 @@ class AuthController extends GetxController {
       if (privateKey != null && privateKey.isNotEmpty) {
         await _nostrMailService.init(privateKey);
         isLoggedIn.value = true;
+        loadUserMetadata();
       }
     } catch (e) {
       await _storageService.deletePrivateKey();
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> loadUserMetadata() async {
+    final pk = publicKey;
+    if (pk == null) return;
+
+    try {
+      final ndk = _nostrMailService.ndk;
+      final metadata = await ndk.metadata.loadMetadata(pk);
+      userMetadata.value = metadata;
+    } catch (_) {}
   }
 
   Future<bool> login(String input) async {
@@ -43,6 +56,7 @@ class AuthController extends GetxController {
       await _nostrMailService.init(privateKey);
       await _storageService.savePrivateKey(privateKey);
       isLoggedIn.value = true;
+      loadUserMetadata();
       return true;
     } catch (e) {
       return false;

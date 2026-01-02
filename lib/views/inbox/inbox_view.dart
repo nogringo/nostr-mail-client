@@ -22,8 +22,21 @@ class InboxView extends GetView<InboxController> {
   }
 
   Widget _buildAvatar() {
-    final pubkey = Get.find<AuthController>().publicKey;
-    final initial = pubkey != null && pubkey.isNotEmpty
+    final authController = Get.find<AuthController>();
+    final metadata = authController.userMetadata.value;
+    final pubkey = authController.publicKey;
+
+    if (metadata?.picture != null && metadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: 18,
+        backgroundImage: NetworkImage(metadata.picture!),
+        backgroundColor: _avatarColor(),
+      );
+    }
+
+    final initial = metadata?.name?.isNotEmpty == true
+        ? metadata!.name![0].toUpperCase()
+        : pubkey != null && pubkey.isNotEmpty
         ? pubkey.substring(0, 2).toUpperCase()
         : '?';
 
@@ -58,7 +71,7 @@ class InboxView extends GetView<InboxController> {
               padding: const EdgeInsets.only(right: 8),
               child: GestureDetector(
                 onTap: () => Scaffold.of(context).openDrawer(),
-                child: _buildAvatar(),
+                child: Obx(() => _buildAvatar()),
               ),
             ),
           ),
