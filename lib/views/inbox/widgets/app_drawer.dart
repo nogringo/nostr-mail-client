@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/inbox_controller.dart';
@@ -7,10 +9,23 @@ import '../../../controllers/inbox_controller.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
-  String _shortPubkey() {
-    final pubkey = Get.find<AuthController>().publicKey;
-    if (pubkey == null || pubkey.length < 16) return 'Unknown';
-    return '${pubkey.substring(0, 8)}...${pubkey.substring(pubkey.length - 8)}';
+  String _shortNpub() {
+    final npub = Get.find<AuthController>().npub;
+    if (npub == null || npub.length < 20) return 'Unknown';
+    return '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}';
+  }
+
+  void _copyNpub(BuildContext context) {
+    final npub = Get.find<AuthController>().npub;
+    if (npub == null) return;
+    Clipboard.setData(ClipboardData(text: npub));
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      title: const Text('npub copied'),
+      autoCloseDuration: const Duration(seconds: 2),
+      alignment: Alignment.bottomRight,
+    );
   }
 
   Color _avatarColor() {
@@ -54,13 +69,32 @@ class AppDrawer extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: Text(
-                    _shortPubkey(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
+                  child: InkWell(
+                    onTap: () => _copyNpub(context),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 4,
+                        horizontal: 8,
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              _shortNpub(),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(Icons.copy, size: 16),
+                        ],
+                      ),
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],

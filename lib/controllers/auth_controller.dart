@@ -82,4 +82,10 @@ class AuthController extends GetxController {
   }
 
   String? get publicKey => _nostrMailService.getPublicKey();
+
+  String? get npub {
+    final pk = publicKey;
+    if (pk == null) return null;
+    return Nip19.encodePubKey(pk);
+  }
 }
