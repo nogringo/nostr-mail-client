@@ -17,6 +17,7 @@ class EmailView extends StatefulWidget {
 class _EmailViewState extends State<EmailView> {
   Email? email;
   Metadata? _senderMetadata;
+  Metadata? _bridgeMetadata;
   Metadata? _recipientMetadata;
   bool isLoading = true;
 
@@ -24,6 +25,36 @@ class _EmailViewState extends State<EmailView> {
   void initState() {
     super.initState();
     _loadEmail();
+  }
+
+  /// Check if this email was relayed through a bridge
+  bool get _isViaBridge {
+    if (email == null) return false;
+    final from = email!.from;
+    if (!from.contains('@')) return false;
+    if (!from.endsWith('@nostr'))
+      return true; // Legacy email like bob@gmail.com
+
+    // Check if the pubkey in from matches senderPubkey
+    final localPart = from.split('@').first;
+
+    // Try npub format
+    if (localPart.startsWith('npub1')) {
+      try {
+        final decodedPubkey = Nip19.decode(localPart);
+        return decodedPubkey != email!.senderPubkey;
+      } catch (_) {
+        return true;
+      }
+    }
+
+    // Try hex format (64 chars)
+    if (localPart.length == 64 &&
+        RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
+      return localPart.toLowerCase() != email!.senderPubkey.toLowerCase();
+    }
+
+    return true;
   }
 
   Future<void> _loadEmail() async {
@@ -37,7 +68,7 @@ class _EmailViewState extends State<EmailView> {
     final loaded = await nostrMailService.client.getEmail(emailId);
 
     if (loaded != null) {
-      _loadSenderMetadata(loaded.senderPubkey);
+      _loadSenderMetadata(loaded);
       _loadRecipientMetadata(loaded.to);
     }
 
@@ -47,12 +78,66 @@ class _EmailViewState extends State<EmailView> {
     });
   }
 
-  Future<void> _loadSenderMetadata(String pubkey) async {
+  Future<void> _loadSenderMetadata(Email loadedEmail) async {
     try {
       final ndk = Get.find<NostrMailService>().ndk;
-      final metadata = await ndk.metadata.loadMetadata(pubkey);
-      if (mounted && metadata != null) {
-        setState(() => _senderMetadata = metadata);
+      final from = loadedEmail.from;
+
+      // Check if via bridge
+      bool isViaBridge = false;
+      if (from.contains('@') && !from.endsWith('@nostr')) {
+        isViaBridge = true;
+      } else if (from.endsWith('@nostr')) {
+        final localPart = from.split('@').first;
+        if (localPart.startsWith('npub1')) {
+          try {
+            isViaBridge = Nip19.decode(localPart) != loadedEmail.senderPubkey;
+          } catch (_) {
+            isViaBridge = true;
+          }
+        } else if (localPart.length == 64 &&
+            RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
+          isViaBridge =
+              localPart.toLowerCase() != loadedEmail.senderPubkey.toLowerCase();
+        } else {
+          isViaBridge = true;
+        }
+      }
+
+      // Load bridge/sender metadata
+      final senderMeta = await ndk.metadata.loadMetadata(
+        loadedEmail.senderPubkey,
+      );
+      if (mounted && senderMeta != null) {
+        setState(() {
+          if (isViaBridge) {
+            _bridgeMetadata = senderMeta;
+          } else {
+            _senderMetadata = senderMeta;
+          }
+        });
+      }
+
+      // If from contains a pubkey (npub or hex), load its metadata too
+      if (isViaBridge && from.endsWith('@nostr')) {
+        final localPart = from.split('@').first;
+        String? pubkey;
+
+        if (localPart.startsWith('npub1')) {
+          try {
+            pubkey = Nip19.decode(localPart);
+          } catch (_) {}
+        } else if (localPart.length == 64 &&
+            RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
+          pubkey = localPart.toLowerCase();
+        }
+
+        if (pubkey != null) {
+          final fromMeta = await ndk.metadata.loadMetadata(pubkey);
+          if (mounted && fromMeta != null) {
+            setState(() => _senderMetadata = fromMeta);
+          }
+        }
       }
     } catch (_) {}
   }
@@ -174,12 +259,9 @@ class _EmailViewState extends State<EmailView> {
   }
 
   String get _senderDisplayName {
+    // Always show the from address/name
     if (_senderMetadata?.name != null && _senderMetadata!.name!.isNotEmpty) {
       return _senderMetadata!.name!;
-    }
-    final pk = email!.senderPubkey;
-    if (pk.length > 16) {
-      return 'npub...${pk.substring(pk.length - 6)}';
     }
     return email!.from;
   }
@@ -292,6 +374,37 @@ class _EmailViewState extends State<EmailView> {
 
   Widget _buildSenderAvatar(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final mainAvatar = _buildMainSenderAvatar(colorScheme);
+
+    if (!_isViaBridge || _bridgeMetadata?.picture == null) {
+      return mainAvatar;
+    }
+
+    // Show bridge badge on avatar
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        mainAvatar,
+        Positioned(
+          right: -4,
+          bottom: -4,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: colorScheme.surface, width: 2),
+            ),
+            child: CircleAvatar(
+              radius: 12,
+              backgroundImage: NetworkImage(_bridgeMetadata!.picture!),
+              backgroundColor: colorScheme.secondaryContainer,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMainSenderAvatar(ColorScheme colorScheme) {
     if (_senderMetadata?.picture != null &&
         _senderMetadata!.picture!.isNotEmpty) {
       return CircleAvatar(
@@ -302,8 +415,8 @@ class _EmailViewState extends State<EmailView> {
     }
     final initial = _senderMetadata?.name?.isNotEmpty == true
         ? _senderMetadata!.name![0].toUpperCase()
-        : email!.senderPubkey.isNotEmpty
-        ? email!.senderPubkey[0].toUpperCase()
+        : email!.from.isNotEmpty
+        ? email!.from[0].toUpperCase()
         : '?';
     return CircleAvatar(
       radius: 24,
