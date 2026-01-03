@@ -12,6 +12,7 @@ class StorageService extends GetxService {
   final _secureStorage = const FlutterSecureStorage();
 
   static const _privateKeyKey = 'nostr_private_key';
+  static final _settingsStore = StoreRef<String, dynamic>('settings');
 
   Future<StorageService> init() async {
     if (kIsWeb) {
@@ -37,5 +38,14 @@ class StorageService extends GetxService {
   Future<bool> hasPrivateKey() async {
     final key = await getPrivateKey();
     return key != null && key.isNotEmpty;
+  }
+
+  // Settings methods
+  Future<void> saveSetting(String key, dynamic value) async {
+    await _settingsStore.record(key).put(db, value);
+  }
+
+  Future<T?> getSetting<T>(String key) async {
+    return await _settingsStore.record(key).get(db) as T?;
   }
 }

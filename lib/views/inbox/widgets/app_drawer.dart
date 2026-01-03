@@ -201,6 +201,14 @@ class AppDrawer extends StatelessWidget {
               },
             ),
           ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Paramètres'),
+            onTap: () {
+              Navigator.pop(context);
+              Get.toNamed('/settings');
+            },
+          ),
           const Spacer(),
           const Divider(height: 1),
           SafeArea(

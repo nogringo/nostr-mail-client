@@ -4,6 +4,7 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../controllers/inbox_controller.dart';
+import '../../controllers/settings_controller.dart';
 import '../../services/nostr_mail_service.dart';
 import '../../utils/toast_helper.dart';
 
@@ -20,6 +21,7 @@ class _EmailViewState extends State<EmailView> {
   Metadata? _bridgeMetadata;
   Metadata? _recipientMetadata;
   bool isLoading = true;
+  bool _showRawContent = false;
 
   @override
   void initState() {
@@ -214,6 +216,17 @@ class _EmailViewState extends State<EmailView> {
           overflow: TextOverflow.ellipsis,
         ),
         actions: [
+          Obx(() {
+            if (!Get.find<SettingsController>().showRawEmail.value) {
+              return const SizedBox.shrink();
+            }
+            return IconButton(
+              icon: Icon(_showRawContent ? Icons.article : Icons.code),
+              tooltip: _showRawContent ? 'Show formatted' : 'Show raw',
+              onPressed: () =>
+                  setState(() => _showRawContent = !_showRawContent),
+            );
+          }),
           IconButton(
             icon: const Icon(Icons.delete_outline),
             onPressed: _deleteEmail,
@@ -222,17 +235,40 @@ class _EmailViewState extends State<EmailView> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildHeader(context),
-            const Divider(height: 32),
-            SelectableText(
-              email!.body,
-              style: const TextStyle(fontSize: 16, height: 1.5),
-            ),
-          ],
-        ),
+        child: _showRawContent
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SelectableText(
+                    'Sender npub: ${Nip19.encodePubKey(email!.senderPubkey)}',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'monospace',
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const Divider(height: 24),
+                  SelectableText(
+                    email!.rawContent,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'monospace',
+                      height: 1.4,
+                    ),
+                  ),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(context),
+                  const Divider(height: 32),
+                  SelectableText(
+                    email!.body,
+                    style: const TextStyle(fontSize: 16, height: 1.5),
+                  ),
+                ],
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
