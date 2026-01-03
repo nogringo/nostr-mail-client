@@ -34,8 +34,9 @@ class _EmailViewState extends State<EmailView> {
     if (email == null) return false;
     final from = email!.from;
     if (!from.contains('@')) return false;
-    if (!from.endsWith('@nostr'))
+    if (!from.endsWith('@nostr')) {
       return true; // Legacy email like bob@gmail.com
+    }
 
     // Check if the pubkey in from matches senderPubkey
     final localPart = from.split('@').first;

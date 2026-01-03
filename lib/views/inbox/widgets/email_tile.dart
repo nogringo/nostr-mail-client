@@ -29,8 +29,9 @@ class _EmailTileState extends State<EmailTile> {
   bool get _isViaBridge {
     final from = widget.email.from;
     if (!from.contains('@')) return false;
-    if (!from.endsWith('@nostr'))
+    if (!from.endsWith('@nostr')) {
       return true; // Legacy email like bob@gmail.com
+    }
 
     // Check if the pubkey in from matches senderPubkey
     final localPart = from.split('@').first;

@@ -411,10 +411,9 @@ packages:
   nostr_mail:
     dependency: "direct main"
     description:
-      name: nostr_mail
-      sha256: afcb7e267823ca9474be764da4e824f520602e01508317fbcca621fa5acbce4b
-      url: "https://pub.dev"
-    source: hosted
+      path: "../nostr-mail-dart"
+      relative: true
+    source: path
     version: "1.1.0"
   path:
     dependency: transitive

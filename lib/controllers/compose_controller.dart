@@ -206,7 +206,17 @@ class ComposeController extends GetxController {
       ),
     );
 
-    // 3. Check if user's NIP-05 domain is a bridge
+    // 3. Add npub@testnmail.uid.ovh (test bridge)
+    options.add(
+      FromOption(
+        address: '$npub@testnmail.uid.ovh',
+        displayName: metadata?.name,
+        picture: metadata?.picture,
+        source: FromSource.npubBridge,
+      ),
+    );
+
+    // 4. Check if user's NIP-05 domain is a bridge
     final nip05 = metadata?.nip05;
     if (nip05 != null && nip05.contains('@')) {
       final domain = nip05.split('@').last;
@@ -226,7 +236,7 @@ class ComposeController extends GetxController {
       }
     }
 
-    // 4. Scan emails for history
+    // 5. Scan emails for history
     final historyAddresses = await _getHistoryFromAddresses();
     for (final address in historyAddresses) {
       // Don't add duplicates
