@@ -59,6 +59,52 @@ class InboxView extends GetView<InboxController> {
     );
   }
 
+  Widget _buildAccountHeader(BuildContext context) {
+    final authController = Get.find<AuthController>();
+    final metadata = authController.userMetadata.value;
+    final npub = authController.npub ?? '';
+    final shortNpub = npub.length >= 20
+        ? '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}'
+        : npub;
+
+    final displayName = metadata?.name?.isNotEmpty == true
+        ? metadata!.name!
+        : shortNpub;
+
+    return Container(
+      width: 240,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          _buildAvatar(context),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  displayName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  shortNpub,
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isWide = ResponsiveHelper.isNotMobile(context);
@@ -133,42 +179,50 @@ class InboxView extends GetView<InboxController> {
               builder: (context) => Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: isWide
-                    ? PopupMenuButton<String>(
-                        offset: const Offset(0, 48),
-                        onSelected: (value) {
-                          if (value == 'profile') {
-                            Get.toNamed('/profile');
-                          } else if (value == 'logout') {
-                            Get.find<AuthController>().logout();
-                            Get.offAllNamed('/login');
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          const PopupMenuItem(
-                            value: 'profile',
-                            child: Row(
-                              children: [
-                                Icon(Icons.person_outline),
-                                SizedBox(width: 12),
-                                Text('Profile'),
-                              ],
+                    ? MenuAnchor(
+                        alignmentOffset: const Offset(-200, 8),
+                        style: MenuStyle(
+                          shape: WidgetStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
                             ),
                           ),
-                          const PopupMenuItem(
-                            value: 'logout',
-                            child: Row(
-                              children: [
-                                Icon(Icons.logout, color: Colors.red),
-                                SizedBox(width: 12),
-                                Text(
-                                  'Logout',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ],
+                        ),
+                        menuChildren: [
+                          Obx(() => _buildAccountHeader(context)),
+                          const Divider(height: 1),
+                          MenuItemButton(
+                            leadingIcon: const Icon(Icons.person_outline),
+                            onPressed: () => Get.toNamed('/profile'),
+                            child: const Text('Profile'),
+                          ),
+                          MenuItemButton(
+                            leadingIcon: const Icon(
+                              Icons.logout,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              Get.find<AuthController>().logout();
+                              Get.offAllNamed('/login');
+                            },
+                            child: const Text(
+                              'Logout',
+                              style: TextStyle(color: Colors.red),
                             ),
                           ),
                         ],
-                        child: Obx(() => _buildAvatar(context)),
+                        builder: (context, menuController, child) {
+                          return GestureDetector(
+                            onTap: () {
+                              if (menuController.isOpen) {
+                                menuController.close();
+                              } else {
+                                menuController.open();
+                              }
+                            },
+                            child: Obx(() => _buildAvatar(context)),
+                          );
+                        },
                       )
                     : GestureDetector(
                         onTap: () => Scaffold.of(context).openDrawer(),
