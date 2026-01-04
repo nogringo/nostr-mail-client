@@ -64,7 +64,8 @@ class InboxView extends GetView<InboxController> {
     final isWide = ResponsiveHelper.isNotMobile(context);
     final colorScheme = Theme.of(context).colorScheme;
 
-    return ResponsiveScaffold(
+    return Obx(() => ResponsiveScaffold(
+      sidebarWidth: controller.isSidebarCollapsed.value ? 72 : 280,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: colorScheme.surface,
@@ -76,7 +77,10 @@ class InboxView extends GetView<InboxController> {
                     onPressed: controller.clearSelection,
                   );
                 }
-                return const SizedBox.shrink();
+                return IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: controller.toggleSidebar,
+                );
               })
             : null,
         title: Obx(() {
@@ -174,7 +178,7 @@ class InboxView extends GetView<InboxController> {
         ],
       ),
       drawer: const AppDrawer(),
-      sidebar: const AppSidebar(),
+      sidebar: AppSidebar(collapsed: controller.isSidebarCollapsed.value),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -243,6 +247,6 @@ class InboxView extends GetView<InboxController> {
               backgroundColor: colorScheme.primary,
               child: Icon(Icons.edit, color: colorScheme.onPrimary),
             ),
-    );
+    ));
   }
 }

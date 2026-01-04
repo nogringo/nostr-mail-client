@@ -60,6 +60,7 @@ class ResponsiveScaffold extends StatelessWidget {
   final Widget? floatingActionButton;
   final Widget? drawer;
   final Widget? sidebar;
+  final double sidebarWidth;
 
   const ResponsiveScaffold({
     super.key,
@@ -68,6 +69,7 @@ class ResponsiveScaffold extends StatelessWidget {
     this.floatingActionButton,
     this.drawer,
     this.sidebar,
+    this.sidebarWidth = 280,
   });
 
   @override
@@ -80,7 +82,12 @@ class ResponsiveScaffold extends StatelessWidget {
         floatingActionButton: floatingActionButton,
         body: Row(
           children: [
-            SizedBox(width: 280, child: sidebar!),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              width: sidebarWidth,
+              child: sidebar!,
+            ),
             Expanded(child: body),
           ],
         ),

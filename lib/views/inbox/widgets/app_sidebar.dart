@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import '../../../controllers/inbox_controller.dart';
 
 class AppSidebar extends StatelessWidget {
-  const AppSidebar({super.key});
+  final bool collapsed;
+
+  const AppSidebar({super.key, this.collapsed = false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +18,21 @@ class AppSidebar extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
-            child: SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: () => Get.toNamed('/compose'),
-                icon: const Icon(Icons.edit),
-                label: const Text('Compose'),
-              ),
-            ),
+            padding: EdgeInsets.all(collapsed ? 8 : 16),
+            child: collapsed
+                ? FloatingActionButton(
+                    onPressed: () => Get.toNamed('/compose'),
+                    backgroundColor: colorScheme.primary,
+                    child: Icon(Icons.edit, color: colorScheme.onPrimary),
+                  )
+                : SizedBox(
+                    width: double.infinity,
+                    child: FilledButton.icon(
+                      onPressed: () => Get.toNamed('/compose'),
+                      icon: const Icon(Icons.edit),
+                      label: const Text('Compose'),
+                    ),
+                  ),
           ),
           Obx(
             () => _NavItem(
@@ -33,6 +41,7 @@ class AppSidebar extends StatelessWidget {
               label: 'Inbox',
               selected: controller.currentFolder.value == MailFolder.inbox,
               onTap: () => controller.setFolder(MailFolder.inbox),
+              collapsed: collapsed,
             ),
           ),
           Obx(
@@ -42,6 +51,7 @@ class AppSidebar extends StatelessWidget {
               label: 'Sent',
               selected: controller.currentFolder.value == MailFolder.sent,
               onTap: () => controller.setFolder(MailFolder.sent),
+              collapsed: collapsed,
             ),
           ),
         ],
@@ -56,6 +66,7 @@ class _NavItem extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
+  final bool collapsed;
   final Color? iconColor;
   final Color? textColor;
 
@@ -65,6 +76,7 @@ class _NavItem extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
+    this.collapsed = false,
     this.iconColor,
     this.textColor,
   });
@@ -72,6 +84,31 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
+    if (collapsed) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Tooltip(
+          message: label,
+          child: IconButton(
+            onPressed: onTap,
+            icon: Icon(
+              selected ? selectedIcon : icon,
+              color: iconColor ??
+                  (selected ? colorScheme.onSecondaryContainer : null),
+            ),
+            style: IconButton.styleFrom(
+              backgroundColor:
+                  selected ? colorScheme.secondaryContainer : null,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              minimumSize: const Size(56, 56),
+            ),
+          ),
+        ),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
@@ -84,8 +121,7 @@ class _NavItem extends StatelessWidget {
         title: Text(
           label,
           style: TextStyle(
-            color:
-                textColor ??
+            color: textColor ??
                 (selected ? colorScheme.onSecondaryContainer : null),
             fontWeight: selected ? FontWeight.w600 : null,
           ),

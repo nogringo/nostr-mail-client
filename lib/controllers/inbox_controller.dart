@@ -16,8 +16,11 @@ class InboxController extends GetxController {
   final isSyncing = false.obs;
   final currentFolder = MailFolder.inbox.obs;
   final selectedIds = <String>{}.obs;
+  final isSidebarCollapsed = false.obs;
 
   StreamSubscription? _watchSubscription;
+
+  void toggleSidebar() => isSidebarCollapsed.toggle();
 
   String? get _myPubkey => _nostrMailService.getPublicKey();
 
