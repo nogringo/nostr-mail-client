@@ -15,10 +15,42 @@ class InboxController extends GetxController {
   final isLoading = false.obs;
   final isSyncing = false.obs;
   final currentFolder = MailFolder.inbox.obs;
+  final selectedIds = <String>{}.obs;
 
   StreamSubscription? _watchSubscription;
 
   String? get _myPubkey => _nostrMailService.getPublicKey();
+
+  bool get hasSelection => selectedIds.isNotEmpty;
+  bool get allSelected => selectedIds.length == emails.length && emails.isNotEmpty;
+
+  bool isSelected(String id) => selectedIds.contains(id);
+
+  void toggleSelection(String id) {
+    if (selectedIds.contains(id)) {
+      selectedIds.remove(id);
+    } else {
+      selectedIds.add(id);
+    }
+  }
+
+  void selectAll() {
+    selectedIds.assignAll(emails.map((e) => e.id));
+  }
+
+  void clearSelection() {
+    selectedIds.clear();
+  }
+
+  Future<void> deleteSelected() async {
+    final ids = selectedIds.toList();
+    for (final id in ids) {
+      await _nostrMailService.client.delete(id);
+      _allEmails.removeWhere((e) => e.id == id);
+    }
+    selectedIds.clear();
+    _applyFilter();
+  }
 
   @override
   void onInit() {
@@ -62,6 +94,7 @@ class InboxController extends GetxController {
   void setFolder(MailFolder folder) {
     if (currentFolder.value != folder) {
       currentFolder.value = folder;
+      selectedIds.clear();
       _applyFilter();
     }
   }

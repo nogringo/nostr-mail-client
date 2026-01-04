@@ -4,6 +4,7 @@ import 'package:ndk/ndk.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../services/nostr_mail_service.dart';
+import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
 
 class ProfileView extends StatefulWidget {
@@ -122,44 +123,47 @@ class _ProfileViewState extends State<ProfileView> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(child: _buildAvatarPreview(context)),
-                  const SizedBox(height: 24),
-                  TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Name',
-                      hintText: 'Your display name',
-                      border: OutlineInputBorder(),
+              child: ResponsiveCenter(
+                maxWidth: 500,
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(child: _buildAvatarPreview(context)),
+                    const SizedBox(height: 24),
+                    TextField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Name',
+                        hintText: 'Your display name',
+                        border: OutlineInputBorder(),
+                      ),
+                      textCapitalization: TextCapitalization.words,
                     ),
-                    textCapitalization: TextCapitalization.words,
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _pictureController,
-                    decoration: const InputDecoration(
-                      labelText: 'Picture URL',
-                      hintText: 'https://example.com/avatar.png',
-                      border: OutlineInputBorder(),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _pictureController,
+                      decoration: const InputDecoration(
+                        labelText: 'Picture URL',
+                        hintText: 'https://example.com/avatar.png',
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.url,
+                      onChanged: (_) => setState(() {}),
                     ),
-                    keyboardType: TextInputType.url,
-                    onChanged: (_) => setState(() {}),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _aboutController,
-                    decoration: const InputDecoration(
-                      labelText: 'About',
-                      hintText: 'A short bio about yourself',
-                      border: OutlineInputBorder(),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _aboutController,
+                      decoration: const InputDecoration(
+                        labelText: 'About',
+                        hintText: 'A short bio about yourself',
+                        border: OutlineInputBorder(),
+                      ),
+                      maxLines: 3,
+                      textCapitalization: TextCapitalization.sentences,
                     ),
-                    maxLines: 3,
-                    textCapitalization: TextCapitalization.sentences,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
     );

@@ -4,12 +4,21 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../../services/nostr_mail_service.dart';
+import '../../../utils/responsive_helper.dart';
 
 class EmailTile extends StatefulWidget {
   final Email email;
   final VoidCallback onTap;
+  final bool isSelected;
+  final VoidCallback? onToggleSelect;
 
-  const EmailTile({super.key, required this.email, required this.onTap});
+  const EmailTile({
+    super.key,
+    required this.email,
+    required this.onTap,
+    this.isSelected = false,
+    this.onToggleSelect,
+  });
 
   @override
   State<EmailTile> createState() => _EmailTileState();
@@ -110,6 +119,100 @@ class _EmailTileState extends State<EmailTile> {
 
   @override
   Widget build(BuildContext context) {
+    final isWide = ResponsiveHelper.isDesktop(context);
+
+    if (isWide) {
+      return _buildCompactTile(context);
+    }
+    return _buildDefaultTile(context);
+  }
+
+  Widget _buildCompactTile(BuildContext context) {
+    final subject = widget.email.subject.isEmpty
+        ? '(No subject)'
+        : widget.email.subject;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Column(
+      children: [
+        InkWell(
+          onTap: widget.onTap,
+          child: Container(
+            color: widget.isSelected
+                ? colorScheme.primaryContainer.withOpacity(0.3)
+                : null,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 40,
+                  child: Checkbox(
+                    value: widget.isSelected,
+                    onChanged: widget.onToggleSelect != null
+                        ? (_) => widget.onToggleSelect!()
+                        : null,
+                  ),
+                ),
+                SizedBox(
+                  width: 160,
+                  child: Row(
+                    children: [
+                      _buildAvatar(context, compact: true),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          _displayName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Row(
+                    children: [
+                      Flexible(
+                        flex: 2,
+                        child: Text(
+                          subject,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Text('—', style: TextStyle(color: Colors.grey[400])),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        flex: 3,
+                        child: Text(
+                          widget.email.body,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: Colors.grey[500]),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  _formatDate(widget.email.date),
+                  style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const Divider(height: 1),
+      ],
+    );
+  }
+
+  Widget _buildDefaultTile(BuildContext context) {
     return Column(
       children: [
         ListTile(
@@ -152,15 +255,17 @@ class _EmailTileState extends State<EmailTile> {
     );
   }
 
-  Widget _buildAvatar(BuildContext context) {
+  Widget _buildAvatar(BuildContext context, {bool compact = false}) {
     final colorScheme = Theme.of(context).colorScheme;
-    final mainAvatar = _buildMainAvatar(colorScheme);
+    final radius = compact ? 14.0 : 20.0;
+    final mainAvatar = _buildMainAvatar(colorScheme, radius: radius);
 
     if (!_isViaBridge || _bridgeMetadata?.picture == null) {
       return mainAvatar;
     }
 
     // Show bridge badge on avatar
+    final badgeRadius = compact ? 7.0 : 10.0;
     return Stack(
       clipBehavior: Clip.none,
       children: [
@@ -174,7 +279,7 @@ class _EmailTileState extends State<EmailTile> {
               border: Border.all(color: colorScheme.surface, width: 2),
             ),
             child: CircleAvatar(
-              radius: 10,
+              radius: badgeRadius,
               backgroundImage: NetworkImage(_bridgeMetadata!.picture!),
               backgroundColor: colorScheme.secondaryContainer,
             ),
@@ -184,21 +289,24 @@ class _EmailTileState extends State<EmailTile> {
     );
   }
 
-  Widget _buildMainAvatar(ColorScheme colorScheme) {
+  Widget _buildMainAvatar(ColorScheme colorScheme, {double radius = 20}) {
     if (_senderMetadata?.picture != null &&
         _senderMetadata!.picture!.isNotEmpty) {
       return CircleAvatar(
+        radius: radius,
         backgroundImage: NetworkImage(_senderMetadata!.picture!),
         backgroundColor: colorScheme.primaryContainer,
       );
     }
     return CircleAvatar(
+      radius: radius,
       backgroundColor: colorScheme.primaryContainer,
       child: Text(
         _getInitial(),
         style: TextStyle(
           color: colorScheme.primary,
           fontWeight: FontWeight.bold,
+          fontSize: radius * 0.8,
         ),
       ),
     );

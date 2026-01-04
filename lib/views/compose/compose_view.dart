@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/compose_controller.dart';
 import '../../models/from_option.dart';
+import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
 import 'widgets/from_selector_sheet.dart';
 import 'widgets/recipient_chip.dart';
@@ -87,86 +88,91 @@ class _ComposeViewState extends State<ComposeView> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          _buildFromSelector(context),
-          const Divider(height: 1),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Obx(
-              () => SizedBox(
-                width: double.infinity,
-                child: Wrap(
-                  alignment: WrapAlignment.start,
-                  spacing: 8,
-                  runSpacing: 8,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    ...controller.recipients.asMap().entries.map(
-                      (entry) => RecipientChip(
-                        recipient: entry.value,
-                        onDelete: () => controller.removeRecipient(entry.key),
-                      ),
-                    ),
-                    IntrinsicWidth(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(minWidth: 100),
-                        child: TextField(
-                          controller: toController,
-                          decoration: InputDecoration(
-                            hintText: controller.recipients.isEmpty
-                                ? 'To'
-                                : 'Add more',
-                            hintStyle: TextStyle(color: Colors.grey[400]),
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.zero,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 800),
+          child: Column(
+            children: [
+              _buildFromSelector(context),
+              const Divider(height: 1),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Obx(
+                  () => SizedBox(
+                    width: double.infinity,
+                    child: Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: 8,
+                      runSpacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        ...controller.recipients.asMap().entries.map(
+                          (entry) => RecipientChip(
+                            recipient: entry.value,
+                            onDelete: () => controller.removeRecipient(entry.key),
                           ),
-                          style: const TextStyle(fontSize: 16),
-                          keyboardType: TextInputType.emailAddress,
-                          onChanged: _handleToInput,
-                          onSubmitted: _handleToSubmit,
                         ),
-                      ),
+                        IntrinsicWidth(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(minWidth: 100),
+                            child: TextField(
+                              controller: toController,
+                              decoration: InputDecoration(
+                                hintText: controller.recipients.isEmpty
+                                    ? 'To'
+                                    : 'Add more',
+                                hintStyle: TextStyle(color: Colors.grey[400]),
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.zero,
+                              ),
+                              style: const TextStyle(fontSize: 16),
+                              keyboardType: TextInputType.emailAddress,
+                              onChanged: _handleToInput,
+                              onSubmitted: _handleToSubmit,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          const Divider(height: 1),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: subjectController,
-              decoration: InputDecoration(
-                hintText: 'Subject',
-                hintStyle: TextStyle(color: Colors.grey[400]),
-                border: InputBorder.none,
-              ),
-              style: const TextStyle(fontSize: 16),
-              textCapitalization: TextCapitalization.sentences,
-            ),
-          ),
-          const Divider(height: 1),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: TextField(
-                controller: bodyController,
-                decoration: InputDecoration(
-                  hintText: 'Compose email',
-                  hintStyle: TextStyle(color: Colors.grey[400]),
-                  border: InputBorder.none,
+              const Divider(height: 1),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: subjectController,
+                  decoration: InputDecoration(
+                    hintText: 'Subject',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: InputBorder.none,
+                  ),
+                  style: const TextStyle(fontSize: 16),
+                  textCapitalization: TextCapitalization.sentences,
                 ),
-                style: const TextStyle(fontSize: 16),
-                maxLines: null,
-                expands: true,
-                textCapitalization: TextCapitalization.sentences,
-                textAlignVertical: TextAlignVertical.top,
               ),
-            ),
+              const Divider(height: 1),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: TextField(
+                    controller: bodyController,
+                    decoration: InputDecoration(
+                      hintText: 'Compose email',
+                      hintStyle: TextStyle(color: Colors.grey[400]),
+                      border: InputBorder.none,
+                    ),
+                    style: const TextStyle(fontSize: 16),
+                    maxLines: null,
+                    expands: true,
+                    textCapitalization: TextCapitalization.sentences,
+                    textAlignVertical: TextAlignVertical.top,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
