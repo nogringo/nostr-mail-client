@@ -117,6 +117,8 @@ class InboxView extends GetView<InboxController> {
 
     return ResponsiveScaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: colorScheme.surface,
         leading: isWide
             ? Obx(() {
                 if (controller.hasSelection) {
@@ -217,19 +219,31 @@ class InboxView extends GetView<InboxController> {
           );
         }
 
-        return RefreshIndicator(
-          onRefresh: controller.sync,
-          child: ListView.builder(
-            itemCount: controller.emails.length,
-            itemBuilder: (context, index) {
-              final email = controller.emails[index];
-              return Obx(() => EmailTile(
-                email: email,
-                onTap: () => Get.toNamed('/email', arguments: email.id),
-                isSelected: controller.isSelected(email.id),
-                onToggleSelect: () => controller.toggleSelection(email.id),
-              ));
-            },
+        return Container(
+          margin: isWide ? const EdgeInsets.only(top: 8, left: 8) : null,
+          decoration: isWide
+              ? BoxDecoration(
+                  color: colorScheme.surfaceContainerLowest,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                  ),
+                )
+              : null,
+          clipBehavior: isWide ? Clip.antiAlias : Clip.none,
+          child: RefreshIndicator(
+            onRefresh: controller.sync,
+            child: ListView.builder(
+              itemCount: controller.emails.length,
+              itemBuilder: (context, index) {
+                final email = controller.emails[index];
+                return Obx(() => EmailTile(
+                  email: email,
+                  onTap: () => Get.toNamed('/email', arguments: email.id),
+                  isSelected: controller.isSelected(email.id),
+                  onToggleSelect: () => controller.toggleSelection(email.id),
+                ));
+              },
+            ),
           ),
         );
       }),
