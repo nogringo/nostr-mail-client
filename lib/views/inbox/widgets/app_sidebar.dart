@@ -94,12 +94,12 @@ class _NavItem extends StatelessWidget {
             onPressed: onTap,
             icon: Icon(
               selected ? selectedIcon : icon,
-              color: iconColor ??
+              color:
+                  iconColor ??
                   (selected ? colorScheme.onSecondaryContainer : null),
             ),
             style: IconButton.styleFrom(
-              backgroundColor:
-                  selected ? colorScheme.secondaryContainer : null,
+              backgroundColor: selected ? colorScheme.secondaryContainer : null,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -121,7 +121,8 @@ class _NavItem extends StatelessWidget {
         title: Text(
           label,
           style: TextStyle(
-            color: textColor ??
+            color:
+                textColor ??
                 (selected ? colorScheme.onSecondaryContainer : null),
             fontWeight: selected ? FontWeight.w600 : null,
           ),
