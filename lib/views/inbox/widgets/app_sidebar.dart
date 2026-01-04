@@ -67,8 +67,6 @@ class _NavItem extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
   final bool collapsed;
-  final Color? iconColor;
-  final Color? textColor;
 
   const _NavItem({
     required this.icon,
@@ -77,8 +75,6 @@ class _NavItem extends StatelessWidget {
     required this.selected,
     required this.onTap,
     this.collapsed = false,
-    this.iconColor,
-    this.textColor,
   });
 
   @override
@@ -94,9 +90,7 @@ class _NavItem extends StatelessWidget {
             onPressed: onTap,
             icon: Icon(
               selected ? selectedIcon : icon,
-              color:
-                  iconColor ??
-                  (selected ? colorScheme.onSecondaryContainer : null),
+              color: selected ? colorScheme.onSecondaryContainer : null,
             ),
             style: IconButton.styleFrom(
               backgroundColor: selected ? colorScheme.secondaryContainer : null,
@@ -115,15 +109,12 @@ class _NavItem extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           selected ? selectedIcon : icon,
-          color:
-              iconColor ?? (selected ? colorScheme.onSecondaryContainer : null),
+          color: selected ? colorScheme.onSecondaryContainer : null,
         ),
         title: Text(
           label,
           style: TextStyle(
-            color:
-                textColor ??
-                (selected ? colorScheme.onSecondaryContainer : null),
+            color: selected ? colorScheme.onSecondaryContainer : null,
             fontWeight: selected ? FontWeight.w600 : null,
           ),
         ),

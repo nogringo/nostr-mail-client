@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../controllers/compose_controller.dart';
 import '../../models/from_option.dart';
-import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
 import 'widgets/from_selector_sheet.dart';
 import 'widgets/recipient_chip.dart';

@@ -139,7 +139,7 @@ class _EmailTileState extends State<EmailTile> {
           onTap: widget.onTap,
           child: Container(
             color: widget.isSelected
-                ? colorScheme.primaryContainer.withOpacity(0.3)
+                ? colorScheme.primaryContainer.withValues(alpha: 0.3)
                 : null,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Row(
