@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/auth_controller.dart';
 import '../../controllers/settings_controller.dart';
+import '../../utils/responsive_helper.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -12,21 +14,37 @@ class SettingsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Paramètres')),
-      body: ListView(
-        children: [
-          const SizedBox(height: 16),
-          _buildSectionHeader(context, 'Options avancées'),
-          Obx(
-            () => SwitchListTile(
-              title: const Text('Afficher le code source des emails'),
-              subtitle: const Text(
-                'Ajoute un bouton pour voir le contenu brut RFC 2822',
+      body: ResponsiveCenter(
+        maxWidth: 600,
+        child: ListView(
+          children: [
+            const SizedBox(height: 16),
+            _buildSectionHeader(context, 'Options avancées'),
+            Obx(
+              () => SwitchListTile(
+                title: const Text('Afficher le code source des emails'),
+                subtitle: const Text(
+                  'Ajoute un bouton pour voir le contenu brut RFC 2822',
+                ),
+                value: settingsController.showRawEmail.value,
+                onChanged: settingsController.setShowRawEmail,
               ),
-              value: settingsController.showRawEmail.value,
-              onChanged: settingsController.setShowRawEmail,
             ),
-          ),
-        ],
+            const SizedBox(height: 24),
+            _buildSectionHeader(context, 'Compte'),
+            ListTile(
+              leading: const Icon(Icons.logout, color: Colors.red),
+              title: const Text(
+                'Se déconnecter',
+                style: TextStyle(color: Colors.red),
+              ),
+              onTap: () {
+                Get.find<AuthController>().logout();
+                Get.offAllNamed('/login');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
