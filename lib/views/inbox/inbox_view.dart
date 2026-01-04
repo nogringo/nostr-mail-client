@@ -5,6 +5,7 @@ import '../../controllers/auth_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../utils/responsive_helper.dart';
 import 'widgets/app_drawer.dart';
+import 'widgets/app_sidebar.dart';
 import 'widgets/email_tile.dart';
 
 class InboxView extends GetView<InboxController> {
@@ -56,58 +57,6 @@ class InboxView extends GetView<InboxController> {
         ),
       ),
     );
-  }
-
-  Widget _buildNavigationRail(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Obx(() {
-      final selectedIndex =
-          controller.currentFolder.value == MailFolder.inbox ? 0 : 1;
-
-      return NavigationRail(
-        extended: MediaQuery.sizeOf(context).width > 900,
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          controller.setFolder(
-            index == 0 ? MailFolder.inbox : MailFolder.sent,
-          );
-        },
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: FloatingActionButton(
-            onPressed: () => Get.toNamed('/compose'),
-            backgroundColor: colorScheme.primary,
-            child: Icon(Icons.edit, color: colorScheme.onPrimary),
-          ),
-        ),
-        trailing: Expanded(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () => Get.toNamed('/settings'),
-                tooltip: 'Paramètres',
-              ),
-            ),
-          ),
-        ),
-        destinations: const [
-          NavigationRailDestination(
-            icon: Icon(Icons.inbox_outlined),
-            selectedIcon: Icon(Icons.inbox),
-            label: Text('Inbox'),
-          ),
-          NavigationRailDestination(
-            icon: Icon(Icons.send_outlined),
-            selectedIcon: Icon(Icons.send),
-            label: Text('Sent'),
-          ),
-        ],
-      );
-    });
   }
 
   @override
@@ -169,25 +118,63 @@ class InboxView extends GetView<InboxController> {
             }
             return const SizedBox.shrink();
           }),
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: 'Paramètres',
+            onPressed: () => Get.toNamed('/settings'),
+          ),
+          const SizedBox(width: 8),
           Builder(
             builder: (context) => Padding(
               padding: const EdgeInsets.only(right: 8),
-              child: GestureDetector(
-                onTap: () {
-                  if (isWide) {
-                    Get.toNamed('/profile');
-                  } else {
-                    Scaffold.of(context).openDrawer();
-                  }
-                },
-                child: Obx(() => _buildAvatar(context)),
-              ),
+              child: isWide
+                  ? PopupMenuButton<String>(
+                      offset: const Offset(0, 48),
+                      onSelected: (value) {
+                        if (value == 'profile') {
+                          Get.toNamed('/profile');
+                        } else if (value == 'logout') {
+                          Get.find<AuthController>().logout();
+                          Get.offAllNamed('/login');
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: 'profile',
+                          child: Row(
+                            children: [
+                              Icon(Icons.person_outline),
+                              SizedBox(width: 12),
+                              Text('Profile'),
+                            ],
+                          ),
+                        ),
+                        const PopupMenuItem(
+                          value: 'logout',
+                          child: Row(
+                            children: [
+                              Icon(Icons.logout, color: Colors.red),
+                              SizedBox(width: 12),
+                              Text(
+                                'Logout',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      child: Obx(() => _buildAvatar(context)),
+                    )
+                  : GestureDetector(
+                      onTap: () => Scaffold.of(context).openDrawer(),
+                      child: Obx(() => _buildAvatar(context)),
+                    ),
             ),
           ),
         ],
       ),
       drawer: const AppDrawer(),
-      navigationRail: _buildNavigationRail(context),
+      sidebar: const AppSidebar(),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -236,12 +223,14 @@ class InboxView extends GetView<InboxController> {
               itemCount: controller.emails.length,
               itemBuilder: (context, index) {
                 final email = controller.emails[index];
-                return Obx(() => EmailTile(
-                  email: email,
-                  onTap: () => Get.toNamed('/email', arguments: email.id),
-                  isSelected: controller.isSelected(email.id),
-                  onToggleSelect: () => controller.toggleSelection(email.id),
-                ));
+                return Obx(
+                  () => EmailTile(
+                    email: email,
+                    onTap: () => Get.toNamed('/email', arguments: email.id),
+                    isSelected: controller.isSelected(email.id),
+                    onToggleSelect: () => controller.toggleSelection(email.id),
+                  ),
+                );
               },
             ),
           ),

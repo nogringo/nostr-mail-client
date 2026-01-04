@@ -22,7 +22,8 @@ class InboxController extends GetxController {
   String? get _myPubkey => _nostrMailService.getPublicKey();
 
   bool get hasSelection => selectedIds.isNotEmpty;
-  bool get allSelected => selectedIds.length == emails.length && emails.isNotEmpty;
+  bool get allSelected =>
+      selectedIds.length == emails.length && emails.isNotEmpty;
 
   bool isSelected(String id) => selectedIds.contains(id);
 

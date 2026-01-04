@@ -59,7 +59,7 @@ class ResponsiveScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget? floatingActionButton;
   final Widget? drawer;
-  final Widget? navigationRail;
+  final Widget? sidebar;
 
   const ResponsiveScaffold({
     super.key,
@@ -67,20 +67,20 @@ class ResponsiveScaffold extends StatelessWidget {
     this.appBar,
     this.floatingActionButton,
     this.drawer,
-    this.navigationRail,
+    this.sidebar,
   });
 
   @override
   Widget build(BuildContext context) {
     final isWide = ResponsiveHelper.isNotMobile(context);
 
-    if (isWide && navigationRail != null) {
+    if (isWide && sidebar != null) {
       return Scaffold(
         appBar: appBar,
         floatingActionButton: floatingActionButton,
         body: Row(
           children: [
-            navigationRail!,
+            SizedBox(width: 280, child: sidebar!),
             Expanded(child: body),
           ],
         ),

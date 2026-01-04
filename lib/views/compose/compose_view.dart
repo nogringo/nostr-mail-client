@@ -109,7 +109,8 @@ class _ComposeViewState extends State<ComposeView> {
                         ...controller.recipients.asMap().entries.map(
                           (entry) => RecipientChip(
                             recipient: entry.value,
-                            onDelete: () => controller.removeRecipient(entry.key),
+                            onDelete: () =>
+                                controller.removeRecipient(entry.key),
                           ),
                         ),
                         IntrinsicWidth(

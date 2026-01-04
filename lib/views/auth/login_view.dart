@@ -24,7 +24,11 @@ class LoginView extends GetView<AuthController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(Icons.mail_outline, size: 80, color: colorScheme.primary),
+                  Icon(
+                    Icons.mail_outline,
+                    size: 80,
+                    color: colorScheme.primary,
+                  ),
                   const SizedBox(height: 24),
                   const Text(
                     'Nostr Mail',
@@ -58,7 +62,10 @@ class LoginView extends GetView<AuthController> {
                           : () async {
                               final input = textController.text;
                               if (input.isEmpty) {
-                                ToastHelper.error(context, 'Enter a private key');
+                                ToastHelper.error(
+                                  context,
+                                  'Enter a private key',
+                                );
                                 return;
                               }
                               final success = await controller.login(input);
@@ -66,7 +73,10 @@ class LoginView extends GetView<AuthController> {
                                 Get.offAllNamed('/inbox');
                               } else {
                                 if (context.mounted) {
-                                  ToastHelper.error(context, 'Invalid key format');
+                                  ToastHelper.error(
+                                    context,
+                                    'Invalid key format',
+                                  );
                                 }
                               }
                             },
