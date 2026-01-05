@@ -475,7 +475,7 @@ packages:
       path: "../nostr-mail-dart"
       relative: true
     source: path
-    version: "1.1.0"
+    version: "1.1.1"
   nostr_widgets:
     dependency: "direct main"
     description:
