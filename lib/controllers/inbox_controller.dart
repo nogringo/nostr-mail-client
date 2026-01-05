@@ -59,8 +59,10 @@ class InboxController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _loadEmails();
-    _startWatching();
+    if (_nostrMailService.isClientInitialized) {
+      _loadEmails();
+      _startWatching();
+    }
   }
 
   @override
