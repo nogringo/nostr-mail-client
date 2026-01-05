@@ -91,8 +91,14 @@ class InboxController extends GetxController {
     }
 
     if (currentFolder.value == MailFolder.inbox) {
-      emails.assignAll(_allEmails.where((e) => e.senderPubkey != pubkey));
+      // Show emails where I am the recipient and not the sender
+      emails.assignAll(
+        _allEmails.where(
+          (e) => e.recipientPubkey == pubkey && e.senderPubkey != pubkey,
+        ),
+      );
     } else {
+      // Sent folder: show emails where I am the sender
       emails.assignAll(_allEmails.where((e) => e.senderPubkey == pubkey));
     }
   }
