@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:sembast_web/sembast_web.dart';
 
@@ -9,9 +8,7 @@ import 'storage_service_io.dart'
 
 class StorageService extends GetxService {
   late final Database db;
-  final _secureStorage = const FlutterSecureStorage();
 
-  static const _privateKeyKey = 'nostr_private_key';
   static final _settingsStore = StoreRef<String, dynamic>('settings');
 
   Future<StorageService> init() async {
@@ -21,23 +18,6 @@ class StorageService extends GetxService {
       db = await io.openDatabaseIo();
     }
     return this;
-  }
-
-  Future<void> savePrivateKey(String privateKey) async {
-    await _secureStorage.write(key: _privateKeyKey, value: privateKey);
-  }
-
-  Future<String?> getPrivateKey() async {
-    return _secureStorage.read(key: _privateKeyKey);
-  }
-
-  Future<void> deletePrivateKey() async {
-    await _secureStorage.delete(key: _privateKeyKey);
-  }
-
-  Future<bool> hasPrivateKey() async {
-    final key = await getPrivateKey();
-    return key != null && key.isNotEmpty;
   }
 
   // Settings methods

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:nostr_widgets/l10n/app_localizations.dart' as nostr_widgets;
 import 'package:toastification/toastification.dart';
 
 import 'app/bindings/initial_binding.dart';
@@ -30,6 +32,13 @@ class MainApp extends StatelessWidget {
         darkTheme: ThemeData.dark(),
         // themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          nostr_widgets.AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: nostr_widgets.AppLocalizations.supportedLocales,
         initialBinding: InitialBinding(),
         getPages: AppRoutes.routes,
         home: const _InitialScreen(),

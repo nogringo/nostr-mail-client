@@ -1,16 +1,17 @@
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
+import 'package:nostr_widgets/nostr_widgets.dart';
 
 import '../services/nostr_mail_service.dart';
-import '../services/storage_service.dart';
 
 class AuthController extends GetxController {
-  final _storageService = Get.find<StorageService>();
   final _nostrMailService = Get.find<NostrMailService>();
 
   final isLoading = false.obs;
   final isLoggedIn = false.obs;
   final Rxn<Metadata> userMetadata = Rxn<Metadata>();
+
+  Ndk get ndk => _nostrMailService.ndk;
 
   @override
   void onInit() {
@@ -21,14 +22,16 @@ class AuthController extends GetxController {
   Future<void> _checkAuth() async {
     isLoading.value = true;
     try {
-      final privateKey = await _storageService.getPrivateKey();
-      if (privateKey != null && privateKey.isNotEmpty) {
-        await _nostrMailService.init(privateKey);
+      await _nostrMailService.initNdk();
+      await nRestoreAccounts(ndk);
+
+      if (ndk.accounts.getPublicKey() != null) {
+        _nostrMailService.initClient();
         isLoggedIn.value = true;
         loadUserMetadata();
       }
     } catch (e) {
-      await _storageService.deletePrivateKey();
+      // Si erreur, on reste sur la page de login
     } finally {
       isLoading.value = false;
     }
@@ -39,60 +42,27 @@ class AuthController extends GetxController {
     if (pk == null) return;
 
     try {
-      final ndk = _nostrMailService.ndk;
       final metadata = await ndk.metadata.loadMetadata(pk);
       userMetadata.value = metadata;
     } catch (_) {}
   }
 
-  Future<bool> login(String input) async {
-    isLoading.value = true;
-    try {
-      final privateKey = _parsePrivateKey(input.trim());
-      if (privateKey == null || privateKey.isEmpty) {
-        return false;
-      }
-
-      await _nostrMailService.init(privateKey);
-      await _storageService.savePrivateKey(privateKey);
-      isLoggedIn.value = true;
-      loadUserMetadata();
-      return true;
-    } catch (e) {
-      return false;
-    } finally {
-      isLoading.value = false;
-    }
+  void onLoggedIn() {
+    _nostrMailService.initClient();
+    isLoggedIn.value = true;
+    loadUserMetadata();
   }
 
   Future<void> logout() async {
     isLoading.value = true;
     try {
       await _nostrMailService.logout();
-      await _storageService.deletePrivateKey();
+      await nSaveAccountsState(ndk);
       isLoggedIn.value = false;
+      userMetadata.value = null;
     } finally {
       isLoading.value = false;
     }
-  }
-
-  String? _parsePrivateKey(String input) {
-    // Handle nsec format
-    if (input.startsWith('nsec1')) {
-      try {
-        final decoded = Nip19.decode(input);
-        return decoded.isNotEmpty ? decoded : null;
-      } catch (e) {
-        return null;
-      }
-    }
-
-    // Handle hex format (64 chars)
-    if (RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(input)) {
-      return input.toLowerCase();
-    }
-
-    return null;
   }
 
   String? get publicKey => _nostrMailService.getPublicKey();
@@ -103,9 +73,13 @@ class AuthController extends GetxController {
     return Nip19.encodePubKey(pk);
   }
 
-  Future<String?> getNsec() async {
-    final privateKey = await _storageService.getPrivateKey();
-    if (privateKey == null || privateKey.isEmpty) return null;
-    return Nip19.encodePrivateKey(privateKey);
+  String? getNsec() {
+    final account = ndk.accounts.getLoggedAccount();
+    if (account == null || account.type != AccountType.privateKey) return null;
+
+    final signer = account.signer as Bip340EventSigner;
+    if (signer.privateKey == null) return null;
+
+    return Nip19.encodePrivateKey(signer.privateKey!);
   }
 }

@@ -34,19 +34,22 @@ class SettingsView extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             _buildSectionHeader(context, 'Compte'),
-            ListTile(
-              leading: const Icon(Icons.key),
-              title: const Text('Copier ma clé privée (nsec)'),
-              subtitle: const Text('Gardez cette clé en sécurité'),
-              onTap: () async {
+            Builder(
+              builder: (context) {
                 final authController = Get.find<AuthController>();
-                final nsec = await authController.getNsec();
-                if (nsec != null) {
-                  await Clipboard.setData(ClipboardData(text: nsec));
-                  if (context.mounted) {
-                    ToastHelper.success(context, 'Clé privée copiée');
-                  }
-                }
+                final nsec = authController.getNsec();
+                if (nsec == null) return const SizedBox.shrink();
+                return ListTile(
+                  leading: const Icon(Icons.key),
+                  title: const Text('Copier ma clé privée (nsec)'),
+                  subtitle: const Text('Gardez cette clé en sécurité'),
+                  onTap: () async {
+                    await Clipboard.setData(ClipboardData(text: nsec));
+                    if (context.mounted) {
+                      ToastHelper.success(context, 'Clé privée copiée');
+                    }
+                  },
+                );
               },
             ),
             ListTile(
