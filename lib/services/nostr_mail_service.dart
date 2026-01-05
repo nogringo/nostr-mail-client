@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk_rust_verifier/ndk_rust_verifier.dart';
@@ -30,7 +31,7 @@ class NostrMailService extends GetxService {
 
     _ndk = Ndk(
       NdkConfig(
-        eventVerifier: RustEventVerifier(),
+        eventVerifier: kIsWeb ? Bip340EventVerifier() : RustEventVerifier(),
         cache: cacheManager,
         bootstrapRelays: [
           'wss://relay.damus.io',

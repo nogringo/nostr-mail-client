@@ -54,10 +54,7 @@ class SettingsView extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text(
-                'Log out',
-                style: TextStyle(color: Colors.red),
-              ),
+              title: const Text('Log out', style: TextStyle(color: Colors.red)),
               onTap: () {
                 Get.find<AuthController>().logout();
                 Get.offAllNamed('/login');
