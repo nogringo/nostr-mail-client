@@ -132,7 +132,7 @@ class InboxView extends GetView<InboxController> {
               : null,
           title: Obx(() {
             if (controller.hasSelection) {
-              return Text('${controller.selectedIds.length} sélectionné(s)');
+              return Text('${controller.selectedIds.length} selected');
             }
             return Text(
               controller.currentFolder.value == MailFolder.inbox
@@ -153,15 +153,15 @@ class InboxView extends GetView<InboxController> {
                             : Icons.select_all,
                       ),
                       tooltip: controller.allSelected
-                          ? 'Désélectionner tout'
-                          : 'Tout sélectionner',
+                          ? 'Deselect all'
+                          : 'Select all',
                       onPressed: controller.allSelected
                           ? controller.clearSelection
                           : controller.selectAll,
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete_outline),
-                      tooltip: 'Supprimer',
+                      tooltip: 'Delete',
                       onPressed: controller.deleteSelected,
                     ),
                   ],
@@ -171,7 +171,7 @@ class InboxView extends GetView<InboxController> {
             }),
             IconButton(
               icon: const Icon(Icons.settings_outlined),
-              tooltip: 'Paramètres',
+              tooltip: 'Settings',
               onPressed: () => Get.toNamed('/settings'),
             ),
             const SizedBox(width: 8),

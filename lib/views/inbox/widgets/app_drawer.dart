@@ -227,7 +227,7 @@ class AppDrawer extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: const Text('Paramètres'),
+              title: const Text('Settings'),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(28),
               ),

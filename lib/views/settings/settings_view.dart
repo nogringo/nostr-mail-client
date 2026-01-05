@@ -15,25 +15,25 @@ class SettingsView extends StatelessWidget {
     final settingsController = Get.find<SettingsController>();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Paramètres')),
+      appBar: AppBar(title: const Text('Settings')),
       body: ResponsiveCenter(
         maxWidth: 600,
         child: ListView(
           children: [
             const SizedBox(height: 16),
-            _buildSectionHeader(context, 'Options avancées'),
+            _buildSectionHeader(context, 'Advanced options'),
             Obx(
               () => SwitchListTile(
-                title: const Text('Afficher le code source des emails'),
+                title: const Text('Show email source code'),
                 subtitle: const Text(
-                  'Ajoute un bouton pour voir le contenu brut RFC 2822',
+                  'Adds a button to view raw RFC 2822 content',
                 ),
                 value: settingsController.showRawEmail.value,
                 onChanged: settingsController.setShowRawEmail,
               ),
             ),
             const SizedBox(height: 24),
-            _buildSectionHeader(context, 'Compte'),
+            _buildSectionHeader(context, 'Account'),
             Builder(
               builder: (context) {
                 final authController = Get.find<AuthController>();
@@ -41,12 +41,12 @@ class SettingsView extends StatelessWidget {
                 if (nsec == null) return const SizedBox.shrink();
                 return ListTile(
                   leading: const Icon(Icons.key),
-                  title: const Text('Copier ma clé privée (nsec)'),
-                  subtitle: const Text('Gardez cette clé en sécurité'),
+                  title: const Text('Copy my private key (nsec)'),
+                  subtitle: const Text('Keep this key safe'),
                   onTap: () async {
                     await Clipboard.setData(ClipboardData(text: nsec));
                     if (context.mounted) {
-                      ToastHelper.success(context, 'Clé privée copiée');
+                      ToastHelper.success(context, 'Private key copied');
                     }
                   },
                 );
@@ -55,7 +55,7 @@ class SettingsView extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text(
-                'Se déconnecter',
+                'Log out',
                 style: TextStyle(color: Colors.red),
               ),
               onTap: () {
