@@ -102,4 +102,10 @@ class AuthController extends GetxController {
     if (pk == null) return null;
     return Nip19.encodePubKey(pk);
   }
+
+  Future<String?> getNsec() async {
+    final privateKey = await _storageService.getPrivateKey();
+    if (privateKey == null || privateKey.isEmpty) return null;
+    return Nip19.encodePrivateKey(privateKey);
+  }
 }
