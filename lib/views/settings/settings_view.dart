@@ -6,6 +6,7 @@ import '../../controllers/auth_controller.dart';
 import '../../controllers/settings_controller.dart';
 import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
+import 'widgets/sync_status_section.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -60,6 +61,9 @@ class SettingsView extends StatelessWidget {
                 Get.offAllNamed('/login');
               },
             ),
+            const SizedBox(height: 24),
+            _buildSectionHeader(context, 'Synchronization'),
+            const SyncStatusSection(),
           ],
         ),
       ),
