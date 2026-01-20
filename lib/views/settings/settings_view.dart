@@ -17,54 +17,60 @@ class SettingsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
-      body: ResponsiveCenter(
-        maxWidth: 600,
-        child: ListView(
-          children: [
-            const SizedBox(height: 16),
-            _buildSectionHeader(context, 'Advanced options'),
-            Obx(
-              () => SwitchListTile(
-                title: const Text('Show email source code'),
-                subtitle: const Text(
-                  'Adds a button to view raw RFC 2822 content',
+      body: SingleChildScrollView(
+        child: ResponsiveCenter(
+          maxWidth: 600,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 16),
+              _buildSectionHeader(context, 'Advanced options'),
+              Obx(
+                () => SwitchListTile(
+                  title: const Text('Show email source code'),
+                  subtitle: const Text(
+                    'Adds a button to view raw RFC 2822 content',
+                  ),
+                  value: settingsController.showRawEmail.value,
+                  onChanged: settingsController.setShowRawEmail,
                 ),
-                value: settingsController.showRawEmail.value,
-                onChanged: settingsController.setShowRawEmail,
               ),
-            ),
-            const SizedBox(height: 24),
-            _buildSectionHeader(context, 'Account'),
-            Builder(
-              builder: (context) {
-                final authController = Get.find<AuthController>();
-                final nsec = authController.getNsec();
-                if (nsec == null) return const SizedBox.shrink();
-                return ListTile(
-                  leading: const Icon(Icons.key),
-                  title: const Text('Copy my private key (nsec)'),
-                  subtitle: const Text('Keep this key safe'),
-                  onTap: () async {
-                    await Clipboard.setData(ClipboardData(text: nsec));
-                    if (context.mounted) {
-                      ToastHelper.success(context, 'Private key copied');
-                    }
-                  },
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.logout, color: Colors.red),
-              title: const Text('Log out', style: TextStyle(color: Colors.red)),
-              onTap: () {
-                Get.find<AuthController>().logout();
-                Get.offAllNamed('/login');
-              },
-            ),
-            const SizedBox(height: 24),
-            _buildSectionHeader(context, 'Synchronization'),
-            const SyncStatusSection(),
-          ],
+              const SizedBox(height: 24),
+              _buildSectionHeader(context, 'Account'),
+              Builder(
+                builder: (context) {
+                  final authController = Get.find<AuthController>();
+                  final nsec = authController.getNsec();
+                  if (nsec == null) return const SizedBox.shrink();
+                  return ListTile(
+                    leading: const Icon(Icons.key),
+                    title: const Text('Copy my private key (nsec)'),
+                    subtitle: const Text('Keep this key safe'),
+                    onTap: () async {
+                      await Clipboard.setData(ClipboardData(text: nsec));
+                      if (context.mounted) {
+                        ToastHelper.success(context, 'Private key copied');
+                      }
+                    },
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title: const Text(
+                  'Log out',
+                  style: TextStyle(color: Colors.red),
+                ),
+                onTap: () {
+                  Get.find<AuthController>().logout();
+                  Get.offAllNamed('/login');
+                },
+              ),
+              const SizedBox(height: 24),
+              _buildSectionHeader(context, 'Synchronization'),
+              const SyncStatusSection(),
+            ],
+          ),
         ),
       ),
     );
