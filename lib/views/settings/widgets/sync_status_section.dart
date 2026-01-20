@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../services/nostr_mail_service.dart';
+import '../../../utils/relay_utils.dart';
 
 class SyncStatusSection extends StatefulWidget {
   const SyncStatusSection({super.key});
@@ -18,10 +19,10 @@ class _SyncStatusSectionState extends State<SyncStatusSection> {
   @override
   void initState() {
     super.initState();
-    _loadSyncStatus();
+    _loadData();
   }
 
-  Future<void> _loadSyncStatus() async {
+  Future<void> _loadData() async {
     final nostrMailService = Get.find<NostrMailService>();
     final status = await nostrMailService.getEmailSyncStatus();
     if (mounted) {
@@ -38,7 +39,7 @@ class _SyncStatusSectionState extends State<SyncStatusSection> {
     try {
       final nostrMailService = Get.find<NostrMailService>();
       await nostrMailService.client.sync();
-      await _loadSyncStatus();
+      await _loadData();
     } finally {
       if (mounted) {
         setState(() => _isSyncing = false);
@@ -53,10 +54,6 @@ class _SyncStatusSectionState extends State<SyncStatusSection> {
     return '${date.day}/${date.month}/${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
   }
 
-  String _formatRelayUrl(String url) {
-    return url.replaceFirst('wss://', '');
-  }
-
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -66,40 +63,43 @@ class _SyncStatusSectionState extends State<SyncStatusSection> {
           height: 24,
           child: CircularProgressIndicator(strokeWidth: 2),
         ),
-        title: Text('Loading sync status...'),
-      );
-    }
-
-    if (_syncStatus == null || _syncStatus!.isEmpty) {
-      return ListTile(
-        leading: const Icon(Icons.sync_disabled),
-        title: const Text('No sync data available'),
-        subtitle: const Text('Sync your emails to see relay status'),
-        trailing: _isSyncing
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            : TextButton(onPressed: _sync, child: const Text('Sync')),
+        title: Text('Loading...'),
       );
     }
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ..._syncStatus!.map(
-          (status) => ListTile(
-            leading: const Icon(Icons.cloud_outlined, size: 20),
-            title: Text(
-              _formatRelayUrl(status.relayUrl),
-              style: const TextStyle(fontSize: 14),
-            ),
-            subtitle: Text(
-              '${_formatTimestamp(status.oldestTimestamp)} → ${_formatTimestamp(status.newestTimestamp)}',
-              style: const TextStyle(fontSize: 12),
+        ListTile(
+          dense: true,
+          title: Text(
+            'Sync Status',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: 12,
             ),
           ),
         ),
+        if (_syncStatus == null || _syncStatus!.isEmpty)
+          const ListTile(
+            leading: Icon(Icons.sync_disabled, size: 20),
+            title: Text('No sync data available'),
+            subtitle: Text('Sync your emails to see relay status'),
+          )
+        else
+          ..._syncStatus!.map(
+            (status) => ListTile(
+              leading: const Icon(Icons.cloud_outlined, size: 20),
+              title: Text(
+                formatRelayUrl(status.relayUrl),
+                style: const TextStyle(fontSize: 14),
+              ),
+              subtitle: Text(
+                '${_formatTimestamp(status.oldestTimestamp)} → ${_formatTimestamp(status.newestTimestamp)}',
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SizedBox(

@@ -77,23 +77,22 @@ class NostrMailService extends GetxService {
     _client = null;
   }
 
-  /// Get the user's DM relay list (kind 10050)
+  /// Get the user's DM relay list (kind 10050) from local cache
   Future<List<String>> getDmRelays() async {
     final pubkey = _ndk.accounts.getPublicKey();
     if (pubkey == null) return [];
 
-    final response = _ndk.requests.query(
-      filter: ndk_filter.Filter(kinds: [_dmRelayListKind], authors: [pubkey]),
+    final events = await _ndk.config.cache.loadEvents(
+      pubKeys: [pubkey],
+      kinds: [_dmRelayListKind],
     );
 
-    Nip01Event? latestEvent;
-    await for (final event in response.stream) {
-      if (latestEvent == null || event.createdAt > latestEvent.createdAt) {
-        latestEvent = event;
-      }
-    }
+    if (events.isEmpty) return [];
 
-    if (latestEvent == null) return [];
+    // Get the most recent event
+    final latestEvent = events.reduce(
+      (a, b) => a.createdAt > b.createdAt ? a : b,
+    );
 
     final List<String> relays = [];
     for (final tag in latestEvent.tags) {
@@ -103,6 +102,26 @@ class NostrMailService extends GetxService {
     }
 
     return relays;
+  }
+
+  /// Save DM relays list (kind 10050) to local cache and broadcast to network
+  Future<void> saveDmRelays(List<String> relays) async {
+    final pubkey = _ndk.accounts.getPublicKey();
+    if (pubkey == null) return;
+
+    final event = Nip01Event(
+      pubKey: pubkey,
+      kind: _dmRelayListKind,
+      tags: relays.map((r) => ['relay', r]).toList(),
+      content: '',
+    );
+
+    // Save to local cache first
+    await _ndk.config.cache.saveEvent(event);
+
+    // Then broadcast to network
+    final broadcast = _ndk.broadcast.broadcast(nostrEvent: event);
+    await broadcast.broadcastDoneFuture;
   }
 
   /// Get sync status for emails from DM relays only using fetchedRanges
