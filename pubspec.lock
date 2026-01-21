@@ -449,10 +449,10 @@ packages:
     dependency: "direct main"
     description:
       name: ndk
-      sha256: "56e823b9ac057845b2055c15ebd166bf86fdb7d302ae5ddb3589fb2f02a2c6f1"
+      sha256: b3653076349763167ceb2cc29b753d1346603acacc0bf2573c49aac087be7701
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1-dev.8"
+    version: "0.6.1-dev.9"
   ndk_amber:
     dependency: "direct overridden"
     description:
@@ -501,7 +501,7 @@ packages:
     source: hosted
     version: "9.2.2"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5"
