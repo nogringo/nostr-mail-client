@@ -1,0 +1,36 @@
+# Flutter Apps Builder Configuration
+# This file allows you to customize build metadata
+
+# Application information
+app:
+  # Display name for the application (shown in start menu, launcher, etc.)
+  # If not specified, uses the name from pubspec.yaml
+  display_name: "Nostr mail"
+
+# Package maintainer information
+maintainer:
+  name: "Russell"
+  contact: "npub1kg4sdvz3l4fr99n2jdz2vdxe2mpacva87hkdetv76ywacsfq5leqquw5te"
+
+# Build options
+build:
+  # Clean before building
+  clean: true
+  
+  # Which platforms to build (set to false to skip)
+  platforms:
+    android_apk: true
+    android_aab: true
+    linux_deb: true
+    linux_rpm: true
+    linux_appimage: true
+    linux_zip: true
+    web: true
+
+# Linux specific options
+linux:
+  # Desktop entry categories
+  categories: "Utility;"
+  # Application ID for StartupWMClass (e.g., com.example.myapp)
+  # This should match your Flutter app's application ID
+  app_id: "app.nostrmail.client"

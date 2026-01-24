@@ -1,11 +1,11 @@
 {
-    "name": "client",
-    "short_name": "client",
+    "name": "Nostr mail",
+    "short_name": "Nostr mail",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Everyone has an email address but nobody own it. Nostr solve this.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

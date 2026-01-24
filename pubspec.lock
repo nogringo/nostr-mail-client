@@ -101,10 +101,10 @@ packages:
     dependency: transitive
     description:
       name: code_assets
-      sha256: ae0db647e668cbb295a3527f0938e4039e004c80099dce2f964102373f5ce0b5
+      sha256: "83ccdaa064c980b5596c35dd64a8d3ecc68620174ab9b90b6343b753aa721687"
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.10"
+    version: "1.0.0"
   collection:
     dependency: transitive
     description:
@@ -321,10 +321,10 @@ packages:
     dependency: transitive
     description:
       name: hooks
-      sha256: "5410b9f4f6c9f01e8ff0eb81c9801ea13a3c3d39f8f0b1613cda08e27eab3c18"
+      sha256: "5d309c86e7ce34cd8e37aa71cb30cb652d3829b900ab145e4d9da564b31d59f7"
       url: "https://pub.dev"
     source: hosted
-    version: "0.20.5"
+    version: "1.0.0"
   http:
     dependency: "direct main"
     description:
@@ -353,10 +353,10 @@ packages:
     dependency: transitive
     description:
       name: idb_shim
-      sha256: b26b2ad126be411d0072d1dfc4d97ebe02121a863e4eadc635b511b9bc138489
+      sha256: "7dcec5fa6bef3be4666384a28527e1476a84e0e3b72c44d9cfde9d2417bd1769"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.1+2"
+    version: "2.8.1"
   intl:
     dependency: transitive
     description:
@@ -441,65 +441,65 @@ packages:
     dependency: transitive
     description:
       name: native_toolchain_c
-      sha256: f8872ea6c7a50ce08db9ae280ca2b8efdd973157ce462826c82f3c3051d154ce
+      sha256: "89e83885ba09da5fdf2cdacc8002a712ca238c28b7f717910b34bcd27b0d03ac"
       url: "https://pub.dev"
     source: hosted
-    version: "0.17.2"
+    version: "0.17.4"
   ndk:
     dependency: "direct main"
     description:
       name: ndk
-      sha256: b3653076349763167ceb2cc29b753d1346603acacc0bf2573c49aac087be7701
+      sha256: "48373f964eb0a1c69c4daa4c80422465df6985af4738b4b3a268b806a2a43932"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1-dev.9"
+    version: "0.7.1-dev.1"
   ndk_amber:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: ndk_amber
-      sha256: "10fdd73f08ba8c9fef6a52aaeea0f7e0386f84c0a1fa526c1791eee4d77e48bb"
+      sha256: "9789a67d5b839c459b027ac7636a4021e126199c7d3b3361863ddba7ed55fe2e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3-dev.8"
+    version: "0.4.0"
   ndk_rust_verifier:
     dependency: "direct main"
     description:
       name: ndk_rust_verifier
-      sha256: "1c28673e625bded3fb00deb7f8356bda7f53aa52906140000b07d5f679d7f694"
+      sha256: d45eff27d79dbd37104bf8c5a197f4bed0a4d50698355fb2e6c9c0aaf59407f8
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.2-dev.8"
+    version: "0.5.0"
   nip07_event_signer:
     dependency: transitive
     description:
       name: nip07_event_signer
-      sha256: "5c029dec7d1276345490711ff45b9ca1d0ee195a9b02246b895296d8255beba7"
+      sha256: "866ef0c54cc82646e99c86092df3404ad620109551a7d92c2ad99c19b88a32ff"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.5-dev.8"
+    version: "1.0.6-dev.1"
   nostr_mail:
     dependency: "direct main"
     description:
       path: "../nostr-mail-dart"
       relative: true
     source: path
-    version: "1.2.1"
+    version: "1.2.2"
   nostr_widgets:
     dependency: "direct main"
     description:
       name: nostr_widgets
-      sha256: e86fa814c1ed7fba02dba385b8357ad612732fb199398efbf3bc3874371056cb
+      sha256: "6ea0955d3ef4cd92a65dc12b997cdb6c92613050a861034fdfe5302a60d3e14a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.2"
   objective_c:
     dependency: transitive
     description:
       name: objective_c
-      sha256: "55eb67ede1002d9771b3f9264d2c9d30bc364f0267bc1c6cc0883280d5f0c7cb"
+      sha256: "7fd0c4d8ac8980011753b9bdaed2bf15111365924cdeeeaeb596214ea2b03537"
       url: "https://pub.dev"
     source: hosted
-    version: "9.2.2"
+    version: "9.2.4"
   path:
     dependency: "direct main"
     description:
@@ -632,10 +632,10 @@ packages:
     dependency: transitive
     description:
       name: rust_lib_ndk
-      sha256: f06a1a47c6fbadf25250eac796b65b91ea99797b6377304abb152f06205c28ff
+      sha256: "26df8806fe09800a7430549d2372c6a89c290962900029afca9b2db1fdb19aea"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.7"
+    version: "0.1.7+1"
   rxdart:
     dependency: transitive
     description:
@@ -656,18 +656,18 @@ packages:
     dependency: "direct main"
     description:
       name: sembast_cache_manager
-      sha256: "41ba05d44d62b741df889b24d3f530fc53e44a616ec06bc3075fb89b5a495c27"
+      sha256: "4de2c8129baff0265af2364212502042d6bfb69ff4c1484bb6698529258f23c5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6-dev.9"
+    version: "1.0.6"
   sembast_web:
     dependency: "direct main"
     description:
       name: sembast_web
-      sha256: df69191fc035101894156d714e029bbc5706394df2af63e23c859f68fbdfb4ec
+      sha256: "608263a0ee8afdd4ebcf0c0c6f9bd63d6aa47f0bb4950c96d929ab4959d1c516"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.3"
+    version: "2.4.4"
   sky_engine:
     dependency: transitive
     description: flutter
