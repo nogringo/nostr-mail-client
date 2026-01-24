@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/inbox_controller.dart';
@@ -195,6 +197,23 @@ class InboxView extends GetView<InboxController> {
                             leadingIcon: const Icon(Icons.person_outline),
                             onPressed: () => Get.toNamed('/profile'),
                             child: const Text('Profile'),
+                          ),
+                          MenuItemButton(
+                            leadingIcon: const Icon(Icons.copy),
+                            onPressed: () {
+                              final npub = Get.find<AuthController>().npub;
+                              if (npub != null) {
+                                Clipboard.setData(ClipboardData(text: npub));
+                                toastification.show(
+                                  context: context,
+                                  type: ToastificationType.success,
+                                  title: const Text('npub copied'),
+                                  autoCloseDuration: const Duration(seconds: 2),
+                                  alignment: Alignment.bottomRight,
+                                );
+                              }
+                            },
+                            child: const Text('Copy npub'),
                           ),
                           MenuItemButton(
                             leadingIcon: const Icon(
