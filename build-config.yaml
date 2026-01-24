@@ -5,7 +5,7 @@
 app:
   # Display name for the application (shown in start menu, launcher, etc.)
   # If not specified, uses the name from pubspec.yaml
-  display_name: "Nostr mail"
+  display_name: "Nmail"
 
 # Package maintainer information
 maintainer:
