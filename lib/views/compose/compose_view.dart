@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../controllers/compose_controller.dart';
 import '../../models/from_option.dart';
+import '../../services/nostr_mail_service.dart';
 import '../../utils/toast_helper.dart';
 import 'widgets/from_selector_sheet.dart';
 import 'widgets/recipient_chip.dart';
@@ -27,16 +30,50 @@ class _ComposeViewState extends State<ComposeView> {
     final args = Get.arguments as Map<String, dynamic>?;
 
     toController = TextEditingController();
-    subjectController = TextEditingController(text: args?['subject'] ?? '');
+    subjectController = TextEditingController();
     bodyController = TextEditingController();
 
     // Load from options
     controller.loadFromOptions();
 
-    // Add replyTo as recipient if provided
-    final replyTo = args?['replyTo'] as String?;
-    if (replyTo != null && replyTo.isNotEmpty) {
+    // Handle reply/forward mode
+    final email = args?['email'] as Email?;
+    final mode = args?['mode'] as String?;
+
+    if (email != null && mode != null) {
+      _initFromEmail(email, mode);
+    }
+  }
+
+  void _initFromEmail(Email email, String mode) {
+    final myPubkey = Get.find<NostrMailService>().getPublicKey();
+    final isSentByMe = email.senderPubkey == myPubkey;
+
+    if (mode == 'reply') {
+      // Set recipient
+      final replyTo = isSentByMe ? email.to : email.from;
       controller.addRecipient(replyTo);
+
+      // Set subject (avoid Re: Re: Re:)
+      final subject = email.subject;
+      subjectController.text = subject.startsWith('Re:')
+          ? subject
+          : 'Re: $subject';
+    } else if (mode == 'forward') {
+      // Set subject (avoid Fwd: Fwd: Fwd:)
+      final subject = email.subject;
+      subjectController.text = subject.startsWith('Fwd:')
+          ? subject
+          : 'Fwd: $subject';
+
+      // Set body with forwarded message
+      final dateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
+      bodyController.text =
+          '\n\n---------- Forwarded message ----------\n'
+          'From: ${email.from}\n'
+          'Date: ${dateFormat.format(email.date)}\n'
+          'Subject: ${email.subject}\n\n'
+          '${email.body}';
     }
   }
 

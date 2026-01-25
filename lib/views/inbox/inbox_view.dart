@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:nostr_mail/nostr_mail.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../utils/responsive_helper.dart';
+import '../../utils/toast_helper.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/app_sidebar.dart';
 import 'widgets/email_tile.dart';
@@ -305,6 +307,10 @@ class InboxView extends GetView<InboxController> {
                       isSelected: controller.isSelected(email.id),
                       onToggleSelect: () =>
                           controller.toggleSelection(email.id),
+                      onReply: () => _replyTo(email),
+                      onForward: () => _forward(email),
+                      onDelete: () => _deleteEmail(context, email),
+                      onRestore: () => _restoreEmail(context, email),
                     ),
                   );
                 },
@@ -321,5 +327,25 @@ class InboxView extends GetView<InboxController> {
               ),
       ),
     );
+  }
+
+  void _replyTo(Email email) {
+    Get.toNamed('/compose', arguments: {'email': email, 'mode': 'reply'});
+  }
+
+  void _forward(Email email) {
+    Get.toNamed('/compose', arguments: {'email': email, 'mode': 'forward'});
+  }
+
+  void _deleteEmail(BuildContext context, Email email) {
+    controller.deleteEmail(email.id);
+    if (controller.currentFolder.value != MailFolder.trash) {
+      ToastHelper.success(context, 'Email moved to trash');
+    }
+  }
+
+  void _restoreEmail(BuildContext context, Email email) {
+    controller.restoreFromTrash(email.id);
+    ToastHelper.success(context, 'Email restored');
   }
 }

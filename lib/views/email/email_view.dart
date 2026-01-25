@@ -307,20 +307,10 @@ class _EmailViewState extends State<EmailView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // If I sent this email, reply to the recipient; otherwise reply to sender
-          final myPubkey = Get.find<NostrMailService>().getPublicKey();
-          final isSentByMe = email!.senderPubkey == myPubkey;
-
-          Get.toNamed(
-            '/compose',
-            arguments: {
-              'replyTo': isSentByMe ? email!.to : email!.from,
-              'from': isSentByMe ? email!.from : email!.to,
-              'subject': 'Re: ${email!.subject}',
-            },
-          );
-        },
+        onPressed: () => Get.toNamed(
+          '/compose',
+          arguments: {'email': email, 'mode': 'reply'},
+        ),
         backgroundColor: Theme.of(context).colorScheme.primary,
         child: Icon(
           Icons.reply,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
+import '../../../controllers/inbox_controller.dart';
 import '../../../services/nostr_mail_service.dart';
 import '../../../utils/responsive_helper.dart';
 
@@ -11,6 +12,10 @@ class EmailTile extends StatefulWidget {
   final VoidCallback onTap;
   final bool isSelected;
   final VoidCallback? onToggleSelect;
+  final VoidCallback? onReply;
+  final VoidCallback? onForward;
+  final VoidCallback? onDelete;
+  final VoidCallback? onRestore;
 
   const EmailTile({
     super.key,
@@ -18,6 +23,10 @@ class EmailTile extends StatefulWidget {
     required this.onTap,
     this.isSelected = false,
     this.onToggleSelect,
+    this.onReply,
+    this.onForward,
+    this.onDelete,
+    this.onRestore,
   });
 
   @override
@@ -127,6 +136,91 @@ class _EmailTileState extends State<EmailTile> {
     return _buildDefaultTile(context);
   }
 
+  void _showContextMenu(BuildContext context, Offset position) {
+    final isInTrash =
+        Get.find<InboxController>().currentFolder.value == MailFolder.trash;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    final menuChildren = <Widget>[
+      if (!isInTrash) ...[
+        MenuItemButton(
+          leadingIcon: const Icon(Icons.reply),
+          onPressed: () {
+            Navigator.of(context).pop();
+            widget.onReply?.call();
+          },
+          child: const Text('Reply'),
+        ),
+        MenuItemButton(
+          leadingIcon: const Icon(Icons.forward),
+          onPressed: () {
+            Navigator.of(context).pop();
+            widget.onForward?.call();
+          },
+          child: const Text('Forward'),
+        ),
+        const Divider(height: 1),
+        MenuItemButton(
+          leadingIcon: const Icon(Icons.delete_outline),
+          onPressed: () {
+            Navigator.of(context).pop();
+            widget.onDelete?.call();
+          },
+          child: const Text('Move to trash'),
+        ),
+      ] else ...[
+        MenuItemButton(
+          leadingIcon: const Icon(Icons.restore_from_trash),
+          onPressed: () {
+            Navigator.of(context).pop();
+            widget.onRestore?.call();
+          },
+          child: const Text('Restore'),
+        ),
+        MenuItemButton(
+          leadingIcon: Icon(Icons.delete_forever, color: colorScheme.error),
+          onPressed: () {
+            Navigator.of(context).pop();
+            widget.onDelete?.call();
+          },
+          child: Text(
+            'Delete permanently',
+            style: TextStyle(color: colorScheme.error),
+          ),
+        ),
+      ],
+    ];
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) => Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(onTap: () => Navigator.of(context).pop()),
+          ),
+          Positioned(
+            left: position.dx,
+            top: position.dy,
+            child: Material(
+              elevation: 8,
+              borderRadius: BorderRadius.circular(12),
+              clipBehavior: Clip.antiAlias,
+              surfaceTintColor: colorScheme.surfaceTint,
+              child: IntrinsicWidth(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: menuChildren,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildCompactTile(BuildContext context) {
     final subject = widget.email.subject.isEmpty
         ? '(No subject)'
@@ -135,75 +229,79 @@ class _EmailTileState extends State<EmailTile> {
 
     return Column(
       children: [
-        InkWell(
-          onTap: widget.onTap,
-          child: Container(
-            color: widget.isSelected
-                ? colorScheme.primaryContainer.withValues(alpha: 0.3)
-                : null,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 40,
-                  child: Checkbox(
-                    value: widget.isSelected,
-                    onChanged: widget.onToggleSelect != null
-                        ? (_) => widget.onToggleSelect!()
-                        : null,
+        GestureDetector(
+          onSecondaryTapUp: (details) =>
+              _showContextMenu(context, details.globalPosition),
+          child: InkWell(
+            onTap: widget.onTap,
+            child: Container(
+              color: widget.isSelected
+                  ? colorScheme.primaryContainer.withValues(alpha: 0.3)
+                  : null,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 40,
+                    child: Checkbox(
+                      value: widget.isSelected,
+                      onChanged: widget.onToggleSelect != null
+                          ? (_) => widget.onToggleSelect!()
+                          : null,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 160,
-                  child: Row(
-                    children: [
-                      _buildAvatar(context, compact: true),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          _displayName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                  SizedBox(
+                    width: 160,
+                    child: Row(
+                      children: [
+                        _buildAvatar(context, compact: true),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            _displayName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Row(
-                    children: [
-                      Flexible(
-                        flex: 2,
-                        child: Text(
-                          subject,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: Text(
+                            subject,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text('—', style: TextStyle(color: Colors.grey[400])),
-                      const SizedBox(width: 8),
-                      Flexible(
-                        flex: 3,
-                        child: Text(
-                          widget.email.body,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: Colors.grey[500]),
+                        const SizedBox(width: 8),
+                        Text('—', style: TextStyle(color: Colors.grey[400])),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          flex: 3,
+                          child: Text(
+                            widget.email.body,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: Colors.grey[500]),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                Text(
-                  _formatDate(widget.email.date),
-                  style: TextStyle(color: Colors.grey[500], fontSize: 12),
-                ),
-              ],
+                  const SizedBox(width: 16),
+                  Text(
+                    _formatDate(widget.email.date),
+                    style: TextStyle(color: Colors.grey[500], fontSize: 12),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -215,40 +313,44 @@ class _EmailTileState extends State<EmailTile> {
   Widget _buildDefaultTile(BuildContext context) {
     return Column(
       children: [
-        ListTile(
-          onTap: widget.onTap,
-          leading: _buildAvatar(context),
-          title: Text(
-            widget.email.subject.isEmpty
-                ? '(No subject)'
-                : widget.email.subject,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+        GestureDetector(
+          onSecondaryTapUp: (details) =>
+              _showContextMenu(context, details.globalPosition),
+          child: ListTile(
+            onTap: widget.onTap,
+            leading: _buildAvatar(context),
+            title: Text(
+              widget.email.subject.isEmpty
+                  ? '(No subject)'
+                  : widget.email.subject,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _displayName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.grey[600], fontSize: 12),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  widget.email.body,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.grey[500], fontSize: 13),
+                ),
+              ],
+            ),
+            trailing: Text(
+              _formatDate(widget.email.date),
+              style: TextStyle(color: Colors.grey[500], fontSize: 11),
+            ),
+            isThreeLine: true,
           ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                _displayName,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.grey[600], fontSize: 12),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                widget.email.body,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.grey[500], fontSize: 13),
-              ),
-            ],
-          ),
-          trailing: Text(
-            _formatDate(widget.email.date),
-            style: TextStyle(color: Colors.grey[500], fontSize: 11),
-          ),
-          isThreeLine: true,
         ),
         const Divider(height: 1),
       ],
