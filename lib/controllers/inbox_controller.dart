@@ -5,14 +5,12 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import '../services/nostr_mail_service.dart';
 
-enum MailFolder { inbox, sent }
+enum MailFolder { inbox, sent, trash }
 
 class InboxController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();
 
-  final _allEmails = <Email>[];
-  final emails = <Email>[].obs;
-  final isLoading = false.obs;
+  final RxList<Email> emails = <Email>[].obs;
   final isSyncing = false.obs;
   final currentFolder = MailFolder.inbox.obs;
   final selectedIds = <String>{}.obs;
@@ -21,8 +19,6 @@ class InboxController extends GetxController {
   StreamSubscription? _watchSubscription;
 
   void toggleSidebar() => isSidebarCollapsed.toggle();
-
-  String? get _myPubkey => _nostrMailService.getPublicKey();
 
   bool get hasSelection => selectedIds.isNotEmpty;
   bool get allSelected =>
@@ -46,14 +42,20 @@ class InboxController extends GetxController {
     selectedIds.clear();
   }
 
+  // TODO: parallelize with Future.wait
   Future<void> deleteSelected() async {
     final ids = selectedIds.toList();
-    for (final id in ids) {
-      await _nostrMailService.client.delete(id);
-      _allEmails.removeWhere((e) => e.id == id);
+    if (currentFolder.value == MailFolder.trash) {
+      for (final id in ids) {
+        await _nostrMailService.client.delete(id);
+      }
+    } else {
+      for (final id in ids) {
+        await _nostrMailService.client.moveToTrash(id);
+      }
     }
     selectedIds.clear();
-    _applyFilter();
+    await _loadEmails();
   }
 
   @override
@@ -72,51 +74,26 @@ class InboxController extends GetxController {
   }
 
   Future<void> _loadEmails() async {
-    isLoading.value = true;
-    try {
-      final cached = await _nostrMailService.client.getEmails();
-      _allEmails.clear();
-      _allEmails.addAll(cached);
-      _applyFilter();
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  void _applyFilter() {
-    final pubkey = _myPubkey;
-    if (pubkey == null) {
-      emails.assignAll(_allEmails);
-      return;
-    }
-
-    if (currentFolder.value == MailFolder.inbox) {
-      // Show emails where I am the recipient and not the sender
-      emails.assignAll(
-        _allEmails.where(
-          (e) => e.recipientPubkey == pubkey && e.senderPubkey != pubkey,
-        ),
-      );
-    } else {
-      // Sent folder: show emails where I am the sender
-      emails.assignAll(_allEmails.where((e) => e.senderPubkey == pubkey));
-    }
+    final client = _nostrMailService.client;
+    final loaded = switch (currentFolder.value) {
+      MailFolder.inbox => await client.getInboxEmails(),
+      MailFolder.sent => await client.getSentEmails(),
+      MailFolder.trash => await client.getTrashedEmails(),
+    };
+    emails.assignAll(loaded);
   }
 
   void setFolder(MailFolder folder) {
     if (currentFolder.value != folder) {
       currentFolder.value = folder;
       selectedIds.clear();
-      _applyFilter();
+      _loadEmails();
     }
   }
 
   void _startWatching() {
-    _watchSubscription = _nostrMailService.client.watchInbox().listen(
-      (email) {
-        _allEmails.insert(0, email);
-        _applyFilter();
-      },
+    _watchSubscription = _nostrMailService.client.onEmail.listen(
+      (_) => _loadEmails(),
       onError: (e) {
         // Silent error handling for stream
       },
@@ -135,9 +112,24 @@ class InboxController extends GetxController {
     }
   }
 
+  Future<void> moveToTrash(String id) async {
+    await _nostrMailService.client.moveToTrash(id);
+    await _loadEmails();
+  }
+
+  Future<void> restoreFromTrash(String id) async {
+    await _nostrMailService.client.restoreFromTrash(id);
+    await _loadEmails();
+  }
+
   Future<void> deleteEmail(String id) async {
-    await _nostrMailService.client.delete(id);
-    _allEmails.removeWhere((e) => e.id == id);
-    emails.removeWhere((e) => e.id == id);
+    if (currentFolder.value == MailFolder.trash) {
+      // Permanent delete
+      await _nostrMailService.client.delete(id);
+    } else {
+      // Move to trash
+      await _nostrMailService.client.moveToTrash(id);
+    }
+    await _loadEmails();
   }
 }

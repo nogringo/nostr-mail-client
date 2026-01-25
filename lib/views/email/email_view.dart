@@ -167,31 +167,49 @@ class _EmailViewState extends State<EmailView> {
   }
 
   Future<void> _deleteEmail() async {
-    final confirmed = await Get.dialog<bool>(
-      AlertDialog(
-        title: const Text('Delete email?'),
-        content: const Text('This action cannot be undone.'),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(result: false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Get.back(result: true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
+    if (email == null) return;
 
-    if (confirmed == true && email != null) {
-      await Get.find<InboxController>().deleteEmail(email!.id);
+    final inboxController = Get.find<InboxController>();
+    final isInTrash = inboxController.currentFolder.value == MailFolder.trash;
+
+    if (isInTrash) {
+      final confirmed = await Get.dialog<bool>(
+        AlertDialog(
+          title: const Text('Delete permanently?'),
+          content: const Text('This action cannot be undone.'),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(result: false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Get.back(result: true),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: const Text('Delete'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true) return;
+      await inboxController.deleteEmail(email!.id);
       if (mounted) {
-        ToastHelper.success(context, 'Email deleted');
+        ToastHelper.success(context, 'Email deleted permanently');
       }
-      Get.back();
+    } else {
+      inboxController.deleteEmail(email!.id);
+      if (mounted) {
+        ToastHelper.success(context, 'Email moved to trash');
+      }
     }
+    Get.back();
+  }
+
+  void _restoreEmail() {
+    if (email == null) return;
+
+    Get.find<InboxController>().restoreFromTrash(email!.id);
+    ToastHelper.success(context, 'Email restored');
+    Get.back();
   }
 
   @override
@@ -228,6 +246,19 @@ class _EmailViewState extends State<EmailView> {
               onPressed: () =>
                   setState(() => _showRawContent = !_showRawContent),
             );
+          }),
+          Obx(() {
+            final isInTrash =
+                Get.find<InboxController>().currentFolder.value ==
+                MailFolder.trash;
+            if (isInTrash) {
+              return IconButton(
+                icon: const Icon(Icons.restore_from_trash_outlined),
+                tooltip: 'Restore',
+                onPressed: _restoreEmail,
+              );
+            }
+            return const SizedBox.shrink();
           }),
           IconButton(
             icon: const Icon(Icons.delete_outline),

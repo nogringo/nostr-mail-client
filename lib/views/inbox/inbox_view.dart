@@ -136,11 +136,12 @@ class InboxView extends GetView<InboxController> {
             if (controller.hasSelection) {
               return Text('${controller.selectedIds.length} selected');
             }
-            return Text(
-              controller.currentFolder.value == MailFolder.inbox
-                  ? 'Inbox'
-                  : 'Sent',
-            );
+            final title = switch (controller.currentFolder.value) {
+              MailFolder.inbox => 'Inbox',
+              MailFolder.sent => 'Sent',
+              MailFolder.trash => 'Trash',
+            };
+            return Text(title);
           }),
           actions: [
             Obx(() {
@@ -254,24 +255,20 @@ class InboxView extends GetView<InboxController> {
         drawer: const AppDrawer(),
         sidebar: AppSidebar(collapsed: controller.isSidebarCollapsed.value),
         body: Obx(() {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
           if (controller.emails.isEmpty) {
-            final isInbox = controller.currentFolder.value == MailFolder.inbox;
+            final (icon, message) = switch (controller.currentFolder.value) {
+              MailFolder.inbox => (Icons.inbox, 'No emails yet'),
+              MailFolder.sent => (Icons.send, 'No sent emails'),
+              MailFolder.trash => (Icons.delete_outline, 'Trash is empty'),
+            };
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    isInbox ? Icons.inbox : Icons.send,
-                    size: 64,
-                    color: Colors.grey[400],
-                  ),
+                  Icon(icon, size: 64, color: Colors.grey[400]),
                   const SizedBox(height: 16),
                   Text(
-                    isInbox ? 'No emails yet' : 'No sent emails',
+                    message,
                     style: TextStyle(fontSize: 18, color: Colors.grey[600]),
                   ),
                   const SizedBox(height: 8),

@@ -91,14 +91,21 @@ class AppDrawer extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Obx(() {
-      final selectedIndex = controller.currentFolder.value == MailFolder.inbox
-          ? 0
-          : 1;
+      final selectedIndex = switch (controller.currentFolder.value) {
+        MailFolder.inbox => 0,
+        MailFolder.sent => 1,
+        MailFolder.trash => 2,
+      };
 
       return NavigationDrawer(
         selectedIndex: selectedIndex,
         onDestinationSelected: (index) {
-          controller.setFolder(index == 0 ? MailFolder.inbox : MailFolder.sent);
+          final folder = switch (index) {
+            0 => MailFolder.inbox,
+            1 => MailFolder.sent,
+            _ => MailFolder.trash,
+          };
+          controller.setFolder(folder);
           Navigator.pop(context);
         },
         children: [
@@ -218,6 +225,11 @@ class AppDrawer extends StatelessWidget {
             icon: Icon(Icons.send_outlined),
             selectedIcon: Icon(Icons.send),
             label: Text('Sent'),
+          ),
+          const NavigationDrawerDestination(
+            icon: Icon(Icons.delete_outlined),
+            selectedIcon: Icon(Icons.delete),
+            label: Text('Trash'),
           ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
