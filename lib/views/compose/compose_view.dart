@@ -59,6 +59,15 @@ class _ComposeViewState extends State<ComposeView> {
       subjectController.text = subject.startsWith('Re:')
           ? subject
           : 'Re: $subject';
+
+      // Set body with quoted original message
+      final dateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
+      final quotedBody = email.body
+          .split('\n')
+          .map((line) => '> $line')
+          .join('\n');
+      bodyController.text =
+          '\n\nOn ${dateFormat.format(email.date)}, ${email.from} wrote:\n$quotedBody';
     } else if (mode == 'forward') {
       // Set subject (avoid Fwd: Fwd: Fwd:)
       final subject = email.subject;
