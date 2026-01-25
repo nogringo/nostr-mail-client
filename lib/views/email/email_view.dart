@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../controllers/inbox_controller.dart';
 import '../../controllers/settings_controller.dart';
@@ -298,10 +301,7 @@ class _EmailViewState extends State<EmailView> {
                   children: [
                     _buildHeader(context),
                     const Divider(height: 32),
-                    SelectableText(
-                      email!.body,
-                      style: const TextStyle(fontSize: 16, height: 1.5),
-                    ),
+                    _buildEmailBody(),
                   ],
                 ),
         ),
@@ -497,5 +497,69 @@ class _EmailViewState extends State<EmailView> {
   String _formatDateTime(DateTime date) {
     return '${date.day}/${date.month}/${date.year} '
         '${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+  }
+
+  // TODO: Add option to trust domain and skip confirmation for trusted domains (maybe at nostr level)
+  // TODO: Block images by default for privacy (tracking pixels), add "Load images" button
+  // TODO: Show warning when link text differs from actual URL (phishing detection)
+  Future<void> _confirmOpenLink(String url) async {
+    final confirmed = await Get.dialog<bool>(
+      AlertDialog(
+        title: const Text('Open link?'),
+        content: SelectableText(
+          url,
+          style: TextStyle(color: Theme.of(context).colorScheme.primary),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Clipboard.setData(ClipboardData(text: url));
+              Get.back(result: false);
+              ToastHelper.success(context, 'Link copied');
+            },
+            child: const Text('Copy'),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: const Text('Open'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) {
+      launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+    }
+  }
+
+  Widget _buildEmailBody() {
+    final htmlBody = email!.htmlBody;
+    if (htmlBody != null && htmlBody.isNotEmpty) {
+      return SelectionArea(
+        child: Html(
+          data: htmlBody,
+          style: {
+            'body': Style(
+              fontSize: FontSize(16),
+              lineHeight: const LineHeight(1.5),
+              margin: Margins.zero,
+              padding: HtmlPaddings.zero,
+            ),
+          },
+          onLinkTap: (url, _, _) {
+            if (url != null) {
+              _confirmOpenLink(url);
+            }
+          },
+        ),
+      );
+    }
+    return SelectableText(
+      email!.body,
+      style: const TextStyle(fontSize: 16, height: 1.5),
+    );
   }
 }

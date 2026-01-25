@@ -25,6 +25,8 @@ dependencies:
   sembast_web: ^2.4.3
   nostr_widgets: ^1.2.2
   path: ^1.9.1
+  url_launcher: ^6.3.2
+  flutter_html: ^3.0.0
 
 dev_dependencies:
   flutter_test:
