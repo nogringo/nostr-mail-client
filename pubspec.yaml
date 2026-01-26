@@ -27,6 +27,8 @@ dependencies:
   path: ^1.9.1
   url_launcher: ^6.3.2
   flutter_widget_from_html_core: ^0.17.0
+  flutter_quill: ^11.5.0
+  vsc_quill_delta_to_html: ^1.0.5
 
 dev_dependencies:
   flutter_test:

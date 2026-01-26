@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../models/from_option.dart';
 import '../models/recipient.dart';
@@ -128,18 +130,31 @@ class ComposeController extends GetxController {
   Future<bool> send({
     String? from,
     required String subject,
-    required String body,
+    required Document document,
   }) async {
     if (recipients.isEmpty) return false;
 
     isSending.value = true;
     try {
+      // Convert Delta to HTML
+      final converter = QuillDeltaToHtmlConverter(
+        document.toDelta().toJson().cast<Map<String, dynamic>>(),
+        ConverterOptions(
+          converterOptions: OpConverterOptions(inlineStylesFlag: true),
+        ),
+      );
+      final htmlBody = converter.convert();
+
+      // Get plain text from document
+      final plainText = document.toPlainText();
+
       for (final recipient in recipients) {
         await _nostrMailService.client.send(
           from: from,
           to: recipient.pubkey ?? recipient.input,
           subject: subject,
-          body: body,
+          body: plainText,
+          htmlBody: htmlBody,
         );
       }
       return true;

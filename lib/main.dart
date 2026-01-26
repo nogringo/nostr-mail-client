@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:nostr_widgets/l10n/app_localizations.dart' as nostr_widgets;
 import 'package:toastification/toastification.dart';
@@ -35,6 +36,7 @@ class MainApp extends StatelessWidget {
         locale: const Locale('en'),
         localizationsDelegates: [
           nostr_widgets.AppLocalizations.delegate,
+          FlutterQuillLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,

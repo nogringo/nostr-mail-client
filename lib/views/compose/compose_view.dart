@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -23,7 +24,9 @@ class _ComposeViewState extends State<ComposeView> {
 
   late final TextEditingController toController;
   late final TextEditingController subjectController;
-  late final TextEditingController bodyController;
+  late final QuillController quillController;
+  final FocusNode _editorFocusNode = FocusNode();
+  final ScrollController _editorScrollController = ScrollController();
 
   @override
   void initState() {
@@ -33,9 +36,17 @@ class _ComposeViewState extends State<ComposeView> {
 
     toController = TextEditingController();
     subjectController = TextEditingController();
-    bodyController = TextEditingController(
-      text: signature.isEmpty ? '' : '\n\n$signature',
-    );
+
+    // Initialize Quill controller with signature
+    if (signature.isEmpty) {
+      quillController = QuillController.basic();
+    } else {
+      final doc = Document()..insert(0, '\n\n$signature');
+      quillController = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    }
 
     // Load from options
     controller.loadFromOptions();
@@ -72,8 +83,9 @@ class _ComposeViewState extends State<ComposeView> {
           .split('\n')
           .map((line) => '> $line')
           .join('\n');
-      bodyController.text =
+      final bodyText =
           '$signatureBlock\n\nOn ${dateFormat.format(email.date)}, ${email.from} wrote:\n$quotedBody';
+      _setQuillContent(bodyText);
     } else if (mode == 'forward') {
       // Set subject (avoid Fwd: Fwd: Fwd:)
       final subject = email.subject;
@@ -83,20 +95,32 @@ class _ComposeViewState extends State<ComposeView> {
 
       // Set body with forwarded message
       final dateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
-      bodyController.text =
+      final bodyText =
           '$signatureBlock\n\n---------- Forwarded message ----------\n'
           'From: ${email.from}\n'
           'Date: ${dateFormat.format(email.date)}\n'
           'Subject: ${email.subject}\n\n'
           '${email.body}';
+      _setQuillContent(bodyText);
     }
+  }
+
+  void _setQuillContent(String text) {
+    final doc = Document()..insert(0, text);
+    quillController.document = doc;
+    quillController.updateSelection(
+      const TextSelection.collapsed(offset: 0),
+      ChangeSource.local,
+    );
   }
 
   @override
   void dispose() {
     toController.dispose();
     subjectController.dispose();
-    bodyController.dispose();
+    quillController.dispose();
+    _editorFocusNode.dispose();
+    _editorScrollController.dispose();
     super.dispose();
   }
 
@@ -204,21 +228,20 @@ class _ComposeViewState extends State<ComposeView> {
                 ),
               ),
               const Divider(height: 1),
+              _buildQuillToolbar(context),
+              const Divider(height: 1),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: TextField(
-                    controller: bodyController,
-                    decoration: InputDecoration(
-                      hintText: 'Compose email',
-                      hintStyle: TextStyle(color: Colors.grey[400]),
-                      border: InputBorder.none,
+                  child: QuillEditor(
+                    controller: quillController,
+                    focusNode: _editorFocusNode,
+                    scrollController: _editorScrollController,
+                    config: QuillEditorConfig(
+                      placeholder: 'Compose email',
+                      expands: true,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                     ),
-                    style: const TextStyle(fontSize: 16),
-                    maxLines: null,
-                    expands: true,
-                    textCapitalization: TextCapitalization.sentences,
-                    textAlignVertical: TextAlignVertical.top,
                   ),
                 ),
               ),
@@ -245,7 +268,7 @@ class _ComposeViewState extends State<ComposeView> {
     final success = await controller.send(
       from: selectedFrom?.address,
       subject: subjectController.text,
-      body: bodyController.text,
+      document: quillController.document,
     );
 
     if (success) {
@@ -258,6 +281,68 @@ class _ComposeViewState extends State<ComposeView> {
         ToastHelper.error(context, 'Failed to send email');
       }
     }
+  }
+
+  Widget _buildQuillToolbar(BuildContext context) {
+    final iconTheme = QuillIconTheme(
+      iconButtonSelectedData: IconButtonData(
+        color: Theme.of(context).colorScheme.primary,
+        style: const ButtonStyle(
+          backgroundColor: WidgetStatePropertyAll(Colors.transparent),
+        ),
+      ),
+      iconButtonUnselectedData: const IconButtonData(),
+    );
+
+    return QuillSimpleToolbar(
+      controller: quillController,
+      config: QuillSimpleToolbarConfig(
+        buttonOptions: QuillSimpleToolbarButtonOptions(
+          bold: QuillToolbarToggleStyleButtonOptions(iconTheme: iconTheme),
+          italic: QuillToolbarToggleStyleButtonOptions(iconTheme: iconTheme),
+          underLine: QuillToolbarToggleStyleButtonOptions(iconTheme: iconTheme),
+          strikeThrough: QuillToolbarToggleStyleButtonOptions(
+            iconTheme: iconTheme,
+          ),
+          listNumbers: QuillToolbarToggleStyleButtonOptions(
+            iconTheme: iconTheme,
+          ),
+          listBullets: QuillToolbarToggleStyleButtonOptions(
+            iconTheme: iconTheme,
+          ),
+        ),
+        showAlignmentButtons: false,
+        showBackgroundColorButton: false,
+        showCenterAlignment: false,
+        showClearFormat: false,
+        showCodeBlock: false,
+        showColorButton: false,
+        showDirection: false,
+        showFontFamily: false,
+        showFontSize: false,
+        showHeaderStyle: false,
+        showIndent: false,
+        showInlineCode: false,
+        showJustifyAlignment: false,
+        showLeftAlignment: false,
+        showListBullets: true,
+        showListCheck: false,
+        showListNumbers: true,
+        showQuote: false,
+        showRightAlignment: false,
+        showSearchButton: false,
+        showSmallButton: false,
+        showStrikeThrough: true,
+        showSubscript: false,
+        showSuperscript: false,
+        showUndo: false,
+        showRedo: false,
+        showClipboardCopy: false,
+        showClipboardCut: false,
+        showClipboardPaste: false,
+        multiRowsDisplay: false,
+      ),
+    );
   }
 
   Widget _buildFromSelector(BuildContext context) {
