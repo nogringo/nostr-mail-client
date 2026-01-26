@@ -12,6 +12,7 @@ import 'app/routes/app_routes.dart';
 import 'controllers/auth_controller.dart';
 import 'controllers/settings_controller.dart';
 import 'services/storage_service.dart';
+import 'services/theme_service.dart';
 import 'utils/platform_helper.dart';
 
 void main() async {
@@ -38,6 +39,9 @@ void main() async {
   await storageService.init();
   Get.put(storageService, permanent: true);
 
+  // Initialize theme service
+  await Get.putAsync(() => ThemeService().init(), permanent: true);
+
   // Load theme mode before app starts
   final themeModeIndex =
       await storageService.getSetting<int>(SettingsController.themeModeKey) ??
@@ -54,35 +58,42 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final accentColor = SystemTheme.accentColor.accent;
+    final themeService = Get.find<ThemeService>();
 
-    return ToastificationWrapper(
-      child: GetMaterialApp(
-        title: 'Nmail',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: accentColor),
-        ),
-        darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: accentColor,
+    return Obx(() {
+      final systemAccent = SystemTheme.accentColor.accent;
+
+      final lightScheme =
+          themeService.lightColorScheme.value ??
+          ColorScheme.fromSeed(seedColor: systemAccent);
+      final darkScheme =
+          themeService.darkColorScheme.value ??
+          ColorScheme.fromSeed(
+            seedColor: systemAccent,
             brightness: Brightness.dark,
-          ),
+          );
+
+      return ToastificationWrapper(
+        child: GetMaterialApp(
+          title: 'Nmail',
+          theme: ThemeData.from(colorScheme: lightScheme),
+          darkTheme: ThemeData.from(colorScheme: darkScheme),
+          themeMode: initialThemeMode,
+          locale: const Locale('en'),
+          localizationsDelegates: [
+            nostr_widgets.AppLocalizations.delegate,
+            FlutterQuillLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en')],
+          initialBinding: InitialBinding(),
+          getPages: AppRoutes.routes,
+          home: const _InitialScreen(),
         ),
-        themeMode: initialThemeMode,
-        locale: const Locale('en'),
-        localizationsDelegates: [
-          nostr_widgets.AppLocalizations.delegate,
-          FlutterQuillLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [Locale('en')],
-        initialBinding: InitialBinding(),
-        getPages: AppRoutes.routes,
-        home: const _InitialScreen(),
-      ),
-    );
+      );
+    });
   }
 }
 

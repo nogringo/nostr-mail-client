@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:system_theme/system_theme.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -37,6 +38,14 @@ class SettingsView extends StatelessWidget {
               const SizedBox(height: 16),
               _buildSectionHeader(context, 'Appearance'),
               _buildThemeModeTile(context, settingsController),
+              Obx(
+                () => SwitchListTile(
+                  title: const Text('Dynamic theme'),
+                  subtitle: const Text('Generate colors from background image'),
+                  value: settingsController.dynamicTheme.value,
+                  onChanged: settingsController.setDynamicTheme,
+                ),
+              ),
               _buildBackgroundGallery(context, settingsController),
               const SizedBox(height: 16),
               _buildSectionHeader(context, 'Advanced options'),
@@ -389,6 +398,12 @@ class SettingsView extends StatelessWidget {
         controller.backgroundImage.value == null ||
         controller.backgroundImage.value!.isEmpty;
 
+    // Use system accent color's tertiaryContainer for the default item preview
+    final systemScheme = ColorScheme.fromSeed(
+      seedColor: SystemTheme.accentColor.accent,
+      brightness: Theme.of(context).brightness,
+    );
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -397,7 +412,7 @@ class SettingsView extends StatelessWidget {
           width: 80,
           height: 80,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.tertiaryContainer,
+            color: systemScheme.tertiaryContainer,
             borderRadius: BorderRadius.circular(8),
             border: isSelected
                 ? Border.all(

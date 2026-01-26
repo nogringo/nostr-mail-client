@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../services/nostr_mail_service.dart';
 import '../services/storage_service.dart';
+import '../services/theme_service.dart';
+import '../utils/color_scheme_serializer.dart';
+import '../utils/platform_helper.dart';
 
 class SettingsController extends GetxController {
   final _storageService = Get.find<StorageService>();
+  final _themeService = Get.find<ThemeService>();
   StreamSubscription? _authSubscription;
 
   static const _showRawEmailKey = 'show_raw_email';
@@ -23,6 +28,9 @@ class SettingsController extends GetxController {
   final emailSignature = _defaultSignature.obs;
   final backgroundImage = Rxn<String>();
   final themeMode = ThemeMode.system.obs;
+  final dynamicTheme = false.obs;
+  final lightColorScheme = Rxn<ColorScheme>();
+  final darkColorScheme = Rxn<ColorScheme>();
 
   String? get _pubkey => Get.find<NostrMailService>().getPublicKey();
 
@@ -47,19 +55,33 @@ class SettingsController extends GetxController {
   }
 
   Future<void> _loadSettings() async {
-    showRawEmail.value =
-        await _storageService.getSetting<bool>(_showRawEmailKey) ?? false;
-    alwaysLoadImages.value =
-        await _storageService.getSetting<bool>(_alwaysLoadImagesKey) ?? false;
-    emailSignature.value =
-        await _storageService.getSetting<String>(_signatureKey) ??
-        _defaultSignature;
-    backgroundImage.value = await _storageService.getSetting<String>(
-      _backgroundKey,
-    );
-    final themeModeIndex =
-        await _storageService.getSetting<int>(themeModeKey) ?? 0;
-    themeMode.value = ThemeMode.values[themeModeIndex];
+    final results = await Future.wait([
+      _storageService.getSetting<bool>(_showRawEmailKey),
+      _storageService.getSetting<bool>(_alwaysLoadImagesKey),
+      _storageService.getSetting<String>(_signatureKey),
+      _storageService.getSetting<String>(_backgroundKey),
+      _storageService.getSetting<int>(themeModeKey),
+      _storageService.getSetting<bool>(ThemeService.dynamicThemeKey),
+      _storageService.getSetting<String>(ThemeService.colorSchemeKeyLight),
+      _storageService.getSetting<String>(ThemeService.colorSchemeKeyDark),
+    ]);
+
+    showRawEmail.value = (results[0] as bool?) ?? false;
+    alwaysLoadImages.value = (results[1] as bool?) ?? false;
+    emailSignature.value = (results[2] as String?) ?? _defaultSignature;
+    backgroundImage.value = results[3] as String?;
+    themeMode.value = ThemeMode.values[(results[4] as int?) ?? 0];
+    dynamicTheme.value = (results[5] as bool?) ?? false;
+
+    final savedLightScheme = results[6] as String?;
+    if (savedLightScheme != null) {
+      lightColorScheme.value = colorSchemeFromJson(savedLightScheme);
+    }
+
+    final savedDarkScheme = results[7] as String?;
+    if (savedDarkScheme != null) {
+      darkColorScheme.value = colorSchemeFromJson(savedDarkScheme);
+    }
   }
 
   Future<void> setShowRawEmail(bool value) async {
@@ -84,11 +106,96 @@ class SettingsController extends GetxController {
     } else {
       await _storageService.deleteSetting(_backgroundKey);
     }
+
+    if (dynamicTheme.value) {
+      await extractThemeFromImage(value);
+    }
   }
 
   Future<void> setThemeMode(ThemeMode value) async {
     themeMode.value = value;
     Get.changeThemeMode(value);
     await _storageService.saveSetting(themeModeKey, value.index);
+  }
+
+  Future<void> setDynamicTheme(bool value) async {
+    dynamicTheme.value = value;
+    await _storageService.saveSetting(ThemeService.dynamicThemeKey, value);
+
+    if (value && backgroundImage.value != null) {
+      await extractThemeFromImage(backgroundImage.value);
+    } else {
+      await _clearColorSchemes();
+      _applyTheme();
+    }
+  }
+
+  Future<void> extractThemeFromImage(String? imagePath) async {
+    if (imagePath == null || imagePath.isEmpty) {
+      await _clearColorSchemes();
+      _applyTheme();
+      return;
+    }
+
+    try {
+      final ImageProvider provider;
+      if (PlatformHelper.isNative) {
+        provider = FileImage(File(imagePath));
+      } else {
+        provider = NetworkImage(imagePath);
+      }
+
+      // Extract both light and dark schemes in parallel
+      final [light, dark] = await Future.wait([
+        ColorScheme.fromImageProvider(
+          provider: provider,
+          brightness: Brightness.light,
+        ),
+        ColorScheme.fromImageProvider(
+          provider: provider,
+          brightness: Brightness.dark,
+        ),
+      ]);
+
+      lightColorScheme.value = light;
+      darkColorScheme.value = dark;
+
+      await Future.wait([
+        _storageService.saveSetting(
+          ThemeService.colorSchemeKeyLight,
+          colorSchemeToJson(light),
+        ),
+        _storageService.saveSetting(
+          ThemeService.colorSchemeKeyDark,
+          colorSchemeToJson(dark),
+        ),
+      ]);
+
+      _applyTheme();
+    } catch (e) {
+      // On error, keep system color
+      await _clearColorSchemes();
+      _applyTheme();
+    }
+  }
+
+  Future<void> _clearColorSchemes() async {
+    lightColorScheme.value = null;
+    darkColorScheme.value = null;
+    await Future.wait([
+      _storageService.deleteSetting(ThemeService.colorSchemeKeyLight),
+      _storageService.deleteSetting(ThemeService.colorSchemeKeyDark),
+    ]);
+  }
+
+  void _applyTheme() {
+    if (dynamicTheme.value && lightColorScheme.value != null) {
+      _themeService.setColorSchemes(
+        lightColorScheme.value,
+        darkColorScheme.value,
+      );
+    } else {
+      _themeService.clear();
+    }
   }
 }
