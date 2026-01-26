@@ -42,3 +42,4 @@ flutter:
   uses-material-design: true
   assets:
     - icons/original_transparent_2x.svg
+    - icons/original_transparent_3x.png

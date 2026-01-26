@@ -10,8 +10,6 @@ class LoginView extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -23,10 +21,10 @@ class LoginView extends GetView<AuthController> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Icon(
-                    Icons.mail_outline,
-                    size: 80,
-                    color: colorScheme.primary,
+                  Image.asset(
+                    'icons/original_transparent_3x.png',
+                    width: 80,
+                    height: 80,
                   ),
                   const SizedBox(height: 24),
                   const Text(
