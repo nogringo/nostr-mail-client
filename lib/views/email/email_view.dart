@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -539,20 +539,11 @@ class _EmailViewState extends State<EmailView> {
     final htmlBody = email!.htmlBody;
     if (htmlBody != null && htmlBody.isNotEmpty) {
       return SelectionArea(
-        child: Html(
-          data: htmlBody,
-          style: {
-            'body': Style(
-              fontSize: FontSize(16),
-              lineHeight: const LineHeight(1.5),
-              margin: Margins.zero,
-              padding: HtmlPaddings.zero,
-            ),
-          },
-          onLinkTap: (url, _, _) {
-            if (url != null) {
-              _confirmOpenLink(url);
-            }
+        child: HtmlWidget(
+          htmlBody,
+          onTapUrl: (url) {
+            _confirmOpenLink(url);
+            return true;
           },
         ),
       );
