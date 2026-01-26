@@ -32,6 +32,7 @@ dependencies:
   system_theme: ^3.2.0
   flutter_svg: ^2.2.3
   window_manager: ^0.5.1
+  file_picker: ^10.3.9
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -59,7 +60,7 @@ class MainApp extends StatelessWidget {
             brightness: Brightness.dark,
           ),
         ),
-        // themeMode: ThemeMode.dark,
+        themeMode: kDebugMode ? ThemeMode.dark : ThemeMode.system,
         debugShowCheckedModeBanner: false,
         locale: const Locale('en'),
         localizationsDelegates: [

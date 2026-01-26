@@ -12,17 +12,22 @@ class SettingsController extends GetxController {
   static const _showRawEmailKey = 'show_raw_email';
   static const _alwaysLoadImagesKey = 'always_load_images';
   static const _emailSignatureKey = 'email_signature';
+  static const _backgroundImageKey = 'background_image';
   static const _defaultSignature =
       '--\nSent with Nmail\nhttps://github.com/nogringo/nostr-mail-client';
 
   final showRawEmail = false.obs;
   final alwaysLoadImages = false.obs;
   final emailSignature = _defaultSignature.obs;
+  final backgroundImage = Rxn<String>();
 
   String? get _pubkey => Get.find<NostrMailService>().getPublicKey();
 
   String get _signatureKey =>
       _pubkey != null ? '${_emailSignatureKey}_$_pubkey' : _emailSignatureKey;
+
+  String get _backgroundKey =>
+      _pubkey != null ? '${_backgroundImageKey}_$_pubkey' : _backgroundImageKey;
 
   @override
   void onInit() {
@@ -46,6 +51,9 @@ class SettingsController extends GetxController {
     emailSignature.value =
         await _storageService.getSetting<String>(_signatureKey) ??
         _defaultSignature;
+    backgroundImage.value = await _storageService.getSetting<String>(
+      _backgroundKey,
+    );
   }
 
   Future<void> setShowRawEmail(bool value) async {
@@ -61,5 +69,14 @@ class SettingsController extends GetxController {
   Future<void> setEmailSignature(String value) async {
     emailSignature.value = value;
     await _storageService.saveSetting(_signatureKey, value);
+  }
+
+  Future<void> setBackgroundImage(String? value) async {
+    backgroundImage.value = value;
+    if (value != null && value.isNotEmpty) {
+      await _storageService.saveSetting(_backgroundKey, value);
+    } else {
+      await _storageService.deleteSetting(_backgroundKey);
+    }
   }
 }

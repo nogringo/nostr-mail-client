@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
 
+import '../../controllers/settings_controller.dart';
 import '../../utils/platform_helper.dart';
 import '../../utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
@@ -19,7 +23,37 @@ class DesktopShell extends StatelessWidget {
   });
 
   Widget _buildBackground(BuildContext context) {
-    return Container(color: Theme.of(context).colorScheme.tertiaryContainer);
+    return Obx(() {
+      final image = Get.find<SettingsController>().backgroundImage.value;
+
+      if (image != null && image.isNotEmpty) {
+        // Native: local file path
+        if (PlatformHelper.isNative) {
+          final file = File(image);
+          if (file.existsSync()) {
+            return Image.file(
+              file,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            );
+          }
+        } else {
+          // Web: URL
+          return Image.network(
+            image,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            errorBuilder: (_, _, _) => Container(
+              color: Theme.of(context).colorScheme.tertiaryContainer,
+            ),
+          );
+        }
+      }
+
+      return Container(color: Theme.of(context).colorScheme.tertiaryContainer);
+    });
   }
 
   @override

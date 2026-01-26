@@ -7,4 +7,7 @@ abstract class PlatformHelper {
         defaultTargetPlatform == TargetPlatform.macOS ||
         defaultTargetPlatform == TargetPlatform.windows;
   }
+
+  /// Returns true for desktop and mobile (not web)
+  static bool get isNative => !kIsWeb;
 }

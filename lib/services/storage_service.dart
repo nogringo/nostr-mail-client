@@ -28,4 +28,8 @@ class StorageService extends GetxService {
   Future<T?> getSetting<T>(String key) async {
     return await _settingsStore.record(key).get(db) as T?;
   }
+
+  Future<void> deleteSetting(String key) async {
+    await _settingsStore.record(key).delete(db);
+  }
 }

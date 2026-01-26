@@ -350,6 +350,11 @@ class _EmailViewState extends State<EmailView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          email!.subject.isEmpty ? '(No subject)' : email!.subject,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        ),
+        const SizedBox(height: 16),
         Row(
           children: [
             _buildSenderAvatar(context),
