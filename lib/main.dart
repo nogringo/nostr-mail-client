@@ -34,7 +34,7 @@ class MainApp extends StatelessWidget {
 
     return ToastificationWrapper(
       child: GetMaterialApp(
-        title: 'Nostr Mail',
+        title: 'Nmail',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: accentColor),
         ),
