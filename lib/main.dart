@@ -5,14 +5,29 @@ import 'package:get/get.dart';
 import 'package:nostr_widgets/l10n/app_localizations.dart' as nostr_widgets;
 import 'package:system_theme/system_theme.dart';
 import 'package:toastification/toastification.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'app/bindings/initial_binding.dart';
 import 'app/routes/app_routes.dart';
 import 'controllers/auth_controller.dart';
 import 'services/storage_service.dart';
+import 'utils/platform_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize window manager for desktop
+  if (PlatformHelper.isDesktop) {
+    await windowManager.ensureInitialized();
+    const windowOptions = WindowOptions(
+      minimumSize: Size(600, 300),
+      titleBarStyle: TitleBarStyle.hidden,
+    );
+    await windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
 
   // Initialize system theme
   await SystemTheme.accentColor.load();

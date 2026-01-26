@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
+import '../../utils/platform_helper.dart';
 import '../../utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
 import '../inbox/widgets/app_sidebar.dart';
@@ -25,64 +27,89 @@ class DesktopShell extends StatelessWidget {
     final isWide = ResponsiveHelper.isNotMobile(context);
     final colorScheme = Theme.of(context).colorScheme;
 
+    final isDesktop = PlatformHelper.isDesktop;
+
     if (isWide) {
-      return Scaffold(
+      Widget content = Scaffold(
         body: Stack(
           fit: StackFit.expand,
           children: [
             _buildBackground(context),
-            // Content
-            Row(
-              children: [
-                const LeftRail(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: LayoutConstants.shellPadding,
-                  ),
-                  child: Container(
-                    width: LayoutConstants.sidebarWidth,
-                    decoration: BoxDecoration(
-                      color: colorScheme.surface.withValues(alpha: 0.9),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(LayoutConstants.borderRadius),
-                        bottomLeft: Radius.circular(
-                          LayoutConstants.borderRadius,
-                        ),
-                      ),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: const AppSidebar(),
-                  ),
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      top: LayoutConstants.shellPadding,
-                      right: LayoutConstants.shellPadding,
+            Padding(
+              padding: EdgeInsets.only(
+                top: isDesktop ? LayoutConstants.windowCaptionHeight : 0,
+              ),
+              child: Row(
+                children: [
+                  const LeftRail(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: isDesktop ? 0 : LayoutConstants.shellPadding,
                       bottom: LayoutConstants.shellPadding,
                     ),
                     child: Container(
+                      width: LayoutConstants.sidebarWidth,
                       decoration: BoxDecoration(
-                        color: colorScheme.surface,
+                        color: colorScheme.surface.withValues(alpha: 0.9),
                         borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(
+                          topLeft: Radius.circular(
                             LayoutConstants.borderRadius,
                           ),
-                          bottomRight: Radius.circular(
+                          bottomLeft: Radius.circular(
                             LayoutConstants.borderRadius,
                           ),
                         ),
                       ),
                       clipBehavior: Clip.antiAlias,
-                      child: body,
+                      child: const AppSidebar(),
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: isDesktop ? 0 : LayoutConstants.shellPadding,
+                        right: LayoutConstants.shellPadding,
+                        bottom: LayoutConstants.shellPadding,
+                      ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: colorScheme.surface,
+                          borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(
+                              LayoutConstants.borderRadius,
+                            ),
+                            bottomRight: Radius.circular(
+                              LayoutConstants.borderRadius,
+                            ),
+                          ),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: body,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+            if (isDesktop)
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                height: LayoutConstants.windowCaptionHeight,
+                child: WindowCaption(
+                  brightness: Theme.of(context).brightness,
+                  backgroundColor: Colors.transparent,
+                ),
+              ),
           ],
         ),
       );
+
+      if (isDesktop) {
+        return DragToResizeArea(child: content);
+      }
+      return content;
     }
 
     // Mobile layout with drawer

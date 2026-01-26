@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../controllers/auth_controller.dart';
+import '../../utils/platform_helper.dart';
 import 'layout_constants.dart';
 
 class LeftRail extends StatelessWidget {
@@ -12,12 +13,14 @@ class LeftRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = PlatformHelper.isDesktop;
+
     return Container(
       width: LayoutConstants.railWidth,
       color: Colors.transparent,
       child: Column(
         children: [
-          const SizedBox(height: LayoutConstants.shellPadding),
+          SizedBox(height: isDesktop ? 0 : LayoutConstants.shellPadding),
           // Logo
           Padding(
             padding: const EdgeInsets.all(8),
