@@ -36,6 +36,16 @@ class SettingsView extends StatelessWidget {
                   onChanged: settingsController.setShowRawEmail,
                 ),
               ),
+              Obx(
+                () => SwitchListTile(
+                  title: const Text('Always load images'),
+                  subtitle: const Text(
+                    'Images are blocked by default for privacy',
+                  ),
+                  value: settingsController.alwaysLoadImages.value,
+                  onChanged: settingsController.setAlwaysLoadImages,
+                ),
+              ),
               const SizedBox(height: 24),
               _buildSectionHeader(context, 'Account'),
               Builder(

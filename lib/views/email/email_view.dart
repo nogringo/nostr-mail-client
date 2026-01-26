@@ -26,10 +26,12 @@ class _EmailViewState extends State<EmailView> {
   Metadata? _recipientMetadata;
   bool isLoading = true;
   bool _showRawContent = false;
+  late bool _showImages;
 
   @override
   void initState() {
     super.initState();
+    _showImages = Get.find<SettingsController>().alwaysLoadImages.value;
     _loadEmail();
   }
 
@@ -500,7 +502,6 @@ class _EmailViewState extends State<EmailView> {
   }
 
   // TODO: Add option to trust domain and skip confirmation for trusted domains (maybe at nostr level)
-  // TODO: Block images by default for privacy (tracking pixels), add "Load images" button
   // TODO: Show warning when link text differs from actual URL (phishing detection)
   Future<void> _confirmOpenLink(String url) async {
     final confirmed = await Get.dialog<bool>(
@@ -535,17 +536,69 @@ class _EmailViewState extends State<EmailView> {
     }
   }
 
+  bool _htmlHasImages(String html) {
+    return RegExp(r'<img[\s>/]', caseSensitive: false).hasMatch(html);
+  }
+
   Widget _buildEmailBody() {
     final htmlBody = email!.htmlBody;
     if (htmlBody != null && htmlBody.isNotEmpty) {
-      return SelectionArea(
-        child: HtmlWidget(
-          htmlBody,
-          onTapUrl: (url) {
-            _confirmOpenLink(url);
-            return true;
-          },
-        ),
+      final hasImages = _htmlHasImages(htmlBody);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (hasImages && !_showImages)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.image_not_supported_outlined,
+                    size: 18,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Images are hidden for privacy',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => setState(() => _showImages = true),
+                    child: const Text('Load images'),
+                  ),
+                ],
+              ),
+            ),
+          SelectionArea(
+            child: HtmlWidget(
+              htmlBody,
+              key: ValueKey(_showImages),
+              customWidgetBuilder: _showImages
+                  ? null
+                  : (element) {
+                      if (element.localName == 'img') {
+                        return const SizedBox.shrink();
+                      }
+                      return null;
+                    },
+              onTapUrl: (url) {
+                _confirmOpenLink(url);
+                return true;
+              },
+            ),
+          ),
+        ],
       );
     }
     return SelectableText(
