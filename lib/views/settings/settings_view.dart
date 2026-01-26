@@ -47,6 +47,20 @@ class SettingsView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
+              _buildSectionHeader(context, 'Compose'),
+              Obx(() {
+                final signature = settingsController.emailSignature.value;
+                return ListTile(
+                  leading: const Icon(Icons.edit_note),
+                  title: const Text('Email signature'),
+                  subtitle: signature.isEmpty
+                      ? const Text('No signature configured')
+                      : Text(signature),
+                  onTap: () =>
+                      _showSignatureDialog(context, settingsController),
+                );
+              }),
+              const SizedBox(height: 24),
               _buildSectionHeader(context, 'Account'),
               Builder(
                 builder: (context) {
@@ -99,6 +113,44 @@ class SettingsView extends StatelessWidget {
           fontWeight: FontWeight.w600,
           fontSize: 14,
         ),
+      ),
+    );
+  }
+
+  void _showSignatureDialog(
+    BuildContext context,
+    SettingsController controller,
+  ) {
+    final textController = TextEditingController(
+      text: controller.emailSignature.value,
+    );
+
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Email signature'),
+        content: SizedBox(
+          width: 400,
+          child: TextField(
+            controller: textController,
+            maxLines: 5,
+            decoration: InputDecoration(
+              hintText: 'Enter your signature...',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () {
+              controller.setEmailSignature(textController.text);
+              Get.back();
+            },
+            child: const Text('Save'),
+          ),
+        ],
       ),
     );
   }

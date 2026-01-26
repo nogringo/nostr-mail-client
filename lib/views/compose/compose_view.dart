@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../controllers/compose_controller.dart';
+import '../../controllers/settings_controller.dart';
 import '../../models/from_option.dart';
 import '../../services/nostr_mail_service.dart';
 import '../../utils/toast_helper.dart';
@@ -28,10 +29,13 @@ class _ComposeViewState extends State<ComposeView> {
   void initState() {
     super.initState();
     final args = Get.arguments as Map<String, dynamic>?;
+    final signature = Get.find<SettingsController>().emailSignature.value;
 
     toController = TextEditingController();
     subjectController = TextEditingController();
-    bodyController = TextEditingController();
+    bodyController = TextEditingController(
+      text: signature.isEmpty ? '' : '\n\n$signature',
+    );
 
     // Load from options
     controller.loadFromOptions();
@@ -48,6 +52,8 @@ class _ComposeViewState extends State<ComposeView> {
   void _initFromEmail(Email email, String mode) {
     final myPubkey = Get.find<NostrMailService>().getPublicKey();
     final isSentByMe = email.senderPubkey == myPubkey;
+    final signature = Get.find<SettingsController>().emailSignature.value;
+    final signatureBlock = signature.isEmpty ? '' : '\n\n$signature';
 
     if (mode == 'reply') {
       // Set recipient
@@ -67,7 +73,7 @@ class _ComposeViewState extends State<ComposeView> {
           .map((line) => '> $line')
           .join('\n');
       bodyController.text =
-          '\n\nOn ${dateFormat.format(email.date)}, ${email.from} wrote:\n$quotedBody';
+          '$signatureBlock\n\nOn ${dateFormat.format(email.date)}, ${email.from} wrote:\n$quotedBody';
     } else if (mode == 'forward') {
       // Set subject (avoid Fwd: Fwd: Fwd:)
       final subject = email.subject;
@@ -78,7 +84,7 @@ class _ComposeViewState extends State<ComposeView> {
       // Set body with forwarded message
       final dateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
       bodyController.text =
-          '\n\n---------- Forwarded message ----------\n'
+          '$signatureBlock\n\n---------- Forwarded message ----------\n'
           'From: ${email.from}\n'
           'Date: ${dateFormat.format(email.date)}\n'
           'Subject: ${email.subject}\n\n'
