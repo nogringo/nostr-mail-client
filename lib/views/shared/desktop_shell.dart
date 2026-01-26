@@ -64,6 +64,17 @@ class DesktopShell extends StatelessWidget {
                       child: const AppSidebar(),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: isDesktop ? 0 : LayoutConstants.shellPadding,
+                      bottom: LayoutConstants.shellPadding,
+                    ),
+                    child: VerticalDivider(
+                      width: 1,
+                      thickness: 1,
+                      color: colorScheme.outlineVariant,
+                    ),
+                  ),
                   Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(
