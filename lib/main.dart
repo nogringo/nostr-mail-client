@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:nostr_widgets/l10n/app_localizations.dart' as nostr_widgets;
+import 'package:system_theme/system_theme.dart';
 import 'package:toastification/toastification.dart';
 
 import 'app/bindings/initial_binding.dart';
@@ -12,6 +13,9 @@ import 'services/storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize system theme
+  await SystemTheme.accentColor.load();
 
   // Initialize storage service
   final storageService = StorageService();
@@ -26,11 +30,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final accentColor = SystemTheme.accentColor.accent;
+
     return ToastificationWrapper(
       child: GetMaterialApp(
         title: 'Nostr Mail',
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: accentColor),
+        ),
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: accentColor,
+            brightness: Brightness.dark,
+          ),
+        ),
         // themeMode: ThemeMode.dark,
         debugShowCheckedModeBanner: false,
         locale: const Locale('en'),
