@@ -36,6 +36,7 @@ class SettingsView extends StatelessWidget {
             children: [
               const SizedBox(height: 16),
               _buildSectionHeader(context, 'Appearance'),
+              _buildThemeModeTile(context, settingsController),
               _buildBackgroundGallery(context, settingsController),
               const SizedBox(height: 16),
               _buildSectionHeader(context, 'Advanced options'),
@@ -166,6 +167,37 @@ class SettingsView extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildThemeModeTile(
+    BuildContext context,
+    SettingsController controller,
+  ) {
+    return Obx(() {
+      final mode = controller.themeMode.value;
+      return ListTile(
+        leading: Icon(
+          mode == ThemeMode.dark
+              ? Icons.dark_mode
+              : mode == ThemeMode.light
+              ? Icons.light_mode
+              : Icons.brightness_auto,
+        ),
+        title: const Text('Theme'),
+        trailing: SegmentedButton<ThemeMode>(
+          showSelectedIcon: false,
+          segments: const [
+            ButtonSegment(value: ThemeMode.system, label: Text('Auto')),
+            ButtonSegment(value: ThemeMode.light, label: Text('Light')),
+            ButtonSegment(value: ThemeMode.dark, label: Text('Dark')),
+          ],
+          selected: {mode},
+          onSelectionChanged: (selected) {
+            controller.setThemeMode(selected.first);
+          },
+        ),
+      );
+    });
   }
 
   Widget _buildBackgroundGallery(

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -11,6 +10,7 @@ import 'package:window_manager/window_manager.dart';
 import 'app/bindings/initial_binding.dart';
 import 'app/routes/app_routes.dart';
 import 'controllers/auth_controller.dart';
+import 'controllers/settings_controller.dart';
 import 'services/storage_service.dart';
 import 'utils/platform_helper.dart';
 
@@ -38,11 +38,19 @@ void main() async {
   await storageService.init();
   Get.put(storageService, permanent: true);
 
-  runApp(const MainApp());
+  // Load theme mode before app starts
+  final themeModeIndex =
+      await storageService.getSetting<int>(SettingsController.themeModeKey) ??
+      0;
+  final initialThemeMode = ThemeMode.values[themeModeIndex];
+
+  runApp(MainApp(initialThemeMode: initialThemeMode));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final ThemeMode initialThemeMode;
+
+  const MainApp({super.key, required this.initialThemeMode});
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +68,7 @@ class MainApp extends StatelessWidget {
             brightness: Brightness.dark,
           ),
         ),
-        themeMode: kDebugMode ? ThemeMode.dark : ThemeMode.system,
-        debugShowCheckedModeBanner: false,
+        themeMode: initialThemeMode,
         locale: const Locale('en'),
         localizationsDelegates: [
           nostr_widgets.AppLocalizations.delegate,

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../services/nostr_mail_service.dart';
@@ -13,6 +14,7 @@ class SettingsController extends GetxController {
   static const _alwaysLoadImagesKey = 'always_load_images';
   static const _emailSignatureKey = 'email_signature';
   static const _backgroundImageKey = 'background_image';
+  static const themeModeKey = 'theme_mode';
   static const _defaultSignature =
       '--\nSent with Nmail\nhttps://github.com/nogringo/nostr-mail-client';
 
@@ -20,6 +22,7 @@ class SettingsController extends GetxController {
   final alwaysLoadImages = false.obs;
   final emailSignature = _defaultSignature.obs;
   final backgroundImage = Rxn<String>();
+  final themeMode = ThemeMode.system.obs;
 
   String? get _pubkey => Get.find<NostrMailService>().getPublicKey();
 
@@ -54,6 +57,9 @@ class SettingsController extends GetxController {
     backgroundImage.value = await _storageService.getSetting<String>(
       _backgroundKey,
     );
+    final themeModeIndex =
+        await _storageService.getSetting<int>(themeModeKey) ?? 0;
+    themeMode.value = ThemeMode.values[themeModeIndex];
   }
 
   Future<void> setShowRawEmail(bool value) async {
@@ -78,5 +84,11 @@ class SettingsController extends GetxController {
     } else {
       await _storageService.deleteSetting(_backgroundKey);
     }
+  }
+
+  Future<void> setThemeMode(ThemeMode value) async {
+    themeMode.value = value;
+    Get.changeThemeMode(value);
+    await _storageService.saveSetting(themeModeKey, value.index);
   }
 }
