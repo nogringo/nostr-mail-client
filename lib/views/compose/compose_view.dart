@@ -10,6 +10,7 @@ import '../../models/from_option.dart';
 import '../../services/nostr_mail_service.dart';
 import '../../utils/toast_helper.dart';
 import 'widgets/from_selector_sheet.dart';
+import 'widgets/recipient_autocomplete.dart';
 import 'widgets/recipient_chip.dart';
 
 class ComposeView extends StatefulWidget {
@@ -124,17 +125,6 @@ class _ComposeViewState extends State<ComposeView> {
     super.dispose();
   }
 
-  void _handleToInput(String value) {
-    // Check for space or comma to add recipient
-    if (value.endsWith(' ') || value.endsWith(',')) {
-      final input = value.substring(0, value.length - 1).trim();
-      if (input.isNotEmpty) {
-        controller.addRecipient(input);
-        toController.clear();
-      }
-    }
-  }
-
   void _handleToSubmit(String value) {
     final input = value.trim();
     if (input.isNotEmpty) {
@@ -170,47 +160,42 @@ class _ComposeViewState extends State<ComposeView> {
             children: [
               _buildFromSelector(context),
               const Divider(height: 1),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Obx(
-                  () => SizedBox(
-                    width: double.infinity,
-                    child: Wrap(
-                      alignment: WrapAlignment.start,
-                      spacing: 8,
-                      runSpacing: 8,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        ...controller.recipients.asMap().entries.map(
-                          (entry) => RecipientChip(
-                            recipient: entry.value,
-                            onDelete: () =>
-                                controller.removeRecipient(entry.key),
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (controller.recipients.isNotEmpty)
+                      SizedBox(
+                        height: 48,
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                          itemCount: controller.recipients.length,
+                          separatorBuilder: (_, _) => const SizedBox(width: 8),
+                          itemBuilder: (context, index) => RecipientChip(
+                            recipient: controller.recipients[index],
+                            onDelete: () => controller.removeRecipient(index),
                           ),
                         ),
-                        IntrinsicWidth(
-                          child: ConstrainedBox(
-                            constraints: const BoxConstraints(minWidth: 100),
-                            child: TextField(
-                              controller: toController,
-                              decoration: InputDecoration(
-                                hintText: controller.recipients.isEmpty
-                                    ? 'To'
-                                    : 'Add more',
-                                hintStyle: TextStyle(color: Colors.grey[400]),
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.zero,
-                              ),
-                              style: const TextStyle(fontSize: 16),
-                              keyboardType: TextInputType.emailAddress,
-                              onChanged: _handleToInput,
-                              onSubmitted: _handleToSubmit,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: RecipientAutocomplete(
+                        textController: toController,
+                        hintText: controller.recipients.isEmpty
+                            ? 'To'
+                            : 'Add more',
+                        excludeIds: controller.recipientIds,
+                        onContactSelected: (contact) {
+                          controller.addRecipientFromContact(contact);
+                        },
+                        onManualInput: (input) {
+                          controller.addRecipient(input);
+                        },
+                        onSubmitted: _handleToSubmit,
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
               const Divider(height: 1),

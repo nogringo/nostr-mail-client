@@ -6,8 +6,10 @@ import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
+import '../models/contact.dart';
 import '../models/from_option.dart';
 import '../models/recipient.dart';
+import '../services/contacts_service.dart';
 import '../services/nostr_mail_service.dart';
 import 'auth_controller.dart';
 
@@ -15,11 +17,18 @@ const String _defaultBridgeDomain = 'uid.ovh';
 
 class ComposeController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();
+  final _contactsService = Get.find<ContactsService>();
 
   final isSending = false.obs;
   final recipients = <Recipient>[].obs;
   final Rxn<FromOption> selectedFrom = Rxn<FromOption>();
   final fromOptions = <FromOption>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _contactsService.loadContacts();
+  }
 
   Future<void> addRecipient(String input) async {
     final trimmed = input.trim();
@@ -43,6 +52,33 @@ class ComposeController extends GetxController {
     if (index >= 0 && index < recipients.length) {
       recipients.removeAt(index);
     }
+  }
+
+  void addRecipientFromContact(Contact contact) {
+    // Check if already added (by pubkey or legacy email)
+    if (contact.pubkey != null && contact.pubkey!.isNotEmpty) {
+      if (recipients.any((r) => r.pubkey == contact.pubkey)) return;
+    } else if (contact.legacyEmail != null) {
+      if (recipients.any(
+        (r) => r.input.toLowerCase() == contact.legacyEmail!.toLowerCase(),
+      )) {
+        return;
+      }
+    }
+
+    recipients.add(contact.toRecipient());
+  }
+
+  /// Get all recipient identifiers for exclusion in autocomplete
+  Set<String> get recipientIds {
+    final ids = <String>{};
+    for (final r in recipients) {
+      if (r.pubkey != null) {
+        ids.add(r.pubkey!);
+      }
+      ids.add(r.input.toLowerCase());
+    }
+    return ids;
   }
 
   Future<Recipient> _resolveRecipient(String input) async {
