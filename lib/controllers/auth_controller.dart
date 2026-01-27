@@ -11,7 +11,7 @@ class AuthController extends GetxController {
   final isLoggedIn = false.obs;
   final Rxn<Metadata> userMetadata = Rxn<Metadata>();
 
-  Ndk get ndk => _nostrMailService.ndk;
+  Ndk get ndk => Get.find<Ndk>();
 
   @override
   void onInit() {
@@ -22,7 +22,6 @@ class AuthController extends GetxController {
   Future<void> _checkAuth() async {
     isLoading.value = true;
     try {
-      await _nostrMailService.initNdk();
       await nRestoreAccounts(ndk);
 
       if (ndk.accounts.getPublicKey() != null) {

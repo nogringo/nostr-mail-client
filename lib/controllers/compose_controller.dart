@@ -121,7 +121,7 @@ class ComposeController extends GetxController {
 
   Future<Metadata?> _fetchMetadata(String pubkey) async {
     try {
-      return await _nostrMailService.ndk.metadata.loadMetadata(pubkey);
+      return await Get.find<Ndk>().metadata.loadMetadata(pubkey);
     } catch (_) {
       return null;
     }

@@ -1,13 +1,18 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
+import 'package:ndk/ndk.dart';
+import 'package:ndk_rust_verifier/ndk_rust_verifier.dart';
 import 'package:nostr_widgets/l10n/app_localizations.dart' as nostr_widgets;
+import 'package:sembast_cache_manager/sembast_cache_manager.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:toastification/toastification.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'app/bindings/initial_binding.dart';
+import 'app/config/nostr_config.dart';
 import 'app/routes/app_routes.dart';
 import 'controllers/auth_controller.dart';
 import 'controllers/settings_controller.dart';
@@ -38,6 +43,18 @@ void main() async {
   final storageService = StorageService();
   await storageService.init();
   Get.put(storageService, permanent: true);
+
+  // Initialize NDK
+  final cacheManager = SembastCacheManager(storageService.db);
+  final ndk = Ndk(
+    NdkConfig(
+      eventVerifier: kIsWeb ? Bip340EventVerifier() : RustEventVerifier(),
+      cache: cacheManager,
+      bootstrapRelays: NostrConfig.bootstrapRelays,
+      fetchedRangesEnabled: true,
+    ),
+  );
+  Get.put(ndk, permanent: true);
 
   // Initialize theme service
   await Get.putAsync(() => ThemeService().init(), permanent: true);

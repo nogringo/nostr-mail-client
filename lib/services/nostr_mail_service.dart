@@ -1,11 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/domain_layer/entities/filter.dart' as ndk_filter;
-import 'package:ndk_rust_verifier/ndk_rust_verifier.dart';
 import 'package:nostr_mail/nostr_mail.dart';
-import 'package:sembast_cache_manager/sembast_cache_manager.dart';
 
 import 'storage_service.dart';
 
@@ -26,9 +23,9 @@ const _dmRelayListKind = 10050;
 
 class NostrMailService extends GetxService {
   NostrMailClient? _client;
-  late Ndk _ndk;
 
   final _storageService = Get.find<StorageService>();
+  final _ndk = Get.find<Ndk>();
 
   NostrMailClient get client {
     if (_client == null) {
@@ -39,35 +36,11 @@ class NostrMailService extends GetxService {
     return _client!;
   }
 
-  Ndk get ndk => _ndk;
-
   bool get isClientInitialized => _client != null;
 
   /// Stream of relay connectivity changes
   Stream<Map<String, RelayConnectivity>> get relayConnectivityChanges =>
       _ndk.connectivity.relayConnectivityChanges;
-
-  Future<void> initNdk() async {
-    final cacheManager = SembastCacheManager(_storageService.db);
-
-    _ndk = Ndk(
-      NdkConfig(
-        eventVerifier: kIsWeb ? Bip340EventVerifier() : RustEventVerifier(),
-        cache: cacheManager,
-        bootstrapRelays: [
-          'wss://relay.damus.io',
-          'wss://nos.lol',
-          'wss://relay.nostr.band',
-          'wss://relay.primal.net',
-          'wss://relay.coinos.io',
-          'wss://nostr-01.uid.ovh',
-          'wss://nostr-02.uid.ovh',
-          'wss://nostr-01.yakihonne.com',
-        ],
-        fetchedRangesEnabled: true,
-      ),
-    );
-  }
 
   void initClient() {
     _client = NostrMailClient(ndk: _ndk, db: _storageService.db);

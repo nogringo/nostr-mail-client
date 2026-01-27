@@ -4,7 +4,6 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../../controllers/inbox_controller.dart';
-import '../../../services/nostr_mail_service.dart';
 import '../../../utils/responsive_helper.dart';
 
 class EmailTile extends StatefulWidget {
@@ -75,7 +74,7 @@ class _EmailTileState extends State<EmailTile> {
 
   Future<void> _loadMetadata() async {
     try {
-      final ndk = Get.find<NostrMailService>().ndk;
+      final ndk = Get.find<Ndk>();
 
       // Load bridge/sender metadata
       final senderMeta = await ndk.metadata.loadMetadata(

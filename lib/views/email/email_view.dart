@@ -89,7 +89,7 @@ class _EmailViewState extends State<EmailView> {
 
   Future<void> _loadSenderMetadata(Email loadedEmail) async {
     try {
-      final ndk = Get.find<NostrMailService>().ndk;
+      final ndk = Get.find<Ndk>();
       final from = loadedEmail.from;
 
       // Check if via bridge
@@ -162,7 +162,7 @@ class _EmailViewState extends State<EmailView> {
       // Only load if it's an npub
       if (!npub.startsWith('npub1')) return;
 
-      final ndk = Get.find<NostrMailService>().ndk;
+      final ndk = Get.find<Ndk>();
       final pubkey = Nip19.decode(npub);
       final metadata = await ndk.metadata.loadMetadata(pubkey);
       if (mounted && metadata != null) {

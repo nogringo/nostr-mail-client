@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:ndk/ndk.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/settings_controller.dart';
-import '../../services/nostr_mail_service.dart';
 import '../../utils/platform_helper.dart';
 import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
@@ -853,7 +853,7 @@ class SettingsView extends StatelessWidget {
     );
 
     try {
-      final ndk = Get.find<NostrMailService>().ndk;
+      final ndk = Get.find<Ndk>();
       final uploadResults = await ndk.blossom.uploadBlob(
         data: file.bytes!,
         contentType: file.extension != null ? 'image/${file.extension}' : null,

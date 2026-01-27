@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
 import '../../controllers/auth_controller.dart';
-import '../../services/nostr_mail_service.dart';
 import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
 
@@ -44,7 +43,7 @@ class _ProfileViewState extends State<ProfileView> {
     }
 
     try {
-      final ndk = Get.find<NostrMailService>().ndk;
+      final ndk = Get.find<Ndk>();
       final metadata = await ndk.metadata.loadMetadata(pubkey);
 
       if (mounted) {
@@ -66,7 +65,7 @@ class _ProfileViewState extends State<ProfileView> {
     setState(() => _isSaving = true);
 
     try {
-      final ndk = Get.find<NostrMailService>().ndk;
+      final ndk = Get.find<Ndk>();
 
       final metadata = Metadata(
         pubKey: Get.find<AuthController>().publicKey!,

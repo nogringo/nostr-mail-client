@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ndk/ndk.dart';
 
 import '../services/nostr_mail_service.dart';
 import '../services/storage_service.dart';
@@ -44,7 +45,7 @@ class SettingsController extends GetxController {
   void onInit() {
     super.onInit();
     _loadSettings();
-    _authSubscription = Get.find<NostrMailService>().ndk.accounts.stateChanges
+    _authSubscription = Get.find<Ndk>().accounts.stateChanges
         .listen((_) => _loadSettings());
   }
 
