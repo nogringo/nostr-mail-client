@@ -72,6 +72,14 @@ class SettingsView extends StatelessWidget {
                   onChanged: settingsController.setAlwaysLoadImages,
                 ),
               ),
+              Obx(
+                () => SwitchListTile(
+                  title: const Text('Skip event verification'),
+                  subtitle: const Text('Disable Nostr signature verification'),
+                  value: settingsController.skipEventVerification.value,
+                  onChanged: settingsController.setSkipEventVerification,
+                ),
+              ),
               const SizedBox(height: 24),
               _buildSectionHeader(context, 'Compose'),
               Obx(() {

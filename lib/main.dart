@@ -18,6 +18,7 @@ import 'controllers/auth_controller.dart';
 import 'controllers/settings_controller.dart';
 import 'services/storage_service.dart';
 import 'services/theme_service.dart';
+import 'utils/event_verifiers.dart';
 import 'utils/platform_helper.dart';
 
 void main() async {
@@ -44,11 +45,21 @@ void main() async {
   await storageService.init();
   Get.put(storageService, permanent: true);
 
-  // Initialize NDK
+  // Initialize NDK with switchable verifier for hot-swap capability
   final cacheManager = SembastCacheManager(storageService.db);
+  final skipVerification =
+      await storageService.getSetting<bool>(
+        SettingsController.skipEventVerificationKey,
+      ) ??
+      false;
+  final defaultVerifier = kIsWeb ? Bip340EventVerifier() : RustEventVerifier();
+  final switchableVerifier = SwitchableVerifier(
+    skipVerification ? NoVerifier() : defaultVerifier,
+  );
+  Get.put(switchableVerifier, permanent: true);
   final ndk = Ndk(
     NdkConfig(
-      eventVerifier: kIsWeb ? Bip340EventVerifier() : RustEventVerifier(),
+      eventVerifier: switchableVerifier,
       cache: cacheManager,
       bootstrapRelays: NostrConfig.bootstrapRelays,
       fetchedRangesEnabled: true,

@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
+import 'package:ndk_rust_verifier/ndk_rust_verifier.dart';
 
 import '../services/nostr_mail_service.dart';
 import '../services/storage_service.dart';
 import '../services/theme_service.dart';
 import '../utils/color_scheme_serializer.dart';
+import '../utils/event_verifiers.dart';
 import '../utils/platform_helper.dart';
 
 class SettingsController extends GetxController {
@@ -21,11 +24,13 @@ class SettingsController extends GetxController {
   static const _emailSignatureKey = 'email_signature';
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
+  static const skipEventVerificationKey = 'skip_event_verification';
   static const _defaultSignature =
       '--\nSent with Nmail\nhttps://github.com/nogringo/nostr-mail-client';
 
   final showRawEmail = false.obs;
   final alwaysLoadImages = false.obs;
+  final skipEventVerification = false.obs;
   final emailSignature = _defaultSignature.obs;
   final backgroundImage = Rxn<String>();
   final themeMode = ThemeMode.system.obs;
@@ -60,6 +65,7 @@ class SettingsController extends GetxController {
     final results = await Future.wait([
       _storageService.getSetting<bool>(_showRawEmailKey),
       _storageService.getSetting<bool>(_alwaysLoadImagesKey),
+      _storageService.getSetting<bool>(skipEventVerificationKey),
       _storageService.getSetting<String>(_signatureKey),
       _storageService.getSetting<String>(_backgroundKey),
       _storageService.getSetting<int>(themeModeKey),
@@ -70,17 +76,18 @@ class SettingsController extends GetxController {
 
     showRawEmail.value = (results[0] as bool?) ?? false;
     alwaysLoadImages.value = (results[1] as bool?) ?? false;
-    emailSignature.value = (results[2] as String?) ?? _defaultSignature;
-    backgroundImage.value = results[3] as String?;
-    themeMode.value = ThemeMode.values[(results[4] as int?) ?? 0];
-    dynamicTheme.value = (results[5] as bool?) ?? false;
+    skipEventVerification.value = (results[2] as bool?) ?? false;
+    emailSignature.value = (results[3] as String?) ?? _defaultSignature;
+    backgroundImage.value = results[4] as String?;
+    themeMode.value = ThemeMode.values[(results[5] as int?) ?? 0];
+    dynamicTheme.value = (results[6] as bool?) ?? false;
 
-    final savedLightScheme = results[6] as String?;
+    final savedLightScheme = results[7] as String?;
     if (savedLightScheme != null) {
       lightColorScheme.value = colorSchemeFromJson(savedLightScheme);
     }
 
-    final savedDarkScheme = results[7] as String?;
+    final savedDarkScheme = results[8] as String?;
     if (savedDarkScheme != null) {
       darkColorScheme.value = colorSchemeFromJson(savedDarkScheme);
     }
@@ -94,6 +101,21 @@ class SettingsController extends GetxController {
   Future<void> setAlwaysLoadImages(bool value) async {
     alwaysLoadImages.value = value;
     await _storageService.saveSetting(_alwaysLoadImagesKey, value);
+  }
+
+  Future<void> setSkipEventVerification(bool value) async {
+    skipEventVerification.value = value;
+    await _storageService.saveSetting(skipEventVerificationKey, value);
+
+    // Hot-swap the verifier
+    final switchableVerifier = Get.find<SwitchableVerifier>();
+    if (value) {
+      switchableVerifier.setDelegate(NoVerifier());
+    } else {
+      switchableVerifier.setDelegate(
+        kIsWeb ? Bip340EventVerifier() : RustEventVerifier(),
+      );
+    }
   }
 
   Future<void> setEmailSignature(String value) async {
