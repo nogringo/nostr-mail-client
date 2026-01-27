@@ -244,6 +244,7 @@ class InboxView extends GetView<InboxController> {
             final email = controller.emails[index];
             return Obx(
               () => EmailTile(
+                key: ValueKey('${email.id}_${controller.currentFolder.value}'),
                 email: email,
                 onTap: () => Get.toNamed('/email', arguments: email.id),
                 isSelected: controller.isSelected(email.id),
