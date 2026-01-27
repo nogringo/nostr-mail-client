@@ -61,6 +61,7 @@ class InboxController extends GetxController {
     if (_nostrMailService.isClientInitialized) {
       _loadEmails();
       _startWatching();
+      sync(); // Auto-sync from relays on startup
     }
   }
 
