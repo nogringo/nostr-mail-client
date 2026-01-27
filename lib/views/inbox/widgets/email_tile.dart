@@ -5,6 +5,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/inbox_controller.dart';
+import '../../../utils/nostr_utils.dart';
 import '../../../utils/responsive_helper.dart';
 
 class EmailTile extends StatefulWidget {
@@ -53,104 +54,49 @@ class _EmailTileState extends State<EmailTile> {
   String get _displayAddress =>
       _isSentByMe ? widget.email.to : widget.email.from;
 
-  /// Extract pubkey from an address (npub1xxx@nostr or hex@nostr)
-  /// Returns null if the address is not a Nostr address or parsing fails
-  String? _extractPubkeyFromAddress(String address) {
-    if (!address.endsWith('@nostr')) return null;
+  /// Get the contact pubkey (extracted from to/from address)
+  String? get _contactPubkey => extractPubkeyFromAddress(_displayAddress);
 
-    final localPart = address.split('@').first;
-
-    // Try npub format
-    if (localPart.startsWith('npub1')) {
-      try {
-        return Nip19.decode(localPart);
-      } catch (_) {
-        return null;
-      }
-    }
-
-    // Try hex format (64 chars)
-    if (localPart.length == 64 &&
-        RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
-      return localPart.toLowerCase();
-    }
-
-    return null;
-  }
+  /// Get the bridge pubkey (recipientPubkey for sent, senderPubkey for received)
+  String get _bridgePubkey =>
+      _isSentByMe ? widget.email.recipientPubkey : widget.email.senderPubkey;
 
   /// Check if this email was relayed through a bridge
-  bool get _isViaBridge {
-    final from = widget.email.from;
-    if (!from.contains('@')) return false;
-    if (!from.endsWith('@nostr')) {
-      return true; // Legacy email like bob@gmail.com
-    }
-
-    final pubkey = _extractPubkeyFromAddress(from);
-    if (pubkey == null) return true;
-
-    return pubkey != widget.email.senderPubkey;
+  bool get _hasBridge {
+    final contact = _contactPubkey;
+    // Legacy email (can't extract pubkey) → always has bridge
+    if (contact == null) return true;
+    // Compare contact with bridge
+    return contact != _bridgePubkey;
   }
 
   Future<void> _loadMetadata() async {
     try {
       final ndk = Get.find<Ndk>();
+      final contactPubkey = _contactPubkey;
+      final hasBridge = contactPubkey == null || contactPubkey != _bridgePubkey;
 
-      if (_isSentByMe) {
-        await _loadRecipientMetadata(ndk);
-      } else {
-        await _loadSenderMetadata(ndk);
+      // Always load bridge metadata
+      final bridgeMeta = await ndk.metadata.loadMetadata(_bridgePubkey);
+      if (mounted && bridgeMeta != null) {
+        setState(() {
+          if (hasBridge) {
+            _bridgeMetadata = bridgeMeta;
+          } else {
+            // No bridge: bridge pubkey IS the contact
+            _contactMetadata = bridgeMeta;
+          }
+        });
+      }
+
+      // If there's a bridge and we can extract contact pubkey, load it too
+      if (hasBridge && contactPubkey != null) {
+        final contactMeta = await ndk.metadata.loadMetadata(contactPubkey);
+        if (mounted && contactMeta != null) {
+          setState(() => _contactMetadata = contactMeta);
+        }
       }
     } catch (_) {}
-  }
-
-  /// Load metadata for sent emails (show recipient info)
-  Future<void> _loadRecipientMetadata(Ndk ndk) async {
-    final to = widget.email.to;
-
-    // If sent to legacy email (via bridge), don't load Nostr metadata
-    if (to.contains('@') && !to.endsWith('@nostr')) {
-      return;
-    }
-
-    // Try to extract pubkey from to address, fallback to recipientPubkey
-    final pubkey =
-        _extractPubkeyFromAddress(to) ?? widget.email.recipientPubkey;
-
-    if (pubkey.isNotEmpty) {
-      final meta = await ndk.metadata.loadMetadata(pubkey);
-      if (mounted && meta != null) {
-        setState(() => _contactMetadata = meta);
-      }
-    }
-  }
-
-  /// Load metadata for received emails (show sender info)
-  Future<void> _loadSenderMetadata(Ndk ndk) async {
-    // Load bridge/sender metadata
-    final senderMeta = await ndk.metadata.loadMetadata(
-      widget.email.senderPubkey,
-    );
-    if (mounted && senderMeta != null) {
-      setState(() {
-        if (_isViaBridge) {
-          _bridgeMetadata = senderMeta;
-        } else {
-          _contactMetadata = senderMeta;
-        }
-      });
-    }
-
-    // If from contains a pubkey (npub or hex), load its metadata too
-    if (_isViaBridge) {
-      final pubkey = _extractPubkeyFromAddress(widget.email.from);
-      if (pubkey != null) {
-        final fromMeta = await ndk.metadata.loadMetadata(pubkey);
-        if (mounted && fromMeta != null) {
-          setState(() => _contactMetadata = fromMeta);
-        }
-      }
-    }
   }
 
   String get _displayName {
@@ -396,7 +342,7 @@ class _EmailTileState extends State<EmailTile> {
     final radius = compact ? 14.0 : 20.0;
     final mainAvatar = _buildMainAvatar(colorScheme, radius: radius);
 
-    if (!_isViaBridge || _bridgeMetadata?.picture == null) {
+    if (!_hasBridge) {
       return mainAvatar;
     }
 
@@ -414,14 +360,36 @@ class _EmailTileState extends State<EmailTile> {
               shape: BoxShape.circle,
               border: Border.all(color: colorScheme.surface, width: 2),
             ),
-            child: CircleAvatar(
-              radius: badgeRadius,
-              backgroundImage: NetworkImage(_bridgeMetadata!.picture!),
-              backgroundColor: colorScheme.secondaryContainer,
-            ),
+            child: _buildBridgeBadge(colorScheme, radius: badgeRadius),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildBridgeBadge(ColorScheme colorScheme, {double radius = 10}) {
+    if (_bridgeMetadata?.picture != null &&
+        _bridgeMetadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: radius,
+        backgroundImage: NetworkImage(_bridgeMetadata!.picture!),
+        backgroundColor: colorScheme.secondaryContainer,
+      );
+    }
+    // Fallback: show last character of npub
+    final npub = Nip19.encodePubKey(_bridgePubkey);
+    final lastChar = npub[npub.length - 1].toUpperCase();
+    return CircleAvatar(
+      radius: radius,
+      backgroundColor: colorScheme.secondaryContainer,
+      child: Text(
+        lastChar,
+        style: TextStyle(
+          color: colorScheme.onSecondaryContainer,
+          fontWeight: FontWeight.bold,
+          fontSize: radius * 0.9,
+        ),
+      ),
     );
   }
 

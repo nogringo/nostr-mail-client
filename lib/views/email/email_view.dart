@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../controllers/settings_controller.dart';
 import '../../services/nostr_mail_service.dart';
+import '../../utils/nostr_utils.dart';
 import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
 
@@ -22,8 +23,9 @@ class EmailView extends StatefulWidget {
 class _EmailViewState extends State<EmailView> {
   Email? email;
   Metadata? _senderMetadata;
-  Metadata? _bridgeMetadata;
+  Metadata? _bridgeMetadata; // Bridge for sender
   Metadata? _recipientMetadata;
+  Metadata? _recipientBridgeMetadata; // Bridge for recipient
   bool isLoading = true;
   bool _showRawContent = false;
   late bool _showImages;
@@ -35,35 +37,28 @@ class _EmailViewState extends State<EmailView> {
     _loadEmail();
   }
 
-  /// Check if this email was relayed through a bridge
-  bool get _isViaBridge {
+  /// Get contact pubkey for sender (from address)
+  String? get _senderContactPubkey =>
+      email != null ? extractPubkeyFromAddress(email!.from) : null;
+
+  /// Get contact pubkey for recipient (to address)
+  String? get _recipientContactPubkey =>
+      email != null ? extractPubkeyFromAddress(email!.to) : null;
+
+  /// Check if sender has a bridge (for received emails)
+  bool get _senderHasBridge {
     if (email == null) return false;
-    final from = email!.from;
-    if (!from.contains('@')) return false;
-    if (!from.endsWith('@nostr')) {
-      return true; // Legacy email like bob@gmail.com
-    }
+    final contact = _senderContactPubkey;
+    if (contact == null) return true; // Legacy email
+    return contact != email!.senderPubkey;
+  }
 
-    // Check if the pubkey in from matches senderPubkey
-    final localPart = from.split('@').first;
-
-    // Try npub format
-    if (localPart.startsWith('npub1')) {
-      try {
-        final decodedPubkey = Nip19.decode(localPart);
-        return decodedPubkey != email!.senderPubkey;
-      } catch (_) {
-        return true;
-      }
-    }
-
-    // Try hex format (64 chars)
-    if (localPart.length == 64 &&
-        RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
-      return localPart.toLowerCase() != email!.senderPubkey.toLowerCase();
-    }
-
-    return true;
+  /// Check if recipient has a bridge (for sent emails)
+  bool get _recipientHasBridge {
+    if (email == null) return false;
+    final contact = _recipientContactPubkey;
+    if (contact == null) return true; // Legacy email
+    return contact != email!.recipientPubkey;
   }
 
   Future<void> _loadEmail() async {
@@ -78,7 +73,7 @@ class _EmailViewState extends State<EmailView> {
 
     if (loaded != null) {
       _loadSenderMetadata(loaded);
-      _loadRecipientMetadata(loaded.to);
+      _loadRecipientMetadata(loaded);
     }
 
     setState(() {
@@ -90,36 +85,17 @@ class _EmailViewState extends State<EmailView> {
   Future<void> _loadSenderMetadata(Email loadedEmail) async {
     try {
       final ndk = Get.find<Ndk>();
-      final from = loadedEmail.from;
+      final contactPubkey = extractPubkeyFromAddress(loadedEmail.from);
+      final hasBridge =
+          contactPubkey == null || contactPubkey != loadedEmail.senderPubkey;
 
-      // Check if via bridge
-      bool isViaBridge = false;
-      if (from.contains('@') && !from.endsWith('@nostr')) {
-        isViaBridge = true;
-      } else if (from.endsWith('@nostr')) {
-        final localPart = from.split('@').first;
-        if (localPart.startsWith('npub1')) {
-          try {
-            isViaBridge = Nip19.decode(localPart) != loadedEmail.senderPubkey;
-          } catch (_) {
-            isViaBridge = true;
-          }
-        } else if (localPart.length == 64 &&
-            RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
-          isViaBridge =
-              localPart.toLowerCase() != loadedEmail.senderPubkey.toLowerCase();
-        } else {
-          isViaBridge = true;
-        }
-      }
-
-      // Load bridge/sender metadata
+      // Always load senderPubkey metadata
       final senderMeta = await ndk.metadata.loadMetadata(
         loadedEmail.senderPubkey,
       );
       if (mounted && senderMeta != null) {
         setState(() {
-          if (isViaBridge) {
+          if (hasBridge) {
             _bridgeMetadata = senderMeta;
           } else {
             _senderMetadata = senderMeta;
@@ -127,46 +103,43 @@ class _EmailViewState extends State<EmailView> {
         });
       }
 
-      // If from contains a pubkey (npub or hex), load its metadata too
-      if (isViaBridge && from.endsWith('@nostr')) {
-        final localPart = from.split('@').first;
-        String? pubkey;
-
-        if (localPart.startsWith('npub1')) {
-          try {
-            pubkey = Nip19.decode(localPart);
-          } catch (_) {}
-        } else if (localPart.length == 64 &&
-            RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
-          pubkey = localPart.toLowerCase();
-        }
-
-        if (pubkey != null) {
-          final fromMeta = await ndk.metadata.loadMetadata(pubkey);
-          if (mounted && fromMeta != null) {
-            setState(() => _senderMetadata = fromMeta);
-          }
+      // If there's a bridge and we can extract contact pubkey, load it too
+      if (hasBridge && contactPubkey != null) {
+        final contactMeta = await ndk.metadata.loadMetadata(contactPubkey);
+        if (mounted && contactMeta != null) {
+          setState(() => _senderMetadata = contactMeta);
         }
       }
     } catch (_) {}
   }
 
-  Future<void> _loadRecipientMetadata(String toAddress) async {
+  Future<void> _loadRecipientMetadata(Email loadedEmail) async {
     try {
-      // Extract npub from address (format: npub1...@nostr or just npub1...)
-      String npub = toAddress;
-      if (toAddress.contains('@')) {
-        npub = toAddress.split('@').first;
+      final ndk = Get.find<Ndk>();
+      final contactPubkey = extractPubkeyFromAddress(loadedEmail.to);
+      final hasBridge =
+          contactPubkey == null || contactPubkey != loadedEmail.recipientPubkey;
+
+      // Always load recipientPubkey metadata
+      final recipientMeta = await ndk.metadata.loadMetadata(
+        loadedEmail.recipientPubkey,
+      );
+      if (mounted && recipientMeta != null) {
+        setState(() {
+          if (hasBridge) {
+            _recipientBridgeMetadata = recipientMeta;
+          } else {
+            _recipientMetadata = recipientMeta;
+          }
+        });
       }
 
-      // Only load if it's an npub
-      if (!npub.startsWith('npub1')) return;
-
-      final ndk = Get.find<Ndk>();
-      final pubkey = Nip19.decode(npub);
-      final metadata = await ndk.metadata.loadMetadata(pubkey);
-      if (mounted && metadata != null) {
-        setState(() => _recipientMetadata = metadata);
+      // If there's a bridge and we can extract contact pubkey, load it too
+      if (hasBridge && contactPubkey != null) {
+        final contactMeta = await ndk.metadata.loadMetadata(contactPubkey);
+        if (mounted && contactMeta != null) {
+          setState(() => _recipientMetadata = contactMeta);
+        }
       }
     } catch (_) {}
   }
@@ -414,6 +387,33 @@ class _EmailViewState extends State<EmailView> {
 
   Widget _buildRecipientAvatar(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final mainAvatar = _buildMainRecipientAvatar(colorScheme);
+
+    if (!_recipientHasBridge) {
+      return mainAvatar;
+    }
+
+    // Show bridge badge on avatar
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        mainAvatar,
+        Positioned(
+          right: -3,
+          bottom: -3,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: colorScheme.surface, width: 1.5),
+            ),
+            child: _buildRecipientBridgeBadge(colorScheme),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMainRecipientAvatar(ColorScheme colorScheme) {
     if (_recipientMetadata?.picture != null &&
         _recipientMetadata!.picture!.isNotEmpty) {
       return CircleAvatar(
@@ -441,11 +441,37 @@ class _EmailViewState extends State<EmailView> {
     );
   }
 
+  Widget _buildRecipientBridgeBadge(ColorScheme colorScheme) {
+    if (_recipientBridgeMetadata?.picture != null &&
+        _recipientBridgeMetadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: 7,
+        backgroundImage: NetworkImage(_recipientBridgeMetadata!.picture!),
+        backgroundColor: colorScheme.secondaryContainer,
+      );
+    }
+    // Fallback: show last character of npub
+    final npub = Nip19.encodePubKey(email!.recipientPubkey);
+    final lastChar = npub[npub.length - 1].toUpperCase();
+    return CircleAvatar(
+      radius: 7,
+      backgroundColor: colorScheme.secondaryContainer,
+      child: Text(
+        lastChar,
+        style: TextStyle(
+          color: colorScheme.onSecondaryContainer,
+          fontWeight: FontWeight.bold,
+          fontSize: 6,
+        ),
+      ),
+    );
+  }
+
   Widget _buildSenderAvatar(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final mainAvatar = _buildMainSenderAvatar(colorScheme);
 
-    if (!_isViaBridge || _bridgeMetadata?.picture == null) {
+    if (!_senderHasBridge) {
       return mainAvatar;
     }
 
@@ -462,14 +488,36 @@ class _EmailViewState extends State<EmailView> {
               shape: BoxShape.circle,
               border: Border.all(color: colorScheme.surface, width: 2),
             ),
-            child: CircleAvatar(
-              radius: 12,
-              backgroundImage: NetworkImage(_bridgeMetadata!.picture!),
-              backgroundColor: colorScheme.secondaryContainer,
-            ),
+            child: _buildSenderBridgeBadge(colorScheme),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSenderBridgeBadge(ColorScheme colorScheme) {
+    if (_bridgeMetadata?.picture != null &&
+        _bridgeMetadata!.picture!.isNotEmpty) {
+      return CircleAvatar(
+        radius: 12,
+        backgroundImage: NetworkImage(_bridgeMetadata!.picture!),
+        backgroundColor: colorScheme.secondaryContainer,
+      );
+    }
+    // Fallback: show last character of npub
+    final npub = Nip19.encodePubKey(email!.senderPubkey);
+    final lastChar = npub[npub.length - 1].toUpperCase();
+    return CircleAvatar(
+      radius: 12,
+      backgroundColor: colorScheme.secondaryContainer,
+      child: Text(
+        lastChar,
+        style: TextStyle(
+          color: colorScheme.onSecondaryContainer,
+          fontWeight: FontWeight.bold,
+          fontSize: 10,
+        ),
+      ),
     );
   }
 
