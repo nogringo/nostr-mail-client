@@ -85,6 +85,13 @@ class SettingsView extends StatelessWidget {
                 );
               }),
               const SizedBox(height: 24),
+              _buildSectionHeader(context, 'Synchronization'),
+              const DmRelaysSection(),
+              const SizedBox(height: 16),
+              const RelayConnectivitySection(),
+              const SizedBox(height: 8),
+              const SyncStatusSection(),
+              const SizedBox(height: 24),
               _buildSectionHeader(context, 'Account'),
               Builder(
                 builder: (context) {
@@ -115,13 +122,7 @@ class SettingsView extends StatelessWidget {
                   Get.offAllNamed('/login');
                 },
               ),
-              const SizedBox(height: 24),
-              _buildSectionHeader(context, 'Synchronization'),
-              const DmRelaysSection(),
-              const SizedBox(height: 16),
-              const RelayConnectivitySection(),
-              const SizedBox(height: 8),
-              const SyncStatusSection(),
+              const SizedBox(height: 48),
             ],
           ),
         ),

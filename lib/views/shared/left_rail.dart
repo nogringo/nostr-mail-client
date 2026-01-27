@@ -24,20 +24,27 @@ class LeftRail extends StatelessWidget {
           // Logo
           Padding(
             padding: const EdgeInsets.all(8),
-            child: SvgPicture.asset(
-              'icons/original_transparent_2x.svg',
-              width: 32,
-              height: 32,
-              colorFilter: ColorFilter.mode(
-                Theme.of(context).colorScheme.primary,
-                BlendMode.srcIn,
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary,
+                shape: BoxShape.circle,
+              ),
+              padding: const EdgeInsets.all(6),
+              child: SvgPicture.asset(
+                'icons/original_transparent_2x.svg',
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).colorScheme.surface,
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),
           const Spacer(),
           // Settings
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Icons.settings),
             tooltip: 'Settings',
             onPressed: () => Get.toNamed('/settings'),
           ),

@@ -336,7 +336,7 @@ class InboxView extends GetView<InboxController> {
             return const SizedBox.shrink();
           }),
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Icons.settings),
             tooltip: 'Settings',
             onPressed: () => Get.toNamed('/settings'),
           ),
