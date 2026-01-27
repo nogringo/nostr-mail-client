@@ -39,17 +39,14 @@ class InboxController extends GetxController {
     selectedIds.clear();
   }
 
-  // TODO: parallelize with Future.wait
   Future<void> deleteSelected() async {
     final ids = selectedIds.toList();
     if (currentFolder.value == MailFolder.trash) {
-      for (final id in ids) {
-        await _nostrMailService.client.delete(id);
-      }
+      await Future.wait(ids.map((id) => _nostrMailService.client.delete(id)));
     } else {
-      for (final id in ids) {
-        await _nostrMailService.client.moveToTrash(id);
-      }
+      await Future.wait(
+        ids.map((id) => _nostrMailService.client.moveToTrash(id)),
+      );
     }
     selectedIds.clear();
     await _loadEmails();
