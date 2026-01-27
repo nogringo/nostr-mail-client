@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:window_manager/window_manager.dart';
 
 import '../../controllers/settings_controller.dart';
 import '../../utils/platform_helper.dart';
@@ -136,24 +135,10 @@ class DesktopShell extends StatelessWidget {
                 ],
               ),
             ),
-            if (isDesktop)
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                height: LayoutConstants.windowCaptionHeight,
-                child: WindowCaption(
-                  brightness: Theme.of(context).brightness,
-                  backgroundColor: Colors.transparent,
-                ),
-              ),
           ],
         ),
       );
 
-      if (isDesktop) {
-        return DragToResizeArea(child: content);
-      }
       return content;
     }
 

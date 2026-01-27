@@ -108,6 +108,36 @@ class MainApp extends StatelessWidget {
           initialBinding: InitialBinding(),
           getPages: AppRoutes.routes,
           home: const _InitialScreen(),
+          builder: (context, child) {
+            if (PlatformHelper.isDesktop) {
+              return DragToResizeArea(
+                child: Stack(
+                  children: [
+                    child!,
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 32,
+                      child: Row(
+                        children: [
+                          Expanded(child: DragToMoveArea(child: Container())),
+                          SizedBox(
+                            width: 154,
+                            child: WindowCaption(
+                              brightness: Theme.of(context).brightness,
+                              backgroundColor: Colors.transparent,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            return child!;
+          },
         ),
       );
     });
