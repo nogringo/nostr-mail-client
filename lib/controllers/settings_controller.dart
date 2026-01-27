@@ -34,7 +34,7 @@ class SettingsController extends GetxController {
   final emailSignature = _defaultSignature.obs;
   final backgroundImage = Rxn<String>();
   final themeMode = ThemeMode.system.obs;
-  final dynamicTheme = false.obs;
+  final dynamicTheme = true.obs;
   final lightColorScheme = Rxn<ColorScheme>();
   final darkColorScheme = Rxn<ColorScheme>();
 
@@ -80,7 +80,7 @@ class SettingsController extends GetxController {
     emailSignature.value = (results[3] as String?) ?? _defaultSignature;
     backgroundImage.value = results[4] as String?;
     themeMode.value = ThemeMode.values[(results[5] as int?) ?? 0];
-    dynamicTheme.value = (results[6] as bool?) ?? false;
+    dynamicTheme.value = (results[6] as bool?) ?? true;
 
     final savedLightScheme = results[7] as String?;
     if (savedLightScheme != null) {

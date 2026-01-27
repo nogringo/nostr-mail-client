@@ -16,7 +16,7 @@ class ThemeService extends GetxService {
     final storageService = Get.find<StorageService>();
 
     final dynamicThemeEnabled =
-        await storageService.getSetting<bool>(dynamicThemeKey) ?? false;
+        await storageService.getSetting<bool>(dynamicThemeKey) ?? true;
 
     if (dynamicThemeEnabled) {
       final [savedLightScheme, savedDarkScheme] = await Future.wait([
