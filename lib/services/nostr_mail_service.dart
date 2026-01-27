@@ -148,6 +148,34 @@ class NostrMailService extends GetxService {
     );
   }
 
+  /// Get the user's NIP-65 relay list (kind 10002)
+  Future<Map<String, ReadWriteMarker>> getNip65Relays() async {
+    final pubkey = _ndk.accounts.getPublicKey();
+    if (pubkey == null) return {};
+
+    final userRelayList = await _ndk.userRelayLists.getSingleUserRelayList(
+      pubkey,
+    );
+
+    return userRelayList?.relays ?? {};
+  }
+
+  /// Save NIP-65 relay list and broadcast to network
+  Future<void> saveNip65Relays(Map<String, ReadWriteMarker> relays) async {
+    final pubkey = _ndk.accounts.getPublicKey();
+    if (pubkey == null) return;
+
+    final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final userRelayList = UserRelayList(
+      pubKey: pubkey,
+      relays: relays,
+      createdAt: now,
+      refreshedTimestamp: now,
+    );
+
+    await _ndk.userRelayLists.setInitialUserRelayList(userRelayList);
+  }
+
   /// Get sync status for emails from DM relays only using fetchedRanges
   Future<List<EmailSyncStatus>> getEmailSyncStatus() async {
     final pubkey = _ndk.accounts.getPublicKey();
