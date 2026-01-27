@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
+import '../../../controllers/auth_controller.dart';
 import '../../../controllers/inbox_controller.dart';
 import '../../../utils/responsive_helper.dart';
 
@@ -33,13 +34,48 @@ class EmailTile extends StatefulWidget {
 }
 
 class _EmailTileState extends State<EmailTile> {
-  Metadata? _senderMetadata;
+  Metadata? _contactMetadata;
   Metadata? _bridgeMetadata;
 
   @override
   void initState() {
     super.initState();
     _loadMetadata();
+  }
+
+  /// Check if I am the sender of this email
+  bool get _isSentByMe {
+    final myPubkey = Get.find<AuthController>().publicKey;
+    return widget.email.senderPubkey == myPubkey;
+  }
+
+  /// Get the address to display (to for sent emails, from for received)
+  String get _displayAddress =>
+      _isSentByMe ? widget.email.to : widget.email.from;
+
+  /// Extract pubkey from an address (npub1xxx@nostr or hex@nostr)
+  /// Returns null if the address is not a Nostr address or parsing fails
+  String? _extractPubkeyFromAddress(String address) {
+    if (!address.endsWith('@nostr')) return null;
+
+    final localPart = address.split('@').first;
+
+    // Try npub format
+    if (localPart.startsWith('npub1')) {
+      try {
+        return Nip19.decode(localPart);
+      } catch (_) {
+        return null;
+      }
+    }
+
+    // Try hex format (64 chars)
+    if (localPart.length == 64 &&
+        RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
+      return localPart.toLowerCase();
+    }
+
+    return null;
   }
 
   /// Check if this email was relayed through a bridge
@@ -50,79 +86,78 @@ class _EmailTileState extends State<EmailTile> {
       return true; // Legacy email like bob@gmail.com
     }
 
-    // Check if the pubkey in from matches senderPubkey
-    final localPart = from.split('@').first;
+    final pubkey = _extractPubkeyFromAddress(from);
+    if (pubkey == null) return true;
 
-    // Try npub format
-    if (localPart.startsWith('npub1')) {
-      try {
-        final decodedPubkey = Nip19.decode(localPart);
-        return decodedPubkey != widget.email.senderPubkey;
-      } catch (_) {
-        return true;
-      }
-    }
-
-    // Try hex format (64 chars)
-    if (localPart.length == 64 &&
-        RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
-      return localPart.toLowerCase() != widget.email.senderPubkey.toLowerCase();
-    }
-
-    return true;
+    return pubkey != widget.email.senderPubkey;
   }
 
   Future<void> _loadMetadata() async {
     try {
       final ndk = Get.find<Ndk>();
 
-      // Load bridge/sender metadata
-      final senderMeta = await ndk.metadata.loadMetadata(
-        widget.email.senderPubkey,
-      );
-      if (mounted && senderMeta != null) {
-        setState(() {
-          if (_isViaBridge) {
-            _bridgeMetadata = senderMeta;
-          } else {
-            _senderMetadata = senderMeta;
-          }
-        });
-      }
-
-      // If from contains a pubkey (npub or hex), load its metadata too
-      if (_isViaBridge) {
-        final from = widget.email.from;
-        if (from.endsWith('@nostr')) {
-          final localPart = from.split('@').first;
-          String? pubkey;
-
-          if (localPart.startsWith('npub1')) {
-            try {
-              pubkey = Nip19.decode(localPart);
-            } catch (_) {}
-          } else if (localPart.length == 64 &&
-              RegExp(r'^[a-fA-F0-9]+$').hasMatch(localPart)) {
-            pubkey = localPart.toLowerCase();
-          }
-
-          if (pubkey != null) {
-            final fromMeta = await ndk.metadata.loadMetadata(pubkey);
-            if (mounted && fromMeta != null) {
-              setState(() => _senderMetadata = fromMeta);
-            }
-          }
-        }
+      if (_isSentByMe) {
+        await _loadRecipientMetadata(ndk);
+      } else {
+        await _loadSenderMetadata(ndk);
       }
     } catch (_) {}
   }
 
-  String get _displayName {
-    // Always show the from address/name
-    if (_senderMetadata?.name != null && _senderMetadata!.name!.isNotEmpty) {
-      return _senderMetadata!.name!;
+  /// Load metadata for sent emails (show recipient info)
+  Future<void> _loadRecipientMetadata(Ndk ndk) async {
+    final to = widget.email.to;
+
+    // If sent to legacy email (via bridge), don't load Nostr metadata
+    if (to.contains('@') && !to.endsWith('@nostr')) {
+      return;
     }
-    return widget.email.from;
+
+    // Try to extract pubkey from to address, fallback to recipientPubkey
+    final pubkey =
+        _extractPubkeyFromAddress(to) ?? widget.email.recipientPubkey;
+
+    if (pubkey.isNotEmpty) {
+      final meta = await ndk.metadata.loadMetadata(pubkey);
+      if (mounted && meta != null) {
+        setState(() => _contactMetadata = meta);
+      }
+    }
+  }
+
+  /// Load metadata for received emails (show sender info)
+  Future<void> _loadSenderMetadata(Ndk ndk) async {
+    // Load bridge/sender metadata
+    final senderMeta = await ndk.metadata.loadMetadata(
+      widget.email.senderPubkey,
+    );
+    if (mounted && senderMeta != null) {
+      setState(() {
+        if (_isViaBridge) {
+          _bridgeMetadata = senderMeta;
+        } else {
+          _contactMetadata = senderMeta;
+        }
+      });
+    }
+
+    // If from contains a pubkey (npub or hex), load its metadata too
+    if (_isViaBridge) {
+      final pubkey = _extractPubkeyFromAddress(widget.email.from);
+      if (pubkey != null) {
+        final fromMeta = await ndk.metadata.loadMetadata(pubkey);
+        if (mounted && fromMeta != null) {
+          setState(() => _contactMetadata = fromMeta);
+        }
+      }
+    }
+  }
+
+  String get _displayName {
+    if (_contactMetadata?.name != null && _contactMetadata!.name!.isNotEmpty) {
+      return _contactMetadata!.name!;
+    }
+    return _displayAddress;
   }
 
   @override
@@ -391,11 +426,11 @@ class _EmailTileState extends State<EmailTile> {
   }
 
   Widget _buildMainAvatar(ColorScheme colorScheme, {double radius = 20}) {
-    if (_senderMetadata?.picture != null &&
-        _senderMetadata!.picture!.isNotEmpty) {
+    if (_contactMetadata?.picture != null &&
+        _contactMetadata!.picture!.isNotEmpty) {
       return CircleAvatar(
         radius: radius,
-        backgroundImage: NetworkImage(_senderMetadata!.picture!),
+        backgroundImage: NetworkImage(_contactMetadata!.picture!),
         backgroundColor: colorScheme.primaryContainer,
       );
     }
@@ -414,11 +449,11 @@ class _EmailTileState extends State<EmailTile> {
   }
 
   String _getInitial() {
-    if (_senderMetadata?.name != null && _senderMetadata!.name!.isNotEmpty) {
-      return _senderMetadata!.name![0].toUpperCase();
+    if (_contactMetadata?.name != null && _contactMetadata!.name!.isNotEmpty) {
+      return _contactMetadata!.name![0].toUpperCase();
     }
-    final from = widget.email.from;
-    return from.isNotEmpty ? from[0].toUpperCase() : '?';
+    final address = _displayAddress;
+    return address.isNotEmpty ? address[0].toUpperCase() : '?';
   }
 
   String _formatDate(DateTime date) {
