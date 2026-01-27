@@ -17,6 +17,7 @@ import '../../services/nostr_mail_service.dart';
 import '../../utils/platform_helper.dart';
 import '../../utils/responsive_helper.dart';
 import '../../utils/toast_helper.dart';
+import 'widgets/blossom_servers_section.dart';
 import 'widgets/dm_relays_section.dart';
 import 'widgets/relay_connectivity_section.dart';
 import 'widgets/sync_status_section.dart';
@@ -87,6 +88,8 @@ class SettingsView extends StatelessWidget {
               const SizedBox(height: 24),
               _buildSectionHeader(context, 'Synchronization'),
               const DmRelaysSection(),
+              const SizedBox(height: 16),
+              const BlossomServersSection(),
               const SizedBox(height: 16),
               const RelayConnectivitySection(),
               const SizedBox(height: 8),

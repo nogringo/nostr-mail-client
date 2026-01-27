@@ -129,6 +129,25 @@ class NostrMailService extends GetxService {
     await broadcast.broadcastDoneFuture;
   }
 
+  /// Get the user's Blossom server list
+  Future<List<String>> getBlossomServers() async {
+    final pubkey = _ndk.accounts.getPublicKey();
+    if (pubkey == null) return [];
+
+    final servers = await _ndk.blossomUserServerList.getUserServerList(
+      pubkeys: [pubkey],
+    );
+
+    return servers ?? [];
+  }
+
+  /// Save Blossom server list and broadcast to network
+  Future<void> saveBlossomServers(List<String> servers) async {
+    await _ndk.blossomUserServerList.publishUserServerList(
+      serverUrlsOrdered: servers,
+    );
+  }
+
   /// Get sync status for emails from DM relays only using fetchedRanges
   Future<List<EmailSyncStatus>> getEmailSyncStatus() async {
     final pubkey = _ndk.accounts.getPublicKey();

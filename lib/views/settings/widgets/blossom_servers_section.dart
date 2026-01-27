@@ -2,28 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../services/nostr_mail_service.dart';
-import '../../../utils/relay_utils.dart';
 
-class DmRelaysSection extends StatefulWidget {
-  const DmRelaysSection({super.key});
+class BlossomServersSection extends StatefulWidget {
+  const BlossomServersSection({super.key});
 
   @override
-  State<DmRelaysSection> createState() => _DmRelaysSectionState();
+  State<BlossomServersSection> createState() => _BlossomServersSectionState();
 }
 
-class _DmRelaysSectionState extends State<DmRelaysSection> {
-  List<String>? _originalDmRelays;
-  List<String>? _dmRelays;
+class _BlossomServersSectionState extends State<BlossomServersSection> {
+  List<String>? _originalServers;
+  List<String>? _servers;
   final Set<String> _markedForDeletion = {};
   bool _isLoading = true;
   bool _isSaving = false;
 
   bool get _hasChanges {
-    if (_originalDmRelays == null || _dmRelays == null) return false;
+    if (_originalServers == null || _servers == null) return false;
     if (_markedForDeletion.isNotEmpty) return true;
-    if (_originalDmRelays!.length != _dmRelays!.length) return true;
-    for (int i = 0; i < _originalDmRelays!.length; i++) {
-      if (!_dmRelays!.contains(_originalDmRelays![i])) return true;
+    if (_originalServers!.length != _servers!.length) return true;
+    for (int i = 0; i < _originalServers!.length; i++) {
+      if (!_servers!.contains(_originalServers![i])) return true;
     }
     return false;
   }
@@ -36,17 +35,17 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
 
   Future<void> _loadData() async {
     final nostrMailService = Get.find<NostrMailService>();
-    final dmRelays = await nostrMailService.getDmRelays();
+    final servers = await nostrMailService.getBlossomServers();
     if (mounted) {
       setState(() {
-        _originalDmRelays = List.from(dmRelays);
-        _dmRelays = List.from(dmRelays);
+        _originalServers = List.from(servers);
+        _servers = List.from(servers);
         _isLoading = false;
       });
     }
   }
 
-  Future<void> _addRelay() async {
+  Future<void> _addServer() async {
     final controller = TextEditingController();
     String? errorText;
     String? preview;
@@ -55,7 +54,7 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Add DM Relay'),
+          title: const Text('Add Blossom Server'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,22 +62,22 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
               TextField(
                 controller: controller,
                 decoration: InputDecoration(
-                  hintText: 'wss://relay.example.com',
-                  labelText: 'Relay URL',
+                  hintText: 'https://blossom.example.com',
+                  labelText: 'Server URL',
                   errorText: errorText,
                 ),
                 autofocus: true,
                 onChanged: (value) {
                   setDialogState(() {
                     errorText = null;
-                    final normalized = _normalizeRelayUrl(value.trim());
+                    final normalized = _normalizeServerUrl(value.trim());
                     preview = (normalized != value.trim()) ? normalized : null;
                   });
                 },
                 onSubmitted: (value) {
-                  final url = _normalizeRelayUrl(value.trim());
-                  if (!_isValidRelayUrl(url)) {
-                    setDialogState(() => errorText = 'Invalid relay URL');
+                  final url = _normalizeServerUrl(value.trim());
+                  if (!_isValidServerUrl(url)) {
+                    setDialogState(() => errorText = 'Invalid server URL');
                     return;
                   }
                   Navigator.pop(context, url);
@@ -104,9 +103,9 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
             ),
             TextButton(
               onPressed: () {
-                final url = _normalizeRelayUrl(controller.text.trim());
-                if (!_isValidRelayUrl(url)) {
-                  setDialogState(() => errorText = 'Invalid relay URL');
+                final url = _normalizeServerUrl(controller.text.trim());
+                if (!_isValidServerUrl(url)) {
+                  setDialogState(() => errorText = 'Invalid server URL');
                   return;
                 }
                 Navigator.pop(context, url);
@@ -118,34 +117,41 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
       ),
     );
 
-    if (result != null && _dmRelays != null && !_dmRelays!.contains(result)) {
-      setState(() => _dmRelays!.add(result));
+    if (result != null && _servers != null && !_servers!.contains(result)) {
+      setState(() => _servers!.add(result));
     }
   }
 
-  String _normalizeRelayUrl(String url) {
+  String _normalizeServerUrl(String url) {
     if (url.isEmpty) return url;
-    if (!url.startsWith('wss://') && !url.startsWith('ws://')) {
-      return 'wss://$url';
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
+      return 'https://$url';
     }
     return url;
   }
 
-  bool _isValidRelayUrl(String url) {
+  bool _isValidServerUrl(String url) {
     if (url.isEmpty || url.contains(' ')) return false;
-    if (!url.startsWith('wss://') && !url.startsWith('ws://')) {
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
       return false;
     }
     final uri = Uri.tryParse(url);
     return uri != null && uri.host.isNotEmpty;
   }
 
-  void _toggleRelayDeletion(String relayUrl) {
+  String _formatServerUrl(String url) {
+    return url
+        .replaceFirst('https://', '')
+        .replaceFirst('http://', '')
+        .replaceFirst(RegExp(r'/$'), '');
+  }
+
+  void _toggleServerDeletion(String serverUrl) {
     setState(() {
-      if (_markedForDeletion.contains(relayUrl)) {
-        _markedForDeletion.remove(relayUrl);
+      if (_markedForDeletion.contains(serverUrl)) {
+        _markedForDeletion.remove(serverUrl);
       } else {
-        _markedForDeletion.add(relayUrl);
+        _markedForDeletion.add(serverUrl);
       }
     });
   }
@@ -155,13 +161,13 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
     setState(() => _isSaving = true);
     try {
       final nostrMailService = Get.find<NostrMailService>();
-      final relaysToSave = _dmRelays!
-          .where((r) => !_markedForDeletion.contains(r))
+      final serversToSave = _servers!
+          .where((s) => !_markedForDeletion.contains(s))
           .toList();
-      await nostrMailService.saveDmRelays(relaysToSave);
+      await nostrMailService.saveBlossomServers(serversToSave);
       setState(() {
-        _dmRelays = relaysToSave;
-        _originalDmRelays = List.from(relaysToSave);
+        _servers = serversToSave;
+        _originalServers = List.from(serversToSave);
         _markedForDeletion.clear();
       });
     } finally {
@@ -190,7 +196,7 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
         ListTile(
           dense: true,
           title: Text(
-            'DM Relays',
+            'Blossom Servers',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               fontSize: 12,
@@ -198,27 +204,27 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
           ),
           trailing: IconButton(
             icon: const Icon(Icons.add, size: 18),
-            onPressed: _addRelay,
-            tooltip: 'Add relay',
+            onPressed: _addServer,
+            tooltip: 'Add server',
           ),
         ),
-        if (_dmRelays == null || _dmRelays!.isEmpty)
+        if (_servers == null || _servers!.isEmpty)
           const ListTile(
-            leading: Icon(Icons.warning_outlined, size: 20),
-            title: Text('No DM relays configured'),
-            subtitle: Text('Tap + to add a relay'),
+            leading: Icon(Icons.cloud_off_outlined, size: 20),
+            title: Text('No Blossom servers configured'),
+            subtitle: Text('Tap + to add a server'),
           )
         else
-          ..._dmRelays!.map((relay) {
-            final isMarked = _markedForDeletion.contains(relay);
+          ..._servers!.map((server) {
+            final isMarked = _markedForDeletion.contains(server);
             return ListTile(
               leading: Icon(
-                Icons.dns_outlined,
+                Icons.cloud_outlined,
                 size: 20,
                 color: isMarked ? Theme.of(context).disabledColor : null,
               ),
               title: Text(
-                formatRelayUrl(relay),
+                _formatServerUrl(server),
                 style: TextStyle(
                   fontSize: 14,
                   decoration: isMarked ? TextDecoration.lineThrough : null,
@@ -227,8 +233,8 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
               ),
               trailing: IconButton(
                 icon: Icon(isMarked ? Icons.undo : Icons.close, size: 18),
-                onPressed: () => _toggleRelayDeletion(relay),
-                tooltip: isMarked ? 'Undo' : 'Remove relay',
+                onPressed: () => _toggleServerDeletion(server),
+                tooltip: isMarked ? 'Undo' : 'Remove server',
               ),
             );
           }),
