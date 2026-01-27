@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/domain_layer/entities/filter.dart' as ndk_filter;
 import 'package:ndk_rust_verifier/ndk_rust_verifier.dart';
@@ -41,6 +42,10 @@ class NostrMailService extends GetxService {
   Ndk get ndk => _ndk;
 
   bool get isClientInitialized => _client != null;
+
+  /// Stream of relay connectivity changes
+  Stream<Map<String, RelayConnectivity>> get relayConnectivityChanges =>
+      _ndk.connectivity.relayConnectivityChanges;
 
   Future<void> initNdk() async {
     final cacheManager = SembastCacheManager(_storageService.db);
