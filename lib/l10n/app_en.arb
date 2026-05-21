@@ -774,5 +774,80 @@
   },
 
   "dateYesterday": "Yesterday",
-  "@dateYesterday": { "description": "Relative date label shown in the email list for emails received the day before today" }
+  "@dateYesterday": { "description": "Relative date label shown in the email list for emails received the day before today" },
+  "dateJustNow": "just now",
+  "@dateJustNow": { "description": "Relative time shown when the event happened less than a minute ago" },
+  "dateMinutesAgo": "{count, plural, =1{1 min ago} other{{count} min ago}}",
+  "@dateMinutesAgo": {
+    "description": "Relative time shown for events that happened within the last hour",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "dateHoursAgo": "{count, plural, =1{1 h ago} other{{count} h ago}}",
+  "@dateHoursAgo": {
+    "description": "Relative time shown for events that happened within the last day",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "dateDaysAgo": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@dateDaysAgo": {
+    "description": "Relative time shown for events that happened within the last week",
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "localQueueIndicatorLabel": "{count, plural, one{# item pending sync} other{# items pending sync}}",
+  "@localQueueIndicatorLabel": {
+    "description": "Label on the floating indicator and page header for pending sync items",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "localQueueHeaderTitle": "Pending on this device",
+  "@localQueueHeaderTitle": { "description": "Title of the local queue page" },
+  "localQueueEmptyTitle": "Everything is synced",
+  "@localQueueEmptyTitle": { "description": "Title shown when no items are pending sync" },
+  "localQueueEmptyHint": "All your events and files have been broadcast to their relays and servers.",
+  "@localQueueEmptyHint": { "description": "Hint shown below the empty title" },
+  "localQueueRetryAll": "Retry all now",
+  "@localQueueRetryAll": { "description": "Button to retry all pending broadcasts and uploads now" },
+  "localQueueRetryItem": "Retry",
+  "@localQueueRetryItem": { "description": "Per-item retry button label" },
+  "localQueueSectionBroadcasts": "EVENTS",
+  "@localQueueSectionBroadcasts": { "description": "Section header listing nostr events still pending broadcast" },
+  "localQueueSectionUploads": "FILES",
+  "@localQueueSectionUploads": { "description": "Section header listing Blossom blobs still pending upload" },
+  "localQueueShowDetails": "Details",
+  "@localQueueShowDetails": { "description": "Toggle link to expand per-item details (relay/server list)" },
+  "localQueueHideDetails": "Hide",
+  "@localQueueHideDetails": { "description": "Toggle link to collapse the per-item details panel" },
+  "localQueueStatItems": "Items",
+  "@localQueueStatItems": { "description": "Label under the stat card showing the total number of pending items" },
+  "localQueueStatSucceeded": "Succeeded",
+  "@localQueueStatSucceeded": { "description": "Label for the count of acknowledged relays/servers" },
+  "localQueueStatFailed": "Failed",
+  "@localQueueStatFailed": { "description": "Label for the count of relays/servers that returned an error" },
+  "localQueueBlobLabel": "Blob {hash}",
+  "@localQueueBlobLabel": {
+    "description": "Title for a pending blob tile, showing the short sha256 prefix",
+    "placeholders": {
+      "hash": { "type": "String" }
+    }
+  },
+  "localQueueKindMetadata": "Profile update",
+  "@localQueueKindMetadata": { "description": "Human label for a kind 0 metadata event in the queue" },
+  "localQueueKindGiftWrap": "Email",
+  "@localQueueKindGiftWrap": { "description": "Human label for a kind 1059 gift wrap event (an email) in the queue" },
+  "localQueueKindLabel": "Read/unread state",
+  "@localQueueKindLabel": { "description": "Human label for a kind 1985 NIP-32 label event in the queue" },
+  "localQueueKindNip65": "Relay list",
+  "@localQueueKindNip65": { "description": "Human label for a kind 10002 NIP-65 relay list event in the queue" },
+  "localQueueKindDmRelays": "DM relays",
+  "@localQueueKindDmRelays": { "description": "Human label for a kind 10050 DM relay list event in the queue" },
+  "localQueueKindBlossomServers": "Blossom servers",
+  "@localQueueKindBlossomServers": { "description": "Human label for a kind 10063 Blossom server list event in the queue" },
+  "localQueueKindGeneric": "Event (kind {kind})",
+  "@localQueueKindGeneric": {
+    "description": "Fallback label for any nostr event whose kind has no specific friendly label",
+    "placeholders": {
+      "kind": { "type": "int" }
+    }
+  }
 }

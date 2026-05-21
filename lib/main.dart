@@ -21,6 +21,7 @@ import 'app/routes/app_routes.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'controllers/auth_controller.dart';
 import 'controllers/settings_controller.dart';
+import 'views/local_queue/local_queue_indicator.dart';
 import 'services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
@@ -187,6 +188,7 @@ class MainApp extends StatelessWidget {
                         ),
                       ),
                       NPendingRequests(ndkFlutter: Get.find()),
+                      const LocalQueueIndicator(),
                     ],
                   ),
                 ),
@@ -196,6 +198,7 @@ class MainApp extends StatelessWidget {
               children: [
                 child!,
                 NPendingRequests(ndkFlutter: Get.find()),
+                const LocalQueueIndicator(),
               ],
             );
           },

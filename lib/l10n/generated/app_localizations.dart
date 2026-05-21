@@ -2079,6 +2079,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yesterday'**
   String get dateYesterday;
+
+  /// Relative time shown when the event happened less than a minute ago
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get dateJustNow;
+
+  /// Relative time shown for events that happened within the last hour
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 min ago} other{{count} min ago}}'**
+  String dateMinutesAgo(int count);
+
+  /// Relative time shown for events that happened within the last day
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 h ago} other{{count} h ago}}'**
+  String dateHoursAgo(int count);
+
+  /// Relative time shown for events that happened within the last week
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day ago} other{{count} days ago}}'**
+  String dateDaysAgo(int count);
+
+  /// Label on the floating indicator and page header for pending sync items
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{# item pending sync} other{# items pending sync}}'**
+  String localQueueIndicatorLabel(int count);
+
+  /// Title of the local queue page
+  ///
+  /// In en, this message translates to:
+  /// **'Pending on this device'**
+  String get localQueueHeaderTitle;
+
+  /// Title shown when no items are pending sync
+  ///
+  /// In en, this message translates to:
+  /// **'Everything is synced'**
+  String get localQueueEmptyTitle;
+
+  /// Hint shown below the empty title
+  ///
+  /// In en, this message translates to:
+  /// **'All your events and files have been broadcast to their relays and servers.'**
+  String get localQueueEmptyHint;
+
+  /// Button to retry all pending broadcasts and uploads now
+  ///
+  /// In en, this message translates to:
+  /// **'Retry all now'**
+  String get localQueueRetryAll;
+
+  /// Per-item retry button label
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get localQueueRetryItem;
+
+  /// Section header listing nostr events still pending broadcast
+  ///
+  /// In en, this message translates to:
+  /// **'EVENTS'**
+  String get localQueueSectionBroadcasts;
+
+  /// Section header listing Blossom blobs still pending upload
+  ///
+  /// In en, this message translates to:
+  /// **'FILES'**
+  String get localQueueSectionUploads;
+
+  /// Toggle link to expand per-item details (relay/server list)
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get localQueueShowDetails;
+
+  /// Toggle link to collapse the per-item details panel
+  ///
+  /// In en, this message translates to:
+  /// **'Hide'**
+  String get localQueueHideDetails;
+
+  /// Label under the stat card showing the total number of pending items
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get localQueueStatItems;
+
+  /// Label for the count of acknowledged relays/servers
+  ///
+  /// In en, this message translates to:
+  /// **'Succeeded'**
+  String get localQueueStatSucceeded;
+
+  /// Label for the count of relays/servers that returned an error
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get localQueueStatFailed;
+
+  /// Title for a pending blob tile, showing the short sha256 prefix
+  ///
+  /// In en, this message translates to:
+  /// **'Blob {hash}'**
+  String localQueueBlobLabel(String hash);
+
+  /// Human label for a kind 0 metadata event in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'Profile update'**
+  String get localQueueKindMetadata;
+
+  /// Human label for a kind 1059 gift wrap event (an email) in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get localQueueKindGiftWrap;
+
+  /// Human label for a kind 1985 NIP-32 label event in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'Read/unread state'**
+  String get localQueueKindLabel;
+
+  /// Human label for a kind 10002 NIP-65 relay list event in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'Relay list'**
+  String get localQueueKindNip65;
+
+  /// Human label for a kind 10050 DM relay list event in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'DM relays'**
+  String get localQueueKindDmRelays;
+
+  /// Human label for a kind 10063 Blossom server list event in the queue
+  ///
+  /// In en, this message translates to:
+  /// **'Blossom servers'**
+  String get localQueueKindBlossomServers;
+
+  /// Fallback label for any nostr event whose kind has no specific friendly label
+  ///
+  /// In en, this message translates to:
+  /// **'Event (kind {kind})'**
+  String localQueueKindGeneric(int kind);
 }
 
 class _AppLocalizationsDelegate

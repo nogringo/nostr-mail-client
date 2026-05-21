@@ -10,6 +10,7 @@ import '../../views/compose/compose_view.dart';
 import '../../views/email/email_view.dart';
 import '../../views/identity/create_identity_view.dart';
 import '../../views/inbox/inbox_view.dart';
+import '../../views/local_queue/local_queue_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
 import '../../views/profile/profile_view.dart';
 import '../../views/settings/debug_tools_view.dart';
@@ -34,6 +35,7 @@ class AppRoutes {
   static const debugTools = '/debug-tools';
   static const createIdentity = '/identity/create';
   static const identities = '/identities';
+  static const localQueue = '/local-queue';
 
   static final routes = [
     GetPage(
@@ -100,6 +102,11 @@ class AppRoutes {
       binding: BindingsBuilder(() {
         Get.lazyPut(() => IdentitiesController());
       }),
+      middlewares: [OnboardingMiddleware(), AuthMiddleware()],
+    ),
+    GetPage(
+      name: localQueue,
+      page: () => const LocalQueueView(),
       middlewares: [OnboardingMiddleware(), AuthMiddleware()],
     ),
   ];

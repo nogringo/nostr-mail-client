@@ -1092,4 +1092,116 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get dateYesterday => 'Hier';
+
+  @override
+  String get dateJustNow => 'à l\'instant';
+
+  @override
+  String dateMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count min',
+      one: 'il y a 1 min',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dateHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count h',
+      one: 'il y a 1 h',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String dateDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'il y a $count jours',
+      one: 'il y a 1 jour',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String localQueueIndicatorLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '# éléments en attente de synchronisation',
+      one: '# élément en attente de synchronisation',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get localQueueHeaderTitle => 'En attente sur cet appareil';
+
+  @override
+  String get localQueueEmptyTitle => 'Tout est synchronisé';
+
+  @override
+  String get localQueueEmptyHint =>
+      'Tous vos événements et fichiers ont été diffusés sur leurs relais et serveurs.';
+
+  @override
+  String get localQueueRetryAll => 'Tout réessayer';
+
+  @override
+  String get localQueueRetryItem => 'Réessayer';
+
+  @override
+  String get localQueueSectionBroadcasts => 'ÉVÉNEMENTS';
+
+  @override
+  String get localQueueSectionUploads => 'FICHIERS';
+
+  @override
+  String get localQueueShowDetails => 'Détails';
+
+  @override
+  String get localQueueHideDetails => 'Masquer';
+
+  @override
+  String get localQueueStatItems => 'Éléments';
+
+  @override
+  String get localQueueStatSucceeded => 'Réussis';
+
+  @override
+  String get localQueueStatFailed => 'Échecs';
+
+  @override
+  String localQueueBlobLabel(String hash) {
+    return 'Fichier $hash';
+  }
+
+  @override
+  String get localQueueKindMetadata => 'Mise à jour du profil';
+
+  @override
+  String get localQueueKindGiftWrap => 'E-mail';
+
+  @override
+  String get localQueueKindLabel => 'État lu/non lu';
+
+  @override
+  String get localQueueKindNip65 => 'Liste de relais';
+
+  @override
+  String get localQueueKindDmRelays => 'Relais DM';
+
+  @override
+  String get localQueueKindBlossomServers => 'Serveurs Blossom';
+
+  @override
+  String localQueueKindGeneric(int kind) {
+    return 'Événement (kind $kind)';
+  }
 }

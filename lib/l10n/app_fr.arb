@@ -446,5 +446,55 @@
     }
   },
 
-  "dateYesterday": "Hier"
+  "dateYesterday": "Hier",
+  "dateJustNow": "à l'instant",
+  "dateMinutesAgo": "{count, plural, =1{il y a 1 min} other{il y a {count} min}}",
+  "@dateMinutesAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "dateHoursAgo": "{count, plural, =1{il y a 1 h} other{il y a {count} h}}",
+  "@dateHoursAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "dateDaysAgo": "{count, plural, =1{il y a 1 jour} other{il y a {count} jours}}",
+  "@dateDaysAgo": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "localQueueIndicatorLabel": "{count, plural, one{# élément en attente de synchronisation} other{# éléments en attente de synchronisation}}",
+  "@localQueueIndicatorLabel": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "localQueueHeaderTitle": "En attente sur cet appareil",
+  "localQueueEmptyTitle": "Tout est synchronisé",
+  "localQueueEmptyHint": "Tous vos événements et fichiers ont été diffusés sur leurs relais et serveurs.",
+  "localQueueRetryAll": "Tout réessayer",
+  "localQueueRetryItem": "Réessayer",
+  "localQueueSectionBroadcasts": "ÉVÉNEMENTS",
+  "localQueueSectionUploads": "FICHIERS",
+  "localQueueShowDetails": "Détails",
+  "localQueueHideDetails": "Masquer",
+  "localQueueStatItems": "Éléments",
+  "localQueueStatSucceeded": "Réussis",
+  "localQueueStatFailed": "Échecs",
+  "localQueueBlobLabel": "Fichier {hash}",
+  "@localQueueBlobLabel": {
+    "placeholders": {
+      "hash": { "type": "String" }
+    }
+  },
+  "localQueueKindMetadata": "Mise à jour du profil",
+  "localQueueKindGiftWrap": "E-mail",
+  "localQueueKindLabel": "État lu/non lu",
+  "localQueueKindNip65": "Liste de relais",
+  "localQueueKindDmRelays": "Relais DM",
+  "localQueueKindBlossomServers": "Serveurs Blossom",
+  "localQueueKindGeneric": "Événement (kind {kind})",
+  "@localQueueKindGeneric": {
+    "placeholders": {
+      "kind": { "type": "int" }
+    }
+  }
 }
