@@ -1,0 +1,472 @@
+{
+  "@@locale": "fi",
+
+  "actionCancel": "Peruuta",
+  "actionSave": "Tallenna",
+  "actionDelete": "Poista",
+  "actionAdd": "Lisää",
+  "actionClose": "Sulje",
+  "actionContinue": "Jatka",
+  "actionBack": "Takaisin",
+  "actionConfirm": "Hyväksy",
+  "actionOk": "OK",
+  "actionCopy": "Kopioi",
+  "actionOpen": "Avaa",
+  "actionUpload": "Tallenna palvelimelle",
+  "actionReset": "Nollaa",
+  "actionUndo": "Kumoa",
+  "actionRemove": "Poista",
+  "actionDiscard": "Hylkää",
+
+  "stateLoading": "Ladataan",
+  "stateLoadingEllipsis": "Ladataan...",
+  "stateResetting": "Nollataan...",
+  "stateValidating": "Vahvistetaan...",
+  "stateDownloading": "Lataa...",
+  "stateUploading": "Tallennetaan palvelimelle...",
+
+  "settingsTitle": "Asetukset",
+  "settingsAppearance": "Ulkoasu",
+  "settingsDynamicTheme": "Mukautuva teema",
+  "settingsDynamicThemeSubtitle": "Luo värit taustakuvasta",
+  "settingsLanguage": "Kieli",
+  "settingsLanguageSystem": "Järjestelmän oletus",
+  "settingsLanguageDialogTitle": "Valitse kieli",
+  "settingsAdvancedOptions": "Edistyneet asetukset",
+  "settingsShowEmailSource": "Näytä sähköpostin lähdekoodi",
+  "settingsShowEmailSourceSubtitle": "Lisää painikkeen muotoilemattoman sähköpostin näyttämiselle",
+  "settingsAlwaysLoadImages": "Lataa kuvat aina",
+  "settingsAlwaysLoadImagesSubtitle": "Yksityisyyden suojaamiseksi kuvat estetään oletuksena",
+  "settingsIdentities": "Henkilöllisyydet",
+  "settingsManageIdentities": "Hallitse henkilöllisyyksiä",
+  "settingsManageIdentitiesSubtitle": "Lisää, poista tai järjestele henkilöllisyyksiä",
+  "settingsCompose": "Kirjoita",
+  "settingsEmailSignature": "Sähköpostin allekirjoitus",
+  "settingsEmailSignatureEmpty": "Ei allekirjoitusta",
+  "settingsEmailSignatureHint": "Luo allekirjoitus...",
+  "settingsSynchronization": "Synkronointi",
+  "settingsHosting": "Palvelimet",
+  "settingsHostingSubtitle": "Nostr-palvelimet, Blossom-palvelimet, yhteydet",
+  "settingsDebugTools": "Kehittäjätyökalut",
+  "settingsDebugToolsSubtitle": "Testaus- ja kehitysominaisuudet",
+  "settingsAccount": "Tili",
+  "settingsCopySyncCode": "Kopioi synkronointikoodi",
+  "settingsCopySyncCodeSubtitle": "Koodin avulla voit synkronoida sovelluksen muilla laitteilla",
+  "settingsSyncCodeCopied": "Synkronointikoodi kopioitu",
+  "settingsLogOut": "Kirjaudu ulos",
+  "settingsResetApplication": "Palauta sovellus",
+  "settingsResetApplicationSubtitle": "Poista paikalliset tiedot",
+  "settingsResetConfirmMessage": "Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.",
+
+  "settingsAbout": "Tietoja",
+  "settingsVersion": "Versio",
+  "settingsSourceCode": "Lähdekoodi",
+  "settingsSourceCodeSubtitle": "Näytä GitHubissa",
+  "settingsEarlyAccess": "Kehitysversio",
+  "settingsEarlyAccessMessage": "Nmail ja sen taustaprotokolla ovat uusia. Bugeja voi esiintyä ja jotkin sähköpostilta odotetut ominaisuudet saattavat tuntua hitailta tai puuttua vielä kokonaan. Kiitos, kun tuet varhaista kehitystyötä.",
+
+  "settingsTheme": "Teema",
+  "settingsThemeAuto": "Automaattinen",
+  "settingsThemeLight": "Vaalea",
+  "settingsThemeDark": "Tumma",
+
+  "settingsBackgroundDefaultLabel": "Teeman oletusväri",
+  "settingsBackgroundSelectLabel": "Valitse taustakuva",
+  "settingsBackgroundDeleteLabel": "Poista taustakuva",
+  "settingsBackgroundRemoveLabel": "Irrota taustakuva",
+  "settingsBackgroundAddLabel": "Lisää taustakuva",
+  "settingsBackgroundDeleteTitle": "Poista taustakuva",
+  "settingsBackgroundDeleteMessage": "Poista kuvan tallennus taustakuvista?",
+  "settingsBackgroundImageDeleted": "Kuva poistettu",
+  "settingsBackgroundDeleteFailed": "Kuvan poisto epäonnistui",
+  "settingsBackgroundDialogTitle": "Taustakuva",
+  "settingsBackgroundSelectFile": "Valitse tiedosto",
+  "settingsBackgroundPasteUrl": "Liitä URL",
+  "settingsBackgroundUrlTitle": "Taustakuvan URL",
+  "settingsBackgroundUrlHint": "https://example.com/image.jpg",
+  "settingsBackgroundSet": "Taustakuva asetettu",
+  "settingsBackgroundImageSet": "Kuva asetettu",
+  "settingsBackgroundCopyFailed": "Kuvan kopiointi epäonnistui",
+  "settingsBackgroundUrlError": "Kuva ei saatavilla (CORS tai verkko-ongelma)",
+  "settingsBackgroundDownloaded": "Kuva ladattu",
+  "settingsBackgroundDownloadFailed": "Kuvan lataaminen epäonnistui",
+  "settingsBackgroundUploadTitle": "Tallenna kuva palvelimelle",
+  "settingsBackgroundUploadWarning": "Kuva tallennetaan Blossom-palvelimille. Palvelimen hallinnoijat ja linkin hallussapitäjät voivat nähdä kuvan.",
+
+  "hostingRecommended": "Suositeltu:",
+  "hostingWillBeAddedAs": "Lisätään: {url}",
+  "@hostingWillBeAddedAs": {
+    "placeholders": {
+      "url": { "type": "String" }
+    }
+  },
+
+  "relayAddTitle": "Lisää palvelin",
+  "relayUrlLabel": "Palvelimen URL",
+  "relayUrlHint": "wss://relay.example.com",
+  "relayInvalidUrl": "Kelvoton palvelimen URL",
+  "relayDirection": "Suunta",
+  "relayReadWrite": "Lue ja kirjoita",
+  "relayRead": "Lue",
+  "relayWrite": "Kirjoita",
+  "relayMarkerReadWrite": "lue/kirjoita",
+  "relayMarkerRead": "lue",
+  "relayMarkerWrite": "kirjoita",
+  "relayInboxOutboxTitle": "Saapuvien ja lähtevien palvelin",
+  "relayAddTooltip": "Lisää palvelin",
+  "relayRemoveTooltip": "Poista palvelin",
+  "relayInboxOutboxEmpty": "Saapuvien/lähtevien palvelimia ei ole asetettu",
+  "relayEmptyHint": "Paina + lisätäksesi palvelimen",
+
+  "dmRelayAddTitle": "Lisää yksityisviestien palvelin",
+  "dmRelaySectionTitle": "Yksityisviestien palvelimet",
+  "dmRelayEmpty": "Yksityisviestien palvelimia ei ole asetettu",
+
+  "bridgeAddTitle": "Lisää silta",
+  "bridgeDomainLabel": "Sillan verkko-osoite",
+  "bridgeDomainHint": "bridge.example.com",
+  "bridgeInvalidDomain": "Kelvoton verkko-osoite",
+  "bridgeSectionTitle": "Sillat",
+  "bridgeAddTooltip": "Lisää silta",
+  "bridgeEmpty": "Siltoja ei asetettu",
+  "bridgeEmptyHint": "Paina + lisätäksesi sillan",
+  "bridgeDefault": "Oletussilta",
+
+  "blossomAddTitle": "Lisää Blossom-palvelimia",
+  "blossomServerUrlLabel": "Palvelimen URL",
+  "blossomServerUrlHint": "https://blossom.example.com",
+  "blossomInvalidUrl": "Kelvoton palvelimen URL",
+  "blossomSectionTitle": "Tiedostojen ylläpito",
+  "blossomAddTooltip": "Lisää palvelin",
+  "blossomRemoveTooltip": "Poista palvelin",
+  "blossomEmpty": "Blossom-palvelimia ei asetettu",
+  "blossomEmptyHint": "Paina + lisätäksesi palvelimen",
+
+  "connectivitySectionTitle": "Reaaliaikainen yhteys",
+  "connectivityRelayConnectivity": "Välityspalvelimen yhteys",
+
+  "syncStatusSectionTitle": "Synkronoinnin tila",
+  "syncStatusEmpty": "Synkronointitietoja ei saatavilla",
+  "syncStatusEmptyHint": "Synkronoi posti nähdäksesi palvelimen tilan",
+  "syncStatusResync": "Synkronoi uudelleen",
+  "syncStatusBeginningOfTime": "Alkuhetkestä",
+
+  "identitiesTitle": "Henkilöllisyydet",
+  "identitiesEmptyTitle": "Ei henkilöllisyyksiä",
+  "identitiesEmptyMessage": "Luo henkilöllisyys lähettääksesi sähköpostia mukautetusta osoitteesta.",
+  "identitiesCreate": "Luo henkilöllisyys",
+  "identitiesDiscardTitle": "Hylkää muutokset?",
+  "identitiesDiscardMessage": "Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.",
+  "identitiesKeepEditing": "Jatka muokkausta",
+
+  "debugToolsEmailTesting": "Sähköpostin testaus",
+  "debugToolsCreateOldTrashed": "Luo vanha poistettu viesti.",
+  "debugToolsCreateOldTrashedDescription": "Luo roskakoriin 31 päivää vanhan testiviestin. Käytä \"Poista vanhat viestit\" -ominaisuuden testaukseen.",
+
+  "folderInbox": "Saapuneet",
+  "folderSent": "Lähetetyt",
+  "folderTrash": "Roskakori",
+  "folderArchive": "Arkisto",
+  "inboxEmptyInbox": "Ei sähköpostia",
+  "inboxEmptySent": "Ei lähetettyjä viestejä",
+  "inboxEmptyTrash": "Roskakori on tyhjä",
+  "inboxEmptyArchive": "Arkisto on tyhjä",
+  "inboxSyncFromRelays": "Synkronoi palvelimilta",
+  "inboxSearch": "Hae",
+  "inboxSync": "Synkronoi",
+  "inboxMenu": "Valikko",
+  "inboxClearSelection": "Tyhjää valinta",
+  "inboxSelectedCount": "{count} valittu",
+  "@inboxSelectedCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxProfile": "Profiili",
+  "inboxCopyNpub": "Kopioi npub",
+  "inboxLogout": "Kirjaudu ulos",
+  "inboxAccount": "Tili",
+  "inboxCompose": "Luo sähköposti",
+  "inboxNpubCopied": "npub kopioitu",
+  "inboxUnknown": "Tuntematon",
+  "inboxEditProfile": "Muokkaa profiilia",
+  "inboxSettings": "Asetukset",
+  "inboxDeleteOldEmailsTitle": "Poista vanha posti",
+  "inboxDeleteOldEmailsMessage": "Poistetaan pysyvästi {count, plural, one{{count} yli kuukauden vanha viesti} other{{count} yli kuukauden vanhaa viestiä}}.\n\nToimintoa ei voi kumota.",
+  "@inboxDeleteOldEmailsMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteFailed": "Poisto epäonnistui",
+  "inboxDeleteFailedDescription": "Vanhan postin poisto epäonnistui: {error}",
+  "@inboxDeleteFailedDescription": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "inboxOldEmailsCount": "{count, plural, one{{count} vanha viesti voidaan poistaa} other{{count} vanhaa viestiä voidaan poistaa}}",
+  "@inboxOldEmailsCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteNow": "Poista nyt",
+  "inboxDeleteOldEmailsTooltip": "Poista vanha posti",
+  "inboxSearchHint": "Hae kaikista viesteistä...",
+  "inboxCloseSearch": "Sulje haku",
+  "inboxSelectAll": "Valitse kaikki",
+  "inboxMoreActions": "Lisää toimintoja",
+
+  "emailReply": "Vastaa",
+  "emailForward": "Välitä",
+  "emailArchive": "Arkistoi",
+  "emailUnarchive": "Palauta arkistosta",
+  "emailMarkAsRead": "Merkitse luetuksi",
+  "emailMarkAsUnread": "Merkitse lukemattomaksi",
+  "emailMoveToTrash": "Siirrä roskakoriin",
+  "emailRestore": "Palauta",
+  "emailDeletePermanently": "Poista pysyvästi",
+  "emailNoSubject": "(Ei aihetta)",
+  "emailExtraRecipients": "{count, plural, one{{count} muu vastaanottaja} other{{count} muuta vastaanottajaa}}",
+  "@emailExtraRecipients": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "emailNotFound": "Sähköpostia ei löydy",
+  "emailShowFormatted": "Näytä muotoilu",
+  "emailShowRaw": "Näytä muotoilematon",
+  "emailSenderNpub": "Lähettäjän npub: {npub}",
+  "@emailSenderNpub": {
+    "placeholders": {
+      "npub": { "type": "String" }
+    }
+  },
+  "emailDeletePermanentlyTitle": "Poista pysyvästi?",
+  "emailDeletePermanentlyMessage": "Toimintoa ei voi kumota.",
+  "emailDefaultFilename": "sähköposti",
+  "emailSaved": "Sähköposti tallennettu: {path}",
+  "@emailSaved": {
+    "placeholders": {
+      "path": { "type": "String" }
+    }
+  },
+  "emailSaveFailed": "Sähköpostin tallennus epäonnistui: {error}",
+  "@emailSaveFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "emailRawContentUnavailable": "Viestin sisältöä ei voida ladata",
+  "emailRepostFailedEvent": "Viestin Nostr-tapahtumaa ei voida ladata uudelleenlähetystä varten",
+  "emailRepostSuccess": "Viesti lähetetty uudelleen",
+  "emailRepostFailed": "Viestin uudelleenlähetys epäonnistui: {error}",
+  "@emailRepostFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "emailAttachmentLoadFailed": "Liitteen lataaminen epäonnistui",
+  "emailFileSaved": "Tiedosto tallennettu: {path}",
+  "@emailFileSaved": {
+    "placeholders": {
+      "path": { "type": "String" }
+    }
+  },
+  "emailFileSaveFailed": "Tiedoston tallennus epäonnistui: {error}",
+  "@emailFileSaveFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "emailDownloadedAllSuccess": "{count, plural, one{Ladattiin {count} tiedosto} other{Ladattiin {count} tiedostoa}}",
+  "@emailDownloadedAllSuccess": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "emailDownloadedAllFailed": "{count, plural, one{{count} tiedoston lataaminen epäonnistui} other{{count} tiedoston lataaminen epäonnistui}}",
+  "@emailDownloadedAllFailed": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "emailDownloadedMixed": "Ladattiin {success} tiedostoa, {failed} epäonnistui",
+  "@emailDownloadedMixed": {
+    "placeholders": {
+      "success": { "type": "int" },
+      "failed": { "type": "int" }
+    }
+  },
+  "emailDownload": "Lataa",
+  "emailImageLoadFailed": "Kuvan lataus epäonnistui",
+  "emailPdfLoadFailed": "PDF:n lataus epäonnistui",
+  "emailActionReply": "Vastaa",
+  "emailActionReplyAll": "Vastaa kaikille",
+  "emailActionForward": "Välitä",
+  "emailActionArchive": "Arkistoi",
+  "emailActionUnarchive": "Palauta arkistosta",
+  "emailActionMarkRead": "Merkitse luetuksi",
+  "emailActionMarkUnread": "Merkitse lukemattomaksi",
+  "emailActionNip59": "NIP-59 tapahtumat",
+  "emailActionRepost": "Lähetä uudelleen",
+  "emailActionDownload": "Lataa viesti",
+  "emailMoreActions": "Lisää toimintoja",
+  "emailMoreOptions": "Lisää vaihtoehtoja",
+  "emailShowRecipients": "Näytä vastaanottajat",
+  "emailImagesHidden": "Kuvat piilotetaan yksityisyyden vuoksi",
+  "emailLoadImages": "Lataa kuvat",
+  "emailRecipientTo": "Vastaanottaja",
+  "emailRecipientCc": "Kopio",
+  "emailRecipientBcc": "Piilokopio",
+  "emailAttachmentsTitle": "Liitteet",
+  "emailDownloadAll": "Lataa kaikki",
+  "emailNip59Dismiss": "Unohda",
+  "emailNip59Title": "NIP-59 tapahtumat",
+  "emailNip59GiftWrap": "Gift Wrap (Nostr-lahjakääre)",
+  "emailNip59Seal": "Seal (Nostr-sinetti)",
+  "emailNip59Rumor": "Rumor (Nostr-huhu)",
+  "emailNip59CopyJson": "Kopioi JSON",
+  "emailNip59Kind": "Kind {kind} (Nostr-tyyppi)",
+  "@emailNip59Kind": {
+    "placeholders": {
+      "kind": { "type": "int" }
+    }
+  },
+  "emailNip59NotAvailable": "Ei saatavilla",
+
+  "authHeaderTitle": "Kirjaudu Nmailiin",
+  "authSyncCodeLabel": "Synkronointikoodi",
+  "authInvalidSyncCode": "Kelvoton synkronointikoodi",
+  "authInvalidSyncCodeDescription": "Koodi tarkistetaan kirjoitettaessa. Kun koodi kelpaa, sinut kirjataan välittömästi sisään.",
+  "authLogIn": "Kirjaudu",
+  "authCreateAccount": "Luo tili",
+  "authMoreOptions": "Lisää vaihtoehtoja",
+  "authRegisterPrompt": "Mitä muut näkevät?",
+  "authDisplayNameLabel": "Näyttönimi",
+  "authDisplayNameHint": "esim. Liisa",
+  "authBackToLogin": "Palaa kirjautumiseen",
+  "authUnableRetrieveCode": "Synkronointikoodia ei voi hakea",
+  "authYourSyncCode": "Synkronointikoodisi",
+  "authSyncCodeIntro": "Koodi on salasanan kaltainen avain tilillesi. Se antaa täydet valtuudet tilillesi. Sillä voi myös:",
+  "authSyncCodeFeatureRestore": "Palauttaa tilisi millä tahansa laitteella",
+  "authSyncCodeFeatureBackup": "Varmuuskopioida tietosi turvallisesti",
+  "authSyncCodeFeatureLogin": "Kirjautua muihin Nostr-sovelluksiin",
+  "authSyncCodeWarning": "Älä koskaan jaa tätä koodia kenenkään kanssa. Talleta se turvallisesti. Koodi löytyy Asetuksista myöhemminkin.",
+  "authCopied": "Kopioitu!",
+  "authCopySyncCode": "Kopioi synkronointikoodi",
+  "authContinueToInbox": "Jatka Saapuneet-kansioon",
+
+  "composeTitle": "Luo sähköpostiviesti",
+  "composeTo": "Vastaanottaja",
+  "composeAddMore": "Lisää",
+  "composeHideExpanded": "Piilota lisäkentät",
+  "composeShowExpanded": "Näytä lisäkentät",
+  "composeCc": "Kopio",
+  "composeBcc": "Piilokopio",
+  "composeSubject": "Aihe",
+  "composeAttachFile": "Liitä tiedosto",
+  "composePlaceholder": "Kirjoita viesti",
+  "composeFrom": "Lähettäjä",
+  "composeSendAs": "Lähetä henkilöllisyydellä",
+  "composeCreateNewIdentity": "Luo henkilöllisyys",
+  "composeRemoveAttachment": "Poista liite",
+  "composeSend": "Lähetä",
+  "composeMoreSendOptions": "Lähetysvalinnat",
+  "composeChooseSendMode": "Valitse lähetystapa",
+  "composeModePrivateDeniable": "Yksityinen, alkuperä kiistettävissä",
+  "composeModePrivateSigned": "Yksityinen, allekirjoitettu",
+  "composeModePublic": "Julkinen",
+  "composeModePrivateDeniableDescription": "Lähetä salattuna sähköpostina. Allekirjoittamaton eli viestin alkuperä on tarvittaessa kiistettävissä.",
+  "composeModePrivateSignedDescription": "Lähetä salattuna sähköpostina. Allekirjoitettu eli osoittaa sinut lähettäjäksi.",
+  "composeModePublicDescription": "Lähetä julkisena Nostr-tapahtumana. Salaamaton viesti, jonka kuka tahansa voi lukea.",
+  "composeResolvingNip05": "Selvitetään NIP-05...",
+  "contactSourceEmailHistory": "Sähköpostihistoria",
+  "contactSourceFollowing": "Seurataan",
+  "contactSourceCachedProfile": "Välimuistissa oleva profiili",
+  "contactSourceNip05Verified": "NIP-05 vahvistettu",
+
+  "profileEditTitle": "Muokkaa profiilia",
+  "profileDisplayNameLabel": "Näyttönimi",
+  "profileDisplayNameHint": "Koko nimesi tai alias",
+  "profileUsernameLabel": "Käyttäjänimi",
+  "profileUsernameHint": "käyttäjänimi",
+  "profileAboutLabel": "Tietoja",
+  "profileAboutHint": "Lyhyt esittelyteksti",
+  "profileAdvanced": "Edistyneet",
+  "profilePictureUrlLabel": "Kuvan URL",
+  "profilePictureUrlHint": "https://example.com/avatar.png",
+  "profileChangePicture": "Vaihda profiilikuva",
+
+  "onboardingPage1Title": "Tervetuloa Nmailiin",
+  "onboardingPage1Body": "Hajautettu sähköposti, jossa sinä omistat omat viestisi. Uusi henkilökohtainen tapa viestiä.",
+  "onboardingPage2Title": "Verkko ilman hallitsijaa.",
+  "onboardingPage2Body": "Viestisi liikkuvat maailmanlaajuisen itsenäisten palvelinten verkon läpi. Mikään yksittäinen yritys ei omista viestejäsi.",
+  "onboardingPage3Title": "Valinnanvapaus",
+  "onboardingPage3Body": "Sinua ei lukita yhteen palveluntarjoajaan. Vaihda siltoja tai välityspalvelimia milloin vain menettämättä tilisi hallintaa tai yhteystietojasi.",
+  "onboardingPage4Title": "Yhtenäinen identiteetti joka paikassa",
+  "onboardingPage4Body": "Käytä tiliäsi sähköpostissa, sosiaalisessa mediassa tai muissa sovelluksissa. Yksi pysyvä identiteetti toimii erilaisissa sovelluksissa.",
+  "onboardingPage5Title": "Rakennettu tulevaisuutta varten",
+  "onboardingPage5Body": "Nykyaikainen yksityinen arkkitehtuuri. Nmail auttaa siirtymään helposti turvallisempaan, joustavampaan ja vähemmän haavoittuvaan viestintään.",
+  "onboardingPage6Title": "Varhainen kehitysversio",
+  "onboardingPage6Body": "Nmail ja sen taustaprotokolla ovat uusia. Kaikki on pyritty rakentamaan toimivaksi, mutta bugeja voi esiintyä. Jotkut sähköpostilta odotetut toiminnot voivat tuntua hitailta tai puuttua vielä kokonaan. Kiitos varhaisen kehityksen tukemisesta. Kärsivällisyytesi auttaa muovaamaan tulevaisuutta.",
+  "onboardingSkip": "Ohita",
+  "onboardingNext": "Seuraava",
+  "onboardingDone": "Valmis",
+
+  "createIdentityTitle": "Luo henkilöllisyys",
+  "createIdentityAddress": "Osoite",
+  "createIdentityCustomUsername": "Mukautettu käyttäjänimi",
+  "createIdentityBridge": "Silta",
+  "createIdentityNoBridges": "Siltoja ei saatavilla",
+  "createIdentityBridgeHint": "bridge.com",
+  "createIdentityPreview": "Esikatselu",
+  "createIdentityPreviewEmpty": "Valitse osoite ja silta nähdäksesi esikatselun",
+
+  "leftRailSettings": "Asetukset",
+
+  "linkOpenTitle": "Avaa linkki?",
+  "linkCopied": "Linkki kopioitu",
+
+  "debugNotAuthenticated": "Ei todennettu",
+  "debugTestEmailCreated": "Luotu ja poistettu testiviesti (31 päivää vanha)",
+  "debugTestEmailPartial": "Viesti luotu ja poistettu, mutta aikaleiman päivitys epäonnistui",
+  "debugError": "Virhe: {error}",
+  "@debugError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "composeSelectAttachments": "Valitse liitteet",
+  "composePickFilesFailed": "Tiedostojen valinta epäonnistui: {error}",
+  "@composePickFilesFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "composeInvalidRecipient": "Vastaanottajan osoite ei kelpaa",
+  "composeAddRecipient": "Lisää vähintään yksi vastaanottaja",
+  "composeSendFailed": "Viestin lähetys epäonnistui",
+
+  "profileLoadFailed": "Profiilitietojen haku epäonnistui",
+  "profileSelectPicture": "Valitse profiilikuva",
+  "profileUploadNoServers": "Yksikään palvelin ei vastaa",
+  "profileUploadFailed": "Palvelimelle tallentaminen epäonnistui",
+  "profileUploadError": "Palvelimelle tallentamisessa tapahtui virhe",
+  "profileUpdateFailed": "Profiilin päivitys epäonnistui",
+  "authEnterUsername": "Anna käyttäjänimi",
+  "createIdentityFailed": "Henkilöllisyyden luonti epäonnistui: {error}",
+  "@createIdentityFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "dateYesterday": "Eilen",
+
+  "notFoundTitle": "Sivua ei löydy",
+  "notFoundBackToInbox": "Palaa saapuneisiin"
+}
