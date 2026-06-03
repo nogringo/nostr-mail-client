@@ -106,7 +106,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   Future<void> deleteSelected() async {
     final ids = selectedIds.toList();
     if (currentFolder.value == MailFolder.trash) {
-      await Future.wait(ids.map((id) => _nostrMailService.client.delete(id)));
+      await _nostrMailService.client.delete(ids);
     } else {
       await Future.wait(
         ids.map((id) => _nostrMailService.client.moveToTrash(id)),
@@ -284,7 +284,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   Future<void> deleteEmail(String id) async {
     if (currentFolder.value == MailFolder.trash) {
       // Permanent delete
-      await _nostrMailService.client.delete(id);
+      await _nostrMailService.client.delete([id]);
     } else {
       // Move to trash
       await _nostrMailService.client.moveToTrash(id);
@@ -326,7 +326,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       if (oldEmailIds.isEmpty) return;
 
       // Batch delete all old emails
-      await Future.wait(oldEmailIds.map((id) => client.delete(id)));
+      await client.delete(oldEmailIds);
 
       // Update old emails count
       oldEmailsCount.value = await getOldEmailsCount();
