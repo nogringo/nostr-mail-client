@@ -52,11 +52,23 @@ class IdentitiesView extends StatelessWidget {
           if (controller.isLoading.value) {
             return const Center(child: CircularProgressIndicator());
           }
-          return ResponsiveCenter(
-            maxWidth: 600,
-            child: controller.identities.isEmpty
-                ? const IdentitiesEmptyState()
-                : const IdentitiesList(),
+          return Column(
+            children: [
+              SizedBox(
+                height: 4,
+                child: controller.isRefreshing.value
+                    ? const LinearProgressIndicator()
+                    : null,
+              ),
+              Expanded(
+                child: ResponsiveCenter(
+                  maxWidth: 600,
+                  child: controller.identities.isEmpty
+                      ? const IdentitiesEmptyState()
+                      : const IdentitiesList(),
+                ),
+              ),
+            ],
           );
         }),
       ),

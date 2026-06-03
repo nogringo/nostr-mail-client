@@ -119,7 +119,7 @@ class SettingsController extends GetxController {
     if (!_nostrMailService.isClientInitialized) return;
     try {
       final remote =
-          (await _nostrMailService.client.getPrivateSettings())?.signature;
+          (await _nostrMailService.client.fetchPrivateSettings())?.signature;
       if (remote != null && remote.isNotEmpty) {
         emailSignature.value = remote;
       }

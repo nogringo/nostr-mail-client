@@ -1,5 +1,6 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:get/get.dart';
+import 'package:nostr_mail/nostr_mail.dart' show PrivateSettings;
 
 import '../models/local_part_format.dart';
 import '../services/nostr_mail_service.dart';
@@ -11,6 +12,7 @@ class IdentitiesController extends GetxController {
   final RxList<MailAddress> identities = <MailAddress>[].obs;
   final RxSet<int> markedForDeletion = <int>{}.obs;
   final RxBool isLoading = true.obs;
+  final RxBool isRefreshing = false.obs;
   final RxBool isSaving = false.obs;
 
   late final String? _myNpub;
@@ -18,6 +20,7 @@ class IdentitiesController extends GetxController {
   late final String? _myBase36;
 
   List<MailAddress> _original = const [];
+  bool _hasLoadedData = false;
 
   @override
   void onInit() {
@@ -28,7 +31,8 @@ class IdentitiesController extends GetxController {
     _myBase36 = _myHex == null
         ? null
         : BigInt.parse(_myHex, radix: 16).toRadixString(36);
-    loadData();
+    _loadCachedData();
+    loadData(preserveLocalChanges: true, fetchFromRelays: true);
   }
 
   ({LocalPartFormat format, String localPart, String domain})? matchedKeyFormat(
@@ -63,20 +67,46 @@ class IdentitiesController extends GetxController {
     return false;
   }
 
-  Future<void> loadData() async {
-    isLoading.value = true;
+  void _loadCachedData() {
+    final settings = _nostrMailService.client.cachedPrivateSettings;
+    if (settings == null) return;
+
+    _applySettings(settings);
+    isLoading.value = false;
+  }
+
+  void _applySettings(PrivateSettings? settings) {
+    final loaded = settings?.identities ?? [];
+    _original = List.from(loaded);
+    identities.assignAll(loaded);
+    markedForDeletion.clear();
+    _hasLoadedData = true;
+  }
+
+  Future<void> loadData({
+    bool preserveLocalChanges = false,
+    bool fetchFromRelays = false,
+  }) async {
+    if (_hasLoadedData && fetchFromRelays) {
+      isRefreshing.value = true;
+    } else if (!_hasLoadedData) {
+      isLoading.value = true;
+    }
+
     try {
-      final settings = await _nostrMailService.client.getPrivateSettings();
-      final loaded = settings?.identities ?? [];
-      _original = List.from(loaded);
-      identities.assignAll(loaded);
-      markedForDeletion.clear();
+      final settings = fetchFromRelays
+          ? await _nostrMailService.client.fetchPrivateSettings()
+          : await _nostrMailService.client.getPrivateSettings();
+      if (!preserveLocalChanges || !hasChanges) {
+        _applySettings(settings);
+      }
     } catch (_) {
-      _original = const [];
-      identities.clear();
-      markedForDeletion.clear();
+      if (!_hasLoadedData) {
+        _applySettings(null);
+      }
     } finally {
       isLoading.value = false;
+      isRefreshing.value = false;
     }
   }
 
