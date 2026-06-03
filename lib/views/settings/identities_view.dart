@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../app/routes/app_router.dart';
 import '../../app/routes/app_routes.dart';
 import '../../controllers/identities_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -68,7 +69,12 @@ class IdentitiesView extends StatelessWidget {
           if (didPop) return;
           final shouldDiscard = await _confirmDiscard(context);
           if (shouldDiscard == true) {
-            Get.back();
+            controller.discardChanges();
+            if (AppRouter.router.canPop()) {
+              AppRouter.router.pop();
+            } else {
+              AppRouter.router.go(AppRoutes.settings);
+            }
           }
         },
         child: scaffold,

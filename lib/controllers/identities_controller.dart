@@ -109,6 +109,11 @@ class IdentitiesController extends GetxController {
       ..addAll(shifted);
   }
 
+  void discardChanges() {
+    identities.assignAll(_original);
+    markedForDeletion.clear();
+  }
+
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving.value) return;
     isSaving.value = true;
