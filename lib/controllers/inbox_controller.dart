@@ -25,6 +25,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   StreamSubscription? _watchSubscription;
   StreamSubscription? _labelWatchSubscription;
+  int _accountGeneration = 0;
 
   bool get isSearching => searchQuery.value.isNotEmpty;
   int get unreadCount => emails.length - readEmailIds.length;
@@ -145,9 +146,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     super.onInit();
     WidgetsBinding.instance.addObserver(this);
     if (_nostrMailService.isClientInitialized) {
-      _loadEmails();
-      _startWatching();
-      sync(); // Auto-sync from relays on startup
+      activateForCurrentAccount();
     }
   }
 
@@ -186,11 +185,41 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     }
   }
 
+  Future<void> resetForAccountChange({MailFolder? folder}) async {
+    _accountGeneration++;
+    await _watchSubscription?.cancel();
+    await _labelWatchSubscription?.cancel();
+    _watchSubscription = null;
+    _labelWatchSubscription = null;
+
+    emails.clear();
+    readEmailIds.clear();
+    selectedIds.clear();
+    oldEmailsCount.value = 0;
+    isSyncing.value = false;
+    isDeletingOldEmails.value = false;
+    isSearchMode.value = false;
+    searchQuery.value = '';
+    _backgroundTime.value = null;
+    if (folder != null) currentFolder.value = folder;
+  }
+
+  Future<void> activateForCurrentAccount({MailFolder? folder}) async {
+    await resetForAccountChange(folder: folder);
+    if (!_nostrMailService.isClientInitialized) return;
+
+    await _loadEmails();
+    _startWatching();
+    sync(); // Auto-sync from relays on startup/login
+  }
+
   Future<void> _loadEmails() async {
+    final generation = _accountGeneration;
     final client = _nostrMailService.client;
 
     if (isSearching) {
       final loaded = await client.search(searchQuery.value);
+      if (generation != _accountGeneration) return;
       emails.assignAll(loaded);
       oldEmailsCount.value = 0;
       return;
@@ -202,18 +231,23 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       MailFolder.trash => await client.getTrashedEmails(),
       MailFolder.archive => await client.getArchivedEmails(),
     };
+    if (generation != _accountGeneration) return;
     emails.assignAll(loaded);
 
     // Load read email IDs only for inbox folder
     if (currentFolder.value == MailFolder.inbox) {
-      readEmailIds.assignAll(await _nostrMailService.getReadEmailIds());
+      final loadedReadIds = await _nostrMailService.getReadEmailIds();
+      if (generation != _accountGeneration) return;
+      readEmailIds.assignAll(loadedReadIds);
     } else {
       readEmailIds.clear();
     }
 
     // Update old emails count if in trash folder
     if (currentFolder.value == MailFolder.trash) {
-      oldEmailsCount.value = await getOldEmailsCount();
+      final count = await getOldEmailsCount();
+      if (generation != _accountGeneration) return;
+      oldEmailsCount.value = count;
     } else {
       oldEmailsCount.value = 0;
     }
@@ -250,24 +284,34 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   Future<void> sync() async {
     if (isSyncing.value) return;
 
+    final generation = _accountGeneration;
     isSyncing.value = true;
     try {
       await _nostrMailService.client.fetchRecent();
-      await _loadEmails();
+      if (generation == _accountGeneration) {
+        await _loadEmails();
+      }
     } finally {
-      isSyncing.value = false;
+      if (generation == _accountGeneration) {
+        isSyncing.value = false;
+      }
     }
   }
 
   Future<void> resync() async {
     if (isSyncing.value) return;
 
+    final generation = _accountGeneration;
     isSyncing.value = true;
     try {
       await _nostrMailService.client.resync();
-      await _loadEmails();
+      if (generation == _accountGeneration) {
+        await _loadEmails();
+      }
     } finally {
-      isSyncing.value = false;
+      if (generation == _accountGeneration) {
+        isSyncing.value = false;
+      }
     }
   }
 

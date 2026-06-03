@@ -12,6 +12,7 @@ import '../l10n/generated/app_localizations.dart';
 import '../services/nostr_mail_service.dart';
 import '../utils/toast_helper.dart';
 import 'package:flutter/material.dart';
+import 'inbox_controller.dart';
 import 'settings_controller.dart';
 
 class AuthController extends GetxController {
@@ -73,12 +74,19 @@ class AuthController extends GetxController {
 
     try {
       final metadata = await ndk.metadata.loadMetadata(pk);
+      if (publicKey != pk) return;
       userMetadata.value = metadata;
     } catch (_) {}
   }
 
   Future<void> onLoggedIn() async {
     await _nostrMailService.initClient();
+    userMetadata.value = null;
+    if (Get.isRegistered<InboxController>()) {
+      await Get.find<InboxController>().activateForCurrentAccount(
+        folder: MailFolder.inbox,
+      );
+    }
     isLoggedIn.value = true;
     loadUserMetadata();
     // authStateChanges fires before initClient() runs, so SettingsController's
@@ -202,6 +210,9 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     isLoading.value = true;
     try {
+      if (Get.isRegistered<InboxController>()) {
+        await Get.find<InboxController>().resetForAccountChange();
+      }
       await _nostrMailService.logout();
       await ndkFlutter.saveAccountsState();
 
