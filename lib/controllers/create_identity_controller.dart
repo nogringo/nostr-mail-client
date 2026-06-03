@@ -162,8 +162,14 @@ class CreateIdentityController extends GetxController {
         ToastHelper.error(Get.context!, l.createIdentityFailed(e.toString()));
       }
     } finally {
-      isSaving.value = false;
-      update();
+      _stopSaving();
     }
+  }
+
+  void _stopSaving() {
+    if (isClosed) return;
+
+    isSaving.value = false;
+    update();
   }
 }

@@ -6,7 +6,6 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/compose_controller.dart';
-import '../../controllers/create_identity_controller.dart';
 import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../controllers/profile_controller.dart';
@@ -147,10 +146,7 @@ class AppRouter {
                 routes: [
                   GoRoute(
                     path: 'new',
-                    builder: (_, _) {
-                      Get.lazyPut(() => CreateIdentityController());
-                      return const CreateIdentityView();
-                    },
+                    builder: (_, _) => const CreateIdentityView(),
                   ),
                 ],
               ),
