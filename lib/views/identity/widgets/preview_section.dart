@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../controllers/create_identity_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../widgets/nostr_avatar.dart';
+import 'duplicate_identity_error.dart';
 
 class PreviewSection extends StatelessWidget {
   final CreateIdentityController controller;
@@ -17,9 +18,8 @@ class PreviewSection extends StatelessWidget {
     return GetBuilder<CreateIdentityController>(
       builder: (_) {
         final mailAddress = controller.buildIdentity();
-        final isValid = controller.isFormValid;
 
-        if (!isValid || mailAddress == null) {
+        if (!controller.hasRequiredFields || mailAddress == null) {
           return Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
@@ -51,6 +51,10 @@ class PreviewSection extends StatelessWidget {
             const SizedBox(height: 8),
             _buildVisualPreview(context, mailAddress),
             _buildRawPreview(context, mailAddress),
+            if (controller.hasExactDuplicate) ...[
+              const SizedBox(height: 12),
+              const DuplicateIdentityError(),
+            ],
           ],
         );
       },

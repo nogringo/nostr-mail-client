@@ -1057,6 +1057,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter an address and select a bridge to see preview';
 
   @override
+  String get createIdentityAlreadyExists => 'This identity already exists';
+
+  @override
   String get leftRailSettings => 'Settings';
 
   @override

@@ -1067,6 +1067,9 @@ class AppLocalizationsIt extends AppLocalizations {
       'Inserisci un indirizzo e seleziona un bridge per vedere l\'anteprima';
 
   @override
+  String get createIdentityAlreadyExists => 'Questa identità esiste già';
+
+  @override
   String get leftRailSettings => 'Impostazioni';
 
   @override

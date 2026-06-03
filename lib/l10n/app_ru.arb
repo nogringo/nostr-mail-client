@@ -419,6 +419,7 @@
   "createIdentityBridgeHint": "bridge.com",
   "createIdentityPreview": "Предпросмотр",
   "createIdentityPreviewEmpty": "Введите адрес и выберите мост, чтобы увидеть предпросмотр",
+  "createIdentityAlreadyExists": "Эта идентичность уже существует",
 
   "leftRailSettings": "Настройки",
 

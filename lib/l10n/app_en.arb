@@ -744,6 +744,8 @@
   "@createIdentityPreview": { "description": "Section heading for the address preview block" },
   "createIdentityPreviewEmpty": "Enter an address and select a bridge to see preview",
   "@createIdentityPreviewEmpty": { "description": "Helper text shown in the preview block when the form is incomplete" },
+  "createIdentityAlreadyExists": "This identity already exists",
+  "@createIdentityAlreadyExists": { "description": "Inline error shown when creating an exact duplicate identity" },
 
   "leftRailSettings": "Settings",
   "@leftRailSettings": { "description": "Tooltip on the settings icon in the desktop left rail" },

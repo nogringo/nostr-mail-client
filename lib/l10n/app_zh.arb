@@ -419,6 +419,7 @@
   "createIdentityBridgeHint": "bridge.com",
   "createIdentityPreview": "预览",
   "createIdentityPreviewEmpty": "输入地址并选择桥接以查看预览",
+  "createIdentityAlreadyExists": "此身份已存在",
 
   "leftRailSettings": "设置",
 

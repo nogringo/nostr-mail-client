@@ -1015,6 +1015,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get createIdentityPreviewEmpty => 'プレビューを表示するにはアドレスを入力しブリッジを選択してください';
 
   @override
+  String get createIdentityAlreadyExists => 'このアイデンティティは既に存在します';
+
+  @override
   String get leftRailSettings => '設定';
 
   @override

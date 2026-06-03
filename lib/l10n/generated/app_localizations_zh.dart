@@ -1007,6 +1007,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get createIdentityPreviewEmpty => '输入地址并选择桥接以查看预览';
 
   @override
+  String get createIdentityAlreadyExists => '此身份已存在';
+
+  @override
   String get leftRailSettings => '设置';
 
   @override

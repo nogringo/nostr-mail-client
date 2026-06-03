@@ -14,6 +14,7 @@ class CreateIdentityController extends GetxController {
   final localPartController = TextEditingController();
   final bridgeController = TextEditingController();
   List<String> availableBridges = [];
+  List<MailAddress> existingIdentities = [];
   late String myNpub;
   late String myHex;
   late String myBase36;
@@ -58,11 +59,13 @@ class CreateIdentityController extends GetxController {
       final bridges = settings?.bridges ?? [];
 
       availableBridges = bridges;
-      update();
+      existingIdentities = settings?.identities ?? [];
     } catch (_) {
       availableBridges = [];
+      existingIdentities = [];
     } finally {
       isLoading.value = false;
+      update();
     }
   }
 
@@ -111,12 +114,27 @@ class CreateIdentityController extends GetxController {
     }
   }
 
-  bool validateForm() {
+  bool get hasRequiredFields {
     final localPart = localPartController.text.trim();
     final bridge = bridgeController.text.trim();
 
     if (localPart.isEmpty) return false;
     if (bridge.isEmpty) return false;
+
+    return true;
+  }
+
+  bool get hasExactDuplicate {
+    final identity = buildIdentity();
+    if (identity == null) return false;
+
+    return _identityExists(existingIdentities, identity);
+  }
+
+  bool validateForm() {
+    if (isLoading.value) return false;
+    if (!hasRequiredFields) return false;
+    if (hasExactDuplicate) return false;
 
     return true;
   }
@@ -138,6 +156,7 @@ class CreateIdentityController extends GetxController {
 
   Future<void> saveIdentity() async {
     if (!isFormValid) return;
+    if (isSaving.value) return;
 
     final newIdentity = buildIdentity();
     if (newIdentity == null) return;
@@ -148,6 +167,11 @@ class CreateIdentityController extends GetxController {
     try {
       final settings = await _nostrMailService.client.getPrivateSettings();
       final existingIdentities = settings?.identities ?? [];
+      this.existingIdentities = existingIdentities;
+      if (_identityExists(existingIdentities, newIdentity)) {
+        update();
+        return;
+      }
 
       final updatedIdentities = [...existingIdentities, newIdentity];
 
@@ -171,5 +195,25 @@ class CreateIdentityController extends GetxController {
 
     isSaving.value = false;
     update();
+  }
+
+  bool _identityExists(
+    List<MailAddress> existingIdentities,
+    MailAddress newIdentity,
+  ) {
+    final email = _normalizedEmail(newIdentity);
+    final name = _normalizedName(newIdentity);
+    return existingIdentities.any((identity) {
+      return _normalizedEmail(identity) == email &&
+          _normalizedName(identity) == name;
+    });
+  }
+
+  String _normalizedEmail(MailAddress identity) {
+    return identity.email.trim().toLowerCase();
+  }
+
+  String _normalizedName(MailAddress identity) {
+    return (identity.personalName ?? '').trim();
   }
 }

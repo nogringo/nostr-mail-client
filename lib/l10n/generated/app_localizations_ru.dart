@@ -1074,6 +1074,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Введите адрес и выберите мост, чтобы увидеть предпросмотр';
 
   @override
+  String get createIdentityAlreadyExists => 'Эта идентичность уже существует';
+
+  @override
   String get leftRailSettings => 'Настройки';
 
   @override

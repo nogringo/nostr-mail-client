@@ -1067,6 +1067,9 @@ class AppLocalizationsPt extends AppLocalizations {
       'Introduza um endereço e selecione uma bridge para ver a pré-visualização';
 
   @override
+  String get createIdentityAlreadyExists => 'Esta identidade já existe';
+
+  @override
   String get leftRailSettings => 'Definições';
 
   @override
@@ -2205,6 +2208,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get createIdentityPreviewEmpty =>
       'Digite um endereço e selecione um bridge para ver a visualização';
+
+  @override
+  String get createIdentityAlreadyExists => 'Esta identidade já existe';
 
   @override
   String get leftRailSettings => 'Configurações';

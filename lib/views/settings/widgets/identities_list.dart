@@ -19,7 +19,7 @@ class IdentitiesList extends StatelessWidget {
         itemBuilder: (context, index) {
           final identity = controller.identities[index];
           return IdentityTile(
-            key: ValueKey(identity),
+            key: ObjectKey(identity),
             identity: identity,
             index: index,
           );

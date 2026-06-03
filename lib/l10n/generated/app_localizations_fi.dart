@@ -1063,6 +1063,9 @@ class AppLocalizationsFi extends AppLocalizations {
       'Valitse osoite ja silta nähdäksesi esikatselun';
 
   @override
+  String get createIdentityAlreadyExists => 'Tämä identiteetti on jo olemassa';
+
+  @override
   String get leftRailSettings => 'Asetukset';
 
   @override

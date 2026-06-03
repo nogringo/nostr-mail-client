@@ -419,6 +419,7 @@
   "createIdentityBridgeHint": "bridge.com",
   "createIdentityPreview": "Aperçu",
   "createIdentityPreviewEmpty": "Saisissez une adresse et sélectionnez un bridge pour voir l'aperçu",
+  "createIdentityAlreadyExists": "Cette identité existe déjà",
 
   "leftRailSettings": "Paramètres",
 

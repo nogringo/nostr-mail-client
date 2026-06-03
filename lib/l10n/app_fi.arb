@@ -424,6 +424,7 @@
   "createIdentityBridgeHint": "bridge.com",
   "createIdentityPreview": "Esikatselu",
   "createIdentityPreviewEmpty": "Valitse osoite ja silta nähdäksesi esikatselun",
+  "createIdentityAlreadyExists": "Tämä identiteetti on jo olemassa",
 
   "leftRailSettings": "Asetukset",
 

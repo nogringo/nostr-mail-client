@@ -428,6 +428,7 @@
   "createIdentityBridgeHint": "bridge.com",
   "createIdentityPreview": "Pré-visualização",
   "createIdentityPreviewEmpty": "Introduza um endereço e selecione uma bridge para ver a pré-visualização",
+  "createIdentityAlreadyExists": "Esta identidade já existe",
   "leftRailSettings": "Definições",
   "linkOpenTitle": "Abrir link?",
   "linkCopied": "Link copiado",

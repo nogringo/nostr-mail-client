@@ -2035,6 +2035,12 @@ abstract class AppLocalizations {
   /// **'Enter an address and select a bridge to see preview'**
   String get createIdentityPreviewEmpty;
 
+  /// Inline error shown when creating an exact duplicate identity
+  ///
+  /// In en, this message translates to:
+  /// **'This identity already exists'**
+  String get createIdentityAlreadyExists;
+
   /// Tooltip on the settings icon in the desktop left rail
   ///
   /// In en, this message translates to:

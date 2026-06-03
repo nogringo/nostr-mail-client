@@ -419,6 +419,7 @@
   "createIdentityBridgeHint": "bridge.com",
   "createIdentityPreview": "プレビュー",
   "createIdentityPreviewEmpty": "プレビューを表示するにはアドレスを入力しブリッジを選択してください",
+  "createIdentityAlreadyExists": "このアイデンティティは既に存在します",
 
   "leftRailSettings": "設定",
 
