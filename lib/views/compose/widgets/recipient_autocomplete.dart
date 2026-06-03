@@ -41,12 +41,14 @@ class _RecipientAutocompleteState extends State<RecipientAutocomplete> {
   List<Contact> _suggestions = [];
   int _highlightedIndex = -1;
   bool _isSearching = false;
+  bool _isCommittingInput = false;
   String _lastQuery = '';
   OverlayEntry? _overlayEntry;
 
   @override
   void initState() {
     super.initState();
+    _focusNode.addListener(_onFocusChanged);
     widget.textController.addListener(_onTextChanged);
   }
 
@@ -55,6 +57,7 @@ class _RecipientAutocompleteState extends State<RecipientAutocomplete> {
     _debounceTimer?.cancel();
     _hideOverlay();
     widget.textController.removeListener(_onTextChanged);
+    _focusNode.removeListener(_onFocusChanged);
     _focusNode.dispose();
     super.dispose();
   }
@@ -62,6 +65,14 @@ class _RecipientAutocompleteState extends State<RecipientAutocomplete> {
   void _onTapOutside() {
     _hideOverlay();
     _focusNode.unfocus();
+  }
+
+  void _onFocusChanged() {
+    if (_focusNode.hasFocus) return;
+
+    _hideOverlay();
+    final text = widget.textController.text;
+    unawaited(_commitManualInput(text, expectedText: text));
   }
 
   void _showOverlay() {
@@ -108,16 +119,7 @@ class _RecipientAutocompleteState extends State<RecipientAutocomplete> {
             ? 59
             : 56;
         if (bech32Part.length >= minLength) {
-          // Valid bech32 format, add recipient
-          widget.onManualInput(trimmedText).then((added) {
-            if (added) {
-              widget.textController.clear();
-              _hideOverlay();
-              setState(() {
-                _suggestions = [];
-              });
-            }
-          });
+          unawaited(_commitManualInput(trimmedText, expectedText: text));
           return;
         }
       }
@@ -125,31 +127,15 @@ class _RecipientAutocompleteState extends State<RecipientAutocomplete> {
 
     // Auto-detect hex pubkey (64 hex characters)
     if (RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(trimmedText)) {
-      widget.onManualInput(trimmedText).then((added) {
-        if (added) {
-          widget.textController.clear();
-          _hideOverlay();
-          setState(() {
-            _suggestions = [];
-          });
-        }
-      });
+      unawaited(_commitManualInput(trimmedText, expectedText: text));
       return;
     }
 
-    // Check for space or comma to add recipient
-    if (text.endsWith(' ') || text.endsWith(',')) {
+    // Check for common recipient delimiters.
+    if (text.endsWith(' ') || text.endsWith(',') || text.endsWith(';')) {
       final input = text.substring(0, text.length - 1).trim();
       if (input.isNotEmpty) {
-        widget.onManualInput(input).then((added) {
-          if (added) {
-            widget.textController.clear();
-            _hideOverlay();
-            setState(() {
-              _suggestions = [];
-            });
-          }
-        });
+        unawaited(_commitManualInput(input, expectedText: text));
         return;
       }
     }
@@ -216,6 +202,33 @@ class _RecipientAutocompleteState extends State<RecipientAutocomplete> {
         }
       }
     }
+  }
+
+  Future<bool> _commitManualInput(String value, {String? expectedText}) async {
+    final input = value.trim();
+    if (input.isEmpty || _isCommittingInput) return false;
+
+    _isCommittingInput = true;
+    final bool added;
+    try {
+      added = await widget.onManualInput(input);
+    } finally {
+      _isCommittingInput = false;
+    }
+
+    if (!mounted) return added;
+
+    if (added &&
+        (expectedText == null || widget.textController.text == expectedText)) {
+      widget.textController.clear();
+      _hideOverlay();
+      setState(() {
+        _suggestions = [];
+        _highlightedIndex = -1;
+      });
+    }
+
+    return added;
   }
 
   void _selectContact(Contact contact) {
@@ -295,15 +308,7 @@ class _RecipientAutocompleteState extends State<RecipientAutocomplete> {
                 _selectContact(_suggestions[_highlightedIndex]);
               } else {
                 // Try to add recipient
-                final added = await widget.onManualInput(value);
-                // Only clear if recipient was added (i.e., input was valid)
-                if (added) {
-                  widget.textController.clear();
-                  _hideOverlay();
-                  setState(() {
-                    _suggestions = [];
-                  });
-                }
+                await _commitManualInput(value, expectedText: value);
                 // If input is still there, it was invalid, keep it visible
               }
             },
