@@ -17,12 +17,27 @@ class LanguageTile extends StatelessWidget {
     'es': 'Español',
     'fr': 'Français',
     'it': 'Italiano',
-    'pt': 'Português',
+    'pt': 'Português (Portugal)',
+    'pt_BR': 'Português (Brasil)',
     'fi': 'Suomi',
     'zh': '中文',
     'ja': '日本語',
     'ru': 'Русский',
   };
+
+  static const _locales = <Locale>[
+    Locale('de'),
+    Locale('en'),
+    Locale('es'),
+    Locale('fr'),
+    Locale('it'),
+    Locale('pt'),
+    Locale('pt', 'BR'),
+    Locale('fi'),
+    Locale('zh'),
+    Locale('ja'),
+    Locale('ru'),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +48,7 @@ class LanguageTile extends StatelessWidget {
       final current = controller.locale.value;
       final subtitle = current == null
           ? l.settingsLanguageSystem
-          : _languageNames[current.languageCode] ?? current.languageCode;
+          : _languageNames[_localeKey(current)] ?? current.toString();
       return ListTile(
         leading: const Icon(Icons.translate),
         title: Text(l.settingsLanguage),
@@ -50,7 +65,12 @@ class LanguageTile extends StatelessWidget {
     final l = AppLocalizations.of(context);
     // Iterate _languageNames (ordered) rather than supportedLocales (sorted by
     // ISO code) so the picker shows entries in the order users expect.
-    final supported = _languageNames.keys.map(Locale.new).toList();
+    final supportedKeys = AppLocalizations.supportedLocales
+        .map(_localeKey)
+        .toSet();
+    final supported = _locales
+        .where((locale) => supportedKeys.contains(_localeKey(locale)))
+        .toList();
 
     Get.dialog(
       AlertDialog(
@@ -78,8 +98,8 @@ class LanguageTile extends StatelessWidget {
                       RadioListTile<Locale?>(
                         value: locale,
                         title: Text(
-                          _languageNames[locale.languageCode] ??
-                              locale.languageCode,
+                          _languageNames[_localeKey(locale)] ??
+                              locale.toString(),
                         ),
                       ),
                   ],
@@ -93,5 +113,14 @@ class LanguageTile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static String _localeKey(Locale locale) {
+    final countryCode = locale.countryCode;
+    if (countryCode == null || countryCode.isEmpty) {
+      return locale.languageCode;
+    }
+
+    return '${locale.languageCode}_$countryCode';
   }
 }

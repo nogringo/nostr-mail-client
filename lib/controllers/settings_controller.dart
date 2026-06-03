@@ -102,7 +102,7 @@ class SettingsController extends GetxController {
     }
 
     final savedLocale = results[7] as String?;
-    locale.value = savedLocale != null ? Locale(savedLocale) : null;
+    locale.value = _localeFromStorage(savedLocale);
 
     _refreshSignatureFromRelays();
   }
@@ -183,8 +183,26 @@ class SettingsController extends GetxController {
     if (value == null) {
       await _storageService.deleteSetting(localeKey);
     } else {
-      await _storageService.saveSetting(localeKey, value.languageCode);
+      await _storageService.saveSetting(localeKey, _localeToStorage(value));
     }
+  }
+
+  Locale? _localeFromStorage(String? value) {
+    if (value == null || value.isEmpty) return null;
+
+    final parts = value.replaceAll('-', '_').split('_');
+    if (parts.length == 1) return Locale(parts.first);
+
+    return Locale(parts.first, parts[1].toUpperCase());
+  }
+
+  String _localeToStorage(Locale value) {
+    final countryCode = value.countryCode;
+    if (countryCode == null || countryCode.isEmpty) {
+      return value.languageCode;
+    }
+
+    return '${value.languageCode}_$countryCode';
   }
 
   Future<void> setDynamicTheme(bool value) async {

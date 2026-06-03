@@ -12,6 +12,1146 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionCancel => 'Cancelar';
 
   @override
+  String get actionSave => 'Guardar';
+
+  @override
+  String get actionDelete => 'Eliminar';
+
+  @override
+  String get actionAdd => 'Adicionar';
+
+  @override
+  String get actionClose => 'Fechar';
+
+  @override
+  String get actionContinue => 'Continuar';
+
+  @override
+  String get actionBack => 'Voltar';
+
+  @override
+  String get actionConfirm => 'Confirmar';
+
+  @override
+  String get actionOk => 'OK';
+
+  @override
+  String get actionCopy => 'Copiar';
+
+  @override
+  String get actionOpen => 'Abrir';
+
+  @override
+  String get actionUpload => 'Enviar';
+
+  @override
+  String get actionReset => 'Repor';
+
+  @override
+  String get actionUndo => 'Desfazer';
+
+  @override
+  String get actionRemove => 'Remover';
+
+  @override
+  String get actionDiscard => 'Descartar';
+
+  @override
+  String get stateLoading => 'A carregar';
+
+  @override
+  String get stateLoadingEllipsis => 'A carregar...';
+
+  @override
+  String get stateResetting => 'A repor...';
+
+  @override
+  String get stateValidating => 'Validando...';
+
+  @override
+  String get stateDownloading => 'A transferir...';
+
+  @override
+  String get stateUploading => 'A enviar...';
+
+  @override
+  String get settingsTitle => 'Definições';
+
+  @override
+  String get settingsAppearance => 'Aparência';
+
+  @override
+  String get settingsDynamicTheme => 'Tema dinâmico';
+
+  @override
+  String get settingsDynamicThemeSubtitle =>
+      'Gerar cores a partir da imagem de fundo';
+
+  @override
+  String get settingsLanguage => 'Idioma';
+
+  @override
+  String get settingsLanguageSystem => 'Predefinição do sistema';
+
+  @override
+  String get settingsLanguageDialogTitle => 'Escolher um idioma';
+
+  @override
+  String get settingsAdvancedOptions => 'Opções avançadas';
+
+  @override
+  String get settingsShowEmailSource => 'Mostrar código-fonte do email';
+
+  @override
+  String get settingsShowEmailSourceSubtitle =>
+      'Adiciona um botão para ver o email bruto';
+
+  @override
+  String get settingsAlwaysLoadImages => 'Sempre carregar imagens';
+
+  @override
+  String get settingsAlwaysLoadImagesSubtitle =>
+      'Imagens são bloqueadas por padrão para privacidade';
+
+  @override
+  String get settingsIdentities => 'Identidades';
+
+  @override
+  String get settingsManageIdentities => 'Gerenciar identidades';
+
+  @override
+  String get settingsManageIdentitiesSubtitle =>
+      'Adicionar, remover ou reordenar endereços';
+
+  @override
+  String get settingsCompose => 'Composição';
+
+  @override
+  String get settingsEmailSignature => 'Assinatura de email';
+
+  @override
+  String get settingsEmailSignatureEmpty => 'Nenhuma assinatura configurada';
+
+  @override
+  String get settingsEmailSignatureHint => 'Introduza a sua assinatura...';
+
+  @override
+  String get settingsSynchronization => 'Sincronização';
+
+  @override
+  String get settingsHosting => 'Hospedagem';
+
+  @override
+  String get settingsHostingSubtitle =>
+      'Relays, servidores Blossom, conectividade';
+
+  @override
+  String get settingsDebugTools => 'Ferramentas de depuração';
+
+  @override
+  String get settingsDebugToolsSubtitle =>
+      'Recursos de teste e desenvolvimento';
+
+  @override
+  String get settingsAccount => 'Conta';
+
+  @override
+  String get settingsCopySyncCode => 'Copiar código de sincronização';
+
+  @override
+  String get settingsCopySyncCodeSubtitle =>
+      'Use este código para sincronizar sua conta em outros dispositivos';
+
+  @override
+  String get settingsSyncCodeCopied => 'Código de sincronização copiado';
+
+  @override
+  String get settingsLogOut => 'Terminar sessão';
+
+  @override
+  String get settingsResetApplication => 'Repor aplicação';
+
+  @override
+  String get settingsResetApplicationSubtitle =>
+      'Eliminar todos os dados locais';
+
+  @override
+  String get settingsResetConfirmMessage =>
+      'Isto eliminará todos os dados locais, incluindo definições e imagens de fundo, e terminará a sessão.\n\nEsta ação não pode ser anulada.';
+
+  @override
+  String get settingsAbout => 'Sobre';
+
+  @override
+  String get settingsVersion => 'Versão';
+
+  @override
+  String get settingsSourceCode => 'Código-fonte';
+
+  @override
+  String get settingsSourceCodeSubtitle => 'Ver no GitHub';
+
+  @override
+  String get settingsEarlyAccess => 'Acesso antecipado';
+
+  @override
+  String get settingsEarlyAccessMessage =>
+      'O Nmail e o protocolo por trás dele ainda são muito recentes. Tudo é feito para funcionar da melhor forma possível, mas podem ocorrer erros e algumas coisas podem parecer lentas ou em falta. Obrigado por ser um dos primeiros utilizadores.';
+
+  @override
+  String get settingsTheme => 'Tema';
+
+  @override
+  String get settingsThemeAuto => 'Auto';
+
+  @override
+  String get settingsThemeLight => 'Claro';
+
+  @override
+  String get settingsThemeDark => 'Escuro';
+
+  @override
+  String get settingsBackgroundDefaultLabel => 'Cor predefinida do tema';
+
+  @override
+  String get settingsBackgroundSelectLabel => 'Selecionar imagem de fundo';
+
+  @override
+  String get settingsBackgroundDeleteLabel => 'Eliminar imagem de fundo';
+
+  @override
+  String get settingsBackgroundRemoveLabel => 'Remover imagem de fundo';
+
+  @override
+  String get settingsBackgroundAddLabel => 'Adicionar imagem de fundo';
+
+  @override
+  String get settingsBackgroundDeleteTitle => 'Eliminar fundo';
+
+  @override
+  String get settingsBackgroundDeleteMessage =>
+      'Remover esta imagem dos seus fundos guardados?';
+
+  @override
+  String get settingsBackgroundImageDeleted => 'Imagem eliminada';
+
+  @override
+  String get settingsBackgroundDeleteFailed => 'Falha ao eliminar a imagem';
+
+  @override
+  String get settingsBackgroundDialogTitle => 'Fundo';
+
+  @override
+  String get settingsBackgroundSelectFile => 'Selecionar ficheiro';
+
+  @override
+  String get settingsBackgroundPasteUrl => 'Colar URL';
+
+  @override
+  String get settingsBackgroundUrlTitle => 'URL do fundo';
+
+  @override
+  String get settingsBackgroundUrlHint => 'https://exemplo.com/imagem.jpg';
+
+  @override
+  String get settingsBackgroundSet => 'Fundo definido';
+
+  @override
+  String get settingsBackgroundImageSet => 'Imagem definida';
+
+  @override
+  String get settingsBackgroundCopyFailed => 'Falha ao copiar a imagem';
+
+  @override
+  String get settingsBackgroundUrlError =>
+      'Imagem inacessível (erro de CORS ou rede)';
+
+  @override
+  String get settingsBackgroundDownloaded => 'Imagem transferida';
+
+  @override
+  String get settingsBackgroundDownloadFailed => 'Falha ao transferir a imagem';
+
+  @override
+  String get settingsBackgroundUploadTitle => 'Enviar imagem';
+
+  @override
+  String get settingsBackgroundUploadWarning =>
+      'Esta imagem será enviada para servidores Blossom. Os operadores dos servidores e qualquer pessoa com o link poderão vê-la.';
+
+  @override
+  String get hostingRecommended => 'Recomendados:';
+
+  @override
+  String hostingWillBeAddedAs(String url) {
+    return 'Será adicionado como: $url';
+  }
+
+  @override
+  String get relayAddTitle => 'Adicionar relay';
+
+  @override
+  String get relayUrlLabel => 'URL do relay';
+
+  @override
+  String get relayUrlHint => 'wss://relay.exemplo.com';
+
+  @override
+  String get relayInvalidUrl => 'URL de relay inválida';
+
+  @override
+  String get relayDirection => 'Direção';
+
+  @override
+  String get relayReadWrite => 'Leitura e escrita';
+
+  @override
+  String get relayRead => 'Leitura';
+
+  @override
+  String get relayWrite => 'Escrita';
+
+  @override
+  String get relayMarkerReadWrite => 'leitura/escrita';
+
+  @override
+  String get relayMarkerRead => 'leitura';
+
+  @override
+  String get relayMarkerWrite => 'escrita';
+
+  @override
+  String get relayInboxOutboxTitle => 'Relays de entrada/saída';
+
+  @override
+  String get relayAddTooltip => 'Adicionar relay';
+
+  @override
+  String get relayRemoveTooltip => 'Remover relay';
+
+  @override
+  String get relayInboxOutboxEmpty =>
+      'Nenhum relay de entrada/saída configurado';
+
+  @override
+  String get relayEmptyHint => 'Toque em + para adicionar um relay';
+
+  @override
+  String get dmRelayAddTitle => 'Adicionar relay DM';
+
+  @override
+  String get dmRelaySectionTitle => 'Relays DM';
+
+  @override
+  String get dmRelayEmpty => 'Nenhum relay DM configurado';
+
+  @override
+  String get bridgeAddTitle => 'Adicionar bridge';
+
+  @override
+  String get bridgeDomainLabel => 'Domínio do bridge';
+
+  @override
+  String get bridgeDomainHint => 'bridge.exemplo.com';
+
+  @override
+  String get bridgeInvalidDomain => 'Domínio inválido';
+
+  @override
+  String get bridgeSectionTitle => 'Bridges';
+
+  @override
+  String get bridgeAddTooltip => 'Adicionar bridge';
+
+  @override
+  String get bridgeEmpty => 'Nenhum bridge configurado';
+
+  @override
+  String get bridgeEmptyHint => 'Toque em + para adicionar um bridge';
+
+  @override
+  String get bridgeDefault => 'Bridge padrão';
+
+  @override
+  String get blossomAddTitle => 'Adicionar servidor Blossom';
+
+  @override
+  String get blossomServerUrlLabel => 'URL do servidor';
+
+  @override
+  String get blossomServerUrlHint => 'https://blossom.exemplo.com';
+
+  @override
+  String get blossomInvalidUrl => 'URL de servidor inválida';
+
+  @override
+  String get blossomSectionTitle => 'Hospedagem de ficheiros';
+
+  @override
+  String get blossomAddTooltip => 'Adicionar servidor';
+
+  @override
+  String get blossomRemoveTooltip => 'Remover servidor';
+
+  @override
+  String get blossomEmpty => 'Nenhum servidor Blossom configurado';
+
+  @override
+  String get blossomEmptyHint => 'Toque em + para adicionar um servidor';
+
+  @override
+  String get connectivitySectionTitle => 'Conexão em tempo real';
+
+  @override
+  String get connectivityRelayConnectivity => 'Conectividade dos relays';
+
+  @override
+  String get syncStatusSectionTitle => 'Status de sincronização';
+
+  @override
+  String get syncStatusEmpty => 'Nenhum dado de sincronização disponível';
+
+  @override
+  String get syncStatusEmptyHint =>
+      'Sincronize os seus emails para ver o estado dos relays';
+
+  @override
+  String get syncStatusResync => 'Ressincronizar';
+
+  @override
+  String get syncStatusBeginningOfTime => 'Início dos tempos';
+
+  @override
+  String get identitiesTitle => 'Identidades';
+
+  @override
+  String get identitiesEmptyTitle => 'Ainda não há identidades';
+
+  @override
+  String get identitiesEmptyMessage =>
+      'Crie uma para enviar emails a partir de um endereço personalizado.';
+
+  @override
+  String get identitiesCreate => 'Criar identidade';
+
+  @override
+  String get identitiesDiscardTitle => 'Descartar alterações?';
+
+  @override
+  String get identitiesDiscardMessage =>
+      'Você tem alterações não salvas. Terminar sessão agora irá descartá-las.';
+
+  @override
+  String get identitiesKeepEditing => 'Continuar a editar';
+
+  @override
+  String get debugToolsEmailTesting => 'Teste de emails';
+
+  @override
+  String get debugToolsCreateOldTrashed => 'Criar email antigo no lixo';
+
+  @override
+  String get debugToolsCreateOldTrashedDescription =>
+      'Cria um email de teste no lixo com 31 dias. Use para testar a funcionalidade \"Eliminar emails antigos\".';
+
+  @override
+  String get folderInbox => 'Caixa de entrada';
+
+  @override
+  String get folderSent => 'Enviados';
+
+  @override
+  String get folderTrash => 'Lixo';
+
+  @override
+  String get folderArchive => 'Arquivo';
+
+  @override
+  String get inboxEmptyInbox => 'Ainda não há emails';
+
+  @override
+  String get inboxEmptySent => 'Nenhum email enviado';
+
+  @override
+  String get inboxEmptyTrash => 'O lixo está vazio';
+
+  @override
+  String get inboxEmptyArchive => 'O arquivo está vazio';
+
+  @override
+  String get inboxSyncFromRelays => 'Sincronizar dos relays';
+
+  @override
+  String get inboxSearch => 'Pesquisar';
+
+  @override
+  String get inboxSync => 'Sincronizar';
+
+  @override
+  String get inboxMenu => 'Menu';
+
+  @override
+  String get inboxClearSelection => 'Limpar seleção';
+
+  @override
+  String inboxSelectedCount(int count) {
+    return '$count selecionado(s)';
+  }
+
+  @override
+  String get inboxProfile => 'Perfil';
+
+  @override
+  String get inboxCopyNpub => 'Copiar npub';
+
+  @override
+  String get inboxLogout => 'Terminar sessão';
+
+  @override
+  String get inboxAccount => 'Conta';
+
+  @override
+  String get inboxCompose => 'Compor';
+
+  @override
+  String get inboxNpubCopied => 'npub copiado';
+
+  @override
+  String get inboxUnknown => 'Desconhecido';
+
+  @override
+  String get inboxEditProfile => 'Editar perfil';
+
+  @override
+  String get inboxSettings => 'Definições';
+
+  @override
+  String get inboxDeleteOldEmailsTitle => 'Eliminar emails antigos';
+
+  @override
+  String inboxDeleteOldEmailsMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails',
+      one: '$count email',
+    );
+    return 'Isto eliminará permanentemente $_temp0 com mais de 30 dias.\n\nEsta ação não pode ser anulada.';
+  }
+
+  @override
+  String get inboxDeleteFailed => 'Falha ao eliminar';
+
+  @override
+  String inboxDeleteFailedDescription(String error) {
+    return 'Falha ao eliminar emails antigos: $error';
+  }
+
+  @override
+  String inboxOldEmailsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails antigos para eliminar',
+      one: '$count email antigo para eliminar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get inboxDeleteNow => 'Eliminar agora';
+
+  @override
+  String get inboxDeleteOldEmailsTooltip => 'Eliminar emails antigos';
+
+  @override
+  String get inboxSearchHint => 'Pesquisar em todos os emails...';
+
+  @override
+  String get inboxCloseSearch => 'Fechar pesquisa';
+
+  @override
+  String get inboxSelectAll => 'Selecionar tudo';
+
+  @override
+  String get inboxMoreActions => 'Mais ações';
+
+  @override
+  String get emailReply => 'Responder';
+
+  @override
+  String get emailForward => 'Encaminhar';
+
+  @override
+  String get emailArchive => 'Arquivar';
+
+  @override
+  String get emailUnarchive => 'Desarquivar';
+
+  @override
+  String get emailMarkAsRead => 'Marcar como lido';
+
+  @override
+  String get emailMarkAsUnread => 'Marcar como não lido';
+
+  @override
+  String get emailMoveToTrash => 'Mover para o lixo';
+
+  @override
+  String get emailRestore => 'Restaurar';
+
+  @override
+  String get emailDeletePermanently => 'Eliminar permanentemente';
+
+  @override
+  String get emailNoSubject => '(Sem assunto)';
+
+  @override
+  String emailExtraRecipients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'mais $count destinatários',
+      one: 'mais $count destinatário',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailNotFound => 'Email não encontrado';
+
+  @override
+  String get emailShowFormatted => 'Mostrar formatado';
+
+  @override
+  String get emailShowRaw => 'Mostrar fonte';
+
+  @override
+  String emailSenderNpub(String npub) {
+    return 'npub do remetente: $npub';
+  }
+
+  @override
+  String get emailDeletePermanentlyTitle => 'Eliminar permanentemente?';
+
+  @override
+  String get emailDeletePermanentlyMessage => 'Esta ação não pode ser anulada.';
+
+  @override
+  String get emailDefaultFilename => 'email';
+
+  @override
+  String emailSaved(String path) {
+    return 'Email guardado: $path';
+  }
+
+  @override
+  String emailSaveFailed(String error) {
+    return 'Falha ao guardar o email: $error';
+  }
+
+  @override
+  String get emailRawContentUnavailable =>
+      'Não foi possível carregar o conteúdo do email';
+
+  @override
+  String get emailRepostFailedEvent => 'Falha ao obter evento para republicar';
+
+  @override
+  String get emailRepostSuccess => 'Email republicado com sucesso';
+
+  @override
+  String emailRepostFailed(String error) {
+    return 'Falha ao republicar o email: $error';
+  }
+
+  @override
+  String get emailAttachmentLoadFailed => 'Falha ao carregar o anexo';
+
+  @override
+  String emailFileSaved(String path) {
+    return 'Ficheiro guardado: $path';
+  }
+
+  @override
+  String emailFileSaveFailed(String error) {
+    return 'Falha ao guardar o ficheiro: $error';
+  }
+
+  @override
+  String emailDownloadedAllSuccess(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ficheiros transferidos com sucesso',
+      one: '$count ficheiro transferido com sucesso',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String emailDownloadedAllFailed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Falha ao transferir $count ficheiros',
+      one: 'Falha ao transferir $count ficheiro',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String emailDownloadedMixed(int success, int failed) {
+    return '$success ficheiros transferidos, $failed falharam';
+  }
+
+  @override
+  String get emailDownload => 'Transferir';
+
+  @override
+  String get emailImageLoadFailed => 'Falha ao carregar a imagem';
+
+  @override
+  String get emailPdfLoadFailed => 'Falha ao carregar o PDF';
+
+  @override
+  String get emailActionReply => 'Responder';
+
+  @override
+  String get emailActionReplyAll => 'Responder a todos';
+
+  @override
+  String get emailActionForward => 'Encaminhar';
+
+  @override
+  String get emailActionArchive => 'Arquivar';
+
+  @override
+  String get emailActionUnarchive => 'Desarquivar';
+
+  @override
+  String get emailActionMarkRead => 'Marcar lido';
+
+  @override
+  String get emailActionMarkUnread => 'Marcar não lido';
+
+  @override
+  String get emailActionNip59 => 'Eventos NIP-59';
+
+  @override
+  String get emailActionRepost => 'Repostar';
+
+  @override
+  String get emailActionDownload => 'Transferir email';
+
+  @override
+  String get emailMoreActions => 'Mais ações';
+
+  @override
+  String get emailMoreOptions => 'Mais opções';
+
+  @override
+  String get emailShowRecipients => 'Mostrar destinatários';
+
+  @override
+  String get emailImagesHidden => 'Imagens ocultas por privacidade';
+
+  @override
+  String get emailLoadImages => 'Carregar imagens';
+
+  @override
+  String get emailRecipientTo => 'Para';
+
+  @override
+  String get emailRecipientCc => 'Cc';
+
+  @override
+  String get emailRecipientBcc => 'Cco';
+
+  @override
+  String get emailAttachmentsTitle => 'Anexos';
+
+  @override
+  String get emailDownloadAll => 'Transferir todos';
+
+  @override
+  String get emailNip59Dismiss => 'Fechar';
+
+  @override
+  String get emailNip59Title => 'Eventos NIP-59';
+
+  @override
+  String get emailNip59GiftWrap => 'Gift Wrap';
+
+  @override
+  String get emailNip59Seal => 'Seal';
+
+  @override
+  String get emailNip59Rumor => 'Rumor';
+
+  @override
+  String get emailNip59CopyJson => 'Copiar JSON';
+
+  @override
+  String emailNip59Kind(int kind) {
+    return 'Kind $kind';
+  }
+
+  @override
+  String get emailNip59NotAvailable => 'Não disponível';
+
+  @override
+  String get authHeaderTitle => 'Iniciar sessão no Nmail';
+
+  @override
+  String get authSyncCodeLabel => 'Código de sincronização';
+
+  @override
+  String get authInvalidSyncCode => 'Código de sincronização inválido';
+
+  @override
+  String get authInvalidSyncCodeDescription =>
+      'Estamos a verificar o seu código enquanto escreve. Assim que for válido, a sessão será iniciada automaticamente.';
+
+  @override
+  String get authLogIn => 'Iniciar sessão';
+
+  @override
+  String get authCreateAccount => 'Criar uma conta';
+
+  @override
+  String get authMoreOptions => 'Mais opções';
+
+  @override
+  String get authRegisterPrompt => 'O que os outros devem ver?';
+
+  @override
+  String get authDisplayNameLabel => 'Nome de exibição';
+
+  @override
+  String get authDisplayNameHint => 'ex. Alice';
+
+  @override
+  String get authBackToLogin => 'Voltar ao início de sessão';
+
+  @override
+  String get authUnableRetrieveCode =>
+      'Não foi possível recuperar o código de sincronização';
+
+  @override
+  String get authYourSyncCode => 'Seu código de sincronização';
+
+  @override
+  String get authSyncCodeIntro =>
+      'Este código é a chave da sua conta. Dá-lhe controlo total e permite-lhe:';
+
+  @override
+  String get authSyncCodeFeatureRestore =>
+      'Restaurar a sua conta em qualquer dispositivo';
+
+  @override
+  String get authSyncCodeFeatureBackup =>
+      'Fazer uma cópia de segurança da sua identidade com segurança';
+
+  @override
+  String get authSyncCodeFeatureLogin =>
+      'Iniciar sessão noutras aplicações Nostr';
+
+  @override
+  String get authSyncCodeWarning =>
+      'Nunca partilhe este código com ninguém. Guarde-o num local seguro. Pode sempre encontrá-lo mais tarde em Definições.';
+
+  @override
+  String get authCopied => 'Copiado!';
+
+  @override
+  String get authCopySyncCode => 'Copiar código de sincronização';
+
+  @override
+  String get authContinueToInbox => 'Ir para a caixa de entrada';
+
+  @override
+  String get composeTitle => 'Compor';
+
+  @override
+  String get composeTo => 'Para';
+
+  @override
+  String get composeAddMore => 'Adicionar mais';
+
+  @override
+  String get composeHideExpanded => 'Ocultar Cc/Cco/De';
+
+  @override
+  String get composeShowExpanded => 'Mostrar Cc/Cco/De';
+
+  @override
+  String get composeCc => 'Cc';
+
+  @override
+  String get composeBcc => 'Cco';
+
+  @override
+  String get composeSubject => 'Assunto';
+
+  @override
+  String get composeAttachFile => 'Anexar ficheiro';
+
+  @override
+  String get composePlaceholder => 'Escreva o seu email';
+
+  @override
+  String get composeFrom => 'De';
+
+  @override
+  String get composeSendAs => 'Enviar como';
+
+  @override
+  String get composeCreateNewIdentity => 'Criar nova identidade';
+
+  @override
+  String get composeRemoveAttachment => 'Remover anexo';
+
+  @override
+  String get composeSend => 'Enviar';
+
+  @override
+  String get composeMoreSendOptions => 'Mais opções de envio';
+
+  @override
+  String get composeChooseSendMode => 'Escolher modo de envio';
+
+  @override
+  String get composeModePrivateDeniable => 'Privado negável';
+
+  @override
+  String get composeModePrivateSigned => 'Privado assinado';
+
+  @override
+  String get composeModePublic => 'Público';
+
+  @override
+  String get composeModePrivateDeniableDescription =>
+      'Enviar como email encriptado. Sem assinatura — negável se necessário.';
+
+  @override
+  String get composeModePrivateSignedDescription =>
+      'Enviar como email encriptado. Assinado — prova que é o autor.';
+
+  @override
+  String get composeModePublicDescription =>
+      'Enviar como evento público. Qualquer pessoa pode ler. Sem encriptação.';
+
+  @override
+  String get composeResolvingNip05 => 'Resolvendo NIP-05...';
+
+  @override
+  String get contactSourceEmailHistory => 'Histórico de emails';
+
+  @override
+  String get contactSourceFollowing => 'Seguindo';
+
+  @override
+  String get contactSourceCachedProfile => 'Perfil em cache';
+
+  @override
+  String get contactSourceNip05Verified => 'Verificado NIP-05';
+
+  @override
+  String get profileEditTitle => 'Editar perfil';
+
+  @override
+  String get profileDisplayNameLabel => 'Nome de exibição';
+
+  @override
+  String get profileDisplayNameHint => 'O seu nome completo ou alcunha';
+
+  @override
+  String get profileUsernameLabel => 'Nome de utilizador';
+
+  @override
+  String get profileUsernameHint => 'identificador';
+
+  @override
+  String get profileAboutLabel => 'Sobre';
+
+  @override
+  String get profileAboutHint => 'Uma breve biografia sobre si';
+
+  @override
+  String get profileAdvanced => 'Avançado';
+
+  @override
+  String get profilePictureUrlLabel => 'URL da imagem';
+
+  @override
+  String get profilePictureUrlHint => 'https://exemplo.com/avatar.png';
+
+  @override
+  String get profileChangePicture => 'Alterar fotografia de perfil';
+
+  @override
+  String get onboardingPage1Title => 'Bem-vindo ao Nmail';
+
+  @override
+  String get onboardingPage1Body =>
+      'Descubra uma experiência de email descentralizada que o coloca no controlo. Uma nova forma de comunicar, centrada em si.';
+
+  @override
+  String get onboardingPage2Title => 'Uma rede sem donos';
+
+  @override
+  String get onboardingPage2Body =>
+      'As suas mensagens passam por uma rede global de servidores independentes. Nenhuma empresa é dona da sua caixa de entrada.';
+
+  @override
+  String get onboardingPage3Title => 'Liberdade de escolha';
+
+  @override
+  String get onboardingPage3Body =>
+      'Nunca fica preso a um único fornecedor. Troque de bridges ou relays a qualquer momento sem perder a sua identidade ou contactos.';
+
+  @override
+  String get onboardingPage4Title => 'Uma identidade para tudo';
+
+  @override
+  String get onboardingPage4Body =>
+      'Use a sua conta para enviar emails, seguir perfis ou usar outras aplicações. Uma identidade permanente que funciona em muitas aplicações diferentes.';
+
+  @override
+  String get onboardingPage5Title => 'Feito para o futuro';
+
+  @override
+  String get onboardingPage5Body =>
+      'Tire partido de uma arquitetura moderna concebida para privacidade. O Nmail ajuda-o a fazer uma transição suave para uma forma mais segura e resiliente de comunicar.';
+
+  @override
+  String get onboardingPage6Title => 'Acesso antecipado';
+
+  @override
+  String get onboardingPage6Body =>
+      'O Nmail e o protocolo por trás dele ainda são muito recentes. Tudo é feito para funcionar da melhor forma possível, mas podem ocorrer erros e algumas coisas podem parecer lentas ou em falta. Obrigado por ser um dos primeiros utilizadores. A sua paciência ajuda a moldar o que vem a seguir.';
+
+  @override
+  String get onboardingSkip => 'Ignorar';
+
+  @override
+  String get onboardingNext => 'Seguinte';
+
+  @override
+  String get onboardingDone => 'Concluído';
+
+  @override
+  String get createIdentityTitle => 'Criar identidade';
+
+  @override
+  String get createIdentityAddress => 'Endereço';
+
+  @override
+  String get createIdentityCustomUsername => 'Nome de utilizador personalizado';
+
+  @override
+  String get createIdentityBridge => 'Bridge';
+
+  @override
+  String get createIdentityNoBridges => 'Nenhum bridge disponível';
+
+  @override
+  String get createIdentityBridgeHint => 'bridge.com';
+
+  @override
+  String get createIdentityPreview => 'Pré-visualização';
+
+  @override
+  String get createIdentityPreviewEmpty =>
+      'Introduza um endereço e selecione uma bridge para ver a pré-visualização';
+
+  @override
+  String get leftRailSettings => 'Definições';
+
+  @override
+  String get linkOpenTitle => 'Abrir link?';
+
+  @override
+  String get linkCopied => 'Link copiado';
+
+  @override
+  String get debugNotAuthenticated => 'Não autenticado';
+
+  @override
+  String get debugTestEmailCreated =>
+      'Email de teste criado e movido para o lixo (31 dias)';
+
+  @override
+  String get debugTestEmailPartial =>
+      'Email criado e movido para o lixo, mas não foi possível atualizar o carimbo de data/hora';
+
+  @override
+  String debugError(String error) {
+    return 'Erro: $error';
+  }
+
+  @override
+  String get composeSelectAttachments => 'Selecionar anexos';
+
+  @override
+  String composePickFilesFailed(String error) {
+    return 'Falha ao selecionar ficheiros: $error';
+  }
+
+  @override
+  String get composeInvalidRecipient => 'Formato de destinatário inválido';
+
+  @override
+  String get composeAddRecipient => 'Adicione pelo menos um destinatário';
+
+  @override
+  String get composeSendFailed => 'Falha ao enviar o email';
+
+  @override
+  String get profileLoadFailed => 'Falha ao carregar dados do perfil';
+
+  @override
+  String get profileSelectPicture => 'Selecionar fotografia de perfil';
+
+  @override
+  String get profileUploadNoServers => 'Nenhum servidor respondeu';
+
+  @override
+  String get profileUploadFailed => 'Falha no envio';
+
+  @override
+  String get profileUploadError => 'Ocorreu um erro durante o envio';
+
+  @override
+  String get profileUpdateFailed => 'Falha ao atualizar o perfil';
+
+  @override
+  String get authEnterUsername => 'Introduza um nome de utilizador';
+
+  @override
+  String createIdentityFailed(String error) {
+    return 'Falha ao criar identidade: $error';
+  }
+
+  @override
+  String get dateYesterday => 'Ontem';
+
+  @override
+  String get notFoundTitle => 'Página não encontrada';
+
+  @override
+  String get notFoundBackToInbox => 'Voltar à caixa de entrada';
+}
+
+/// The translations for Portuguese, as used in Brazil (`pt_BR`).
+class AppLocalizationsPtBr extends AppLocalizationsPt {
+  AppLocalizationsPtBr() : super('pt_BR');
+
+  @override
+  String get actionCancel => 'Cancelar';
+
+  @override
   String get actionSave => 'Salvar';
 
   @override
