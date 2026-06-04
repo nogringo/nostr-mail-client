@@ -278,38 +278,78 @@ class SettingsView extends StatelessWidget {
     final l = AppLocalizations.of(context);
     return Obx(() {
       final mode = controller.themeMode.value;
-      return ListTile(
-        leading: Icon(
-          mode == ThemeMode.dark
-              ? Icons.dark_mode
-              : mode == ThemeMode.light
-              ? Icons.light_mode
-              : Icons.brightness_auto,
-        ),
-        title: Text(l.settingsTheme),
-        trailing: SegmentedButton<ThemeMode>(
-          showSelectedIcon: false,
-          segments: [
-            ButtonSegment(
-              value: ThemeMode.system,
-              label: Text(l.settingsThemeAuto),
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SizedBox(
+                  width: 40,
+                  child: Icon(
+                    mode == ThemeMode.dark
+                        ? Icons.dark_mode
+                        : mode == ThemeMode.light
+                        ? Icons.light_mode
+                        : Icons.brightness_auto,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Text(
+                    l.settingsTheme,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+              ],
             ),
-            ButtonSegment(
-              value: ThemeMode.light,
-              label: Text(l.settingsThemeLight),
-            ),
-            ButtonSegment(
-              value: ThemeMode.dark,
-              label: Text(l.settingsThemeDark),
+            const SizedBox(height: 8),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: SizedBox(
+                    width: constraints.maxWidth,
+                    child: SegmentedButton<ThemeMode>(
+                      showSelectedIcon: false,
+                      segments: [
+                        ButtonSegment(
+                          value: ThemeMode.system,
+                          label: _buildThemeModeLabel(l.settingsThemeAuto),
+                        ),
+                        ButtonSegment(
+                          value: ThemeMode.light,
+                          label: _buildThemeModeLabel(l.settingsThemeLight),
+                        ),
+                        ButtonSegment(
+                          value: ThemeMode.dark,
+                          label: _buildThemeModeLabel(l.settingsThemeDark),
+                        ),
+                      ],
+                      selected: {mode},
+                      onSelectionChanged: (selected) {
+                        controller.setThemeMode(selected.first);
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
           ],
-          selected: {mode},
-          onSelectionChanged: (selected) {
-            controller.setThemeMode(selected.first);
-          },
         ),
       );
     });
+  }
+
+  Widget _buildThemeModeLabel(String label) {
+    return Text(
+      label,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      softWrap: false,
+      textAlign: TextAlign.center,
+    );
   }
 
   Widget _buildBackgroundGallery(
