@@ -92,16 +92,18 @@ packages:
   blossom_cache:
     dependency: "direct main"
     description:
-      path: "../blossom_cache"
-      relative: true
-    source: path
+      name: blossom_cache
+      sha256: "0c5066f12afa2ea7ef504f1192f3375db4d3ea840fe49d76e6189ff09e9fd6e6"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.3.0"
   blossom_upload_queue_shim_for_ndk:
     dependency: "direct main"
     description:
-      path: "../blossom_upload_queue_shim_for_ndk"
-      relative: true
-    source: path
+      name: blossom_upload_queue_shim_for_ndk
+      sha256: "4b9add65e43cb040bba07db9f9001b1746922e662005635077649d12a2c4bb77"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.4.1"
   boolean_selector:
     dependency: transitive
@@ -114,9 +116,10 @@ packages:
   broadcast_queue_shim_for_ndk:
     dependency: "direct main"
     description:
-      path: "../broadcast_queue_shim_for_ndk"
-      relative: true
-    source: path
+      name: broadcast_queue_shim_for_ndk
+      sha256: dc11cbc4ed8270288f803f88474806de6f8d4584386300a22dbdb5914b9cf6a3
+      url: "https://pub.dev"
+    source: hosted
     version: "0.2.1"
   bs58check:
     dependency: transitive
@@ -814,10 +817,10 @@ packages:
     dependency: "direct main"
     description:
       name: ndk
-      sha256: "4d20f57ffcc330fe408fed54966ce6e7c9ac71c10b0364a7b4514e3a3d47f7e0"
+      sha256: "2ebf465f04f4a4eb73245066bfbf9be32de119b315d592651309a13510860bea"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.1"
+    version: "0.8.4-dev.2"
   ndk_bip32_keys:
     dependency: transitive
     description:
@@ -830,25 +833,26 @@ packages:
     dependency: "direct main"
     description:
       name: ndk_flutter
-      sha256: d97aefcf5bb1acbd9d5c94b49a3d0d82552eade50bb50120441fa9e017dd37a3
+      sha256: d34fdced2c19ddee71e648eeec2c78f5602090418c49abf73f2d57a304bf43a0
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.1"
+    version: "0.8.4-dev.3"
   nip07_event_signer:
     dependency: transitive
     description:
       name: nip07_event_signer
-      sha256: "5cdc14e3ee3ed8978ce4b0e8771535545a2047d8238f5616395380d8d6c6eb5c"
+      sha256: "529732e1aa2f7d8aebe528e65786672d6d4f2c25b83c8c91b2fe75a3f4eec314"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0-dev.1"
+    version: "1.1.0-dev.2"
   nostr_mail:
     dependency: "direct main"
     description:
-      path: "../nostr-mail-dart"
-      relative: true
-    source: path
-    version: "2.2.0"
+      name: nostr_mail
+      sha256: "636064c8cbed8d09ac157e4ea7f23aee151cbc6e38be404972a30cc591f52bc9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
   objective_c:
     dependency: transitive
     description:
