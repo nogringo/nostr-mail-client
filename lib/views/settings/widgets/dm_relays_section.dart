@@ -1,60 +1,22 @@
-import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ndk/ndk.dart';
 
+import '../../../controllers/dm_relays_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../services/nostr_mail_service.dart';
 import '../../../utils/relay_utils.dart';
 import '../../../app/config/nostr_config.dart';
 import 'recommendation_chips.dart';
 
-class DmRelaysSection extends StatefulWidget {
+class DmRelaysSection extends StatelessWidget {
   const DmRelaysSection({super.key});
 
-  @override
-  State<DmRelaysSection> createState() => _DmRelaysSectionState();
-}
-
-class _DmRelaysSectionState extends State<DmRelaysSection> {
-  List<String>? _originalDmRelays;
-  List<String>? _dmRelays;
-  final Set<String> _markedForDeletion = {};
-  bool _isLoading = true;
-  bool _isSaving = false;
-
-  bool get _hasChanges {
-    if (_originalDmRelays == null || _dmRelays == null) return false;
-    if (_markedForDeletion.isNotEmpty) return true;
-    if (_originalDmRelays!.length != _dmRelays!.length) return true;
-    for (int i = 0; i < _originalDmRelays!.length; i++) {
-      if (!_dmRelays!.contains(_originalDmRelays![i])) return true;
-    }
-    return false;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadData();
-  }
-
-  Future<void> _loadData() async {
-    final nostrMailService = Get.find<NostrMailService>();
-    final dmRelays = await nostrMailService.getDmRelays();
-    if (mounted) {
-      setState(() {
-        _originalDmRelays = List.from(dmRelays);
-        _dmRelays = List.from(dmRelays);
-        _isLoading = false;
-      });
-    }
-  }
-
-  Future<void> _addRelay() async {
+  Future<void> _addRelay(
+    BuildContext context,
+    DmRelaysController dmRelaysController,
+  ) async {
     final l = AppLocalizations.of(context);
-    final controller = TextEditingController();
+    final inputController = TextEditingController();
     String? errorText;
     String? preview;
 
@@ -68,7 +30,7 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextField(
-                controller: controller,
+                controller: inputController,
                 decoration: InputDecoration(
                   hintText: l.relayUrlHint,
                   labelText: l.relayUrlLabel,
@@ -117,7 +79,7 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
             ),
             TextButton(
               onPressed: () {
-                final url = normalizeRelayUrl(controller.text.trim());
+                final url = normalizeRelayUrl(inputController.text.trim());
                 if (!isValidRelayUrl(url)) {
                   setDialogState(() => errorText = l.relayInvalidUrl);
                   return;
@@ -131,144 +93,108 @@ class _DmRelaysSectionState extends State<DmRelaysSection> {
       ),
     );
 
-    if (result != null && _dmRelays != null && !_dmRelays!.contains(result)) {
-      setState(() => _dmRelays!.add(result));
-    }
-  }
-
-  void _toggleRelayDeletion(String relayUrl) {
-    setState(() {
-      if (_markedForDeletion.contains(relayUrl)) {
-        _markedForDeletion.remove(relayUrl);
-      } else {
-        _markedForDeletion.add(relayUrl);
-      }
-    });
-  }
-
-  Future<void> _saveChanges() async {
-    if (!_hasChanges || _isSaving) return;
-    setState(() => _isSaving = true);
-    try {
-      final relaysToSave = _dmRelays!
-          .where((r) => !_markedForDeletion.contains(r))
-          .toList();
-
-      final ndk = Get.find<Ndk>();
-      final account = ndk.accounts.getLoggedAccount()!;
-      final unsigned = Nip01Event(
-        pubKey: account.pubkey,
-        kind: dmRelayListKind,
-        tags: relaysToSave.map((r) => ['relay', r]).toList(),
-        content: '',
-      );
-      final signed = await account.signer.sign(unsigned);
-      await ndk.config.cache.saveEvent(signed);
-      // Signaling event: broadcast widely (popular + outbox).
-      final outbox = await Get.find<NostrMailService>().getOutboxRelays();
-      await Get.find<OfflineBroadcast>().broadcast(
-        signed,
-        relays: {...NostrConfig.popularRelays, ...outbox}.toList(),
-      );
-
-      setState(() {
-        _dmRelays = relaysToSave;
-        _originalDmRelays = List.from(relaysToSave);
-        _markedForDeletion.clear();
-      });
-    } finally {
-      if (mounted) {
-        setState(() => _isSaving = false);
-      }
-    }
+    if (result != null) dmRelaysController.addRelay(result);
   }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    if (_isLoading) {
-      return ListTile(
-        leading: const SizedBox(
-          width: 24,
-          height: 24,
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-        title: Text(l.stateLoadingEllipsis),
-      );
-    }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          dense: true,
-          title: Text(
-            l.dmRelaySectionTitle,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
+    return GetBuilder<DmRelaysController>(
+      init: DmRelaysController(),
+      builder: (controller) {
+        if (controller.isLoading) {
+          return ListTile(
+            leading: const SizedBox(
+              width: 24,
+              height: 24,
+              child: CircularProgressIndicator(strokeWidth: 2),
             ),
-          ),
-          trailing: IconButton(
-            icon: const Icon(Icons.add, size: 18),
-            onPressed: _addRelay,
-            tooltip: l.relayAddTooltip,
-          ),
-        ),
-        RecommendationChips(
-          recommendations: NostrConfig.recommendedDmRelays,
-          isAlreadyAdded: (r) => _dmRelays != null && _dmRelays!.contains(r),
-          onAdd: (relay) => setState(() => _dmRelays!.add(relay)),
-          formatLabel: formatRelayUrl,
-        ),
-        if (_dmRelays == null || _dmRelays!.isEmpty)
-          ListTile(
-            leading: const Icon(Icons.warning_rounded),
-            title: Text(l.dmRelayEmpty),
-            subtitle: Text(l.relayEmptyHint),
-          )
-        else
-          ..._dmRelays!.map((relay) {
-            final isMarked = _markedForDeletion.contains(relay);
-            return ListTile(
-              leading: Icon(
-                Icons.dns_outlined,
-                color: isMarked ? Theme.of(context).disabledColor : null,
-              ),
+            title: Text(l.stateLoadingEllipsis),
+          );
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              dense: true,
               title: Text(
-                formatRelayUrl(relay),
+                l.dmRelaySectionTitle,
                 style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.w600,
                   fontSize: 14,
-                  decoration: isMarked ? TextDecoration.lineThrough : null,
-                  color: isMarked ? Theme.of(context).disabledColor : null,
                 ),
               ),
               trailing: IconButton(
-                icon: Icon(isMarked ? Icons.undo : Icons.close, size: 18),
-                onPressed: () => _toggleRelayDeletion(relay),
-                tooltip: isMarked ? l.actionUndo : l.relayRemoveTooltip,
-              ),
-            );
-          }),
-        if (_hasChanges)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _isSaving ? null : _saveChanges,
-                child: _isSaving
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l.actionSave),
+                icon: const Icon(Icons.add, size: 18),
+                onPressed: () => _addRelay(context, controller),
+                tooltip: l.relayAddTooltip,
               ),
             ),
-          ),
-      ],
+            RecommendationChips(
+              recommendations: NostrConfig.recommendedDmRelays,
+              isAlreadyAdded: (relay) =>
+                  controller.dmRelays != null &&
+                  controller.dmRelays!.contains(relay),
+              onAdd: controller.addRelay,
+              formatLabel: formatRelayUrl,
+            ),
+            if (controller.dmRelays == null || controller.dmRelays!.isEmpty)
+              ListTile(
+                leading: const Icon(Icons.warning_rounded),
+                title: Text(l.dmRelayEmpty),
+                subtitle: Text(l.relayEmptyHint),
+              )
+            else
+              ...controller.dmRelays!.map((relay) {
+                final isMarked = controller.markedForDeletion.contains(relay);
+                return ListTile(
+                  leading: Icon(
+                    Icons.dns_outlined,
+                    color: isMarked ? Theme.of(context).disabledColor : null,
+                  ),
+                  title: Text(
+                    formatRelayUrl(relay),
+                    style: TextStyle(
+                      fontSize: 14,
+                      decoration: isMarked ? TextDecoration.lineThrough : null,
+                      color: isMarked ? Theme.of(context).disabledColor : null,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(isMarked ? Icons.undo : Icons.close, size: 18),
+                    onPressed: () => controller.toggleRelayDeletion(relay),
+                    tooltip: isMarked ? l.actionUndo : l.relayRemoveTooltip,
+                  ),
+                );
+              }),
+            if (controller.hasChanges)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: controller.isSaving
+                        ? null
+                        : controller.saveChanges,
+                    child: controller.isSaving
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(l.actionSave),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
     );
   }
 }
