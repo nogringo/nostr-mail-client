@@ -35,6 +35,7 @@ migrate_working_dir/
 /build/
 /coverage/
 /dist/
+.firebase/
 
 # Symbolication related
 app.*.symbols
