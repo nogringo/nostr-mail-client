@@ -16,8 +16,7 @@ import '../../../utils/responsive_helper.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 
-// TODO convert to stateless widget
-class EmailTile extends StatefulWidget {
+class EmailTile extends StatelessWidget {
   final Email email;
   final VoidCallback onTap;
   final bool isSelected;
@@ -41,23 +40,18 @@ class EmailTile extends StatefulWidget {
     this.onRestore,
   });
 
-  @override
-  State<EmailTile> createState() => _EmailTileState();
-}
-
-class _EmailTileState extends State<EmailTile> {
   /// Check if I am the sender of this email
   bool get _isSentByMe {
     final myPubkey = Get.find<AuthController>().publicKey;
-    return widget.email.senderPubkey == myPubkey;
+    return email.senderPubkey == myPubkey;
   }
 
   /// Get the address to display (to for sent emails, from for received).
   MailAddress get _displayAddress {
     if (_isSentByMe) {
-      return widget.email.mime.to?.firstOrNull ?? MailAddress(null, '');
+      return email.mime.to?.firstOrNull ?? MailAddress(null, '');
     } else {
-      return widget.email.sender ?? MailAddress(null, '');
+      return email.sender ?? MailAddress(null, '');
     }
   }
 
@@ -73,9 +67,9 @@ class _EmailTileState extends State<EmailTile> {
   ///   global flag.
   String get _otherSidePubkey {
     if (!_isSentByMe) {
-      return widget.email.isBridged ? '' : widget.email.senderPubkey;
+      return email.isBridged ? '' : email.senderPubkey;
     }
-    final to = widget.email.mime.to?.firstOrNull;
+    final to = email.mime.to?.firstOrNull;
     if (to == null) return '';
     return extractPubkeyFromAddress(to.email) ?? '';
   }
@@ -85,7 +79,7 @@ class _EmailTileState extends State<EmailTile> {
   /// Outgoing bridged emails don't persist the bridge locally.
   String get _bridgePubkey {
     if (_isSentByMe) return '';
-    return widget.email.isBridged ? widget.email.senderPubkey : '';
+    return email.isBridged ? email.senderPubkey : '';
   }
 
   /// Number of additional recipients beyond the one whose avatar is shown.
@@ -93,7 +87,7 @@ class _EmailTileState extends State<EmailTile> {
   /// of your gift-wrap copy, even if cc/bcc were used).
   int get _extraRecipientCount {
     if (!_isSentByMe) return 0;
-    final mime = widget.email.mime;
+    final mime = email.mime;
     final total =
         (mime.to?.length ?? 0) +
         (mime.cc?.length ?? 0) +
@@ -108,7 +102,7 @@ class _EmailTileState extends State<EmailTile> {
     if (controller.currentFolder.value != MailFolder.inbox) {
       return false;
     }
-    return !controller.isEmailRead(widget.email.id);
+    return !controller.isEmailRead(email.id);
   }
 
   String get _displayName {
@@ -138,7 +132,7 @@ class _EmailTileState extends State<EmailTile> {
     return Column(
       children: [
         Dismissible(
-          key: ValueKey(widget.email.id),
+          key: ValueKey(email.id),
           direction: isInTrash
               ? DismissDirection.endToStart
               : DismissDirection.horizontal,
@@ -161,13 +155,13 @@ class _EmailTileState extends State<EmailTile> {
             if (direction == DismissDirection.startToEnd) {
               // Swipe right - archive (or restore from archive)
               if (isInArchive) {
-                widget.onRestore?.call();
+                onRestore?.call();
               } else {
-                widget.onArchive?.call();
+                onArchive?.call();
               }
             } else if (direction == DismissDirection.endToStart) {
               // Swipe left - delete
-              widget.onDelete?.call();
+              onDelete?.call();
             }
           },
           child: GestureDetector(
@@ -201,7 +195,7 @@ class _EmailTileState extends State<EmailTile> {
             leadingIcon: const Icon(Icons.reply),
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onReply?.call();
+              onReply?.call();
             },
             child: Text(l.emailReply),
           ),
@@ -209,7 +203,7 @@ class _EmailTileState extends State<EmailTile> {
             leadingIcon: const Icon(Icons.forward),
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onForward?.call();
+              onForward?.call();
             },
             child: Text(l.emailForward),
           ),
@@ -219,7 +213,7 @@ class _EmailTileState extends State<EmailTile> {
               leadingIcon: const Icon(Icons.archive),
               onPressed: () {
                 Navigator.of(context).pop();
-                widget.onArchive?.call();
+                onArchive?.call();
               },
               child: Text(l.emailArchive),
             )
@@ -228,7 +222,7 @@ class _EmailTileState extends State<EmailTile> {
               leadingIcon: const Icon(Icons.unarchive),
               onPressed: () {
                 Navigator.of(context).pop();
-                widget.onRestore?.call();
+                onRestore?.call();
               },
               child: Text(l.emailUnarchive),
             ),
@@ -240,7 +234,7 @@ class _EmailTileState extends State<EmailTile> {
                 onPressed: () {
                   Navigator.of(context).pop();
                   final inboxController = Get.find<InboxController>();
-                  inboxController.markAsRead(widget.email.id);
+                  inboxController.markAsRead(email.id);
                 },
                 child: Text(l.emailMarkAsRead),
               )
@@ -250,7 +244,7 @@ class _EmailTileState extends State<EmailTile> {
                 onPressed: () {
                   Navigator.of(context).pop();
                   final inboxController = Get.find<InboxController>();
-                  inboxController.markAsUnread(widget.email.id);
+                  inboxController.markAsUnread(email.id);
                 },
                 child: Text(l.emailMarkAsUnread),
               ),
@@ -259,7 +253,7 @@ class _EmailTileState extends State<EmailTile> {
             leadingIcon: const Icon(Icons.delete_outline),
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onDelete?.call();
+              onDelete?.call();
             },
             child: Text(l.emailMoveToTrash),
           ),
@@ -268,7 +262,7 @@ class _EmailTileState extends State<EmailTile> {
             leadingIcon: const Icon(Icons.restore_from_trash),
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onRestore?.call();
+              onRestore?.call();
             },
             child: Text(l.emailRestore),
           ),
@@ -276,7 +270,7 @@ class _EmailTileState extends State<EmailTile> {
             leadingIcon: Icon(Icons.delete_forever, color: colorScheme.error),
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onDelete?.call();
+              onDelete?.call();
             },
             child: Text(
               l.emailDeletePermanently,
@@ -328,7 +322,7 @@ class _EmailTileState extends State<EmailTile> {
                   title: Text(l.emailReply),
                   onTap: () {
                     Navigator.pop(context);
-                    widget.onReply?.call();
+                    onReply?.call();
                   },
                 ),
                 ListTile(
@@ -336,7 +330,7 @@ class _EmailTileState extends State<EmailTile> {
                   title: Text(l.emailForward),
                   onTap: () {
                     Navigator.pop(context);
-                    widget.onForward?.call();
+                    onForward?.call();
                   },
                 ),
                 const Divider(height: 1),
@@ -346,7 +340,7 @@ class _EmailTileState extends State<EmailTile> {
                     title: Text(l.emailArchive),
                     onTap: () {
                       Navigator.pop(context);
-                      widget.onArchive?.call();
+                      onArchive?.call();
                     },
                   )
                 else
@@ -355,7 +349,7 @@ class _EmailTileState extends State<EmailTile> {
                     title: Text(l.emailUnarchive),
                     onTap: () {
                       Navigator.pop(context);
-                      widget.onRestore?.call();
+                      onRestore?.call();
                     },
                   ),
                 if (currentFolder == MailFolder.inbox) ...[
@@ -367,7 +361,7 @@ class _EmailTileState extends State<EmailTile> {
                       onTap: () {
                         Navigator.pop(context);
                         final inboxController = Get.find<InboxController>();
-                        inboxController.markAsRead(widget.email.id);
+                        inboxController.markAsRead(email.id);
                       },
                     )
                   else
@@ -377,7 +371,7 @@ class _EmailTileState extends State<EmailTile> {
                       onTap: () {
                         Navigator.pop(context);
                         final inboxController = Get.find<InboxController>();
-                        inboxController.markAsUnread(widget.email.id);
+                        inboxController.markAsUnread(email.id);
                       },
                     ),
                 ],
@@ -386,7 +380,7 @@ class _EmailTileState extends State<EmailTile> {
                   title: Text(l.emailMoveToTrash),
                   onTap: () {
                     Navigator.pop(context);
-                    widget.onDelete?.call();
+                    onDelete?.call();
                   },
                 ),
               ] else ...[
@@ -395,7 +389,7 @@ class _EmailTileState extends State<EmailTile> {
                   title: Text(l.emailRestore),
                   onTap: () {
                     Navigator.pop(context);
-                    widget.onRestore?.call();
+                    onRestore?.call();
                   },
                 ),
                 ListTile(
@@ -406,7 +400,7 @@ class _EmailTileState extends State<EmailTile> {
                   ),
                   onTap: () {
                     Navigator.pop(context);
-                    widget.onDelete?.call();
+                    onDelete?.call();
                   },
                 ),
               ],
@@ -421,15 +415,15 @@ class _EmailTileState extends State<EmailTile> {
     final l = AppLocalizations.of(context);
     return Obx(() {
       final isUnread = this.isUnread;
-      final subject = (widget.email.subject?.isEmpty ?? true)
+      final subject = (email.subject?.isEmpty ?? true)
           ? l.emailNoSubject
-          : widget.email.subject!;
-      final attachments = widget.email.attachmentRefs;
+          : email.subject!;
+      final attachments = email.attachmentRefs;
 
       return InkWell(
-        onTap: widget.onTap,
+        onTap: onTap,
         child: Container(
-          color: widget.isSelected
+          color: isSelected
               ? colorScheme.primaryContainer.withValues(alpha: 0.3)
               : null,
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -438,9 +432,9 @@ class _EmailTileState extends State<EmailTile> {
               SizedBox(
                 width: 40,
                 child: Checkbox(
-                  value: widget.isSelected,
-                  onChanged: widget.onToggleSelect != null
-                      ? (_) => widget.onToggleSelect!()
+                  value: isSelected,
+                  onChanged: onToggleSelect != null
+                      ? (_) => onToggleSelect!()
                       : null,
                 ),
               ),
@@ -494,7 +488,7 @@ class _EmailTileState extends State<EmailTile> {
                         Flexible(
                           flex: 3,
                           child: Text(
-                            widget.email.body,
+                            email.body,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -512,7 +506,7 @@ class _EmailTileState extends State<EmailTile> {
               ),
               const SizedBox(width: 16),
               Text(
-                formatDate(context, widget.email.date),
+                formatDate(context, email.date),
                 style: TextStyle(
                   color: colorScheme.onSurfaceVariant,
                   fontSize: 12,
@@ -530,7 +524,7 @@ class _EmailTileState extends State<EmailTile> {
     final colorScheme = Theme.of(context).colorScheme;
     return Obx(() {
       final isUnread = this.isUnread;
-      final attachments = widget.email.attachmentRefs;
+      final attachments = email.attachmentRefs;
       final controller = Get.find<InboxController>();
       final isSelectionMode = controller.hasSelection;
 
@@ -540,15 +534,15 @@ class _EmailTileState extends State<EmailTile> {
             onTap: () {
               if (isSelectionMode) {
                 // In selection mode, toggle selection instead of opening email
-                widget.onToggleSelect?.call();
+                onToggleSelect?.call();
               } else {
                 // Normal mode, open email
-                widget.onTap();
+                onTap();
               }
             },
             onLongPress: () {
               // Long press to enter selection mode
-              widget.onToggleSelect?.call();
+              onToggleSelect?.call();
             },
             leading: _buildAvatarWithSelection(context),
             title: Row(
@@ -556,9 +550,9 @@ class _EmailTileState extends State<EmailTile> {
                 if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
                 Expanded(
                   child: Text(
-                    (widget.email.subject?.isEmpty ?? true)
+                    (email.subject?.isEmpty ?? true)
                         ? l.emailNoSubject
-                        : widget.email.subject!,
+                        : email.subject!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -582,7 +576,7 @@ class _EmailTileState extends State<EmailTile> {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  widget.email.body,
+                  email.body,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -593,7 +587,7 @@ class _EmailTileState extends State<EmailTile> {
               ],
             ),
             trailing: Text(
-              formatDate(context, widget.email.date),
+              formatDate(context, email.date),
               style: TextStyle(
                 color: colorScheme.onSurfaceVariant,
                 fontSize: 11,
@@ -667,7 +661,7 @@ class _EmailTileState extends State<EmailTile> {
   Widget _buildAvatarWithSelection(BuildContext context) {
     final mainAvatar = _buildAvatar(context);
 
-    if (!widget.isSelected) {
+    if (!isSelected) {
       return mainAvatar;
     }
 
