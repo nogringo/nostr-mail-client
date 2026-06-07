@@ -53,7 +53,7 @@ void main() async {
   await storageService.init();
   Get.put(storageService, permanent: true);
 
-  // Initialize NDK with switchable verifier for hot-swap capability
+  // Initialize NDK with event verification enabled.
   final cacheManager = await NdkCacheService.createCacheManager(storageService);
   final ndk = Ndk(
     NdkConfig(
