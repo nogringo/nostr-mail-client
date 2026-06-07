@@ -1,8 +1,5 @@
 # Nostr Mail Client
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-0.6.3+4-blue.svg)](pubspec.yaml)
-
 **Take back your inbox. Private, decentralized mail that you truly own.**
 
 Today, your email address belongs to a big company. They can scan your data, show you ads, or even close your account. This app changes that. It gives you a personal mailbox that belongs only to you, on a network that no one can shut down or control.
