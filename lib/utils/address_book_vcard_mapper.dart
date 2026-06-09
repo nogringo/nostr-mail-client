@@ -20,6 +20,8 @@ class AddressBookVCardMapper {
       displayName: parsed.formattedName,
       emails: parsed.emails.map((email) => email.address).toList(),
       nostrPubkeys: _nostrPubkeys(parsed).toList(),
+      phones: parsed.telephones.map((phone) => phone.number).toList(),
+      birthday: _birthdayFromVCard(parsed.birthday),
     );
   }
 
@@ -29,6 +31,8 @@ class AddressBookVCardMapper {
   }) {
     final name = form.displayName.trim();
     final emails = _unique(form.emails.map((email) => email.trim()));
+    final phones = _unique(form.phones.map((phone) => phone.trim()));
+    final birthday = _parseBirthday(form.birthday);
     final nostrPubkeys = _unique(
       form.nostrPubkeys.map((pubkey) {
         final normalized = normalizeNostrPubkey(pubkey);
@@ -42,14 +46,19 @@ class AddressBookVCardMapper {
     if (name.isEmpty) {
       throw const AddressBookValidationException('Name is required');
     }
-    if (emails.isEmpty && nostrPubkeys.isEmpty) {
+    if (emails.isEmpty && nostrPubkeys.isEmpty && phones.isEmpty) {
       throw const AddressBookValidationException(
-        'At least one email or Nostr identity is required',
+        'At least one email, phone, or Nostr identity is required',
       );
     }
     for (final email in emails) {
       if (!_isValidEmail(email)) {
         throw AddressBookValidationException('Invalid email: $email');
+      }
+    }
+    for (final phone in phones) {
+      if (!_isValidPhone(phone)) {
+        throw AddressBookValidationException('Invalid phone: $phone');
       }
     }
 
@@ -67,6 +76,13 @@ class AddressBookVCardMapper {
         for (var i = 0; i < emails.length; i++)
           vcard.Email(address: emails[i], pref: i == 0 ? 1 : null),
       ]);
+    parsed.telephones
+      ..clear()
+      ..addAll([
+        for (var i = 0; i < phones.length; i++)
+          vcard.Telephone(number: phones[i], pref: i == 0 ? 1 : null),
+      ]);
+    parsed.birthday = birthday;
 
     final nonNostrImpps = parsed.impps
         .where((impp) => !impp.uri.toLowerCase().startsWith('nostr:'))
@@ -158,5 +174,35 @@ class AddressBookVCardMapper {
 
   static bool _isValidEmail(String email) {
     return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
+  }
+
+  static bool _isValidPhone(String phone) {
+    return RegExp(r'\d').hasMatch(phone) &&
+        RegExp(r'^[0-9+().\-\s]+$').hasMatch(phone);
+  }
+
+  static String? _birthdayFromVCard(vcard.DateOrDateTime? birthday) {
+    if (birthday == null || birthday.isEmpty) return null;
+    if (birthday.isCompleteDate) {
+      final year = birthday.year.toString().padLeft(4, '0');
+      final month = birthday.month.toString().padLeft(2, '0');
+      final day = birthday.day.toString().padLeft(2, '0');
+      return '$year-$month-$day';
+    }
+    return birthday.toDateString();
+  }
+
+  static vcard.DateOrDateTime? _parseBirthday(String? input) {
+    final value = input?.trim();
+    if (value == null || value.isEmpty) return null;
+    if (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value)) {
+      throw AddressBookValidationException('Invalid birthday: $input');
+    }
+    final normalized = value.replaceAll('-', '');
+    final parsed = vcard.DateOrDateTime.tryParse(normalized);
+    if (parsed == null || parsed.isEmpty || !parsed.isCompleteDate) {
+      throw AddressBookValidationException('Invalid birthday: $input');
+    }
+    return parsed;
   }
 }

@@ -955,6 +955,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsAddEmailHint => 'Add email address';
 
   @override
+  String get contactsPhonesLabel => 'Phone numbers';
+
+  @override
+  String get contactsAddPhoneHint => 'Add phone number';
+
+  @override
+  String get contactsBirthdayLabel => 'Birthday';
+
+  @override
+  String get contactsBirthdayHint => 'YYYY-MM-DD';
+
+  @override
   String get contactsNostrLabel => 'Nostr identities';
 
   @override
@@ -991,6 +1003,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contactsEmailsTitle => 'Email';
+
+  @override
+  String get contactsPhonesTitle => 'Phone';
+
+  @override
+  String get contactsBirthdayTitle => 'Birthday';
 
   @override
   String get contactsNostrTitle => 'Nostr';

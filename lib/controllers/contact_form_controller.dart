@@ -15,11 +15,14 @@ class ContactFormController extends GetxController {
   late final TextEditingController nameController;
   late final TextEditingController emailInputController;
   late final TextEditingController nostrInputController;
+  late final TextEditingController phoneInputController;
+  late final TextEditingController birthdayController;
 
   final isSaving = false.obs;
   final error = RxnString();
   final emails = <String>[].obs;
   final nostrIdentifiers = <String>[].obs;
+  final phones = <String>[].obs;
 
   ContactsController get _contactsController => Get.find<ContactsController>();
 
@@ -34,10 +37,13 @@ class ContactFormController extends GetxController {
     nameController = TextEditingController(text: form?.displayName ?? '');
     emailInputController = TextEditingController();
     nostrInputController = TextEditingController();
+    phoneInputController = TextEditingController();
+    birthdayController = TextEditingController(text: form?.birthday ?? '');
     emails.assignAll(form?.emails ?? const []);
     nostrIdentifiers.assignAll(
       form?.nostrPubkeys.map(Nip19.encodePubKey) ?? const [],
     );
+    phones.assignAll(form?.phones ?? const []);
   }
 
   @override
@@ -45,11 +51,17 @@ class ContactFormController extends GetxController {
     nameController.dispose();
     emailInputController.dispose();
     nostrInputController.dispose();
+    phoneInputController.dispose();
+    birthdayController.dispose();
     super.onClose();
   }
 
   void addEmailFromInput() {
     _addMethod(emailInputController, emails);
+  }
+
+  void addPhoneFromInput() {
+    _addMethod(phoneInputController, phones);
   }
 
   Future<bool> addNostrFromInput() async {
@@ -86,12 +98,17 @@ class ContactFormController extends GetxController {
     nostrIdentifiers.remove(identifier);
   }
 
+  void removePhone(String phone) {
+    phones.remove(phone);
+  }
+
   Future<bool> save() async {
     if (isSaving.value) return false;
     isSaving.value = true;
     error.value = null;
     try {
       _addMethod(emailInputController, emails);
+      _addMethod(phoneInputController, phones);
       if (!await addNostrFromInput()) return false;
       await _contactsController.save(
         AddressBookContactForm(
@@ -99,6 +116,8 @@ class ContactFormController extends GetxController {
           displayName: nameController.text,
           emails: emails.toList(),
           nostrPubkeys: nostrIdentifiers.toList(),
+          phones: phones.toList(),
+          birthday: birthdayController.text,
         ),
         existing: contact,
       );

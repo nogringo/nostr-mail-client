@@ -3,12 +3,16 @@ class AddressBookContactForm {
   final String displayName;
   final List<String> emails;
   final List<String> nostrPubkeys;
+  final List<String> phones;
+  final String? birthday;
 
   const AddressBookContactForm({
     this.uid,
     required this.displayName,
     this.emails = const [],
     this.nostrPubkeys = const [],
+    this.phones = const [],
+    this.birthday,
   });
 
   AddressBookContactForm copyWith({
@@ -16,12 +20,16 @@ class AddressBookContactForm {
     String? displayName,
     List<String>? emails,
     List<String>? nostrPubkeys,
+    List<String>? phones,
+    String? birthday,
   }) {
     return AddressBookContactForm(
       uid: uid ?? this.uid,
       displayName: displayName ?? this.displayName,
       emails: emails ?? this.emails,
       nostrPubkeys: nostrPubkeys ?? this.nostrPubkeys,
+      phones: phones ?? this.phones,
+      birthday: birthday ?? this.birthday,
     );
   }
 }

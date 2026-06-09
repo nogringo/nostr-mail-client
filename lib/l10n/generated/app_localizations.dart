@@ -1927,6 +1927,30 @@ abstract class AppLocalizations {
   /// **'Add email address'**
   String get contactsAddEmailHint;
 
+  /// Label for the contact phone numbers field
+  ///
+  /// In en, this message translates to:
+  /// **'Phone numbers'**
+  String get contactsPhonesLabel;
+
+  /// Hint for the add-phone input in the contact form
+  ///
+  /// In en, this message translates to:
+  /// **'Add phone number'**
+  String get contactsAddPhoneHint;
+
+  /// Label for the contact birthday field
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get contactsBirthdayLabel;
+
+  /// Hint for the contact birthday field
+  ///
+  /// In en, this message translates to:
+  /// **'YYYY-MM-DD'**
+  String get contactsBirthdayHint;
+
   /// Label for Nostr identifiers in the contact form
   ///
   /// In en, this message translates to:
@@ -1998,6 +2022,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email'**
   String get contactsEmailsTitle;
+
+  /// Section title for contact phone numbers
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get contactsPhonesTitle;
+
+  /// Section title for a contact birthday
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get contactsBirthdayTitle;
 
   /// Section title for contact Nostr identities
   ///

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/contact_form_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import 'contact_birthday_field.dart';
 import 'contact_methods_field.dart';
 import '../../../utils/address_book_vcard_mapper.dart';
 import '../../../widgets/nostr_avatar.dart';
@@ -62,6 +63,12 @@ class ContactFormSheet extends StatelessWidget {
                 textInputAction: TextInputAction.next,
               ),
               const SizedBox(height: 14),
+              ContactBirthdayField(
+                label: l.contactsBirthdayLabel,
+                hintText: l.contactsBirthdayHint,
+                controller: controller.birthdayController,
+              ),
+              const SizedBox(height: 14),
               Obx(
                 () => ContactMethodsField(
                   label: l.contactsEmailsLabel,
@@ -72,6 +79,19 @@ class ContactFormSheet extends StatelessWidget {
                   addTooltip: l.actionAdd,
                   onAdd: controller.addEmailFromInput,
                   onRemove: controller.removeEmail,
+                ),
+              ),
+              const SizedBox(height: 14),
+              Obx(
+                () => ContactMethodsField(
+                  label: l.contactsPhonesLabel,
+                  hintText: l.contactsAddPhoneHint,
+                  values: controller.phones.toList(),
+                  controller: controller.phoneInputController,
+                  keyboardType: TextInputType.phone,
+                  addTooltip: l.actionAdd,
+                  onAdd: controller.addPhoneFromInput,
+                  onRemove: controller.removePhone,
                 ),
               ),
               const SizedBox(height: 14),

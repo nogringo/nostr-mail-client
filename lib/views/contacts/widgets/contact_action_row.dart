@@ -10,14 +10,14 @@ class ContactActionRow extends StatelessWidget {
   final Widget title;
   final Widget? leading;
   final String copyValue;
-  final VoidCallback onCompose;
+  final VoidCallback? onCompose;
 
   const ContactActionRow({
     super.key,
     required this.icon,
     required this.title,
     required this.copyValue,
-    required this.onCompose,
+    this.onCompose,
     this.leading,
   });
 
@@ -31,11 +31,13 @@ class ContactActionRow extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
         leading: leading ?? Icon(icon),
         title: title,
-        trailing: IconButton(
-          icon: const Icon(Icons.mail_outline),
-          tooltip: l.inboxCompose,
-          onPressed: onCompose,
-        ),
+        trailing: onCompose == null
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.mail_outline),
+                tooltip: l.inboxCompose,
+                onPressed: onCompose,
+              ),
       ),
     );
   }

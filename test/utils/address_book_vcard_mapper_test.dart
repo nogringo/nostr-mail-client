@@ -37,6 +37,23 @@ void main() {
     expect(card.impps.single.uri, 'nostr:${Nip19.encodePubKey(pubkey)}');
   });
 
+  test('creates vCard with birthday and phone', () {
+    final text = AddressBookVCardMapper.buildVCard(
+      const AddressBookContactForm(
+        displayName: 'Phone Friend',
+        phones: ['+33 6 12 34 56 78'],
+        birthday: '1990-04-12',
+      ),
+    );
+
+    final card = parser.parseSingle(text);
+    expect(card.formattedName, 'Phone Friend');
+    expect(card.telephones.single.number, '+33612345678');
+    expect(card.birthday?.toDateString(), '19900412');
+    expect(text, contains('TEL'));
+    expect(text, contains('BDAY:19900412'));
+  });
+
   test('editing preserves UID and X properties', () {
     const existing = '''
 BEGIN:VCARD
@@ -90,6 +107,25 @@ END:VCARD
         const AddressBookContactForm(
           displayName: 'Bad Nostr',
           nostrPubkeys: ['not-a-pubkey'],
+        ),
+      ),
+      throwsA(isA<AddressBookValidationException>()),
+    );
+    expect(
+      () => AddressBookVCardMapper.buildVCard(
+        const AddressBookContactForm(
+          displayName: 'Bad Phone',
+          phones: ['not-a-phone'],
+        ),
+      ),
+      throwsA(isA<AddressBookValidationException>()),
+    );
+    expect(
+      () => AddressBookVCardMapper.buildVCard(
+        const AddressBookContactForm(
+          displayName: 'Bad Birthday',
+          phones: ['+123'],
+          birthday: 'April 12',
         ),
       ),
       throwsA(isA<AddressBookValidationException>()),

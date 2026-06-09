@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../utils/contact_birthday_utils.dart';
 import 'contact_action_row.dart';
 import 'contact_header.dart';
 import 'contact_nostr_section.dart';
@@ -27,11 +28,26 @@ class ContactDetailPane extends StatelessWidget {
       if (displayedContact == null) {
         return Center(child: Text(l.contactsSelectPrompt));
       }
+      final form = controller.formFor(displayedContact);
+      final birthday = form.birthday?.trim();
       return ListView(
         padding: const EdgeInsets.all(24),
         children: [
           ContactHeader(contact: displayedContact),
           const SizedBox(height: 24),
+          if (birthday != null && birthday.isNotEmpty) ...[
+            ContactSectionTitle(l.contactsBirthdayTitle),
+            const SizedBox(height: 8),
+            ContactActionRow(
+              icon: Icons.cake_outlined,
+              title: Text(
+                formatContactBirthdayForDisplay(context, birthday),
+                overflow: TextOverflow.ellipsis,
+              ),
+              copyValue: birthday,
+            ),
+            const SizedBox(height: 24),
+          ],
           if (displayedContact.index.emails.isNotEmpty) ...[
             ContactSectionTitle(l.contactsEmailsTitle),
             const SizedBox(height: 8),
@@ -41,6 +57,17 @@ class ContactDetailPane extends StatelessWidget {
                 title: Text(email, overflow: TextOverflow.ellipsis),
                 copyValue: email,
                 onCompose: () => controller.composeToEmail(context, email),
+              ),
+            const SizedBox(height: 24),
+          ],
+          if (form.phones.isNotEmpty) ...[
+            ContactSectionTitle(l.contactsPhonesTitle),
+            const SizedBox(height: 8),
+            for (final phone in form.phones)
+              ContactActionRow(
+                icon: Icons.phone_outlined,
+                title: Text(phone, overflow: TextOverflow.ellipsis),
+                copyValue: phone,
               ),
             const SizedBox(height: 24),
           ],
