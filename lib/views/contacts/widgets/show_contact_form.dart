@@ -18,11 +18,11 @@ Future<void> showContactForm(
   }
 
   final tag = UniqueKey().toString();
-  Get.put(
+  final controller = Get.put(
     ContactFormController(contact: contact, initialForm: initialForm),
     tag: tag,
   );
-  final form = ContactFormSheet(controllerTag: tag);
+  final form = ContactFormSheet(controller: controller);
   if (ResponsiveHelper.isNotMobile(context)) {
     try {
       return await showDialog<void>(

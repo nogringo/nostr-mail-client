@@ -10,12 +10,9 @@ import 'nostr_identity_label.dart';
 import 'quiet_field.dart';
 
 class ContactFormSheet extends StatelessWidget {
-  final String controllerTag;
+  final ContactFormController controller;
 
-  const ContactFormSheet({super.key, required this.controllerTag});
-
-  ContactFormController get controller =>
-      Get.find<ContactFormController>(tag: controllerTag);
+  const ContactFormSheet({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
