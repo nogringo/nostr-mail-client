@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import 'contact_actions.dart';
 import 'contact_detail_pane.dart';
 
 class MobileContactDetailPage extends StatelessWidget {
@@ -21,6 +22,17 @@ class MobileContactDetailPage extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: Text(contact?.index.formattedName ?? l.contactsTitle),
+          actions: [
+            if (contact != null)
+              ContactActions(
+                contact: contact,
+                onDeleted: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+          ],
         ),
         body: ContactDetailPane(
           uid: uid,

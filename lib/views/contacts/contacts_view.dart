@@ -5,6 +5,7 @@ import '../../controllers/contacts_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
+import 'widgets/contact_actions.dart';
 import 'widgets/contact_detail_pane.dart';
 import 'widgets/contacts_sidebar.dart';
 import 'widgets/mobile_contact_detail_page.dart';
@@ -46,6 +47,12 @@ class ContactsView extends StatelessWidget {
               onPressed: controller.retryBroadcasts,
             );
           }),
+          if (isWide)
+            Obx(() {
+              final contact = Get.find<ContactsController>().selectedContact;
+              if (contact == null) return const SizedBox.shrink();
+              return ContactActions(contact: contact);
+            }),
           if (!isWide)
             Obx(() {
               final controller = Get.find<ContactsController>();

@@ -30,7 +30,7 @@ class ContactDetailPane extends StatelessWidget {
       return ListView(
         padding: const EdgeInsets.all(24),
         children: [
-          ContactHeader(contact: displayedContact, onDeleted: onDeleted),
+          ContactHeader(contact: displayedContact),
           const SizedBox(height: 24),
           if (displayedContact.index.emails.isNotEmpty) ...[
             ContactSectionTitle(l.contactsEmailsTitle),
