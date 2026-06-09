@@ -4,7 +4,13 @@ import 'package:ndk/ndk.dart';
 import '../utils/metadata_extensions.dart';
 import 'recipient.dart';
 
-enum ContactSource { emailHistory, nostrFollow, cachedProfile, nip05Lookup }
+enum ContactSource {
+  addressBook,
+  emailHistory,
+  nostrFollow,
+  cachedProfile,
+  nip05Lookup,
+}
 
 class Contact {
   final String? pubkey;
@@ -14,6 +20,8 @@ class Contact {
   final MailAddress? mailAddress;
   final ContactSource source;
   final DateTime? lastInteraction;
+  final String? addressBookUid;
+  final String? contactMethodId;
 
   const Contact({
     this.pubkey,
@@ -23,6 +31,8 @@ class Contact {
     this.mailAddress,
     required this.source,
     this.lastInteraction,
+    this.addressBookUid,
+    this.contactMethodId,
   });
 
   bool get isLegacy => pubkey == null || pubkey!.isEmpty;
@@ -69,7 +79,8 @@ class Contact {
   }
 
   /// Unique identifier for this contact
-  String get id => pubkey ?? mailAddress?.email ?? '';
+  String get id =>
+      contactMethodId ?? pubkey ?? mailAddress?.email.toLowerCase() ?? '';
 
   Recipient toRecipient() {
     if (isLegacy) {
@@ -150,6 +161,9 @@ class Contact {
       // Boost score for email history contacts
       if (source == ContactSource.emailHistory) {
         score += 5;
+      }
+      if (source == ContactSource.addressBook) {
+        score += 20;
       }
 
       // Boost for recent interactions

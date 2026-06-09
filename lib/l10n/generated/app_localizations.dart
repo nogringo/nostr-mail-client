@@ -1807,6 +1807,12 @@ abstract class AppLocalizations {
   /// **'Resolving NIP-05...'**
   String get composeResolvingNip05;
 
+  /// Tooltip on a suggestion sourced from the private address book
+  ///
+  /// In en, this message translates to:
+  /// **'Address book'**
+  String get contactSourceAddressBook;
+
   /// Tooltip on a suggestion sourced from previous email history
   ///
   /// In en, this message translates to:
@@ -1830,6 +1836,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'NIP-05 verified'**
   String get contactSourceNip05Verified;
+
+  /// Title for the contacts section
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts'**
+  String get contactsTitle;
+
+  /// Button label to add a new contact
+  ///
+  /// In en, this message translates to:
+  /// **'Add contact'**
+  String get contactsAdd;
+
+  /// Tooltip or action label to save a sender/recipient to contacts
+  ///
+  /// In en, this message translates to:
+  /// **'Add to contacts'**
+  String get contactsAddToContacts;
+
+  /// Tooltip for syncing private contacts from relays
+  ///
+  /// In en, this message translates to:
+  /// **'Sync contacts'**
+  String get contactsSync;
+
+  /// Tooltip for retrying queued contact broadcasts
+  ///
+  /// In en, this message translates to:
+  /// **'Retry pending contact updates'**
+  String get contactsRetry;
+
+  /// Placeholder for the contacts search field
+  ///
+  /// In en, this message translates to:
+  /// **'Search contacts'**
+  String get contactsSearchHint;
+
+  /// Empty state text for the contacts list
+  ///
+  /// In en, this message translates to:
+  /// **'No contacts yet'**
+  String get contactsEmpty;
+
+  /// Empty state text for a contacts search with no results
+  ///
+  /// In en, this message translates to:
+  /// **'No matching contacts'**
+  String get contactsSearchEmpty;
+
+  /// Placeholder shown when no contact is selected
+  ///
+  /// In en, this message translates to:
+  /// **'Select a contact'**
+  String get contactsSelectPrompt;
+
+  /// Title of the create contact form
+  ///
+  /// In en, this message translates to:
+  /// **'New contact'**
+  String get contactsCreateTitle;
+
+  /// Title of the edit contact form
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contact'**
+  String get contactsEditTitle;
+
+  /// Label for the contact display name field
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get contactsNameLabel;
+
+  /// Label for the contact emails field
+  ///
+  /// In en, this message translates to:
+  /// **'Email addresses'**
+  String get contactsEmailsLabel;
+
+  /// Hint for multi-value contact fields
+  ///
+  /// In en, this message translates to:
+  /// **'One per line'**
+  String get contactsMultilineHint;
+
+  /// Hint for the add-email input in the contact form
+  ///
+  /// In en, this message translates to:
+  /// **'Add email address'**
+  String get contactsAddEmailHint;
+
+  /// Label for Nostr identifiers in the contact form
+  ///
+  /// In en, this message translates to:
+  /// **'Nostr identities'**
+  String get contactsNostrLabel;
+
+  /// Hint for Nostr identifier input
+  ///
+  /// In en, this message translates to:
+  /// **'npub, nprofile, hex pubkey, or NIP-05'**
+  String get contactsNostrHint;
+
+  /// Hint for the add-Nostr-identity input in the contact form
+  ///
+  /// In en, this message translates to:
+  /// **'Add npub, nprofile, hex pubkey, or NIP-05'**
+  String get contactsAddNostrHint;
+
+  /// Cancel button in contact dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get contactsCancel;
+
+  /// Save button in contact dialogs
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get contactsSave;
+
+  /// Tooltip for editing a contact
+  ///
+  /// In en, this message translates to:
+  /// **'Edit contact'**
+  String get contactsEdit;
+
+  /// Tooltip for copying a contact's raw vCard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy vCard'**
+  String get contactsCopyVCard;
+
+  /// Toast shown after copying a contact vCard
+  ///
+  /// In en, this message translates to:
+  /// **'vCard copied'**
+  String get contactsVCardCopied;
+
+  /// Delete action for a contact
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get contactsDelete;
+
+  /// Title for deleting a contact confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete contact?'**
+  String get contactsDeleteTitle;
+
+  /// Body text for deleting a contact confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'This removes the contact from your private address book.'**
+  String get contactsDeleteBody;
+
+  /// Section title for contact email addresses
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get contactsEmailsTitle;
+
+  /// Section title for contact Nostr identities
+  ///
+  /// In en, this message translates to:
+  /// **'Nostr'**
+  String get contactsNostrTitle;
 
   /// AppBar title of the profile editor
   ///

@@ -15,6 +15,7 @@ const _folderPaths = [
   AppRoutes.sent,
   AppRoutes.archive,
   AppRoutes.trash,
+  AppRoutes.contacts,
 ];
 
 class AppDrawer extends StatelessWidget {
@@ -209,6 +210,11 @@ class AppDrawer extends StatelessWidget {
           icon: const Icon(Icons.delete_outlined),
           selectedIcon: const Icon(Icons.delete),
           label: Text(l.folderTrash),
+        ),
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.contacts_outlined),
+          selectedIcon: const Icon(Icons.contacts),
+          label: Text(l.contactsTitle),
         ),
         const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16),

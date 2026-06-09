@@ -891,6 +891,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeResolvingNip05 => '正在解析 NIP-05...';
 
   @override
+  String get contactSourceAddressBook => 'Address book';
+
+  @override
   String get contactSourceEmailHistory => '邮件历史';
 
   @override
@@ -901,6 +904,92 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contactSourceNip05Verified => '已验证 NIP-05';
+
+  @override
+  String get contactsTitle => 'Contacts';
+
+  @override
+  String get contactsAdd => 'Add contact';
+
+  @override
+  String get contactsAddToContacts => 'Add to contacts';
+
+  @override
+  String get contactsSync => 'Sync contacts';
+
+  @override
+  String get contactsRetry => 'Retry pending contact updates';
+
+  @override
+  String get contactsSearchHint => 'Search contacts';
+
+  @override
+  String get contactsEmpty => 'No contacts yet';
+
+  @override
+  String get contactsSearchEmpty => 'No matching contacts';
+
+  @override
+  String get contactsSelectPrompt => 'Select a contact';
+
+  @override
+  String get contactsCreateTitle => 'New contact';
+
+  @override
+  String get contactsEditTitle => 'Edit contact';
+
+  @override
+  String get contactsNameLabel => 'Name';
+
+  @override
+  String get contactsEmailsLabel => 'Email addresses';
+
+  @override
+  String get contactsMultilineHint => 'One per line';
+
+  @override
+  String get contactsAddEmailHint => 'Add email address';
+
+  @override
+  String get contactsNostrLabel => 'Nostr identities';
+
+  @override
+  String get contactsNostrHint => 'npub, nprofile, hex pubkey, or NIP-05';
+
+  @override
+  String get contactsAddNostrHint =>
+      'Add npub, nprofile, hex pubkey, or NIP-05';
+
+  @override
+  String get contactsCancel => 'Cancel';
+
+  @override
+  String get contactsSave => 'Save';
+
+  @override
+  String get contactsEdit => 'Edit contact';
+
+  @override
+  String get contactsCopyVCard => 'Copy vCard';
+
+  @override
+  String get contactsVCardCopied => 'vCard copied';
+
+  @override
+  String get contactsDelete => 'Delete';
+
+  @override
+  String get contactsDeleteTitle => 'Delete contact?';
+
+  @override
+  String get contactsDeleteBody =>
+      'This removes the contact from your private address book.';
+
+  @override
+  String get contactsEmailsTitle => 'Email';
+
+  @override
+  String get contactsNostrTitle => 'Nostr';
 
   @override
   String get profileEditTitle => '编辑个人资料';

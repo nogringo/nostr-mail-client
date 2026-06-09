@@ -1,0 +1,162 @@
+import 'package:enough_mail_plus/enough_mail.dart' as mail;
+import 'package:ndk/ndk.dart';
+import 'package:nostr_address_book/nostr_address_book.dart';
+import 'package:vcard_dart/vcard_dart.dart' as vcard;
+
+import '../models/address_book_contact_form.dart';
+import '../models/contact.dart';
+
+class AddressBookVCardMapper {
+  static final _parser = vcard.VCardParser(preserveRaw: true);
+  static const _generator = vcard.VCardGenerator(
+    productId: 'Nmail',
+    foldLines: true,
+  );
+
+  static AddressBookContactForm formFromContact(AddressBookContact contact) {
+    final parsed = _parser.parseSingle(contact.vCard);
+    return AddressBookContactForm(
+      uid: contact.uid,
+      displayName: parsed.formattedName,
+      emails: parsed.emails.map((email) => email.address).toList(),
+      nostrPubkeys: _nostrPubkeys(parsed).toList(),
+    );
+  }
+
+  static String buildVCard(
+    AddressBookContactForm form, {
+    String? existingVCard,
+  }) {
+    final name = form.displayName.trim();
+    final emails = _unique(form.emails.map((email) => email.trim()));
+    final nostrPubkeys = _unique(
+      form.nostrPubkeys.map((pubkey) {
+        final normalized = normalizeNostrPubkey(pubkey);
+        if (normalized == null) {
+          throw AddressBookValidationException('Invalid Nostr identifier');
+        }
+        return normalized;
+      }),
+    );
+
+    if (name.isEmpty) {
+      throw const AddressBookValidationException('Name is required');
+    }
+    if (emails.isEmpty && nostrPubkeys.isEmpty) {
+      throw const AddressBookValidationException(
+        'At least one email or Nostr identity is required',
+      );
+    }
+    for (final email in emails) {
+      if (!_isValidEmail(email)) {
+        throw AddressBookValidationException('Invalid email: $email');
+      }
+    }
+
+    final parsed = existingVCard == null || existingVCard.trim().isEmpty
+        ? vcard.VCard(version: vcard.VCardVersion.v40)
+        : _parser.parseSingle(existingVCard);
+
+    parsed.version = vcard.VCardVersion.v40;
+    parsed.uid = form.uid ?? parsed.uid;
+    parsed.formattedName = name;
+    parsed.name = vcard.StructuredName.raw(name);
+    parsed.emails
+      ..clear()
+      ..addAll([
+        for (var i = 0; i < emails.length; i++)
+          vcard.Email(address: emails[i], pref: i == 0 ? 1 : null),
+      ]);
+
+    final nonNostrImpps = parsed.impps
+        .where((impp) => !impp.uri.toLowerCase().startsWith('nostr:'))
+        .toList();
+    parsed.impps
+      ..clear()
+      ..addAll(nonNostrImpps)
+      ..addAll([
+        for (var i = 0; i < nostrPubkeys.length; i++)
+          vcard.InstantMessaging(
+            uri: 'nostr:${Nip19.encodePubKey(nostrPubkeys[i])}',
+            pref: i == 0 ? 1 : null,
+          ),
+      ]);
+
+    return _generator.generate(parsed, version: vcard.VCardVersion.v40);
+  }
+
+  static List<Contact> suggestionsFromContact(AddressBookContact contact) {
+    final name = contact.index.formattedName.trim().isNotEmpty
+        ? contact.index.formattedName.trim()
+        : null;
+    return [
+      for (final email in contact.index.emails)
+        Contact(
+          displayName: name,
+          mailAddress: mail.MailAddress(name, email),
+          source: ContactSource.addressBook,
+          addressBookUid: contact.uid,
+          contactMethodId: 'email:${email.toLowerCase()}',
+        ),
+      for (final pubkey
+          in contact.index.nostrIdentifiers
+              .map(_pubkeyFromNostrImpp)
+              .whereType<String>())
+        Contact(
+          pubkey: pubkey,
+          displayName: name,
+          source: ContactSource.addressBook,
+          addressBookUid: contact.uid,
+          contactMethodId: 'nostr:$pubkey',
+        ),
+    ];
+  }
+
+  static String? normalizeNostrPubkey(String input) {
+    final trimmed = input.trim();
+    if (trimmed.isEmpty) return null;
+    final value = trimmed.startsWith('nostr:')
+        ? trimmed.substring('nostr:'.length)
+        : trimmed;
+    if (RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(value)) {
+      return value.toLowerCase();
+    }
+    try {
+      if (value.startsWith('nprofile1')) {
+        return Nip19.decodeNprofile(value).pubkey;
+      }
+      if (value.startsWith('npub1')) {
+        return Nip19.decode(value);
+      }
+    } catch (_) {
+      return null;
+    }
+    return null;
+  }
+
+  static Iterable<String> _nostrPubkeys(vcard.VCard parsed) {
+    return parsed.impps
+        .map((impp) => _pubkeyFromNostrImpp(impp.uri))
+        .whereType<String>();
+  }
+
+  static String? _pubkeyFromNostrImpp(String uri) {
+    if (!uri.toLowerCase().startsWith('nostr:')) return null;
+    return normalizeNostrPubkey(uri.substring('nostr:'.length));
+  }
+
+  static List<String> _unique(Iterable<String> values) {
+    final seen = <String>{};
+    final result = <String>[];
+    for (final value in values) {
+      final trimmed = value.trim();
+      if (trimmed.isEmpty) continue;
+      if (seen.add(trimmed.toLowerCase())) result.add(trimmed);
+    }
+    return result;
+  }
+
+  static bool _isValidEmail(String email) {
+    return RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(email);
+  }
+}

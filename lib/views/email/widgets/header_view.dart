@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nostr_mail_client/controllers/contacts_controller.dart';
 import 'package:nostr_mail_client/l10n/generated/app_localizations.dart';
+import 'package:nostr_mail_client/models/address_book_contact_form.dart';
 import 'package:nostr_mail_client/utils/format_date_time.dart';
+import 'package:nostr_mail_client/views/contacts/widgets/show_contact_form.dart';
 import 'package:nostr_mail_client/views/email/email_controller.dart';
 import 'package:nostr_mail_client/views/email/widgets/sender_avatar_view.dart';
 
@@ -93,6 +97,11 @@ class HeaderView extends StatelessWidget {
                 ],
               ),
             ),
+            IconButton(
+              icon: const Icon(Icons.person_add_alt_1_outlined),
+              tooltip: l.contactsAddToContacts,
+              onPressed: () => _addSenderToContacts(context, controller),
+            ),
           ],
         ),
         if (controller.showRecipients) ...[
@@ -100,6 +109,25 @@ class HeaderView extends StatelessWidget {
           const RecipientsListView(),
         ],
       ],
+    );
+  }
+
+  void _addSenderToContacts(BuildContext context, EmailController controller) {
+    if (!Get.isRegistered<ContactsController>()) {
+      Get.put(ContactsController());
+    }
+    final email = controller.email!;
+    final mailAddress = email.sender;
+    final isDirectNostr = !email.isBridged;
+    showContactForm(
+      context,
+      initialForm: AddressBookContactForm(
+        displayName: controller.senderDisplayName,
+        emails: !isDirectNostr && mailAddress?.email.isNotEmpty == true
+            ? [mailAddress!.email]
+            : const [],
+        nostrPubkeys: isDirectNostr ? [email.senderPubkey] : const [],
+      ),
     );
   }
 }
