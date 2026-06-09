@@ -113,6 +113,10 @@ class ContactsController extends GetxController {
     });
   }
 
+  void copyText(String value) {
+    Clipboard.setData(ClipboardData(text: value));
+  }
+
   void composeToEmail(BuildContext context, String email) {
     context.push(
       AppRoutes.compose,

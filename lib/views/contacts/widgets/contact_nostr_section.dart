@@ -34,6 +34,7 @@ class ContactNostrSection extends StatelessWidget {
             icon: Icons.key,
             title: NostrIdentityName(identifier: pubkey),
             leading: NostrAvatar(pubkey: pubkey, radius: 16),
+            copyValue: Nip19.encodePubKey(pubkey),
             onCompose: () => controller.composeToPubkey(context, pubkey),
           ),
       ],

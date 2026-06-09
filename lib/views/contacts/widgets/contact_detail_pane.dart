@@ -39,6 +39,7 @@ class ContactDetailPane extends StatelessWidget {
               ContactActionRow(
                 icon: Icons.alternate_email,
                 title: Text(email, overflow: TextOverflow.ellipsis),
+                copyValue: email,
                 onCompose: () => controller.composeToEmail(context, email),
               ),
             const SizedBox(height: 24),
