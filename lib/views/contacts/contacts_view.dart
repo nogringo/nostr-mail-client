@@ -25,6 +25,7 @@ class ContactsView extends StatelessWidget {
       drawer: isWide ? null : const AppDrawer(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        actionsPadding: isWide ? null : const EdgeInsets.only(right: 8),
         leading: isWide
             ? null
             : Builder(
@@ -54,23 +55,6 @@ class ContactsView extends StatelessWidget {
               return ContactActions(contact: contact);
             }),
           if (!isWide)
-            Obx(() {
-              final controller = Get.find<ContactsController>();
-              return IconButton(
-                icon: controller.addressBookService.isSyncing.value
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.sync),
-                tooltip: l.contactsSync,
-                onPressed: controller.addressBookService.isSyncing.value
-                    ? null
-                    : controller.syncContacts,
-              );
-            }),
-          if (!isWide)
             IconButton(
               icon: const Icon(Icons.person_add),
               tooltip: l.contactsAdd,
@@ -83,6 +67,7 @@ class ContactsView extends StatelessWidget {
           : ContactsSidebar(
               showActions: false,
               showSelection: false,
+              enablePullToRefresh: true,
               onContactTap: (contact) {
                 Navigator.of(context).push(
                   MaterialPageRoute<void>(

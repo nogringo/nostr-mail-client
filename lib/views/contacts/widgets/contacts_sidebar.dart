@@ -11,12 +11,14 @@ import 'show_contact_form.dart';
 class ContactsSidebar extends StatelessWidget {
   final bool showActions;
   final bool showSelection;
+  final bool enablePullToRefresh;
   final ValueChanged<AddressBookContact>? onContactTap;
 
   const ContactsSidebar({
     super.key,
     this.showActions = true,
     this.showSelection = true,
+    this.enablePullToRefresh = false,
     this.onContactTap,
   });
 
@@ -74,44 +76,58 @@ class ContactsSidebar extends StatelessWidget {
               if (controller.addressBookService.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());
               }
-              if (contacts.isEmpty) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Text(
-                      controller.query.value.trim().isEmpty
-                          ? l.contactsEmpty
-                          : l.contactsSearchEmpty,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                );
-              }
-              return ListView.builder(
-                itemCount: contacts.length,
-                itemBuilder: (context, index) {
-                  final contact = contacts[index];
-                  if (!showSelection) {
-                    return ContactListTile(
-                      contact: contact,
-                      selected: false,
-                      onTap: () {
-                        controller.select(contact);
-                        onContactTap?.call(contact);
+              final list = contacts.isEmpty
+                  ? ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.sizeOf(context).height * 0.45,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(24),
+                              child: Text(
+                                controller.query.value.trim().isEmpty
+                                    ? l.contactsEmpty
+                                    : l.contactsSearchEmpty,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : ListView.builder(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: contacts.length,
+                      itemBuilder: (context, index) {
+                        final contact = contacts[index];
+                        if (!showSelection) {
+                          return ContactListTile(
+                            contact: contact,
+                            selected: false,
+                            onTap: () {
+                              controller.select(contact);
+                              onContactTap?.call(contact);
+                            },
+                          );
+                        }
+                        return Obx(
+                          () => ContactListTile(
+                            contact: contact,
+                            selected:
+                                controller.selectedUid.value == contact.uid,
+                            onTap: () {
+                              controller.select(contact);
+                              onContactTap?.call(contact);
+                            },
+                          ),
+                        );
                       },
                     );
-                  }
-                  return Obx(
-                    () => ContactListTile(
-                      contact: contact,
-                      selected: controller.selectedUid.value == contact.uid,
-                      onTap: () {
-                        controller.select(contact);
-                        onContactTap?.call(contact);
-                      },
-                    ),
-                  );
-                },
+              if (!enablePullToRefresh) return list;
+              return RefreshIndicator(
+                onRefresh: controller.syncContacts,
+                child: list,
               );
             }),
           ),
