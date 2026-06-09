@@ -553,7 +553,6 @@ class SettingsView extends StatelessWidget {
         controller.backgroundImage.value == null ||
         controller.backgroundImage.value!.isEmpty;
 
-    // Use system accent color's tertiaryContainer for the default item preview
     final systemScheme = ColorScheme.fromSeed(
       seedColor: SystemTheme.accentColor.accent,
       brightness: Theme.of(context).brightness,
@@ -571,7 +570,7 @@ class SettingsView extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: systemScheme.tertiaryContainer,
+              color: systemScheme.primaryContainer,
               borderRadius: BorderRadius.circular(8),
               border: isSelected
                   ? Border.all(

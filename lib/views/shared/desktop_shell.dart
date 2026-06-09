@@ -41,13 +41,13 @@ class DesktopShell extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             errorBuilder: (_, _, _) => Container(
-              color: Theme.of(context).colorScheme.tertiaryContainer,
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
           );
         }
       }
 
-      return Container(color: Theme.of(context).colorScheme.tertiaryContainer);
+      return Container(color: Theme.of(context).colorScheme.primaryContainer);
     });
   }
 

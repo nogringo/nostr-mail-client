@@ -1,7 +1,6 @@
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -45,8 +44,12 @@ void main() async {
     });
   }
 
-  // Initialize system theme (not web)
-  if (!kIsWeb) await SystemTheme.accentColor.load();
+  // Initialize system theme
+  try {
+    await SystemTheme.accentColor.load();
+  } catch (e) {
+    //
+  }
 
   // Initialize storage service
   final storageService = StorageService();
@@ -116,9 +119,7 @@ class MainApp extends StatelessWidget {
     final settingsController = Get.find<SettingsController>();
 
     return Obx(() {
-      final systemAccent = kIsWeb
-          ? Colors.deepPurple
-          : SystemTheme.accentColor.accent;
+      final systemAccent = SystemTheme.accentColor.accent;
 
       final lightScheme =
           themeService.lightColorScheme.value ??
