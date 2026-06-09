@@ -12,9 +12,11 @@ import '../utils/address_book_vcard_mapper.dart';
 import 'storage_service.dart';
 
 class AddressBookService extends GetxService {
-  AddressBookService({NostrAddressBook? book}) : _injectedBook = book;
+  AddressBookService({NostrAddressBook? book, this.syncOnInit = true})
+    : _injectedBook = book;
 
   final NostrAddressBook? _injectedBook;
+  final bool syncOnInit;
   late final NostrAddressBook _book;
   late final Ndk _ndk;
 
@@ -40,7 +42,7 @@ class AddressBookService extends GetxService {
       unawaited(load(sync: true));
     });
     _book.broadcastQueue.start();
-    unawaited(load(sync: false));
+    unawaited(load(sync: syncOnInit));
   }
 
   @override
@@ -60,13 +62,13 @@ class AddressBookService extends GetxService {
     try {
       await _book.rebuildComputedStores();
       _setVisibleContacts(await _book.list());
-      if (sync && _currentPubkey != null) {
-        await fetchRecent();
-      }
     } catch (error) {
       lastError.value = error.toString();
     } finally {
       isLoading.value = false;
+    }
+    if (sync && _currentPubkey != null) {
+      unawaited(fetchRecent());
     }
   }
 

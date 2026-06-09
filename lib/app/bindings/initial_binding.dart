@@ -12,7 +12,9 @@ class InitialBinding extends Bindings {
     // - AuthController
     // - SettingsController (via Get.putAsync, awaited before runApp)
 
-    Get.lazyPut(() => AddressBookService());
+    if (!Get.isRegistered<AddressBookService>()) {
+      Get.put(AddressBookService(), permanent: true);
+    }
     Get.lazyPut(() => ContactsService());
   }
 }

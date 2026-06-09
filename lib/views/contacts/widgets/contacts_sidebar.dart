@@ -73,7 +73,8 @@ class ContactsSidebar extends StatelessWidget {
           Expanded(
             child: Obx(() {
               final contacts = controller.filteredContacts;
-              if (controller.addressBookService.isLoading.value) {
+              if (contacts.isEmpty &&
+                  controller.addressBookService.isLoading.value) {
                 return const Center(child: CircularProgressIndicator());
               }
               final list = contacts.isEmpty

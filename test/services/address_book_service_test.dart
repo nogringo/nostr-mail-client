@@ -28,7 +28,7 @@ void main() {
     ndk.accounts.loginPrivateKey(pubkey: pubkey, privkey: privateKey);
     Get.put<Ndk>(ndk);
     book = NostrAddressBook(ndk: ndk, database: db);
-    service = Get.put(AddressBookService(book: book));
+    service = Get.put(AddressBookService(book: book, syncOnInit: false));
     await Future<void>.delayed(Duration.zero);
   });
 
