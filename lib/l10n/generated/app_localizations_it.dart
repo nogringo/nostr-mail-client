@@ -946,7 +946,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get composeResolvingNip05 => 'Risoluzione NIP-05...';
 
   @override
-  String get contactSourceAddressBook => 'Address book';
+  String get contactSourceAddressBook => 'Rubrica';
 
   @override
   String get contactSourceEmailHistory => 'Cronologia email';
@@ -961,105 +961,106 @@ class AppLocalizationsIt extends AppLocalizations {
   String get contactSourceNip05Verified => 'Verificato NIP-05';
 
   @override
-  String get contactsTitle => 'Contacts';
+  String get contactsTitle => 'Contatti';
 
   @override
-  String get contactsAdd => 'Add contact';
+  String get contactsAdd => 'Aggiungi contatto';
 
   @override
-  String get contactsAddToContacts => 'Add to contacts';
+  String get contactsAddToContacts => 'Aggiungi ai contatti';
 
   @override
-  String get contactsSync => 'Sync contacts';
+  String get contactsSync => 'Sincronizza contatti';
 
   @override
-  String get contactsRetry => 'Retry pending contact updates';
+  String get contactsRetry => 'Riprova aggiornamenti contatto in sospeso';
 
   @override
-  String get contactsSearchHint => 'Search contacts';
+  String get contactsSearchHint => 'Cerca contatti';
 
   @override
-  String get contactsEmpty => 'No contacts yet';
+  String get contactsEmpty => 'Ancora nessun contatto';
 
   @override
-  String get contactsSearchEmpty => 'No matching contacts';
+  String get contactsSearchEmpty => 'Nessun contatto corrispondente';
 
   @override
-  String get contactsSelectPrompt => 'Select a contact';
+  String get contactsSelectPrompt => 'Seleziona un contatto';
 
   @override
-  String get contactsCreateTitle => 'New contact';
+  String get contactsCreateTitle => 'Nuovo contatto';
 
   @override
-  String get contactsEditTitle => 'Edit contact';
+  String get contactsEditTitle => 'Modifica contatto';
 
   @override
-  String get contactsNameLabel => 'Name';
+  String get contactsNameLabel => 'Nome';
 
   @override
-  String get contactsEmailsLabel => 'Email addresses';
+  String get contactsEmailsLabel => 'Indirizzi email';
 
   @override
-  String get contactsMultilineHint => 'One per line';
+  String get contactsMultilineHint => 'Uno per riga';
 
   @override
-  String get contactsAddEmailHint => 'Add email address';
+  String get contactsAddEmailHint => 'Aggiungi indirizzo email';
 
   @override
-  String get contactsPhonesLabel => 'Phone numbers';
+  String get contactsPhonesLabel => 'Numeri di telefono';
 
   @override
-  String get contactsAddPhoneHint => 'Add phone number';
+  String get contactsAddPhoneHint => 'Aggiungi numero di telefono';
 
   @override
-  String get contactsBirthdayLabel => 'Birthday';
+  String get contactsBirthdayLabel => 'Compleanno';
 
   @override
-  String get contactsBirthdayHint => 'YYYY-MM-DD';
+  String get contactsBirthdayHint => 'AAAA-MM-GG';
 
   @override
-  String get contactsNostrLabel => 'Nostr identities';
+  String get contactsNostrLabel => 'Identità Nostr';
 
   @override
-  String get contactsNostrHint => 'npub, nprofile, hex pubkey, or NIP-05';
+  String get contactsNostrHint =>
+      'npub, nprofile, chiave pubblica hex o NIP-05';
 
   @override
   String get contactsAddNostrHint =>
-      'Add npub, nprofile, hex pubkey, or NIP-05';
+      'Aggiungi npub, nprofile, chiave pubblica hex o NIP-05';
 
   @override
-  String get contactsCancel => 'Cancel';
+  String get contactsCancel => 'Annulla';
 
   @override
-  String get contactsSave => 'Save';
+  String get contactsSave => 'Salva';
 
   @override
-  String get contactsEdit => 'Edit contact';
+  String get contactsEdit => 'Modifica contatto';
 
   @override
-  String get contactsCopyVCard => 'Copy vCard';
+  String get contactsCopyVCard => 'Copia vCard';
 
   @override
-  String get contactsVCardCopied => 'vCard copied';
+  String get contactsVCardCopied => 'vCard copiata';
 
   @override
-  String get contactsDelete => 'Delete';
+  String get contactsDelete => 'Elimina';
 
   @override
-  String get contactsDeleteTitle => 'Delete contact?';
+  String get contactsDeleteTitle => 'Eliminare il contatto?';
 
   @override
   String get contactsDeleteBody =>
-      'This removes the contact from your private address book.';
+      'Questo rimuove il contatto dalla tua rubrica privata.';
 
   @override
   String get contactsEmailsTitle => 'Email';
 
   @override
-  String get contactsPhonesTitle => 'Phone';
+  String get contactsPhonesTitle => 'Telefono';
 
   @override
-  String get contactsBirthdayTitle => 'Birthday';
+  String get contactsBirthdayTitle => 'Compleanno';
 
   @override
   String get contactsNostrTitle => 'Nostr';

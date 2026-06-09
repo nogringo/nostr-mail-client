@@ -942,7 +942,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeResolvingNip05 => 'Selvitetään NIP-05...';
 
   @override
-  String get contactSourceAddressBook => 'Address book';
+  String get contactSourceAddressBook => 'Osoitekirja';
 
   @override
   String get contactSourceEmailHistory => 'Sähköpostihistoria';
@@ -957,105 +957,107 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactSourceNip05Verified => 'NIP-05 vahvistettu';
 
   @override
-  String get contactsTitle => 'Contacts';
+  String get contactsTitle => 'Yhteystiedot';
 
   @override
-  String get contactsAdd => 'Add contact';
+  String get contactsAdd => 'Lisää yhteystieto';
 
   @override
-  String get contactsAddToContacts => 'Add to contacts';
+  String get contactsAddToContacts => 'Lisää yhteystietoihin';
 
   @override
-  String get contactsSync => 'Sync contacts';
+  String get contactsSync => 'Synkronoi yhteystiedot';
 
   @override
-  String get contactsRetry => 'Retry pending contact updates';
+  String get contactsRetry =>
+      'Yritä odottavia yhteystietopäivityksiä uudelleen';
 
   @override
-  String get contactsSearchHint => 'Search contacts';
+  String get contactsSearchHint => 'Hae yhteystietoja';
 
   @override
-  String get contactsEmpty => 'No contacts yet';
+  String get contactsEmpty => 'Ei vielä yhteystietoja';
 
   @override
-  String get contactsSearchEmpty => 'No matching contacts';
+  String get contactsSearchEmpty => 'Ei vastaavia yhteystietoja';
 
   @override
-  String get contactsSelectPrompt => 'Select a contact';
+  String get contactsSelectPrompt => 'Valitse yhteystieto';
 
   @override
-  String get contactsCreateTitle => 'New contact';
+  String get contactsCreateTitle => 'Uusi yhteystieto';
 
   @override
-  String get contactsEditTitle => 'Edit contact';
+  String get contactsEditTitle => 'Muokkaa yhteystietoa';
 
   @override
-  String get contactsNameLabel => 'Name';
+  String get contactsNameLabel => 'Nimi';
 
   @override
-  String get contactsEmailsLabel => 'Email addresses';
+  String get contactsEmailsLabel => 'Sähköpostiosoitteet';
 
   @override
-  String get contactsMultilineHint => 'One per line';
+  String get contactsMultilineHint => 'Yksi per rivi';
 
   @override
-  String get contactsAddEmailHint => 'Add email address';
+  String get contactsAddEmailHint => 'Lisää sähköpostiosoite';
 
   @override
-  String get contactsPhonesLabel => 'Phone numbers';
+  String get contactsPhonesLabel => 'Puhelinnumerot';
 
   @override
-  String get contactsAddPhoneHint => 'Add phone number';
+  String get contactsAddPhoneHint => 'Lisää puhelinnumero';
 
   @override
-  String get contactsBirthdayLabel => 'Birthday';
+  String get contactsBirthdayLabel => 'Syntymäpäivä';
 
   @override
-  String get contactsBirthdayHint => 'YYYY-MM-DD';
+  String get contactsBirthdayHint => 'VVVV-KK-PP';
 
   @override
-  String get contactsNostrLabel => 'Nostr identities';
+  String get contactsNostrLabel => 'Nostr-identiteetit';
 
   @override
-  String get contactsNostrHint => 'npub, nprofile, hex pubkey, or NIP-05';
+  String get contactsNostrHint =>
+      'npub, nprofile, hex-julkinen avain tai NIP-05';
 
   @override
   String get contactsAddNostrHint =>
-      'Add npub, nprofile, hex pubkey, or NIP-05';
+      'Lisää npub, nprofile, hex-julkinen avain tai NIP-05';
 
   @override
-  String get contactsCancel => 'Cancel';
+  String get contactsCancel => 'Peruuta';
 
   @override
-  String get contactsSave => 'Save';
+  String get contactsSave => 'Tallenna';
 
   @override
-  String get contactsEdit => 'Edit contact';
+  String get contactsEdit => 'Muokkaa yhteystietoa';
 
   @override
-  String get contactsCopyVCard => 'Copy vCard';
+  String get contactsCopyVCard => 'Kopioi vCard';
 
   @override
-  String get contactsVCardCopied => 'vCard copied';
+  String get contactsVCardCopied => 'vCard kopioitu';
 
   @override
-  String get contactsDelete => 'Delete';
+  String get contactsDelete => 'Poista';
 
   @override
-  String get contactsDeleteTitle => 'Delete contact?';
+  String get contactsDeleteTitle => 'Poistetaanko yhteystieto?';
 
   @override
   String get contactsDeleteBody =>
-      'This removes the contact from your private address book.';
+      'Tämä poistaa yhteystiedon yksityisestä osoitekirjastasi.';
 
   @override
-  String get contactsEmailsTitle => 'Email';
+  String get contactsEmailsTitle => 'Sähköposti';
 
   @override
-  String get contactsPhonesTitle => 'Phone';
+  String get contactsPhonesTitle => 'Puhelin';
 
   @override
-  String get contactsBirthdayTitle => 'Birthday';
+  String get contactsBirthdayTitle => 'Syntymäpäivä';
 
   @override
   String get contactsNostrTitle => 'Nostr';

@@ -891,7 +891,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeResolvingNip05 => '正在解析 NIP-05...';
 
   @override
-  String get contactSourceAddressBook => 'Address book';
+  String get contactSourceAddressBook => '通讯录';
 
   @override
   String get contactSourceEmailHistory => '邮件历史';
@@ -906,105 +906,103 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactSourceNip05Verified => '已验证 NIP-05';
 
   @override
-  String get contactsTitle => 'Contacts';
+  String get contactsTitle => '联系人';
 
   @override
-  String get contactsAdd => 'Add contact';
+  String get contactsAdd => '添加联系人';
 
   @override
-  String get contactsAddToContacts => 'Add to contacts';
+  String get contactsAddToContacts => '添加到联系人';
 
   @override
-  String get contactsSync => 'Sync contacts';
+  String get contactsSync => '同步联系人';
 
   @override
-  String get contactsRetry => 'Retry pending contact updates';
+  String get contactsRetry => '重试待处理的联系人更新';
 
   @override
-  String get contactsSearchHint => 'Search contacts';
+  String get contactsSearchHint => '搜索联系人';
 
   @override
-  String get contactsEmpty => 'No contacts yet';
+  String get contactsEmpty => '还没有联系人';
 
   @override
-  String get contactsSearchEmpty => 'No matching contacts';
+  String get contactsSearchEmpty => '没有匹配的联系人';
 
   @override
-  String get contactsSelectPrompt => 'Select a contact';
+  String get contactsSelectPrompt => '选择联系人';
 
   @override
-  String get contactsCreateTitle => 'New contact';
+  String get contactsCreateTitle => '新联系人';
 
   @override
-  String get contactsEditTitle => 'Edit contact';
+  String get contactsEditTitle => '编辑联系人';
 
   @override
-  String get contactsNameLabel => 'Name';
+  String get contactsNameLabel => '姓名';
 
   @override
-  String get contactsEmailsLabel => 'Email addresses';
+  String get contactsEmailsLabel => '电子邮件地址';
 
   @override
-  String get contactsMultilineHint => 'One per line';
+  String get contactsMultilineHint => '每行一个';
 
   @override
-  String get contactsAddEmailHint => 'Add email address';
+  String get contactsAddEmailHint => '添加电子邮件地址';
 
   @override
-  String get contactsPhonesLabel => 'Phone numbers';
+  String get contactsPhonesLabel => '电话号码';
 
   @override
-  String get contactsAddPhoneHint => 'Add phone number';
+  String get contactsAddPhoneHint => '添加电话号码';
 
   @override
-  String get contactsBirthdayLabel => 'Birthday';
+  String get contactsBirthdayLabel => '生日';
 
   @override
   String get contactsBirthdayHint => 'YYYY-MM-DD';
 
   @override
-  String get contactsNostrLabel => 'Nostr identities';
+  String get contactsNostrLabel => 'Nostr 身份';
 
   @override
-  String get contactsNostrHint => 'npub, nprofile, hex pubkey, or NIP-05';
+  String get contactsNostrHint => 'npub、nprofile、hex 公钥或 NIP-05';
 
   @override
-  String get contactsAddNostrHint =>
-      'Add npub, nprofile, hex pubkey, or NIP-05';
+  String get contactsAddNostrHint => '添加 npub、nprofile、hex 公钥或 NIP-05';
 
   @override
-  String get contactsCancel => 'Cancel';
+  String get contactsCancel => '取消';
 
   @override
-  String get contactsSave => 'Save';
+  String get contactsSave => '保存';
 
   @override
-  String get contactsEdit => 'Edit contact';
+  String get contactsEdit => '编辑联系人';
 
   @override
-  String get contactsCopyVCard => 'Copy vCard';
+  String get contactsCopyVCard => '复制 vCard';
 
   @override
-  String get contactsVCardCopied => 'vCard copied';
+  String get contactsVCardCopied => 'vCard 已复制';
 
   @override
-  String get contactsDelete => 'Delete';
+  String get contactsDelete => '删除';
 
   @override
-  String get contactsDeleteTitle => 'Delete contact?';
+  String get contactsDeleteTitle => '删除联系人？';
 
   @override
-  String get contactsDeleteBody =>
-      'This removes the contact from your private address book.';
+  String get contactsDeleteBody => '这会从你的私人通讯录中移除此联系人。';
 
   @override
-  String get contactsEmailsTitle => 'Email';
+  String get contactsEmailsTitle => '电子邮件';
 
   @override
-  String get contactsPhonesTitle => 'Phone';
+  String get contactsPhonesTitle => '电话';
 
   @override
-  String get contactsBirthdayTitle => 'Birthday';
+  String get contactsBirthdayTitle => '生日';
 
   @override
   String get contactsNostrTitle => 'Nostr';
