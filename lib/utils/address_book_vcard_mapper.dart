@@ -14,14 +14,47 @@ class AddressBookVCardMapper {
   );
 
   static AddressBookContactForm formFromContact(AddressBookContact contact) {
-    final parsed = _parser.parseSingle(contact.vCard);
+    return _formFromParsed(_parser.parseSingle(contact.vCard), uid: contact.uid);
+  }
+
+  /// Parses raw vCard text (one or many vCards) into contact forms.
+  ///
+  /// Used when importing a `.vcf` file that can contain several contacts.
+  static List<AddressBookContactForm> formsFromVCardText(String text) {
+    return _parser
+        .parse(text)
+        .map((parsed) => _formFromParsed(parsed, uid: parsed.uid))
+        .toList();
+  }
+
+  static AddressBookContactForm _formFromParsed(
+    vcard.VCard parsed, {
+    String? uid,
+  }) {
     return AddressBookContactForm(
-      uid: contact.uid,
+      uid: uid,
       displayName: parsed.formattedName,
       emails: parsed.emails.map((email) => email.address).toList(),
       nostrPubkeys: _nostrPubkeys(parsed).toList(),
       phones: parsed.telephones.map((phone) => phone.number).toList(),
       birthday: _birthdayFromVCard(parsed.birthday),
+    );
+  }
+
+  /// Merges an incoming (imported) contact into an existing one, taking the
+  /// union of emails, phones, and Nostr identities (like a contacts merge).
+  static AddressBookContactForm mergeForms(
+    AddressBookContactForm base,
+    AddressBookContactForm incoming,
+  ) {
+    return base.copyWith(
+      displayName: base.displayName.trim().isNotEmpty
+          ? base.displayName
+          : incoming.displayName,
+      emails: _unique([...base.emails, ...incoming.emails]),
+      phones: _unique([...base.phones, ...incoming.phones]),
+      nostrPubkeys: _unique([...base.nostrPubkeys, ...incoming.nostrPubkeys]),
+      birthday: base.birthday ?? incoming.birthday,
     );
   }
 

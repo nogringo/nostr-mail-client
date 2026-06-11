@@ -743,6 +743,50 @@
   "@contactsBirthdayTitle": { "description": "Section title for a contact birthday" },
   "contactsNostrTitle": "Nostr",
   "@contactsNostrTitle": { "description": "Section title for contact Nostr identities" },
+  "contactsImport": "Import contacts",
+  "@contactsImport": { "description": "Menu entry to import contacts from a vCard file" },
+  "contactsExport": "Export contacts",
+  "@contactsExport": { "description": "Menu entry to export all contacts to a vCard file" },
+  "contactsExportEmpty": "No contacts to export",
+  "@contactsExportEmpty": { "description": "Toast shown when trying to export with an empty address book" },
+  "contactsExportSaved": "Contacts exported: {path}",
+  "@contactsExportSaved": {
+    "description": "Toast shown after exporting contacts to a file, includes the saved path",
+    "placeholders": { "path": { "type": "String" } }
+  },
+  "contactsExportFailed": "Failed to export contacts: {error}",
+  "@contactsExportFailed": {
+    "description": "Error toast shown when exporting contacts fails",
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "contactsImportEmpty": "No contacts found in the file",
+  "@contactsImportEmpty": { "description": "Toast shown when an imported vCard file contains no contacts" },
+  "contactsImportFailed": "Failed to import contacts: {error}",
+  "@contactsImportFailed": {
+    "description": "Error toast shown when importing contacts fails",
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "contactsImportSummary": "{imported} imported, {skipped} skipped",
+  "@contactsImportSummary": {
+    "description": "Toast summarizing how many contacts were imported and skipped",
+    "placeholders": {
+      "imported": { "type": "int" },
+      "skipped": { "type": "int" }
+    }
+  },
+  "contactsImportConflictTitle": "Contacts already present",
+  "@contactsImportConflictTitle": { "description": "Title of the dialog shown when imported contacts already exist" },
+  "contactsImportConflictBody": "{count} of the imported contacts already exist. How should they be handled?",
+  "@contactsImportConflictBody": {
+    "description": "Body of the import conflict dialog, includes how many contacts already exist",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "contactsImportMergeAll": "Merge all",
+  "@contactsImportMergeAll": { "description": "Conflict dialog action that merges imported contacts into existing ones" },
+  "contactsImportReplaceAll": "Replace all",
+  "@contactsImportReplaceAll": { "description": "Conflict dialog action that overwrites existing contacts with imported ones" },
+  "contactsImportSkip": "Skip duplicates",
+  "@contactsImportSkip": { "description": "Conflict dialog action that skips contacts already present" },
   "profileEditTitle": "Edit Profile",
   "@profileEditTitle": { "description": "AppBar title of the profile editor" },
   "profileDisplayNameLabel": "Display Name",

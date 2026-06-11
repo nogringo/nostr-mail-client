@@ -16,31 +16,28 @@ class ContactActions extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.find<ContactsController>();
     final l = AppLocalizations.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Obx(() {
-            final copied = controller.copiedVCardUid.value == contact.uid;
-            return IconButton(
-              icon: Icon(copied ? Icons.check : Icons.copy),
-              tooltip: copied ? l.contactsVCardCopied : l.contactsCopyVCard,
-              onPressed: () => controller.copyVCard(contact),
-            );
-          }),
-          IconButton(
-            icon: const Icon(Icons.edit),
-            tooltip: l.contactsEdit,
-            onPressed: () => showContactForm(context, contact: contact),
-          ),
-          IconButton(
-            icon: const Icon(Icons.delete_outline),
-            tooltip: l.contactsDelete,
-            onPressed: () => _confirmDelete(context, controller, l),
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Obx(() {
+          final copied = controller.copiedVCardUid.value == contact.uid;
+          return IconButton(
+            icon: Icon(copied ? Icons.check : Icons.copy),
+            tooltip: copied ? l.contactsVCardCopied : l.contactsCopyVCard,
+            onPressed: () => controller.copyVCard(contact),
+          );
+        }),
+        IconButton(
+          icon: const Icon(Icons.edit),
+          tooltip: l.contactsEdit,
+          onPressed: () => showContactForm(context, contact: contact),
+        ),
+        IconButton(
+          icon: const Icon(Icons.delete_outline),
+          tooltip: l.contactsDelete,
+          onPressed: () => _confirmDelete(context, controller, l),
+        ),
+      ],
     );
   }
 

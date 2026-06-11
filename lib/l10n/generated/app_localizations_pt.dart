@@ -1065,6 +1065,55 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsImport => 'Importar contactos';
+
+  @override
+  String get contactsExport => 'Exportar contactos';
+
+  @override
+  String get contactsExportEmpty => 'Não há contactos para exportar';
+
+  @override
+  String contactsExportSaved(String path) {
+    return 'Contactos exportados: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return 'Falha ao exportar os contactos: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'Nenhum contacto encontrado no ficheiro';
+
+  @override
+  String contactsImportFailed(String error) {
+    return 'Falha ao importar os contactos: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported importados, $skipped ignorados';
+  }
+
+  @override
+  String get contactsImportConflictTitle => 'Contactos já existentes';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '$count dos contactos importados já existem. Como tratá-los?';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'Unir tudo';
+
+  @override
+  String get contactsImportReplaceAll => 'Substituir tudo';
+
+  @override
+  String get contactsImportSkip => 'Ignorar duplicados';
+
+  @override
   String get profileEditTitle => 'Editar perfil';
 
   @override
@@ -2313,6 +2362,55 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsImport => 'Importar contatos';
+
+  @override
+  String get contactsExport => 'Exportar contatos';
+
+  @override
+  String get contactsExportEmpty => 'Não há contatos para exportar';
+
+  @override
+  String contactsExportSaved(String path) {
+    return 'Contatos exportados: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return 'Falha ao exportar os contatos: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'Nenhum contato encontrado no arquivo';
+
+  @override
+  String contactsImportFailed(String error) {
+    return 'Falha ao importar os contatos: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported importados, $skipped ignorados';
+  }
+
+  @override
+  String get contactsImportConflictTitle => 'Contatos já existentes';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '$count dos contatos importados já existem. Como tratá-los?';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'Mesclar tudo';
+
+  @override
+  String get contactsImportReplaceAll => 'Substituir tudo';
+
+  @override
+  String get contactsImportSkip => 'Ignorar duplicados';
 
   @override
   String get profileEditTitle => 'Editar perfil';

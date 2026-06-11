@@ -2041,6 +2041,84 @@ abstract class AppLocalizations {
   /// **'Nostr'**
   String get contactsNostrTitle;
 
+  /// Menu entry to import contacts from a vCard file
+  ///
+  /// In en, this message translates to:
+  /// **'Import contacts'**
+  String get contactsImport;
+
+  /// Menu entry to export all contacts to a vCard file
+  ///
+  /// In en, this message translates to:
+  /// **'Export contacts'**
+  String get contactsExport;
+
+  /// Toast shown when trying to export with an empty address book
+  ///
+  /// In en, this message translates to:
+  /// **'No contacts to export'**
+  String get contactsExportEmpty;
+
+  /// Toast shown after exporting contacts to a file, includes the saved path
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts exported: {path}'**
+  String contactsExportSaved(String path);
+
+  /// Error toast shown when exporting contacts fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to export contacts: {error}'**
+  String contactsExportFailed(String error);
+
+  /// Toast shown when an imported vCard file contains no contacts
+  ///
+  /// In en, this message translates to:
+  /// **'No contacts found in the file'**
+  String get contactsImportEmpty;
+
+  /// Error toast shown when importing contacts fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to import contacts: {error}'**
+  String contactsImportFailed(String error);
+
+  /// Toast summarizing how many contacts were imported and skipped
+  ///
+  /// In en, this message translates to:
+  /// **'{imported} imported, {skipped} skipped'**
+  String contactsImportSummary(int imported, int skipped);
+
+  /// Title of the dialog shown when imported contacts already exist
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts already present'**
+  String get contactsImportConflictTitle;
+
+  /// Body of the import conflict dialog, includes how many contacts already exist
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of the imported contacts already exist. How should they be handled?'**
+  String contactsImportConflictBody(int count);
+
+  /// Conflict dialog action that merges imported contacts into existing ones
+  ///
+  /// In en, this message translates to:
+  /// **'Merge all'**
+  String get contactsImportMergeAll;
+
+  /// Conflict dialog action that overwrites existing contacts with imported ones
+  ///
+  /// In en, this message translates to:
+  /// **'Replace all'**
+  String get contactsImportReplaceAll;
+
+  /// Conflict dialog action that skips contacts already present
+  ///
+  /// In en, this message translates to:
+  /// **'Skip duplicates'**
+  String get contactsImportSkip;
+
   /// AppBar title of the profile editor
   ///
   /// In en, this message translates to:

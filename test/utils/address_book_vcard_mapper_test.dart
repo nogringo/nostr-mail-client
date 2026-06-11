@@ -80,6 +80,59 @@ END:VCARD
     expect(text, contains('X-NMAIL-CUSTOM:keep-me'));
   });
 
+  test('formsFromVCardText parses multiple vCards', () {
+    const text = '''
+BEGIN:VCARD
+VERSION:4.0
+UID:urn:uuid:alice
+FN:Alice
+EMAIL:alice@example.com
+TEL:+33611111111
+END:VCARD
+BEGIN:VCARD
+VERSION:4.0
+UID:urn:uuid:bob
+FN:Bob
+EMAIL:bob@example.com
+BDAY:19900412
+END:VCARD
+''';
+
+    final forms = AddressBookVCardMapper.formsFromVCardText(text);
+    expect(forms.length, 2);
+    expect(forms[0].uid, 'urn:uuid:alice');
+    expect(forms[0].displayName, 'Alice');
+    expect(forms[0].emails, ['alice@example.com']);
+    expect(forms[0].phones, ['+33611111111']);
+    expect(forms[1].uid, 'urn:uuid:bob');
+    expect(forms[1].emails, ['bob@example.com']);
+    expect(forms[1].birthday, '1990-04-12');
+  });
+
+  test('mergeForms unions emails, phones and keeps existing birthday', () {
+    const base = AddressBookContactForm(
+      uid: 'urn:uuid:alice',
+      displayName: 'Alice',
+      emails: ['alice@example.com'],
+      phones: ['+33611111111'],
+      birthday: '1990-04-12',
+    );
+    const incoming = AddressBookContactForm(
+      displayName: 'Alice Example',
+      emails: ['ALICE@example.com', 'alice@work.com'],
+      phones: ['+33622222222'],
+      birthday: '2000-01-01',
+    );
+
+    final merged = AddressBookVCardMapper.mergeForms(base, incoming);
+    expect(merged.uid, 'urn:uuid:alice');
+    expect(merged.displayName, 'Alice');
+    // Case-insensitive dedup keeps the first occurrence and adds the new one.
+    expect(merged.emails, ['alice@example.com', 'alice@work.com']);
+    expect(merged.phones, ['+33611111111', '+33622222222']);
+    expect(merged.birthday, '1990-04-12');
+  });
+
   test('rejects invalid forms', () {
     expect(
       () => AddressBookVCardMapper.buildVCard(

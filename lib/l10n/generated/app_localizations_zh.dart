@@ -1008,6 +1008,55 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsImport => '导入联系人';
+
+  @override
+  String get contactsExport => '导出联系人';
+
+  @override
+  String get contactsExportEmpty => '没有可导出的联系人';
+
+  @override
+  String contactsExportSaved(String path) {
+    return '联系人已导出：$path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return '导出联系人失败：$error';
+  }
+
+  @override
+  String get contactsImportEmpty => '文件中未找到联系人';
+
+  @override
+  String contactsImportFailed(String error) {
+    return '导入联系人失败：$error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '已导入 $imported 个，已跳过 $skipped 个';
+  }
+
+  @override
+  String get contactsImportConflictTitle => '联系人已存在';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '导入的联系人中有 $count 个已存在。如何处理？';
+  }
+
+  @override
+  String get contactsImportMergeAll => '全部合并';
+
+  @override
+  String get contactsImportReplaceAll => '全部替换';
+
+  @override
+  String get contactsImportSkip => '跳过重复项';
+
+  @override
   String get profileEditTitle => '编辑个人资料';
 
   @override

@@ -22,6 +22,7 @@ class MobileContactDetailPage extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           title: Text(contact?.index.formattedName ?? l.contactsTitle),
+          actionsPadding: const EdgeInsets.only(right: 8),
           actions: [
             if (contact != null)
               ContactActions(

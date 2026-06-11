@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -8,10 +11,15 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../app/routes/app_routes.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../models/address_book_contact_form.dart';
 import '../models/recipient.dart';
 import '../services/address_book_service.dart';
+import '../services/android_file_saver.dart';
 import '../utils/address_book_vcard_mapper.dart';
+import '../utils/platform_helper.dart';
+import '../utils/toast_helper.dart';
+import '../views/contacts/widgets/import_conflict_dialog.dart';
 
 class ContactsController extends GetxController {
   final addressBookService = Get.find<AddressBookService>();
@@ -76,6 +84,133 @@ class ContactsController extends GetxController {
   Future<void> syncContacts() => addressBookService.fetchRecent();
 
   Future<void> retryBroadcasts() => addressBookService.retryBroadcasts();
+
+  Future<void> exportContacts(BuildContext context) async {
+    final l = AppLocalizations.of(context);
+    final list = addressBookService.contacts;
+    if (list.isEmpty) {
+      ToastHelper.info(context, l.contactsExportEmpty);
+      return;
+    }
+    try {
+      final vcf = list.map((contact) => contact.vCard).join('\r\n');
+      final bytes = Uint8List.fromList(utf8.encode(vcf));
+
+      String result;
+      if (PlatformHelper.isAndroid) {
+        result = await AndroidFileSaver.saveToDownloads(
+          fileName: 'contacts.vcf',
+          bytes: bytes,
+          mimeType: 'text/vcard',
+        );
+      } else {
+        result = await FileSaver.instance.saveFile(
+          name: 'contacts',
+          bytes: bytes,
+          fileExtension: 'vcf',
+          mimeType: MimeType.other,
+        );
+      }
+      if (!context.mounted) return;
+      ToastHelper.success(context, l.contactsExportSaved(result));
+    } catch (error) {
+      if (!context.mounted) return;
+      ToastHelper.error(context, l.contactsExportFailed(error.toString()));
+    }
+  }
+
+  Future<void> importContacts(BuildContext context) async {
+    final l = AppLocalizations.of(context);
+    try {
+      final result = await FilePicker.pickFiles(
+        dialogTitle: l.contactsImport,
+        type: FileType.custom,
+        allowedExtensions: ['vcf'],
+        withData: true,
+      );
+      final bytes = result?.files.singleOrNull?.bytes;
+      if (bytes == null) return;
+
+      final forms = AddressBookVCardMapper.formsFromVCardText(
+        utf8.decode(bytes),
+      );
+      if (forms.isEmpty) {
+        if (!context.mounted) return;
+        ToastHelper.info(context, l.contactsImportEmpty);
+        return;
+      }
+
+      // Pair each imported form with the existing contact it conflicts with
+      // (same uid, or a shared normalized email).
+      final pending = forms
+          .map((form) => (form: form, existing: _findExisting(form)))
+          .toList();
+      final conflicts = pending.where((entry) => entry.existing != null).length;
+
+      var choice = ImportConflictChoice.mergeAll;
+      if (conflicts > 0) {
+        if (!context.mounted) return;
+        final picked = await ImportConflictDialog.show(context, conflicts);
+        if (picked == null || picked == ImportConflictChoice.cancel) return;
+        choice = picked;
+      }
+
+      var imported = 0;
+      var skipped = 0;
+      for (final entry in pending) {
+        final existing = entry.existing;
+        if (existing != null && choice == ImportConflictChoice.skipDuplicates) {
+          skipped++;
+          continue;
+        }
+        try {
+          if (existing == null) {
+            await addressBookService.saveContact(entry.form);
+          } else if (choice == ImportConflictChoice.replaceAll) {
+            await addressBookService.saveContact(
+              entry.form.copyWith(uid: existing.uid),
+              existing: existing,
+            );
+          } else {
+            final merged = AddressBookVCardMapper.mergeForms(
+              AddressBookVCardMapper.formFromContact(existing),
+              entry.form,
+            );
+            await addressBookService.saveContact(merged, existing: existing);
+          }
+          imported++;
+        } catch (_) {
+          skipped++;
+        }
+      }
+
+      if (!context.mounted) return;
+      ToastHelper.success(context, l.contactsImportSummary(imported, skipped));
+    } catch (error) {
+      if (!context.mounted) return;
+      ToastHelper.error(context, l.contactsImportFailed(error.toString()));
+    }
+  }
+
+  AddressBookContact? _findExisting(AddressBookContactForm form) {
+    final list = addressBookService.contacts;
+    if (form.uid != null) {
+      final byUid = list.firstWhereOrNull(
+        (contact) => contact.uid == form.uid,
+      );
+      if (byUid != null) return byUid;
+    }
+    final emails = form.emails
+        .map((email) => email.trim().toLowerCase())
+        .where((email) => email.isNotEmpty)
+        .toSet();
+    if (emails.isEmpty) return null;
+    return list.firstWhereOrNull(
+      (contact) => contact.index.emails.any(
+        (email) => emails.contains(email.trim().toLowerCase()),
+      ),
+    );
+  }
 
   Future<void> save(
     AddressBookContactForm form, {

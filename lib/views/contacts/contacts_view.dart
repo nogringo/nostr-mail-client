@@ -7,6 +7,7 @@ import '../../utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
 import 'widgets/contact_actions.dart';
 import 'widgets/contact_detail_pane.dart';
+import 'widgets/contacts_overflow_menu.dart';
 import 'widgets/contacts_sidebar.dart';
 import 'widgets/mobile_contact_detail_page.dart';
 import 'widgets/show_contact_form.dart';
@@ -25,7 +26,7 @@ class ContactsView extends StatelessWidget {
       drawer: isWide ? null : const AppDrawer(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        actionsPadding: isWide ? null : const EdgeInsets.only(right: 8),
+        actionsPadding: const EdgeInsets.only(right: 8),
         leading: isWide
             ? null
             : Builder(
@@ -60,6 +61,7 @@ class ContactsView extends StatelessWidget {
               tooltip: l.contactsAdd,
               onPressed: () => _showForm(context),
             ),
+          const ContactsOverflowMenu(),
         ],
       ),
       body: isWide

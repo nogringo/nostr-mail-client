@@ -1063,6 +1063,55 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsImport => 'Tuo yhteystiedot';
+
+  @override
+  String get contactsExport => 'Vie yhteystiedot';
+
+  @override
+  String get contactsExportEmpty => 'Ei vietäviä yhteystietoja';
+
+  @override
+  String contactsExportSaved(String path) {
+    return 'Yhteystiedot viety: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return 'Yhteystietojen vienti epäonnistui: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'Tiedostosta ei löytynyt yhteystietoja';
+
+  @override
+  String contactsImportFailed(String error) {
+    return 'Yhteystietojen tuonti epäonnistui: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported tuotu, $skipped ohitettu';
+  }
+
+  @override
+  String get contactsImportConflictTitle => 'Yhteystiedot ovat jo olemassa';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '$count tuotavista yhteystiedoista on jo olemassa. Miten ne käsitellään?';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'Yhdistä kaikki';
+
+  @override
+  String get contactsImportReplaceAll => 'Korvaa kaikki';
+
+  @override
+  String get contactsImportSkip => 'Ohita kaksoiskappaleet';
+
+  @override
   String get profileEditTitle => 'Muokkaa profiilia';
 
   @override

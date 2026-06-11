@@ -1073,6 +1073,55 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsImport => 'Импортировать контакты';
+
+  @override
+  String get contactsExport => 'Экспортировать контакты';
+
+  @override
+  String get contactsExportEmpty => 'Нет контактов для экспорта';
+
+  @override
+  String contactsExportSaved(String path) {
+    return 'Контакты экспортированы: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return 'Не удалось экспортировать контакты: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'В файле не найдено контактов';
+
+  @override
+  String contactsImportFailed(String error) {
+    return 'Не удалось импортировать контакты: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return 'Импортировано: $imported, пропущено: $skipped';
+  }
+
+  @override
+  String get contactsImportConflictTitle => 'Контакты уже существуют';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '$count из импортируемых контактов уже существуют. Что с ними делать?';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'Объединить все';
+
+  @override
+  String get contactsImportReplaceAll => 'Заменить все';
+
+  @override
+  String get contactsImportSkip => 'Пропустить дубликаты';
+
+  @override
   String get profileEditTitle => 'Редактирование профиля';
 
   @override

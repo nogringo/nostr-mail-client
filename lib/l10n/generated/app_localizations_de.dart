@@ -1065,6 +1065,55 @@ class AppLocalizationsDe extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsImport => 'Kontakte importieren';
+
+  @override
+  String get contactsExport => 'Kontakte exportieren';
+
+  @override
+  String get contactsExportEmpty => 'Keine Kontakte zum Exportieren';
+
+  @override
+  String contactsExportSaved(String path) {
+    return 'Kontakte exportiert: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return 'Export der Kontakte fehlgeschlagen: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'Keine Kontakte in der Datei gefunden';
+
+  @override
+  String contactsImportFailed(String error) {
+    return 'Import der Kontakte fehlgeschlagen: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported importiert, $skipped übersprungen';
+  }
+
+  @override
+  String get contactsImportConflictTitle => 'Kontakte bereits vorhanden';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '$count der importierten Kontakte sind bereits vorhanden. Wie sollen sie behandelt werden?';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'Alle zusammenführen';
+
+  @override
+  String get contactsImportReplaceAll => 'Alle ersetzen';
+
+  @override
+  String get contactsImportSkip => 'Duplikate überspringen';
+
+  @override
   String get profileEditTitle => 'Profil bearbeiten';
 
   @override

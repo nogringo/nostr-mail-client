@@ -1012,6 +1012,55 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsImport => '連絡先をインポート';
+
+  @override
+  String get contactsExport => '連絡先をエクスポート';
+
+  @override
+  String get contactsExportEmpty => 'エクスポートする連絡先がありません';
+
+  @override
+  String contactsExportSaved(String path) {
+    return '連絡先をエクスポートしました: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return '連絡先のエクスポートに失敗しました: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'ファイルに連絡先が見つかりません';
+
+  @override
+  String contactsImportFailed(String error) {
+    return '連絡先のインポートに失敗しました: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported 件インポート、$skipped 件スキップ';
+  }
+
+  @override
+  String get contactsImportConflictTitle => '既に存在する連絡先';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return 'インポートした連絡先のうち $count 件は既に存在します。どう処理しますか？';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'すべて結合';
+
+  @override
+  String get contactsImportReplaceAll => 'すべて置き換え';
+
+  @override
+  String get contactsImportSkip => '重複をスキップ';
+
+  @override
   String get profileEditTitle => 'プロフィールを編集';
 
   @override
