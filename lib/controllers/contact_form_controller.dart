@@ -19,10 +19,12 @@ class ContactFormController extends GetxController {
   late final TextEditingController birthdayController;
 
   final isSaving = false.obs;
+  final canSave = false.obs;
   final error = RxnString();
   final emails = <String>[].obs;
   final nostrIdentifiers = <String>[].obs;
   final phones = <String>[].obs;
+  final List<Worker> _workers = [];
 
   ContactsController get _contactsController => Get.find<ContactsController>();
 
@@ -44,16 +46,44 @@ class ContactFormController extends GetxController {
       form?.nostrPubkeys.map(Nip19.encodePubKey) ?? const [],
     );
     phones.assignAll(form?.phones ?? const []);
+
+    nameController.addListener(_refreshCanSave);
+    emailInputController.addListener(_refreshCanSave);
+    phoneInputController.addListener(_refreshCanSave);
+    nostrInputController.addListener(_refreshCanSave);
+    _workers.addAll([
+      ever(emails, (_) => _refreshCanSave()),
+      ever(phones, (_) => _refreshCanSave()),
+      ever(nostrIdentifiers, (_) => _refreshCanSave()),
+    ]);
+    _refreshCanSave();
   }
 
   @override
   void onClose() {
+    for (final worker in _workers) {
+      worker.dispose();
+    }
     nameController.dispose();
     emailInputController.dispose();
     nostrInputController.dispose();
     phoneInputController.dispose();
     birthdayController.dispose();
     super.onClose();
+  }
+
+  void _refreshCanSave() {
+    canSave.value = _hasContent();
+  }
+
+  bool _hasContent() {
+    if (nameController.text.trim().isNotEmpty) return true;
+    if (emails.isNotEmpty || phones.isNotEmpty || nostrIdentifiers.isNotEmpty) {
+      return true;
+    }
+    return _pendingMethods(emailInputController).isNotEmpty ||
+        _pendingMethods(phoneInputController).isNotEmpty ||
+        _pendingMethods(nostrInputController).isNotEmpty;
   }
 
   void addEmailFromInput() {
