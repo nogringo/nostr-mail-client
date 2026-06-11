@@ -1,8 +1,12 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nostr_mail_client/controllers/contacts_controller.dart';
 import 'package:nostr_mail_client/l10n/generated/app_localizations.dart';
+import 'package:nostr_mail_client/models/address_book_contact_form.dart';
 import 'package:nostr_mail_client/utils/metadata_extensions.dart';
 import 'package:nostr_mail_client/utils/nostr_utils.dart';
+import 'package:nostr_mail_client/views/contacts/widgets/show_contact_form.dart';
 import 'package:nostr_mail_client/widgets/email_avatar.dart';
 import 'package:nostr_mail_client/widgets/nostr_avatar.dart';
 
@@ -78,8 +82,6 @@ class RecipientsListView extends StatelessWidget {
   Widget _buildRecipientChip(BuildContext context, MailAddress recipient) {
     final emailAddress = recipient.email;
 
-    // TODO: Add tap functionality to show actions: copy address, compose new email, add to contacts, etc.
-
     if (emailAddress.contains('@nostr')) {
       return _buildNostrChip(context, recipient);
     }
@@ -98,7 +100,7 @@ class RecipientsListView extends StatelessWidget {
         ? metadata.getBestName()
         : (pubkey != null ? getAnonName(pubkey) : recipient.email);
 
-    return Chip(
+    return ActionChip(
       shape: const StadiumBorder(),
       backgroundColor: colorScheme.primaryContainer,
       side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
@@ -110,18 +112,25 @@ class RecipientsListView extends StatelessWidget {
           fontWeight: FontWeight.w500,
         ),
       ),
+      onPressed: () =>
+          _showContactForm(context, displayName: label, pubkey: pubkey),
     );
   }
 
   Widget _buildLegacyChip(BuildContext context, MailAddress recipient) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Chip(
+    return ActionChip(
       shape: const StadiumBorder(),
       backgroundColor: colorScheme.surfaceContainerHighest,
       side: BorderSide(color: colorScheme.outlineVariant),
       label: Text(
         recipient.personalName ?? recipient.email,
         style: TextStyle(color: colorScheme.onSurfaceVariant),
+      ),
+      onPressed: () => _showContactForm(
+        context,
+        displayName: recipient.personalName ?? recipient.email,
+        email: recipient.email,
       ),
     );
   }
@@ -132,5 +141,24 @@ class RecipientsListView extends StatelessWidget {
     }
 
     return NostrAvatar(pubkey: pubkey, radius: 12);
+  }
+
+  void _showContactForm(
+    BuildContext context, {
+    required String displayName,
+    String? email,
+    String? pubkey,
+  }) {
+    if (!Get.isRegistered<ContactsController>()) {
+      Get.put(ContactsController());
+    }
+    showContactForm(
+      context,
+      initialForm: AddressBookContactForm(
+        displayName: displayName,
+        emails: email == null || email.isEmpty ? const [] : [email],
+        nostrPubkeys: pubkey == null || pubkey.isEmpty ? const [] : [pubkey],
+      ),
+    );
   }
 }

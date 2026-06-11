@@ -1,6 +1,8 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/string_color.dart';
+
 class EmailAvatar extends StatelessWidget {
   final MailAddress mailAddress;
   final double radius;
@@ -12,13 +14,7 @@ class EmailAvatar extends StatelessWidget {
       return Theme.of(context).colorScheme.surfaceContainerHighest;
     }
 
-    final hash = mailAddress.hashCode;
-    return Color.fromARGB(
-      255,
-      (hash & 0xFF0000) >> 16,
-      (hash & 0x00FF00) >> 8,
-      hash & 0x0000FF,
-    ).withValues(alpha: 1);
+    return getStringColor(mailAddress.email);
   }
 
   String _getInitial() {
@@ -36,7 +32,6 @@ class EmailAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final avatarColor = _getAvatarColor(context);
-
     final isDark =
         ThemeData.estimateBrightnessForColor(avatarColor) == Brightness.dark;
 

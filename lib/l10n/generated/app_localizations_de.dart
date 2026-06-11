@@ -21,6 +21,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get actionAdd => 'Hinzufügen';
 
   @override
+  String get actionClear => 'Löschen';
+
+  @override
   String get actionClose => 'Schließen';
 
   @override
@@ -946,6 +949,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get composeResolvingNip05 => 'NIP-05 wird aufgelöst...';
 
   @override
+  String get contactSourceAddressBook => 'Adressbuch';
+
+  @override
   String get contactSourceEmailHistory => 'E-Mail-Verlauf';
 
   @override
@@ -956,6 +962,177 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get contactSourceNip05Verified => 'NIP-05-verifiziert';
+
+  @override
+  String get contactsTitle => 'Kontakte';
+
+  @override
+  String get contactsAdd => 'Kontakt hinzufügen';
+
+  @override
+  String get contactsAddToContacts => 'Zu Kontakten hinzufügen';
+
+  @override
+  String get contactsSync => 'Kontakte synchronisieren';
+
+  @override
+  String get contactsRetry => 'Ausstehende Kontakt-Updates erneut versuchen';
+
+  @override
+  String get contactsSearchHint => 'Kontakte suchen';
+
+  @override
+  String get contactsEmpty => 'Noch keine Kontakte';
+
+  @override
+  String get contactsSearchEmpty => 'Keine passenden Kontakte';
+
+  @override
+  String get contactsSelectPrompt => 'Kontakt auswählen';
+
+  @override
+  String get contactsCreateTitle => 'Neuer Kontakt';
+
+  @override
+  String get contactsEditTitle => 'Kontakt bearbeiten';
+
+  @override
+  String get contactsNameLabel => 'Name';
+
+  @override
+  String get contactsEmailsLabel => 'E-Mail-Adressen';
+
+  @override
+  String get contactsMultilineHint => 'Eine pro Zeile';
+
+  @override
+  String get contactsAddEmailHint => 'E-Mail-Adresse hinzufügen';
+
+  @override
+  String get contactsPhonesLabel => 'Telefonnummern';
+
+  @override
+  String get contactsAddPhoneHint => 'Telefonnummer hinzufügen';
+
+  @override
+  String get contactsBirthdayLabel => 'Geburtstag';
+
+  @override
+  String get contactsBirthdayAdd => 'Geburtstag hinzufügen';
+
+  @override
+  String get contactsBirthdayDayLabel => 'Tag';
+
+  @override
+  String get contactsBirthdayMonthLabel => 'Monat';
+
+  @override
+  String get contactsBirthdayYearLabel => 'Jahr';
+
+  @override
+  String get contactsBirthdayHint => 'JJJJ-MM-TT';
+
+  @override
+  String get contactsNostrLabel => 'Nostr-Identitäten';
+
+  @override
+  String get contactsNostrHint => 'npub, nprofile, Hex-Pubkey oder NIP-05';
+
+  @override
+  String get contactsAddNostrHint =>
+      'npub, nprofile, Hex-Pubkey oder NIP-05 hinzufügen';
+
+  @override
+  String get contactsCancel => 'Abbrechen';
+
+  @override
+  String get contactsSave => 'Speichern';
+
+  @override
+  String get contactsEdit => 'Kontakt bearbeiten';
+
+  @override
+  String get contactsCopyVCard => 'vCard kopieren';
+
+  @override
+  String get contactsVCardCopied => 'vCard kopiert';
+
+  @override
+  String get contactsDelete => 'Löschen';
+
+  @override
+  String get contactsDeleteTitle => 'Kontakt löschen?';
+
+  @override
+  String get contactsDeleteBody =>
+      'Dies entfernt den Kontakt aus deinem privaten Adressbuch.';
+
+  @override
+  String get contactsEmailsTitle => 'E-Mail';
+
+  @override
+  String get contactsPhonesTitle => 'Telefon';
+
+  @override
+  String get contactsBirthdayTitle => 'Geburtstag';
+
+  @override
+  String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsCall => 'Anrufen';
+
+  @override
+  String get contactsSendSms => 'SMS senden';
+
+  @override
+  String get contactsImport => 'Kontakte importieren';
+
+  @override
+  String get contactsExport => 'Kontakte exportieren';
+
+  @override
+  String get contactsExportEmpty => 'Keine Kontakte zum Exportieren';
+
+  @override
+  String contactsExportSaved(String path) {
+    return 'Kontakte exportiert: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return 'Export der Kontakte fehlgeschlagen: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'Keine Kontakte in der Datei gefunden';
+
+  @override
+  String contactsImportFailed(String error) {
+    return 'Import der Kontakte fehlgeschlagen: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported importiert, $skipped übersprungen';
+  }
+
+  @override
+  String get contactsImportConflictTitle => 'Kontakte bereits vorhanden';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '$count der importierten Kontakte sind bereits vorhanden. Wie sollen sie behandelt werden?';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'Alle zusammenführen';
+
+  @override
+  String get contactsImportReplaceAll => 'Alle ersetzen';
+
+  @override
+  String get contactsImportSkip => 'Duplikate überspringen';
 
   @override
   String get profileEditTitle => 'Profil bearbeiten';

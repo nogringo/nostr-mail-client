@@ -50,6 +50,8 @@ dependencies:
   blossom_upload_queue_shim_for_ndk: ^0.4.1
   package_info_plus: ^9.0.1
   go_router: ^17.2.3
+  nostr_address_book: ^0.1.0
+  vcard_dart: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:nostr_mail_client/app/routes/app_routes.dart';
+import 'package:nostr_mail_client/views/contacts/widgets/contacts_sidebar.dart';
 import 'package:nostr_mail_client/views/inbox/widgets/app_sidebar.dart';
 import 'package:nostr_mail_client/views/shared/layout_constants.dart';
 import 'package:nostr_mail_client/views/shared/left_rail.dart';
@@ -11,6 +14,8 @@ class WideLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final loc = GoRouterState.of(context).matchedLocation;
+    final isContacts = loc == AppRoutes.contacts;
     return Row(
       children: [
         const LeftRail(),
@@ -24,7 +29,7 @@ class WideLayout extends StatelessWidget {
             ),
           ),
           clipBehavior: Clip.antiAlias,
-          child: const AppSidebar(),
+          child: isContacts ? const ContactsSidebar() : const AppSidebar(),
         ),
         VerticalDivider(
           width: 1,

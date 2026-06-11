@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../../services/address_book_service.dart';
 import '../../services/contacts_service.dart';
 
 class InitialBinding extends Bindings {
@@ -11,6 +12,9 @@ class InitialBinding extends Bindings {
     // - AuthController
     // - SettingsController (via Get.putAsync, awaited before runApp)
 
+    if (!Get.isRegistered<AddressBookService>()) {
+      Get.put(AddressBookService(), permanent: true);
+    }
     Get.lazyPut(() => ContactsService());
   }
 }

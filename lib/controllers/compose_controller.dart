@@ -41,8 +41,9 @@ class ComposeController extends GetxController {
   /// Passed by the route builder via GoRouter's `extra`.
   final Email? sourceEmail;
   final ComposeMode? sourceMode;
+  final Recipient? initialRecipient;
 
-  ComposeController({this.sourceEmail, this.sourceMode});
+  ComposeController({this.sourceEmail, this.sourceMode, this.initialRecipient});
 
   final _nostrMailService = Get.find<NostrMailService>();
   final _contactsService = Get.find<ContactsService>();
@@ -99,6 +100,11 @@ class ComposeController extends GetxController {
     // Initialize reply/forward async after onInit completes
     if (sourceEmail != null && sourceMode != null) {
       initFromEmail(sourceEmail!, sourceMode!);
+    } else if (initialRecipient != null) {
+      recipients.add(initialRecipient!);
+      if (initialRecipient!.isLegacy) {
+        _autoSelectBridgeForLegacy();
+      }
     }
   }
 

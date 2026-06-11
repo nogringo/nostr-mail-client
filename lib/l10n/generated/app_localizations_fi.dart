@@ -21,6 +21,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionAdd => 'Lisää';
 
   @override
+  String get actionClear => 'Tyhjennä';
+
+  @override
   String get actionClose => 'Sulje';
 
   @override
@@ -942,6 +945,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeResolvingNip05 => 'Selvitetään NIP-05...';
 
   @override
+  String get contactSourceAddressBook => 'Osoitekirja';
+
+  @override
   String get contactSourceEmailHistory => 'Sähköpostihistoria';
 
   @override
@@ -952,6 +958,179 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get contactSourceNip05Verified => 'NIP-05 vahvistettu';
+
+  @override
+  String get contactsTitle => 'Yhteystiedot';
+
+  @override
+  String get contactsAdd => 'Lisää yhteystieto';
+
+  @override
+  String get contactsAddToContacts => 'Lisää yhteystietoihin';
+
+  @override
+  String get contactsSync => 'Synkronoi yhteystiedot';
+
+  @override
+  String get contactsRetry =>
+      'Yritä odottavia yhteystietopäivityksiä uudelleen';
+
+  @override
+  String get contactsSearchHint => 'Hae yhteystietoja';
+
+  @override
+  String get contactsEmpty => 'Ei vielä yhteystietoja';
+
+  @override
+  String get contactsSearchEmpty => 'Ei vastaavia yhteystietoja';
+
+  @override
+  String get contactsSelectPrompt => 'Valitse yhteystieto';
+
+  @override
+  String get contactsCreateTitle => 'Uusi yhteystieto';
+
+  @override
+  String get contactsEditTitle => 'Muokkaa yhteystietoa';
+
+  @override
+  String get contactsNameLabel => 'Nimi';
+
+  @override
+  String get contactsEmailsLabel => 'Sähköpostiosoitteet';
+
+  @override
+  String get contactsMultilineHint => 'Yksi per rivi';
+
+  @override
+  String get contactsAddEmailHint => 'Lisää sähköpostiosoite';
+
+  @override
+  String get contactsPhonesLabel => 'Puhelinnumerot';
+
+  @override
+  String get contactsAddPhoneHint => 'Lisää puhelinnumero';
+
+  @override
+  String get contactsBirthdayLabel => 'Syntymäpäivä';
+
+  @override
+  String get contactsBirthdayAdd => 'Lisää syntymäpäivä';
+
+  @override
+  String get contactsBirthdayDayLabel => 'Päivä';
+
+  @override
+  String get contactsBirthdayMonthLabel => 'Kuukausi';
+
+  @override
+  String get contactsBirthdayYearLabel => 'Vuosi';
+
+  @override
+  String get contactsBirthdayHint => 'VVVV-KK-PP';
+
+  @override
+  String get contactsNostrLabel => 'Nostr-identiteetit';
+
+  @override
+  String get contactsNostrHint =>
+      'npub, nprofile, hex-julkinen avain tai NIP-05';
+
+  @override
+  String get contactsAddNostrHint =>
+      'Lisää npub, nprofile, hex-julkinen avain tai NIP-05';
+
+  @override
+  String get contactsCancel => 'Peruuta';
+
+  @override
+  String get contactsSave => 'Tallenna';
+
+  @override
+  String get contactsEdit => 'Muokkaa yhteystietoa';
+
+  @override
+  String get contactsCopyVCard => 'Kopioi vCard';
+
+  @override
+  String get contactsVCardCopied => 'vCard kopioitu';
+
+  @override
+  String get contactsDelete => 'Poista';
+
+  @override
+  String get contactsDeleteTitle => 'Poistetaanko yhteystieto?';
+
+  @override
+  String get contactsDeleteBody =>
+      'Tämä poistaa yhteystiedon yksityisestä osoitekirjastasi.';
+
+  @override
+  String get contactsEmailsTitle => 'Sähköposti';
+
+  @override
+  String get contactsPhonesTitle => 'Puhelin';
+
+  @override
+  String get contactsBirthdayTitle => 'Syntymäpäivä';
+
+  @override
+  String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsCall => 'Soita';
+
+  @override
+  String get contactsSendSms => 'Lähetä tekstiviesti';
+
+  @override
+  String get contactsImport => 'Tuo yhteystiedot';
+
+  @override
+  String get contactsExport => 'Vie yhteystiedot';
+
+  @override
+  String get contactsExportEmpty => 'Ei vietäviä yhteystietoja';
+
+  @override
+  String contactsExportSaved(String path) {
+    return 'Yhteystiedot viety: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return 'Yhteystietojen vienti epäonnistui: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'Tiedostosta ei löytynyt yhteystietoja';
+
+  @override
+  String contactsImportFailed(String error) {
+    return 'Yhteystietojen tuonti epäonnistui: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported tuotu, $skipped ohitettu';
+  }
+
+  @override
+  String get contactsImportConflictTitle => 'Yhteystiedot ovat jo olemassa';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '$count tuotavista yhteystiedoista on jo olemassa. Miten ne käsitellään?';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'Yhdistä kaikki';
+
+  @override
+  String get contactsImportReplaceAll => 'Korvaa kaikki';
+
+  @override
+  String get contactsImportSkip => 'Ohita kaksoiskappaleet';
 
   @override
   String get profileEditTitle => 'Muokkaa profiilia';

@@ -8,11 +8,16 @@ import 'package:ndk/ndk.dart';
 
 import '../models/contact.dart';
 import '../utils/metadata_extensions.dart';
+import 'address_book_service.dart';
 import 'nostr_mail_service.dart';
 
 class ContactsService extends GetxService {
   final _nostrMailService = Get.find<NostrMailService>();
   final _ndk = Get.find<Ndk>();
+  AddressBookService? get _addressBookService =>
+      Get.isRegistered<AddressBookService>()
+      ? Get.find<AddressBookService>()
+      : null;
 
   final contacts = <Contact>[].obs;
   final isLoading = false.obs;
@@ -26,18 +31,22 @@ class ContactsService extends GetxService {
       final allContacts = <String, Contact>{};
       final myPubkey = _nostrMailService.getPublicKey();
 
-      // Load from email history first (highest priority)
+      // Load saved address-book contacts first (highest priority)
+      await _addressBookService?.load(sync: false);
+      for (final contact in _addressBookService?.suggestionContacts() ?? []) {
+        allContacts[contact.id] = contact;
+      }
+
+      // Load from email history next
       final historyContacts = await _loadEmailHistoryContacts();
       for (final contact in historyContacts) {
-        allContacts[contact.id] = contact;
+        _putIfNoDuplicate(allContacts, contact);
       }
 
       // Load from Nostr follows (second priority)
       final followContacts = await _loadNostrFollows();
       for (final contact in followContacts) {
-        if (!allContacts.containsKey(contact.id)) {
-          allContacts[contact.id] = contact;
-        }
+        _putIfNoDuplicate(allContacts, contact);
       }
 
       // Load from NDK cache (lowest priority, but broad coverage)
@@ -45,14 +54,27 @@ class ContactsService extends GetxService {
       for (final contact in cachedContacts) {
         // Skip own pubkey
         if (contact.pubkey == myPubkey) continue;
-        if (!allContacts.containsKey(contact.id)) {
-          allContacts[contact.id] = contact;
-        }
+        _putIfNoDuplicate(allContacts, contact);
       }
 
       contacts.value = allContacts.values.toList();
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  void _putIfNoDuplicate(Map<String, Contact> contacts, Contact contact) {
+    final pubkey = contact.pubkey;
+    final email = contact.mailAddress?.email.toLowerCase();
+    final duplicate = contacts.values.any((existing) {
+      if (pubkey != null && existing.pubkey == pubkey) return true;
+      if (email != null && existing.mailAddress?.email.toLowerCase() == email) {
+        return true;
+      }
+      return false;
+    });
+    if (!duplicate) {
+      contacts[contact.id] = contact;
     }
   }
 

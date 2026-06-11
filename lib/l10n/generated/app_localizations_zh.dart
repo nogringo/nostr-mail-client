@@ -21,6 +21,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionAdd => '添加';
 
   @override
+  String get actionClear => '清除';
+
+  @override
   String get actionClose => '关闭';
 
   @override
@@ -891,6 +894,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeResolvingNip05 => '正在解析 NIP-05...';
 
   @override
+  String get contactSourceAddressBook => '通讯录';
+
+  @override
   String get contactSourceEmailHistory => '邮件历史';
 
   @override
@@ -901,6 +907,175 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contactSourceNip05Verified => '已验证 NIP-05';
+
+  @override
+  String get contactsTitle => '联系人';
+
+  @override
+  String get contactsAdd => '添加联系人';
+
+  @override
+  String get contactsAddToContacts => '添加到联系人';
+
+  @override
+  String get contactsSync => '同步联系人';
+
+  @override
+  String get contactsRetry => '重试待处理的联系人更新';
+
+  @override
+  String get contactsSearchHint => '搜索联系人';
+
+  @override
+  String get contactsEmpty => '还没有联系人';
+
+  @override
+  String get contactsSearchEmpty => '没有匹配的联系人';
+
+  @override
+  String get contactsSelectPrompt => '选择联系人';
+
+  @override
+  String get contactsCreateTitle => '新联系人';
+
+  @override
+  String get contactsEditTitle => '编辑联系人';
+
+  @override
+  String get contactsNameLabel => '姓名';
+
+  @override
+  String get contactsEmailsLabel => '电子邮件地址';
+
+  @override
+  String get contactsMultilineHint => '每行一个';
+
+  @override
+  String get contactsAddEmailHint => '添加电子邮件地址';
+
+  @override
+  String get contactsPhonesLabel => '电话号码';
+
+  @override
+  String get contactsAddPhoneHint => '添加电话号码';
+
+  @override
+  String get contactsBirthdayLabel => '生日';
+
+  @override
+  String get contactsBirthdayAdd => '添加生日';
+
+  @override
+  String get contactsBirthdayDayLabel => '日';
+
+  @override
+  String get contactsBirthdayMonthLabel => '月';
+
+  @override
+  String get contactsBirthdayYearLabel => '年';
+
+  @override
+  String get contactsBirthdayHint => 'YYYY-MM-DD';
+
+  @override
+  String get contactsNostrLabel => 'Nostr 身份';
+
+  @override
+  String get contactsNostrHint => 'npub、nprofile、hex 公钥或 NIP-05';
+
+  @override
+  String get contactsAddNostrHint => '添加 npub、nprofile、hex 公钥或 NIP-05';
+
+  @override
+  String get contactsCancel => '取消';
+
+  @override
+  String get contactsSave => '保存';
+
+  @override
+  String get contactsEdit => '编辑联系人';
+
+  @override
+  String get contactsCopyVCard => '复制 vCard';
+
+  @override
+  String get contactsVCardCopied => 'vCard 已复制';
+
+  @override
+  String get contactsDelete => '删除';
+
+  @override
+  String get contactsDeleteTitle => '删除联系人？';
+
+  @override
+  String get contactsDeleteBody => '这会从你的私人通讯录中移除此联系人。';
+
+  @override
+  String get contactsEmailsTitle => '电子邮件';
+
+  @override
+  String get contactsPhonesTitle => '电话';
+
+  @override
+  String get contactsBirthdayTitle => '生日';
+
+  @override
+  String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsCall => '拨打电话';
+
+  @override
+  String get contactsSendSms => '发送短信';
+
+  @override
+  String get contactsImport => '导入联系人';
+
+  @override
+  String get contactsExport => '导出联系人';
+
+  @override
+  String get contactsExportEmpty => '没有可导出的联系人';
+
+  @override
+  String contactsExportSaved(String path) {
+    return '联系人已导出：$path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return '导出联系人失败：$error';
+  }
+
+  @override
+  String get contactsImportEmpty => '文件中未找到联系人';
+
+  @override
+  String contactsImportFailed(String error) {
+    return '导入联系人失败：$error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '已导入 $imported 个，已跳过 $skipped 个';
+  }
+
+  @override
+  String get contactsImportConflictTitle => '联系人已存在';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return '导入的联系人中有 $count 个已存在。如何处理？';
+  }
+
+  @override
+  String get contactsImportMergeAll => '全部合并';
+
+  @override
+  String get contactsImportReplaceAll => '全部替换';
+
+  @override
+  String get contactsImportSkip => '跳过重复项';
 
   @override
   String get profileEditTitle => '编辑个人资料';

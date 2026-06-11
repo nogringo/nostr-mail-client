@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
+import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/compose_controller.dart';
+import '../../controllers/contacts_controller.dart';
 import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../controllers/profile_controller.dart';
+import '../../models/address_book_contact_form.dart';
 import '../../models/compose_mode.dart';
+import '../../models/recipient.dart';
 import '../../services/storage_service.dart';
 import '../../views/auth/login_view.dart';
 import '../../views/compose/compose_view.dart';
+import '../../views/contacts/contacts_view.dart';
+import '../../views/contacts/widgets/contact_form_page.dart';
 import '../../views/email/email_controller.dart';
 import '../../views/email/email_view.dart';
 import '../../views/identity/create_identity_view.dart';
@@ -100,6 +106,34 @@ class AppRouter {
           _folderRoute(AppRoutes.archive, MailFolder.archive),
           _folderRoute(AppRoutes.trash, MailFolder.trash),
 
+          GoRoute(
+            path: AppRoutes.contacts,
+            builder: (_, _) {
+              if (!Get.isRegistered<ContactsController>()) {
+                Get.put(ContactsController());
+              }
+              return const ContactsView();
+            },
+          ),
+
+          // Contact form (create/edit). Full-screen route on mobile; the
+          // desktop dialog path is handled imperatively by showContactForm.
+          // The ContactFormController is owned by ContactFormPage's GetBuilder,
+          // so no onExit cleanup is needed here.
+          GoRoute(
+            path: AppRoutes.contactForm,
+            builder: (_, state) {
+              if (!Get.isRegistered<ContactsController>()) {
+                Get.put(ContactsController());
+              }
+              final extra = state.extra is Map ? state.extra as Map : null;
+              return ContactFormPage(
+                contact: extra?['contact'] as AddressBookContact?,
+                initialForm: extra?['initialForm'] as AddressBookContactForm?,
+              );
+            },
+          ),
+
           // Compose
           GoRoute(
             path: AppRoutes.compose,
@@ -118,6 +152,7 @@ class AppRouter {
               _ensureComposeController(
                 sourceEmail: extra?['email'] as Email?,
                 sourceMode: extra?['mode'] as ComposeMode?,
+                initialRecipient: extra?['recipient'] as Recipient?,
               );
               return const ComposeView();
             },
@@ -219,10 +254,15 @@ class AppRouter {
   static void _ensureComposeController({
     required Email? sourceEmail,
     required ComposeMode? sourceMode,
+    required Recipient? initialRecipient,
   }) {
     if (Get.isRegistered<ComposeController>()) return;
     Get.put(
-      ComposeController(sourceEmail: sourceEmail, sourceMode: sourceMode),
+      ComposeController(
+        sourceEmail: sourceEmail,
+        sourceMode: sourceMode,
+        initialRecipient: initialRecipient,
+      ),
     );
   }
 

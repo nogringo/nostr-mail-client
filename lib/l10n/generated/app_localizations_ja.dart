@@ -21,6 +21,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionAdd => '追加';
 
   @override
+  String get actionClear => 'クリア';
+
+  @override
   String get actionClose => '閉じる';
 
   @override
@@ -895,6 +898,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeResolvingNip05 => 'NIP-05 を解決中...';
 
   @override
+  String get contactSourceAddressBook => 'アドレス帳';
+
+  @override
   String get contactSourceEmailHistory => 'メール履歴';
 
   @override
@@ -905,6 +911,175 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contactSourceNip05Verified => 'NIP-05 認証済み';
+
+  @override
+  String get contactsTitle => '連絡先';
+
+  @override
+  String get contactsAdd => '連絡先を追加';
+
+  @override
+  String get contactsAddToContacts => '連絡先に追加';
+
+  @override
+  String get contactsSync => '連絡先を同期';
+
+  @override
+  String get contactsRetry => '保留中の連絡先更新を再試行';
+
+  @override
+  String get contactsSearchHint => '連絡先を検索';
+
+  @override
+  String get contactsEmpty => '連絡先はまだありません';
+
+  @override
+  String get contactsSearchEmpty => '一致する連絡先はありません';
+
+  @override
+  String get contactsSelectPrompt => '連絡先を選択';
+
+  @override
+  String get contactsCreateTitle => '新しい連絡先';
+
+  @override
+  String get contactsEditTitle => '連絡先を編集';
+
+  @override
+  String get contactsNameLabel => '名前';
+
+  @override
+  String get contactsEmailsLabel => 'メールアドレス';
+
+  @override
+  String get contactsMultilineHint => '1 行に 1 件';
+
+  @override
+  String get contactsAddEmailHint => 'メールアドレスを追加';
+
+  @override
+  String get contactsPhonesLabel => '電話番号';
+
+  @override
+  String get contactsAddPhoneHint => '電話番号を追加';
+
+  @override
+  String get contactsBirthdayLabel => '誕生日';
+
+  @override
+  String get contactsBirthdayAdd => '誕生日を追加';
+
+  @override
+  String get contactsBirthdayDayLabel => '日';
+
+  @override
+  String get contactsBirthdayMonthLabel => '月';
+
+  @override
+  String get contactsBirthdayYearLabel => '年';
+
+  @override
+  String get contactsBirthdayHint => 'YYYY-MM-DD';
+
+  @override
+  String get contactsNostrLabel => 'Nostr アイデンティティ';
+
+  @override
+  String get contactsNostrHint => 'npub、nprofile、hex 公開鍵、または NIP-05';
+
+  @override
+  String get contactsAddNostrHint => 'npub、nprofile、hex 公開鍵、または NIP-05 を追加';
+
+  @override
+  String get contactsCancel => 'キャンセル';
+
+  @override
+  String get contactsSave => '保存';
+
+  @override
+  String get contactsEdit => '連絡先を編集';
+
+  @override
+  String get contactsCopyVCard => 'vCard をコピー';
+
+  @override
+  String get contactsVCardCopied => 'vCard をコピーしました';
+
+  @override
+  String get contactsDelete => '削除';
+
+  @override
+  String get contactsDeleteTitle => '連絡先を削除しますか？';
+
+  @override
+  String get contactsDeleteBody => 'この連絡先をあなたの非公開アドレス帳から削除します。';
+
+  @override
+  String get contactsEmailsTitle => 'メール';
+
+  @override
+  String get contactsPhonesTitle => '電話';
+
+  @override
+  String get contactsBirthdayTitle => '誕生日';
+
+  @override
+  String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsCall => '発信';
+
+  @override
+  String get contactsSendSms => 'SMSを送信';
+
+  @override
+  String get contactsImport => '連絡先をインポート';
+
+  @override
+  String get contactsExport => '連絡先をエクスポート';
+
+  @override
+  String get contactsExportEmpty => 'エクスポートする連絡先がありません';
+
+  @override
+  String contactsExportSaved(String path) {
+    return '連絡先をエクスポートしました: $path';
+  }
+
+  @override
+  String contactsExportFailed(String error) {
+    return '連絡先のエクスポートに失敗しました: $error';
+  }
+
+  @override
+  String get contactsImportEmpty => 'ファイルに連絡先が見つかりません';
+
+  @override
+  String contactsImportFailed(String error) {
+    return '連絡先のインポートに失敗しました: $error';
+  }
+
+  @override
+  String contactsImportSummary(int imported, int skipped) {
+    return '$imported 件インポート、$skipped 件スキップ';
+  }
+
+  @override
+  String get contactsImportConflictTitle => '既に存在する連絡先';
+
+  @override
+  String contactsImportConflictBody(int count) {
+    return 'インポートした連絡先のうち $count 件は既に存在します。どう処理しますか？';
+  }
+
+  @override
+  String get contactsImportMergeAll => 'すべて結合';
+
+  @override
+  String get contactsImportReplaceAll => 'すべて置き換え';
+
+  @override
+  String get contactsImportSkip => '重複をスキップ';
 
   @override
   String get profileEditTitle => 'プロフィールを編集';

@@ -91,6 +91,9 @@ class ContactSuggestionTile extends StatelessWidget {
     final String tooltip;
 
     switch (contact.source) {
+      case ContactSource.addressBook:
+        icon = Icons.contacts;
+        tooltip = l.contactSourceAddressBook;
       case ContactSource.emailHistory:
         icon = Icons.history;
         tooltip = l.contactSourceEmailHistory;

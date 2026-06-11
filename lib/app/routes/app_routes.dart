@@ -24,12 +24,14 @@ class AppRoutes {
   static const sent = '/sent';
   static const archive = '/archive';
   static const trash = '/trash';
+  static const contacts = '/contacts';
 
   // Path segment for the nested email detail route under each folder.
   static const emailSegment = 'email/:id';
 
   // Actions
   static const compose = '/compose';
+  static const contactForm = '/contacts/form';
   static const profile = '/profile';
 
   // Settings (nested)
