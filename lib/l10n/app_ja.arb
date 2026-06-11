@@ -422,6 +422,8 @@
   "contactsPhonesTitle": "電話",
   "contactsBirthdayTitle": "誕生日",
   "contactsNostrTitle": "Nostr",
+  "contactsCall": "発信",
+  "contactsSendSms": "SMSを送信",
   "contactsImport": "連絡先をインポート",
   "contactsExport": "連絡先をエクスポート",
   "contactsExportEmpty": "エクスポートする連絡先がありません",

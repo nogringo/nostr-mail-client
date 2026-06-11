@@ -422,6 +422,8 @@
   "contactsPhonesTitle": "Teléfono",
   "contactsBirthdayTitle": "Cumpleaños",
   "contactsNostrTitle": "Nostr",
+  "contactsCall": "Llamar",
+  "contactsSendSms": "Enviar SMS",
   "contactsImport": "Importar contactos",
   "contactsExport": "Exportar contactos",
   "contactsExportEmpty": "No hay contactos para exportar",

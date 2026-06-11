@@ -427,6 +427,8 @@
   "contactsPhonesTitle": "Puhelin",
   "contactsBirthdayTitle": "Syntymäpäivä",
   "contactsNostrTitle": "Nostr",
+  "contactsCall": "Soita",
+  "contactsSendSms": "Lähetä tekstiviesti",
   "contactsImport": "Tuo yhteystiedot",
   "contactsExport": "Vie yhteystiedot",
   "contactsExportEmpty": "Ei vietäviä yhteystietoja",

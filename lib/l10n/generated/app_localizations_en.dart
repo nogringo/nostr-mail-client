@@ -1070,6 +1070,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => 'Call';
+
+  @override
+  String get contactsSendSms => 'Send SMS';
+
+  @override
   String get contactsImport => 'Import contacts';
 
   @override

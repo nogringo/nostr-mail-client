@@ -422,6 +422,8 @@
   "contactsPhonesTitle": "电话",
   "contactsBirthdayTitle": "生日",
   "contactsNostrTitle": "Nostr",
+  "contactsCall": "拨打电话",
+  "contactsSendSms": "发送短信",
   "contactsImport": "导入联系人",
   "contactsExport": "导出联系人",
   "contactsExportEmpty": "没有可导出的联系人",

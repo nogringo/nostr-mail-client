@@ -422,6 +422,8 @@
   "contactsPhonesTitle": "Телефон",
   "contactsBirthdayTitle": "День рождения",
   "contactsNostrTitle": "Nostr",
+  "contactsCall": "Позвонить",
+  "contactsSendSms": "Отправить SMS",
   "contactsImport": "Импортировать контакты",
   "contactsExport": "Экспортировать контакты",
   "contactsExportEmpty": "Нет контактов для экспорта",

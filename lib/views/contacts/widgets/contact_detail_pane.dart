@@ -8,6 +8,7 @@ import 'contact_action_row.dart';
 import 'contact_header.dart';
 import 'contact_nostr_section.dart';
 import 'contact_section_title.dart';
+import 'phone_action_buttons.dart';
 
 class ContactDetailPane extends StatelessWidget {
   final String? uid;
@@ -68,6 +69,7 @@ class ContactDetailPane extends StatelessWidget {
                 icon: Icons.phone_outlined,
                 title: Text(phone, overflow: TextOverflow.ellipsis),
                 copyValue: phone,
+                trailing: PhoneActionButtons(phone: phone),
               ),
             const SizedBox(height: 24),
           ],

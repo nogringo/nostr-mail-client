@@ -1081,6 +1081,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => 'Chiama';
+
+  @override
+  String get contactsSendSms => 'Invia SMS';
+
+  @override
   String get contactsImport => 'Importa contatti';
 
   @override

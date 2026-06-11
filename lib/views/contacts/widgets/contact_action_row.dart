@@ -12,12 +12,17 @@ class ContactActionRow extends StatelessWidget {
   final String copyValue;
   final VoidCallback? onCompose;
 
+  /// Custom trailing actions (e.g. call / SMS buttons for a phone row). Takes
+  /// precedence over the [onCompose] mail button when provided.
+  final Widget? trailing;
+
   const ContactActionRow({
     super.key,
     required this.icon,
     required this.title,
     required this.copyValue,
     this.onCompose,
+    this.trailing,
     this.leading,
   });
 
@@ -31,13 +36,15 @@ class ContactActionRow extends StatelessWidget {
         contentPadding: EdgeInsets.zero,
         leading: leading ?? Icon(icon),
         title: title,
-        trailing: onCompose == null
-            ? null
-            : IconButton(
-                icon: const Icon(Icons.mail_outline),
-                tooltip: l.inboxCompose,
-                onPressed: onCompose,
-              ),
+        trailing:
+            trailing ??
+            (onCompose == null
+                ? null
+                : IconButton(
+                    icon: const Icon(Icons.mail_outline),
+                    tooltip: l.inboxCompose,
+                    onPressed: onCompose,
+                  )),
       ),
     );
   }

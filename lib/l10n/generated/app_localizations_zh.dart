@@ -1023,6 +1023,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => '拨打电话';
+
+  @override
+  String get contactsSendSms => '发送短信';
+
+  @override
   String get contactsImport => '导入联系人';
 
   @override

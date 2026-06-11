@@ -1078,6 +1078,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => 'Soita';
+
+  @override
+  String get contactsSendSms => 'Lähetä tekstiviesti';
+
+  @override
   String get contactsImport => 'Tuo yhteystiedot';
 
   @override

@@ -1080,6 +1080,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => 'Anrufen';
+
+  @override
+  String get contactsSendSms => 'SMS senden';
+
+  @override
   String get contactsImport => 'Kontakte importieren';
 
   @override

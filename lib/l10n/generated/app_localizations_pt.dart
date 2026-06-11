@@ -1080,6 +1080,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => 'Ligar';
+
+  @override
+  String get contactsSendSms => 'Enviar SMS';
+
+  @override
   String get contactsImport => 'Importar contactos';
 
   @override
@@ -2392,6 +2398,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsCall => 'Ligar';
+
+  @override
+  String get contactsSendSms => 'Enviar SMS';
 
   @override
   String get contactsImport => 'Importar contatos';

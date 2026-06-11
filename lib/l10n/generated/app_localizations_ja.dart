@@ -1027,6 +1027,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => '発信';
+
+  @override
+  String get contactsSendSms => 'SMSを送信';
+
+  @override
   String get contactsImport => '連絡先をインポート';
 
   @override

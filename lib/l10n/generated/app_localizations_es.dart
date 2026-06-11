@@ -1082,6 +1082,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => 'Llamar';
+
+  @override
+  String get contactsSendSms => 'Enviar SMS';
+
+  @override
   String get contactsImport => 'Importar contactos';
 
   @override

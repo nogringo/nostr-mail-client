@@ -22,6 +22,18 @@ void main() {
     expect(card.emails.single.address, 'alice@example.com');
   });
 
+  test('creates vCard from a name-only contact', () {
+    final text = AddressBookVCardMapper.buildVCard(
+      const AddressBookContactForm(displayName: 'Name Only'),
+    );
+
+    final card = parser.parseSingle(text);
+    expect(card.formattedName, 'Name Only');
+    expect(card.emails, isEmpty);
+    expect(card.telephones, isEmpty);
+    expect(card.impps, isEmpty);
+  });
+
   test('creates vCard with Nostr npub IMPP', () {
     const factory = Bip340EventSignerFactory();
     final (_, pubkey) = factory.generateKeyPair();
@@ -174,12 +186,6 @@ END:VCARD
     expect(
       () => AddressBookVCardMapper.buildVCard(
         const AddressBookContactForm(displayName: '', emails: ['a@b.com']),
-      ),
-      throwsA(isA<AddressBookValidationException>()),
-    );
-    expect(
-      () => AddressBookVCardMapper.buildVCard(
-        const AddressBookContactForm(displayName: 'No Method'),
       ),
       throwsA(isA<AddressBookValidationException>()),
     );

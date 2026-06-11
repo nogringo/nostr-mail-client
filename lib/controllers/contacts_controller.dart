@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../app/routes/app_routes.dart';
 import '../l10n/generated/app_localizations.dart';
@@ -28,6 +29,12 @@ class ContactsController extends GetxController {
   final selectedUid = RxnString();
   final copiedVCardUid = RxnString();
   Timer? _copiedVCardTimer;
+
+  /// Whether the platform can place a call / send an SMS. Checked once at init
+  /// (a `tel:`/`sms:` handler is a device-wide capability, not per-number) so
+  /// the phone-row buttons can hide when there is no app to handle them.
+  final canCall = false.obs;
+  final canSms = false.obs;
 
   List<AddressBookContact> get filteredContacts {
     final q = query.value.trim().toLowerCase();
@@ -68,6 +75,12 @@ class ContactsController extends GetxController {
       _ensureSelection();
     });
     addressBookService.load(sync: true).then((_) => _ensureSelection());
+    _checkLaunchCapabilities();
+  }
+
+  Future<void> _checkLaunchCapabilities() async {
+    canCall.value = await canLaunchUrl(Uri(scheme: 'tel', path: '0'));
+    canSms.value = await canLaunchUrl(Uri(scheme: 'sms', path: '0'));
   }
 
   @override
@@ -255,6 +268,17 @@ class ContactsController extends GetxController {
       AppRoutes.compose,
       extra: {'recipient': Recipient(input: email, type: RecipientType.legacy)},
     );
+  }
+
+  /// Opens the platform dialer pre-filled with [phone]. The OS asks before the
+  /// call is actually placed, so no in-app confirmation is needed.
+  Future<void> callNumber(String phone) {
+    return launchUrl(Uri(scheme: 'tel', path: phone));
+  }
+
+  /// Opens the platform SMS app pre-filled with [phone] (nothing is sent).
+  Future<void> smsNumber(String phone) {
+    return launchUrl(Uri(scheme: 'sms', path: phone));
   }
 
   void composeToPubkey(BuildContext context, String pubkey) {

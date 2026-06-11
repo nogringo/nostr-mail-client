@@ -434,6 +434,8 @@
   "contactsPhonesTitle": "Telefone",
   "contactsBirthdayTitle": "Aniversário",
   "contactsNostrTitle": "Nostr",
+  "contactsCall": "Ligar",
+  "contactsSendSms": "Enviar SMS",
   "contactsImport": "Importar contactos",
   "contactsExport": "Exportar contactos",
   "contactsExportEmpty": "Não há contactos para exportar",

@@ -1088,6 +1088,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsNostrTitle => 'Nostr';
 
   @override
+  String get contactsCall => 'Позвонить';
+
+  @override
+  String get contactsSendSms => 'Отправить SMS';
+
+  @override
   String get contactsImport => 'Импортировать контакты';
 
   @override

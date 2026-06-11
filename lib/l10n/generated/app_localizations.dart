@@ -2071,6 +2071,18 @@ abstract class AppLocalizations {
   /// **'Nostr'**
   String get contactsNostrTitle;
 
+  /// Tooltip for the button that calls a contact's phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get contactsCall;
+
+  /// Tooltip for the button that texts a contact's phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Send SMS'**
+  String get contactsSendSms;
+
   /// Menu entry to import contacts from a vCard file
   ///
   /// In en, this message translates to:
