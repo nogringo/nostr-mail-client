@@ -51,7 +51,11 @@ class ContactFormSheet extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 18),
-              ContactFormFields(controller: controller),
+              Flexible(
+                child: SingleChildScrollView(
+                  child: ContactFormFields(controller: controller),
+                ),
+              ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

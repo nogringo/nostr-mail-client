@@ -83,11 +83,6 @@ class AddressBookVCardMapper {
     if (name.isEmpty) {
       throw const AddressBookValidationException('Name is required');
     }
-    if (emails.isEmpty && nostrPubkeys.isEmpty && phones.isEmpty) {
-      throw const AddressBookValidationException(
-        'At least one email, phone, or Nostr identity is required',
-      );
-    }
     for (final email in emails) {
       if (!_isValidEmail(email)) {
         throw AddressBookValidationException('Invalid email: $email');

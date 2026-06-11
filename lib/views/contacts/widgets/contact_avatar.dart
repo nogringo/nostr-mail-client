@@ -4,6 +4,7 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../../../widgets/email_avatar.dart';
+import '../../../widgets/initial_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 
 class ContactAvatar extends StatelessWidget {
@@ -22,9 +23,11 @@ class ContactAvatar extends StatelessWidget {
       return NostrAvatar(pubkey: pubkey, radius: radius);
     }
 
-    final email = contact.index.emails.isEmpty
-        ? ''
-        : contact.index.emails.first;
+    final email = contact.index.emails.firstOrNull;
+    if (email == null) {
+      return InitialAvatar(name: contact.index.formattedName, radius: radius);
+    }
+
     return EmailAvatar(
       mailAddress: MailAddress(contact.index.formattedName, email),
       radius: radius,
