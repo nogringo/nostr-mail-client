@@ -21,6 +21,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionAdd => 'Adicionar';
 
   @override
+  String get actionClear => 'Limpar';
+
+  @override
   String get actionClose => 'Fechar';
 
   @override
@@ -1015,6 +1018,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsBirthdayLabel => 'Aniversário';
 
   @override
+  String get contactsBirthdayAdd => 'Adicionar aniversário';
+
+  @override
+  String get contactsBirthdayDayLabel => 'Dia';
+
+  @override
+  String get contactsBirthdayMonthLabel => 'Mês';
+
+  @override
+  String get contactsBirthdayYearLabel => 'Ano';
+
+  @override
   String get contactsBirthdayHint => 'AAAA-MM-DD';
 
   @override
@@ -1318,6 +1333,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get actionAdd => 'Adicionar';
+
+  @override
+  String get actionClear => 'Limpar';
 
   @override
   String get actionClose => 'Fechar';
@@ -2312,6 +2330,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get contactsBirthdayLabel => 'Aniversário';
+
+  @override
+  String get contactsBirthdayAdd => 'Adicionar aniversário';
+
+  @override
+  String get contactsBirthdayDayLabel => 'Dia';
+
+  @override
+  String get contactsBirthdayMonthLabel => 'Mês';
+
+  @override
+  String get contactsBirthdayYearLabel => 'Ano';
 
   @override
   String get contactsBirthdayHint => 'AAAA-MM-DD';

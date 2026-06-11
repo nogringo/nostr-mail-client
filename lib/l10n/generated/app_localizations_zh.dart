@@ -21,6 +21,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionAdd => '添加';
 
   @override
+  String get actionClear => '清除';
+
+  @override
   String get actionClose => '关闭';
 
   @override
@@ -958,6 +961,18 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contactsBirthdayLabel => '生日';
+
+  @override
+  String get contactsBirthdayAdd => '添加生日';
+
+  @override
+  String get contactsBirthdayDayLabel => '日';
+
+  @override
+  String get contactsBirthdayMonthLabel => '月';
+
+  @override
+  String get contactsBirthdayYearLabel => '年';
 
   @override
   String get contactsBirthdayHint => 'YYYY-MM-DD';

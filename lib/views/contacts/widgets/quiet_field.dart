@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'quiet_input_decoration.dart';
+
 class QuietField extends StatelessWidget {
   final String label;
   final String? hintText;
@@ -23,13 +25,6 @@ class QuietField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final radius = BorderRadius.circular(8);
-    final baseBorder = OutlineInputBorder(
-      borderRadius: radius,
-      borderSide: BorderSide(
-        color: colorScheme.outlineVariant.withValues(alpha: 0.35),
-      ),
-    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,23 +45,7 @@ class QuietField extends StatelessWidget {
           keyboardType: keyboardType,
           minLines: minLines,
           maxLines: maxLines,
-          decoration: InputDecoration(
-            hintText: hintText,
-            filled: true,
-            fillColor: colorScheme.surfaceContainerHighest.withValues(
-              alpha: 0.45,
-            ),
-            isDense: true,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 11,
-            ),
-            border: baseBorder,
-            enabledBorder: baseBorder,
-            focusedBorder: baseBorder.copyWith(
-              borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
-            ),
-          ),
+          decoration: quietInputDecoration(context, hintText: hintText),
         ),
       ],
     );

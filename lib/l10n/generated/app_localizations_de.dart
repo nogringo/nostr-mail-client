@@ -21,6 +21,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get actionAdd => 'Hinzufügen';
 
   @override
+  String get actionClear => 'Löschen';
+
+  @override
   String get actionClose => 'Schließen';
 
   @override
@@ -1013,6 +1016,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get contactsBirthdayLabel => 'Geburtstag';
+
+  @override
+  String get contactsBirthdayAdd => 'Geburtstag hinzufügen';
+
+  @override
+  String get contactsBirthdayDayLabel => 'Tag';
+
+  @override
+  String get contactsBirthdayMonthLabel => 'Monat';
+
+  @override
+  String get contactsBirthdayYearLabel => 'Jahr';
 
   @override
   String get contactsBirthdayHint => 'JJJJ-MM-TT';

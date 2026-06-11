@@ -21,6 +21,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionAdd => 'Lisää';
 
   @override
+  String get actionClear => 'Tyhjennä';
+
+  @override
   String get actionClose => 'Sulje';
 
   @override
@@ -1010,6 +1013,18 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get contactsBirthdayLabel => 'Syntymäpäivä';
+
+  @override
+  String get contactsBirthdayAdd => 'Lisää syntymäpäivä';
+
+  @override
+  String get contactsBirthdayDayLabel => 'Päivä';
+
+  @override
+  String get contactsBirthdayMonthLabel => 'Kuukausi';
+
+  @override
+  String get contactsBirthdayYearLabel => 'Vuosi';
 
   @override
   String get contactsBirthdayHint => 'VVVV-KK-PP';

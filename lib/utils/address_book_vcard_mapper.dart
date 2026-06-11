@@ -5,6 +5,7 @@ import 'package:vcard_dart/vcard_dart.dart' as vcard;
 
 import '../models/address_book_contact_form.dart';
 import '../models/contact.dart';
+import 'contact_birthday_utils.dart';
 
 class AddressBookVCardMapper {
   static final _parser = vcard.VCardParser(preserveRaw: true);
@@ -14,7 +15,10 @@ class AddressBookVCardMapper {
   );
 
   static AddressBookContactForm formFromContact(AddressBookContact contact) {
-    return _formFromParsed(_parser.parseSingle(contact.vCard), uid: contact.uid);
+    return _formFromParsed(
+      _parser.parseSingle(contact.vCard),
+      uid: contact.uid,
+    );
   }
 
   /// Parses raw vCard text (one or many vCards) into contact forms.
@@ -214,28 +218,21 @@ class AddressBookVCardMapper {
         RegExp(r'^[0-9+().\-\s]+$').hasMatch(phone);
   }
 
-  static String? _birthdayFromVCard(vcard.DateOrDateTime? birthday) {
+  static ContactBirthday? _birthdayFromVCard(vcard.DateOrDateTime? birthday) {
     if (birthday == null || birthday.isEmpty) return null;
-    if (birthday.isCompleteDate) {
-      final year = birthday.year.toString().padLeft(4, '0');
-      final month = birthday.month.toString().padLeft(2, '0');
-      final day = birthday.day.toString().padLeft(2, '0');
-      return '$year-$month-$day';
-    }
-    return birthday.toDateString();
+    final month = birthday.month;
+    final day = birthday.day;
+    // Keep only month+day(+year) birthdays; ignore day-only or partial values.
+    if (month == null || day == null) return null;
+    return ContactBirthday(year: birthday.year, month: month, day: day);
   }
 
-  static vcard.DateOrDateTime? _parseBirthday(String? input) {
-    final value = input?.trim();
-    if (value == null || value.isEmpty) return null;
-    if (!RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value)) {
-      throw AddressBookValidationException('Invalid birthday: $input');
-    }
-    final normalized = value.replaceAll('-', '');
-    final parsed = vcard.DateOrDateTime.tryParse(normalized);
-    if (parsed == null || parsed.isEmpty || !parsed.isCompleteDate) {
-      throw AddressBookValidationException('Invalid birthday: $input');
-    }
-    return parsed;
+  static vcard.DateOrDateTime? _parseBirthday(ContactBirthday? birthday) {
+    if (birthday == null) return null;
+    return vcard.DateOrDateTime.date(
+      birthday.year,
+      birthday.month,
+      birthday.day,
+    );
   }
 }

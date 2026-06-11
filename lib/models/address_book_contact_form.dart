@@ -1,10 +1,12 @@
+import '../utils/contact_birthday_utils.dart';
+
 class AddressBookContactForm {
   final String? uid;
   final String displayName;
   final List<String> emails;
   final List<String> nostrPubkeys;
   final List<String> phones;
-  final String? birthday;
+  final ContactBirthday? birthday;
 
   const AddressBookContactForm({
     this.uid,
@@ -21,7 +23,7 @@ class AddressBookContactForm {
     List<String>? emails,
     List<String>? nostrPubkeys,
     List<String>? phones,
-    String? birthday,
+    ContactBirthday? birthday,
   }) {
     return AddressBookContactForm(
       uid: uid ?? this.uid,

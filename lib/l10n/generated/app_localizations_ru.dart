@@ -21,6 +21,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionAdd => 'Добавить';
 
   @override
+  String get actionClear => 'Очистить';
+
+  @override
   String get actionClose => 'Закрыть';
 
   @override
@@ -1020,6 +1023,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get contactsBirthdayLabel => 'День рождения';
+
+  @override
+  String get contactsBirthdayAdd => 'Добавить день рождения';
+
+  @override
+  String get contactsBirthdayDayLabel => 'День';
+
+  @override
+  String get contactsBirthdayMonthLabel => 'Месяц';
+
+  @override
+  String get contactsBirthdayYearLabel => 'Год';
 
   @override
   String get contactsBirthdayHint => 'ГГГГ-ММ-ДД';

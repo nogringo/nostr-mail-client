@@ -29,13 +29,13 @@ class ContactDetailPane extends StatelessWidget {
         return Center(child: Text(l.contactsSelectPrompt));
       }
       final form = controller.formFor(displayedContact);
-      final birthday = form.birthday?.trim();
+      final birthday = form.birthday;
       return ListView(
         padding: const EdgeInsets.all(24),
         children: [
           ContactHeader(contact: displayedContact),
           const SizedBox(height: 24),
-          if (birthday != null && birthday.isNotEmpty) ...[
+          if (birthday != null) ...[
             ContactSectionTitle(l.contactsBirthdayTitle),
             const SizedBox(height: 8),
             ContactActionRow(
@@ -44,7 +44,7 @@ class ContactDetailPane extends StatelessWidget {
                 formatContactBirthdayForDisplay(context, birthday),
                 overflow: TextOverflow.ellipsis,
               ),
-              copyValue: birthday,
+              copyValue: formatContactBirthdayForDisplay(context, birthday),
             ),
             const SizedBox(height: 24),
           ],

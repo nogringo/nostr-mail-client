@@ -139,6 +139,12 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get actionAdd;
 
+  /// Generic clear action label
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get actionClear;
+
   /// Generic Close button/tooltip label
   ///
   /// In en, this message translates to:
@@ -1944,6 +1950,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Birthday'**
   String get contactsBirthdayLabel;
+
+  /// Button to reveal the birthday selector
+  ///
+  /// In en, this message translates to:
+  /// **'Add birthday'**
+  String get contactsBirthdayAdd;
+
+  /// Label for the birthday day selector
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get contactsBirthdayDayLabel;
+
+  /// Label for the birthday month selector
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get contactsBirthdayMonthLabel;
+
+  /// Label for the optional birthday year field
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get contactsBirthdayYearLabel;
 
   /// Hint for the contact birthday field
   ///

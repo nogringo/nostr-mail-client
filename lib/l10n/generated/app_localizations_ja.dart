@@ -21,6 +21,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionAdd => '追加';
 
   @override
+  String get actionClear => 'クリア';
+
+  @override
   String get actionClose => '閉じる';
 
   @override
@@ -962,6 +965,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contactsBirthdayLabel => '誕生日';
+
+  @override
+  String get contactsBirthdayAdd => '誕生日を追加';
+
+  @override
+  String get contactsBirthdayDayLabel => '日';
+
+  @override
+  String get contactsBirthdayMonthLabel => '月';
+
+  @override
+  String get contactsBirthdayYearLabel => '年';
 
   @override
   String get contactsBirthdayHint => 'YYYY-MM-DD';

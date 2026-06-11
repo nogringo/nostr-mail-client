@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail_client/models/address_book_contact_form.dart';
 import 'package:nostr_mail_client/utils/address_book_vcard_mapper.dart';
+import 'package:nostr_mail_client/utils/contact_birthday_utils.dart';
 import 'package:vcard_dart/vcard_dart.dart';
 
 void main() {
@@ -42,7 +43,7 @@ void main() {
       const AddressBookContactForm(
         displayName: 'Phone Friend',
         phones: ['+33 6 12 34 56 78'],
-        birthday: '1990-04-12',
+        birthday: ContactBirthday(year: 1990, month: 4, day: 12),
       ),
     );
 
@@ -52,6 +53,36 @@ void main() {
     expect(card.birthday?.toDateString(), '19900412');
     expect(text, contains('TEL'));
     expect(text, contains('BDAY:19900412'));
+  });
+
+  test('creates vCard with year-less birthday', () {
+    final text = AddressBookVCardMapper.buildVCard(
+      const AddressBookContactForm(
+        displayName: 'No Year Friend',
+        emails: ['noyear@example.com'],
+        birthday: ContactBirthday(month: 4, day: 12),
+      ),
+    );
+
+    final card = parser.parseSingle(text);
+    expect(card.birthday?.year, isNull);
+    expect(card.birthday?.toDateString(), '--0412');
+    expect(text, contains('BDAY:--0412'));
+  });
+
+  test('parses year-less birthday from vCard', () {
+    const text = '''
+BEGIN:VCARD
+VERSION:4.0
+UID:urn:uuid:carol
+FN:Carol
+EMAIL:carol@example.com
+BDAY:--0412
+END:VCARD
+''';
+
+    final forms = AddressBookVCardMapper.formsFromVCardText(text);
+    expect(forms.single.birthday, const ContactBirthday(month: 4, day: 12));
   });
 
   test('editing preserves UID and X properties', () {
@@ -106,7 +137,10 @@ END:VCARD
     expect(forms[0].phones, ['+33611111111']);
     expect(forms[1].uid, 'urn:uuid:bob');
     expect(forms[1].emails, ['bob@example.com']);
-    expect(forms[1].birthday, '1990-04-12');
+    expect(
+      forms[1].birthday,
+      const ContactBirthday(year: 1990, month: 4, day: 12),
+    );
   });
 
   test('mergeForms unions emails, phones and keeps existing birthday', () {
@@ -115,13 +149,13 @@ END:VCARD
       displayName: 'Alice',
       emails: ['alice@example.com'],
       phones: ['+33611111111'],
-      birthday: '1990-04-12',
+      birthday: ContactBirthday(year: 1990, month: 4, day: 12),
     );
     const incoming = AddressBookContactForm(
       displayName: 'Alice Example',
       emails: ['ALICE@example.com', 'alice@work.com'],
       phones: ['+33622222222'],
-      birthday: '2000-01-01',
+      birthday: ContactBirthday(year: 2000, month: 1, day: 1),
     );
 
     final merged = AddressBookVCardMapper.mergeForms(base, incoming);
@@ -130,7 +164,10 @@ END:VCARD
     // Case-insensitive dedup keeps the first occurrence and adds the new one.
     expect(merged.emails, ['alice@example.com', 'alice@work.com']);
     expect(merged.phones, ['+33611111111', '+33622222222']);
-    expect(merged.birthday, '1990-04-12');
+    expect(
+      merged.birthday,
+      const ContactBirthday(year: 1990, month: 4, day: 12),
+    );
   });
 
   test('rejects invalid forms', () {
@@ -169,16 +206,6 @@ END:VCARD
         const AddressBookContactForm(
           displayName: 'Bad Phone',
           phones: ['not-a-phone'],
-        ),
-      ),
-      throwsA(isA<AddressBookValidationException>()),
-    );
-    expect(
-      () => AddressBookVCardMapper.buildVCard(
-        const AddressBookContactForm(
-          displayName: 'Bad Birthday',
-          phones: ['+123'],
-          birthday: 'April 12',
         ),
       ),
       throwsA(isA<AddressBookValidationException>()),

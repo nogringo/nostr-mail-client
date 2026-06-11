@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-DateTime? parseContactBirthday(String value) {
-  final match = RegExp(r'^(\d{4})-(\d{2})-(\d{2})$').firstMatch(value.trim());
-  if (match == null) return null;
-  final year = int.tryParse(match.group(1)!);
-  final month = int.tryParse(match.group(2)!);
-  final day = int.tryParse(match.group(3)!);
-  if (year == null || month == null || day == null) return null;
-  return DateTime(year, month, day);
+/// A contact birthday, where the year is optional (unknown).
+class ContactBirthday {
+  /// The year, or `null` when only the day and month are known.
+  final int? year;
+  final int month;
+  final int day;
+
+  const ContactBirthday({this.year, required this.month, required this.day});
+
+  @override
+  bool operator ==(Object other) =>
+      other is ContactBirthday &&
+      other.year == year &&
+      other.month == month &&
+      other.day == day;
+
+  @override
+  int get hashCode => Object.hash(year, month, day);
+
+  @override
+  String toString() => 'ContactBirthday(year: $year, month: $month, day: $day)';
 }
 
-String formatContactBirthdayValue(DateTime date) {
-  final year = date.year.toString().padLeft(4, '0');
-  final month = date.month.toString().padLeft(2, '0');
-  final day = date.day.toString().padLeft(2, '0');
-  return '$year-$month-$day';
-}
-
-String formatContactBirthdayForDisplay(BuildContext context, String value) {
-  final date = parseContactBirthday(value);
-  if (date == null) return value;
-  return MaterialLocalizations.of(context).formatFullDate(date);
+/// Formats a birthday for display, in full words and localized.
+///
+/// Example: `11 juin` (year unknown) or `11 juin 1990` (year known).
+String formatContactBirthdayForDisplay(
+  BuildContext context,
+  ContactBirthday birthday,
+) {
+  final locale = Localizations.localeOf(context).toLanguageTag();
+  // Use a fixed leap year so February 29 stays valid when the year is unknown.
+  final date = DateTime(birthday.year ?? 2000, birthday.month, birthday.day);
+  final format = birthday.year == null
+      ? DateFormat.MMMMd(locale)
+      : DateFormat.yMMMMd(locale);
+  return format.format(date);
 }

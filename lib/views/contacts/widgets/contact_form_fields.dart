@@ -29,11 +29,7 @@ class ContactFormFields extends StatelessWidget {
           textInputAction: TextInputAction.next,
         ),
         const SizedBox(height: 14),
-        ContactBirthdayField(
-          label: l.contactsBirthdayLabel,
-          hintText: l.contactsBirthdayHint,
-          controller: controller.birthdayController,
-        ),
+        ContactBirthdayField(controller: controller),
         const SizedBox(height: 14),
         Obx(
           () => ContactMethodsField(

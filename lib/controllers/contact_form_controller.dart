@@ -4,6 +4,7 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../models/address_book_contact_form.dart';
+import '../utils/contact_birthday_utils.dart';
 import 'contacts_controller.dart';
 
 class ContactFormController extends GetxController {
@@ -16,7 +17,11 @@ class ContactFormController extends GetxController {
   late final TextEditingController emailInputController;
   late final TextEditingController nostrInputController;
   late final TextEditingController phoneInputController;
-  late final TextEditingController birthdayController;
+  late final TextEditingController birthdayYearController;
+
+  final birthdayMonth = RxnInt();
+  final birthdayDay = RxnInt();
+  final birthdayExpanded = false.obs;
 
   final isSaving = false.obs;
   final canSave = false.obs;
@@ -40,7 +45,13 @@ class ContactFormController extends GetxController {
     emailInputController = TextEditingController();
     nostrInputController = TextEditingController();
     phoneInputController = TextEditingController();
-    birthdayController = TextEditingController(text: form?.birthday ?? '');
+    final birthday = form?.birthday;
+    birthdayMonth.value = birthday?.month;
+    birthdayDay.value = birthday?.day;
+    birthdayExpanded.value = birthday != null;
+    birthdayYearController = TextEditingController(
+      text: birthday?.year?.toString() ?? '',
+    );
     emails.assignAll(form?.emails ?? const []);
     nostrIdentifiers.assignAll(
       form?.nostrPubkeys.map(Nip19.encodePubKey) ?? const [],
@@ -68,8 +79,33 @@ class ContactFormController extends GetxController {
     emailInputController.dispose();
     nostrInputController.dispose();
     phoneInputController.dispose();
-    birthdayController.dispose();
+    birthdayYearController.dispose();
     super.onClose();
+  }
+
+  void expandBirthday() {
+    birthdayExpanded.value = true;
+  }
+
+  void clearBirthday() {
+    birthdayMonth.value = null;
+    birthdayDay.value = null;
+    birthdayYearController.clear();
+    birthdayExpanded.value = false;
+  }
+
+  /// Builds the birthday from the day/month/year inputs.
+  ///
+  /// Returns `null` when day or month is missing. The year is only applied when
+  /// it is a full 4-digit number, otherwise the birthday is saved without a
+  /// year.
+  ContactBirthday? _birthdayValue() {
+    final month = birthdayMonth.value;
+    final day = birthdayDay.value;
+    if (month == null || day == null) return null;
+    final yearText = birthdayYearController.text.trim();
+    final year = yearText.length == 4 ? int.tryParse(yearText) : null;
+    return ContactBirthday(year: year, month: month, day: day);
   }
 
   void _refreshCanSave() {
@@ -147,7 +183,7 @@ class ContactFormController extends GetxController {
           emails: emails.toList(),
           nostrPubkeys: nostrIdentifiers.toList(),
           phones: phones.toList(),
-          birthday: birthdayController.text,
+          birthday: _birthdayValue(),
         ),
         existing: contact,
       );

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import 'quiet_input_decoration.dart';
+
 class ContactMethodsField extends StatelessWidget {
   final String label;
   final String hintText;
@@ -33,13 +35,6 @@ class ContactMethodsField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final radius = BorderRadius.circular(8);
-    final border = OutlineInputBorder(
-      borderRadius: radius,
-      borderSide: BorderSide(
-        color: colorScheme.outlineVariant.withValues(alpha: 0.35),
-      ),
-    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,22 +88,9 @@ class ContactMethodsField extends StatelessWidget {
           onSubmitted: (_) {
             onAdd();
           },
-          decoration: InputDecoration(
+          decoration: quietInputDecoration(
+            context,
             hintText: hintText,
-            filled: true,
-            fillColor: colorScheme.surfaceContainerHighest.withValues(
-              alpha: 0.45,
-            ),
-            isDense: true,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 11,
-            ),
-            border: border,
-            enabledBorder: border,
-            focusedBorder: border.copyWith(
-              borderSide: BorderSide(color: colorScheme.primary, width: 1.4),
-            ),
             suffixIcon: IconButton(
               icon: const Icon(Icons.add),
               tooltip: addTooltip,

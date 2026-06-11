@@ -195,9 +195,7 @@ class ContactsController extends GetxController {
   AddressBookContact? _findExisting(AddressBookContactForm form) {
     final list = addressBookService.contacts;
     if (form.uid != null) {
-      final byUid = list.firstWhereOrNull(
-        (contact) => contact.uid == form.uid,
-      );
+      final byUid = list.firstWhereOrNull((contact) => contact.uid == form.uid);
       if (byUid != null) return byUid;
     }
     final emails = form.emails
