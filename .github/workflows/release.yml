@@ -145,6 +145,20 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Extract changelog section
+        run: |
+          VERSION=${{ needs.build-android.outputs.version }}
+          awk -v v="$VERSION" '
+            $0 ~ "^## \\[?" v "\\]?" {flag=1; next}
+            /^## / {flag=0}
+            flag {print}
+          ' CHANGELOG.md > RELEASE_NOTES.md
+          if [ -s RELEASE_NOTES.md ]; then
+            echo "Found changelog section for $VERSION"
+          else
+            echo "No changelog section for $VERSION, falling back to generated notes only"
+          fi
+
       - name: Download APK
         uses: actions/download-artifact@v8
         with:
@@ -177,6 +191,7 @@ jobs:
         with:
           files: |
             release-artifacts/**/*
+          body_path: RELEASE_NOTES.md
           generate_release_notes: true
           draft: false
         env:
