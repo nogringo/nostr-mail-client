@@ -16,7 +16,7 @@ dependencies:
   flutter_secure_storage: ^10.0.0
   get: ^4.7.3
   ndk: ^0.8.4-dev.5
-  ndk_flutter: ^0.8.4-dev.3
+  ndk_flutter: ^0.8.4-dev.8
   path_provider: ^2.1.5
   sembast: ^3.8.6
   toastification: ^3.0.3

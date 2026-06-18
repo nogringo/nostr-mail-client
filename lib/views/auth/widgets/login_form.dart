@@ -29,7 +29,7 @@ class LoginForm extends GetView<AuthController> {
             enableNip07Login: false,
             enablePubkeyLogin: false,
             enableBunkerLogin: false,
-            enableAmberLogin: false,
+            enableSignerAppLogin: false,
             enableAccountCreation: false,
           ),
           OutlinedButton.icon(

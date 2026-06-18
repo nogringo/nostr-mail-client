@@ -13,6 +13,13 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [Unreleased]
+
+### Fixed
+
+- Restore NIP-55 signer app login support for apps like Amber, Aegis, and Primal.
+- Stop repeatedly prompting signer apps to sign contacts after a contact is created.
+
 ## [0.13.0]
 
 ### Added
