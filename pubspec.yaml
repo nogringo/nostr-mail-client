@@ -15,7 +15,7 @@ dependencies:
     sdk: flutter
   flutter_secure_storage: ^10.0.0
   get: ^4.7.3
-  ndk: ^0.8.4-dev.2
+  ndk: ^0.8.4-dev.5
   ndk_flutter: ^0.8.4-dev.3
   path_provider: ^2.1.5
   sembast: ^3.8.6
@@ -50,7 +50,7 @@ dependencies:
   blossom_upload_queue_shim_for_ndk: ^0.4.1
   package_info_plus: ^9.0.1
   go_router: ^17.2.3
-  nostr_address_book: ^0.1.0
+  nostr_address_book: ^0.1.1
   vcard_dart: ^2.1.0
 
 dev_dependencies:

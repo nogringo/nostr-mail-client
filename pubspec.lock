@@ -817,10 +817,10 @@ packages:
     dependency: "direct main"
     description:
       name: ndk
-      sha256: "2ebf465f04f4a4eb73245066bfbf9be32de119b315d592651309a13510860bea"
+      sha256: "3d00fa0c936b184451086492b6775c06fa83233a0d00d4da753361f3507927b6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.2"
+    version: "0.8.4-dev.5"
   ndk_bip32_keys:
     dependency: transitive
     description:
@@ -849,10 +849,10 @@ packages:
     dependency: "direct main"
     description:
       name: nostr_address_book
-      sha256: "9dfaece38e38cdb7a823ee3bf67d01f8fee771c7096d231b2beb1737cf0ae226"
+      sha256: "4d7564e1b849d8a7c8de1e57420e5c12d077719c389382c7bbca8911632f5bf4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.1.1"
   nostr_mail:
     dependency: "direct main"
     description:
