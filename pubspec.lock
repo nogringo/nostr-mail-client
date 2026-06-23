@@ -849,10 +849,10 @@ packages:
     dependency: "direct main"
     description:
       name: nostr_mail
-      sha256: "636064c8cbed8d09ac157e4ea7f23aee151cbc6e38be404972a30cc591f52bc9"
+      sha256: f439095611a5187412ea3b69752d3aa1f71b4b475c917632674df2bf0d73f439
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.2.2"
   objective_c:
     dependency: transitive
     description:

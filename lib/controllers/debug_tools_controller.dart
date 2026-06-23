@@ -2,6 +2,7 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
+import 'package:nostr_mail/nostr_mail.dart';
 import 'package:sembast/sembast.dart';
 
 import '../l10n/generated/app_localizations.dart';
@@ -43,7 +44,7 @@ class DebugToolsController extends GetxController {
 
       final message = builder.buildMimeMessage();
 
-      await client.sendMime(message);
+      await client.sendMime(message, to: [NostrRecipient.fromPubkey(myPubkey)]);
 
       await Future.delayed(const Duration(milliseconds: 500));
 

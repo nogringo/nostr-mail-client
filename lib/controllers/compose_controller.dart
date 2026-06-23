@@ -11,7 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:markdown_quill/markdown_quill.dart';
 import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart';
-import 'package:nostr_mail/nostr_mail.dart';
+import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
+import 'package:nostr_mail/nostr_mail.dart' as mail show Recipient;
 import 'package:nostr_mail_client/utils/toast_helper.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
@@ -465,8 +466,19 @@ class ComposeController extends GetxController {
       }
 
       final message = builder.buildMimeMessage();
+
+      final hasLegacyRecipient = [
+        ...recipients,
+        ...ccRecipients,
+        ...bccRecipients,
+      ].any((r) => r.isLegacy);
+
       await _nostrMailService.client.sendMime(
         message,
+        to: _toTransportRecipients(recipients),
+        cc: _toTransportRecipients(ccRecipients),
+        bcc: _toTransportRecipients(bccRecipients),
+        mailFrom: hasLegacyRecipient ? from : null,
         signRumor: mode != SendMode.normal,
         isPublic: mode == SendMode.public,
       );
@@ -477,6 +489,15 @@ class ComposeController extends GetxController {
     } finally {
       isSending.value = false;
     }
+  }
+
+  List<mail.Recipient> _toTransportRecipients(List<Recipient> list) {
+    return list.map((r) {
+      if (r.isNostr && r.pubkey != null) {
+        return NostrRecipient.fromPubkey(r.pubkey!);
+      }
+      return SmtpRecipient(r.input);
+    }).toList();
   }
 
   Future<String?> getDefaultFrom() async {

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
-import 'package:nostr_mail/nostr_mail.dart';
+import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 
 import '../../controllers/auth_controller.dart';
 import '../../controllers/compose_controller.dart';
