@@ -13,6 +13,12 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [Unreleased]
+
+### Fixed
+
+- Allow selecting a recipient from the autocomplete suggestions with a mouse click when composing.
+
 ## [0.13.1]
 
 ### Fixed

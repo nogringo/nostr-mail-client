@@ -60,6 +60,7 @@ class RecipientAutocomplete extends StatelessWidget {
               child: TextField(
                 controller: textController,
                 focusNode: controller.focusNode,
+                groupId: controller.tapRegionGroup,
                 decoration: InputDecoration(
                   hintText: hintText,
                   border: InputBorder.none,

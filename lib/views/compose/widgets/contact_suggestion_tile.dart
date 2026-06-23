@@ -28,6 +28,7 @@ class ContactSuggestionTile extends StatelessWidget {
           : Colors.transparent,
       child: InkWell(
         onTap: onTap,
+        canRequestFocus: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Row(
