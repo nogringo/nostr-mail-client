@@ -30,6 +30,7 @@ dependencies:
   flutter_quill: ^11.5.1
   vsc_quill_delta_to_html: ^1.0.5
   markdown_quill: ^4.3.0
+  markdown: ^7.3.1
   system_theme: ^3.2.0
   flutter_svg: ^2.2.4
   window_manager: ^0.5.1

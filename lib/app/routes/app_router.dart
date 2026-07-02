@@ -168,6 +168,7 @@ class AppRouter {
                 sourceEmail: extra?['email'] as Email?,
                 sourceMode: extra?['mode'] as ComposeMode?,
                 initialRecipient: extra?['recipient'] as Recipient?,
+                editingScheduled: extra?['scheduledEmail'] as ScheduledEmail?,
               );
               return const ComposeView();
             },
@@ -270,6 +271,7 @@ class AppRouter {
     required Email? sourceEmail,
     required ComposeMode? sourceMode,
     required Recipient? initialRecipient,
+    required ScheduledEmail? editingScheduled,
   }) {
     if (Get.isRegistered<ComposeController>()) return;
     Get.put(
@@ -277,6 +279,7 @@ class AppRouter {
         sourceEmail: sourceEmail,
         sourceMode: sourceMode,
         initialRecipient: initialRecipient,
+        editingScheduled: editingScheduled,
       ),
     );
   }

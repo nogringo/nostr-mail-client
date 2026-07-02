@@ -8,6 +8,7 @@ import 'package:flutter_quill/quill_delta.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
 import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart';
@@ -44,7 +45,21 @@ class ComposeController extends GetxController {
   final ComposeMode? sourceMode;
   final Recipient? initialRecipient;
 
-  ComposeController({this.sourceEmail, this.sourceMode, this.initialRecipient});
+  /// When set, compose opens as an editor for this already-scheduled email:
+  /// its fields are pre-filled and (re)sending cancels the original schedule.
+  final ScheduledEmail? editingScheduled;
+
+  ComposeController({
+    this.sourceEmail,
+    this.sourceMode,
+    this.initialRecipient,
+    this.editingScheduled,
+  });
+
+  bool get isEditingScheduled => editingScheduled != null;
+
+  /// Pre-fills, and reflects edits to, the send time when editing a schedule.
+  final Rxn<DateTime> scheduledAt = Rxn<DateTime>();
 
   final _nostrMailService = Get.find<NostrMailService>();
   final _contactsService = Get.find<ContactsService>();
@@ -99,7 +114,9 @@ class ComposeController extends GetxController {
   void onReady() {
     super.onReady();
     // Initialize reply/forward async after onInit completes
-    if (sourceEmail != null && sourceMode != null) {
+    if (editingScheduled != null) {
+      initFromScheduled(editingScheduled!);
+    } else if (sourceEmail != null && sourceMode != null) {
       initFromEmail(sourceEmail!, sourceMode!);
     } else if (initialRecipient != null) {
       recipients.add(initialRecipient!);
@@ -789,6 +806,109 @@ class ComposeController extends GetxController {
     }
   }
 
+  /// Pre-fill the composer from an already-scheduled email so the user can
+  /// edit it. Recipients, subject and send mode come from the light model
+  /// immediately; the full body and attachments are hydrated from the original
+  /// MIME, which the package reconstructs from the schedule's stored content.
+  Future<void> initFromScheduled(ScheduledEmail scheduled) async {
+    scheduledAt.value = scheduled.scheduleAt;
+    sendMode.value = scheduled.isPublic ? SendMode.public : SendMode.normal;
+    subjectController.text = scheduled.subject;
+
+    final mime = await _nostrMailService.client.getScheduledMime(
+      scheduled.packageId,
+    );
+
+    final to = mime?.to?.map((a) => a.email) ?? scheduled.to;
+    final cc = mime?.cc?.map((a) => a.email) ?? scheduled.cc;
+    final bcc = mime?.bcc?.map((a) => a.email) ?? scheduled.bcc;
+
+    for (final address in to) {
+      await addRecipient(address);
+    }
+    for (final address in cc) {
+      await addCcRecipient(address);
+    }
+    for (final address in bcc) {
+      await addBccRecipient(address);
+    }
+    if (cc.isNotEmpty || bcc.isNotEmpty) showExpandedFields.value = true;
+
+    // Set after recipients so the original From wins over any bridge that
+    // adding a legacy recipient auto-selected.
+    _applyFrom(mime?.fromEmail ?? scheduled.from);
+
+    if (mime != null) {
+      _setBodyFromMime(mime);
+      _loadAttachmentsFromMime(mime);
+    }
+  }
+
+  /// Select the From option whose address matches [address], as soon as the
+  /// options are loaded (they load asynchronously in [onInit]).
+  void _applyFrom(String? address) {
+    if (address == null) return;
+    void apply(List<FromOption> options) {
+      final match = options.firstWhereOrNull((o) => o.address == address);
+      if (match != null) selectedFrom.value = match;
+    }
+
+    if (fromOptions.isNotEmpty) {
+      apply(fromOptions);
+    } else {
+      once(fromOptions, apply);
+    }
+  }
+
+  /// The text/plain part is markdown (produced by [DeltaToMarkdown] at compose
+  /// time), so round-trip it back into the Quill document.
+  void _setBodyFromMime(MimeMessage mime) {
+    final markdown = mime.decodeTextPlainPart() ?? '';
+    if (markdown.trim().isEmpty) return;
+    try {
+      final delta = MarkdownToDelta(
+        markdownDocument: md.Document(encodeHtml: false),
+        softLineBreak: true,
+      ).convert(markdown);
+      quillController.document = Document.fromDelta(delta);
+      quillController.updateSelection(
+        const TextSelection.collapsed(offset: 0),
+        ChangeSource.local,
+      );
+    } catch (_) {
+      setQuillContent(markdown);
+    }
+  }
+
+  void _loadAttachmentsFromMime(MimeMessage mime) {
+    void walk(MimePart part) {
+      final children = part.parts;
+      if (children != null && children.isNotEmpty) {
+        for (final child in children) {
+          walk(child);
+        }
+        return;
+      }
+      final filename = part.decodeFileName();
+      final disposition = part.getHeaderContentDisposition()?.disposition;
+      final isAttachment =
+          disposition == ContentDisposition.attachment ||
+          (filename != null && filename.isNotEmpty);
+      if (!isAttachment || filename == null || filename.isEmpty) return;
+      final data = part.decodeContentBinary();
+      if (data == null) return;
+      attachments.add(
+        ComposeAttachment(
+          filename: filename,
+          data: data,
+          mimeType: part.mediaType.text,
+        ),
+      );
+    }
+
+    walk(mime);
+  }
+
   void setQuillContent(String text) {
     final doc = Document()..insert(0, text);
     quillController.document = doc;
@@ -840,6 +960,7 @@ class ComposeController extends GetxController {
 
   Future<void> firstSend() async {
     if (!await _flushAndValidate()) return;
+    if (!await _cancelEditedOriginal()) return;
 
     final success = await send(
       from: selectedFrom.value?.address,
@@ -858,6 +979,7 @@ class ComposeController extends GetxController {
 
   Future<void> firstSchedule(DateTime at) async {
     if (!await _flushAndValidate()) return;
+    if (!await _cancelEditedOriginal()) return;
 
     final success = await scheduleSend(
       from: selectedFrom.value?.address,
@@ -874,6 +996,26 @@ class ComposeController extends GetxController {
       ToastHelper.error(Get.context!, l.composeScheduleFailed);
     }
   }
+
+  /// When editing a scheduled email, cancel the original before (re)sending so
+  /// the recipient never gets it twice. Cancel first, not after: a failed
+  /// resend keeps the user in the editor to retry, whereas a duplicate send is
+  /// irreversible. Returns false (after a toast) if the cancel fails.
+  Future<bool> _cancelEditedOriginal() async {
+    final scheduled = editingScheduled;
+    if (scheduled == null || _originalCancelled) return true;
+    try {
+      await _nostrMailService.client.cancelScheduledEmail(scheduled.packageId);
+      _originalCancelled = true;
+      return true;
+    } catch (_) {
+      final l = AppLocalizations.of(Get.context!);
+      ToastHelper.error(Get.context!, l.scheduledCancelFailed);
+      return false;
+    }
+  }
+
+  bool _originalCancelled = false;
 
   /// Flush pending recipient input into chips and check we can send: returns
   /// false (after showing a toast) when a typed recipient is invalid or none

@@ -16,6 +16,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
   final bool isSelected;
   final bool selectionMode;
   final VoidCallback onToggleSelect;
+  final VoidCallback? onOpen;
 
   const ScheduledEmailCompactTile({
     super.key,
@@ -26,6 +27,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
     required this.isSelected,
     required this.selectionMode,
     required this.onToggleSelect,
+    required this.onOpen,
   });
 
   @override
@@ -33,7 +35,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return InkWell(
-      onTap: selectionMode ? onToggleSelect : null,
+      onTap: selectionMode ? onToggleSelect : onOpen,
       child: Container(
         color: isSelected
             ? colorScheme.primaryContainer.withValues(alpha: 0.3)

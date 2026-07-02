@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../controllers/scheduled_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../utils/toast_helper.dart';
@@ -78,6 +80,10 @@ class ScheduledList extends GetView<ScheduledController> {
                       onToggleSelect: () =>
                           controller.toggleSelection(email.packageId),
                       onCancel: () => _cancel(context, email),
+                      onOpen: () => context.push(
+                        AppRoutes.compose,
+                        extra: {'scheduledEmail': email},
+                      ),
                     ),
                   );
                 },

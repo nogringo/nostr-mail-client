@@ -11,7 +11,10 @@ class ScheduleSendButton extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final controller = ComposeController.to;
     final now = DateTime.now();
-    final suggested = now.add(const Duration(hours: 1));
+    final existing = controller.scheduledAt.value;
+    final suggested = (existing != null && existing.isAfter(now))
+        ? existing
+        : now.add(const Duration(hours: 1));
 
     final date = await showDatePicker(
       context: context,

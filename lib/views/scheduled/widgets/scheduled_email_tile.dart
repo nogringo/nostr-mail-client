@@ -22,6 +22,7 @@ class ScheduledEmailTile extends StatelessWidget {
   final bool selectionMode;
   final VoidCallback onToggleSelect;
   final VoidCallback onCancel;
+  final VoidCallback onOpen;
 
   const ScheduledEmailTile({
     super.key,
@@ -30,11 +31,15 @@ class ScheduledEmailTile extends StatelessWidget {
     required this.selectionMode,
     required this.onToggleSelect,
     required this.onCancel,
+    required this.onOpen,
   });
 
   bool get _canCancel =>
       email.status != ScheduledEmailStatus.published &&
       email.status != ScheduledEmailStatus.cancelled;
+
+  /// A schedule that can still be cancelled can also be re-opened for editing.
+  bool get _canEdit => _canCancel;
 
   String _recipientName(BuildContext context) {
     final pubkey = extractPubkeyFromAddress(email.firstRecipient) ?? '';
@@ -56,6 +61,7 @@ class ScheduledEmailTile extends StatelessWidget {
     final recipientName = _recipientName(context);
     final sendTime = formatDateTime(context, email.scheduleAt);
 
+    final onOpen = _canEdit ? this.onOpen : null;
     final tile = ResponsiveHelper.isDesktop(context)
         ? ScheduledEmailCompactTile(
             email: email,
@@ -65,6 +71,7 @@ class ScheduledEmailTile extends StatelessWidget {
             isSelected: isSelected,
             selectionMode: selectionMode,
             onToggleSelect: onToggleSelect,
+            onOpen: onOpen,
           )
         : ScheduledEmailDefaultTile(
             email: email,
@@ -74,6 +81,7 @@ class ScheduledEmailTile extends StatelessWidget {
             isSelected: isSelected,
             selectionMode: selectionMode,
             onToggleSelect: onToggleSelect,
+            onOpen: onOpen,
           );
 
     return Column(

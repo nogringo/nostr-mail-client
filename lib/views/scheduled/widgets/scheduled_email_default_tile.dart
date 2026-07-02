@@ -17,6 +17,7 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
   final bool isSelected;
   final bool selectionMode;
   final VoidCallback onToggleSelect;
+  final VoidCallback? onOpen;
 
   const ScheduledEmailDefaultTile({
     super.key,
@@ -27,6 +28,7 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
     required this.isSelected,
     required this.selectionMode,
     required this.onToggleSelect,
+    required this.onOpen,
   });
 
   @override
@@ -34,7 +36,7 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ListTile(
-      onTap: selectionMode ? onToggleSelect : null,
+      onTap: selectionMode ? onToggleSelect : onOpen,
       onLongPress: onToggleSelect,
       isThreeLine: true,
       leading: isSelected
