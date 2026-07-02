@@ -15,6 +15,10 @@ Releases prior to 0.13.0 are listed on the
 
 ## [Unreleased]
 
+### Added
+
+- Schedule an email for future delivery from the compose screen: a clock button next to Send lets you pick a date and time, and the email is sent later by the Scheduler DVM.
+
 ### Fixed
 
 - Allow selecting a recipient from the autocomplete suggestions with a mouse click when composing.

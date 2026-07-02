@@ -1297,6 +1297,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeSendFailed => 'Не удалось отправить письмо';
 
   @override
+  String get composeScheduleSend => 'Запланировать отправку';
+
+  @override
+  String get composeScheduleTimePast => 'Выберите время в будущем';
+
+  @override
+  String get composeScheduleFailed => 'Не удалось запланировать письмо';
+
+  @override
   String get profileLoadFailed => 'Не удалось загрузить данные профиля';
 
   @override

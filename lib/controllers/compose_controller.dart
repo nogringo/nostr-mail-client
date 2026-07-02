@@ -379,106 +379,18 @@ class ComposeController extends GetxController {
 
     isSending.value = true;
     try {
-      // Convert Delta to HTML
-      final converter = QuillDeltaToHtmlConverter(
-        document.toDelta().toJson().cast<Map<String, dynamic>>(),
-        ConverterOptions.forEmail(),
+      final message = _buildMimeMessage(
+        from: from,
+        subject: subject,
+        document: document,
       );
-      final htmlBody = converter.convert();
-
-      final plainText = DeltaToMarkdown().convert(document.toDelta());
-
-      // Build MIME message using MessageBuilder.
-      // With attachments, the root must be multipart/mixed; the text/html
-      // alternative pair goes in a nested multipart/alternative part.
-      // Otherwise clients like Yandex treat the attachment as just another
-      // alternative representation and hide it.
-      final hasAttachments = attachments.isNotEmpty;
-      final hasHtml = htmlBody.isNotEmpty;
-      final MessageBuilder builder;
-      final PartBuilder bodyBuilder;
-      if (hasAttachments) {
-        builder = MessageBuilder.prepareMultipartMixedMessage();
-        bodyBuilder = hasHtml
-            ? builder.addPart(mediaSubtype: MediaSubtype.multipartAlternative)
-            : builder;
-      } else {
-        builder = MessageBuilder.prepareMultipartAlternativeMessage();
-        bodyBuilder = builder;
-      }
-
-      // Set From header
-      if (from != null) {
-        final displayName = selectedFrom.value?.displayName;
-        builder.from = [MailAddress(displayName, from)];
-      }
-
-      // Set To recipients
-      builder.to = recipients.map((r) {
-        // For nostr recipients, use npub@nostr format
-        // For legacy recipients, use the original input (email address)
-        if (r.isNostr && r.pubkey != null) {
-          final npub = Nip19.encodePubKey(r.pubkey!);
-          return MailAddress(r.displayName, '$npub@nostr');
-        }
-        return MailAddress(r.displayName, r.input);
-      }).toList();
-
-      if (ccRecipients.isNotEmpty) {
-        builder.cc = ccRecipients.map((r) {
-          if (r.isNostr && r.pubkey != null) {
-            final npub = Nip19.encodePubKey(r.pubkey!);
-            return MailAddress(r.displayName, '$npub@nostr');
-          }
-          return MailAddress(r.displayName, r.input);
-        }).toList();
-      }
-
-      if (bccRecipients.isNotEmpty) {
-        builder.bcc = bccRecipients.map((r) {
-          if (r.isNostr && r.pubkey != null) {
-            final npub = Nip19.encodePubKey(r.pubkey!);
-            return MailAddress(r.displayName, '$npub@nostr');
-          }
-          return MailAddress(r.displayName, r.input);
-        }).toList();
-      }
-
-      builder.subject = subject;
-
-      // Add body parts
-      bodyBuilder.addTextPlain(plainText);
-      if (hasHtml) {
-        bodyBuilder.addTextHtml(
-          htmlBody,
-          transferEncoding: TransferEncoding.base64,
-        );
-      }
-
-      // Add attachments if present
-      for (final attachment in attachments) {
-        final mediaType = MediaType.fromText(attachment.mimeType);
-        builder.addBinary(
-          attachment.data,
-          mediaType,
-          filename: attachment.filename,
-        );
-      }
-
-      final message = builder.buildMimeMessage();
-
-      final hasLegacyRecipient = [
-        ...recipients,
-        ...ccRecipients,
-        ...bccRecipients,
-      ].any((r) => r.isLegacy);
 
       await _nostrMailService.client.sendMime(
         message,
         to: _toTransportRecipients(recipients),
         cc: _toTransportRecipients(ccRecipients),
         bcc: _toTransportRecipients(bccRecipients),
-        mailFrom: hasLegacyRecipient ? from : null,
+        mailFrom: _hasLegacyRecipient ? from : null,
         signRumor: mode != SendMode.normal,
         isPublic: mode == SendMode.public,
       );
@@ -490,6 +402,124 @@ class ComposeController extends GetxController {
       isSending.value = false;
     }
   }
+
+  /// Schedule the email for future delivery at [at] through the Scheduler DVM.
+  Future<bool> scheduleSend({
+    String? from,
+    required String subject,
+    required Document document,
+    required DateTime at,
+    SendMode mode = SendMode.normal,
+  }) async {
+    if (recipients.isEmpty) return false;
+
+    isSending.value = true;
+    try {
+      final message = _buildMimeMessage(
+        from: from,
+        subject: subject,
+        document: document,
+      );
+
+      await _nostrMailService.client.scheduleMime(
+        message,
+        to: _toTransportRecipients(recipients),
+        cc: _toTransportRecipients(ccRecipients),
+        bcc: _toTransportRecipients(bccRecipients),
+        mailFrom: _hasLegacyRecipient ? from : null,
+        signRumor: mode != SendMode.normal,
+        isPublic: mode == SendMode.public,
+        at: at,
+      );
+
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      isSending.value = false;
+    }
+  }
+
+  MimeMessage _buildMimeMessage({
+    String? from,
+    required String subject,
+    required Document document,
+  }) {
+    final converter = QuillDeltaToHtmlConverter(
+      document.toDelta().toJson().cast<Map<String, dynamic>>(),
+      ConverterOptions.forEmail(),
+    );
+    final htmlBody = converter.convert();
+
+    final plainText = DeltaToMarkdown().convert(document.toDelta());
+
+    // With attachments, the root must be multipart/mixed; the text/html
+    // alternative pair goes in a nested multipart/alternative part.
+    // Otherwise clients like Yandex treat the attachment as just another
+    // alternative representation and hide it.
+    final hasAttachments = attachments.isNotEmpty;
+    final hasHtml = htmlBody.isNotEmpty;
+    final MessageBuilder builder;
+    final PartBuilder bodyBuilder;
+    if (hasAttachments) {
+      builder = MessageBuilder.prepareMultipartMixedMessage();
+      bodyBuilder = hasHtml
+          ? builder.addPart(mediaSubtype: MediaSubtype.multipartAlternative)
+          : builder;
+    } else {
+      builder = MessageBuilder.prepareMultipartAlternativeMessage();
+      bodyBuilder = builder;
+    }
+
+    if (from != null) {
+      final displayName = selectedFrom.value?.displayName;
+      builder.from = [MailAddress(displayName, from)];
+    }
+
+    builder.to = recipients.map(_toMailAddress).toList();
+    if (ccRecipients.isNotEmpty) {
+      builder.cc = ccRecipients.map(_toMailAddress).toList();
+    }
+    if (bccRecipients.isNotEmpty) {
+      builder.bcc = bccRecipients.map(_toMailAddress).toList();
+    }
+
+    builder.subject = subject;
+
+    bodyBuilder.addTextPlain(plainText);
+    if (hasHtml) {
+      bodyBuilder.addTextHtml(
+        htmlBody,
+        transferEncoding: TransferEncoding.base64,
+      );
+    }
+
+    for (final attachment in attachments) {
+      final mediaType = MediaType.fromText(attachment.mimeType);
+      builder.addBinary(
+        attachment.data,
+        mediaType,
+        filename: attachment.filename,
+      );
+    }
+
+    return builder.buildMimeMessage();
+  }
+
+  /// nostr recipients become `npub@nostr`; legacy ones keep their email input.
+  MailAddress _toMailAddress(Recipient r) {
+    if (r.isNostr && r.pubkey != null) {
+      final npub = Nip19.encodePubKey(r.pubkey!);
+      return MailAddress(r.displayName, '$npub@nostr');
+    }
+    return MailAddress(r.displayName, r.input);
+  }
+
+  bool get _hasLegacyRecipient => [
+    ...recipients,
+    ...ccRecipients,
+    ...bccRecipients,
+  ].any((r) => r.isLegacy);
 
   List<mail.Recipient> _toTransportRecipients(List<Recipient> list) {
     return list.map((r) {
@@ -809,32 +839,7 @@ class ComposeController extends GetxController {
   }
 
   Future<void> firstSend() async {
-    // Try to add current input as recipient if not empty
-    if (toController.text.trim().isNotEmpty) {
-      await handleToSubmit(toController.text);
-      // If still not empty, it was invalid and toast was already shown
-      if (toController.text.trim().isNotEmpty) return;
-    }
-    if (ccController.text.trim().isNotEmpty) {
-      await handleCcSubmit(ccController.text);
-      if (ccController.text.trim().isNotEmpty) return;
-    }
-    if (bccController.text.trim().isNotEmpty) {
-      await handleBccSubmit(bccController.text);
-      if (bccController.text.trim().isNotEmpty) return;
-    }
-
-    final l = AppLocalizations.of(Get.context!);
-
-    if (recipients.isEmpty) {
-      ToastHelper.error(Get.context!, l.composeAddRecipient);
-      return;
-    }
-
-    // Ensure we have a From address selected
-    if (selectedFrom.value == null && fromOptions.isNotEmpty) {
-      selectedFrom.value = fromOptions.first;
-    }
+    if (!await _flushAndValidate()) return;
 
     final success = await send(
       from: selectedFrom.value?.address,
@@ -843,10 +848,60 @@ class ComposeController extends GetxController {
       mode: sendMode.value,
     );
 
+    final l = AppLocalizations.of(Get.context!);
     if (success) {
       AppRouter.router.pop();
     } else {
       ToastHelper.error(Get.context!, l.composeSendFailed);
     }
+  }
+
+  Future<void> firstSchedule(DateTime at) async {
+    if (!await _flushAndValidate()) return;
+
+    final success = await scheduleSend(
+      from: selectedFrom.value?.address,
+      subject: subjectController.text,
+      document: quillController.document,
+      at: at,
+      mode: sendMode.value,
+    );
+
+    if (success) {
+      AppRouter.router.pop();
+    } else {
+      final l = AppLocalizations.of(Get.context!);
+      ToastHelper.error(Get.context!, l.composeScheduleFailed);
+    }
+  }
+
+  /// Flush pending recipient input into chips and check we can send: returns
+  /// false (after showing a toast) when a typed recipient is invalid or none
+  /// were added. Ensures a From address is selected.
+  Future<bool> _flushAndValidate() async {
+    if (toController.text.trim().isNotEmpty) {
+      await handleToSubmit(toController.text);
+      if (toController.text.trim().isNotEmpty) return false;
+    }
+    if (ccController.text.trim().isNotEmpty) {
+      await handleCcSubmit(ccController.text);
+      if (ccController.text.trim().isNotEmpty) return false;
+    }
+    if (bccController.text.trim().isNotEmpty) {
+      await handleBccSubmit(bccController.text);
+      if (bccController.text.trim().isNotEmpty) return false;
+    }
+
+    final l = AppLocalizations.of(Get.context!);
+    if (recipients.isEmpty) {
+      ToastHelper.error(Get.context!, l.composeAddRecipient);
+      return false;
+    }
+
+    if (selectedFrom.value == null && fromOptions.isNotEmpty) {
+      selectedFrom.value = fromOptions.first;
+    }
+
+    return true;
   }
 }

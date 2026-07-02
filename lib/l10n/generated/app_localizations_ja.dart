@@ -1233,6 +1233,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeSendFailed => 'メールの送信に失敗しました';
 
   @override
+  String get composeScheduleSend => '送信を予約';
+
+  @override
+  String get composeScheduleTimePast => '未来の時刻を選択してください';
+
+  @override
+  String get composeScheduleFailed => 'メールの送信予約に失敗しました';
+
+  @override
   String get profileLoadFailed => 'プロフィールデータの読み込みに失敗しました';
 
   @override

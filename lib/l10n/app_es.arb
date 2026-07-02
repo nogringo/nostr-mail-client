@@ -501,6 +501,9 @@
   "composeInvalidRecipient": "Formato de destinatario no válido",
   "composeAddRecipient": "Añade al menos un destinatario",
   "composeSendFailed": "Error al enviar el correo",
+  "composeScheduleSend": "Programar envío",
+  "composeScheduleTimePast": "Elige una hora en el futuro",
+  "composeScheduleFailed": "Error al programar el correo",
 
   "profileLoadFailed": "Error al cargar los datos del perfil",
   "profileSelectPicture": "Seleccionar foto de perfil",

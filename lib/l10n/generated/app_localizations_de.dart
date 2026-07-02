@@ -1289,6 +1289,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get composeSendFailed => 'E-Mail konnte nicht gesendet werden';
 
   @override
+  String get composeScheduleSend => 'Senden planen';
+
+  @override
+  String get composeScheduleTimePast => 'Einen Zeitpunkt in der Zukunft wählen';
+
+  @override
+  String get composeScheduleFailed => 'E-Mail konnte nicht geplant werden';
+
+  @override
   String get profileLoadFailed => 'Profildaten konnten nicht geladen werden';
 
   @override

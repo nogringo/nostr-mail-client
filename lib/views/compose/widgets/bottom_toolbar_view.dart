@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail_client/controllers/compose_controller.dart';
 import 'package:nostr_mail_client/l10n/generated/app_localizations.dart';
+import 'package:nostr_mail_client/views/compose/widgets/schedule_send_button.dart';
 import 'package:nostr_mail_client/views/compose/widgets/send_button_menu.dart';
 
 class BottomToolbarView extends StatelessWidget {
@@ -16,6 +17,7 @@ class BottomToolbarView extends StatelessWidget {
         children: [
           const SendButtonMenu(),
           const SizedBox(width: 8),
+          const ScheduleSendButton(),
           IconButton(
             onPressed: controller.pickAttachments,
             icon: const Icon(Icons.attach_file),

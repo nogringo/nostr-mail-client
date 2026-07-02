@@ -501,6 +501,9 @@
   "composeInvalidRecipient": "收件人格式无效",
   "composeAddRecipient": "请至少添加一位收件人",
   "composeSendFailed": "发送邮件失败",
+  "composeScheduleSend": "定时发送",
+  "composeScheduleTimePast": "请选择未来的时间",
+  "composeScheduleFailed": "定时发送邮件失败",
 
   "profileLoadFailed": "加载个人资料失败",
   "profileSelectPicture": "选择头像",

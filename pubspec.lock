@@ -809,10 +809,10 @@ packages:
     dependency: "direct main"
     description:
       name: ndk
-      sha256: "3d00fa0c936b184451086492b6775c06fa83233a0d00d4da753361f3507927b6"
+      sha256: "06a4f6c8ce760ab5dd0c4e235d1178e54c78e8ddb6c635cea6ee3937bd8090ea"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.5"
+    version: "0.8.4-dev.8"
   ndk_bip32_keys:
     dependency: transitive
     description:
@@ -845,13 +845,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.1"
+  nostr_event_scheduler:
+    dependency: transitive
+    description:
+      name: nostr_event_scheduler
+      sha256: ee77470f2929b00739ca3bba077b2ed3c56760be5144086d41a96ae6dd52d852
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.3"
   nostr_mail:
     dependency: "direct main"
     description:
-      name: nostr_mail
-      sha256: f439095611a5187412ea3b69752d3aa1f71b4b475c917632674df2bf0d73f439
-      url: "https://pub.dev"
-    source: hosted
+      path: "../nostr-mail-dart"
+      relative: true
+    source: path
     version: "2.2.2"
   objective_c:
     dependency: transitive
@@ -1161,10 +1168,10 @@ packages:
     dependency: "direct main"
     description:
       name: sembast
-      sha256: "9189258e31373c3e86e3f99889439e577c704f1acb9cedac4abf6f7a522040ba"
+      sha256: a58b26925e23071cf0f4754d8449aabe829e9a9930a872fb18e6ae4c2c88e025
       url: "https://pub.dev"
     source: hosted
-    version: "3.8.8+1"
+    version: "3.8.9+1"
   sembast_web:
     dependency: "direct main"
     description:

@@ -1225,6 +1225,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeSendFailed => '发送邮件失败';
 
   @override
+  String get composeScheduleSend => '定时发送';
+
+  @override
+  String get composeScheduleTimePast => '请选择未来的时间';
+
+  @override
+  String get composeScheduleFailed => '定时发送邮件失败';
+
+  @override
   String get profileLoadFailed => '加载个人资料失败';
 
   @override

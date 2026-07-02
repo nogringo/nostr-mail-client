@@ -2443,6 +2443,24 @@ abstract class AppLocalizations {
   /// **'Failed to send email'**
   String get composeSendFailed;
 
+  /// Tooltip for the button that schedules an email for later delivery
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule send'**
+  String get composeScheduleSend;
+
+  /// Error toast when the chosen schedule time is not in the future
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time in the future'**
+  String get composeScheduleTimePast;
+
+  /// Error toast when scheduling an email fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to schedule email'**
+  String get composeScheduleFailed;
+
   /// Error toast when the user's profile metadata can't be loaded
   ///
   /// In en, this message translates to:

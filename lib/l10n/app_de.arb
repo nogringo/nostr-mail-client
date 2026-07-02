@@ -501,6 +501,9 @@
   "composeInvalidRecipient": "Ungültiges Empfängerformat",
   "composeAddRecipient": "Mindestens einen Empfänger hinzufügen",
   "composeSendFailed": "E-Mail konnte nicht gesendet werden",
+  "composeScheduleSend": "Senden planen",
+  "composeScheduleTimePast": "Einen Zeitpunkt in der Zukunft wählen",
+  "composeScheduleFailed": "E-Mail konnte nicht geplant werden",
 
   "profileLoadFailed": "Profildaten konnten nicht geladen werden",
   "profileSelectPicture": "Profilbild auswählen",

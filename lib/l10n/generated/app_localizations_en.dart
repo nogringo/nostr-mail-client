@@ -1279,6 +1279,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get composeSendFailed => 'Failed to send email';
 
   @override
+  String get composeScheduleSend => 'Schedule send';
+
+  @override
+  String get composeScheduleTimePast => 'Pick a time in the future';
+
+  @override
+  String get composeScheduleFailed => 'Failed to schedule email';
+
+  @override
   String get profileLoadFailed => 'Failed to load profile data';
 
   @override

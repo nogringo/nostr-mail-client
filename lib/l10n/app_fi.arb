@@ -506,6 +506,9 @@
   "composeInvalidRecipient": "Vastaanottajan osoite ei kelpaa",
   "composeAddRecipient": "Lisää vähintään yksi vastaanottaja",
   "composeSendFailed": "Viestin lähetys epäonnistui",
+  "composeScheduleSend": "Ajasta lähetys",
+  "composeScheduleTimePast": "Valitse tuleva ajankohta",
+  "composeScheduleFailed": "Viestin ajastus epäonnistui",
 
   "profileLoadFailed": "Profiilitietojen haku epäonnistui",
   "profileSelectPicture": "Valitse profiilikuva",

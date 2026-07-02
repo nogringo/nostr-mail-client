@@ -501,6 +501,9 @@
   "composeInvalidRecipient": "宛先の形式が無効です",
   "composeAddRecipient": "宛先を 1 つ以上追加してください",
   "composeSendFailed": "メールの送信に失敗しました",
+  "composeScheduleSend": "送信を予約",
+  "composeScheduleTimePast": "未来の時刻を選択してください",
+  "composeScheduleFailed": "メールの送信予約に失敗しました",
 
   "profileLoadFailed": "プロフィールデータの読み込みに失敗しました",
   "profileSelectPicture": "プロフィール画像を選択",

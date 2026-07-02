@@ -1289,6 +1289,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeSendFailed => 'Falha ao enviar o email';
 
   @override
+  String get composeScheduleSend => 'Agendar envio';
+
+  @override
+  String get composeScheduleTimePast => 'Escolha uma hora no futuro';
+
+  @override
+  String get composeScheduleFailed => 'Falha ao agendar o email';
+
+  @override
   String get profileLoadFailed => 'Falha ao carregar dados do perfil';
 
   @override
@@ -2607,6 +2616,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeSendFailed => 'Falha ao enviar o e-mail';
+
+  @override
+  String get composeScheduleSend => 'Agendar envio';
+
+  @override
+  String get composeScheduleTimePast => 'Escolha um horário no futuro';
+
+  @override
+  String get composeScheduleFailed => 'Falha ao agendar o e-mail';
 
   @override
   String get profileLoadFailed => 'Falha ao carregar dados do perfil';

@@ -1291,6 +1291,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get composeSendFailed => 'Error al enviar el correo';
 
   @override
+  String get composeScheduleSend => 'Programar envío';
+
+  @override
+  String get composeScheduleTimePast => 'Elige una hora en el futuro';
+
+  @override
+  String get composeScheduleFailed => 'Error al programar el correo';
+
+  @override
   String get profileLoadFailed => 'Error al cargar los datos del perfil';
 
   @override

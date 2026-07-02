@@ -501,6 +501,9 @@
   "composeInvalidRecipient": "Format de destinataire invalide",
   "composeAddRecipient": "Ajoutez au moins un destinataire",
   "composeSendFailed": "Échec de l'envoi de l'e-mail",
+  "composeScheduleSend": "Programmer l'envoi",
+  "composeScheduleTimePast": "Choisissez une heure future",
+  "composeScheduleFailed": "Échec de la programmation de l'e-mail",
 
   "profileLoadFailed": "Échec du chargement du profil",
   "profileSelectPicture": "Sélectionner une photo de profil",

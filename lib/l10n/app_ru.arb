@@ -501,6 +501,9 @@
   "composeInvalidRecipient": "Неверный формат получателя",
   "composeAddRecipient": "Добавьте хотя бы одного получателя",
   "composeSendFailed": "Не удалось отправить письмо",
+  "composeScheduleSend": "Запланировать отправку",
+  "composeScheduleTimePast": "Выберите время в будущем",
+  "composeScheduleFailed": "Не удалось запланировать письмо",
 
   "profileLoadFailed": "Не удалось загрузить данные профиля",
   "profileSelectPicture": "Выбрать фото профиля",

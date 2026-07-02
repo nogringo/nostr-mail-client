@@ -1287,6 +1287,15 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeSendFailed => 'Viestin lähetys epäonnistui';
 
   @override
+  String get composeScheduleSend => 'Ajasta lähetys';
+
+  @override
+  String get composeScheduleTimePast => 'Valitse tuleva ajankohta';
+
+  @override
+  String get composeScheduleFailed => 'Viestin ajastus epäonnistui';
+
+  @override
   String get profileLoadFailed => 'Profiilitietojen haku epäonnistui';
 
   @override
