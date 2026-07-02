@@ -781,14 +781,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  mobile_scanner:
-    dependency: transitive
-    description:
-      name: mobile_scanner
-      sha256: c92c26bf2231695b6d3477c8dcf435f51e28f87b1745966b1fe4c47a286171ce
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.2.0"
   native_toolchain_c:
     dependency: transitive
     description:
@@ -825,18 +817,10 @@ packages:
     dependency: "direct main"
     description:
       name: ndk_flutter
-      sha256: "2d884b2c68f1cde9eaac88dda43c9e21cce22977cbba0062aaf56edc48fad902"
+      sha256: "852da616ceef57e27b9abd5365e439a5a3f70354417c371ffb0478670e262794"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.8"
-  nip07_event_signer:
-    dependency: transitive
-    description:
-      name: nip07_event_signer
-      sha256: dea552732a02143430b9b46cf7393d64bdbb07e4ad41c394ac8e26dd70d0f444
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.0-dev.5"
+    version: "0.8.4-dev.11"
   nostr_address_book:
     dependency: "direct main"
     description:
