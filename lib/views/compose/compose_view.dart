@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail_client/views/compose/widgets/bottom_toolbar_view.dart';
+import 'package:nostr_mail_client/views/compose/widgets/schedule_send_button.dart';
 import 'package:nostr_mail_client/views/compose/widgets/scrollable_content_view.dart';
 import 'package:nostr_mail_client/views/compose/widgets/send_button_menu.dart';
 
@@ -20,7 +21,12 @@ class ComposeView extends StatelessWidget {
       appBar: AppBar(
         title: Text(l.composeTitle),
         actionsPadding: const EdgeInsets.only(right: 8),
-        actions: [if (!isWide) const SendButtonMenu(isMobile: true)],
+        actions: [
+          if (!isWide) ...[
+            const ScheduleSendButton(),
+            const SendButtonMenu(isMobile: true),
+          ],
+        ],
       ),
       body: SafeArea(
         top: false,

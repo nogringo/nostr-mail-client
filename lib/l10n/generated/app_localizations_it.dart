@@ -469,6 +469,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get folderArchive => 'Archivio';
 
   @override
+  String get folderScheduled => 'Programmate';
+
+  @override
   String get inboxEmptyInbox => 'Nessuna email';
 
   @override
@@ -1288,6 +1291,42 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get composeSendFailed => 'Impossibile inviare l\'email';
+
+  @override
+  String get composeScheduleSend => 'Pianifica invio';
+
+  @override
+  String get composeScheduleClear => 'Rimuovi la programmazione';
+
+  @override
+  String get composeScheduleTimePast => 'Scegli un orario futuro';
+
+  @override
+  String get composeScheduleFailed => 'Impossibile pianificare l\'email';
+
+  @override
+  String get scheduledEmpty => 'Nessuna email programmata';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return 'Invio $time';
+  }
+
+  @override
+  String get scheduledCancel => 'Annulla invio';
+
+  @override
+  String get scheduledCancelFailed =>
+      'Impossibile annullare l\'email programmata';
+
+  @override
+  String get scheduledStatusSent => 'Inviate';
+
+  @override
+  String get scheduledStatusFailed => 'Non riuscito';
+
+  @override
+  String get scheduledStatusError => 'Rifiutato';
 
   @override
   String get profileLoadFailed => 'Impossibile caricare i dati del profilo';

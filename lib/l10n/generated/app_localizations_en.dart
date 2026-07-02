@@ -465,6 +465,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get folderArchive => 'Archive';
 
   @override
+  String get folderScheduled => 'Scheduled';
+
+  @override
   String get inboxEmptyInbox => 'No emails yet';
 
   @override
@@ -1277,6 +1280,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get composeSendFailed => 'Failed to send email';
+
+  @override
+  String get composeScheduleSend => 'Schedule send';
+
+  @override
+  String get composeScheduleClear => 'Remove schedule';
+
+  @override
+  String get composeScheduleTimePast => 'Pick a time in the future';
+
+  @override
+  String get composeScheduleFailed => 'Failed to schedule email';
+
+  @override
+  String get scheduledEmpty => 'No scheduled emails';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return 'Sends $time';
+  }
+
+  @override
+  String get scheduledCancel => 'Cancel send';
+
+  @override
+  String get scheduledCancelFailed => 'Failed to cancel scheduled email';
+
+  @override
+  String get scheduledStatusSent => 'Sent';
+
+  @override
+  String get scheduledStatusFailed => 'Failed';
+
+  @override
+  String get scheduledStatusError => 'Rejected';
 
   @override
   String get profileLoadFailed => 'Failed to load profile data';

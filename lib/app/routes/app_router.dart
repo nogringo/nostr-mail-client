@@ -11,6 +11,7 @@ import '../../controllers/contacts_controller.dart';
 import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../controllers/profile_controller.dart';
+import '../../controllers/scheduled_controller.dart';
 import '../../models/address_book_contact_form.dart';
 import '../../models/compose_mode.dart';
 import '../../models/recipient.dart';
@@ -26,6 +27,7 @@ import '../../views/inbox/inbox_view.dart';
 import '../../views/nostr/profile_share_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
 import '../../views/profile/profile_view.dart';
+import '../../views/scheduled/scheduled_view.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
 import '../../views/settings/identities_view.dart';
@@ -116,6 +118,19 @@ class AppRouter {
             },
           ),
 
+          GoRoute(
+            path: AppRoutes.scheduled,
+            pageBuilder: (_, state) {
+              if (!Get.isRegistered<ScheduledController>()) {
+                Get.put(ScheduledController());
+              }
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: const ScheduledView(),
+              );
+            },
+          ),
+
           // Contact form (create/edit). Full-screen route on mobile; the
           // desktop dialog path is handled imperatively by showContactForm.
           // The ContactFormController is owned by ContactFormPage's GetBuilder,
@@ -153,6 +168,7 @@ class AppRouter {
                 sourceEmail: extra?['email'] as Email?,
                 sourceMode: extra?['mode'] as ComposeMode?,
                 initialRecipient: extra?['recipient'] as Recipient?,
+                editingScheduled: extra?['scheduledEmail'] as ScheduledEmail?,
               );
               return const ComposeView();
             },
@@ -255,6 +271,7 @@ class AppRouter {
     required Email? sourceEmail,
     required ComposeMode? sourceMode,
     required Recipient? initialRecipient,
+    required ScheduledEmail? editingScheduled,
   }) {
     if (Get.isRegistered<ComposeController>()) return;
     Get.put(
@@ -262,6 +279,7 @@ class AppRouter {
         sourceEmail: sourceEmail,
         sourceMode: sourceMode,
         initialRecipient: initialRecipient,
+        editingScheduled: editingScheduled,
       ),
     );
   }

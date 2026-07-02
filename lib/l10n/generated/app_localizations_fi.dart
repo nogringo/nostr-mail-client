@@ -467,6 +467,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get folderArchive => 'Arkisto';
 
   @override
+  String get folderScheduled => 'Ajastetut';
+
+  @override
   String get inboxEmptyInbox => 'Ei sähköpostia';
 
   @override
@@ -1285,6 +1288,41 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get composeSendFailed => 'Viestin lähetys epäonnistui';
+
+  @override
+  String get composeScheduleSend => 'Ajasta lähetys';
+
+  @override
+  String get composeScheduleClear => 'Poista ajastus';
+
+  @override
+  String get composeScheduleTimePast => 'Valitse tuleva ajankohta';
+
+  @override
+  String get composeScheduleFailed => 'Viestin ajastus epäonnistui';
+
+  @override
+  String get scheduledEmpty => 'Ei ajastettuja viestejä';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return 'Lähetetään $time';
+  }
+
+  @override
+  String get scheduledCancel => 'Peruuta lähetys';
+
+  @override
+  String get scheduledCancelFailed => 'Ajastetun viestin peruutus epäonnistui';
+
+  @override
+  String get scheduledStatusSent => 'Lähetetyt';
+
+  @override
+  String get scheduledStatusFailed => 'Epäonnistui';
+
+  @override
+  String get scheduledStatusError => 'Hylätty';
 
   @override
   String get profileLoadFailed => 'Profiilitietojen haku epäonnistui';

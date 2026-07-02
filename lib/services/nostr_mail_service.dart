@@ -54,6 +54,7 @@ class NostrMailService extends GetxService {
       blossomCache: Get.find<BlossomCache>(),
       broadcastQueue: Get.find<OfflineBroadcast>(),
       blossomUploadQueue: Get.find<OfflineBlossomUpload>(),
+      schedulerDvm: NostrConfig.schedulerDvm,
     );
   }
 

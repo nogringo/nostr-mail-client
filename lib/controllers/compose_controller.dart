@@ -8,6 +8,7 @@ import 'package:flutter_quill/quill_delta.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:markdown/markdown.dart' as md;
 import 'package:markdown_quill/markdown_quill.dart';
 import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart';
@@ -44,7 +45,21 @@ class ComposeController extends GetxController {
   final ComposeMode? sourceMode;
   final Recipient? initialRecipient;
 
-  ComposeController({this.sourceEmail, this.sourceMode, this.initialRecipient});
+  /// When set, compose opens as an editor for this already-scheduled email:
+  /// its fields are pre-filled and (re)sending cancels the original schedule.
+  final ScheduledEmail? editingScheduled;
+
+  ComposeController({
+    this.sourceEmail,
+    this.sourceMode,
+    this.initialRecipient,
+    this.editingScheduled,
+  });
+
+  bool get isEditingScheduled => editingScheduled != null;
+
+  /// Pre-fills, and reflects edits to, the send time when editing a schedule.
+  final Rxn<DateTime> scheduledAt = Rxn<DateTime>();
 
   final _nostrMailService = Get.find<NostrMailService>();
   final _contactsService = Get.find<ContactsService>();
@@ -99,7 +114,9 @@ class ComposeController extends GetxController {
   void onReady() {
     super.onReady();
     // Initialize reply/forward async after onInit completes
-    if (sourceEmail != null && sourceMode != null) {
+    if (editingScheduled != null) {
+      initFromScheduled(editingScheduled!);
+    } else if (sourceEmail != null && sourceMode != null) {
       initFromEmail(sourceEmail!, sourceMode!);
     } else if (initialRecipient != null) {
       recipients.add(initialRecipient!);
@@ -379,106 +396,18 @@ class ComposeController extends GetxController {
 
     isSending.value = true;
     try {
-      // Convert Delta to HTML
-      final converter = QuillDeltaToHtmlConverter(
-        document.toDelta().toJson().cast<Map<String, dynamic>>(),
-        ConverterOptions.forEmail(),
+      final message = _buildMimeMessage(
+        from: from,
+        subject: subject,
+        document: document,
       );
-      final htmlBody = converter.convert();
-
-      final plainText = DeltaToMarkdown().convert(document.toDelta());
-
-      // Build MIME message using MessageBuilder.
-      // With attachments, the root must be multipart/mixed; the text/html
-      // alternative pair goes in a nested multipart/alternative part.
-      // Otherwise clients like Yandex treat the attachment as just another
-      // alternative representation and hide it.
-      final hasAttachments = attachments.isNotEmpty;
-      final hasHtml = htmlBody.isNotEmpty;
-      final MessageBuilder builder;
-      final PartBuilder bodyBuilder;
-      if (hasAttachments) {
-        builder = MessageBuilder.prepareMultipartMixedMessage();
-        bodyBuilder = hasHtml
-            ? builder.addPart(mediaSubtype: MediaSubtype.multipartAlternative)
-            : builder;
-      } else {
-        builder = MessageBuilder.prepareMultipartAlternativeMessage();
-        bodyBuilder = builder;
-      }
-
-      // Set From header
-      if (from != null) {
-        final displayName = selectedFrom.value?.displayName;
-        builder.from = [MailAddress(displayName, from)];
-      }
-
-      // Set To recipients
-      builder.to = recipients.map((r) {
-        // For nostr recipients, use npub@nostr format
-        // For legacy recipients, use the original input (email address)
-        if (r.isNostr && r.pubkey != null) {
-          final npub = Nip19.encodePubKey(r.pubkey!);
-          return MailAddress(r.displayName, '$npub@nostr');
-        }
-        return MailAddress(r.displayName, r.input);
-      }).toList();
-
-      if (ccRecipients.isNotEmpty) {
-        builder.cc = ccRecipients.map((r) {
-          if (r.isNostr && r.pubkey != null) {
-            final npub = Nip19.encodePubKey(r.pubkey!);
-            return MailAddress(r.displayName, '$npub@nostr');
-          }
-          return MailAddress(r.displayName, r.input);
-        }).toList();
-      }
-
-      if (bccRecipients.isNotEmpty) {
-        builder.bcc = bccRecipients.map((r) {
-          if (r.isNostr && r.pubkey != null) {
-            final npub = Nip19.encodePubKey(r.pubkey!);
-            return MailAddress(r.displayName, '$npub@nostr');
-          }
-          return MailAddress(r.displayName, r.input);
-        }).toList();
-      }
-
-      builder.subject = subject;
-
-      // Add body parts
-      bodyBuilder.addTextPlain(plainText);
-      if (hasHtml) {
-        bodyBuilder.addTextHtml(
-          htmlBody,
-          transferEncoding: TransferEncoding.base64,
-        );
-      }
-
-      // Add attachments if present
-      for (final attachment in attachments) {
-        final mediaType = MediaType.fromText(attachment.mimeType);
-        builder.addBinary(
-          attachment.data,
-          mediaType,
-          filename: attachment.filename,
-        );
-      }
-
-      final message = builder.buildMimeMessage();
-
-      final hasLegacyRecipient = [
-        ...recipients,
-        ...ccRecipients,
-        ...bccRecipients,
-      ].any((r) => r.isLegacy);
 
       await _nostrMailService.client.sendMime(
         message,
         to: _toTransportRecipients(recipients),
         cc: _toTransportRecipients(ccRecipients),
         bcc: _toTransportRecipients(bccRecipients),
-        mailFrom: hasLegacyRecipient ? from : null,
+        mailFrom: _hasLegacyRecipient ? from : null,
         signRumor: mode != SendMode.normal,
         isPublic: mode == SendMode.public,
       );
@@ -490,6 +419,121 @@ class ComposeController extends GetxController {
       isSending.value = false;
     }
   }
+
+  /// Schedule the email for future delivery at [at] through the Scheduler DVM.
+  Future<bool> scheduleSend({
+    String? from,
+    required String subject,
+    required Document document,
+    required DateTime at,
+    SendMode mode = SendMode.normal,
+  }) async {
+    if (recipients.isEmpty) return false;
+
+    isSending.value = true;
+    try {
+      final message = _buildMimeMessage(
+        from: from,
+        subject: subject,
+        document: document,
+      );
+
+      await _nostrMailService.client.scheduleMime(
+        message,
+        to: _toTransportRecipients(recipients),
+        cc: _toTransportRecipients(ccRecipients),
+        bcc: _toTransportRecipients(bccRecipients),
+        mailFrom: _hasLegacyRecipient ? from : null,
+        signRumor: mode != SendMode.normal,
+        isPublic: mode == SendMode.public,
+        at: at,
+      );
+
+      return true;
+    } catch (e) {
+      return false;
+    } finally {
+      isSending.value = false;
+    }
+  }
+
+  MimeMessage _buildMimeMessage({
+    String? from,
+    required String subject,
+    required Document document,
+  }) {
+    final converter = QuillDeltaToHtmlConverter(
+      document.toDelta().toJson().cast<Map<String, dynamic>>(),
+      ConverterOptions.forEmail(),
+    );
+    final htmlBody = converter.convert();
+
+    final plainText = DeltaToMarkdown().convert(document.toDelta());
+
+    // With attachments, the root must be multipart/mixed; the text/html
+    // alternative pair goes in a nested multipart/alternative part.
+    // Otherwise clients like Yandex treat the attachment as just another
+    // alternative representation and hide it.
+    final hasAttachments = attachments.isNotEmpty;
+    final hasHtml = htmlBody.isNotEmpty;
+    final MessageBuilder builder;
+    final PartBuilder bodyBuilder;
+    if (hasAttachments) {
+      builder = MessageBuilder.prepareMultipartMixedMessage();
+      bodyBuilder = hasHtml
+          ? builder.addPart(mediaSubtype: MediaSubtype.multipartAlternative)
+          : builder;
+    } else {
+      builder = MessageBuilder.prepareMultipartAlternativeMessage();
+      bodyBuilder = builder;
+    }
+
+    if (from != null) {
+      final displayName = selectedFrom.value?.displayName;
+      builder.from = [MailAddress(displayName, from)];
+    }
+
+    builder.to = recipients.map(_toMailAddress).toList();
+    if (ccRecipients.isNotEmpty) {
+      builder.cc = ccRecipients.map(_toMailAddress).toList();
+    }
+    if (bccRecipients.isNotEmpty) {
+      builder.bcc = bccRecipients.map(_toMailAddress).toList();
+    }
+
+    builder.subject = subject;
+
+    bodyBuilder.addTextPlain(plainText);
+    if (hasHtml) {
+      bodyBuilder.addTextHtml(
+        htmlBody,
+        transferEncoding: TransferEncoding.base64,
+      );
+    }
+
+    for (final attachment in attachments) {
+      final mediaType = MediaType.fromText(attachment.mimeType);
+      builder.addBinary(
+        attachment.data,
+        mediaType,
+        filename: attachment.filename,
+      );
+    }
+
+    return builder.buildMimeMessage();
+  }
+
+  /// nostr recipients become `npub@nostr`; legacy ones keep their email input.
+  MailAddress _toMailAddress(Recipient r) {
+    if (r.isNostr && r.pubkey != null) {
+      final npub = Nip19.encodePubKey(r.pubkey!);
+      return MailAddress(r.displayName, '$npub@nostr');
+    }
+    return MailAddress(r.displayName, r.input);
+  }
+
+  bool get _hasLegacyRecipient =>
+      [...recipients, ...ccRecipients, ...bccRecipients].any((r) => r.isLegacy);
 
   List<mail.Recipient> _toTransportRecipients(List<Recipient> list) {
     return list.map((r) {
@@ -759,6 +803,109 @@ class ComposeController extends GetxController {
     }
   }
 
+  /// Pre-fill the composer from an already-scheduled email so the user can
+  /// edit it. Recipients, subject and send mode come from the light model
+  /// immediately; the full body and attachments are hydrated from the original
+  /// MIME, which the package reconstructs from the schedule's stored content.
+  Future<void> initFromScheduled(ScheduledEmail scheduled) async {
+    scheduledAt.value = scheduled.scheduleAt;
+    sendMode.value = scheduled.isPublic ? SendMode.public : SendMode.normal;
+    subjectController.text = scheduled.subject;
+
+    final mime = await _nostrMailService.client.getScheduledMime(
+      scheduled.packageId,
+    );
+
+    final to = mime?.to?.map((a) => a.email) ?? scheduled.to;
+    final cc = mime?.cc?.map((a) => a.email) ?? scheduled.cc;
+    final bcc = mime?.bcc?.map((a) => a.email) ?? scheduled.bcc;
+
+    for (final address in to) {
+      await addRecipient(address);
+    }
+    for (final address in cc) {
+      await addCcRecipient(address);
+    }
+    for (final address in bcc) {
+      await addBccRecipient(address);
+    }
+    if (cc.isNotEmpty || bcc.isNotEmpty) showExpandedFields.value = true;
+
+    // Set after recipients so the original From wins over any bridge that
+    // adding a legacy recipient auto-selected.
+    _applyFrom(mime?.fromEmail ?? scheduled.from);
+
+    if (mime != null) {
+      _setBodyFromMime(mime);
+      _loadAttachmentsFromMime(mime);
+    }
+  }
+
+  /// Select the From option whose address matches [address], as soon as the
+  /// options are loaded (they load asynchronously in [onInit]).
+  void _applyFrom(String? address) {
+    if (address == null) return;
+    void apply(List<FromOption> options) {
+      final match = options.firstWhereOrNull((o) => o.address == address);
+      if (match != null) selectedFrom.value = match;
+    }
+
+    if (fromOptions.isNotEmpty) {
+      apply(fromOptions);
+    } else {
+      once(fromOptions, apply);
+    }
+  }
+
+  /// The text/plain part is markdown (produced by [DeltaToMarkdown] at compose
+  /// time), so round-trip it back into the Quill document.
+  void _setBodyFromMime(MimeMessage mime) {
+    final markdown = mime.decodeTextPlainPart() ?? '';
+    if (markdown.trim().isEmpty) return;
+    try {
+      final delta = MarkdownToDelta(
+        markdownDocument: md.Document(encodeHtml: false),
+        softLineBreak: true,
+      ).convert(markdown);
+      quillController.document = Document.fromDelta(delta);
+      quillController.updateSelection(
+        const TextSelection.collapsed(offset: 0),
+        ChangeSource.local,
+      );
+    } catch (_) {
+      setQuillContent(markdown);
+    }
+  }
+
+  void _loadAttachmentsFromMime(MimeMessage mime) {
+    void walk(MimePart part) {
+      final children = part.parts;
+      if (children != null && children.isNotEmpty) {
+        for (final child in children) {
+          walk(child);
+        }
+        return;
+      }
+      final filename = part.decodeFileName();
+      final disposition = part.getHeaderContentDisposition()?.disposition;
+      final isAttachment =
+          disposition == ContentDisposition.attachment ||
+          (filename != null && filename.isNotEmpty);
+      if (!isAttachment || filename == null || filename.isEmpty) return;
+      final data = part.decodeContentBinary();
+      if (data == null) return;
+      attachments.add(
+        ComposeAttachment(
+          filename: filename,
+          data: data,
+          mimeType: part.mediaType.text,
+        ),
+      );
+    }
+
+    walk(mime);
+  }
+
   void setQuillContent(String text) {
     final doc = Document()..insert(0, text);
     quillController.document = doc;
@@ -808,45 +955,94 @@ class ComposeController extends GetxController {
     }
   }
 
+  /// The one send trigger: schedules for later when a send time is set,
+  /// otherwise sends immediately. Picking a time only sets [scheduledAt]; it is
+  /// this action, from the send button, that actually queues or sends.
   Future<void> firstSend() async {
-    // Try to add current input as recipient if not empty
-    if (toController.text.trim().isNotEmpty) {
-      await handleToSubmit(toController.text);
-      // If still not empty, it was invalid and toast was already shown
-      if (toController.text.trim().isNotEmpty) return;
-    }
-    if (ccController.text.trim().isNotEmpty) {
-      await handleCcSubmit(ccController.text);
-      if (ccController.text.trim().isNotEmpty) return;
-    }
-    if (bccController.text.trim().isNotEmpty) {
-      await handleBccSubmit(bccController.text);
-      if (bccController.text.trim().isNotEmpty) return;
-    }
+    if (!await _flushAndValidate()) return;
 
-    final l = AppLocalizations.of(Get.context!);
-
-    if (recipients.isEmpty) {
-      ToastHelper.error(Get.context!, l.composeAddRecipient);
+    final at = scheduledAt.value;
+    if (at != null && !at.isAfter(DateTime.now())) {
+      final l = AppLocalizations.of(Get.context!);
+      ToastHelper.error(Get.context!, l.composeScheduleTimePast);
       return;
     }
 
-    // Ensure we have a From address selected
+    if (!await _cancelEditedOriginal()) return;
+
+    final success = at != null
+        ? await scheduleSend(
+            from: selectedFrom.value?.address,
+            subject: subjectController.text,
+            document: quillController.document,
+            at: at,
+            mode: sendMode.value,
+          )
+        : await send(
+            from: selectedFrom.value?.address,
+            subject: subjectController.text,
+            document: quillController.document,
+            mode: sendMode.value,
+          );
+
+    final l = AppLocalizations.of(Get.context!);
+    if (success) {
+      AppRouter.router.pop();
+    } else {
+      ToastHelper.error(
+        Get.context!,
+        at != null ? l.composeScheduleFailed : l.composeSendFailed,
+      );
+    }
+  }
+
+  /// When editing a scheduled email, cancel the original before (re)sending so
+  /// the recipient never gets it twice. Cancel first, not after: a failed
+  /// resend keeps the user in the editor to retry, whereas a duplicate send is
+  /// irreversible. Returns false (after a toast) if the cancel fails.
+  Future<bool> _cancelEditedOriginal() async {
+    final scheduled = editingScheduled;
+    if (scheduled == null || _originalCancelled) return true;
+    try {
+      await _nostrMailService.client.cancelScheduledEmail(scheduled.packageId);
+      _originalCancelled = true;
+      return true;
+    } catch (_) {
+      final l = AppLocalizations.of(Get.context!);
+      ToastHelper.error(Get.context!, l.scheduledCancelFailed);
+      return false;
+    }
+  }
+
+  bool _originalCancelled = false;
+
+  /// Flush pending recipient input into chips and check we can send: returns
+  /// false (after showing a toast) when a typed recipient is invalid or none
+  /// were added. Ensures a From address is selected.
+  Future<bool> _flushAndValidate() async {
+    if (toController.text.trim().isNotEmpty) {
+      await handleToSubmit(toController.text);
+      if (toController.text.trim().isNotEmpty) return false;
+    }
+    if (ccController.text.trim().isNotEmpty) {
+      await handleCcSubmit(ccController.text);
+      if (ccController.text.trim().isNotEmpty) return false;
+    }
+    if (bccController.text.trim().isNotEmpty) {
+      await handleBccSubmit(bccController.text);
+      if (bccController.text.trim().isNotEmpty) return false;
+    }
+
+    final l = AppLocalizations.of(Get.context!);
+    if (recipients.isEmpty) {
+      ToastHelper.error(Get.context!, l.composeAddRecipient);
+      return false;
+    }
+
     if (selectedFrom.value == null && fromOptions.isNotEmpty) {
       selectedFrom.value = fromOptions.first;
     }
 
-    final success = await send(
-      from: selectedFrom.value?.address,
-      subject: subjectController.text,
-      document: quillController.document,
-      mode: sendMode.value,
-    );
-
-    if (success) {
-      AppRouter.router.pop();
-    } else {
-      ToastHelper.error(Get.context!, l.composeSendFailed);
-    }
+    return true;
   }
 }

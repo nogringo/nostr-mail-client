@@ -37,4 +37,8 @@ class NostrConfig {
   ];
 
   static const recommendedBridges = ['uid.ovh'];
+
+  /// Scheduler DVM that runs kind:5905 jobs to deliver scheduled emails.
+  static const schedulerDvm =
+      '25c75b8453b318c591ac8a09455fcdf96d9582d1636e4c0df87c5d43963f26d4';
 }

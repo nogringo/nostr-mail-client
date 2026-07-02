@@ -315,6 +315,8 @@
   "@folderTrash": { "description": "Folder name: Trash" },
   "folderArchive": "Archive",
   "@folderArchive": { "description": "Folder name: Archive" },
+  "folderScheduled": "Scheduled",
+  "@folderScheduled": { "description": "Folder name: Scheduled (emails queued for future delivery)" },
   "inboxEmptyInbox": "No emails yet",
   "@inboxEmptyInbox": { "description": "Empty-state message when the inbox folder is empty" },
   "inboxEmptySent": "No sent emails",
@@ -911,6 +913,34 @@
   "@composeAddRecipient": { "description": "Error toast when trying to send with no recipients" },
   "composeSendFailed": "Failed to send email",
   "@composeSendFailed": { "description": "Error toast when sending an email fails" },
+  "composeScheduleSend": "Schedule send",
+  "@composeScheduleSend": { "description": "Tooltip for the button that schedules an email for later delivery" },
+  "composeScheduleClear": "Remove schedule",
+  "@composeScheduleClear": { "description": "Tooltip on the button that clears the pending send time so the email sends immediately" },
+  "composeScheduleTimePast": "Pick a time in the future",
+  "@composeScheduleTimePast": { "description": "Error toast when the chosen schedule time is not in the future" },
+  "composeScheduleFailed": "Failed to schedule email",
+  "@composeScheduleFailed": { "description": "Error toast when scheduling an email fails" },
+
+  "scheduledEmpty": "No scheduled emails",
+  "@scheduledEmpty": { "description": "Empty-state message when there are no emails queued for future delivery" },
+  "scheduledSendsAt": "Sends {time}",
+  "@scheduledSendsAt": {
+    "description": "Label showing when a scheduled email will be delivered, e.g. 'Sends Jul 3, 2:30 PM'",
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "scheduledCancel": "Cancel send",
+  "@scheduledCancel": { "description": "Tooltip/label on the action that cancels a scheduled email" },
+  "scheduledCancelFailed": "Failed to cancel scheduled email",
+  "@scheduledCancelFailed": { "description": "Error toast when cancelling a scheduled email fails" },
+  "scheduledStatusSent": "Sent",
+  "@scheduledStatusSent": { "description": "Status chip on a scheduled email that the DVM has already published" },
+  "scheduledStatusFailed": "Failed",
+  "@scheduledStatusFailed": { "description": "Status chip on a scheduled email whose delivery failed" },
+  "scheduledStatusError": "Rejected",
+  "@scheduledStatusError": { "description": "Status chip on a scheduled email the DVM rejected as invalid" },
 
   "profileLoadFailed": "Failed to load profile data",
   "@profileLoadFailed": { "description": "Error toast when the user's profile metadata can't be loaded" },

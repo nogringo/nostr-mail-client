@@ -470,6 +470,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get folderArchive => 'Arquivo';
 
   @override
+  String get folderScheduled => 'Agendados';
+
+  @override
   String get inboxEmptyInbox => 'Ainda não há emails';
 
   @override
@@ -1289,6 +1292,41 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeSendFailed => 'Falha ao enviar o email';
 
   @override
+  String get composeScheduleSend => 'Agendar envio';
+
+  @override
+  String get composeScheduleClear => 'Remover agendamento';
+
+  @override
+  String get composeScheduleTimePast => 'Escolha uma hora no futuro';
+
+  @override
+  String get composeScheduleFailed => 'Falha ao agendar o email';
+
+  @override
+  String get scheduledEmpty => 'Não há emails agendados';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return 'Envio $time';
+  }
+
+  @override
+  String get scheduledCancel => 'Cancelar envio';
+
+  @override
+  String get scheduledCancelFailed => 'Falha ao cancelar o email agendado';
+
+  @override
+  String get scheduledStatusSent => 'Enviados';
+
+  @override
+  String get scheduledStatusFailed => 'Falhou';
+
+  @override
+  String get scheduledStatusError => 'Rejeitado';
+
+  @override
   String get profileLoadFailed => 'Falha ao carregar dados do perfil';
 
   @override
@@ -1788,6 +1826,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get folderArchive => 'Arquivo';
+
+  @override
+  String get folderScheduled => 'Agendados';
 
   @override
   String get inboxEmptyInbox => 'Nenhum e-mail ainda';
@@ -2607,6 +2648,41 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeSendFailed => 'Falha ao enviar o e-mail';
+
+  @override
+  String get composeScheduleSend => 'Agendar envio';
+
+  @override
+  String get composeScheduleClear => 'Remover agendamento';
+
+  @override
+  String get composeScheduleTimePast => 'Escolha um horário no futuro';
+
+  @override
+  String get composeScheduleFailed => 'Falha ao agendar o e-mail';
+
+  @override
+  String get scheduledEmpty => 'Nenhum e-mail agendado';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return 'Envio $time';
+  }
+
+  @override
+  String get scheduledCancel => 'Cancelar envio';
+
+  @override
+  String get scheduledCancelFailed => 'Falha ao cancelar o e-mail agendado';
+
+  @override
+  String get scheduledStatusSent => 'Enviados';
+
+  @override
+  String get scheduledStatusFailed => 'Falhou';
+
+  @override
+  String get scheduledStatusError => 'Rejeitado';
 
   @override
   String get profileLoadFailed => 'Falha ao carregar dados do perfil';

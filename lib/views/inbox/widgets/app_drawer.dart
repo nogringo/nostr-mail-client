@@ -13,6 +13,7 @@ import '../../../widgets/nostr_avatar.dart';
 const _folderPaths = [
   AppRoutes.inbox,
   AppRoutes.sent,
+  AppRoutes.scheduled,
   AppRoutes.archive,
   AppRoutes.trash,
   AppRoutes.contacts,
@@ -200,6 +201,11 @@ class AppDrawer extends StatelessWidget {
           icon: const Icon(Icons.send_outlined),
           selectedIcon: const Icon(Icons.send),
           label: Text(l.folderSent),
+        ),
+        NavigationDrawerDestination(
+          icon: const Icon(Icons.schedule_outlined),
+          selectedIcon: const Icon(Icons.schedule),
+          label: Text(l.folderScheduled),
         ),
         NavigationDrawerDestination(
           icon: const Icon(Icons.archive_outlined),

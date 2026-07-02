@@ -15,6 +15,10 @@ Releases prior to 0.13.0 are listed on the
 
 ## [Unreleased]
 
+### Added
+
+- Schedule emails for future delivery: pick a send time from compose and confirm with Send, then view, edit, or cancel queued emails in a new Scheduled mailbox.
+
 ### Fixed
 
 - Allow selecting a recipient from the autocomplete suggestions with a mouse click when composing.
