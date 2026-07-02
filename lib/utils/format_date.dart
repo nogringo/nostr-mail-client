@@ -19,3 +19,10 @@ String formatDate(BuildContext context, DateTime date) {
     return DateFormat.Md(locale).format(date);
   }
 }
+
+/// Absolute date and time for a future moment (e.g. a scheduled send time),
+/// where a relative "yesterday/today" label would be misleading.
+String formatDateTime(BuildContext context, DateTime date) {
+  final locale = Localizations.localeOf(context).toString();
+  return DateFormat.MMMd(locale).add_jm().format(date);
+}

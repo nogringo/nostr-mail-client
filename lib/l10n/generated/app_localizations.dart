@@ -997,6 +997,12 @@ abstract class AppLocalizations {
   /// **'Archive'**
   String get folderArchive;
 
+  /// Folder name: Scheduled (emails queued for future delivery)
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get folderScheduled;
+
   /// Empty-state message when the inbox folder is empty
   ///
   /// In en, this message translates to:
@@ -2460,6 +2466,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to schedule email'**
   String get composeScheduleFailed;
+
+  /// Empty-state message when there are no emails queued for future delivery
+  ///
+  /// In en, this message translates to:
+  /// **'No scheduled emails'**
+  String get scheduledEmpty;
+
+  /// Label showing when a scheduled email will be delivered, e.g. 'Sends Jul 3, 2:30 PM'
+  ///
+  /// In en, this message translates to:
+  /// **'Sends {time}'**
+  String scheduledSendsAt(String time);
+
+  /// Tooltip/label on the action that cancels a scheduled email
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel send'**
+  String get scheduledCancel;
+
+  /// Error toast when cancelling a scheduled email fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to cancel scheduled email'**
+  String get scheduledCancelFailed;
+
+  /// Status chip on a scheduled email that the DVM has already published
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get scheduledStatusSent;
+
+  /// Status chip on a scheduled email whose delivery failed
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get scheduledStatusFailed;
+
+  /// Status chip on a scheduled email the DVM rejected as invalid
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get scheduledStatusError;
 
   /// Error toast when the user's profile metadata can't be loaded
   ///

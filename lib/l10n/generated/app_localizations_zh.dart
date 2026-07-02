@@ -456,6 +456,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get folderArchive => '归档';
 
   @override
+  String get folderScheduled => '定时邮件';
+
+  @override
   String get inboxEmptyInbox => '暂无邮件';
 
   @override
@@ -1232,6 +1235,29 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get composeScheduleFailed => '定时发送邮件失败';
+
+  @override
+  String get scheduledEmpty => '暂无定时邮件';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return '将于 $time 发送';
+  }
+
+  @override
+  String get scheduledCancel => '取消发送';
+
+  @override
+  String get scheduledCancelFailed => '取消定时邮件失败';
+
+  @override
+  String get scheduledStatusSent => '已发送';
+
+  @override
+  String get scheduledStatusFailed => '失败';
+
+  @override
+  String get scheduledStatusError => '已拒绝';
 
   @override
   String get profileLoadFailed => '加载个人资料失败';

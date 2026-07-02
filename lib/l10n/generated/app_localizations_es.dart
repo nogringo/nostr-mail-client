@@ -470,6 +470,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get folderArchive => 'Archivados';
 
   @override
+  String get folderScheduled => 'Programados';
+
+  @override
   String get inboxEmptyInbox => 'Aún no hay correos';
 
   @override
@@ -1298,6 +1301,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get composeScheduleFailed => 'Error al programar el correo';
+
+  @override
+  String get scheduledEmpty => 'No hay correos programados';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return 'Se enviará $time';
+  }
+
+  @override
+  String get scheduledCancel => 'Cancelar envío';
+
+  @override
+  String get scheduledCancelFailed => 'Error al cancelar el correo programado';
+
+  @override
+  String get scheduledStatusSent => 'Enviados';
+
+  @override
+  String get scheduledStatusFailed => 'Fallido';
+
+  @override
+  String get scheduledStatusError => 'Rechazado';
 
   @override
   String get profileLoadFailed => 'Error al cargar los datos del perfil';

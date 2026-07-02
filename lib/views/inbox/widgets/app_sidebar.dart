@@ -47,6 +47,13 @@ class AppSidebar extends StatelessWidget {
             currentLocation: loc,
           ),
           SidebarFolderItem(
+            icon: Icons.schedule_outlined,
+            selectedIcon: Icons.schedule,
+            label: l.folderScheduled,
+            path: AppRoutes.scheduled,
+            currentLocation: loc,
+          ),
+          SidebarFolderItem(
             icon: Icons.archive_outlined,
             selectedIcon: Icons.archive,
             label: l.folderArchive,

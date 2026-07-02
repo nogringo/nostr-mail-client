@@ -468,6 +468,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get folderArchive => 'Архив';
 
   @override
+  String get folderScheduled => 'Запланированные';
+
+  @override
   String get inboxEmptyInbox => 'Писем пока нет';
 
   @override
@@ -1304,6 +1307,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get composeScheduleFailed => 'Не удалось запланировать письмо';
+
+  @override
+  String get scheduledEmpty => 'Нет запланированных писем';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return 'Отправка $time';
+  }
+
+  @override
+  String get scheduledCancel => 'Отменить отправку';
+
+  @override
+  String get scheduledCancelFailed =>
+      'Не удалось отменить запланированное письмо';
+
+  @override
+  String get scheduledStatusSent => 'Отправленные';
+
+  @override
+  String get scheduledStatusFailed => 'Не удалось';
+
+  @override
+  String get scheduledStatusError => 'Отклонено';
 
   @override
   String get profileLoadFailed => 'Не удалось загрузить данные профиля';

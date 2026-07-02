@@ -456,6 +456,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get folderArchive => 'アーカイブ';
 
   @override
+  String get folderScheduled => '予約済み';
+
+  @override
   String get inboxEmptyInbox => 'メールはまだありません';
 
   @override
@@ -1240,6 +1243,29 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get composeScheduleFailed => 'メールの送信予約に失敗しました';
+
+  @override
+  String get scheduledEmpty => '予約済みのメールはありません';
+
+  @override
+  String scheduledSendsAt(String time) {
+    return '$time に送信';
+  }
+
+  @override
+  String get scheduledCancel => '送信をキャンセル';
+
+  @override
+  String get scheduledCancelFailed => '予約済みメールのキャンセルに失敗しました';
+
+  @override
+  String get scheduledStatusSent => '送信済み';
+
+  @override
+  String get scheduledStatusFailed => '失敗';
+
+  @override
+  String get scheduledStatusError => '拒否';
 
   @override
   String get profileLoadFailed => 'プロフィールデータの読み込みに失敗しました';

@@ -24,6 +24,7 @@ class AppRoutes {
   static const sent = '/sent';
   static const archive = '/archive';
   static const trash = '/trash';
+  static const scheduled = '/scheduled';
   static const contacts = '/contacts';
 
   // Path segment for the nested email detail route under each folder.
