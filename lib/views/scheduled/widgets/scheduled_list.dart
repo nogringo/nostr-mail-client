@@ -44,7 +44,9 @@ class ScheduledList extends GetView<ScheduledController> {
                 builder: (context, constraints) => SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                    ),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

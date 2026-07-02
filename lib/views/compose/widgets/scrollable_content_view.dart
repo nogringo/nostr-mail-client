@@ -10,6 +10,7 @@ import 'package:nostr_mail_client/views/compose/widgets/recipient_chip.dart';
 import 'attachment_chip.dart';
 import 'quill_toolbar_view.dart';
 import 'recipient_autocomplete.dart';
+import 'schedule_banner.dart';
 
 class ScrollableContentView extends StatelessWidget {
   const ScrollableContentView({super.key});
@@ -23,6 +24,7 @@ class ScrollableContentView extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        const ScheduleBanner(),
         Obx(
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,

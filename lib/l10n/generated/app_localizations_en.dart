@@ -1285,6 +1285,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get composeScheduleSend => 'Schedule send';
 
   @override
+  String get composeScheduleClear => 'Remove schedule';
+
+  @override
   String get composeScheduleTimePast => 'Pick a time in the future';
 
   @override

@@ -915,6 +915,8 @@
   "@composeSendFailed": { "description": "Error toast when sending an email fails" },
   "composeScheduleSend": "Schedule send",
   "@composeScheduleSend": { "description": "Tooltip for the button that schedules an email for later delivery" },
+  "composeScheduleClear": "Remove schedule",
+  "@composeScheduleClear": { "description": "Tooltip on the button that clears the pending send time so the email sends immediately" },
   "composeScheduleTimePast": "Pick a time in the future",
   "@composeScheduleTimePast": { "description": "Error toast when the chosen schedule time is not in the future" },
   "composeScheduleFailed": "Failed to schedule email",

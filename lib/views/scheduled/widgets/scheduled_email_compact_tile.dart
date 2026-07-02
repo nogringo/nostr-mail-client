@@ -81,7 +81,10 @@ class ScheduledEmailCompactTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Text('—', style: TextStyle(color: colorScheme.onSurfaceVariant)),
+                  Text(
+                    '—',
+                    style: TextStyle(color: colorScheme.onSurfaceVariant),
+                  ),
                   const SizedBox(width: 8),
                   Flexible(
                     flex: 3,

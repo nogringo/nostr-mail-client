@@ -532,11 +532,8 @@ class ComposeController extends GetxController {
     return MailAddress(r.displayName, r.input);
   }
 
-  bool get _hasLegacyRecipient => [
-    ...recipients,
-    ...ccRecipients,
-    ...bccRecipients,
-  ].any((r) => r.isLegacy);
+  bool get _hasLegacyRecipient =>
+      [...recipients, ...ccRecipients, ...bccRecipients].any((r) => r.isLegacy);
 
   List<mail.Recipient> _toTransportRecipients(List<Recipient> list) {
     return list.map((r) {
@@ -958,42 +955,44 @@ class ComposeController extends GetxController {
     }
   }
 
+  /// The one send trigger: schedules for later when a send time is set,
+  /// otherwise sends immediately. Picking a time only sets [scheduledAt]; it is
+  /// this action, from the send button, that actually queues or sends.
   Future<void> firstSend() async {
     if (!await _flushAndValidate()) return;
+
+    final at = scheduledAt.value;
+    if (at != null && !at.isAfter(DateTime.now())) {
+      final l = AppLocalizations.of(Get.context!);
+      ToastHelper.error(Get.context!, l.composeScheduleTimePast);
+      return;
+    }
+
     if (!await _cancelEditedOriginal()) return;
 
-    final success = await send(
-      from: selectedFrom.value?.address,
-      subject: subjectController.text,
-      document: quillController.document,
-      mode: sendMode.value,
-    );
+    final success = at != null
+        ? await scheduleSend(
+            from: selectedFrom.value?.address,
+            subject: subjectController.text,
+            document: quillController.document,
+            at: at,
+            mode: sendMode.value,
+          )
+        : await send(
+            from: selectedFrom.value?.address,
+            subject: subjectController.text,
+            document: quillController.document,
+            mode: sendMode.value,
+          );
 
     final l = AppLocalizations.of(Get.context!);
     if (success) {
       AppRouter.router.pop();
     } else {
-      ToastHelper.error(Get.context!, l.composeSendFailed);
-    }
-  }
-
-  Future<void> firstSchedule(DateTime at) async {
-    if (!await _flushAndValidate()) return;
-    if (!await _cancelEditedOriginal()) return;
-
-    final success = await scheduleSend(
-      from: selectedFrom.value?.address,
-      subject: subjectController.text,
-      document: quillController.document,
-      at: at,
-      mode: sendMode.value,
-    );
-
-    if (success) {
-      AppRouter.router.pop();
-    } else {
-      final l = AppLocalizations.of(Get.context!);
-      ToastHelper.error(Get.context!, l.composeScheduleFailed);
+      ToastHelper.error(
+        Get.context!,
+        at != null ? l.composeScheduleFailed : l.composeSendFailed,
+      );
     }
   }
 

@@ -2455,6 +2455,12 @@ abstract class AppLocalizations {
   /// **'Schedule send'**
   String get composeScheduleSend;
 
+  /// Tooltip on the button that clears the pending send time so the email sends immediately
+  ///
+  /// In en, this message translates to:
+  /// **'Remove schedule'**
+  String get composeScheduleClear;
+
   /// Error toast when the chosen schedule time is not in the future
   ///
   /// In en, this message translates to:

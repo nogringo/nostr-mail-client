@@ -1295,6 +1295,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeScheduleSend => 'Agendar envio';
 
   @override
+  String get composeScheduleClear => 'Remover agendamento';
+
+  @override
   String get composeScheduleTimePast => 'Escolha uma hora no futuro';
 
   @override
@@ -2648,6 +2651,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeScheduleSend => 'Agendar envio';
+
+  @override
+  String get composeScheduleClear => 'Remover agendamento';
 
   @override
   String get composeScheduleTimePast => 'Escolha um horário no futuro';

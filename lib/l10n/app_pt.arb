@@ -512,6 +512,7 @@
   "composeAddRecipient": "Adicione pelo menos um destinatário",
   "composeSendFailed": "Falha ao enviar o email",
   "composeScheduleSend": "Agendar envio",
+  "composeScheduleClear": "Remover agendamento",
   "composeScheduleTimePast": "Escolha uma hora no futuro",
   "composeScheduleFailed": "Falha ao agendar o email",
   "scheduledEmpty": "Não há emails agendados",

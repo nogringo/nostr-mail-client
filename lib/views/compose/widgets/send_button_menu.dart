@@ -96,6 +96,9 @@ class SendButtonMenu extends StatelessWidget {
 
     return Obx(() {
       final isSending = controller.isSending.value;
+      final sendLabel = controller.scheduledAt.value != null
+          ? l.composeScheduleSend
+          : l.composeSend;
 
       Widget button;
 
@@ -112,7 +115,7 @@ class SendButtonMenu extends StatelessWidget {
                   height: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Text(l.composeSend),
+              : Text(sendLabel),
         );
       } else {
         // Desktop: use FilledButton with dropdown
@@ -126,10 +129,7 @@ class SendButtonMenu extends StatelessWidget {
                 maintainSize: true,
                 maintainAnimation: true,
                 maintainState: true,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [Text(l.composeSend)],
-                ),
+                child: Text(sendLabel),
               ),
               Visibility(
                 visible: isSending,

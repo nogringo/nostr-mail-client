@@ -1239,6 +1239,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeScheduleSend => '送信を予約';
 
   @override
+  String get composeScheduleClear => '予約を解除';
+
+  @override
   String get composeScheduleTimePast => '未来の時刻を選択してください';
 
   @override

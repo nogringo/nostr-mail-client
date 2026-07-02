@@ -24,7 +24,10 @@ class ScheduledSendTime extends StatelessWidget {
       child: ExcludeSemantics(
         child: Text(
           sendTime,
-          style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: fontSize),
+          style: TextStyle(
+            color: colorScheme.onSurfaceVariant,
+            fontSize: fontSize,
+          ),
         ),
       ),
     );

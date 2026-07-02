@@ -1303,6 +1303,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeScheduleSend => 'Запланировать отправку';
 
   @override
+  String get composeScheduleClear => 'Убрать запланированную отправку';
+
+  @override
   String get composeScheduleTimePast => 'Выберите время в будущем';
 
   @override

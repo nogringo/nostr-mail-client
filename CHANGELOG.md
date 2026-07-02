@@ -17,8 +17,7 @@ Releases prior to 0.13.0 are listed on the
 
 ### Added
 
-- Schedule an email for future delivery from the compose screen: a clock button next to Send lets you pick a date and time, and the email is sent later by the Scheduler DVM.
-- A Scheduled mailbox that lists emails queued for future delivery and lets you cancel a scheduled send before it goes out. Reachable from the sidebar on desktop and the navigation drawer on mobile.
+- Schedule emails for future delivery: pick a send time from compose and confirm with Send, then view, edit, or cancel queued emails in a new Scheduled mailbox.
 
 ### Fixed
 

@@ -503,6 +503,7 @@
   "composeAddRecipient": "宛先を 1 つ以上追加してください",
   "composeSendFailed": "メールの送信に失敗しました",
   "composeScheduleSend": "送信を予約",
+  "composeScheduleClear": "予約を解除",
   "composeScheduleTimePast": "未来の時刻を選択してください",
   "composeScheduleFailed": "メールの送信予約に失敗しました",
   "scheduledEmpty": "予約済みのメールはありません",

@@ -508,6 +508,7 @@
   "composeAddRecipient": "Lisää vähintään yksi vastaanottaja",
   "composeSendFailed": "Viestin lähetys epäonnistui",
   "composeScheduleSend": "Ajasta lähetys",
+  "composeScheduleClear": "Poista ajastus",
   "composeScheduleTimePast": "Valitse tuleva ajankohta",
   "composeScheduleFailed": "Viestin ajastus epäonnistui",
   "scheduledEmpty": "Ei ajastettuja viestejä",

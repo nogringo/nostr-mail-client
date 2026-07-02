@@ -503,6 +503,7 @@
   "composeAddRecipient": "Mindestens einen Empfänger hinzufügen",
   "composeSendFailed": "E-Mail konnte nicht gesendet werden",
   "composeScheduleSend": "Senden planen",
+  "composeScheduleClear": "Zeitplan entfernen",
   "composeScheduleTimePast": "Einen Zeitpunkt in der Zukunft wählen",
   "composeScheduleFailed": "E-Mail konnte nicht geplant werden",
   "scheduledEmpty": "Keine geplanten E-Mails",

@@ -1231,6 +1231,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeScheduleSend => '定时发送';
 
   @override
+  String get composeScheduleClear => '取消定时发送';
+
+  @override
   String get composeScheduleTimePast => '请选择未来的时间';
 
   @override

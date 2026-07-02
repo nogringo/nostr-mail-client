@@ -1300,6 +1300,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get composeScheduleSend => 'Programmer l\'envoi';
 
   @override
+  String get composeScheduleClear => 'Retirer la programmation';
+
+  @override
   String get composeScheduleTimePast => 'Choisissez une heure future';
 
   @override

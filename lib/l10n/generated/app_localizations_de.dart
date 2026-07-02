@@ -1295,6 +1295,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get composeScheduleSend => 'Senden planen';
 
   @override
+  String get composeScheduleClear => 'Zeitplan entfernen';
+
+  @override
   String get composeScheduleTimePast => 'Einen Zeitpunkt in der Zukunft wählen';
 
   @override

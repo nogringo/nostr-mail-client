@@ -503,6 +503,7 @@
   "composeAddRecipient": "Ajoutez au moins un destinataire",
   "composeSendFailed": "Échec de l'envoi de l'e-mail",
   "composeScheduleSend": "Programmer l'envoi",
+  "composeScheduleClear": "Retirer la programmation",
   "composeScheduleTimePast": "Choisissez une heure future",
   "composeScheduleFailed": "Échec de la programmation de l'e-mail",
   "scheduledEmpty": "Aucun e-mail programmé",

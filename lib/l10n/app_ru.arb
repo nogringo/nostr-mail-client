@@ -503,6 +503,7 @@
   "composeAddRecipient": "Добавьте хотя бы одного получателя",
   "composeSendFailed": "Не удалось отправить письмо",
   "composeScheduleSend": "Запланировать отправку",
+  "composeScheduleClear": "Убрать запланированную отправку",
   "composeScheduleTimePast": "Выберите время в будущем",
   "composeScheduleFailed": "Не удалось запланировать письмо",
   "scheduledEmpty": "Нет запланированных писем",

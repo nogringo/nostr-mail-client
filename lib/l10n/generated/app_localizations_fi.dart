@@ -1293,6 +1293,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeScheduleSend => 'Ajasta lähetys';
 
   @override
+  String get composeScheduleClear => 'Poista ajastus';
+
+  @override
   String get composeScheduleTimePast => 'Valitse tuleva ajankohta';
 
   @override
