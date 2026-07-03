@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../app/config/app_config.dart';
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 
 enum MailFolder { inbox, sent, trash, archive }
 

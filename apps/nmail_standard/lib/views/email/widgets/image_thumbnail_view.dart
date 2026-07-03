@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
-import 'package:nmail_standard/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class ImageThumbnailView extends StatelessWidget {
   final AttachmentRef ref;

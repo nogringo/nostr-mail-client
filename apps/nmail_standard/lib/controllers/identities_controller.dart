@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart' show PrivateSettings;
 
 import 'package:nmail_core/models/local_part_format.dart';
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'auth_controller.dart';
 
 class IdentitiesController extends GetxController {

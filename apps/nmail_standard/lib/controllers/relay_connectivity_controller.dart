@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:ndk/entities.dart';
 
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class RelayConnectivityController extends GetxController {
   StreamSubscription<Map<String, RelayConnectivity>>? _subscription;

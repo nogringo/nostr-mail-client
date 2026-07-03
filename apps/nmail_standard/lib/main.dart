@@ -15,7 +15,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'app/bindings/initial_binding.dart';
-import 'app/config/nostr_config.dart';
+import 'package:nmail_core/config/nostr_config.dart';
 import 'app/routes/app_router.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'controllers/auth_controller.dart';
@@ -25,7 +25,7 @@ import 'services/blossom_cache_factory_io.dart'
     as blossom_cache_factory;
 import 'package:nmail_core/services/metadata_service.dart';
 import 'services/ndk_cache_service.dart';
-import 'services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'services/theme_service.dart';
 import 'utils/platform_helper.dart';

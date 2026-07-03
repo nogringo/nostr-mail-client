@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../../controllers/dm_relays_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/relay_utils.dart';
-import '../../../app/config/nostr_config.dart';
+import 'package:nmail_core/config/nostr_config.dart';
 import 'recommendation_chips.dart';
 
 class DmRelaysSection extends StatelessWidget {

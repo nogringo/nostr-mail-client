@@ -2,8 +2,8 @@ import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
-import '../app/config/nostr_config.dart';
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/config/nostr_config.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class DmRelaysController extends GetxController {
   List<String>? originalDmRelays;

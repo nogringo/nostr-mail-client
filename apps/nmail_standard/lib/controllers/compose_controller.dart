@@ -26,7 +26,7 @@ import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/models/send_mode.dart';
 import '../services/contacts_service.dart';
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import '../utils/sender_name_helper.dart';
 import 'auth_controller.dart';

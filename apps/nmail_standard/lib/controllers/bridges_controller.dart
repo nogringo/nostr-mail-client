@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class BridgesController extends GetxController {
   List<String>? originalBridges;

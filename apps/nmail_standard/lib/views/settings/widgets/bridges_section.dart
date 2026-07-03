@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../app/config/nostr_config.dart';
+import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/bridges_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import 'recommendation_chips.dart';

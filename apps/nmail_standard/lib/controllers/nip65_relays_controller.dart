@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 
-import '../app/config/nostr_config.dart';
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/config/nostr_config.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class Nip65RelaysController extends GetxController {
   Map<String, ReadWriteMarker>? originalRelays;

@@ -11,7 +11,7 @@ import 'package:nmail_standard/app/routes/app_routes.dart';
 import 'package:nmail_standard/controllers/inbox_controller.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_standard/controllers/settings_controller.dart';
-import 'package:nmail_standard/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_standard/utils/get_mime_type.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';

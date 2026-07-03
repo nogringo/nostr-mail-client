@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class ScheduledController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();

@@ -7,7 +7,7 @@ import 'package:ndk/ndk.dart';
 import 'package:ndk/domain_layer/entities/filter.dart' as ndk_filter;
 import 'package:nostr_mail/nostr_mail.dart';
 
-import '../app/config/nostr_config.dart';
+import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/services/storage_service.dart';
 
 const dmRelayListKind = 10050;

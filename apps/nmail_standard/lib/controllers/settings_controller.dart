@@ -10,7 +10,7 @@ import 'package:path/path.dart' as p;
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
-import '../services/nostr_mail_service.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import '../services/theme_service.dart';
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
