@@ -65,12 +65,12 @@ dev_dependencies:
 flutter_launcher_icons:
   macos:
     generate: true
-    image_path: "../../icons/web/icon-512.png"
+    image_path: "icons/web/icon-512.png"
 
 flutter:
   uses-material-design: true
   generate: true
   assets:
-    - ../../icons/original_transparent_2x.svg
-    - ../../icons/original_transparent_3x.png
-    - ../../icons/github.svg
+    - icons/original_transparent_2x.svg
+    - icons/original_transparent_3x.png
+    - icons/github.svg
