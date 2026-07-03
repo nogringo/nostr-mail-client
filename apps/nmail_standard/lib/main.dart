@@ -14,12 +14,12 @@ import 'package:toastification/toastification.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-import 'app/bindings/initial_binding.dart';
+import 'package:nmail_core/app/bindings/initial_binding.dart';
 import 'package:nmail_core/config/nostr_config.dart';
-import 'app/routes/app_router.dart';
+import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'controllers/auth_controller.dart';
-import 'controllers/settings_controller.dart';
+import 'package:nmail_core/controllers/auth_controller.dart';
+import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
