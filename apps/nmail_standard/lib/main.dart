@@ -26,7 +26,7 @@ import 'services/blossom_cache_factory_io.dart'
 import 'services/metadata_service.dart';
 import 'services/ndk_cache_service.dart';
 import 'services/nostr_mail_service.dart';
-import 'services/storage_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 import 'services/theme_service.dart';
 import 'utils/platform_helper.dart';
 

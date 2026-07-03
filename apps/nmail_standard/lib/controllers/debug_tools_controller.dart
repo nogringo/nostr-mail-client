@@ -7,7 +7,7 @@ import 'package:sembast/sembast.dart';
 
 import '../l10n/generated/app_localizations.dart';
 import '../services/nostr_mail_service.dart';
-import '../services/storage_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 
 class DebugToolsController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();

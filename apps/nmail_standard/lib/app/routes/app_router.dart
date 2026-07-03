@@ -15,7 +15,7 @@ import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/recipient.dart';
-import '../../services/storage_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 import '../../views/auth/login_view.dart';
 import '../../views/compose/compose_view.dart';
 import '../../views/contacts/contacts_view.dart';

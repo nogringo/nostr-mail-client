@@ -5,7 +5,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import '../../app/routes/app_routes.dart';
 import '../../l10n/generated/app_localizations.dart';
-import '../../services/storage_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});

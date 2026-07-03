@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
-import 'storage_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 
 class ThemeService extends GetxService {
   static const colorSchemeKeyLight = 'color_scheme_light';

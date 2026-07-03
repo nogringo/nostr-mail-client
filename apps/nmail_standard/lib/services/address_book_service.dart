@@ -10,7 +10,7 @@ import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import 'package:nmail_core/models/contact.dart';
-import 'storage_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 
 class AddressBookService extends GetxService {
   AddressBookService({NostrAddressBook? book, this.syncOnInit = true})

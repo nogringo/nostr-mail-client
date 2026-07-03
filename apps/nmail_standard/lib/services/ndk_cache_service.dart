@@ -1,6 +1,6 @@
 import 'package:ndk/ndk.dart';
 
-import 'storage_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 
 class NdkCacheService {
   static Future<CacheManager> createCacheManager(
