@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/relay_connectivity_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../utils/relay_utils.dart';
+import 'package:nmail_core/utils/relay_utils.dart';
 
 class RelayConnectivitySection extends StatelessWidget {
   const RelayConnectivitySection({super.key});
