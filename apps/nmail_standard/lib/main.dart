@@ -23,7 +23,7 @@ import 'controllers/settings_controller.dart';
 import 'services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
-import 'services/metadata_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'services/ndk_cache_service.dart';
 import 'services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';

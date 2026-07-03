@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../services/metadata_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 

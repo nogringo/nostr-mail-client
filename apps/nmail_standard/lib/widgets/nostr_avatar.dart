@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
-import '../services/metadata_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'nostr_avatar_visual.dart';
 
 /// Circular Nostr avatar.

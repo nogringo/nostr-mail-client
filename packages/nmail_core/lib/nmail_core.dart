@@ -18,4 +18,5 @@ export 'utils/nostr_utils.dart';
 export 'utils/relay_utils.dart';
 export 'utils/scheduled_email_extensions.dart';
 export 'utils/string_color.dart';
+export 'services/metadata_service.dart';
 export 'services/storage_service.dart';

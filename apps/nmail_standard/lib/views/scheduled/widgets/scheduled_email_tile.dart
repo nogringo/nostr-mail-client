@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../services/metadata_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import '../../../utils/format_date.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
