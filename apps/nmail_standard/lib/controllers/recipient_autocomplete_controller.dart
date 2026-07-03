@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:nmail_core/models/contact.dart';
-import '../services/contacts_service.dart';
+import 'package:nmail_core/services/contacts_service.dart';
 
 class RecipientAutocompleteController extends GetxController {
   RecipientAutocompleteController({

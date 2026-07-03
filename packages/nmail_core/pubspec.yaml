@@ -13,6 +13,7 @@ dependencies:
   blossom_cache: ^0.3.0
   blossom_upload_queue_shim_for_ndk: ^0.4.1
   broadcast_queue_shim_for_ndk: ^0.2.1
+  collection: ^1.19.1
   enough_mail_plus: ^2.2.4
   flutter:
     sdk: flutter

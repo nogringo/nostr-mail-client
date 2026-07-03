@@ -20,6 +20,7 @@ export 'utils/scheduled_email_extensions.dart';
 export 'utils/string_color.dart';
 export 'config/nostr_config.dart';
 export 'services/address_book_service.dart';
+export 'services/contacts_service.dart';
 export 'services/metadata_service.dart';
 export 'services/ndk_cache_service.dart';
 export 'services/nostr_mail_service.dart';
