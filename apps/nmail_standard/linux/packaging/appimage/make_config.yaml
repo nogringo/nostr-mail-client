@@ -1,0 +1,14 @@
+display_name: Nmail
+
+icon: icons/linux/icon.png
+
+keywords:
+  - nostr
+  - email
+  - mail
+
+categories:
+  - Network
+  - Email
+
+startup_wm_class: org.nostrmail.app

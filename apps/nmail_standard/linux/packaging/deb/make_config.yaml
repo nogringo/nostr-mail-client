@@ -1,0 +1,17 @@
+display_name: Nmail
+package_name: nmail
+maintainer:
+  name: Russell
+  email: npub1kg4sdvz3l4fr99n2jdz2vdxe2mpacva87hkdetv76ywacsfq5leqquw5te
+priority: optional
+section: mail
+installed_size: 35000
+icon: linux/icon.png
+keywords:
+  - nostr
+  - email
+  - mail
+categories:
+  - Network
+  - Email
+startup_wm_class: org.nostrmail.app
