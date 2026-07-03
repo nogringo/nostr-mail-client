@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "org.nostrmail" "\0"
-            VALUE "FileDescription", "nmail_foss" "\0"
+            VALUE "FileDescription", "Nmail" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "nmail_foss" "\0"
+            VALUE "InternalName", "Nmail" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 org.nostrmail. All rights reserved." "\0"
-            VALUE "OriginalFilename", "nmail_foss.exe" "\0"
-            VALUE "ProductName", "nmail_foss" "\0"
+            VALUE "OriginalFilename", "Nmail.exe" "\0"
+            VALUE "ProductName", "Nmail" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
