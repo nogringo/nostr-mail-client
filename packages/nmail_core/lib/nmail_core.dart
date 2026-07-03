@@ -10,6 +10,7 @@ export 'utils/address_book_vcard_mapper.dart';
 export 'utils/blossom_utils.dart';
 export 'utils/color_scheme_serializer.dart';
 export 'utils/contact_birthday_utils.dart';
+export 'utils/get_attachements.dart';
 export 'utils/html_has_images.dart';
 export 'utils/metadata_extensions.dart';
 export 'utils/nostr_avatar_colors.dart';

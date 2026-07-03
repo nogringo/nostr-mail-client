@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_attachment.dart';
-import '../../../utils/get_attachements.dart';
+import 'package:nmail_core/utils/get_attachements.dart';
 
 class AttachmentChip extends StatelessWidget {
   final ComposeAttachment attachment;

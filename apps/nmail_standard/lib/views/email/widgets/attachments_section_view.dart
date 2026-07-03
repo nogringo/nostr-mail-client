@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_standard/l10n/generated/app_localizations.dart';
-import 'package:nmail_standard/utils/get_attachements.dart';
+import 'package:nmail_core/utils/get_attachements.dart';
 import 'package:nmail_standard/views/email/email_controller.dart';
 import 'package:nmail_standard/views/email/widgets/attachment_card_view.dart';
 
