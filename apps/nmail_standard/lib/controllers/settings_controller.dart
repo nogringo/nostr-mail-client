@@ -13,7 +13,7 @@ import '../controllers/auth_controller.dart';
 import '../services/nostr_mail_service.dart';
 import '../services/storage_service.dart';
 import '../services/theme_service.dart';
-import '../utils/color_scheme_serializer.dart';
+import 'package:nmail_core/utils/color_scheme_serializer.dart';
 import '../utils/platform_helper.dart';
 
 class SettingsController extends GetxController {

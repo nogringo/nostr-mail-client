@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ndk/ndk.dart';
 
-import '../utils/nostr_avatar_colors.dart';
+import 'package:nmail_core/utils/nostr_avatar_colors.dart';
 
 /// Pure presentation of a Nostr avatar: the profile picture when available,
 /// otherwise a deterministic colored initial derived from the pubkey.

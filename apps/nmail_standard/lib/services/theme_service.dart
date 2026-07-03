@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../utils/color_scheme_serializer.dart';
+import 'package:nmail_core/utils/color_scheme_serializer.dart';
 import 'storage_service.dart';
 
 class ThemeService extends GetxService {

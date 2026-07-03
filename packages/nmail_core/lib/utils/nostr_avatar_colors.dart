@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ndk/ndk.dart';
-import 'package:nmail_core/utils/metadata_extensions.dart';
+
+import 'metadata_extensions.dart';
 
 /// Standardized Nostr avatar color palette (NIP-XX).
 /// Each entry contains the background color and its associated text color for optimal contrast.

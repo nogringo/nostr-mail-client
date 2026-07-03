@@ -11,7 +11,7 @@ import '../../../controllers/inbox_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
-import '../../../utils/nostr_utils.dart';
+import 'package:nmail_core/utils/nostr_utils.dart';
 import '../../../utils/responsive_helper.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
