@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../services/metadata_service.dart';
-import '../../../utils/address_book_vcard_mapper.dart';
+import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import '../../../utils/metadata_extensions.dart';
 
 class NostrIdentityName extends StatelessWidget {

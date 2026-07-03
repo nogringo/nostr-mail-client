@@ -1,4 +1,4 @@
-import 'package:nmail_core/utils/contact_birthday_utils.dart';
+import '../utils/contact_birthday_utils.dart';
 
 class AddressBookContactForm {
   final String? uid;

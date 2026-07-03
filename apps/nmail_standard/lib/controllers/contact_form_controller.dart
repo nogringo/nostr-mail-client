@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
-import '../models/address_book_contact_form.dart';
+import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/utils/contact_birthday_utils.dart';
 import 'contacts_controller.dart';
 

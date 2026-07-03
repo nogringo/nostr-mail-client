@@ -6,7 +6,7 @@ import 'package:nostr_address_book/nostr_address_book.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/contact_form_controller.dart';
 import '../../../controllers/contacts_controller.dart';
-import '../../../models/address_book_contact_form.dart';
+import 'package:nmail_core/models/address_book_contact_form.dart';
 import '../../../utils/responsive_helper.dart';
 import 'contact_form_sheet.dart';
 

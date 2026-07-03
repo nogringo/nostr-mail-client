@@ -1,11 +1,9 @@
-import 'package:enough_mail_plus/enough_mail.dart' as mail;
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:vcard_dart/vcard_dart.dart' as vcard;
 
 import '../models/address_book_contact_form.dart';
-import '../models/contact.dart';
-import 'package:nmail_core/utils/contact_birthday_utils.dart';
+import 'contact_birthday_utils.dart';
 
 class AddressBookVCardMapper {
   static final _parser = vcard.VCardParser(preserveRaw: true);
@@ -131,33 +129,6 @@ class AddressBookVCardMapper {
       ]);
 
     return _generator.generate(parsed, version: vcard.VCardVersion.v40);
-  }
-
-  static List<Contact> suggestionsFromContact(AddressBookContact contact) {
-    final name = contact.index.formattedName.trim().isNotEmpty
-        ? contact.index.formattedName.trim()
-        : null;
-    return [
-      for (final email in contact.index.emails)
-        Contact(
-          displayName: name,
-          mailAddress: mail.MailAddress(name, email),
-          source: ContactSource.addressBook,
-          addressBookUid: contact.uid,
-          contactMethodId: 'email:${email.toLowerCase()}',
-        ),
-      for (final pubkey
-          in contact.index.nostrIdentifiers
-              .map(_pubkeyFromNostrImpp)
-              .whereType<String>())
-        Contact(
-          pubkey: pubkey,
-          displayName: name,
-          source: ContactSource.addressBook,
-          addressBookUid: contact.uid,
-          contactMethodId: 'nostr:$pubkey',
-        ),
-    ];
   }
 
   static String? normalizeNostrPubkey(String input) {

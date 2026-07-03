@@ -1,14 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:enough_mail_plus/enough_mail.dart' as mail;
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
+import 'package:nmail_core/models/address_book_contact_form.dart';
+import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
-import '../models/address_book_contact_form.dart';
 import '../models/contact.dart';
-import '../utils/address_book_vcard_mapper.dart';
 import 'storage_service.dart';
 
 class AddressBookService extends GetxService {
@@ -135,9 +136,7 @@ class AddressBookService extends GetxService {
   Future<void> retryBroadcasts() => _book.broadcastQueue.retryNow();
 
   List<Contact> suggestionContacts() {
-    return contacts
-        .expand(AddressBookVCardMapper.suggestionsFromContact)
-        .toList(growable: false);
+    return contacts.expand(_suggestionsFromContact).toList(growable: false);
   }
 
   Future<String?> resolveNostrIdentifier(String input) async {
@@ -177,5 +176,33 @@ class AddressBookService extends GetxService {
     contacts.value = allContacts
         .where((contact) => !contact.deleted && contact.pubKey == pubkey)
         .toList(growable: false);
+  }
+
+  Iterable<Contact> _suggestionsFromContact(AddressBookContact contact) {
+    final name = contact.index.formattedName.trim().isNotEmpty
+        ? contact.index.formattedName.trim()
+        : null;
+
+    return [
+      for (final email in contact.index.emails)
+        Contact(
+          displayName: name,
+          mailAddress: mail.MailAddress(name, email),
+          source: ContactSource.addressBook,
+          addressBookUid: contact.uid,
+          contactMethodId: 'email:${email.toLowerCase()}',
+        ),
+      for (final pubkey
+          in contact.index.nostrIdentifiers
+              .map(AddressBookVCardMapper.normalizeNostrPubkey)
+              .whereType<String>())
+        Contact(
+          pubkey: pubkey,
+          displayName: name,
+          source: ContactSource.addressBook,
+          addressBookUid: contact.uid,
+          contactMethodId: 'nostr:$pubkey',
+        ),
+    ];
   }
 }

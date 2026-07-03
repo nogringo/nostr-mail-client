@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
-import 'package:nmail_standard/models/address_book_contact_form.dart';
+import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_standard/services/address_book_service.dart';
 import 'package:sembast/sembast_memory.dart';
 
