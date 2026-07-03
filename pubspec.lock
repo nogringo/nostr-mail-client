@@ -82,7 +82,7 @@ packages:
     source: hosted
     version: "4.0.1"
   blossom_cache:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: blossom_cache
       sha256: "0c5066f12afa2ea7ef504f1192f3375db4d3ea840fe49d76e6189ff09e9fd6e6"
@@ -90,7 +90,7 @@ packages:
     source: hosted
     version: "0.3.0"
   blossom_upload_queue_shim_for_ndk:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
       sha256: "4b9add65e43cb040bba07db9f9001b1746922e662005635077649d12a2c4bb77"
@@ -106,7 +106,7 @@ packages:
     source: hosted
     version: "2.1.2"
   broadcast_queue_shim_for_ndk:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: broadcast_queue_shim_for_ndk
       sha256: dc11cbc4ed8270288f803f88474806de6f8d4584386300a22dbdb5914b9cf6a3
@@ -178,7 +178,7 @@ packages:
     source: hosted
     version: "1.0.0"
   collection:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: collection
       sha256: "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76"
@@ -298,7 +298,7 @@ packages:
     source: hosted
     version: "1.6.0"
   enough_mail_plus:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: enough_mail_plus
       sha256: ae217a2491f7274236f06745087a453de5034d973d1bf70859d88b0cdeca38f0
@@ -338,7 +338,7 @@ packages:
     source: hosted
     version: "7.0.1"
   file_picker:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: file_picker
       sha256: f13a03000d942e476bc1ff0a736d2e9de711d2f89a95cd4c1d88f861c3348387
@@ -346,7 +346,7 @@ packages:
     source: hosted
     version: "11.0.2"
   file_saver:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: file_saver
       sha256: "68c9a085d9bb4546e0a31d1e583a48d7c17a6987d538788ea064f0043b1fc02d"
@@ -378,7 +378,7 @@ packages:
     source: hosted
     version: "1.1.1"
   flutter:
-    dependency: "direct main"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -391,7 +391,7 @@ packages:
     source: hosted
     version: "1.1.0"
   flutter_highlight:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_highlight
       sha256: "7b96333867aa07e122e245c033b8ad622e4e3a42a1a2372cbb098a2541d8782c"
@@ -439,7 +439,7 @@ packages:
     source: hosted
     version: "1.0.0"
   flutter_launcher_icons:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: flutter_launcher_icons
       sha256: "10f13781741a2e3972126fae08393d3c4e01fa4cd7473326b94b72cf594195e7"
@@ -447,7 +447,7 @@ packages:
     source: hosted
     version: "0.14.4"
   flutter_lints:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: flutter_lints
       sha256: "3105dc8492f6183fb076ccf1f351ac3d60564bff92e20bfc4af9cc1651f4e7e1"
@@ -455,7 +455,7 @@ packages:
     source: hosted
     version: "6.0.0"
   flutter_localizations:
-    dependency: "direct main"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -468,7 +468,7 @@ packages:
     source: hosted
     version: "2.0.33"
   flutter_quill:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_quill
       sha256: "3ee7125b2dd3f3bce3ebdaac722a72f0c8aff3db9aa19053a9d777db12d71c98"
@@ -484,7 +484,7 @@ packages:
     source: hosted
     version: "1.5.3"
   flutter_secure_storage:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_secure_storage
       sha256: da922f2aab2d733db7e011a6bcc4a825b844892d4edd6df83ff156b09a9b2e40
@@ -532,7 +532,7 @@ packages:
     source: hosted
     version: "4.1.0"
   flutter_svg:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_svg
       sha256: "1ded017b39c8e15c8948ea855070a5ff8ff8b3d5e83f3446e02d6bb12add7ad9"
@@ -540,17 +540,17 @@ packages:
     source: hosted
     version: "2.2.4"
   flutter_test:
-    dependency: "direct dev"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
   flutter_web_plugins:
-    dependency: "direct main"
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
   flutter_widget_from_html_core:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_widget_from_html_core
       sha256: "1120ee6ed3509ceff2d55aa6c6cbc7b6b1291434422de2411b5a59364dd6ff03"
@@ -558,7 +558,7 @@ packages:
     source: hosted
     version: "0.17.0"
   get:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: get
       sha256: "5ed34a7925b85336e15d472cc4cfe7d9ebf4ab8e8b9f688585bf6b50f4c3d79a"
@@ -574,7 +574,7 @@ packages:
     source: hosted
     version: "2.1.3"
   go_router:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: go_router
       sha256: "92d8cee7c57dff0a6c409c05597b460002434eccf7424a712283225b3962d03f"
@@ -622,7 +622,7 @@ packages:
     source: hosted
     version: "2.0.0"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       sha256: "87721a4a50b19c7f1d49001e51409bddc46303966ce89a65af4f4e6004896412"
@@ -646,7 +646,7 @@ packages:
     source: hosted
     version: "1.0.1"
   idb_shim:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: idb_shim
       sha256: "48be1c95f06c4b059d0f5b9888dc5d7384e4a9e4d71824ae2deeb1e1546c6c07"
@@ -654,7 +654,7 @@ packages:
     source: hosted
     version: "2.9.2"
   idb_sqflite:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: idb_sqflite
       sha256: "604640e2de25c8cad57282ae6bfceb409083d171ef076cd8eb514a0f2ed92d54"
@@ -670,7 +670,7 @@ packages:
     source: hosted
     version: "4.8.0"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
@@ -678,7 +678,7 @@ packages:
     source: hosted
     version: "0.20.2"
   introduction_screen:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: introduction_screen
       sha256: "47ad51281f86c3ed47e0c1a0008899ad253ca71e8b626fd862e55993825a271b"
@@ -734,7 +734,7 @@ packages:
     source: hosted
     version: "1.3.0"
   markdown:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: markdown
       sha256: ee85086ad7698b42522c6ad42fe195f1b9898e4d974a1af4576c1a3a176cada9
@@ -742,7 +742,7 @@ packages:
     source: hosted
     version: "7.3.1"
   markdown_quill:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: markdown_quill
       sha256: b378c3f268f488f1146bf8e2abdc0d45133a914e2efaa4f601cc9e6118af2fbe
@@ -774,7 +774,7 @@ packages:
     source: hosted
     version: "1.18.0"
   mime:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: mime
       sha256: "41a20518f0cb1256669420fdba0cd90d21561e560ac240f26ef8322e45bb7ed6"
@@ -798,7 +798,7 @@ packages:
     source: hosted
     version: "1.0.3"
   ndk:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: ndk
       sha256: "06a4f6c8ce760ab5dd0c4e235d1178e54c78e8ddb6c635cea6ee3937bd8090ea"
@@ -814,7 +814,7 @@ packages:
     source: hosted
     version: "0.1.0"
   ndk_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: ndk_flutter
       sha256: "852da616ceef57e27b9abd5365e439a5a3f70354417c371ffb0478670e262794"
@@ -822,7 +822,7 @@ packages:
     source: hosted
     version: "0.8.4-dev.11"
   nostr_address_book:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: nostr_address_book
       sha256: "4d7564e1b849d8a7c8de1e57420e5c12d077719c389382c7bbca8911632f5bf4"
@@ -838,7 +838,7 @@ packages:
     source: hosted
     version: "0.2.3"
   nostr_mail:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: nostr_mail
       sha256: "7a8e3ace30f39fa6855b9ca16dfc916ab5c87b6d5449258c607743c516ee1dbd"
@@ -854,7 +854,7 @@ packages:
     source: hosted
     version: "9.3.0"
   package_info_plus:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: package_info_plus
       sha256: "468c26b4254ab01979fa5e4a98cb343ea3631b9acee6f21028997419a80e1a20"
@@ -870,7 +870,7 @@ packages:
     source: hosted
     version: "3.2.1"
   path:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path
       sha256: "75cca69d1490965be98c73ceaea117e8a04dd21217b37b292c9ddbec0d955bc5"
@@ -886,7 +886,7 @@ packages:
     source: hosted
     version: "1.1.0"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       sha256: "50c5dd5b6e1aaf6fb3a78b33f6aa3afca52bf903a8a5298f53101fdaee55bbcd"
@@ -958,7 +958,7 @@ packages:
     source: hosted
     version: "0.1.9"
   pdfrx:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pdfrx
       sha256: e32e0c786528eec2b3c56b43f59ef1debce3a27c7accd862b95413f949afcfa9
@@ -1150,7 +1150,7 @@ packages:
     source: hosted
     version: "0.2.0"
   sembast:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sembast
       sha256: a58b26925e23071cf0f4754d8449aabe829e9a9930a872fb18e6ae4c2c88e025
@@ -1158,7 +1158,7 @@ packages:
     source: hosted
     version: "3.8.9+1"
   sembast_web:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sembast_web
       sha256: eaeb2f14613098fb8b363b01ae4e280031736b7ae1aa38653dbee0d47af6e3ea
@@ -1179,7 +1179,7 @@ packages:
     source: hosted
     version: "1.10.2"
   sqflite:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sqflite
       sha256: "564cfed0746fe53140c23b70b308e045c3b31f17778f2f326ccb7d804ea0250a"
@@ -1203,7 +1203,7 @@ packages:
     source: hosted
     version: "2.5.8"
   sqflite_common_ffi:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: sqflite_common_ffi
       sha256: cd0c7f7de39a08f2d54ef144d9058c46eca8461879aaa648025643455c1e5a20
@@ -1267,7 +1267,7 @@ packages:
     source: hosted
     version: "3.4.1"
   system_theme:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: system_theme
       sha256: "827cc5f94a6c3097a4c08d4f9eb11d345322f9deea5be1cb73611ff24bdf45bb"
@@ -1299,7 +1299,7 @@ packages:
     source: hosted
     version: "0.7.11"
   toastification:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: toastification
       sha256: "69db2bff425b484007409650d8bcd5ed1ce2e9666293ece74dcd917dacf23112"
@@ -1331,7 +1331,7 @@ packages:
     source: hosted
     version: "0.3.2"
   url_launcher:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: url_launcher
       sha256: f6a7e5c4835bb4e3026a04793a4199ca2d14c739ec378fdfe23fc8075d0439f8
@@ -1403,7 +1403,7 @@ packages:
     source: hosted
     version: "4.5.3"
   vcard_dart:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: vcard_dart
       sha256: "4029df0b917c524ba6dbef9b6d79208038c86be5dd06d413978884559e39522b"
@@ -1451,7 +1451,7 @@ packages:
     source: hosted
     version: "15.0.2"
   vsc_quill_delta_to_html:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: vsc_quill_delta_to_html
       sha256: "9aca60d53ed1b700e922dabff8cd8b3490daecbf99c258f19eb45820b794fa45"
@@ -1499,7 +1499,7 @@ packages:
     source: hosted
     version: "5.15.0"
   window_manager:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: window_manager
       sha256: "7eb6d6c4164ec08e1bf978d6e733f3cebe792e2a23fb07cbca25c2872bfdbdcd"

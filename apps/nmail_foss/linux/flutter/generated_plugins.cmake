@@ -3,9 +3,16 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  file_saver
+  flutter_secure_storage_linux
+  screen_retriever_linux
+  system_theme
+  url_launcher_linux
+  window_manager
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  pdfium_flutter
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)
