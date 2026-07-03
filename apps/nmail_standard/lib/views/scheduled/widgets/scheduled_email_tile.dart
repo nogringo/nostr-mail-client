@@ -7,8 +7,8 @@ import '../../../services/metadata_service.dart';
 import '../../../utils/format_date.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
+import 'package:nmail_core/utils/scheduled_email_extensions.dart';
 import '../../../utils/responsive_helper.dart';
-import '../../../utils/scheduled_email_extensions.dart';
 import 'scheduled_email_compact_tile.dart';
 import 'scheduled_email_default_tile.dart';
 

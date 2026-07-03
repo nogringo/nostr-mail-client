@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nmail_core/utils/scheduled_email_extensions.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
-import '../../../utils/scheduled_email_extensions.dart';
 import 'scheduled_recipient_avatar.dart';
 import 'scheduled_send_time.dart';
 import 'scheduled_status_chip.dart';

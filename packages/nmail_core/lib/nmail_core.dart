@@ -16,4 +16,5 @@ export 'utils/metadata_extensions.dart';
 export 'utils/nostr_avatar_colors.dart';
 export 'utils/nostr_utils.dart';
 export 'utils/relay_utils.dart';
+export 'utils/scheduled_email_extensions.dart';
 export 'utils/string_color.dart';

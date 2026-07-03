@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/utils/nostr_utils.dart';
-import '../../../utils/scheduled_email_extensions.dart';
+import 'package:nmail_core/utils/scheduled_email_extensions.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 
