@@ -1,34 +1,39 @@
 {
-    "name": "nmail_standard",
-    "short_name": "nmail_standard",
+    "name": "Nmail",
+    "short_name": "Nmail",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Everyone has an email address but nobody owns it. Nostr solves this.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {
-            "src": "icons/Icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
+            "src": "favicon.ico",
+            "type": "image/x-icon",
+            "sizes": "16x16 32x32"
         },
         {
-            "src": "icons/Icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
-        {
-            "src": "icons/Icon-maskable-192.png",
-            "sizes": "192x192",
+            "src": "icons/icon-192.png",
             "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "icons/icon-512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        },
+        {
+            "src": "icons/icon-192-maskable.png",
+            "type": "image/png",
+            "sizes": "192x192",
             "purpose": "maskable"
         },
         {
-            "src": "icons/Icon-maskable-512.png",
-            "sizes": "512x512",
+            "src": "icons/icon-512-maskable.png",
             "type": "image/png",
+            "sizes": "512x512",
             "purpose": "maskable"
         }
     ]
