@@ -1,7 +1,7 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/string_color.dart';
+import 'package:nmail_core/utils/string_color.dart';
 
 class EmailAvatar extends StatelessWidget {
   final MailAddress mailAddress;

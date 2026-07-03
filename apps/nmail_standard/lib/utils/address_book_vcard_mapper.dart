@@ -5,7 +5,7 @@ import 'package:vcard_dart/vcard_dart.dart' as vcard;
 
 import '../models/address_book_contact_form.dart';
 import '../models/contact.dart';
-import 'contact_birthday_utils.dart';
+import 'package:nmail_core/utils/contact_birthday_utils.dart';
 
 class AddressBookVCardMapper {
   static final _parser = vcard.VCardParser(preserveRaw: true);

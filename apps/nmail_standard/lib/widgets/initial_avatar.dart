@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/string_color.dart';
+import 'package:nmail_core/utils/string_color.dart';
 
 /// Circular avatar showing the first letter of [name] over a color derived
 /// from the name. Used for contacts that have no email or Nostr identity to

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nmail_standard/utils/contact_birthday_utils.dart';
+import 'package:nmail_core/utils/contact_birthday_utils.dart';
 
 void main() {
   group('ContactBirthday', () {

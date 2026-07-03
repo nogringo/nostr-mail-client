@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nmail_standard/utils/string_color.dart';
+import 'package:nmail_core/utils/string_color.dart';
 
 void main() {
   group('String color', () {

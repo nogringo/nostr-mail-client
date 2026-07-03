@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nmail_standard/models/address_book_contact_form.dart';
 import 'package:nmail_standard/utils/address_book_vcard_mapper.dart';
-import 'package:nmail_standard/utils/contact_birthday_utils.dart';
+import 'package:nmail_core/utils/contact_birthday_utils.dart';
 import 'package:vcard_dart/vcard_dart.dart';
 
 void main() {

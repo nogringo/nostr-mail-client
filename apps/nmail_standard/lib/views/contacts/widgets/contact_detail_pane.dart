@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../utils/contact_birthday_utils.dart';
+import 'package:nmail_core/utils/contact_birthday_utils.dart';
 import 'contact_action_row.dart';
 import 'contact_header.dart';
 import 'contact_nostr_section.dart';
