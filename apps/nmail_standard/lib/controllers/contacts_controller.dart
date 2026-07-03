@@ -15,7 +15,7 @@ import '../app/routes/app_routes.dart';
 import '../l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/recipient.dart';
-import '../services/address_book_service.dart';
+import 'package:nmail_core/services/address_book_service.dart';
 import '../services/android_file_saver.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import '../utils/platform_helper.dart';

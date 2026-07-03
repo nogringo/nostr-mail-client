@@ -24,10 +24,10 @@ import 'services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
 import 'package:nmail_core/services/metadata_service.dart';
-import 'services/ndk_cache_service.dart';
+import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
-import 'services/theme_service.dart';
+import 'package:nmail_core/services/theme_service.dart';
 import 'utils/platform_helper.dart';
 
 void main() async {

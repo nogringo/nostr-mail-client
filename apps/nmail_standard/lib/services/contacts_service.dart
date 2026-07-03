@@ -8,7 +8,7 @@ import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
-import 'address_book_service.dart';
+import 'package:nmail_core/services/address_book_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class ContactsService extends GetxService {

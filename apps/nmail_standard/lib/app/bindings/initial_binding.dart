@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../services/address_book_service.dart';
+import 'package:nmail_core/services/address_book_service.dart';
 import '../../services/contacts_service.dart';
 
 class InitialBinding extends Bindings {
