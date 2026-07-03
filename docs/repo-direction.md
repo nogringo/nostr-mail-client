@@ -33,7 +33,7 @@ nostr-mail-client/
       windows/
       pubspec.yaml
 
-    nmail_full/
+    nmail_standard/
       lib/main.dart
       android/
       ios/
@@ -44,7 +44,7 @@ nostr-mail-client/
 
 `nmail_core` would contain the shared application: UI, controllers, Nostr services, storage, routes, l10n, and email logic.
 
-The `nmail_foss` and `nmail_full` apps would be small wrappers that declare their own dependencies and inject distribution-specific implementations at startup.
+The `nmail_foss` and `nmail_standard` apps would be small wrappers that declare their own dependencies and inject distribution-specific implementations at startup.
 
 ## Why Not a Branch or Fork?
 
@@ -72,7 +72,7 @@ abstract class PushBackend {
 - no Firebase in its `pubspec.yaml`;
 - local notification display after receiving a `sync_needed` message.
 
-`nmail_full` could provide:
+`nmail_standard` could provide:
 
 - `firebase_messaging` for Android, iOS, macOS, and Web;
 - FCM/APNs/Web Push depending on the platform;
@@ -94,7 +94,7 @@ abstract class ScannerBackend {
 }
 ```
 
-`nmail_full` could use `mobile_scanner` for Android, iOS, macOS, and Web.
+`nmail_standard` could use `mobile_scanner` for Android, iOS, macOS, and Web.
 
 `nmail_foss` could use `flutter_zxing` for Android FOSS, Linux, and Windows, while keeping in mind that desktop camera support depends on the package's actual capabilities.
 
@@ -106,10 +106,10 @@ A reasonable migration could happen in several small steps:
 
 1. Create `packages/nmail_core` without changing app behavior.
 2. Gradually move shared Dart code from `lib/` to `packages/nmail_core/lib/`.
-3. Turn the current app into `apps/nmail_full`.
+3. Turn the current app into `apps/nmail_standard`.
 4. Create `apps/nmail_foss` with its own `pubspec.yaml`.
 5. Introduce the `PushBackend` and `ScannerBackend` abstractions.
-6. Add separate CI/builds for `nmail_foss` and `nmail_full`.
+6. Add separate CI/builds for `nmail_foss` and `nmail_standard`.
 
 ## Guiding Principle
 

@@ -8,7 +8,7 @@
 PRODUCT_NAME = nmail_standard
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = org.nostrmail.nmailStandard
+PRODUCT_BUNDLE_IDENTIFIER = org.nostrmail.app
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2026 org.nostrmail. All rights reserved.

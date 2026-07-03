@@ -1,4 +1,4 @@
-package app.nostrmail.nmail_zapstore
+package app.nostrmail.client
 
 import io.flutter.embedding.android.FlutterActivity
 

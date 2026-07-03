@@ -1,4 +1,4 @@
-package org.nostrmail.nmail_foss
+package org.nostrmail.app
 
 import io.flutter.embedding.android.FlutterActivity
 
