@@ -20,8 +20,8 @@ import 'app/routes/app_router.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'controllers/auth_controller.dart';
 import 'controllers/settings_controller.dart';
-import 'services/blossom_cache_factory_io.dart'
-    if (dart.library.html) 'services/blossom_cache_factory_web.dart'
+import 'package:nmail_core/services/blossom_cache_factory_io.dart'
+    if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/ndk_cache_service.dart';
