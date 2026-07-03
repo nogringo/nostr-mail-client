@@ -10,6 +10,7 @@ environment:
 resolution: workspace
 
 dependencies:
+  enough_mail_plus: ^2.2.4
   flutter:
     sdk: flutter
   intl: ^0.20.2

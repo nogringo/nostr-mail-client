@@ -7,7 +7,7 @@ import 'package:toastification/toastification.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/metadata_extensions.dart';
 import '../../../widgets/nostr_avatar.dart';
 
 const _folderPaths = [

@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
 
-import '../models/contact.dart';
-import '../utils/metadata_extensions.dart';
+import 'package:nmail_core/models/contact.dart';
+import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'address_book_service.dart';
 import 'nostr_mail_service.dart';
 

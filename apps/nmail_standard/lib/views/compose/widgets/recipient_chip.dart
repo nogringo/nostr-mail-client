@@ -1,7 +1,7 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 
-import '../../../models/recipient.dart';
+import 'package:nmail_core/models/recipient.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 

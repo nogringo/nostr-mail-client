@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/recipient_autocomplete_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../models/contact.dart';
+import 'package:nmail_core/models/contact.dart';
 import 'contact_suggestion_tile.dart';
 
 class RecipientAutocomplete extends StatelessWidget {

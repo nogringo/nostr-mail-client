@@ -10,7 +10,7 @@ import '../../controllers/inbox_controller.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../models/compose_mode.dart';
 import '../../utils/toast_helper.dart';
-import '../../utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/metadata_extensions.dart';
 import '../../utils/responsive_helper.dart';
 import '../../widgets/nostr_avatar.dart';
 import 'widgets/app_drawer.dart';

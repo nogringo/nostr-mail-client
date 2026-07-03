@@ -13,7 +13,7 @@ import 'package:nmail_standard/models/compose_mode.dart';
 import 'package:nmail_standard/controllers/settings_controller.dart';
 import 'package:nmail_standard/services/nostr_mail_service.dart';
 import 'package:nmail_standard/utils/get_mime_type.dart';
-import 'package:nmail_standard/utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_standard/utils/nostr_utils.dart';
 import 'package:nmail_standard/utils/toast_helper.dart';
 import 'package:nmail_standard/views/email/widgets/nip59_events_dialog.dart';

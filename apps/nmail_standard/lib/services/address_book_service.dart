@@ -9,7 +9,7 @@ import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
-import '../models/contact.dart';
+import 'package:nmail_core/models/contact.dart';
 import 'storage_service.dart';
 
 class AddressBookService extends GetxService {
