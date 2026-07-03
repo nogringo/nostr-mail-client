@@ -22,8 +22,8 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/sensitive_clipboard.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
-import '../../utils/responsive_helper.dart';
-import '../../utils/toast_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 import 'widgets/about_section.dart';
 import 'widgets/language_tile.dart';
 

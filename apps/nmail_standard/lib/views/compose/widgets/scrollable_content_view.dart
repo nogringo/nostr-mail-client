@@ -3,7 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:nmail_standard/controllers/compose_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_standard/utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_standard/views/compose/widgets/from_selector_view.dart';
 import 'package:nmail_standard/views/compose/widgets/recipient_chip.dart';
 

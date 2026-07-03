@@ -2,7 +2,7 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
-import 'package:nmail_standard/utils/format_date.dart';
+import 'package:nmail_core/utils/format_date.dart';
 import 'package:nmail_standard/views/inbox/widgets/attachments_chips_view.dart';
 import 'package:nmail_standard/views/inbox/widgets/unread_indicator.dart';
 
@@ -12,7 +12,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
-import '../../../utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 

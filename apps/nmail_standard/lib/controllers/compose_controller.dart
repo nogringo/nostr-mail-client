@@ -14,7 +14,7 @@ import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 import 'package:nostr_mail/nostr_mail.dart' as mail show Recipient;
-import 'package:nmail_standard/utils/toast_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../app/routes/app_router.dart';
@@ -28,7 +28,7 @@ import 'package:nmail_core/models/send_mode.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
-import '../utils/sender_name_helper.dart';
+import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
 import 'settings_controller.dart';
 

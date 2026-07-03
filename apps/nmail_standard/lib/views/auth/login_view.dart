@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/auth_controller.dart';
-import '../../utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/auth_header.dart';
 import 'widgets/login_form.dart';
 import 'widgets/registration_form.dart';

@@ -6,7 +6,7 @@ import '../../app/routes/app_router.dart';
 import '../../app/routes/app_routes.dart';
 import '../../controllers/identities_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import '../../utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/identities_empty_state.dart';
 import 'widgets/identities_list.dart';
 

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/create_identity_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import '../../utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/display_name_field.dart';
 import 'widgets/local_part_section.dart';
 import 'widgets/bridge_section.dart';

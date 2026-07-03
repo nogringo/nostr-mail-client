@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import '../../utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
 import 'widgets/scheduled_list.dart';
 import 'widgets/scheduled_selection_actions_bar.dart';

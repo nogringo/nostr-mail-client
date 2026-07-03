@@ -5,7 +5,7 @@ import 'package:nostr_address_book/nostr_address_book.dart';
 import '../../../controllers/contact_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
-import '../../../utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import 'contact_form_fields.dart';
 
 class ContactFormPage extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:nmail_standard/views/compose/widgets/scrollable_content_view.dar
 import 'package:nmail_standard/views/compose/widgets/send_button_menu.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import '../../utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 
 class ComposeView extends StatelessWidget {
   const ComposeView({super.key});

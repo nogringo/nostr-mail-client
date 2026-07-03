@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/sensitive_clipboard.dart';
-import '../../../utils/toast_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 
 class SyncCodeExplanationView extends StatelessWidget {
   final RxBool _hasCopied = false.obs;

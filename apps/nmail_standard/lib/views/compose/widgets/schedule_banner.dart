@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nmail_standard/controllers/compose_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_standard/utils/format_date.dart';
+import 'package:nmail_core/utils/format_date.dart';
 import 'package:nmail_standard/utils/schedule_picker.dart';
 
 /// Shows the pending send time above the compose fields when a schedule is set,

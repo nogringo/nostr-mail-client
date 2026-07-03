@@ -10,7 +10,7 @@ import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
-import '../utils/toast_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:flutter/material.dart';
 import 'inbox_controller.dart';
 import 'scheduled_controller.dart';

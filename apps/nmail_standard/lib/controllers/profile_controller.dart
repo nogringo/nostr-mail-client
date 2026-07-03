@@ -8,7 +8,7 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
-import '../utils/toast_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 import 'auth_controller.dart';
 
 class ProfileController extends GetxController {

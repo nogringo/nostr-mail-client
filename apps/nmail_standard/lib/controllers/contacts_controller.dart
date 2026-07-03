@@ -19,7 +19,7 @@ import 'package:nmail_core/services/address_book_service.dart';
 import 'package:nmail_core/services/android_file_saver.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
-import '../utils/toast_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 import '../views/contacts/widgets/import_conflict_dialog.dart';
 
 class ContactsController extends GetxController {

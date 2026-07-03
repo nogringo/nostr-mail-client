@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/sync_status_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import '../../../utils/format_date_time.dart';
+import 'package:nmail_core/utils/format_date_time.dart';
 import 'package:nmail_core/utils/relay_utils.dart';
 
 class SyncStatusSection extends StatelessWidget {

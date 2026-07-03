@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:nmail_standard/controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
-import 'package:nmail_standard/utils/format_date_time.dart';
+import 'package:nmail_core/utils/format_date_time.dart';
 import 'package:nmail_standard/views/contacts/widgets/show_contact_form.dart';
 import 'package:nmail_standard/views/email/email_controller.dart';
 import 'package:nmail_standard/views/email/widgets/sender_avatar_view.dart';

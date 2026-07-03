@@ -7,7 +7,7 @@ import 'package:ndk_flutter/ndk_flutter.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import '../../../utils/toast_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 
 class LoginForm extends GetView<AuthController> {
   const LoginForm({super.key});

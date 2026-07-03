@@ -7,7 +7,7 @@ import '../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/local_part_format.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
-import '../utils/toast_helper.dart';
+import 'package:nmail_core/utils/toast_helper.dart';
 
 class CreateIdentityController extends GetxController {
   final nameController = TextEditingController();

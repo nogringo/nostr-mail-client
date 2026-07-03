@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
 import 'package:ndk_flutter/l10n/app_localizations.dart' as ndk_flutter;
-import 'package:nmail_standard/utils/responsive_helper.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:toastification/toastification.dart';
 import 'package:window_manager/window_manager.dart';
