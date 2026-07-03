@@ -28,7 +28,7 @@ import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
-import 'utils/platform_helper.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 
 void main() async {
   usePathUrlStrategy();

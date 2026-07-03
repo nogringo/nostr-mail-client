@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../services/sensitive_clipboard.dart';
+import 'package:nmail_core/services/sensitive_clipboard.dart';
 import '../../../utils/toast_helper.dart';
 
 class SyncCodeExplanationView extends StatelessWidget {

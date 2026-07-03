@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 
-import '../../../utils/platform_helper.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 
 void showContactCopyFeedback(BuildContext context, String message) {
   if (PlatformHelper.isAndroid) return;

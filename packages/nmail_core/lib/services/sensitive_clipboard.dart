@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import '../utils/platform_helper.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 
 /// Copies text to the clipboard while hiding it from the system clipboard
 /// preview (the overlay Android 13+ shows in the bottom corner after a copy).

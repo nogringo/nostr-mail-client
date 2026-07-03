@@ -14,7 +14,7 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
-import '../utils/platform_helper.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 
 class SettingsController extends GetxController {
   final _storageService = Get.find<StorageService>();

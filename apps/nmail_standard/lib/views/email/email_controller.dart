@@ -20,7 +20,7 @@ import 'package:nmail_standard/views/email/widgets/nip59_events_dialog.dart';
 import 'package:path/path.dart' as p;
 import 'package:pdfrx/pdfrx.dart';
 import 'package:nmail_standard/services/android_file_saver.dart';
-import 'package:nmail_standard/utils/platform_helper.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 
 import '../../l10n/generated/app_localizations.dart';
 

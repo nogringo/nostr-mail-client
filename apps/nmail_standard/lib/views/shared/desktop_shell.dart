@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/settings_controller.dart';
-import '../../utils/platform_helper.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 import '../../utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
 import 'layouts/shell_desktop.dart';
