@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nmail_standard/controllers/auth_controller.dart';
-import 'package:nmail_standard/models/from_option.dart';
+import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_standard/widgets/nostr_avatar.dart';
 
 class FromAvatarView extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart' show PrivateSettings;
 
-import '../models/local_part_format.dart';
+import 'package:nmail_core/models/local_part_format.dart';
 import '../services/nostr_mail_service.dart';
 import 'auth_controller.dart';
 

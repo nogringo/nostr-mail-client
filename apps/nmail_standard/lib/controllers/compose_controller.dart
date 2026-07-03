@@ -19,12 +19,12 @@ import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../app/routes/app_router.dart';
 import '../l10n/generated/app_localizations.dart';
-import '../models/compose_attachment.dart';
-import '../models/compose_mode.dart';
+import 'package:nmail_core/models/compose_attachment.dart';
+import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/contact.dart';
-import '../models/from_option.dart';
+import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_core/models/recipient.dart';
-import '../models/send_mode.dart';
+import 'package:nmail_core/models/send_mode.dart';
 import '../services/contacts_service.dart';
 import '../services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';

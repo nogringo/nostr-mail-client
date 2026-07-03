@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/create_identity_controller.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../../models/local_part_format.dart';
+import 'package:nmail_core/models/local_part_format.dart';
 
 class LocalPartSection extends StatelessWidget {
   final CreateIdentityController controller;

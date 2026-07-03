@@ -1,6 +1,11 @@
 export 'models/address_book_contact_form.dart';
+export 'models/compose_attachment.dart';
+export 'models/compose_mode.dart';
 export 'models/contact.dart';
+export 'models/from_option.dart';
+export 'models/local_part_format.dart';
 export 'models/recipient.dart';
+export 'models/send_mode.dart';
 export 'utils/address_book_vcard_mapper.dart';
 export 'utils/blossom_utils.dart';
 export 'utils/contact_birthday_utils.dart';

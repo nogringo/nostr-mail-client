@@ -16,6 +16,7 @@ dependencies:
   intl: ^0.20.2
   ndk: ^0.8.4-dev.5
   nostr_address_book: ^0.1.1
+  path: ^1.9.1
   vcard_dart: ^2.1.0
 
 dev_dependencies:

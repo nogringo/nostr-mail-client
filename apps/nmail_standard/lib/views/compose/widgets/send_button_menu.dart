@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nmail_standard/controllers/compose_controller.dart';
 import 'package:nmail_standard/l10n/generated/app_localizations.dart';
-import 'package:nmail_standard/models/send_mode.dart';
+import 'package:nmail_core/models/send_mode.dart';
 
 class SendButtonMenu extends StatelessWidget {
   const SendButtonMenu({super.key, this.isMobile = false});

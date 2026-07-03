@@ -13,7 +13,7 @@ import '../../controllers/inbox_controller.dart';
 import '../../controllers/profile_controller.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
-import '../../models/compose_mode.dart';
+import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/recipient.dart';
 import '../../services/storage_service.dart';
 import '../../views/auth/login_view.dart';
