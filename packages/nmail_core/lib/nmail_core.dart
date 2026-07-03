@@ -11,7 +11,7 @@ export 'utils/blossom_utils.dart';
 export 'utils/color_scheme_serializer.dart';
 export 'utils/confirm_open_link.dart';
 export 'utils/contact_birthday_utils.dart';
-export 'utils/format_date.dart' hide formatDateTime;
+export 'utils/format_date.dart';
 export 'utils/format_date_time.dart';
 export 'utils/get_attachements.dart';
 export 'utils/get_mime_type.dart';

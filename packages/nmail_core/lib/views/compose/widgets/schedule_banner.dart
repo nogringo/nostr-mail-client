@@ -26,7 +26,7 @@ class ScheduleBanner extends StatelessWidget {
           iconColor: colorScheme.onSecondaryContainer,
           textColor: colorScheme.onSecondaryContainer,
           leading: const Icon(Icons.schedule),
-          title: Text(l.scheduledSendsAt(formatDateTime(context, at))),
+          title: Text(l.scheduledSendsAt(formatAbsoluteDateTime(context, at))),
           trailing: IconButton(
             icon: const Icon(Icons.close),
             tooltip: l.composeScheduleClear,

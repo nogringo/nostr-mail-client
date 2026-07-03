@@ -59,7 +59,7 @@ class ScheduledEmailTile extends StatelessWidget {
         ? l.emailNoSubject
         : email.subject;
     final recipientName = _recipientName(context);
-    final sendTime = formatDateTime(context, email.scheduleAt);
+    final sendTime = formatAbsoluteDateTime(context, email.scheduleAt);
 
     final onOpen = _canEdit ? this.onOpen : null;
     final tile = ResponsiveHelper.isDesktop(context)
