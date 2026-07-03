@@ -10,12 +10,10 @@ import 'package:nmail_core/services/contacts_service.dart';
 class RecipientAutocompleteController extends GetxController {
   RecipientAutocompleteController({
     required this.textController,
-    required Set<String> excludeIds,
-    required void Function(Contact contact) onContactSelected,
-    required Future<bool> Function(String input) onManualInput,
-  }) : _excludeIds = excludeIds,
-       _onContactSelected = onContactSelected,
-       _onManualInput = onManualInput;
+    required this._excludeIds,
+    required this._onContactSelected,
+    required this._onManualInput,
+  });
 
   final TextEditingController textController;
   final _contactsService = Get.find<ContactsService>();

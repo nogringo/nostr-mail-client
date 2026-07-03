@@ -12,6 +12,7 @@ dependencies:
   nmail_core: ^0.0.1
   flutter:
     sdk: flutter
+  firebase_messaging: ^16.4.1
 
 dev_dependencies:
   flutter_test:
