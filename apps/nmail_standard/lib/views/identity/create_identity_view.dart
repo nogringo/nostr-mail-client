@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/create_identity_controller.dart';
-import '../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../../utils/responsive_helper.dart';
 import 'widgets/display_name_field.dart';
 import 'widgets/local_part_section.dart';

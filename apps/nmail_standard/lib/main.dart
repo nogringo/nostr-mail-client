@@ -17,7 +17,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'app/bindings/initial_binding.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import 'app/routes/app_router.dart';
-import 'l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'controllers/auth_controller.dart';
 import 'controllers/settings_controller.dart';
 import 'package:nmail_core/services/blossom_cache_factory_io.dart'

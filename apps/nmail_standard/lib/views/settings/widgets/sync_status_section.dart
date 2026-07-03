@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/sync_status_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../../../utils/format_date_time.dart';
 import 'package:nmail_core/utils/relay_utils.dart';
 

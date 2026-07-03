@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/identities_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 class IdentitiesEmptyState extends StatelessWidget {
   const IdentitiesEmptyState({super.key});

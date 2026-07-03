@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/settings_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 class LanguageTile extends StatelessWidget {
   const LanguageTile({super.key});

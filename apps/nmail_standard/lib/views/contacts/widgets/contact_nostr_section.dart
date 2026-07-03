@@ -4,7 +4,7 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../../../controllers/contacts_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../../../widgets/nostr_avatar.dart';
 import 'contact_action_row.dart';
 import 'contact_section_title.dart';

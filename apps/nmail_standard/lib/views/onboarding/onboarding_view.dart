@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 import '../../app/routes/app_routes.dart';
-import '../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/storage_service.dart';
 
 class OnboardingView extends StatelessWidget {

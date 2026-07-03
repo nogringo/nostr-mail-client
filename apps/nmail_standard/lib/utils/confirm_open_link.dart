@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:nmail_standard/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_standard/utils/toast_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/create_identity_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../../../widgets/nostr_avatar.dart';
 import 'duplicate_identity_error.dart';
 

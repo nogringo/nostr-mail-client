@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../../controllers/contact_form_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'quiet_input_decoration.dart';
 
 /// Birthday input: collapsed behind a single button until the user adds one,

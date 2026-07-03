@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/bridges_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'recommendation_chips.dart';
 
 class BridgesSection extends StatelessWidget {

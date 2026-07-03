@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import '../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 String formatDateTime(BuildContext context, DateTime date) {
   final locale = Localizations.localeOf(context).toString();

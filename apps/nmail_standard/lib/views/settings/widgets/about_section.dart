@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/config/app_config.dart';
 import '../../../controllers/about_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});

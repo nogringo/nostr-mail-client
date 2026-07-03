@@ -7,7 +7,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/inbox_controller.dart';
-import '../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import '../../utils/toast_helper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';

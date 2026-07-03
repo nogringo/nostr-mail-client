@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/scheduled_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 /// Actions shown in the toolbar while scheduled emails are selected, mirroring
 /// [SelectionActionsBar]. The only bulk action is cancelling the send.

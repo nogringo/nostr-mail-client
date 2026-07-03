@@ -12,7 +12,7 @@ import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../app/routes/app_routes.dart';
-import '../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/address_book_service.dart';

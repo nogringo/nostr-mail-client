@@ -22,7 +22,7 @@ import 'package:pdfrx/pdfrx.dart';
 import 'package:nmail_core/services/android_file_saver.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 
-import '../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 class EmailController extends GetxController {
   static EmailController get to => Get.find();

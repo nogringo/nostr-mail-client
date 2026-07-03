@@ -8,7 +8,7 @@ import 'package:flutter_highlight/themes/a11y-dark.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 /// Shows a responsive NIP-59 events dialog.
 /// - Mobile (<600px): Bottom sheet with slide-up animation

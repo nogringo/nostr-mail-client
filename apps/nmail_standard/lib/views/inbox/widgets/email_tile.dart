@@ -8,7 +8,7 @@ import 'package:nmail_standard/views/inbox/widgets/unread_indicator.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/inbox_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';

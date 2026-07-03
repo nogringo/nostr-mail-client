@@ -5,7 +5,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/scheduled_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../../../utils/toast_helper.dart';
 import 'scheduled_email_tile.dart';
 

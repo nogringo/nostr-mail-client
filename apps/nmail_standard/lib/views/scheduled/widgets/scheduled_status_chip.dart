@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 /// Small status label shown next to a scheduled email's send time. Renders
 /// nothing for the ordinary pending/scheduled states, where the send time

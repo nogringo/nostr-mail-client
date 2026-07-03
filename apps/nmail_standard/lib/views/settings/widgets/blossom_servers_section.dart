@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/blossom_servers_controller.dart';
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/blossom_utils.dart';
 import 'recommendation_chips.dart';
 

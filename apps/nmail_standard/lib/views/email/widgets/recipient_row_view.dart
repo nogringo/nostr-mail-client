@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nmail_standard/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_standard/views/email/email_controller.dart';
 
 import 'recipient_avatar_view.dart';

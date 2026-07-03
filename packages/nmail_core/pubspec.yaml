@@ -17,6 +17,8 @@ dependencies:
   enough_mail_plus: ^2.2.4
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   get: ^4.7.3
   http: ^1.6.0
   idb_shim: ^2.9.2
@@ -39,3 +41,4 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 flutter:
+  generate: true

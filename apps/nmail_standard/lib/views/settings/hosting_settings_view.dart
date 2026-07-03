@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../../utils/responsive_helper.dart';
 import 'widgets/bridges_section.dart';
 import 'widgets/blossom_servers_section.dart';

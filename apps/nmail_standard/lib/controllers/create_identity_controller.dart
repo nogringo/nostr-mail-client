@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../app/routes/app_router.dart';
 import '../controllers/auth_controller.dart';
-import '../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/local_part_format.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import '../utils/toast_helper.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nmail_standard/controllers/compose_controller.dart';
-import 'package:nmail_standard/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_standard/utils/toast_helper.dart';
 
 /// Pick a send date and time and store it as the pending schedule. This does

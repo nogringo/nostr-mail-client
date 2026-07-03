@@ -18,7 +18,7 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/settings_controller.dart';
-import '../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/sensitive_clipboard.dart';
 import 'package:nmail_core/utils/platform_helper.dart';

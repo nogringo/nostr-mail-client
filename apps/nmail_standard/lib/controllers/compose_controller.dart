@@ -18,7 +18,7 @@ import 'package:nmail_standard/utils/toast_helper.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../app/routes/app_router.dart';
-import '../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_attachment.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/contact.dart';

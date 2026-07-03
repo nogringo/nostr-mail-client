@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
-import '../../../l10n/generated/app_localizations.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import '../../../utils/format_date.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
