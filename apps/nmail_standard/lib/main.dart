@@ -1,122 +1,210 @@
+import 'package:blossom_cache/blossom_cache.dart';
+import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
+import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:get/get.dart';
+import 'package:ndk/ndk.dart';
+import 'package:ndk_flutter/ndk_flutter.dart';
+import 'package:ndk_flutter/l10n/app_localizations.dart' as ndk_flutter;
+import 'package:nmail_standard/utils/responsive_helper.dart';
+import 'package:system_theme/system_theme.dart';
+import 'package:toastification/toastification.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+import 'app/bindings/initial_binding.dart';
+import 'app/config/nostr_config.dart';
+import 'app/routes/app_router.dart';
+import 'l10n/generated/app_localizations.dart';
+import 'controllers/auth_controller.dart';
+import 'controllers/settings_controller.dart';
+import 'services/blossom_cache_factory_io.dart'
+    if (dart.library.html) 'services/blossom_cache_factory_web.dart'
+    as blossom_cache_factory;
+import 'services/metadata_service.dart';
+import 'services/ndk_cache_service.dart';
+import 'services/nostr_mail_service.dart';
+import 'services/storage_service.dart';
+import 'services/theme_service.dart';
+import 'utils/platform_helper.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() async {
+  usePathUrlStrategy();
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  // Initialize window manager for desktop
+  if (PlatformHelper.isDesktop) {
+    await windowManager.ensureInitialized();
+    const windowOptions = WindowOptions(titleBarStyle: TitleBarStyle.hidden);
+    await windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
     });
   }
 
+  // Initialize system theme
+  try {
+    await SystemTheme.accentColor.load();
+  } catch (e) {
+    //
+  }
+
+  // Initialize storage service
+  final storageService = StorageService();
+  await storageService.init();
+  Get.put(storageService, permanent: true);
+
+  // Initialize NDK with event verification enabled.
+  final cacheManager = await NdkCacheService.createCacheManager(storageService);
+  final ndk = Ndk(
+    NdkConfig(
+      eventVerifier: NdkEventVerifier(),
+      eventSignerFactory: NdkEventSignerFactory(),
+      cache: cacheManager,
+      bootstrapRelays: NostrConfig.bootstrapRelays,
+      fetchedRangesEnabled: true,
+    ),
+  );
+  Get.put(ndk, permanent: true);
+  final ndkFlutter = NdkFlutter(ndk: ndk);
+  Get.put(ndkFlutter, permanent: true);
+
+  // Reactive in-RAM metadata cache so avatars/names resolve without flashing.
+  Get.put(MetadataService(), permanent: true);
+
+  // Initialize Blossom cache and offline queues as app-level singletons.
+  // These persist across login/logout — they hold pending work in storageService.db.
+  final blossomCache = await blossom_cache_factory.createBlossomCache();
+  Get.put<BlossomCache>(blossomCache, permanent: true);
+
+  final broadcastQueue = OfflineBroadcast.withNdk(ndk, db: storageService.db)
+    ..start();
+  Get.put(broadcastQueue, permanent: true);
+
+  final blossomUploadQueue = OfflineBlossomUpload.withNdk(
+    ndk,
+    cache: blossomCache,
+    db: storageService.db,
+  )..start();
+  Get.put(blossomUploadQueue, permanent: true);
+
+  // Initialize Services and Controllers early for Middlewares
+  Get.put(NostrMailService(), permanent: true);
+  final authController = AuthController();
+  await authController.init();
+  Get.put(authController, permanent: true);
+
+  // Initialize theme service
+  await Get.putAsync(() => ThemeService().init(), permanent: true);
+
+  // SettingsController is awaited (not put inside InitialBinding) so the
+  // saved theme mode and locale are available before the first frame.
+  await Get.putAsync(() => SettingsController().init(), permanent: true);
+
+  // Run InitialBinding (ContactsService) before the router boots - the
+  // router's redirect reads SettingsController on first navigation.
+  InitialBinding().dependencies();
+
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+    final themeService = Get.find<ThemeService>();
+    final settingsController = Get.find<SettingsController>();
+
+    return Obx(() {
+      final systemAccent = SystemTheme.accentColor.accent;
+
+      final lightScheme =
+          themeService.lightColorScheme.value ??
+          ColorScheme.fromSeed(seedColor: systemAccent);
+      final darkScheme =
+          themeService.darkColorScheme.value ??
+          ColorScheme.fromSeed(
+            seedColor: systemAccent,
+            brightness: Brightness.dark,
+          );
+
+      final sharedInputDecorationTheme = InputDecorationTheme(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      );
+
+      return ToastificationWrapper(
+        child: MaterialApp.router(
+          title: 'Nmail',
+          locale: settingsController.locale.value,
+          theme: ThemeData.from(
+            colorScheme: lightScheme,
+          ).copyWith(inputDecorationTheme: sharedInputDecorationTheme),
+          darkTheme: ThemeData.from(
+            colorScheme: darkScheme,
+          ).copyWith(inputDecorationTheme: sharedInputDecorationTheme),
+          themeMode: settingsController.themeMode.value,
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            ndk_flutter.AppLocalizations.delegate,
+            FlutterQuillLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
           ],
+          supportedLocales: AppLocalizations.supportedLocales.toList()
+            ..remove(const Locale('en'))
+            ..insert(0, const Locale('en')),
+          routerConfig: AppRouter.init(),
+          builder: (context, child) {
+            if (PlatformHelper.isDesktop) {
+              return DragToResizeArea(
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: ResponsiveHelper.isMobile(context) ? 32 : 0,
+                        ),
+                        child: child!,
+                      ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 32,
+                        child: Row(
+                          children: [
+                            Expanded(child: DragToMoveArea(child: Container())),
+                            if (!GetPlatform.isMacOS)
+                              SizedBox(
+                                width: 154,
+                                child: WindowCaption(
+                                  brightness: Theme.of(context).brightness,
+                                  backgroundColor: Colors.transparent,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      NPendingRequests(ndkFlutter: Get.find()),
+                    ],
+                  ),
+                ),
+              );
+            }
+            return Stack(
+              children: [
+                child!,
+                NPendingRequests(ndkFlutter: Get.find()),
+              ],
+            );
+          },
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
+      );
+    });
   }
 }
