@@ -15,6 +15,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'package:nmail_core/app/bindings/initial_binding.dart';
+import 'package:nmail_core/app/widgets/pending_requests_overlay.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -190,18 +191,13 @@ class MainApp extends StatelessWidget {
                           ],
                         ),
                       ),
-                      NPendingRequests(ndkFlutter: Get.find()),
+                      const PendingRequestsOverlay(),
                     ],
                   ),
                 ),
               );
             }
-            return Stack(
-              children: [
-                child!,
-                NPendingRequests(ndkFlutter: Get.find()),
-              ],
-            );
+            return Stack(children: [child!, const PendingRequestsOverlay()]);
           },
         ),
       );
