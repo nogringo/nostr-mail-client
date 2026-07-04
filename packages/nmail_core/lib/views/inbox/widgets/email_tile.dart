@@ -55,6 +55,15 @@ class EmailTile extends StatelessWidget {
     }
   }
 
+  /// Addresses shown in the tile. Sent emails show recipients, received emails
+  /// show the sender.
+  List<MailAddress> get _displayAddresses {
+    if (!_isSentByMe) return [_displayAddress];
+
+    final mime = email.mime;
+    return [...?mime.to, ...?mime.cc, ...?mime.bcc];
+  }
+
   /// Pubkey of the contact (other side of the conversation) when they
   /// are a nostr identity. Empty for legacy (SMTP) contacts.
   ///
@@ -87,11 +96,7 @@ class EmailTile extends StatelessWidget {
   /// of your gift-wrap copy, even if cc/bcc were used).
   int get _extraRecipientCount {
     if (!_isSentByMe) return 0;
-    final mime = email.mime;
-    final total =
-        (mime.to?.length ?? 0) +
-        (mime.cc?.length ?? 0) +
-        (mime.bcc?.length ?? 0);
+    final total = _displayAddresses.length;
     return total > 1 ? total - 1 : 0;
   }
 
@@ -105,7 +110,25 @@ class EmailTile extends StatelessWidget {
     return !controller.isEmailRead(email.id);
   }
 
+  String _displayNameForAddress(MailAddress address) {
+    final pubkey = extractPubkeyFromAddress(address.email);
+    if (pubkey != null) {
+      final metadata = Get.find<MetadataService>().of(pubkey).value;
+      if (metadata != null) return metadata.getBestName();
+      if (address.hasPersonalName) return address.personalName!;
+      return getAnonName(pubkey);
+    }
+    if (address.hasPersonalName) {
+      return address.personalName!;
+    }
+    return address.email;
+  }
+
   String get _displayName {
+    if (_isSentByMe) {
+      return _displayAddresses.map(_displayNameForAddress).join(', ');
+    }
+
     // Other side is a nostr identity: prefer the nostr profile name,
     // resolved reactively from the in-RAM cache. Read inside the Obx that
     // wraps the tile, so the name updates in place once metadata loads.
@@ -119,6 +142,18 @@ class EmailTile extends StatelessWidget {
       return _displayAddress.personalName!;
     }
     return _displayAddress.email;
+  }
+
+  Widget _buildDisplayNameText(TextStyle style) {
+    return Tooltip(
+      message: _displayName,
+      child: Text(
+        _displayName,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: style,
+      ),
+    );
   }
 
   @override
@@ -445,11 +480,8 @@ class EmailTile extends StatelessWidget {
                     _buildAvatar(context, compact: true),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Text(
-                        _displayName,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      child: _buildDisplayNameText(
+                        const TextStyle(fontWeight: FontWeight.w500),
                       ),
                     ),
                   ],
@@ -552,11 +584,8 @@ class EmailTile extends StatelessWidget {
               children: [
                 if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
                 Expanded(
-                  child: Text(
-                    _displayName,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                  child: _buildDisplayNameText(
+                    TextStyle(
                       color: colorScheme.onSurfaceVariant,
                       fontSize: 13,
                       fontWeight: FontWeight.w400,

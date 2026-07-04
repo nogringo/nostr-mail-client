@@ -23,6 +23,7 @@ Releases prior to 0.13.0 are listed on the
 
 - Improve mobile email list hierarchy by showing the sender first, with a lighter treatment, followed by the subject and body preview.
 - Remove the desktop account menu toast after copying the user's npub, since the menu closing already confirms the action.
+- Show all sent-email recipients in email list tiles.
 
 ### Fixed
 
