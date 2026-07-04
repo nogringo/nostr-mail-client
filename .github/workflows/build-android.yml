@@ -6,6 +6,8 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    env:
+      APP_DIR: apps/nmail_zapstore
     steps:
       - uses: actions/checkout@v6
 
@@ -21,6 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Prepare Signing
         run: |
@@ -29,24 +32,28 @@ jobs:
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=russel.p12" >> android/key.properties
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android APK
         run: flutter build apk --release
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android App Bundle
         run: flutter build appbundle --release
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Rename APK
         run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/nostr-mail-signed.apk
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v7
         with:
           name: nmail-android-apk
-          path: build/app/outputs/flutter-apk/nostr-mail-signed.apk
+          path: ${{ env.APP_DIR }}/build/app/outputs/flutter-apk/nostr-mail-signed.apk
 
       - name: Upload App Bundle artifact
         uses: actions/upload-artifact@v7
         with:
           name: nmail-android-aab
-          path: build/app/outputs/bundle/release/*.aab
+          path: ${{ env.APP_DIR }}/build/app/outputs/bundle/release/*.aab

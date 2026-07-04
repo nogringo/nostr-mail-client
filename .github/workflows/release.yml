@@ -16,6 +16,8 @@ concurrency:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    env:
+      APP_DIR: apps/nmail_zapstore
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -33,6 +35,7 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Prepare Signing
         run: |
@@ -41,6 +44,7 @@ jobs:
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
           echo "storeFile=russel.p12" >> android/key.properties
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Get version from pubspec.yaml
         id: get_version
@@ -48,45 +52,54 @@ jobs:
           VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
           VERSION=${VERSION%+*}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android APK (universal)
         run: flutter build apk --release
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Rename universal APK
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
           cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-universal.apk
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android APK (arm64)
         run: flutter build apk --release --target-platform android-arm64
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Rename arm64 APK
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
           cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-arm64.apk
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android App Bundle
         run: flutter build appbundle --release
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Rename AAB
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
           cp build/app/outputs/bundle/release/app-release.aab build/app/outputs/bundle/release/nmail-${VERSION}-android.aab
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
           name: nmail-apk
-          path: build/app/outputs/flutter-apk/nmail-${{ steps.get_version.outputs.version }}-android-*.apk
+          path: ${{ env.APP_DIR }}/build/app/outputs/flutter-apk/nmail-${{ steps.get_version.outputs.version }}-android-*.apk
 
       - name: Upload AAB
         uses: actions/upload-artifact@v7
         with:
           name: nmail-aab
-          path: build/app/outputs/bundle/release/nmail-${{ steps.get_version.outputs.version }}-android.aab
+          path: ${{ env.APP_DIR }}/build/app/outputs/bundle/release/nmail-${{ steps.get_version.outputs.version }}-android.aab
 
   build-linux:
     runs-on: ubuntu-latest
+    env:
+      APP_DIR: apps/nmail_standard
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -107,6 +120,7 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Install Fastforge
         run: dart pub global activate fastforge
@@ -117,27 +131,30 @@ jobs:
           VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
           VERSION=${VERSION%+*}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Build Linux packages
         run: fastforge package --platform linux --targets deb,appimage
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Rename Linux packages
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
           mv dist/**/*.deb dist/nmail-${VERSION}-linux.deb
           mv dist/**/*.AppImage dist/nmail-${VERSION}-linux.AppImage
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v7
         with:
           name: nmail-deb
-          path: dist/*.deb
+          path: ${{ env.APP_DIR }}/dist/*.deb
 
       - name: Upload AppImage artifact
         uses: actions/upload-artifact@v7
         with:
           name: nmail-appimage
-          path: dist/*.AppImage
+          path: ${{ env.APP_DIR }}/dist/*.AppImage
 
   create-release:
     runs-on: ubuntu-latest

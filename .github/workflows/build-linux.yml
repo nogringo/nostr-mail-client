@@ -6,6 +6,8 @@ on:
 jobs:
   build-linux:
     runs-on: ubuntu-latest
+    env:
+      APP_DIR: apps/nmail_standard
     steps:
       - uses: actions/checkout@v6
 
@@ -24,21 +26,23 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Install Fastforge
         run: dart pub global activate fastforge
 
       - name: Build Linux packages
         run: fastforge package --platform linux --targets deb,appimage
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Upload .deb artifact
         uses: actions/upload-artifact@v7
         with:
           name: nmail-linux-deb
-          path: dist/**/*.deb
+          path: ${{ env.APP_DIR }}/dist/**/*.deb
 
       - name: Upload AppImage artifact
         uses: actions/upload-artifact@v7
         with:
           name: nmail-linux-appimage
-          path: dist/**/*.AppImage
+          path: ${{ env.APP_DIR }}/dist/**/*.AppImage
