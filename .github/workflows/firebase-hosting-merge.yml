@@ -15,7 +15,8 @@ jobs:
         with:
           channel: 'stable'
           cache: true
-      - run: flutter pub get && flutter build web
+      - run: flutter pub get && flutter build web --release --output ../../build/web
+        working-directory: apps/nmail_standard
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

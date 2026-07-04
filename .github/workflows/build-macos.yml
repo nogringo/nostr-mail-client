@@ -6,6 +6,8 @@ on:
 jobs:
   build-macos:
     runs-on: macos-latest
+    env:
+      APP_DIR: apps/nmail_standard
     steps:
       - uses: actions/checkout@v6
 
@@ -16,20 +18,23 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
       - name: Build macOS app
         run: flutter build macos --release
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Create ZIP
         run: |
           cd build/macos/Build/Products/Release
           zip -r nmail-macos.zip Nmail.app
+        working-directory: ${{ env.APP_DIR }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
           name: nmail-macos
-          path: build/macos/Build/Products/Release/nmail-macos.zip
+          path: ${{ env.APP_DIR }}/build/macos/Build/Products/Release/nmail-macos.zip
