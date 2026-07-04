@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 
 import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
@@ -162,13 +161,6 @@ class _AccountMenuButton extends StatelessWidget {
             final npub = Get.find<AuthController>().npub;
             if (npub != null) {
               Clipboard.setData(ClipboardData(text: npub));
-              toastification.show(
-                context: context,
-                type: ToastificationType.success,
-                title: Text(l.inboxNpubCopied),
-                autoCloseDuration: const Duration(seconds: 2),
-                alignment: Alignment.bottomRight,
-              );
             }
           },
           child: Text(l.inboxCopyNpub),
