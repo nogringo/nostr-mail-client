@@ -892,6 +892,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeShowExpanded => 'Mostrar Cc/Cco/De';
 
   @override
+  String get composeExpandedFieldsButtonLabel => 'Cc, De';
+
+  @override
   String get composeCc => 'Cc';
 
   @override
@@ -2248,6 +2251,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeShowExpanded => 'Mostrar Cc/Cco/De';
+
+  @override
+  String get composeExpandedFieldsButtonLabel => 'Cc, De';
 
   @override
   String get composeCc => 'Cc';

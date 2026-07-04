@@ -361,6 +361,7 @@
   "composeAddMore": "添加更多",
   "composeHideExpanded": "隐藏抄送/密送/发件人",
   "composeShowExpanded": "显示抄送/密送/发件人",
+  "composeExpandedFieldsButtonLabel": "抄送，发件人",
   "composeCc": "抄送",
   "composeBcc": "密送",
   "composeSubject": "主题",

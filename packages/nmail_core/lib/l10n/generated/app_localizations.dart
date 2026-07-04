@@ -1705,6 +1705,12 @@ abstract class AppLocalizations {
   /// **'Show CC/BCC/From'**
   String get composeShowExpanded;
 
+  /// Short desktop button label next to the compose chevron that reveals Cc/Bcc/From fields
+  ///
+  /// In en, this message translates to:
+  /// **'Cc, From'**
+  String get composeExpandedFieldsButtonLabel;
+
   /// Placeholder for the Cc recipients field
   ///
   /// In en, this message translates to:

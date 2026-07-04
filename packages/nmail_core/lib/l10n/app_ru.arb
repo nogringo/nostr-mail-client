@@ -361,6 +361,7 @@
   "composeAddMore": "Добавить ещё",
   "composeHideExpanded": "Скрыть Копия/СК/От",
   "composeShowExpanded": "Показать Копия/СК/От",
+  "composeExpandedFieldsButtonLabel": "Копия, От",
   "composeCc": "Копия",
   "composeBcc": "Скрытая копия",
   "composeSubject": "Тема",

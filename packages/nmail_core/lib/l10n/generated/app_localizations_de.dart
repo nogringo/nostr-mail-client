@@ -892,6 +892,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get composeShowExpanded => 'Cc/Bcc/Von anzeigen';
 
   @override
+  String get composeExpandedFieldsButtonLabel => 'Cc, Von';
+
+  @override
   String get composeCc => 'Cc';
 
   @override

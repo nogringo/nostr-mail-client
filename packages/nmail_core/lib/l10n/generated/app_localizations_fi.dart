@@ -887,6 +887,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeShowExpanded => 'Näytä lisäkentät';
 
   @override
+  String get composeExpandedFieldsButtonLabel => 'Kopio, Lähettäjä';
+
+  @override
   String get composeCc => 'Kopio';
 
   @override

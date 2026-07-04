@@ -361,6 +361,7 @@
   "composeAddMore": "Añadir más",
   "composeHideExpanded": "Ocultar Cc/Cco/De",
   "composeShowExpanded": "Mostrar Cc/Cco/De",
+  "composeExpandedFieldsButtonLabel": "Cc, De",
   "composeCc": "Cc",
   "composeBcc": "Cco",
   "composeSubject": "Asunto",

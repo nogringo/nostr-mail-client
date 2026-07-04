@@ -899,6 +899,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeShowExpanded => 'Показать Копия/СК/От';
 
   @override
+  String get composeExpandedFieldsButtonLabel => 'Копия, От';
+
+  @override
   String get composeCc => 'Копия';
 
   @override

@@ -361,6 +361,7 @@
   "composeAddMore": "Weitere hinzufügen",
   "composeHideExpanded": "Cc/Bcc/Von ausblenden",
   "composeShowExpanded": "Cc/Bcc/Von anzeigen",
+  "composeExpandedFieldsButtonLabel": "Cc, Von",
   "composeCc": "Cc",
   "composeBcc": "Bcc",
   "composeSubject": "Betreff",

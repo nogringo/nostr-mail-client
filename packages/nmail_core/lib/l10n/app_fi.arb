@@ -366,6 +366,7 @@
   "composeAddMore": "Lisää",
   "composeHideExpanded": "Piilota lisäkentät",
   "composeShowExpanded": "Näytä lisäkentät",
+  "composeExpandedFieldsButtonLabel": "Kopio, Lähettäjä",
   "composeCc": "Kopio",
   "composeBcc": "Piilokopio",
   "composeSubject": "Aihe",

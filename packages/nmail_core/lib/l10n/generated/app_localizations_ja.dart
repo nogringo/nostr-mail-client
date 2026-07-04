@@ -842,6 +842,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeShowExpanded => 'Cc/Bcc/送信元を表示';
 
   @override
+  String get composeExpandedFieldsButtonLabel => 'Cc、送信元';
+
+  @override
   String get composeCc => 'Cc';
 
   @override

@@ -23,6 +23,7 @@ Releases prior to 0.13.0 are listed on the
 
 - Allow selecting a recipient from the autocomplete suggestions with a mouse click when composing.
 - Auto-select a bridge sender when selecting an SMTP recipient from autocomplete.
+- Make the compose Cc/From expander easier to discover on desktop.
 
 ## [0.13.1]
 

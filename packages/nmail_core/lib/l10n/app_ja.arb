@@ -361,6 +361,7 @@
   "composeAddMore": "さらに追加",
   "composeHideExpanded": "Cc/Bcc/送信元を隠す",
   "composeShowExpanded": "Cc/Bcc/送信元を表示",
+  "composeExpandedFieldsButtonLabel": "Cc、送信元",
   "composeCc": "Cc",
   "composeBcc": "Bcc",
   "composeSubject": "件名",

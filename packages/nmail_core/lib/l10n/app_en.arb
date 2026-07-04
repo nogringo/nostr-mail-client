@@ -631,6 +631,8 @@
   "@composeHideExpanded": { "description": "Tooltip on the chevron that hides the expanded Cc/Bcc/From fields" },
   "composeShowExpanded": "Show CC/BCC/From",
   "@composeShowExpanded": { "description": "Tooltip on the chevron that shows the expanded Cc/Bcc/From fields" },
+  "composeExpandedFieldsButtonLabel": "Cc, From",
+  "@composeExpandedFieldsButtonLabel": { "description": "Short desktop button label next to the compose chevron that reveals Cc/Bcc/From fields" },
   "composeCc": "Cc",
   "@composeCc": { "description": "Placeholder for the Cc recipients field" },
   "composeBcc": "Bcc",

@@ -60,17 +60,32 @@ class ScrollableContentView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  IconButton(
-                    icon: Icon(
-                      controller.showExpandedFields.value
-                          ? Icons.keyboard_arrow_up
-                          : Icons.keyboard_arrow_down,
+                  if (isWide)
+                    TextButton.icon(
+                      onPressed: controller.toggleExpandedFields,
+                      icon: Icon(
+                        controller.showExpandedFields.value
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                      ),
+                      iconAlignment: IconAlignment.end,
+                      label: Text(l.composeExpandedFieldsButtonLabel),
+                      style: TextButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                    )
+                  else
+                    IconButton(
+                      icon: Icon(
+                        controller.showExpandedFields.value
+                            ? Icons.keyboard_arrow_up
+                            : Icons.keyboard_arrow_down,
+                      ),
+                      onPressed: controller.toggleExpandedFields,
+                      tooltip: controller.showExpandedFields.value
+                          ? l.composeHideExpanded
+                          : l.composeShowExpanded,
                     ),
-                    onPressed: controller.toggleExpandedFields,
-                    tooltip: controller.showExpandedFields.value
-                        ? l.composeHideExpanded
-                        : l.composeShowExpanded,
-                  ),
                   const SizedBox(width: 8),
                 ],
               ),

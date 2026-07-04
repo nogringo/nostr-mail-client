@@ -840,6 +840,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeShowExpanded => '显示抄送/密送/发件人';
 
   @override
+  String get composeExpandedFieldsButtonLabel => '抄送，发件人';
+
+  @override
   String get composeCc => '抄送';
 
   @override

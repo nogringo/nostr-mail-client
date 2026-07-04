@@ -361,6 +361,7 @@
   "composeAddMore": "Aggiungi altri",
   "composeHideExpanded": "Nascondi Cc/Ccn/Da",
   "composeShowExpanded": "Mostra Cc/Ccn/Da",
+  "composeExpandedFieldsButtonLabel": "Cc, Da",
   "composeCc": "Cc",
   "composeBcc": "Ccn",
   "composeSubject": "Oggetto",
