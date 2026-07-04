@@ -527,6 +527,9 @@ class EmailTile extends StatelessWidget {
       final attachments = email.attachmentRefs;
       final controller = Get.find<InboxController>();
       final isSelectionMode = controller.hasSelection;
+      final subject = (email.subject?.isEmpty ?? true)
+          ? l.emailNoSubject
+          : email.subject!;
 
       return Column(
         children: [
@@ -550,13 +553,13 @@ class EmailTile extends StatelessWidget {
                 if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
                 Expanded(
                   child: Text(
-                    (email.subject?.isEmpty ?? true)
-                        ? l.emailNoSubject
-                        : email.subject!,
+                    _displayName,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                      fontWeight: isUnread ? FontWeight.w700 : FontWeight.w600,
+                      color: colorScheme.onSurfaceVariant,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
@@ -566,12 +569,13 @@ class EmailTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _displayName,
+                  subject,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontSize: 12,
+                    color: colorScheme.onSurface,
+                    fontSize: 13,
+                    fontWeight: isUnread ? FontWeight.w600 : FontWeight.w500,
                   ),
                 ),
                 const SizedBox(height: 2),

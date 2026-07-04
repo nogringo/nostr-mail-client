@@ -19,6 +19,10 @@ Releases prior to 0.13.0 are listed on the
 
 - Schedule emails for future delivery: pick a send time from compose and confirm with Send, then view, edit, or cancel queued emails in a new Scheduled mailbox.
 
+### Changed
+
+- Improve mobile email list hierarchy by showing the sender first, with a lighter treatment, followed by the subject and body preview.
+
 ### Fixed
 
 - Allow selecting a recipient from the autocomplete suggestions with a mouse click when composing.
