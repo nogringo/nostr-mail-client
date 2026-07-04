@@ -45,7 +45,7 @@ class SidebarFolderItem extends StatelessWidget {
         selected: selected,
         selectedTileColor: colorScheme.secondaryContainer,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-        onTap: selected ? null : () => context.go(path),
+        onTap: () => context.go(path),
       ),
     );
   }
