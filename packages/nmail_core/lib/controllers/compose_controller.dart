@@ -219,7 +219,12 @@ class ComposeController extends GetxController {
       }
     }
 
-    list.add(contact.toRecipient());
+    final recipient = contact.toRecipient();
+    list.add(recipient);
+
+    if (recipient.isLegacy) {
+      _autoSelectBridgeForLegacy();
+    }
   }
 
   Set<String> get recipientIds => _getIdsFromList(recipients);
@@ -647,6 +652,8 @@ class ComposeController extends GetxController {
     if (selectedFrom.value == null && options.isNotEmpty) {
       await _selectDefaultFrom(options);
     }
+
+    await _autoSelectBridgeForLegacy();
   }
 
   Future<void> _selectDefaultFrom(List<FromOption> options) async {
