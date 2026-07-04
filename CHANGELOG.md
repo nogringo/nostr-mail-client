@@ -30,6 +30,7 @@ Releases prior to 0.13.0 are listed on the
 - Auto-select a bridge sender when selecting an SMTP recipient from autocomplete.
 - Allow returning to the selected mailbox from Compose on desktop.
 - Make the compose Cc/From expander easier to discover on desktop.
+- Use NDK's NIP-05 resolver for address book Nostr identifiers.
 
 ## [0.13.1]
 

@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:enough_mail_plus/enough_mail.dart' as mail;
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:ndk/entities.dart' show Nip05Found;
 import 'package:ndk/ndk.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
@@ -149,19 +148,9 @@ class AddressBookService extends GetxService {
     if (parts.length != 2 || parts.any((part) => part.isEmpty)) return null;
 
     try {
-      // TODO: Use NDK's NIP-05 resolver here instead of maintaining a
-      // separate .well-known/nostr.json implementation in the app.
-      final response = await http
-          .get(
-            Uri.https(parts[1], '/.well-known/nostr.json', {'name': parts[0]}),
-          )
-          .timeout(const Duration(seconds: 3));
-      if (response.statusCode != 200) return null;
-      final body = jsonDecode(response.body) as Map<String, dynamic>;
-      final names = body['names'] as Map<String, dynamic>?;
-      final pubkey = names?[parts[0]] as String?;
-      if (pubkey == null) return null;
-      return AddressBookVCardMapper.normalizeNostrPubkey(pubkey);
+      final result = await _ndk.nip05.resolve(value);
+      if (result is! Nip05Found) return null;
+      return AddressBookVCardMapper.normalizeNostrPubkey(result.data.pubKey);
     } catch (_) {
       return null;
     }

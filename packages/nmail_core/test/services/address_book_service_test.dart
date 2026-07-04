@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:ndk/entities.dart' show Nip05;
 import 'package:ndk/ndk.dart';
-import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/services/address_book_service.dart';
+import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
+import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:sembast/sembast_memory.dart';
 
 void main() {
@@ -64,5 +66,33 @@ void main() {
     await service.deleteContact(contact);
 
     expect(service.contacts, isEmpty);
+  });
+
+  test('resolves NIP-05 identifiers through NDK cache', () async {
+    const identifier = 'carol@example.com';
+    const factory = Bip340EventSignerFactory();
+    final (_, resolvedPubkey) = factory.generateKeyPair();
+    await ndk.config.cache.saveNip05(
+      Nip05(
+        pubKey: resolvedPubkey,
+        nip05: identifier,
+        valid: true,
+        networkFetchTime: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      ),
+    );
+
+    final contact = await service.saveContact(
+      const AddressBookContactForm(
+        displayName: 'Carol Example',
+        nostrPubkeys: [identifier],
+      ),
+    );
+
+    expect(
+      AddressBookVCardMapper.normalizeNostrPubkey(
+        contact.index.nostrIdentifiers.single,
+      ),
+      resolvedPubkey,
+    );
   });
 }
