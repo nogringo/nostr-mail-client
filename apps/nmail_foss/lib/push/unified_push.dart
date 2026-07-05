@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/services/notification_service.dart';
@@ -9,13 +9,19 @@ import 'package:unifiedpush/unifiedpush.dart';
 
 /// UnifiedPush delivery for the FOSS flavor (no Google). Unlike FCM, the
 /// distributor hands the app raw bytes, so we build and show the notification
-/// ourselves via the core NotificationService. The push server POSTs a JSON
-/// body `{ title, body, nevent }` to the endpoint.
+/// ourselves. The push server POSTs a JSON body `{ title, body, nevent }`.
+///
+/// The distributor delivers messages through a separate Flutter engine started
+/// with `--unifiedpush-bg`; [runBackground] is that lightweight entry point,
+/// while [init] runs in the normal app to register and obtain the endpoint.
 class UnifiedPushHandler {
+  /// Foreground: register with a distributor and obtain the endpoint. Messages
+  /// arriving while the app is alive are shown via the shared core service.
   static Future<void> init() async {
     await UnifiedPush.initialize(
       onNewEndpoint: _onNewEndpoint,
-      onMessage: _onMessage,
+      onMessage: (message, instance) =>
+          _showFromMessage(Get.find<NotificationService>(), message),
       onRegistrationFailed: (reason, instance) =>
           debugPrint('UnifiedPush registration failed: $reason'),
       onUnregistered: (instance) => debugPrint('UnifiedPush unregistered'),
@@ -28,6 +34,18 @@ class UnifiedPushHandler {
     }
   }
 
+  /// Background entry point (app closed): initialise only what is needed to
+  /// receive one message and show a notification, without the full app. No
+  /// register() here, so an incoming push does not re-run registration.
+  static Future<void> runBackground() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    final notifications = await NotificationService().init();
+    await UnifiedPush.initialize(
+      onMessage: (message, instance) =>
+          _showFromMessage(notifications, message),
+    );
+  }
+
   static void _onNewEndpoint(PushEndpoint endpoint, String instance) {
     final keys = endpoint.pubKeySet;
     debugPrint('UnifiedPush endpoint: ${endpoint.url}');
@@ -36,9 +54,13 @@ class UnifiedPushHandler {
     // server can encrypt and push when a giftwrap for that pubkey arrives.
   }
 
-  static void _onMessage(PushMessage message, String instance) {
+  static void _showFromMessage(
+    NotificationService notifications,
+    PushMessage message,
+  ) {
     // Any delivered push means new mail; fall back to a generic notification
-    // when the body is empty or not our JSON.
+    // when the body is empty or not our JSON. The id derives from the event so
+    // the foreground and background engines dedupe instead of double-notifying.
     Map<String, dynamic>? data;
     try {
       final text = utf8.decode(message.content);
@@ -48,7 +70,7 @@ class UnifiedPushHandler {
     final nevent = data?['nevent'];
     final eventId = nevent is String ? eventIdFromNevent(nevent) : null;
 
-    Get.find<NotificationService>().show(
+    notifications.show(
       id:
           (eventId ?? DateTime.now().microsecondsSinceEpoch.toString())
               .hashCode &
