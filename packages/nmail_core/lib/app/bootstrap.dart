@@ -32,7 +32,7 @@ import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 
-Future<void> runNmailApp() async {
+Future<void> runNmailApp({Future<void> Function()? onReady}) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -110,6 +110,9 @@ Future<void> runNmailApp() async {
   // Run InitialBinding (ContactsService) before the router boots - the
   // router's redirect reads SettingsController on first navigation.
   InitialBinding().dependencies();
+
+  // Flavor-specific setup (e.g. FCM on nmail_standard), kept out of core.
+  await onReady?.call();
 
   runApp(const MainApp());
 }

@@ -23,3 +23,13 @@ String? extractPubkeyFromAddress(String address) {
 
   return null;
 }
+
+/// Extract the hex event id from a NIP-19 nevent, or null if it is not a
+/// valid nevent. The nevent may also carry relay hints via [Nip19.decodeNevent].
+String? eventIdFromNevent(String nevent) {
+  try {
+    return Nip19.decodeNevent(nevent).eventId;
+  } catch (_) {
+    return null;
+  }
+}
