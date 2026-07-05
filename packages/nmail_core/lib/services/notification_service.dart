@@ -19,9 +19,6 @@ class NotificationService extends GetxService {
   );
 
   Future<NotificationService> init() async {
-    // Web notifications go through the FCM service worker, not this plugin.
-    if (kIsWeb) return this;
-
     // Permission flags are false here: we prompt explicitly via
     // requestPermissions() from the enable-notifications flow, not at startup.
     const settings = InitializationSettings(
@@ -37,6 +34,7 @@ class NotificationService extends GetxService {
         requestSoundPermission: false,
       ),
       linux: LinuxInitializationSettings(defaultActionName: 'Open'),
+      web: WebInitializationSettings(),
     );
 
     await _plugin.initialize(
@@ -54,7 +52,17 @@ class NotificationService extends GetxService {
   }
 
   Future<bool> requestPermissions() async {
-    if (kIsWeb) return true;
+    if (kIsWeb) {
+      final web = _plugin
+          .resolvePlatformSpecificImplementation<
+            WebFlutterLocalNotificationsPlugin
+          >();
+      if (web == null) return false;
+      if (web.permissionStatus != WebNotificationPermission.granted) {
+        await web.requestNotificationsPermission();
+      }
+      return web.permissionStatus == WebNotificationPermission.granted;
+    }
 
     if (PlatformHelper.isAndroid) {
       final granted = await _plugin
@@ -92,8 +100,6 @@ class NotificationService extends GetxService {
     required String body,
     String? payload,
   }) {
-    if (kIsWeb) return Future.value();
-
     return _plugin.show(
       id: id,
       title: title,
@@ -110,6 +116,7 @@ class NotificationService extends GetxService {
         iOS: const DarwinNotificationDetails(),
         macOS: const DarwinNotificationDetails(),
         linux: const LinuxNotificationDetails(),
+        web: const WebNotificationDetails(),
       ),
       payload: payload,
     );
