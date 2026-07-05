@@ -12,6 +12,7 @@ dependencies:
   nmail_core: ^0.0.1
   flutter:
     sdk: flutter
+  get: ^4.7.3
   unifiedpush: ^6.2.0
   unifiedpush_ui: ^0.2.0
 

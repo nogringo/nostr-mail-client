@@ -63,6 +63,12 @@ android {
     }
 }
 
+configurations.all {
+    // unifiedpush pulls tink-android; another dep pulls the JVM tink, and the
+    // two duplicate every class. Keep the Android variant.
+    exclude(group = "com.google.crypto.tink", module = "tink")
+}
+
 flutter {
     source = "../.."
 }
