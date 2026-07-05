@@ -11,6 +11,7 @@ import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
@@ -23,6 +24,7 @@ class SettingsController extends GetxController {
 
   static const _showRawEmailKey = 'show_raw_email';
   static const _alwaysLoadImagesKey = 'always_load_images';
+  static const _notificationsEnabledKey = 'notifications_enabled';
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
@@ -31,6 +33,7 @@ class SettingsController extends GetxController {
 
   final showRawEmail = false.obs;
   final alwaysLoadImages = false.obs;
+  final notificationsEnabled = false.obs;
   final emailSignature = _defaultSignature.obs;
   final backgroundImage = Rxn<String>();
   final themeMode = ThemeMode.system.obs;
@@ -81,6 +84,7 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyLight),
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyDark),
       _storageService.getSetting<String>(localeKey),
+      _storageService.getSetting<bool>(_notificationsEnabledKey),
     ]);
 
     showRawEmail.value = (results[0] as bool?) ?? false;
@@ -103,6 +107,8 @@ class SettingsController extends GetxController {
 
     final savedLocale = results[7] as String?;
     locale.value = _localeFromStorage(savedLocale);
+
+    notificationsEnabled.value = (results[8] as bool?) ?? false;
 
     _refreshSignatureFromRelays();
   }
@@ -144,6 +150,21 @@ class SettingsController extends GetxController {
   Future<void> setAlwaysLoadImages(bool value) async {
     alwaysLoadImages.value = value;
     await _storageService.saveSetting(_alwaysLoadImagesKey, value);
+  }
+
+  /// Enabling requests OS notification permission first; if it is denied the
+  /// toggle stays off.
+  Future<void> setNotificationsEnabled(bool value) async {
+    if (value) {
+      final granted = await Get.find<NotificationService>()
+          .requestPermissions();
+      if (!granted) {
+        notificationsEnabled.value = false;
+        return;
+      }
+    }
+    notificationsEnabled.value = value;
+    await _storageService.saveSetting(_notificationsEnabledKey, value);
   }
 
   /// Set the email signature and sync to Nostr.
@@ -318,6 +339,7 @@ class SettingsController extends GetxController {
     // Reset in-memory state
     showRawEmail.value = false;
     alwaysLoadImages.value = false;
+    notificationsEnabled.value = false;
     emailSignature.value = _defaultSignature;
     backgroundImage.value = null;
     themeMode.value = ThemeMode.system;

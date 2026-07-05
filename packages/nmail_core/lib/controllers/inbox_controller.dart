@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../app/config/app_config.dart';
+import 'settings_controller.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
@@ -294,6 +295,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   /// Surface a system notification for a genuinely new incoming email, but only
   /// while the app is not in the foreground, where the inbox already updates.
   void _notifyIncomingEmail(Email email) {
+    if (!Get.find<SettingsController>().notificationsEnabled.value) return;
     if (_lifecycleState == AppLifecycleState.resumed) return;
 
     final startedAt = _watchStartedAt;

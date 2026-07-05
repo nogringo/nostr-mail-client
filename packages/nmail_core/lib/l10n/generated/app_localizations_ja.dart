@@ -99,6 +99,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsLanguageDialogTitle => '言語を選択';
 
   @override
+  String get settingsNotifications => '通知';
+
+  @override
+  String get settingsEnableNotifications => '通知を有効にする';
+
+  @override
+  String get settingsEnableNotificationsSubtitle => '新しいメールが届いたら通知します。';
+
+  @override
   String get settingsAdvancedOptions => '詳細設定';
 
   @override

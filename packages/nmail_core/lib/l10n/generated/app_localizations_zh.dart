@@ -99,6 +99,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsLanguageDialogTitle => '选择语言';
 
   @override
+  String get settingsNotifications => '通知';
+
+  @override
+  String get settingsEnableNotifications => '启用通知';
+
+  @override
+  String get settingsEnableNotificationsSubtitle => '收到新邮件时通知您。';
+
+  @override
   String get settingsAdvancedOptions => '高级选项';
 
   @override

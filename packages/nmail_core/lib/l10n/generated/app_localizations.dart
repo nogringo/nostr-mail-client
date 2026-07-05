@@ -295,6 +295,24 @@ abstract class AppLocalizations {
   /// **'Choose a language'**
   String get settingsLanguageDialogTitle;
 
+  /// Settings section header for notification options
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingsNotifications;
+
+  /// Toggle label to enable OS notifications for new emails
+  ///
+  /// In en, this message translates to:
+  /// **'Enable notifications'**
+  String get settingsEnableNotifications;
+
+  /// Helper text under the enable-notifications toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Get notified when a new email arrives.'**
+  String get settingsEnableNotificationsSubtitle;
+
   /// Settings section header for advanced/developer toggles
   ///
   /// In en, this message translates to:

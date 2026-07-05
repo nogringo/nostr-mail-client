@@ -100,6 +100,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Escolher um idioma';
 
   @override
+  String get settingsNotifications => 'Notificações';
+
+  @override
+  String get settingsEnableNotifications => 'Ativar notificações';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Seja notificado quando um novo email chegar.';
+
+  @override
   String get settingsAdvancedOptions => 'Opções avançadas';
 
   @override
@@ -1470,6 +1480,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsLanguageDialogTitle => 'Escolher um idioma';
+
+  @override
+  String get settingsNotifications => 'Notificações';
+
+  @override
+  String get settingsEnableNotifications => 'Ativar notificações';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Seja notificado quando um novo e-mail chegar.';
 
   @override
   String get settingsAdvancedOptions => 'Opções avançadas';

@@ -100,6 +100,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Choose a language';
 
   @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsEnableNotifications => 'Enable notifications';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Get notified when a new email arrives.';
+
+  @override
   String get settingsAdvancedOptions => 'Advanced options';
 
   @override

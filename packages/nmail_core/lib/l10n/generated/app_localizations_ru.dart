@@ -100,6 +100,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Выберите язык';
 
   @override
+  String get settingsNotifications => 'Уведомления';
+
+  @override
+  String get settingsEnableNotifications => 'Включить уведомления';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Получайте уведомления о новых письмах.';
+
+  @override
   String get settingsAdvancedOptions => 'Дополнительные параметры';
 
   @override

@@ -67,6 +67,16 @@ class SettingsView extends StatelessWidget {
               _buildBackgroundGallery(context, settingsController),
               const LanguageTile(),
               const SizedBox(height: 16),
+              _buildSectionHeader(context, l.settingsNotifications),
+              Obx(
+                () => SwitchListTile(
+                  title: Text(l.settingsEnableNotifications),
+                  subtitle: Text(l.settingsEnableNotificationsSubtitle),
+                  value: settingsController.notificationsEnabled.value,
+                  onChanged: settingsController.setNotificationsEnabled,
+                ),
+              ),
+              const SizedBox(height: 16),
               _buildSectionHeader(context, l.settingsAdvancedOptions),
               Obx(
                 () => SwitchListTile(

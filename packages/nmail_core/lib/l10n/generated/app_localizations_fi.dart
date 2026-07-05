@@ -99,6 +99,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Valitse kieli';
 
   @override
+  String get settingsNotifications => 'Ilmoitukset';
+
+  @override
+  String get settingsEnableNotifications => 'Ota ilmoitukset käyttöön';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Saat ilmoituksen, kun uusi sähköposti saapuu.';
+
+  @override
   String get settingsAdvancedOptions => 'Edistyneet asetukset';
 
   @override
