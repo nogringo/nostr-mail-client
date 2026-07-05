@@ -5,12 +5,15 @@ import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../app/config/app_config.dart';
+import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/notification_service.dart';
 
 enum MailFolder { inbox, sent, trash, archive }
 
 class InboxController extends GetxController with WidgetsBindingObserver {
   final _nostrMailService = Get.find<NostrMailService>();
+  final _notifications = Get.find<NotificationService>();
 
   final RxList<Email> emails = <Email>[].obs;
   final searchQuery = ''.obs;
@@ -26,6 +29,8 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   StreamSubscription? _watchSubscription;
   StreamSubscription? _labelWatchSubscription;
   int _accountGeneration = 0;
+  AppLifecycleState _lifecycleState = AppLifecycleState.resumed;
+  DateTime? _watchStartedAt;
 
   bool get isSearching => searchQuery.value.isNotEmpty;
   int get unreadCount => emails.length - readEmailIds.length;
@@ -160,6 +165,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    _lifecycleState = state;
     switch (state) {
       case AppLifecycleState.paused:
         // App went to background, record the time
@@ -264,12 +270,16 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   }
 
   void _startWatching() {
+    _watchStartedAt = DateTime.now();
     // TODO: debounce both listeners. A bulk sync that surfaces N emails or
     // N label events triggers N successive _loadEmails() calls (each a
     // full local query + Rx rebuild). Merge both streams through a small
     // debounce (e.g. 100ms via rxdart) once the cost becomes noticeable.
     _watchSubscription = _nostrMailService.client.onEmail.listen(
-      (_) => _loadEmails(),
+      (email) {
+        _loadEmails();
+        _notifyIncomingEmail(email);
+      },
       onError: (e) {},
     );
     // Cross-device sync: label add/remove events from other devices arrive
@@ -278,6 +288,29 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     _labelWatchSubscription = _nostrMailService.client.onLabel.listen(
       (_) => _loadEmails(),
       onError: (e) {},
+    );
+  }
+
+  /// Surface a system notification for a genuinely new incoming email, but only
+  /// while the app is not in the foreground, where the inbox already updates.
+  void _notifyIncomingEmail(Email email) {
+    if (_lifecycleState == AppLifecycleState.resumed) return;
+
+    final startedAt = _watchStartedAt;
+    if (startedAt != null && email.createdAt.isBefore(startedAt)) return;
+
+    if (email.senderPubkey == _nostrMailService.getPublicKey()) return;
+
+    final from = email.sender;
+    final title = (from?.personalName?.trim().isNotEmpty ?? false)
+        ? from!.personalName!.trim()
+        : (from?.email ?? '');
+
+    _notifications.show(
+      id: email.id.hashCode & 0x7fffffff,
+      title: title,
+      body: email.subject?.trim() ?? '',
+      payload: '${AppRoutes.inbox}/email/${email.id}',
     );
   }
 
