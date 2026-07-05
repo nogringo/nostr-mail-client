@@ -455,6 +455,17 @@ class AppLocalizationsFi extends AppLocalizations {
       'Luo roskakoriin 31 päivää vanhan testiviestin. Käytä \"Poista vanhat viestit\" -ominaisuuden testaukseen.';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => 'Saapuneet';
 
   @override

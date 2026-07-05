@@ -163,6 +163,9 @@
   "debugToolsEmailTesting": "Test d'e-mails",
   "debugToolsCreateOldTrashed": "Créer un e-mail ancien à la corbeille",
   "debugToolsCreateOldTrashedDescription": "Crée un e-mail de test dans la corbeille, daté de 31 jours. Utilisez-le pour tester la fonctionnalité « Supprimer les anciens e-mails ».",
+  "debugToolsTriggerNotification": "Déclencher une notification de test",
+  "debugToolsTriggerNotificationDescription": "Affiche une notification locale comme si un nouvel e-mail venait d'arriver, pour tester l'affichage et le tap.",
+  "debugNotificationPermissionDenied": "Permission de notification refusée.",
 
   "folderInbox": "Boîte de réception",
   "folderSent": "Envoyés",

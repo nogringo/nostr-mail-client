@@ -453,6 +453,17 @@ class AppLocalizationsEn extends AppLocalizations {
       'Creates a test email in trash that is 31 days old. Use this to test the \"Delete old emails\" feature.';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => 'Inbox';
 
   @override

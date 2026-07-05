@@ -456,6 +456,17 @@ class AppLocalizationsRu extends AppLocalizations {
       'Создаёт тестовое письмо в корзине возрастом 31 день. Используйте, чтобы протестировать функцию «Удалить старые письма».';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => 'Входящие';
 
   @override

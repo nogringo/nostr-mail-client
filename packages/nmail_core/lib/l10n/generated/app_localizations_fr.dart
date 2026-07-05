@@ -461,6 +461,18 @@ class AppLocalizationsFr extends AppLocalizations {
       'Crée un e-mail de test dans la corbeille, daté de 31 jours. Utilisez-le pour tester la fonctionnalité « Supprimer les anciens e-mails ».';
 
   @override
+  String get debugToolsTriggerNotification =>
+      'Déclencher une notification de test';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Affiche une notification locale comme si un nouvel e-mail venait d\'arriver, pour tester l\'affichage et le tap.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Permission de notification refusée.';
+
+  @override
   String get folderInbox => 'Boîte de réception';
 
   @override

@@ -973,6 +973,24 @@ abstract class AppLocalizations {
   /// **'Creates a test email in trash that is 31 days old. Use this to test the \"Delete old emails\" feature.'**
   String get debugToolsCreateOldTrashedDescription;
 
+  /// Button label to show a local notification simulating a newly arrived email
+  ///
+  /// In en, this message translates to:
+  /// **'Trigger Test Notification'**
+  String get debugToolsTriggerNotification;
+
+  /// Helper text explaining the test-notification debug action
+  ///
+  /// In en, this message translates to:
+  /// **'Shows a local notification as if a new email had arrived, to test notification display and tap handling.'**
+  String get debugToolsTriggerNotificationDescription;
+
+  /// Error shown when the OS or browser denied notification permission
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission denied.'**
+  String get debugNotificationPermissionDenied;
+
   /// Folder name: Inbox (used in toolbar titles and drawer)
   ///
   /// In en, this message translates to:

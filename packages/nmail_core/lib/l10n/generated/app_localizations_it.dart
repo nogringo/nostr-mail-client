@@ -457,6 +457,17 @@ class AppLocalizationsIt extends AppLocalizations {
       'Crea un\'email di test nel cestino vecchia di 31 giorni. Usala per testare la funzione \"Elimina email vecchie\".';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => 'Posta in arrivo';
 
   @override

@@ -444,6 +444,17 @@ class AppLocalizationsZh extends AppLocalizations {
       '在回收站创建一封 31 天前的测试邮件。用于测试「删除旧邮件」功能。';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => '收件箱';
 
   @override

@@ -444,6 +444,17 @@ class AppLocalizationsJa extends AppLocalizations {
       '31 日前のテストメールをゴミ箱に作成します。「古いメールを削除」機能のテストに使用します。';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => '受信トレイ';
 
   @override

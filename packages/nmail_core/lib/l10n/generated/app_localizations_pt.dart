@@ -458,6 +458,17 @@ class AppLocalizationsPt extends AppLocalizations {
       'Cria um email de teste no lixo com 31 dias. Use para testar a funcionalidade \"Eliminar emails antigos\".';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => 'Caixa de entrada';
 
   @override

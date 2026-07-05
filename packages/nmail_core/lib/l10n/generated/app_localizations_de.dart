@@ -456,6 +456,17 @@ class AppLocalizationsDe extends AppLocalizations {
       'Erstellt eine Test-E-Mail im Papierkorb, die 31 Tage alt ist. Zum Testen der Funktion \"Alte E-Mails löschen\".';
 
   @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
+
+  @override
   String get folderInbox => 'Posteingang';
 
   @override

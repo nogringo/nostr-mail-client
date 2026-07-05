@@ -5,8 +5,10 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:sembast/sembast.dart';
 
+import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 
 class DebugToolsController extends GetxController {
@@ -103,5 +105,30 @@ class DebugToolsController extends GetxController {
         );
       }
     }
+  }
+
+  Future<void> triggerTestNotification(BuildContext context) async {
+    final l = AppLocalizations.of(context);
+    final notifications = Get.find<NotificationService>();
+
+    final granted = await notifications.requestPermissions();
+    if (!granted) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l.debugNotificationPermissionDenied),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+      return;
+    }
+
+    await notifications.show(
+      id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      title: 'Debug Test <debug@nostr.com>',
+      body: 'This is a test email notification',
+      payload: AppRoutes.inbox,
+    );
   }
 }
