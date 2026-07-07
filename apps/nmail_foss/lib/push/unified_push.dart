@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -18,6 +19,11 @@ class UnifiedPushHandler {
   /// Foreground: register with a distributor and obtain the endpoint. Messages
   /// arriving while the app is alive are shown via the shared core service.
   static Future<void> init() async {
+    if (!_isSupportedPlatform) {
+      debugPrint('UnifiedPush is not supported on $defaultTargetPlatform');
+      return;
+    }
+
     await UnifiedPush.initialize(
       onNewEndpoint: _onNewEndpoint,
       onMessage: (message, instance) =>
@@ -39,6 +45,11 @@ class UnifiedPushHandler {
   /// register() here, so an incoming push does not re-run registration.
   static Future<void> runBackground() async {
     WidgetsFlutterBinding.ensureInitialized();
+    if (!_isSupportedPlatform) {
+      debugPrint('UnifiedPush is not supported on $defaultTargetPlatform');
+      return;
+    }
+
     final notifications = await NotificationService().init();
     await UnifiedPush.initialize(
       onMessage: (message, instance) =>
@@ -81,5 +92,11 @@ class UnifiedPushHandler {
           ? '${AppRoutes.inbox}/email/$eventId'
           : AppRoutes.inbox,
     );
+  }
+
+  static bool get _isSupportedPlatform {
+    if (kIsWeb) return false;
+    return defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.linux;
   }
 }
