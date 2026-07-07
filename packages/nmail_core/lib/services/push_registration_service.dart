@@ -79,7 +79,13 @@ class PushRegistrationService extends GetxService {
     _accountProvider = accountProvider;
   }
 
-  static const defaultEndpoint = String.fromEnvironment('NMAIL_PUSH_ENDPOINT');
+  static const officialEndpoint = 'https://api.nmail.li/push/subscriptions';
+  static const _configuredEndpoint = String.fromEnvironment(
+    'NMAIL_PUSH_ENDPOINT',
+  );
+  static const defaultEndpoint = _configuredEndpoint == ''
+      ? officialEndpoint
+      : _configuredEndpoint;
   static const _nip98Kind = 27235;
 
   late final Ndk? _ndk;
