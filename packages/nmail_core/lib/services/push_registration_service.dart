@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
@@ -132,7 +131,6 @@ class PushRegistrationService extends GetxService {
     PushTransport transport,
   ) async {
     if (_endpoint.isEmpty) {
-      debugPrint('Push registration skipped: NMAIL_PUSH_ENDPOINT is empty');
       return false;
     }
 
@@ -140,7 +138,6 @@ class PushRegistrationService extends GetxService {
         ? _accountProvider()
         : _findNdk().accounts.getLoggedAccount();
     if (account == null || !account.signer.canSign()) {
-      debugPrint('Push registration skipped: no signing account');
       return false;
     }
 
@@ -176,8 +173,7 @@ class PushRegistrationService extends GetxService {
       );
 
       return response.statusCode >= 200 && response.statusCode < 300;
-    } catch (e) {
-      debugPrint('Push registration failed: $e');
+    } catch (_) {
       return false;
     }
   }

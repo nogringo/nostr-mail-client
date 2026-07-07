@@ -23,7 +23,6 @@ class UnifiedPushHandler {
   /// arriving while the app is alive are shown via the shared core service.
   static Future<void> init() async {
     if (!_isSupportedPlatform) {
-      debugPrint('UnifiedPush is not supported on $defaultTargetPlatform');
       return;
     }
 
@@ -31,15 +30,12 @@ class UnifiedPushHandler {
       onNewEndpoint: _onNewEndpoint,
       onMessage: (message, instance) =>
           _showFromMessage(Get.find<NotificationService>(), message),
-      onRegistrationFailed: (reason, instance) =>
-          debugPrint('UnifiedPush registration failed: $reason'),
-      onUnregistered: (instance) => debugPrint('UnifiedPush unregistered'),
+      onRegistrationFailed: (reason, instance) {},
+      onUnregistered: (instance) {},
     );
 
     if (await UnifiedPush.tryUseCurrentOrDefaultDistributor()) {
       await UnifiedPush.register();
-    } else {
-      debugPrint('No UnifiedPush distributor available');
     }
   }
 
@@ -49,7 +45,6 @@ class UnifiedPushHandler {
   static Future<void> runBackground() async {
     WidgetsFlutterBinding.ensureInitialized();
     if (!_isSupportedPlatform) {
-      debugPrint('UnifiedPush is not supported on $defaultTargetPlatform');
       return;
     }
 
@@ -62,8 +57,6 @@ class UnifiedPushHandler {
 
   static void _onNewEndpoint(PushEndpoint endpoint, String instance) {
     final keys = endpoint.pubKeySet;
-    debugPrint('UnifiedPush endpoint: ${endpoint.url}');
-    debugPrint('UnifiedPush keys: p256dh=${keys?.pubKey} auth=${keys?.auth}');
     if (!Get.isRegistered<PushRegistrationService>()) return;
 
     final service = Get.find<PushRegistrationService>();

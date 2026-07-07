@@ -130,8 +130,8 @@ class SettingsController extends GetxController {
       if (remote != null && remote.isNotEmpty) {
         emailSignature.value = remote;
       }
-    } catch (e) {
-      debugPrint('Failed to fetch signature from Nostr: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -181,8 +181,8 @@ class SettingsController extends GetxController {
     if (_nostrMailService.isClientInitialized) {
       try {
         await _nostrMailService.client.updatePrivateSettings(signature: value);
-      } catch (e) {
-        debugPrint('Failed to sync signature to Nostr: $e');
+      } catch (_) {
+        return;
       }
     }
   }

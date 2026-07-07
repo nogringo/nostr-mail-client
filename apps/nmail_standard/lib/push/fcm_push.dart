@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -33,10 +32,8 @@ class FcmPush {
     await messaging.requestPermission();
 
     final token = await messaging.getToken();
-    debugPrint('FCM token: $token');
     await _setToken(token);
     messaging.onTokenRefresh.listen((t) {
-      debugPrint('FCM token refreshed: $t');
       unawaited(_setToken(t));
     });
 
