@@ -12,6 +12,7 @@ import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
+import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
@@ -162,9 +163,15 @@ class SettingsController extends GetxController {
         notificationsEnabled.value = false;
         return;
       }
+    } else if (notificationsEnabled.value &&
+        Get.isRegistered<PushRegistrationService>()) {
+      await Get.find<PushRegistrationService>().disableCurrentTransport();
     }
     notificationsEnabled.value = value;
     await _storageService.saveSetting(_notificationsEnabledKey, value);
+    if (value && Get.isRegistered<PushRegistrationService>()) {
+      await Get.find<PushRegistrationService>().registerCurrentTransport();
+    }
   }
 
   /// Set the email signature and sync to Nostr.

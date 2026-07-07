@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/notification_service.dart';
+import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:unifiedpush/unifiedpush.dart';
 
@@ -61,8 +64,21 @@ class UnifiedPushHandler {
     final keys = endpoint.pubKeySet;
     debugPrint('UnifiedPush endpoint: ${endpoint.url}');
     debugPrint('UnifiedPush keys: p256dh=${keys?.pubKey} auth=${keys?.auth}');
-    // TODO(push server): register endpoint + Web Push keys + user pubkey so the
-    // server can encrypt and push when a giftwrap for that pubkey arrives.
+    if (!Get.isRegistered<PushRegistrationService>()) return;
+
+    final service = Get.find<PushRegistrationService>();
+    service.setCurrentTransport(
+      PushTransport.unifiedPush(
+        endpoint: endpoint.url,
+        p256dh: keys?.pubKey,
+        auth: keys?.auth,
+        instance: instance,
+      ),
+    );
+
+    if (Get.find<SettingsController>().notificationsEnabled.value) {
+      unawaited(service.registerCurrentTransport());
+    }
   }
 
   static void _showFromMessage(

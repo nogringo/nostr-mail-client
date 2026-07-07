@@ -34,6 +34,7 @@ export 'services/metadata_service.dart';
 export 'services/ndk_cache_service.dart';
 export 'services/nostr_mail_service.dart';
 export 'services/notification_service.dart';
+export 'services/push_registration_service.dart';
 export 'services/sensitive_clipboard.dart';
 export 'services/storage_service.dart';
 export 'services/theme_service.dart';

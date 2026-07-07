@@ -10,6 +10,7 @@ import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:flutter/material.dart';
 import 'inbox_controller.dart';
@@ -98,6 +99,10 @@ class AuthController extends GetxController {
     // signature. Now that the Nostr client is up (and its private-settings
     // cache primed by NostrMailClient.create()), pull it into the Rx.
     await Get.find<SettingsController>().reloadSyncedSettings();
+    if (Get.find<SettingsController>().notificationsEnabled.value &&
+        Get.isRegistered<PushRegistrationService>()) {
+      await Get.find<PushRegistrationService>().registerCurrentTransport();
+    }
   }
 
   Future<void> register() async {
@@ -214,6 +219,10 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     isLoading.value = true;
     try {
+      if (Get.find<SettingsController>().notificationsEnabled.value &&
+          Get.isRegistered<PushRegistrationService>()) {
+        await Get.find<PushRegistrationService>().disableCurrentTransport();
+      }
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().resetForAccountChange();
       }

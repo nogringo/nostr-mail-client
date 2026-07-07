@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/controllers/settings_controller.dart';
+import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 
 import '../firebase_options.dart';
@@ -31,11 +34,11 @@ class FcmPush {
 
     final token = await messaging.getToken();
     debugPrint('FCM token: $token');
-    // TODO(push server): register token + user pubkey so the server can push
-    // when a giftwrap (kind 1059) for that pubkey arrives on the DM relays.
-    messaging.onTokenRefresh.listen(
-      (t) => debugPrint('FCM token refreshed: $t'),
-    );
+    await _setToken(token);
+    messaging.onTokenRefresh.listen((t) {
+      debugPrint('FCM token refreshed: $t');
+      unawaited(_setToken(t));
+    });
 
     final initial = await messaging.getInitialMessage();
     if (initial != null) _handleTap(initial);
@@ -49,6 +52,18 @@ class FcmPush {
           ? '${AppRoutes.inbox}/email/$eventId'
           : AppRoutes.inbox,
     );
+  }
+
+  static Future<void> _setToken(String? token) async {
+    if (token == null || token.isEmpty) return;
+    if (!Get.isRegistered<PushRegistrationService>()) return;
+
+    final service = Get.find<PushRegistrationService>();
+    service.setCurrentTransport(PushTransport.fcm(token: token));
+
+    if (Get.find<SettingsController>().notificationsEnabled.value) {
+      await service.registerCurrentTransport();
+    }
   }
 }
 
