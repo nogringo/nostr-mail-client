@@ -65,6 +65,8 @@ class UnifiedPushTransport extends PushTransport {
 }
 
 typedef PushAccountProvider = Account? Function();
+typedef PushTransportPermissionRequester = Future<bool> Function();
+typedef PushTransportPreparer = Future<void> Function();
 
 class PushRegistrationService extends GetxService {
   PushRegistrationService({
@@ -93,10 +95,32 @@ class PushRegistrationService extends GetxService {
   final bool _ownsHttpClient;
   late final String _endpoint;
   late final PushAccountProvider? _accountProvider;
+  PushTransportPermissionRequester? _requestTransportPermission;
+  PushTransportPreparer? _prepareTransport;
 
   PushTransport? _currentTransport;
 
   PushTransport? get currentTransport => _currentTransport;
+
+  void configureTransportLifecycle({
+    PushTransportPermissionRequester? requestPermission,
+    PushTransportPreparer? prepareTransport,
+  }) {
+    _requestTransportPermission = requestPermission;
+    _prepareTransport = prepareTransport;
+  }
+
+  Future<bool> requestTransportPermission() async {
+    final request = _requestTransportPermission;
+    if (request == null) return true;
+    return request();
+  }
+
+  Future<void> prepareCurrentTransport() async {
+    final prepare = _prepareTransport;
+    if (prepare == null) return;
+    await prepare();
+  }
 
   void setCurrentTransport(PushTransport transport) {
     _currentTransport = transport;

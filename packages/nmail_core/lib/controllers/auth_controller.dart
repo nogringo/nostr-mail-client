@@ -101,7 +101,9 @@ class AuthController extends GetxController {
     await Get.find<SettingsController>().reloadSyncedSettings();
     if (Get.find<SettingsController>().notificationsEnabled.value &&
         Get.isRegistered<PushRegistrationService>()) {
-      await Get.find<PushRegistrationService>().registerCurrentTransport();
+      final pushService = Get.find<PushRegistrationService>();
+      await pushService.prepareCurrentTransport();
+      await pushService.registerCurrentTransport();
     }
   }
 

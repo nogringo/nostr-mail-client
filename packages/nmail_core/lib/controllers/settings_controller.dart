@@ -157,20 +157,38 @@ class SettingsController extends GetxController {
   /// toggle stays off.
   Future<void> setNotificationsEnabled(bool value) async {
     if (value) {
+      if (!Get.find<AuthController>().isLoggedIn.value || _pubkey == null) {
+        notificationsEnabled.value = false;
+        await _storageService.saveSetting(_notificationsEnabledKey, false);
+        return;
+      }
+
       final granted = await Get.find<NotificationService>()
           .requestPermissions();
       if (!granted) {
         notificationsEnabled.value = false;
         return;
       }
+
+      if (Get.isRegistered<PushRegistrationService>()) {
+        final pushService = Get.find<PushRegistrationService>();
+        final transportGranted = await pushService.requestTransportPermission();
+        if (!transportGranted) {
+          notificationsEnabled.value = false;
+          return;
+        }
+      }
     } else if (notificationsEnabled.value &&
         Get.isRegistered<PushRegistrationService>()) {
       await Get.find<PushRegistrationService>().disableCurrentTransport();
     }
+
     notificationsEnabled.value = value;
     await _storageService.saveSetting(_notificationsEnabledKey, value);
     if (value && Get.isRegistered<PushRegistrationService>()) {
-      await Get.find<PushRegistrationService>().registerCurrentTransport();
+      final pushService = Get.find<PushRegistrationService>();
+      await pushService.prepareCurrentTransport();
+      await pushService.registerCurrentTransport();
     }
   }
 

@@ -78,6 +78,43 @@ void main() {
   });
 
   group('PushRegistrationService requests', () {
+    test('transport lifecycle defaults are silent and permissive', () async {
+      final service = PushRegistrationService(endpoint: '');
+
+      expect(await service.requestTransportPermission(), isTrue);
+      await service.prepareCurrentTransport();
+      expect(service.currentTransport, isNull);
+    });
+
+    test('transport lifecycle callbacks are invoked', () async {
+      var permissionRequests = 0;
+      var prepareCalls = 0;
+      final service = PushRegistrationService(endpoint: '');
+
+      service.configureTransportLifecycle(
+        requestPermission: () async {
+          permissionRequests += 1;
+          return false;
+        },
+        prepareTransport: () async {
+          prepareCalls += 1;
+          service.setCurrentTransport(
+            const PushTransport.fcm(token: 'token-1'),
+          );
+        },
+      );
+
+      expect(await service.requestTransportPermission(), isFalse);
+      await service.prepareCurrentTransport();
+
+      expect(permissionRequests, 1);
+      expect(prepareCalls, 1);
+      expect(
+        service.currentTransport,
+        const PushTransport.fcm(token: 'token-1'),
+      );
+    });
+
     test('signs NIP-98 payload over exact request body bytes', () async {
       final signer = FakeEventSigner();
       final client = _CapturingClient();

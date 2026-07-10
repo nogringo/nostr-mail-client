@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -19,6 +20,8 @@ import 'package:unifiedpush/unifiedpush.dart';
 /// with `--unifiedpush-bg`; [runBackground] is that lightweight entry point,
 /// while [init] runs in the normal app to register and obtain the endpoint.
 class UnifiedPushHandler {
+  static Future<void>? _initializeFuture;
+
   /// Foreground: register with a distributor and obtain the endpoint. Messages
   /// arriving while the app is alive are shown via the shared core service.
   static Future<void> init() async {
@@ -26,16 +29,19 @@ class UnifiedPushHandler {
       return;
     }
 
-    await UnifiedPush.initialize(
-      onNewEndpoint: _onNewEndpoint,
-      onMessage: (message, instance) =>
-          _showFromMessage(Get.find<NotificationService>(), message),
-      onRegistrationFailed: (reason, instance) {},
-      onUnregistered: (instance) {},
-    );
+    if (Get.isRegistered<PushRegistrationService>()) {
+      Get.find<PushRegistrationService>().configureTransportLifecycle(
+        requestPermission: () async => true,
+        prepareTransport: _prepareTransport,
+      );
+    }
 
-    if (await UnifiedPush.tryUseCurrentOrDefaultDistributor()) {
-      await UnifiedPush.register();
+    await _ensureInitialized();
+
+    if (_canUsePush && Get.isRegistered<PushRegistrationService>()) {
+      final service = Get.find<PushRegistrationService>();
+      await service.prepareCurrentTransport();
+      await service.registerCurrentTransport();
     }
   }
 
@@ -69,9 +75,27 @@ class UnifiedPushHandler {
       ),
     );
 
-    if (Get.find<SettingsController>().notificationsEnabled.value) {
+    if (_canUsePush) {
       unawaited(service.registerCurrentTransport());
     }
+  }
+
+  static Future<void> _prepareTransport() async {
+    if (!_isSupportedPlatform) return;
+    await _ensureInitialized();
+    if (await UnifiedPush.tryUseCurrentOrDefaultDistributor()) {
+      await UnifiedPush.register();
+    }
+  }
+
+  static Future<void> _ensureInitialized() {
+    return _initializeFuture ??= UnifiedPush.initialize(
+      onNewEndpoint: _onNewEndpoint,
+      onMessage: (message, instance) =>
+          _showFromMessage(Get.find<NotificationService>(), message),
+      onRegistrationFailed: (reason, instance) {},
+      onUnregistered: (instance) {},
+    );
   }
 
   static void _showFromMessage(
@@ -107,5 +131,14 @@ class UnifiedPushHandler {
     if (kIsWeb) return false;
     return defaultTargetPlatform == TargetPlatform.android ||
         defaultTargetPlatform == TargetPlatform.linux;
+  }
+
+  static bool get _canUsePush {
+    if (!Get.isRegistered<AuthController>() ||
+        !Get.find<AuthController>().isLoggedIn.value) {
+      return false;
+    }
+    if (!Get.isRegistered<SettingsController>()) return false;
+    return Get.find<SettingsController>().notificationsEnabled.value;
   }
 }

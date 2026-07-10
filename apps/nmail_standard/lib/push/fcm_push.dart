@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
@@ -29,16 +30,37 @@ class FcmPush {
 
   static Future<void> _setup() async {
     final messaging = FirebaseMessaging.instance;
-    await messaging.requestPermission();
+    if (!Get.isRegistered<PushRegistrationService>()) return;
 
-    final token = await messaging.getToken();
-    await _setToken(token);
+    final pushService = Get.find<PushRegistrationService>();
+    pushService.configureTransportLifecycle(
+      requestPermission: () => _requestPermission(messaging),
+      prepareTransport: () => _refreshToken(messaging),
+    );
+
     messaging.onTokenRefresh.listen((t) {
+      if (!_canUsePush) return;
       unawaited(_setToken(t));
     });
 
+    if (_canUsePush) {
+      await pushService.prepareCurrentTransport();
+      await pushService.registerCurrentTransport();
+    }
+
     final initial = await messaging.getInitialMessage();
     if (initial != null) _handleTap(initial);
+  }
+
+  static Future<bool> _requestPermission(FirebaseMessaging messaging) async {
+    final settings = await messaging.requestPermission();
+    return settings.authorizationStatus == AuthorizationStatus.authorized ||
+        settings.authorizationStatus == AuthorizationStatus.provisional;
+  }
+
+  static Future<void> _refreshToken(FirebaseMessaging messaging) async {
+    final token = await messaging.getToken();
+    await _setToken(token, registerIfEnabled: false);
   }
 
   static void _handleTap(RemoteMessage message) {
@@ -51,16 +73,28 @@ class FcmPush {
     );
   }
 
-  static Future<void> _setToken(String? token) async {
+  static Future<void> _setToken(
+    String? token, {
+    bool registerIfEnabled = true,
+  }) async {
     if (token == null || token.isEmpty) return;
     if (!Get.isRegistered<PushRegistrationService>()) return;
 
     final service = Get.find<PushRegistrationService>();
     service.setCurrentTransport(PushTransport.fcm(token: token));
 
-    if (Get.find<SettingsController>().notificationsEnabled.value) {
+    if (registerIfEnabled && _canUsePush) {
       await service.registerCurrentTransport();
     }
+  }
+
+  static bool get _canUsePush {
+    if (!Get.isRegistered<AuthController>() ||
+        !Get.find<AuthController>().isLoggedIn.value) {
+      return false;
+    }
+    if (!Get.isRegistered<SettingsController>()) return false;
+    return Get.find<SettingsController>().notificationsEnabled.value;
   }
 }
 
