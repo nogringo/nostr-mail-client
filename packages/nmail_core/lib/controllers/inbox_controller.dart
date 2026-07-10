@@ -276,13 +276,10 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     // N label events triggers N successive _loadEmails() calls (each a
     // full local query + Rx rebuild). Merge both streams through a small
     // debounce (e.g. 100ms via rxdart) once the cost becomes noticeable.
-    _watchSubscription = _nostrMailService.client.onEmail.listen(
-      (email) {
-        _loadEmails();
-        _notifyIncomingEmail(email);
-      },
-      onError: (e) {},
-    );
+    _watchSubscription = _nostrMailService.client.onEmail.listen((email) {
+      _loadEmails();
+      _notifyIncomingEmail(email);
+    }, onError: (e) {});
     // Cross-device sync: label add/remove events from other devices arrive
     // via the label subscription in WatchManager. Reload so read/unread,
     // trash, archive and star state stay in sync without a manual refresh.

@@ -15,9 +15,11 @@ void main() {
         PushRegistrationService.buildBody(
           PushRegistrationAction.register,
           const PushTransport.fcm(token: 'token-1'),
+          language: 'fr',
         ),
         {
           'action': 'register',
+          'language': 'fr',
           'transport': {'type': 'fcm', 'token': 'token-1'},
         },
       );
@@ -33,9 +35,11 @@ void main() {
             auth: 'auth-secret',
             instance: 'nmail',
           ),
+          language: 'pt-BR',
         ),
         {
           'action': 'register',
+          'language': 'pt-BR',
           'transport': {
             'type': 'unifiedpush',
             'endpoint': 'https://push.example/abc',
@@ -45,6 +49,12 @@ void main() {
           },
         },
       );
+    });
+
+    test('normalizes empty or underscore language tags', () {
+      expect(PushRegistrationService.normalizeLanguageTag(null), 'en');
+      expect(PushRegistrationService.normalizeLanguageTag(''), 'en');
+      expect(PushRegistrationService.normalizeLanguageTag('pt_BR'), 'pt-BR');
     });
 
     test('builds minimal FCM disable body', () {
@@ -126,6 +136,7 @@ void main() {
           pubkey: signer.publicKey,
           signer: signer,
         ),
+        languageProvider: () => 'fr-FR',
       );
 
       final ok = await service.register(
@@ -150,6 +161,7 @@ void main() {
 
       expect(jsonDecode(utf8.decode(client.bodyBytes)), {
         'action': 'register',
+        'language': 'fr-FR',
         'transport': {'type': 'fcm', 'token': 'token-1'},
       });
     });

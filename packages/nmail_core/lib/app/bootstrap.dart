@@ -107,7 +107,13 @@ Future<void> runNmailApp({Future<void> Function()? onReady}) async {
   await Get.putAsync(() => SettingsController().init(), permanent: true);
 
   await Get.putAsync(() => NotificationService().init(), permanent: true);
-  Get.put(PushRegistrationService(), permanent: true);
+  Get.put(
+    PushRegistrationService(
+      languageProvider: () =>
+          Get.find<SettingsController>().notificationLanguageTag,
+    ),
+    permanent: true,
+  );
 
   // Run InitialBinding (ContactsService) before the router boots - the
   // router's redirect reads SettingsController on first navigation.

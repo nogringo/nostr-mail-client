@@ -10,6 +10,7 @@ import 'package:path/path.dart' as p;
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -49,6 +50,15 @@ class SettingsController extends GetxController {
 
   String get _backgroundKey =>
       _pubkey != null ? '${_backgroundImageKey}_$_pubkey' : _backgroundImageKey;
+
+  String get notificationLanguageTag {
+    final selectedLocale = locale.value;
+    if (selectedLocale != null) return selectedLocale.toLanguageTag();
+
+    return _resolveSupportedLocale(
+      WidgetsBinding.instance.platformDispatcher.locales,
+    ).toLanguageTag();
+  }
 
   /// Awaitable initialisation. Call this once via `Get.putAsync` before
   /// `runApp` so the first frame already has the saved theme mode and locale -
@@ -231,6 +241,8 @@ class SettingsController extends GetxController {
     } else {
       await _storageService.saveSetting(localeKey, _localeToStorage(value));
     }
+
+    await _refreshPushRegistrationLanguage();
   }
 
   Locale? _localeFromStorage(String? value) {
@@ -249,6 +261,46 @@ class SettingsController extends GetxController {
     }
 
     return '${value.languageCode}_$countryCode';
+  }
+
+  Locale _resolveSupportedLocale(List<Locale> preferredLocales) {
+    const fallback = Locale('en');
+    const supportedLocales = AppLocalizations.supportedLocales;
+
+    for (final preferred in preferredLocales) {
+      for (final supported in supportedLocales) {
+        if (_localeMatchesExactly(preferred, supported)) return supported;
+      }
+    }
+
+    for (final preferred in preferredLocales) {
+      for (final supported in supportedLocales) {
+        if (preferred.languageCode == supported.languageCode) {
+          return supported;
+        }
+      }
+    }
+
+    return fallback;
+  }
+
+  bool _localeMatchesExactly(Locale a, Locale b) {
+    return a.languageCode == b.languageCode &&
+        a.scriptCode == b.scriptCode &&
+        a.countryCode == b.countryCode;
+  }
+
+  Future<void> _refreshPushRegistrationLanguage() async {
+    if (!notificationsEnabled.value ||
+        !Get.isRegistered<AuthController>() ||
+        !Get.find<AuthController>().isLoggedIn.value ||
+        !Get.isRegistered<PushRegistrationService>()) {
+      return;
+    }
+
+    final pushService = Get.find<PushRegistrationService>();
+    await pushService.prepareCurrentTransport();
+    await pushService.registerCurrentTransport();
   }
 
   Future<void> setDynamicTheme(bool value) async {

@@ -65,6 +65,7 @@ class UnifiedPushTransport extends PushTransport {
 }
 
 typedef PushAccountProvider = Account? Function();
+typedef PushLanguageProvider = String Function();
 typedef PushTransportPermissionRequester = Future<bool> Function();
 typedef PushTransportPreparer = Future<void> Function();
 
@@ -74,11 +75,13 @@ class PushRegistrationService extends GetxService {
     http.Client? httpClient,
     String endpoint = defaultEndpoint,
     PushAccountProvider? accountProvider,
+    PushLanguageProvider? languageProvider,
   }) : _httpClient = httpClient ?? http.Client(),
        _ownsHttpClient = httpClient == null {
     _ndk = ndk;
     _endpoint = endpoint;
     _accountProvider = accountProvider;
+    _languageProvider = languageProvider ?? (() => 'en');
   }
 
   static const officialEndpoint = 'https://api.nmail.li/push/subscriptions';
@@ -95,6 +98,7 @@ class PushRegistrationService extends GetxService {
   final bool _ownsHttpClient;
   late final String _endpoint;
   late final PushAccountProvider? _accountProvider;
+  late final PushLanguageProvider _languageProvider;
   PushTransportPermissionRequester? _requestTransportPermission;
   PushTransportPreparer? _prepareTransport;
 
@@ -149,9 +153,20 @@ class PushRegistrationService extends GetxService {
 
   static Map<String, dynamic> buildBody(
     PushRegistrationAction action,
-    PushTransport transport,
-  ) {
-    return {'action': action.name, 'transport': transport.toJson()};
+    PushTransport transport, {
+    String? language,
+  }) {
+    return {
+      'action': action.name,
+      if (action == PushRegistrationAction.register)
+        'language': normalizeLanguageTag(language),
+      'transport': transport.toJson(),
+    };
+  }
+
+  static String normalizeLanguageTag(String? language) {
+    final value = language?.trim().replaceAll('_', '-') ?? '';
+    return value.isEmpty ? 'en' : value;
   }
 
   static String sha256Hex(List<int> bytes) => sha256.convert(bytes).toString();
@@ -172,7 +187,9 @@ class PushRegistrationService extends GetxService {
     }
 
     final url = Uri.parse(_endpoint);
-    final bodyBytes = utf8.encode(jsonEncode(buildBody(action, transport)));
+    final bodyBytes = utf8.encode(
+      jsonEncode(buildBody(action, transport, language: _languageProvider())),
+    );
     final payloadHash = sha256Hex(bodyBytes);
 
     final unsigned = Nip01Event(

@@ -25,6 +25,7 @@ The body contains only data required to create or remove a push subscription.
 ```json
 {
   "action": "register",
+  "language": "en",
   "transport": {}
 }
 ```
@@ -32,6 +33,9 @@ The body contains only data required to create or remove a push subscription.
 Fields:
 
 - `action`: `register` or `disable`.
+- `language`: BCP 47 language tag for notification text, for example `en`,
+  `fr`, or `fr-FR`. Required when `action` is `register`; omitted when
+  `action` is `disable`.
 - `transport`: push destination details.
 
 ## Transports
@@ -72,7 +76,8 @@ UnifiedPush disable:
 ## Server Behavior
 
 - `register` is an upsert by authenticated pubkey, transport type, and push
-  destination.
+  destination. The stored notification language is updated to the submitted
+  `language`.
 - `disable` deletes by authenticated pubkey, transport type, and push
   destination.
 - Invalid or expired push destinations should be pruned when FCM or the
