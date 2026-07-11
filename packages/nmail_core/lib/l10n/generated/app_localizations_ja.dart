@@ -99,6 +99,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsLanguageDialogTitle => '言語を選択';
 
   @override
+  String get settingsNotifications => '通知';
+
+  @override
+  String get settingsEnableNotifications => '通知を有効にする';
+
+  @override
+  String get settingsEnableNotificationsSubtitle => '新しいメールが届いたら通知します。';
+
+  @override
   String get settingsAdvancedOptions => '詳細設定';
 
   @override
@@ -442,6 +451,17 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get debugToolsCreateOldTrashedDescription =>
       '31 日前のテストメールをゴミ箱に作成します。「古いメールを削除」機能のテストに使用します。';
+
+  @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
 
   @override
   String get folderInbox => '受信トレイ';

@@ -1,3 +1,5 @@
 import 'package:nmail_core/app/bootstrap.dart';
 
-void main() => runNmailApp();
+import 'push/fcm_push.dart';
+
+void main() => runNmailApp(onReady: FcmPush.init);

@@ -100,6 +100,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Выберите язык';
 
   @override
+  String get settingsNotifications => 'Уведомления';
+
+  @override
+  String get settingsEnableNotifications => 'Включить уведомления';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Получайте уведомления о новых письмах.';
+
+  @override
   String get settingsAdvancedOptions => 'Дополнительные параметры';
 
   @override
@@ -454,6 +464,17 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get debugToolsCreateOldTrashedDescription =>
       'Создаёт тестовое письмо в корзине возрастом 31 день. Используйте, чтобы протестировать функцию «Удалить старые письма».';
+
+  @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
 
   @override
   String get folderInbox => 'Входящие';

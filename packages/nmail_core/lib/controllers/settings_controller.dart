@@ -10,7 +10,10 @@ import 'package:path/path.dart' as p;
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/notification_service.dart';
+import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
@@ -23,6 +26,7 @@ class SettingsController extends GetxController {
 
   static const _showRawEmailKey = 'show_raw_email';
   static const _alwaysLoadImagesKey = 'always_load_images';
+  static const _notificationsEnabledKey = 'notifications_enabled';
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
@@ -31,6 +35,7 @@ class SettingsController extends GetxController {
 
   final showRawEmail = false.obs;
   final alwaysLoadImages = false.obs;
+  final notificationsEnabled = false.obs;
   final emailSignature = _defaultSignature.obs;
   final backgroundImage = Rxn<String>();
   final themeMode = ThemeMode.system.obs;
@@ -45,6 +50,15 @@ class SettingsController extends GetxController {
 
   String get _backgroundKey =>
       _pubkey != null ? '${_backgroundImageKey}_$_pubkey' : _backgroundImageKey;
+
+  String get notificationLanguageTag {
+    final selectedLocale = locale.value;
+    if (selectedLocale != null) return selectedLocale.toLanguageTag();
+
+    return _resolveSupportedLocale(
+      WidgetsBinding.instance.platformDispatcher.locales,
+    ).toLanguageTag();
+  }
 
   /// Awaitable initialisation. Call this once via `Get.putAsync` before
   /// `runApp` so the first frame already has the saved theme mode and locale -
@@ -81,6 +95,7 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyLight),
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyDark),
       _storageService.getSetting<String>(localeKey),
+      _storageService.getSetting<bool>(_notificationsEnabledKey),
     ]);
 
     showRawEmail.value = (results[0] as bool?) ?? false;
@@ -104,6 +119,8 @@ class SettingsController extends GetxController {
     final savedLocale = results[7] as String?;
     locale.value = _localeFromStorage(savedLocale);
 
+    notificationsEnabled.value = (results[8] as bool?) ?? false;
+
     _refreshSignatureFromRelays();
   }
 
@@ -123,8 +140,8 @@ class SettingsController extends GetxController {
       if (remote != null && remote.isNotEmpty) {
         emailSignature.value = remote;
       }
-    } catch (e) {
-      debugPrint('Failed to fetch signature from Nostr: $e');
+    } catch (_) {
+      return;
     }
   }
 
@@ -146,6 +163,45 @@ class SettingsController extends GetxController {
     await _storageService.saveSetting(_alwaysLoadImagesKey, value);
   }
 
+  /// Enabling requests OS notification permission first; if it is denied the
+  /// toggle stays off.
+  Future<void> setNotificationsEnabled(bool value) async {
+    if (value) {
+      if (!Get.find<AuthController>().isLoggedIn.value || _pubkey == null) {
+        notificationsEnabled.value = false;
+        await _storageService.saveSetting(_notificationsEnabledKey, false);
+        return;
+      }
+
+      final granted = await Get.find<NotificationService>()
+          .requestPermissions();
+      if (!granted) {
+        notificationsEnabled.value = false;
+        return;
+      }
+
+      if (Get.isRegistered<PushRegistrationService>()) {
+        final pushService = Get.find<PushRegistrationService>();
+        final transportGranted = await pushService.requestTransportPermission();
+        if (!transportGranted) {
+          notificationsEnabled.value = false;
+          return;
+        }
+      }
+    } else if (notificationsEnabled.value &&
+        Get.isRegistered<PushRegistrationService>()) {
+      await Get.find<PushRegistrationService>().disableCurrentTransport();
+    }
+
+    notificationsEnabled.value = value;
+    await _storageService.saveSetting(_notificationsEnabledKey, value);
+    if (value && Get.isRegistered<PushRegistrationService>()) {
+      final pushService = Get.find<PushRegistrationService>();
+      await pushService.prepareCurrentTransport();
+      await pushService.registerCurrentTransport();
+    }
+  }
+
   /// Set the email signature and sync to Nostr.
   Future<void> setEmailSignature(String value) async {
     emailSignature.value = value;
@@ -153,8 +209,8 @@ class SettingsController extends GetxController {
     if (_nostrMailService.isClientInitialized) {
       try {
         await _nostrMailService.client.updatePrivateSettings(signature: value);
-      } catch (e) {
-        debugPrint('Failed to sync signature to Nostr: $e');
+      } catch (_) {
+        return;
       }
     }
   }
@@ -185,6 +241,8 @@ class SettingsController extends GetxController {
     } else {
       await _storageService.saveSetting(localeKey, _localeToStorage(value));
     }
+
+    await _refreshPushRegistrationLanguage();
   }
 
   Locale? _localeFromStorage(String? value) {
@@ -203,6 +261,46 @@ class SettingsController extends GetxController {
     }
 
     return '${value.languageCode}_$countryCode';
+  }
+
+  Locale _resolveSupportedLocale(List<Locale> preferredLocales) {
+    const fallback = Locale('en');
+    const supportedLocales = AppLocalizations.supportedLocales;
+
+    for (final preferred in preferredLocales) {
+      for (final supported in supportedLocales) {
+        if (_localeMatchesExactly(preferred, supported)) return supported;
+      }
+    }
+
+    for (final preferred in preferredLocales) {
+      for (final supported in supportedLocales) {
+        if (preferred.languageCode == supported.languageCode) {
+          return supported;
+        }
+      }
+    }
+
+    return fallback;
+  }
+
+  bool _localeMatchesExactly(Locale a, Locale b) {
+    return a.languageCode == b.languageCode &&
+        a.scriptCode == b.scriptCode &&
+        a.countryCode == b.countryCode;
+  }
+
+  Future<void> _refreshPushRegistrationLanguage() async {
+    if (!notificationsEnabled.value ||
+        !Get.isRegistered<AuthController>() ||
+        !Get.find<AuthController>().isLoggedIn.value ||
+        !Get.isRegistered<PushRegistrationService>()) {
+      return;
+    }
+
+    final pushService = Get.find<PushRegistrationService>();
+    await pushService.prepareCurrentTransport();
+    await pushService.registerCurrentTransport();
   }
 
   Future<void> setDynamicTheme(bool value) async {
@@ -318,6 +416,7 @@ class SettingsController extends GetxController {
     // Reset in-memory state
     showRawEmail.value = false;
     alwaysLoadImages.value = false;
+    notificationsEnabled.value = false;
     emailSignature.value = _defaultSignature;
     backgroundImage.value = null;
     themeMode.value = ThemeMode.system;

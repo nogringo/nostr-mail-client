@@ -21,6 +21,7 @@ android {
     ndkVersion = "27.0.12077973"
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -62,6 +63,17 @@ android {
     }
 }
 
+configurations.all {
+    // unifiedpush pulls tink-android; another dep pulls the JVM tink, and the
+    // two duplicate every class. Keep the Android variant.
+    exclude(group = "com.google.crypto.tink", module = "tink")
+}
+
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // flutter_local_notifications requires core library desugaring (its AAR mandates it)
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }

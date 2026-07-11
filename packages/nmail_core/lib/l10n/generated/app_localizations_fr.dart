@@ -100,6 +100,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Choisir une langue';
 
   @override
+  String get settingsNotifications => 'Notifications';
+
+  @override
+  String get settingsEnableNotifications => 'Activer les notifications';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Être notifié à l\'arrivée d\'un nouvel e-mail.';
+
+  @override
   String get settingsAdvancedOptions => 'Options avancées';
 
   @override
@@ -459,6 +469,18 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get debugToolsCreateOldTrashedDescription =>
       'Crée un e-mail de test dans la corbeille, daté de 31 jours. Utilisez-le pour tester la fonctionnalité « Supprimer les anciens e-mails ».';
+
+  @override
+  String get debugToolsTriggerNotification =>
+      'Déclencher une notification de test';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Affiche une notification locale comme si un nouvel e-mail venait d\'arriver, pour tester l\'affichage et le tap.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Permission de notification refusée.';
 
   @override
   String get folderInbox => 'Boîte de réception';

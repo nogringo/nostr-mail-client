@@ -27,11 +27,13 @@ import 'package:nmail_core/services/blossom_cache_factory_io.dart'
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/services/notification_service.dart';
+import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 
-Future<void> runNmailApp() async {
+Future<void> runNmailApp({Future<void> Function()? onReady}) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -104,9 +106,21 @@ Future<void> runNmailApp() async {
   // saved theme mode and locale are available before the first frame.
   await Get.putAsync(() => SettingsController().init(), permanent: true);
 
+  await Get.putAsync(() => NotificationService().init(), permanent: true);
+  Get.put(
+    PushRegistrationService(
+      languageProvider: () =>
+          Get.find<SettingsController>().notificationLanguageTag,
+    ),
+    permanent: true,
+  );
+
   // Run InitialBinding (ContactsService) before the router boots - the
   // router's redirect reads SettingsController on first navigation.
   InitialBinding().dependencies();
+
+  // Flavor-specific setup (e.g. FCM on nmail_standard), kept out of core.
+  await onReady?.call();
 
   runApp(const MainApp());
 }

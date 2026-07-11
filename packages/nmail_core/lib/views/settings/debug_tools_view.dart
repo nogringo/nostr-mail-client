@@ -50,6 +50,24 @@ class DebugToolsView extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
+                  const SizedBox(height: 24),
+                  ElevatedButton.icon(
+                    onPressed: () =>
+                        controller.triggerTestNotification(context),
+                    icon: const Icon(Icons.notifications_active_outlined),
+                    label: Text(l.debugToolsTriggerNotification),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 48),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    l.debugToolsTriggerNotificationDescription,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
                 ],
               ),
             ),

@@ -100,6 +100,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Elegir un idioma';
 
   @override
+  String get settingsNotifications => 'Notificaciones';
+
+  @override
+  String get settingsEnableNotifications => 'Activar notificaciones';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Recibe un aviso cuando llegue un nuevo correo.';
+
+  @override
   String get settingsAdvancedOptions => 'Opciones avanzadas';
 
   @override
@@ -456,6 +466,17 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get debugToolsCreateOldTrashedDescription =>
       'Crea un correo de prueba en la papelera con 31 días de antigüedad. Úsalo para probar la función \"Eliminar correos antiguos\".';
+
+  @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
 
   @override
   String get folderInbox => 'Bandeja de entrada';

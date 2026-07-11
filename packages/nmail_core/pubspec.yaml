@@ -14,12 +14,14 @@ dependencies:
   blossom_upload_queue_shim_for_ndk: ^0.4.1
   broadcast_queue_shim_for_ndk: ^0.2.1
   collection: ^1.19.1
+  crypto: ^3.0.7
   enough_mail_plus: ^2.2.4
   file_picker: ^11.0.2
   file_saver: ^0.4.0
   flutter:
     sdk: flutter
   flutter_highlight: ^0.7.0
+  flutter_local_notifications: ^22.0.1
   flutter_localizations:
     sdk: flutter
   flutter_quill: ^11.5.1
@@ -40,7 +42,7 @@ dependencies:
   ndk: ^0.8.4-dev.5
   ndk_flutter: ^0.8.4-dev.11
   nostr_address_book: ^0.1.1
-  nostr_mail: ^2.3.0
+  nostr_mail: ^2.5.0
   package_info_plus: ^9.0.1
   path: ^1.9.1
   path_provider: ^2.1.5

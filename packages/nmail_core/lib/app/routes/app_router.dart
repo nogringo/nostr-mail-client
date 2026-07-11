@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 
@@ -16,6 +15,7 @@ import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/storage_service.dart';
+import 'package:nmail_core/utils/nostr_utils.dart';
 import '../../views/auth/login_view.dart';
 import '../../views/compose/compose_view.dart';
 import '../../views/contacts/contacts_view.dart';
@@ -284,18 +284,22 @@ class AppRouter {
     );
   }
 
-  /// (Re)register EmailController for `hex` only when needed.
+  /// (Re)register EmailController for `eventReference` only when needed.
   /// Builders can fire on rebuilds (refreshListenable, theme changes);
   /// we must not nuke an in-flight controller for the same event/folder.
-  static void _ensureEmailController(String hex, MailFolder? folder) {
+  static void _ensureEmailController(
+    String eventReference,
+    MailFolder? folder,
+  ) {
     if (Get.isRegistered<EmailController>()) {
       final existing = Get.find<EmailController>();
-      if (existing.eventIdHex == hex && existing.folder == folder) {
+      if (existing.eventReference == eventReference &&
+          existing.folder == folder) {
         return;
       }
       Get.delete<EmailController>();
     }
-    Get.put(EmailController(eventIdHex: hex, folder: folder));
+    Get.put(EmailController(eventReference: eventReference, folder: folder));
   }
 
   static Widget _dispatchNostrId(String id) {
@@ -303,37 +307,13 @@ class AppRouter {
       return ProfileShareView(bech32: id);
     }
 
-    final hex = _toHexEventId(id);
-    if (hex == null) {
+    if (nostrEventReferenceFromString(id) == null) {
       return const NotFoundView();
     }
 
     // Share-link entry point: folder context is unknown.
-    _ensureEmailController(hex, null);
+    _ensureEmailController(id, null);
     return const EmailView();
-  }
-
-  /// Decode bech32 (nevent/note) to hex. Pass-through if already 64-char hex.
-  /// Returns null if the input is neither.
-  static String? _toHexEventId(String id) {
-    if (id.length == 64 && RegExp(r'^[0-9a-f]+$').hasMatch(id)) {
-      return id;
-    }
-    if (id.startsWith('nevent1')) {
-      try {
-        return Nip19.decodeNevent(id).eventId;
-      } catch (_) {
-        return null;
-      }
-    }
-    if (id.startsWith('note1')) {
-      try {
-        return Nip19.decode(id);
-      } catch (_) {
-        return null;
-      }
-    }
-    return null;
   }
 
   static String? _globalRedirect(BuildContext context, GoRouterState state) {

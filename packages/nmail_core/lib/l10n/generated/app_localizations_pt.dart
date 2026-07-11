@@ -100,6 +100,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsLanguageDialogTitle => 'Escolher um idioma';
 
   @override
+  String get settingsNotifications => 'Notificações';
+
+  @override
+  String get settingsEnableNotifications => 'Ativar notificações';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Seja notificado quando um novo email chegar.';
+
+  @override
   String get settingsAdvancedOptions => 'Opções avançadas';
 
   @override
@@ -456,6 +466,17 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get debugToolsCreateOldTrashedDescription =>
       'Cria um email de teste no lixo com 31 dias. Use para testar a funcionalidade \"Eliminar emails antigos\".';
+
+  @override
+  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Notification permission denied.';
 
   @override
   String get folderInbox => 'Caixa de entrada';
@@ -1459,6 +1480,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsLanguageDialogTitle => 'Escolher um idioma';
+
+  @override
+  String get settingsNotifications => 'Notificações';
+
+  @override
+  String get settingsEnableNotifications => 'Ativar notificações';
+
+  @override
+  String get settingsEnableNotificationsSubtitle =>
+      'Seja notificado quando um novo e-mail chegar.';
 
   @override
   String get settingsAdvancedOptions => 'Opções avançadas';

@@ -18,6 +18,7 @@ Releases prior to 0.13.0 are listed on the
 ### Added
 
 - Schedule emails for future delivery: pick a send time from compose and confirm with Send, then view, edit, or cancel queued emails in a new Scheduled mailbox.
+- Push notifications.
 
 ### Changed
 
