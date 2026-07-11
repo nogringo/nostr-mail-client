@@ -8,7 +8,6 @@ import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
-import 'package:nmail_core/utils/nostr_utils.dart';
 
 import '../firebase_options.dart';
 
@@ -65,10 +64,9 @@ class FcmPush {
 
   static void _handleTap(RemoteMessage message) {
     final nevent = message.data['nevent'];
-    final eventId = nevent is String ? eventIdFromNevent(nevent) : null;
     AppRouter.router.go(
-      eventId != null && eventId.isNotEmpty
-          ? '${AppRoutes.inbox}/email/$eventId'
+      nevent is String && nevent.isNotEmpty
+          ? '${AppRoutes.inbox}/email/$nevent'
           : AppRoutes.inbox,
     );
   }

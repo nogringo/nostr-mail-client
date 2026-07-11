@@ -121,8 +121,8 @@ class UnifiedPushHandler {
           0x7fffffff,
       title: data?['title'] as String? ?? 'New email',
       body: data?['body'] as String? ?? '',
-      payload: eventId != null
-          ? '${AppRoutes.inbox}/email/$eventId'
+      payload: nevent is String && nevent.isNotEmpty
+          ? '${AppRoutes.inbox}/email/$nevent'
           : AppRoutes.inbox,
     );
   }

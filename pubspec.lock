@@ -953,10 +953,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: "7a8e3ace30f39fa6855b9ca16dfc916ab5c87b6d5449258c607743c516ee1dbd"
+      sha256: "98188db3ae878a6157881f3f0905acc70eaab6e21b9eb319f974b94eab7a060d"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.5.0"
   objective_c:
     dependency: transitive
     description:

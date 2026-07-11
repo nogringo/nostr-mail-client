@@ -27,9 +27,11 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 class EmailController extends GetxController {
   static EmailController get to => Get.find();
 
-  /// Hex event id of the giftwrap (or any nostr event) this controller renders.
-  /// Passed by the route builder from the URL.
-  final String eventIdHex;
+  /// Nostr event reference this controller renders.
+  ///
+  /// Can be a 64-char hex event id, a note, or a nevent. A nevent can carry
+  /// relay hints from push notifications and share links.
+  final String eventReference;
 
   /// Folder the email is being viewed from. Null when reached via the
   /// `/:nostrId` share-link dispatcher (no folder context). Source of
@@ -51,7 +53,7 @@ class EmailController extends GetxController {
   String? rawContent;
   bool isLoadingRawContent = false;
 
-  EmailController({required this.eventIdHex, this.folder}) {
+  EmailController({required this.eventReference, this.folder}) {
     showImages = Get.find<SettingsController>().alwaysLoadImages.value;
     loadEmail();
   }
@@ -141,7 +143,13 @@ class EmailController extends GetxController {
 
   Future<void> loadEmail() async {
     final nostrMailService = Get.find<NostrMailService>();
-    final loaded = await nostrMailService.client.getEmail(eventIdHex);
+    final reference = nostrEventReferenceFromString(eventReference);
+    final loaded = reference == null
+        ? null
+        : await nostrMailService.client.openEmail(
+            eventId: reference.eventId,
+            relays: reference.relays,
+          );
 
     if (loaded != null) {
       loadSenderMetadata(loaded);
