@@ -15,6 +15,9 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+      - uses: ./.github/actions/inject-nmail-standard-firebase-options
+        with:
+          firebase-options-base64: ${{ secrets.NMAIL_STANDARD_FIREBASE_OPTIONS_BASE64 }}
       - run: flutter pub get && flutter build web --release --output ../../build/web
         working-directory: apps/nmail_standard
       - uses: FirebaseExtended/action-hosting-deploy@v0

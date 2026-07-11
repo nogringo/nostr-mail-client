@@ -1,0 +1,33 @@
+name: Inject nmail_standard firebase_options.dart
+description: Restore the ignored FlutterFire options file for nmail_standard CI builds.
+
+inputs:
+  firebase-options-base64:
+    description: Base64-encoded apps/nmail_standard/lib/firebase_options.dart.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Decode firebase_options.dart
+      shell: bash
+      env:
+        FIREBASE_OPTIONS_BASE64: ${{ inputs.firebase-options-base64 }}
+      run: |
+        node <<'NODE'
+        const fs = require('fs');
+        const path = require('path');
+
+        const value = process.env.FIREBASE_OPTIONS_BASE64;
+        if (!value) {
+          throw new Error('Missing firebase-options-base64 input');
+        }
+
+        fs.writeFileSync(
+          path.join(
+            process.env.GITHUB_WORKSPACE,
+            'apps/nmail_standard/lib/firebase_options.dart',
+          ),
+          Buffer.from(value, 'base64'),
+        );
+        NODE

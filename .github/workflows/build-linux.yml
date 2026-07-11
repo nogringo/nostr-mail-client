@@ -24,6 +24,10 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - uses: ./.github/actions/inject-nmail-standard-firebase-options
+        with:
+          firebase-options-base64: ${{ secrets.NMAIL_STANDARD_FIREBASE_OPTIONS_BASE64 }}
+
       - name: Install dependencies
         run: flutter pub get
         working-directory: ${{ env.APP_DIR }}
