@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -17,6 +18,8 @@ import '../firebase_options.dart';
 /// the device token, and tap-to-open routing.
 class FcmPush {
   static Future<void> init() async {
+    if (!_isSupportedPlatform) return;
+
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
@@ -93,6 +96,13 @@ class FcmPush {
     }
     if (!Get.isRegistered<SettingsController>()) return false;
     return Get.find<SettingsController>().notificationsEnabled.value;
+  }
+
+  static bool get _isSupportedPlatform {
+    if (kIsWeb) return true;
+    return defaultTargetPlatform == TargetPlatform.android ||
+        defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.macOS;
   }
 }
 
