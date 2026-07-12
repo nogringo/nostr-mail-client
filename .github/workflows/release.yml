@@ -17,7 +17,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     env:
-      APP_DIR: apps/nmail_zapstore
+      APP_DIR: apps/nmail_foss
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -55,33 +55,33 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android APK (universal)
-        run: flutter build apk --release
+        run: flutter build apk --release --flavor zapstore
         working-directory: ${{ env.APP_DIR }}
 
       - name: Rename universal APK
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
-          cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-universal.apk
+          cp build/app/outputs/flutter-apk/app-zapstore-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-universal.apk
         working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android APK (arm64)
-        run: flutter build apk --release --target-platform android-arm64
+        run: flutter build apk --release --flavor zapstore --target-platform android-arm64
         working-directory: ${{ env.APP_DIR }}
 
       - name: Rename arm64 APK
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
-          cp build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-arm64.apk
+          cp build/app/outputs/flutter-apk/app-zapstore-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-arm64.apk
         working-directory: ${{ env.APP_DIR }}
 
       - name: Build Android App Bundle
-        run: flutter build appbundle --release
+        run: flutter build appbundle --release --flavor zapstore
         working-directory: ${{ env.APP_DIR }}
 
       - name: Rename AAB
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
-          cp build/app/outputs/bundle/release/app-release.aab build/app/outputs/bundle/release/nmail-${VERSION}-android.aab
+          cp build/app/outputs/bundle/zapstoreRelease/app-zapstore-release.aab build/app/outputs/bundle/zapstoreRelease/nmail-${VERSION}-android.aab
         working-directory: ${{ env.APP_DIR }}
 
       - name: Upload APK
@@ -94,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: nmail-aab
-          path: ${{ env.APP_DIR }}/build/app/outputs/bundle/release/nmail-${{ steps.get_version.outputs.version }}-android.aab
+          path: ${{ env.APP_DIR }}/build/app/outputs/bundle/zapstoreRelease/nmail-${{ steps.get_version.outputs.version }}-android.aab
 
   build-linux:
     runs-on: ubuntu-latest
