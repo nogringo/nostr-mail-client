@@ -19,6 +19,10 @@ jobs:
       - uses: ./.github/actions/inject-nmail-standard-firebase-options
         with:
           firebase-options-base64: ${{ secrets.NMAIL_STANDARD_FIREBASE_OPTIONS_BASE64 }}
+          macos-google-service-info-plist-base64: ${{ secrets.NMAIL_STANDARD_MACOS_GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
+
+      - name: Validate macOS Firebase config
+        run: test -s ${{ env.APP_DIR }}/macos/Runner/GoogleService-Info.plist
 
       - name: Install dependencies
         run: flutter pub get
@@ -27,18 +31,98 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Build macOS app
-        run: flutter build macos --release
-        working-directory: ${{ env.APP_DIR }}
-
-      - name: Create ZIP
+      - name: Install packaging tools
         run: |
-          cd build/macos/Build/Products/Release
-          zip -r nmail-macos.zip Nmail.app
+          dart pub global activate fastforge
+          npm install -g appdmg
+
+      - name: Get version from pubspec.yaml
+        id: get_version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
+          VERSION=${VERSION%+*}
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
         working-directory: ${{ env.APP_DIR }}
 
-      - name: Upload artifact
+      - name: Import Developer ID certificate
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_CERTIFICATE_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
+        run: |
+          KEYCHAIN_PATH="$RUNNER_TEMP/nmail-signing.keychain-db"
+          CERTIFICATE_PATH="$RUNNER_TEMP/developer-id-application.p12"
+
+          echo "$CERTIFICATE_BASE64" | base64 --decode > "$CERTIFICATE_PATH"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$CERTIFICATE_PATH" \
+            -P "$CERTIFICATE_PASSWORD" \
+            -A \
+            -k "$KEYCHAIN_PATH" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security
+          security list-keychains -d user -s "$KEYCHAIN_PATH" $(security list-keychains -d user | tr -d '"')
+          security default-keychain -d user -s "$KEYCHAIN_PATH"
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: \
+            -s \
+            -k "$KEYCHAIN_PASSWORD" \
+            "$KEYCHAIN_PATH"
+          security find-identity -v -p codesigning "$KEYCHAIN_PATH"
+
+      - name: Package macOS artifacts
+        env:
+          APPLE_DEVELOPER_ID_APPLICATION_IDENTITY: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_IDENTITY }}
+          VERSION: ${{ steps.get_version.outputs.version }}
+        run: |
+          mkdir -p ../../release-artifacts
+          fastforge package \
+            --no-version-check \
+            --platform macos \
+            --targets dmg \
+            --artifact-name "nmail-${VERSION}-macos" \
+            --hook-pre '../../.github/scripts/sign-macos-app.sh "$BUILD_OUTPUT_DIRECTORY/Nmail.app" "macos/Runner/Release.entitlements"'
+
+          DMG_PATH=$(find dist -type f -name '*.dmg' -print -quit)
+          if [ -z "$DMG_PATH" ]; then
+            echo "No DMG produced by Fastforge"
+            exit 1
+          fi
+
+          cp "$DMG_PATH" "../../release-artifacts/nmail-${VERSION}-macos.dmg"
+          ditto \
+            -c \
+            -k \
+            --keepParent \
+            build/macos/Build/Products/Release/Nmail.app \
+            "../../release-artifacts/nmail-${VERSION}-macos.zip"
+        working-directory: ${{ env.APP_DIR }}
+
+      - name: Notarize macOS artifacts
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          VERSION: ${{ steps.get_version.outputs.version }}
+        run: |
+          xcrun notarytool submit "release-artifacts/nmail-${VERSION}-macos.dmg" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+          xcrun stapler staple "release-artifacts/nmail-${VERSION}-macos.dmg"
+          xcrun stapler validate "release-artifacts/nmail-${VERSION}-macos.dmg"
+
+          xcrun notarytool submit "release-artifacts/nmail-${VERSION}-macos.zip" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD" \
+            --team-id "$APPLE_TEAM_ID" \
+            --wait
+
+      - name: Upload artifacts
         uses: actions/upload-artifact@v7
         with:
           name: nmail-macos
-          path: ${{ env.APP_DIR }}/build/macos/Build/Products/Release/nmail-macos.zip
+          path: release-artifacts/nmail-${{ steps.get_version.outputs.version }}-macos.*
