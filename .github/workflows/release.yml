@@ -16,8 +16,6 @@ concurrency:
 jobs:
   build-android:
     runs-on: ubuntu-latest
-    env:
-      APP_DIR: apps/nmail_foss
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -33,68 +31,115 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Install dependencies
+      - uses: ./.github/actions/inject-nmail-standard-firebase-options
+        with:
+          firebase-options-base64: ${{ secrets.NMAIL_STANDARD_FIREBASE_OPTIONS_BASE64 }}
+          google-services-json-base64: ${{ secrets.NMAIL_STANDARD_GOOGLE_SERVICES_JSON_BASE64 }}
+
+      - name: Validate standard Android Firebase config
+        run: test -s apps/nmail_standard/android/app/google-services.json
+
+      - name: Install FOSS dependencies
         run: flutter pub get
-        working-directory: ${{ env.APP_DIR }}
+        working-directory: apps/nmail_foss
+
+      - name: Install standard dependencies
+        run: flutter pub get
+        working-directory: apps/nmail_standard
 
       - name: Prepare Signing
         run: |
-          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/russel.p12
-          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > android/key.properties
-          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
-          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
-          echo "storeFile=russel.p12" >> android/key.properties
-        working-directory: ${{ env.APP_DIR }}
+          for APP_DIR in apps/nmail_foss apps/nmail_standard; do
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > "${APP_DIR}/android/app/russel.p12"
+            echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > "${APP_DIR}/android/key.properties"
+            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> "${APP_DIR}/android/key.properties"
+            echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> "${APP_DIR}/android/key.properties"
+            echo "storeFile=russel.p12" >> "${APP_DIR}/android/key.properties"
+          done
 
-      - name: Get version from pubspec.yaml
+      - name: Get version from pubspec.yaml files
         id: get_version
         run: |
-          VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
-          VERSION=${VERSION%+*}
+          FOSS_VERSION=$(grep '^version:' apps/nmail_foss/pubspec.yaml | awk '{print $2}')
+          STANDARD_VERSION=$(grep '^version:' apps/nmail_standard/pubspec.yaml | awk '{print $2}')
+          if [ "$FOSS_VERSION" != "$STANDARD_VERSION" ]; then
+            echo "Version mismatch: nmail_foss=$FOSS_VERSION nmail_standard=$STANDARD_VERSION"
+            exit 1
+          fi
+          VERSION=${FOSS_VERSION%+*}
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-        working-directory: ${{ env.APP_DIR }}
 
-      - name: Build Android APK (universal)
-        run: flutter build apk --release --flavor zapstore
-        working-directory: ${{ env.APP_DIR }}
+      - name: Prepare Android artifact directory
+        run: mkdir -p release-artifacts
 
-      - name: Rename universal APK
+      - name: Build standard Android APK (universal)
+        run: flutter build apk --release
+        working-directory: apps/nmail_standard
+
+      - name: Rename standard universal APK
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
-          cp build/app/outputs/flutter-apk/app-zapstore-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-universal.apk
-        working-directory: ${{ env.APP_DIR }}
+          cp apps/nmail_standard/build/app/outputs/flutter-apk/app-release.apk release-artifacts/nmail-${VERSION}-android-universal.apk
 
-      - name: Build Android APK (arm64)
+      - name: Build standard Android APK (arm64)
+        run: flutter build apk --release --target-platform android-arm64
+        working-directory: apps/nmail_standard
+
+      - name: Rename standard arm64 APK
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          cp apps/nmail_standard/build/app/outputs/flutter-apk/app-release.apk release-artifacts/nmail-${VERSION}-android-arm64.apk
+
+      - name: Build standard Android App Bundle
+        run: flutter build appbundle --release
+        working-directory: apps/nmail_standard
+
+      - name: Rename standard AAB
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          cp apps/nmail_standard/build/app/outputs/bundle/release/app-release.aab release-artifacts/nmail-${VERSION}-android.aab
+
+      - name: Build FOSS Android APK (universal)
+        run: flutter build apk --release --flavor foss
+        working-directory: apps/nmail_foss
+
+      - name: Rename FOSS universal APK
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          cp apps/nmail_foss/build/app/outputs/flutter-apk/app-foss-release.apk release-artifacts/nmail-${VERSION}-android-foss-universal.apk
+
+      - name: Build FOSS Android APK (arm64)
+        run: flutter build apk --release --flavor foss --target-platform android-arm64
+        working-directory: apps/nmail_foss
+
+      - name: Rename FOSS arm64 APK
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          cp apps/nmail_foss/build/app/outputs/flutter-apk/app-foss-release.apk release-artifacts/nmail-${VERSION}-android-foss-arm64.apk
+
+      - name: Build FOSS Android App Bundle
+        run: flutter build appbundle --release --flavor foss
+        working-directory: apps/nmail_foss
+
+      - name: Rename FOSS AAB
+        run: |
+          VERSION=${{ steps.get_version.outputs.version }}
+          cp apps/nmail_foss/build/app/outputs/bundle/fossRelease/app-foss-release.aab release-artifacts/nmail-${VERSION}-android-foss.aab
+
+      - name: Build ZapStore Android APK (arm64)
         run: flutter build apk --release --flavor zapstore --target-platform android-arm64
-        working-directory: ${{ env.APP_DIR }}
+        working-directory: apps/nmail_foss
 
-      - name: Rename arm64 APK
+      - name: Rename ZapStore arm64 APK
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
-          cp build/app/outputs/flutter-apk/app-zapstore-release.apk build/app/outputs/flutter-apk/nmail-${VERSION}-android-arm64.apk
-        working-directory: ${{ env.APP_DIR }}
+          cp apps/nmail_foss/build/app/outputs/flutter-apk/app-zapstore-release.apk release-artifacts/nmail-${VERSION}-android-zapstore-arm64.apk
 
-      - name: Build Android App Bundle
-        run: flutter build appbundle --release --flavor zapstore
-        working-directory: ${{ env.APP_DIR }}
-
-      - name: Rename AAB
-        run: |
-          VERSION=${{ steps.get_version.outputs.version }}
-          cp build/app/outputs/bundle/zapstoreRelease/app-zapstore-release.aab build/app/outputs/bundle/zapstoreRelease/nmail-${VERSION}-android.aab
-        working-directory: ${{ env.APP_DIR }}
-
-      - name: Upload APK
+      - name: Upload Android artifacts
         uses: actions/upload-artifact@v7
         with:
-          name: nmail-apk
-          path: ${{ env.APP_DIR }}/build/app/outputs/flutter-apk/nmail-${{ steps.get_version.outputs.version }}-android-*.apk
-
-      - name: Upload AAB
-        uses: actions/upload-artifact@v7
-        with:
-          name: nmail-aab
-          path: ${{ env.APP_DIR }}/build/app/outputs/bundle/zapstoreRelease/nmail-${{ steps.get_version.outputs.version }}-android.aab
+          name: nmail-android
+          path: release-artifacts/*
 
   build-linux:
     runs-on: ubuntu-latest
@@ -180,16 +225,10 @@ jobs:
             echo "No changelog section for $VERSION, falling back to generated notes only"
           fi
 
-      - name: Download APK
+      - name: Download Android artifacts
         uses: actions/download-artifact@v8
         with:
-          name: nmail-apk
-          path: release-artifacts
-
-      - name: Download AAB
-        uses: actions/download-artifact@v8
-        with:
-          name: nmail-aab
+          name: nmail-android
           path: release-artifacts
 
       - name: Download .deb

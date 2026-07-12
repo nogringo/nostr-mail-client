@@ -1,25 +1,30 @@
-name: Inject nmail_standard firebase_options.dart
-description: Restore the ignored FlutterFire options file for nmail_standard CI builds.
+name: Inject nmail_standard Firebase config
+description: Restore ignored FlutterFire files for nmail_standard CI builds.
 
 inputs:
   firebase-options-base64:
     description: Base64-encoded apps/nmail_standard/lib/firebase_options.dart.
     required: true
+  google-services-json-base64:
+    description: Base64-encoded apps/nmail_standard/android/app/google-services.json.
+    required: false
+    default: ''
 
 runs:
   using: composite
   steps:
-    - name: Decode firebase_options.dart
+    - name: Decode Firebase config files
       shell: bash
       env:
         FIREBASE_OPTIONS_BASE64: ${{ inputs.firebase-options-base64 }}
+        GOOGLE_SERVICES_JSON_BASE64: ${{ inputs.google-services-json-base64 }}
       run: |
         node <<'NODE'
         const fs = require('fs');
         const path = require('path');
 
-        const value = process.env.FIREBASE_OPTIONS_BASE64;
-        if (!value) {
+        const firebaseOptions = process.env.FIREBASE_OPTIONS_BASE64;
+        if (!firebaseOptions) {
           throw new Error('Missing firebase-options-base64 input');
         }
 
@@ -28,6 +33,17 @@ runs:
             process.env.GITHUB_WORKSPACE,
             'apps/nmail_standard/lib/firebase_options.dart',
           ),
-          Buffer.from(value, 'base64'),
+          Buffer.from(firebaseOptions, 'base64'),
         );
+
+        const googleServicesJson = process.env.GOOGLE_SERVICES_JSON_BASE64;
+        if (googleServicesJson) {
+          fs.writeFileSync(
+            path.join(
+              process.env.GITHUB_WORKSPACE,
+              'apps/nmail_standard/android/app/google-services.json',
+            ),
+            Buffer.from(googleServicesJson, 'base64'),
+          );
+        }
         NODE
