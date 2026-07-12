@@ -52,6 +52,20 @@ android {
         }
     }
 
+    flavorDimensions += "distribution"
+
+    productFlavors {
+        create("foss") {
+            dimension = "distribution"
+            applicationId = "org.nostrmail.app.foss"
+        }
+
+        create("zapstore") {
+            dimension = "distribution"
+            applicationId = "app.nostrmail.client"
+        }
+    }
+
     buildTypes {
         release {
             signingConfig = if (keystorePropertiesFile.exists()) {
