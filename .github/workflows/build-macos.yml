@@ -31,6 +31,11 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install packaging tools
+        run: |
+          dart pub global activate fastforge
+          npm install -g appdmg
+
       - name: Get version from pubspec.yaml
         id: get_version
         run: |
@@ -73,24 +78,26 @@ jobs:
           VERSION: ${{ steps.get_version.outputs.version }}
         run: |
           APP_PATH="build/macos/Build/Products/Release/Nmail.app"
-          DMG_ROOT="$RUNNER_TEMP/nmail-dmg-root"
           DMG_MOUNT="$RUNNER_TEMP/nmail-dmg-mount"
           ZIP_CHECK_ROOT="$RUNNER_TEMP/nmail-zip-check"
 
           mkdir -p ../../release-artifacts
-          mkdir -p "$DMG_ROOT" "$DMG_MOUNT" "$ZIP_CHECK_ROOT"
+          mkdir -p "$DMG_MOUNT" "$ZIP_CHECK_ROOT"
 
-          flutter build macos --release
-          ../../.github/scripts/sign-macos-app.sh "$APP_PATH" "macos/Runner/Release.entitlements"
+          fastforge package \
+            --no-version-check \
+            --platform macos \
+            --targets dmg \
+            --artifact-name "nmail-${VERSION}-macos.dmg" \
+            --hook-pre '../../.github/scripts/sign-macos-app.sh "$BUILD_OUTPUT_DIRECTORY/Nmail.app" "macos/Runner/Release.entitlements"'
 
-          ditto "$APP_PATH" "$DMG_ROOT/Nmail.app"
-          ln -s /Applications "$DMG_ROOT/Applications"
-          hdiutil create \
-            -volname "Nmail" \
-            -srcfolder "$DMG_ROOT" \
-            -ov \
-            -format UDZO \
-            "../../release-artifacts/nmail-${VERSION}-macos.dmg"
+          DMG_PATH=$(find dist -type f -name '*.dmg' -print -quit)
+          if [ -z "$DMG_PATH" ]; then
+            echo "No DMG produced by Fastforge"
+            exit 1
+          fi
+
+          cp "$DMG_PATH" "../../release-artifacts/nmail-${VERSION}-macos.dmg"
 
           ditto \
             -c \
