@@ -285,7 +285,7 @@ jobs:
             --no-version-check \
             --platform macos \
             --targets dmg \
-            --artifact-name "nmail-${VERSION}-macos" \
+            --artifact-name "nmail-${VERSION}-macos.dmg" \
             --hook-pre '../../.github/scripts/sign-macos-app.sh "$BUILD_OUTPUT_DIRECTORY/Nmail.app" "macos/Runner/Release.entitlements"'
 
           DMG_PATH=$(find dist -type f -name '*.dmg' -print -quit)
