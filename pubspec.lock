@@ -913,10 +913,10 @@ packages:
     dependency: transitive
     description:
       name: ndk
-      sha256: "06a4f6c8ce760ab5dd0c4e235d1178e54c78e8ddb6c635cea6ee3937bd8090ea"
+      sha256: d10177c99f27c184637a8c6a7dad120372f09432ddb49a59da82d8bc338ce972
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.8"
+    version: "0.8.4-dev.10"
   ndk_bip32_keys:
     dependency: transitive
     description:
@@ -929,10 +929,10 @@ packages:
     dependency: transitive
     description:
       name: ndk_flutter
-      sha256: "852da616ceef57e27b9abd5365e439a5a3f70354417c371ffb0478670e262794"
+      sha256: e903492128efccb03d648526f2c72b4951cee5208569c65b0eb3c49aa932a92d
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.11"
+    version: "0.8.4-dev.13"
   nostr_address_book:
     dependency: transitive
     description:
