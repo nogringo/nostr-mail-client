@@ -21,6 +21,13 @@ codesign \
 
 codesign --verify --deep --strict --verbose=2 "$APP_PATH"
 
+SIGNATURE_DETAILS=$(codesign -dv --verbose=4 "$APP_PATH" 2>&1)
+echo "$SIGNATURE_DETAILS"
+if [[ "$SIGNATURE_DETAILS" != *"Authority=Developer ID Application:"* && "$SIGNATURE_DETAILS" != *"Authority=Mac Developer ID Application:"* ]]; then
+  echo "Expected a Developer ID Application signature"
+  exit 1
+fi
+
 LIPO_INFO=$(lipo -info "$APP_PATH/Contents/MacOS/Nmail")
 echo "$LIPO_INFO"
 if [[ "$LIPO_INFO" != *"x86_64"* || "$LIPO_INFO" != *"arm64"* ]]; then

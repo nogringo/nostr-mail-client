@@ -234,11 +234,6 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Install packaging tools
-        run: |
-          dart pub global activate fastforge
-          npm install -g appdmg
-
       - name: Get version from pubspec.yaml
         id: get_version
         run: |
@@ -280,27 +275,42 @@ jobs:
           APPLE_DEVELOPER_ID_APPLICATION_IDENTITY: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_IDENTITY }}
           VERSION: ${{ steps.get_version.outputs.version }}
         run: |
+          APP_PATH="build/macos/Build/Products/Release/Nmail.app"
+          DMG_ROOT="$RUNNER_TEMP/nmail-dmg-root"
+          DMG_MOUNT="$RUNNER_TEMP/nmail-dmg-mount"
+          ZIP_CHECK_ROOT="$RUNNER_TEMP/nmail-zip-check"
+
           mkdir -p ../../release-artifacts
-          fastforge package \
-            --no-version-check \
-            --platform macos \
-            --targets dmg \
-            --artifact-name "nmail-${VERSION}-macos.dmg" \
-            --hook-pre '../../.github/scripts/sign-macos-app.sh "$BUILD_OUTPUT_DIRECTORY/Nmail.app" "macos/Runner/Release.entitlements"'
+          mkdir -p "$DMG_ROOT" "$DMG_MOUNT" "$ZIP_CHECK_ROOT"
 
-          DMG_PATH=$(find dist -type f -name '*.dmg' -print -quit)
-          if [ -z "$DMG_PATH" ]; then
-            echo "No DMG produced by Fastforge"
-            exit 1
-          fi
+          flutter build macos --release
+          ../../.github/scripts/sign-macos-app.sh "$APP_PATH" "macos/Runner/Release.entitlements"
 
-          cp "$DMG_PATH" "../../release-artifacts/nmail-${VERSION}-macos.dmg"
+          ditto "$APP_PATH" "$DMG_ROOT/Nmail.app"
+          ln -s /Applications "$DMG_ROOT/Applications"
+          hdiutil create \
+            -volname "Nmail" \
+            -srcfolder "$DMG_ROOT" \
+            -ov \
+            -format UDZO \
+            "../../release-artifacts/nmail-${VERSION}-macos.dmg"
+
           ditto \
             -c \
             -k \
             --keepParent \
-            build/macos/Build/Products/Release/Nmail.app \
+            "$APP_PATH" \
             "../../release-artifacts/nmail-${VERSION}-macos.zip"
+
+          hdiutil attach "../../release-artifacts/nmail-${VERSION}-macos.dmg" \
+            -mountpoint "$DMG_MOUNT" \
+            -nobrowse \
+            -readonly
+          codesign --verify --deep --strict --verbose=4 "$DMG_MOUNT/Nmail.app"
+          hdiutil detach "$DMG_MOUNT"
+
+          ditto -x -k "../../release-artifacts/nmail-${VERSION}-macos.zip" "$ZIP_CHECK_ROOT"
+          codesign --verify --deep --strict --verbose=4 "$ZIP_CHECK_ROOT/Nmail.app"
         working-directory: ${{ env.APP_DIR }}
 
       - name: Notarize macOS artifacts
