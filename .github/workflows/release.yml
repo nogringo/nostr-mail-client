@@ -16,6 +16,8 @@ concurrency:
 jobs:
   build-android:
     runs-on: ubuntu-latest
+    env:
+      ANDROID_NDK_VERSION: 28.2.13676358
     outputs:
       version: ${{ steps.get_version.outputs.version }}
     steps:
@@ -30,6 +32,9 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: Install Android NDK
+        run: sdkmanager "ndk;$ANDROID_NDK_VERSION"
 
       - uses: ./.github/actions/inject-nmail-standard-firebase-options
         with:
@@ -134,6 +139,9 @@ jobs:
         run: |
           VERSION=${{ steps.get_version.outputs.version }}
           cp apps/nmail_foss/build/app/outputs/flutter-apk/app-zapstore-release.apk release-artifacts/nmail-${VERSION}-android-zapstore-arm64.apk
+
+      - name: Verify Android 16 KB alignment
+        run: scripts/check_android_16kb_alignment.sh release-artifacts/*.apk
 
       - name: Upload Android artifacts
         uses: actions/upload-artifact@v7

@@ -20,8 +20,8 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "org.nostrmail.app"
     compileSdk = flutter.compileSdkVersion
-    // NDK r27+ is required for 16KB page alignment (Android 15+ devices)
-    ndkVersion = "27.0.12077973"
+    // NDK r28+ emits 16KB-aligned ELF segments by default.
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
