@@ -69,6 +69,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get stateResetting => 'Сброс...';
 
   @override
+  String get stateDeletingAccount => 'Deleting account...';
+
+  @override
   String get stateValidating => 'Проверка...';
 
   @override
@@ -178,6 +181,29 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsLogOut => 'Выйти';
+
+  @override
+  String get settingsDeleteAccount => 'Delete account';
+
+  @override
+  String get settingsDeleteAccountSubtitle =>
+      'Delete your local account and request relay deletion';
+
+  @override
+  String get settingsDeleteAccountConfirmMessage =>
+      'This will delete your Nmail account from this device, including the saved sync code, local emails, settings, contacts, background images, and push notification subscription.\n\nNmail will also send a NIP-62 global request asking relays to delete events for this key. Relay support is optional, so deletion from third-party relays cannot be guaranteed.';
+
+  @override
+  String get settingsDeleteAccountFinalTitle => 'Delete account permanently?';
+
+  @override
+  String get settingsDeleteAccountFinalMessage =>
+      'This action cannot be undone. Make sure you have saved your sync code elsewhere if you ever want to use this Nostr identity again.';
+
+  @override
+  String settingsDeleteAccountFailed(String error) {
+    return 'Failed to delete account: $error';
+  }
 
   @override
   String get settingsResetApplication => 'Сбросить приложение';

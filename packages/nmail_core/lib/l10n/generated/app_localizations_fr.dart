@@ -69,6 +69,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get stateResetting => 'Réinitialisation...';
 
   @override
+  String get stateDeletingAccount => 'Suppression du compte...';
+
+  @override
   String get stateValidating => 'Validation...';
 
   @override
@@ -180,6 +183,30 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settingsLogOut => 'Déconnexion';
+
+  @override
+  String get settingsDeleteAccount => 'Supprimer le compte';
+
+  @override
+  String get settingsDeleteAccountSubtitle =>
+      'Supprimer votre compte local et demander la suppression aux relais';
+
+  @override
+  String get settingsDeleteAccountConfirmMessage =>
+      'Cela supprimera votre compte Nmail de cet appareil, y compris le code de synchronisation enregistré, les e-mails locaux, les paramètres, les contacts, les images de fond et l\'abonnement aux notifications push.\n\nNmail enverra aussi une demande globale NIP-62 aux relais pour leur demander de supprimer les événements de cette clé. Le support des relais est optionnel, donc la suppression sur les relais tiers ne peut pas être garantie.';
+
+  @override
+  String get settingsDeleteAccountFinalTitle =>
+      'Supprimer définitivement le compte ?';
+
+  @override
+  String get settingsDeleteAccountFinalMessage =>
+      'Cette action est irréversible. Assurez-vous d\'avoir sauvegardé votre code de synchronisation ailleurs si vous voulez réutiliser cette identité Nostr un jour.';
+
+  @override
+  String settingsDeleteAccountFailed(String error) {
+    return 'Échec de la suppression du compte : $error';
+  }
 
   @override
   String get settingsResetApplication => 'Réinitialiser l\'application';

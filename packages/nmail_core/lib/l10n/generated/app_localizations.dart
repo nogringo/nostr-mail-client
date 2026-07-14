@@ -235,6 +235,12 @@ abstract class AppLocalizations {
   /// **'Resetting...'**
   String get stateResetting;
 
+  /// Progress label shown while deleting the user's account
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting account...'**
+  String get stateDeletingAccount;
+
   /// Progress label shown while validating an image URL
   ///
   /// In en, this message translates to:
@@ -444,6 +450,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log out'**
   String get settingsLogOut;
+
+  /// Destructive tile title and confirmation dialog title for account deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get settingsDeleteAccount;
+
+  /// Subtitle for the delete account tile
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your local account and request relay deletion'**
+  String get settingsDeleteAccountSubtitle;
+
+  /// First confirmation message before deleting the user's account
+  ///
+  /// In en, this message translates to:
+  /// **'This will delete your Nmail account from this device, including the saved sync code, local emails, settings, contacts, background images, and push notification subscription.\n\nNmail will also send a NIP-62 global request asking relays to delete events for this key. Relay support is optional, so deletion from third-party relays cannot be guaranteed.'**
+  String get settingsDeleteAccountConfirmMessage;
+
+  /// Final destructive confirmation dialog title before account deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account permanently?'**
+  String get settingsDeleteAccountFinalTitle;
+
+  /// Final destructive confirmation dialog body before account deletion
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone. Make sure you have saved your sync code elsewhere if you ever want to use this Nostr identity again.'**
+  String get settingsDeleteAccountFinalMessage;
+
+  /// Error toast shown when account deletion fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete account: {error}'**
+  String settingsDeleteAccountFailed(String error);
 
   /// Destructive tile title and confirmation dialog title for resetting the app
   ///

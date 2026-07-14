@@ -170,6 +170,18 @@ class SettingsView extends StatelessWidget {
               ),
               ListTile(
                 leading: Icon(
+                  Icons.person_remove_outlined,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                title: Text(
+                  l.settingsDeleteAccount,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+                subtitle: Text(l.settingsDeleteAccountSubtitle),
+                onTap: () => _showDeleteAccountConfirmationDialog(context),
+              ),
+              ListTile(
+                leading: Icon(
                   Icons.delete_forever,
                   color: Theme.of(context).colorScheme.error,
                 ),
@@ -204,6 +216,106 @@ class SettingsView extends StatelessWidget {
           fontSize: 14,
         ),
       ),
+    );
+  }
+
+  void _showDeleteAccountConfirmationDialog(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+
+    Get.dialog(
+      AlertDialog(
+        title: Text(l.settingsDeleteAccount),
+        content: Text(l.settingsDeleteAccountConfirmMessage),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: Text(l.actionCancel)),
+          TextButton(
+            onPressed: () {
+              Get.back();
+              _showDeleteAccountFinalDialog(context);
+            },
+            child: Text(
+              l.actionContinue,
+              style: TextStyle(color: colorScheme.error),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteAccountFinalDialog(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    bool isDeleting = false;
+
+    Get.dialog(
+      StatefulBuilder(
+        builder: (context, setState) {
+          Future<void> deleteAccount() async {
+            setState(() => isDeleting = true);
+
+            try {
+              await Get.find<AuthController>().deleteAccount();
+              if (Get.isDialogOpen == true) Get.back();
+            } catch (error) {
+              if (!context.mounted) return;
+              setState(() => isDeleting = false);
+              ToastHelper.error(
+                context,
+                l.settingsDeleteAccountFailed(error.toString()),
+              );
+            }
+          }
+
+          return PopScope(
+            canPop: !isDeleting,
+            child: AlertDialog(
+              title: Text(l.settingsDeleteAccountFinalTitle),
+              content: Text(l.settingsDeleteAccountFinalMessage),
+              actions: [
+                TextButton(
+                  onPressed: isDeleting ? null : () => Get.back(),
+                  child: Text(l.actionCancel),
+                ),
+                TextButton(
+                  onPressed: isDeleting ? null : deleteAccount,
+                  child: Semantics(
+                    label: isDeleting ? l.stateDeletingAccount : l.actionDelete,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Visibility(
+                          visible: !isDeleting,
+                          maintainSize: true,
+                          maintainAnimation: true,
+                          maintainState: true,
+                          child: Text(
+                            l.actionDelete,
+                            style: TextStyle(color: colorScheme.error),
+                          ),
+                        ),
+                        Visibility(
+                          visible: isDeleting,
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: colorScheme.error,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+      barrierDismissible: false,
     );
   }
 
@@ -967,7 +1079,7 @@ class SettingsView extends StatelessWidget {
       }
 
       // Get file extension from URL or content-type
-      var extension = url.split('.').last.split('?').first;
+      String extension = url.split('.').last.split('?').first;
       if (extension.length > 4) {
         final contentType = response.headers['content-type'];
         extension = contentType?.split('/').last ?? 'jpg';

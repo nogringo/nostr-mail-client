@@ -42,6 +42,8 @@
   "@stateLoadingEllipsis": { "description": "Loading state label with ellipsis, used in list tiles and progress dialogs" },
   "stateResetting": "Resetting...",
   "@stateResetting": { "description": "Progress label shown while resetting the application" },
+  "stateDeletingAccount": "Deleting account...",
+  "@stateDeletingAccount": { "description": "Progress label shown while deleting the user's account" },
   "stateValidating": "Validating...",
   "@stateValidating": { "description": "Progress label shown while validating an image URL" },
   "stateDownloading": "Downloading...",
@@ -113,6 +115,23 @@
   "@settingsSyncCodeCopied": { "description": "Toast confirmation after the sync code is copied" },
   "settingsLogOut": "Log out",
   "@settingsLogOut": { "description": "Log out tile label in settings" },
+  "settingsDeleteAccount": "Delete account",
+  "@settingsDeleteAccount": { "description": "Destructive tile title and confirmation dialog title for account deletion" },
+  "settingsDeleteAccountSubtitle": "Delete your local account and request relay deletion",
+  "@settingsDeleteAccountSubtitle": { "description": "Subtitle for the delete account tile" },
+  "settingsDeleteAccountConfirmMessage": "This will delete your Nmail account from this device, including the saved sync code, local emails, settings, contacts, background images, and push notification subscription.\n\nNmail will also send a NIP-62 global request asking relays to delete events for this key. Relay support is optional, so deletion from third-party relays cannot be guaranteed.",
+  "@settingsDeleteAccountConfirmMessage": { "description": "First confirmation message before deleting the user's account" },
+  "settingsDeleteAccountFinalTitle": "Delete account permanently?",
+  "@settingsDeleteAccountFinalTitle": { "description": "Final destructive confirmation dialog title before account deletion" },
+  "settingsDeleteAccountFinalMessage": "This action cannot be undone. Make sure you have saved your sync code elsewhere if you ever want to use this Nostr identity again.",
+  "@settingsDeleteAccountFinalMessage": { "description": "Final destructive confirmation dialog body before account deletion" },
+  "settingsDeleteAccountFailed": "Failed to delete account: {error}",
+  "@settingsDeleteAccountFailed": {
+    "description": "Error toast shown when account deletion fails",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
   "settingsResetApplication": "Reset application",
   "@settingsResetApplication": { "description": "Destructive tile title and confirmation dialog title for resetting the app" },
   "settingsResetApplicationSubtitle": "Delete all local data",

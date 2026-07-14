@@ -9,6 +9,7 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/services/account_deletion_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
@@ -141,7 +142,7 @@ class AuthController extends GetxController {
     );
 
     final relays = {
-      for (var r in NostrConfig.recommendedInboxOutboxRelays)
+      for (final String r in NostrConfig.recommendedInboxOutboxRelays)
         r: ReadWriteMarker.readWrite,
     };
 
@@ -241,6 +242,42 @@ class AuthController extends GetxController {
       username.value = '';
       usernameController.clear();
       showMoreOptions.value = false;
+
+      AppRouter.router.go(AppRoutes.login);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    isLoading.value = true;
+    try {
+      if (Get.find<SettingsController>().notificationsEnabled.value &&
+          Get.isRegistered<PushRegistrationService>()) {
+        await Get.find<PushRegistrationService>().disableCurrentTransport();
+      }
+
+      await Get.find<AccountDeletionService>().requestGlobalVanish();
+
+      if (Get.isRegistered<InboxController>()) {
+        await Get.find<InboxController>().resetForAccountChange();
+      }
+      if (Get.isRegistered<ScheduledController>()) {
+        await Get.delete<ScheduledController>();
+      }
+
+      await Get.find<AccountDeletionService>().clearLocalAccountData();
+      await _nostrMailService.logout();
+      await ndkFlutter.saveAccountsState();
+
+      isLoggedIn.value = false;
+      userMetadata.value = null;
+      isRegistering.value = false;
+      username.value = '';
+      usernameController.clear();
+      showMoreOptions.value = false;
+      showSyncCodeExplanation.value = false;
+      Get.find<SettingsController>().resetInMemoryState();
 
       AppRouter.router.go(AppRoutes.login);
     } finally {

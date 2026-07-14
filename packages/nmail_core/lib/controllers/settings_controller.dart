@@ -4,13 +4,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
 
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/services/account_deletion_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -385,35 +384,18 @@ class SettingsController extends GetxController {
   }
 
   Future<void> resetApplication() async {
-    // Clear all settings from database
-    await _storageService.clearAll();
-
-    // Clear NDK cache
-    await Get.find<Ndk>().config.cache.clearAll();
-
-    // Clear emails, labels, gift wraps
-    final nostrMailService = Get.find<NostrMailService>();
-    if (nostrMailService.isClientInitialized) {
-      await nostrMailService.client.clearAll();
-    }
-
-    // Delete background images folder (native only)
-    if (PlatformHelper.isNative) {
-      try {
-        final appDir = await getApplicationSupportDirectory();
-        final backgroundsDir = Directory(
-          p.join(appDir.path, backgroundsDirName),
-        );
-        if (await backgroundsDir.exists()) {
-          await backgroundsDir.delete(recursive: true);
-        }
-      } catch (_) {}
-    }
+    await Get.find<AccountDeletionService>().clearLocalAccountData();
 
     // Logout user
     await Get.find<AuthController>().logout();
 
-    // Reset in-memory state
+    resetInMemoryState();
+
+    // Navigate to login
+    AppRouter.router.go(AppRoutes.login);
+  }
+
+  void resetInMemoryState() {
     showRawEmail.value = false;
     alwaysLoadImages.value = false;
     notificationsEnabled.value = false;
@@ -425,8 +407,5 @@ class SettingsController extends GetxController {
     lightColorScheme.value = null;
     darkColorScheme.value = null;
     _themeService.clear();
-
-    // Navigate to login
-    AppRouter.router.go(AppRoutes.login);
   }
 }

@@ -7,6 +7,10 @@ import 'storage_service_io.dart'
     as io;
 
 class StorageService extends GetxService {
+  StorageService({Database? database}) : _injectedDatabase = database;
+
+  final Database? _injectedDatabase;
+
   late final Database db;
   bool _hasSeenOnboarding = false;
 
@@ -15,7 +19,9 @@ class StorageService extends GetxService {
   static final _settingsStore = StoreRef<String, dynamic>('settings');
 
   Future<StorageService> init() async {
-    if (kIsWeb) {
+    if (_injectedDatabase != null) {
+      db = _injectedDatabase;
+    } else if (kIsWeb) {
       db = await databaseFactoryWeb.openDatabase('nostr_mail');
     } else {
       db = await io.openDatabaseIo();

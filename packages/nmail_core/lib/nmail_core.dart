@@ -27,6 +27,7 @@ export 'utils/sender_name_helper.dart';
 export 'utils/string_color.dart';
 export 'utils/toast_helper.dart';
 export 'config/nostr_config.dart';
+export 'services/account_deletion_service.dart';
 export 'services/address_book_service.dart';
 export 'services/android_file_saver.dart';
 export 'services/contacts_service.dart';
