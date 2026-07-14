@@ -66,6 +66,8 @@
   "settingsVersion": "版本",
   "settingsSourceCode": "源代码",
   "settingsSourceCodeSubtitle": "在 GitHub 上查看",
+  "settingsPrivacyPolicy": "隐私政策",
+  "settingsPrivacyPolicySubtitle": "Apple App Store 隐私详情",
   "settingsEarlyAccess": "抢先体验",
   "settingsEarlyAccessMessage": "Nmail 及其背后的协议都还很年轻。一切都尽力做到最好，但仍可能出现 bug，有些功能可能显得缓慢或缺失。感谢你成为早期用户。",
 

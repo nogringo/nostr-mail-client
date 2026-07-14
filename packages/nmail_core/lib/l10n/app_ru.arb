@@ -66,6 +66,8 @@
   "settingsVersion": "Версия",
   "settingsSourceCode": "Исходный код",
   "settingsSourceCodeSubtitle": "Посмотреть на GitHub",
+  "settingsPrivacyPolicy": "Политика конфиденциальности",
+  "settingsPrivacyPolicySubtitle": "Сведения о конфиденциальности для Apple App Store",
   "settingsEarlyAccess": "Ранний доступ",
   "settingsEarlyAccessMessage": "Nmail и протокол, лежащий в его основе, ещё очень молоды. Всё сделано, чтобы работать как можно лучше, но могут возникать ошибки, а что-то может казаться медленным или отсутствующим. Спасибо, что вы один из первых пользователей.",
 

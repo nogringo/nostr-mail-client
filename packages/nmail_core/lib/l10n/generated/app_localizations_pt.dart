@@ -205,6 +205,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsSourceCodeSubtitle => 'Ver no GitHub';
 
   @override
+  String get settingsPrivacyPolicy => 'Política de privacidade';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Detalhes de privacidade para a Apple App Store';
+
+  @override
   String get settingsEarlyAccess => 'Acesso antecipado';
 
   @override
@@ -1585,6 +1592,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsSourceCodeSubtitle => 'Ver no GitHub';
+
+  @override
+  String get settingsPrivacyPolicy => 'Política de privacidade';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Detalhes de privacidade para a Apple App Store';
 
   @override
   String get settingsEarlyAccess => 'Acesso antecipado';

@@ -202,6 +202,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsSourceCodeSubtitle => 'Посмотреть на GitHub';
 
   @override
+  String get settingsPrivacyPolicy => 'Политика конфиденциальности';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Сведения о конфиденциальности для Apple App Store';
+
+  @override
   String get settingsEarlyAccess => 'Ранний доступ';
 
   @override

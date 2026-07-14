@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/config/app_config.dart';
+import '../../../app/config/distribution_config.dart';
 import '../../../controllers/about_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
@@ -14,6 +15,8 @@ class AboutSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final controller = Get.put(AboutController());
+    final distributionConfig = Get.find<DistributionConfig>();
+    final privacyPolicyUrl = distributionConfig.privacyPolicyUrl;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,6 +46,14 @@ class AboutSection extends StatelessWidget {
           trailing: const Icon(Icons.open_in_new),
           onTap: () => launchUrl(Uri.parse(AppConfig.sourceCodeUrl)),
         ),
+        if (distributionConfig.hasPrivacyPolicyUrl)
+          ListTile(
+            leading: const Icon(Icons.privacy_tip_outlined),
+            title: Text(l.settingsPrivacyPolicy),
+            subtitle: Text(l.settingsPrivacyPolicySubtitle),
+            trailing: const Icon(Icons.open_in_new),
+            onTap: () => launchUrl(Uri.parse(privacyPolicyUrl!)),
+          ),
         ListTile(
           leading: const Icon(Icons.construction_rounded),
           title: Text(l.settingsEarlyAccess),

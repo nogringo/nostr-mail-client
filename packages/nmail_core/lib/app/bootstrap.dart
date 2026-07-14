@@ -15,6 +15,7 @@ import 'package:window_manager/window_manager.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'package:nmail_core/app/bindings/initial_binding.dart';
+import 'package:nmail_core/app/config/distribution_config.dart';
 import 'package:nmail_core/app/widgets/pending_requests_overlay.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
@@ -33,9 +34,16 @@ import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 
-Future<void> runNmailApp({Future<void> Function()? onReady}) async {
+Future<void> runNmailApp({
+  Future<void> Function()? onReady,
+  String? privacyPolicyUrl,
+}) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(
+    DistributionConfig(privacyPolicyUrl: privacyPolicyUrl),
+    permanent: true,
+  );
 
   // Initialize window manager for desktop
   if (PlatformHelper.isDesktop) {

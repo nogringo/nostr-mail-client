@@ -196,6 +196,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsSourceCodeSubtitle => 'GitHubで見る';
 
   @override
+  String get settingsPrivacyPolicy => 'プライバシーポリシー';
+
+  @override
+  String get settingsPrivacyPolicySubtitle => 'Apple App Store 向けのプライバシー詳細';
+
+  @override
   String get settingsEarlyAccess => 'アーリーアクセス';
 
   @override

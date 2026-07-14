@@ -202,6 +202,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsSourceCodeSubtitle => 'Näytä GitHubissa';
 
   @override
+  String get settingsPrivacyPolicy => 'Tietosuojakäytäntö';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Apple App Storen tietosuojatiedot';
+
+  @override
   String get settingsEarlyAccess => 'Kehitysversio';
 
   @override

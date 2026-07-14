@@ -66,6 +66,8 @@
   "settingsVersion": "Versión",
   "settingsSourceCode": "Código fuente",
   "settingsSourceCodeSubtitle": "Ver en GitHub",
+  "settingsPrivacyPolicy": "Política de privacidad",
+  "settingsPrivacyPolicySubtitle": "Detalles de privacidad para Apple App Store",
   "settingsEarlyAccess": "Acceso anticipado",
   "settingsEarlyAccessMessage": "Nmail y el protocolo en el que se basa son aún muy jóvenes. Todo está hecho para funcionar lo mejor posible, pero pueden surgir errores y algunas cosas pueden parecer lentas o incompletas. Gracias por ser de los primeros usuarios.",
 

@@ -487,6 +487,18 @@ abstract class AppLocalizations {
   /// **'View on GitHub'**
   String get settingsSourceCodeSubtitle;
 
+  /// Tile title for the Apple App Store privacy policy link in the About section
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settingsPrivacyPolicy;
+
+  /// Subtitle for the Apple App Store privacy policy link
+  ///
+  /// In en, this message translates to:
+  /// **'Apple App Store privacy details'**
+  String get settingsPrivacyPolicySubtitle;
+
   /// Tile title in the About section warning that the app is in early development
   ///
   /// In en, this message translates to:

@@ -204,6 +204,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsSourceCodeSubtitle => 'Ver en GitHub';
 
   @override
+  String get settingsPrivacyPolicy => 'Política de privacidad';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Detalles de privacidad para Apple App Store';
+
+  @override
   String get settingsEarlyAccess => 'Acceso anticipado';
 
   @override

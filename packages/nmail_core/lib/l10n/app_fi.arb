@@ -66,6 +66,8 @@
   "settingsVersion": "Versio",
   "settingsSourceCode": "Lähdekoodi",
   "settingsSourceCodeSubtitle": "Näytä GitHubissa",
+  "settingsPrivacyPolicy": "Tietosuojakäytäntö",
+  "settingsPrivacyPolicySubtitle": "Apple App Storen tietosuojatiedot",
   "settingsEarlyAccess": "Kehitysversio",
   "settingsEarlyAccessMessage": "Nmail ja sen taustaprotokolla ovat uusia. Bugeja voi esiintyä ja jotkin sähköpostilta odotetut ominaisuudet saattavat tuntua hitailta tai puuttua vielä kokonaan. Kiitos, kun tuet varhaista kehitystyötä.",
 

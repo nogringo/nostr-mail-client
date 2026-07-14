@@ -196,6 +196,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsSourceCodeSubtitle => '在 GitHub 上查看';
 
   @override
+  String get settingsPrivacyPolicy => '隐私政策';
+
+  @override
+  String get settingsPrivacyPolicySubtitle => 'Apple App Store 隐私详情';
+
+  @override
   String get settingsEarlyAccess => '抢先体验';
 
   @override
