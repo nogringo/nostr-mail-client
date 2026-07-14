@@ -25,6 +25,10 @@ jobs:
         run: |
           SDKMANAGER="${ANDROID_SDK_ROOT:-$ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager"
           "$SDKMANAGER" "ndk;$ANDROID_NDK_VERSION"
+          NDK_HOME="${ANDROID_SDK_ROOT:-$ANDROID_HOME}/ndk/$ANDROID_NDK_VERSION"
+          echo "ANDROID_NDK_HOME=$NDK_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_PATH=$NDK_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=$NDK_HOME" >> "$GITHUB_ENV"
 
       - uses: ./.github/actions/inject-nmail-standard-firebase-options
         with:
