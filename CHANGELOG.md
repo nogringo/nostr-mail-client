@@ -13,6 +13,13 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [0.14.1]
+
+### Fixed
+
+- Fix Android release APK startup crash caused by the local notification icon
+  resource being stripped during optimization.
+
 ## [0.14.0]
 
 ### Added
