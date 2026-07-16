@@ -63,7 +63,6 @@
       ]
     },
     {
-      "key": "team",
       "displayName": "Équipe produit",
       "birthday": null,
       "emails": [
@@ -75,6 +74,7 @@
   ],
   "inbox": [
     {
+      "senderKey": "contact1",
       "from": "Maya Chen",
       "to": [
         "Alex Martin"
@@ -96,7 +96,9 @@
       ]
     },
     {
+      "senderKey": "bridge",
       "from": "Équipe produit",
+      "fromEmail": "equipe@example.com",
       "subject": "Checklist de lancement mise à jour",
       "body": [
         "J'ai ajouté les dernières notes avant la publication.",
@@ -108,6 +110,7 @@
       "hasAttachments": true
     },
     {
+      "senderKey": "contact2",
       "from": "Noah Patel",
       "subject": "Café la semaine prochaine ?",
       "body": [
@@ -119,6 +122,7 @@
       "hasAttachments": false
     },
     {
+      "senderKey": "contact3",
       "from": "Elena Garcia",
       "subject": "Notes de conférence",
       "body": [

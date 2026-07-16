@@ -1,0 +1,19 @@
+name: screenshot_seeder
+publish_to: none
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  args: ^2.7.0
+  blossom_cache: ^0.3.0
+  broadcast_queue_shim_for_ndk: ^0.2.1
+  enough_mail_plus: ^2.2.4
+  ndk: ^0.8.4-dev.10
+  nostr_address_book: ^0.1.1
+  nostr_mail: ^2.5.0
+  path: ^1.9.1
+  sembast: ^3.8.6
+
+dev_dependencies:
+  lints: ^6.0.0

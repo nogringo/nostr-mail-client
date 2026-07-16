@@ -1,7 +1,8 @@
 {
+  "bridge": "nsec1...",
   "en": {
     "primary": "nsec1...",
-    "contacts": {
+    "senders": {
       "contact1": "nsec1...",
       "contact2": "nsec1...",
       "contact3": "nsec1..."
@@ -9,7 +10,7 @@
   },
   "fr": {
     "primary": "nsec1...",
-    "contacts": {
+    "senders": {
       "contact1": "nsec1...",
       "contact2": "nsec1...",
       "contact3": "nsec1..."
