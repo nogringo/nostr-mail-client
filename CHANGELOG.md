@@ -15,6 +15,11 @@ Releases prior to 0.13.0 are listed on the
 
 ## [Unreleased]
 
+### Changed
+
+- Improve the macOS DMG installer window with a custom background and icon
+  layout for both app variants.
+
 ### Fixed
 
 - Keep the macOS app running when the last window is closed, matching native

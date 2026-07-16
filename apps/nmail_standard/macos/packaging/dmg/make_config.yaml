@@ -1,10 +1,17 @@
 title: Nmail
+icon: dmg-volume.icns
+background: dmg-background.png
+icon-size: 96
+window:
+  size:
+    width: 640
+    height: 420
 contents:
   - x: 448
-    y: 344
+    y: 248
     type: link
     path: /Applications
   - x: 192
-    y: 344
+    y: 248
     type: file
     path: Nmail.app
