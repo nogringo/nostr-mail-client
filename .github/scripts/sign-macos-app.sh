@@ -66,7 +66,7 @@ if [[ "$SIGNED_ENTITLEMENTS" == *"AppIdentifierPrefix"* || "$SIGNED_ENTITLEMENTS
   echo "Developer ID signature must not include unresolved entitlement placeholders"
   exit 1
 fi
-if [[ "$SIGNED_ENTITLEMENTS" != *"<key>keychain-access-groups</key>"* || "$SIGNED_ENTITLEMENTS" != *"$APP_IDENTIFIER"* ]]; then
+if [[ "$SIGNED_ENTITLEMENTS" != *"keychain-access-groups"* || "$SIGNED_ENTITLEMENTS" != *"$APP_IDENTIFIER"* ]]; then
   echo "Developer ID signature is missing the resolved keychain access group"
   exit 1
 fi
