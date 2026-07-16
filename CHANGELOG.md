@@ -13,6 +13,12 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [0.14.2]
+
+### Fixed
+
+- Fix macOS sign-in and account storage in signed release builds.
+
 ## [0.14.1]
 
 ### Fixed

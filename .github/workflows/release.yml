@@ -292,6 +292,8 @@ jobs:
       - name: Package macOS artifacts
         env:
           APPLE_DEVELOPER_ID_APPLICATION_IDENTITY: ${{ secrets.APPLE_DEVELOPER_ID_APPLICATION_IDENTITY }}
+          APPLE_DEVELOPER_ID_PROVISIONING_PROFILE_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_PROVISIONING_PROFILE_BASE64 }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           VERSION: ${{ steps.get_version.outputs.version }}
         run: |
           APP_PATH="build/macos/Build/Products/Release/Nmail.app"
