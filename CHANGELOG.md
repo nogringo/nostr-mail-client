@@ -13,6 +13,13 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [Unreleased]
+
+### Fixed
+
+- Keep the macOS app running when the last window is closed, matching native
+  macOS behavior.
+
 ## [0.14.2]
 
 ### Fixed
