@@ -1,0 +1,151 @@
+{
+  "locale": "fr",
+  "profile": {
+    "displayName": "Alex Martin",
+    "username": "alex",
+    "about": "Je travaille sur la vie privée, le bon café et les boîtes mail plus calmes."
+  },
+  "contacts": [
+    {
+      "key": "contact1",
+      "displayName": "Maya Chen",
+      "birthday": {
+        "year": null,
+        "month": 5,
+        "day": 14
+      },
+      "emails": [
+        "maya@example.com"
+      ],
+      "phones": [
+        "+33 6 12 34 56 01"
+      ],
+      "nostrPubkeys": [
+        "npub1meuzq0t7rsrfvu6v9sjuju8sksgz6evvruanqnfj0wuhemzrvhqs5ll4nk"
+      ]
+    },
+    {
+      "key": "contact2",
+      "displayName": "Noah Patel",
+      "birthday": {
+        "year": 1990,
+        "month": 9,
+        "day": 3
+      },
+      "emails": [
+        "noah@example.com",
+        "noah@travail.example"
+      ],
+      "phones": [
+        "+33 6 12 34 56 02"
+      ],
+      "nostrPubkeys": [
+        "npub1npydc38ews0lq6x0sz2nfnk03v2x0cmgpmthzv69awynt07q9y7sf29cke"
+      ]
+    },
+    {
+      "key": "contact3",
+      "displayName": "Elena Garcia",
+      "birthday": {
+        "year": null,
+        "month": 11,
+        "day": 22
+      },
+      "emails": [
+        "elena@example.com"
+      ],
+      "phones": [
+        "+33 6 12 34 56 03",
+        "+33 1 42 68 53 00"
+      ],
+      "nostrPubkeys": [
+        "npub1azf4y2ph9yux7ym6chy2s865hmt6rhjytgw2qqlyd8yg4t42mazqpt0gfn"
+      ]
+    },
+    {
+      "key": "team",
+      "displayName": "Équipe produit",
+      "birthday": null,
+      "emails": [
+        "equipe@example.com"
+      ],
+      "phones": [],
+      "nostrPubkeys": []
+    }
+  ],
+  "inbox": [
+    {
+      "from": "Maya Chen",
+      "to": [
+        "Alex Martin"
+      ],
+      "subject": "Bienvenue dans ta nouvelle boîte mail",
+      "body": [
+        "Salut Alex,",
+        "Tout ici est chiffré et stocké selon tes propres règles. Ta boîte Nostr est prête pour tes contacts Nostr comme pour les adresses email classiques.",
+        "J'ai joint une courte note de configuration si tu veux vérifier tes relais plus tard."
+      ],
+      "relativeDate": "Aujourd'hui",
+      "isUnread": false,
+      "hasAttachments": true,
+      "attachments": [
+        {
+          "fileName": "notes-configuration.pdf",
+          "mimeType": "application/pdf"
+        }
+      ]
+    },
+    {
+      "from": "Équipe produit",
+      "subject": "Checklist de lancement mise à jour",
+      "body": [
+        "J'ai ajouté les dernières notes avant la publication.",
+        "La revue de confidentialité est terminée, les captures sont prêtes, et le texte de la fiche n'a plus besoin que d'une dernière relecture."
+      ],
+      "bodyHtml": "<p>J'ai ajouté les dernières notes avant la publication.</p><ul><li>Revue de confidentialité terminée</li><li>Captures prêtes</li><li>Texte de fiche prêt pour une dernière relecture</li></ul>",
+      "relativeDate": "Hier",
+      "isUnread": true,
+      "hasAttachments": true
+    },
+    {
+      "from": "Noah Patel",
+      "subject": "Café la semaine prochaine ?",
+      "body": [
+        "Mardi après-midi fonctionne bien de mon côté.",
+        "On peut se retrouver près de la gare et comparer nos notes sur la configuration des relais."
+      ],
+      "relativeDate": "Lun.",
+      "isUnread": false,
+      "hasAttachments": false
+    },
+    {
+      "from": "Elena Garcia",
+      "subject": "Notes de conférence",
+      "body": [
+        "Je partage les notes du panel sur la vie privée.",
+        "La partie la plus utile compare les apps local-first et les boîtes mail hébergées."
+      ],
+      "bodyHtml": "<p>Je partage les notes du panel sur la vie privée.</p><blockquote>La meilleure boîte mail est celle que l'utilisateur peut quitter avec ses données.</blockquote><p>La partie la plus utile compare les apps local-first et les boîtes mail hébergées.</p>",
+      "relativeDate": "12 juil.",
+      "isUnread": false,
+      "hasAttachments": true
+    }
+  ],
+  "composeDraft": {
+    "to": [
+      {
+        "type": "nostr",
+        "key": "contact1",
+        "displayName": "Maya Chen",
+        "npub": "npub1meuzq0t7rsrfvu6v9sjuju8sksgz6evvruanqnfj0wuhemzrvhqs5ll4nk"
+      },
+      {
+        "type": "email",
+        "displayName": "Équipe produit",
+        "email": "equipe@example.com"
+      }
+    ],
+    "subject": "Re: Checklist de lancement mise à jour",
+    "body": "Merci, j'ai relu la checklist et tout me semble prêt de mon côté."
+  }
+}

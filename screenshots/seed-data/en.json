@@ -1,0 +1,151 @@
+{
+  "locale": "en",
+  "profile": {
+    "displayName": "Alex Morgan",
+    "username": "alex",
+    "about": "Working on privacy tools, good coffee, and quieter inboxes."
+  },
+  "contacts": [
+    {
+      "key": "contact1",
+      "displayName": "Maya Chen",
+      "birthday": {
+        "year": null,
+        "month": 5,
+        "day": 14
+      },
+      "emails": [
+        "maya@example.com"
+      ],
+      "phones": [
+        "+1 415 555 0101"
+      ],
+      "nostrPubkeys": [
+        "npub1meuzq0t7rsrfvu6v9sjuju8sksgz6evvruanqnfj0wuhemzrvhqs5ll4nk"
+      ]
+    },
+    {
+      "key": "contact2",
+      "displayName": "Noah Patel",
+      "birthday": {
+        "year": 1990,
+        "month": 9,
+        "day": 3
+      },
+      "emails": [
+        "noah@example.com",
+        "noah@work.example"
+      ],
+      "phones": [
+        "+1 415 555 0102"
+      ],
+      "nostrPubkeys": [
+        "npub1npydc38ews0lq6x0sz2nfnk03v2x0cmgpmthzv69awynt07q9y7sf29cke"
+      ]
+    },
+    {
+      "key": "contact3",
+      "displayName": "Elena Garcia",
+      "birthday": {
+        "year": null,
+        "month": 11,
+        "day": 22
+      },
+      "emails": [
+        "elena@example.com"
+      ],
+      "phones": [
+        "+1 415 555 0103",
+        "+1 415 555 0199"
+      ],
+      "nostrPubkeys": [
+        "npub1azf4y2ph9yux7ym6chy2s865hmt6rhjytgw2qqlyd8yg4t42mazqpt0gfn"
+      ]
+    },
+    {
+      "key": "team",
+      "displayName": "Product Team",
+      "birthday": null,
+      "emails": [
+        "team@example.com"
+      ],
+      "phones": [],
+      "nostrPubkeys": []
+    }
+  ],
+  "inbox": [
+    {
+      "from": "Maya Chen",
+      "to": [
+        "Alex Morgan"
+      ],
+      "subject": "Welcome to your new inbox",
+      "body": [
+        "Hi Alex,",
+        "Everything here is encrypted and stored on your terms. Your Nostr inbox is ready for both Nostr contacts and regular email addresses.",
+        "I attached a short setup note in case you want to review your relays later."
+      ],
+      "relativeDate": "Today",
+      "isUnread": false,
+      "hasAttachments": true,
+      "attachments": [
+        {
+          "fileName": "setup-notes.pdf",
+          "mimeType": "application/pdf"
+        }
+      ]
+    },
+    {
+      "from": "Product Team",
+      "subject": "Updated launch checklist",
+      "body": [
+        "I added the last notes before we publish the release.",
+        "The privacy review is complete, the screenshots are ready, and the store copy only needs one final pass."
+      ],
+      "bodyHtml": "<p>I added the last notes before we publish the release.</p><ul><li>Privacy review complete</li><li>Screenshots ready</li><li>Store copy ready for one final pass</li></ul>",
+      "relativeDate": "Yesterday",
+      "isUnread": true,
+      "hasAttachments": true
+    },
+    {
+      "from": "Noah Patel",
+      "subject": "Coffee next week?",
+      "body": [
+        "Tuesday afternoon works well on my side.",
+        "Let's meet near the station and compare notes on the relay setup."
+      ],
+      "relativeDate": "Mon",
+      "isUnread": false,
+      "hasAttachments": false
+    },
+    {
+      "from": "Elena Garcia",
+      "subject": "Conference notes",
+      "body": [
+        "Sharing the notes from the privacy panel.",
+        "The most useful section is the comparison between local-first apps and hosted inboxes."
+      ],
+      "bodyHtml": "<p>Sharing the notes from the privacy panel.</p><blockquote>The best inbox is the one the user can leave with.</blockquote><p>The most useful section is the comparison between local-first apps and hosted inboxes.</p>",
+      "relativeDate": "Jul 12",
+      "isUnread": false,
+      "hasAttachments": true
+    }
+  ],
+  "composeDraft": {
+    "to": [
+      {
+        "type": "nostr",
+        "key": "contact1",
+        "displayName": "Maya Chen",
+        "npub": "npub1meuzq0t7rsrfvu6v9sjuju8sksgz6evvruanqnfj0wuhemzrvhqs5ll4nk"
+      },
+      {
+        "type": "email",
+        "displayName": "Product Team",
+        "email": "team@example.com"
+      }
+    ],
+    "subject": "Re: Updated launch checklist",
+    "body": "Thanks, I reviewed the checklist and everything looks ready from my side."
+  }
+}
