@@ -168,6 +168,9 @@
   "debugToolsEmailTesting": "Тестирование писем",
   "debugToolsCreateOldTrashed": "Создать старое письмо в корзине",
   "debugToolsCreateOldTrashedDescription": "Создаёт тестовое письмо в корзине возрастом 31 день. Используйте, чтобы протестировать функцию «Удалить старые письма».",
+  "debugToolsTriggerNotification": "Показать тестовое уведомление",
+  "debugToolsTriggerNotificationDescription": "Показывает локальное уведомление, как будто пришло новое письмо, чтобы проверить отображение уведомления и обработку нажатия.",
+  "debugNotificationPermissionDenied": "Разрешение на уведомления отклонено.",
 
   "folderInbox": "Входящие",
   "folderSent": "Отправленные",
@@ -271,12 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "Не удалось загрузить вложение",
-  "emailFileSaved": "Файл сохранён: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "Вложение сохранено в «Загрузки»",
   "emailFileSaveFailed": "Не удалось сохранить файл: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

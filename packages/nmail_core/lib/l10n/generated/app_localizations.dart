@@ -1381,11 +1381,11 @@ abstract class AppLocalizations {
   /// **'Failed to load attachment'**
   String get emailAttachmentLoadFailed;
 
-  /// Toast shown after saving an attachment, includes the saved path
+  /// Toast shown after saving an attachment to the default downloads folder
   ///
   /// In en, this message translates to:
-  /// **'File saved: {path}'**
-  String emailFileSaved(String path);
+  /// **'Attachment saved to Downloads'**
+  String get emailFileSaved;
 
   /// Error toast when saving an attachment fails
   ///

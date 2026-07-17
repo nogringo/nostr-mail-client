@@ -474,15 +474,15 @@ class AppLocalizationsIt extends AppLocalizations {
       'Crea un\'email di test nel cestino vecchia di 31 giorni. Usala per testare la funzione \"Elimina email vecchie\".';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => 'Attiva notifica di test';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      'Mostra una notifica locale come se fosse arrivata una nuova email, per testare la visualizzazione della notifica e la gestione del tocco.';
 
   @override
   String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+      'Autorizzazione alle notifiche negata.';
 
   @override
   String get folderInbox => 'Posta in arrivo';
@@ -704,9 +704,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get emailAttachmentLoadFailed => 'Impossibile caricare l\'allegato';
 
   @override
-  String emailFileSaved(String path) {
-    return 'File salvato: $path';
-  }
+  String get emailFileSaved => 'Allegato salvato in Download';
 
   @override
   String emailFileSaveFailed(String error) {

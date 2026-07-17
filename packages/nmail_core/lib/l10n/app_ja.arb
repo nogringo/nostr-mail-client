@@ -168,6 +168,9 @@
   "debugToolsEmailTesting": "メールテスト",
   "debugToolsCreateOldTrashed": "古いゴミ箱メールを作成",
   "debugToolsCreateOldTrashedDescription": "31 日前のテストメールをゴミ箱に作成します。「古いメールを削除」機能のテストに使用します。",
+  "debugToolsTriggerNotification": "テスト通知を表示",
+  "debugToolsTriggerNotificationDescription": "新しいメールが届いたかのようにローカル通知を表示し、通知の表示とタップ処理をテストします。",
+  "debugNotificationPermissionDenied": "通知の許可が拒否されました。",
 
   "folderInbox": "受信トレイ",
   "folderSent": "送信済み",
@@ -271,12 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "添付ファイルの読み込みに失敗しました",
-  "emailFileSaved": "ファイルを保存しました: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "添付ファイルをダウンロードフォルダに保存しました",
   "emailFileSaveFailed": "ファイルの保存に失敗しました: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

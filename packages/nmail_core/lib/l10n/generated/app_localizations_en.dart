@@ -696,9 +696,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailAttachmentLoadFailed => 'Failed to load attachment';
 
   @override
-  String emailFileSaved(String path) {
-    return 'File saved: $path';
-  }
+  String get emailFileSaved => 'Attachment saved to Downloads';
 
   @override
   String emailFileSaveFailed(String error) {

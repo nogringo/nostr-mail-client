@@ -168,6 +168,9 @@
   "debugToolsEmailTesting": "E-Mail-Tests",
   "debugToolsCreateOldTrashed": "Alte gelöschte E-Mail erstellen",
   "debugToolsCreateOldTrashedDescription": "Erstellt eine Test-E-Mail im Papierkorb, die 31 Tage alt ist. Zum Testen der Funktion \"Alte E-Mails löschen\".",
+  "debugToolsTriggerNotification": "Testbenachrichtigung auslösen",
+  "debugToolsTriggerNotificationDescription": "Zeigt eine lokale Benachrichtigung an, als wäre eine neue E-Mail eingegangen, um die Anzeige und die Tipp-Verarbeitung zu testen.",
+  "debugNotificationPermissionDenied": "Benachrichtigungsberechtigung verweigert.",
 
   "folderInbox": "Posteingang",
   "folderSent": "Gesendet",
@@ -271,12 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "Anhang konnte nicht geladen werden",
-  "emailFileSaved": "Datei gespeichert: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "Anhang in Downloads gespeichert",
   "emailFileSaveFailed": "Datei konnte nicht gespeichert werden: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

@@ -473,15 +473,15 @@ class AppLocalizationsDe extends AppLocalizations {
       'Erstellt eine Test-E-Mail im Papierkorb, die 31 Tage alt ist. Zum Testen der Funktion \"Alte E-Mails löschen\".';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => 'Testbenachrichtigung auslösen';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      'Zeigt eine lokale Benachrichtigung an, als wäre eine neue E-Mail eingegangen, um die Anzeige und die Tipp-Verarbeitung zu testen.';
 
   @override
   String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+      'Benachrichtigungsberechtigung verweigert.';
 
   @override
   String get folderInbox => 'Posteingang';
@@ -703,9 +703,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get emailAttachmentLoadFailed => 'Anhang konnte nicht geladen werden';
 
   @override
-  String emailFileSaved(String path) {
-    return 'Datei gespeichert: $path';
-  }
+  String get emailFileSaved => 'Anhang in Downloads gespeichert';
 
   @override
   String emailFileSaveFailed(String error) {

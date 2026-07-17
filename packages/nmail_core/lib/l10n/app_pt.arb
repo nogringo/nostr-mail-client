@@ -155,6 +155,9 @@
   "debugToolsEmailTesting": "Teste de emails",
   "debugToolsCreateOldTrashed": "Criar email antigo no lixo",
   "debugToolsCreateOldTrashedDescription": "Cria um email de teste no lixo com 31 dias. Use para testar a funcionalidade \"Eliminar emails antigos\".",
+  "debugToolsTriggerNotification": "Acionar notificação de teste",
+  "debugToolsTriggerNotificationDescription": "Mostra uma notificação local como se tivesse chegado um novo email, para testar a apresentação da notificação e o processamento do toque.",
+  "debugNotificationPermissionDenied": "Permissão de notificações recusada.",
   "folderInbox": "Caixa de entrada",
   "folderSent": "Enviados",
   "folderTrash": "Lixo",
@@ -271,14 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "Falha ao carregar o anexo",
-  "emailFileSaved": "Ficheiro guardado: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": {
-        "type": "String"
-      }
-    }
-  },
+  "emailFileSaved": "Anexo guardado em Transferências",
   "emailFileSaveFailed": "Falha ao guardar o ficheiro: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

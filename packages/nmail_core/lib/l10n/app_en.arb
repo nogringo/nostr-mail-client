@@ -490,12 +490,9 @@
   },
   "emailAttachmentLoadFailed": "Failed to load attachment",
   "@emailAttachmentLoadFailed": { "description": "Error toast when an attachment's bytes can't be decoded" },
-  "emailFileSaved": "File saved: {path}",
+  "emailFileSaved": "Attachment saved to Downloads",
   "@emailFileSaved": {
-    "description": "Toast shown after saving an attachment, includes the saved path",
-    "placeholders": {
-      "path": { "type": "String" }
-    }
+    "description": "Toast shown after saving an attachment to the default downloads folder"
   },
   "emailFileSaveFailed": "Failed to save file: {error}",
   "@emailFileSaveFailed": {

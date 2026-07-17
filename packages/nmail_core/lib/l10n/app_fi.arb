@@ -168,6 +168,9 @@
   "debugToolsEmailTesting": "Sähköpostin testaus",
   "debugToolsCreateOldTrashed": "Luo vanha poistettu viesti.",
   "debugToolsCreateOldTrashedDescription": "Luo roskakoriin 31 päivää vanhan testiviestin. Käytä \"Poista vanhat viestit\" -ominaisuuden testaukseen.",
+  "debugToolsTriggerNotification": "Käynnistä testi-ilmoitus",
+  "debugToolsTriggerNotificationDescription": "Näyttää paikallisen ilmoituksen ikään kuin uusi sähköposti olisi saapunut, jotta ilmoituksen näyttöä ja napautuksen käsittelyä voi testata.",
+  "debugNotificationPermissionDenied": "Ilmoituslupa evätty.",
 
   "folderInbox": "Saapuneet",
   "folderSent": "Lähetetyt",
@@ -276,12 +279,7 @@
     }
   },
   "emailAttachmentLoadFailed": "Liitteen lataaminen epäonnistui",
-  "emailFileSaved": "Tiedosto tallennettu: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "Liite tallennettu Lataukset-kansioon",
   "emailFileSaveFailed": "Tiedoston tallennus epäonnistui: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

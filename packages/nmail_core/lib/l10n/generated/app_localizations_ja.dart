@@ -459,15 +459,14 @@ class AppLocalizationsJa extends AppLocalizations {
       '31 日前のテストメールをゴミ箱に作成します。「古いメールを削除」機能のテストに使用します。';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => 'テスト通知を表示';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      '新しいメールが届いたかのようにローカル通知を表示し、通知の表示とタップ処理をテストします。';
 
   @override
-  String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+  String get debugNotificationPermissionDenied => '通知の許可が拒否されました。';
 
   @override
   String get folderInbox => '受信トレイ';
@@ -668,9 +667,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailAttachmentLoadFailed => '添付ファイルの読み込みに失敗しました';
 
   @override
-  String emailFileSaved(String path) {
-    return 'ファイルを保存しました: $path';
-  }
+  String get emailFileSaved => '添付ファイルをダウンロードフォルダに保存しました';
 
   @override
   String emailFileSaveFailed(String error) {

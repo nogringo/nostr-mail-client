@@ -168,6 +168,9 @@
   "debugToolsEmailTesting": "邮件测试",
   "debugToolsCreateOldTrashed": "创建旧的已删除邮件",
   "debugToolsCreateOldTrashedDescription": "在回收站创建一封 31 天前的测试邮件。用于测试「删除旧邮件」功能。",
+  "debugToolsTriggerNotification": "触发测试通知",
+  "debugToolsTriggerNotificationDescription": "像收到新邮件一样显示本地通知，用于测试通知显示和点击处理。",
+  "debugNotificationPermissionDenied": "通知权限被拒绝。",
 
   "folderInbox": "收件箱",
   "folderSent": "已发送",
@@ -271,12 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "加载附件失败",
-  "emailFileSaved": "文件已保存: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "附件已保存到“下载”文件夹",
   "emailFileSaveFailed": "保存文件失败: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

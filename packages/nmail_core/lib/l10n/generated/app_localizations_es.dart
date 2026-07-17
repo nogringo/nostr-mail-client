@@ -475,15 +475,15 @@ class AppLocalizationsEs extends AppLocalizations {
       'Crea un correo de prueba en la papelera con 31 días de antigüedad. Úsalo para probar la función \"Eliminar correos antiguos\".';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => 'Activar notificación de prueba';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      'Muestra una notificación local como si hubiera llegado un correo nuevo, para probar la visualización de la notificación y el manejo del toque.';
 
   @override
   String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+      'Permiso de notificaciones denegado.';
 
   @override
   String get folderInbox => 'Bandeja de entrada';
@@ -705,9 +705,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get emailAttachmentLoadFailed => 'Error al cargar el adjunto';
 
   @override
-  String emailFileSaved(String path) {
-    return 'Archivo guardado: $path';
-  }
+  String get emailFileSaved => 'Adjunto guardado en Descargas';
 
   @override
   String emailFileSaveFailed(String error) {

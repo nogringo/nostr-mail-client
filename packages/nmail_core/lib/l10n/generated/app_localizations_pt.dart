@@ -475,15 +475,15 @@ class AppLocalizationsPt extends AppLocalizations {
       'Cria um email de teste no lixo com 31 dias. Use para testar a funcionalidade \"Eliminar emails antigos\".';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => 'Acionar notificação de teste';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      'Mostra uma notificação local como se tivesse chegado um novo email, para testar a apresentação da notificação e o processamento do toque.';
 
   @override
   String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+      'Permissão de notificações recusada.';
 
   @override
   String get folderInbox => 'Caixa de entrada';
@@ -703,9 +703,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emailAttachmentLoadFailed => 'Falha ao carregar o anexo';
 
   @override
-  String emailFileSaved(String path) {
-    return 'Ficheiro guardado: $path';
-  }
+  String get emailFileSaved => 'Anexo guardado em Transferências';
 
   @override
   String emailFileSaveFailed(String error) {
@@ -1864,6 +1862,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Cria um e-mail de teste na lixeira com 31 dias. Use para testar o recurso \"Excluir e-mails antigos\".';
 
   @override
+  String get debugToolsTriggerNotification => 'Disparar notificação de teste';
+
+  @override
+  String get debugToolsTriggerNotificationDescription =>
+      'Mostra uma notificação local como se um novo e-mail tivesse chegado, para testar a exibição da notificação e o tratamento do toque.';
+
+  @override
+  String get debugNotificationPermissionDenied =>
+      'Permissão de notificações negada.';
+
+  @override
   String get folderInbox => 'Caixa de entrada';
 
   @override
@@ -2082,9 +2091,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get emailAttachmentLoadFailed => 'Falha ao carregar o anexo';
 
   @override
-  String emailFileSaved(String path) {
-    return 'Arquivo salvo: $path';
-  }
+  String get emailFileSaved => 'Anexo salvo em Downloads';
 
   @override
   String emailFileSaveFailed(String error) {

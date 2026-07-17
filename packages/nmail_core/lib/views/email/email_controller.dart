@@ -409,15 +409,14 @@ class EmailController extends GetxController {
       // Clean filename (remove path if any)
       final cleanName = p.basename(filename);
 
-      String result;
       if (PlatformHelper.isAndroid) {
-        result = await AndroidFileSaver.saveToDownloads(
+        await AndroidFileSaver.saveToDownloads(
           fileName: cleanName,
           bytes: fileData,
           mimeType: _getMimeTypeString(mimeType, extension),
         );
       } else {
-        result = await FileSaver.instance.saveFile(
+        await FileSaver.instance.saveFile(
           name: p.basenameWithoutExtension(cleanName),
           bytes: fileData,
           fileExtension: extension,
@@ -425,7 +424,7 @@ class EmailController extends GetxController {
         );
       }
 
-      ToastHelper.success(Get.context!, l.emailFileSaved(result));
+      ToastHelper.success(Get.context!, l.emailFileSaved);
     } catch (e) {
       ToastHelper.error(Get.context!, l.emailFileSaveFailed(e.toString()));
     }

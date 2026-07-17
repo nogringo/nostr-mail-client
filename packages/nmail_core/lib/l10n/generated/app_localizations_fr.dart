@@ -709,9 +709,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Échec du chargement de la pièce jointe';
 
   @override
-  String emailFileSaved(String path) {
-    return 'Fichier enregistré : $path';
-  }
+  String get emailFileSaved => 'Pièce jointe enregistrée dans Téléchargements';
 
   @override
   String emailFileSaveFailed(String error) {

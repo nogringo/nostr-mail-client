@@ -274,12 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "Échec du chargement de la pièce jointe",
-  "emailFileSaved": "Fichier enregistré : {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "Pièce jointe enregistrée dans Téléchargements",
   "emailFileSaveFailed": "Échec de l'enregistrement du fichier : {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

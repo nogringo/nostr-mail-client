@@ -168,6 +168,9 @@
   "debugToolsEmailTesting": "Test email",
   "debugToolsCreateOldTrashed": "Crea email vecchia nel cestino",
   "debugToolsCreateOldTrashedDescription": "Crea un'email di test nel cestino vecchia di 31 giorni. Usala per testare la funzione \"Elimina email vecchie\".",
+  "debugToolsTriggerNotification": "Attiva notifica di test",
+  "debugToolsTriggerNotificationDescription": "Mostra una notifica locale come se fosse arrivata una nuova email, per testare la visualizzazione della notifica e la gestione del tocco.",
+  "debugNotificationPermissionDenied": "Autorizzazione alle notifiche negata.",
 
   "folderInbox": "Posta in arrivo",
   "folderSent": "Inviate",
@@ -271,12 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "Impossibile caricare l'allegato",
-  "emailFileSaved": "File salvato: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "Allegato salvato in Download",
   "emailFileSaveFailed": "Impossibile salvare il file: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

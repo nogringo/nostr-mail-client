@@ -472,15 +472,14 @@ class AppLocalizationsFi extends AppLocalizations {
       'Luo roskakoriin 31 päivää vanhan testiviestin. Käytä \"Poista vanhat viestit\" -ominaisuuden testaukseen.';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => 'Käynnistä testi-ilmoitus';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      'Näyttää paikallisen ilmoituksen ikään kuin uusi sähköposti olisi saapunut, jotta ilmoituksen näyttöä ja napautuksen käsittelyä voi testata.';
 
   @override
-  String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+  String get debugNotificationPermissionDenied => 'Ilmoituslupa evätty.';
 
   @override
   String get folderInbox => 'Saapuneet';
@@ -700,9 +699,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailAttachmentLoadFailed => 'Liitteen lataaminen epäonnistui';
 
   @override
-  String emailFileSaved(String path) {
-    return 'Tiedosto tallennettu: $path';
-  }
+  String get emailFileSaved => 'Liite tallennettu Lataukset-kansioon';
 
   @override
   String emailFileSaveFailed(String error) {

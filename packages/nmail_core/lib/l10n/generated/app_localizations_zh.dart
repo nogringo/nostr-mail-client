@@ -459,15 +459,14 @@ class AppLocalizationsZh extends AppLocalizations {
       '在回收站创建一封 31 天前的测试邮件。用于测试「删除旧邮件」功能。';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => '触发测试通知';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      '像收到新邮件一样显示本地通知，用于测试通知显示和点击处理。';
 
   @override
-  String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+  String get debugNotificationPermissionDenied => '通知权限被拒绝。';
 
   @override
   String get folderInbox => '收件箱';
@@ -668,9 +667,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailAttachmentLoadFailed => '加载附件失败';
 
   @override
-  String emailFileSaved(String path) {
-    return '文件已保存: $path';
-  }
+  String get emailFileSaved => '附件已保存到“下载”文件夹';
 
   @override
   String emailFileSaveFailed(String error) {

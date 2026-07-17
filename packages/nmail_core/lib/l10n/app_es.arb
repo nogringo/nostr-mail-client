@@ -168,6 +168,9 @@
   "debugToolsEmailTesting": "Pruebas de correo",
   "debugToolsCreateOldTrashed": "Crear correo antiguo en la papelera",
   "debugToolsCreateOldTrashedDescription": "Crea un correo de prueba en la papelera con 31 días de antigüedad. Úsalo para probar la función \"Eliminar correos antiguos\".",
+  "debugToolsTriggerNotification": "Activar notificación de prueba",
+  "debugToolsTriggerNotificationDescription": "Muestra una notificación local como si hubiera llegado un correo nuevo, para probar la visualización de la notificación y el manejo del toque.",
+  "debugNotificationPermissionDenied": "Permiso de notificaciones denegado.",
 
   "folderInbox": "Bandeja de entrada",
   "folderSent": "Enviados",
@@ -271,12 +274,7 @@
     }
   },
   "emailAttachmentLoadFailed": "Error al cargar el adjunto",
-  "emailFileSaved": "Archivo guardado: {path}",
-  "@emailFileSaved": {
-    "placeholders": {
-      "path": { "type": "String" }
-    }
-  },
+  "emailFileSaved": "Adjunto guardado en Descargas",
   "emailFileSaveFailed": "Error al guardar el archivo: {error}",
   "@emailFileSaveFailed": {
     "placeholders": {

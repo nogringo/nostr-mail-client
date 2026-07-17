@@ -473,15 +473,15 @@ class AppLocalizationsRu extends AppLocalizations {
       'Создаёт тестовое письмо в корзине возрастом 31 день. Используйте, чтобы протестировать функцию «Удалить старые письма».';
 
   @override
-  String get debugToolsTriggerNotification => 'Trigger Test Notification';
+  String get debugToolsTriggerNotification => 'Показать тестовое уведомление';
 
   @override
   String get debugToolsTriggerNotificationDescription =>
-      'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
+      'Показывает локальное уведомление, как будто пришло новое письмо, чтобы проверить отображение уведомления и обработку нажатия.';
 
   @override
   String get debugNotificationPermissionDenied =>
-      'Notification permission denied.';
+      'Разрешение на уведомления отклонено.';
 
   @override
   String get folderInbox => 'Входящие';
@@ -708,9 +708,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailAttachmentLoadFailed => 'Не удалось загрузить вложение';
 
   @override
-  String emailFileSaved(String path) {
-    return 'Файл сохранён: $path';
-  }
+  String get emailFileSaved => 'Вложение сохранено в «Загрузки»';
 
   @override
   String emailFileSaveFailed(String error) {
