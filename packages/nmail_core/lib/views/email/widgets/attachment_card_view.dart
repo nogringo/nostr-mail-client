@@ -68,17 +68,20 @@ class AttachmentCardView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        filename,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSecondaryContainer,
+                      Tooltip(
+                        message: filename,
+                        child: Text(
+                          filename,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSecondaryContainer,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
                       ),
                       if (attachment.size > 0) ...[
                         const SizedBox(height: 2),
