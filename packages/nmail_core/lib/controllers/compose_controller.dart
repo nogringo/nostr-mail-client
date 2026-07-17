@@ -251,7 +251,7 @@ class ComposeController extends GetxController {
       final result = await FilePicker.pickFiles(
         dialogTitle: l.composeSelectAttachments,
         allowMultiple: true,
-        withData: true, // TODO: do not work on macos
+        withData: true, // TODO: do not use, will be deprecated
       );
 
       if (result != null && result.files.isNotEmpty) {
