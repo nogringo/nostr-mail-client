@@ -37,11 +37,17 @@ import 'package:nmail_core/utils/platform_helper.dart';
 Future<void> runNmailApp({
   Future<void> Function()? onReady,
   String? privacyPolicyUrl,
+  UnifiedPushDistributorChecker? hasUnifiedPushDistributor,
+  String? unifiedPushDistributorInstallUrl,
 }) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(
-    DistributionConfig(privacyPolicyUrl: privacyPolicyUrl),
+    DistributionConfig(
+      privacyPolicyUrl: privacyPolicyUrl,
+      hasUnifiedPushDistributor: hasUnifiedPushDistributor,
+      unifiedPushDistributorInstallUrl: unifiedPushDistributorInstallUrl,
+    ),
     permanent: true,
   );
 

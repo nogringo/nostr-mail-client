@@ -15,6 +15,10 @@ Releases prior to 0.13.0 are listed on the
 
 ## [Unreleased]
 
+### Added
+
+- Guide Android FOSS users to install a UnifiedPush distributor when none is available.
+
 ### Changed
 
 - Improve the macOS DMG installer window with a custom background and icon

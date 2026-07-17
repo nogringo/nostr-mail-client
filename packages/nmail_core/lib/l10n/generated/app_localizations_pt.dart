@@ -110,6 +110,17 @@ class AppLocalizationsPt extends AppLocalizations {
       'Seja notificado quando um novo email chegar.';
 
   @override
+  String get settingsUnifiedPushDistributorMissingTitle =>
+      'Push notifications unavailable';
+
+  @override
+  String get settingsUnifiedPushDistributorMissingSubtitle =>
+      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+
+  @override
+  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
+
+  @override
   String get settingsAdvancedOptions => 'Opções avançadas';
 
   @override

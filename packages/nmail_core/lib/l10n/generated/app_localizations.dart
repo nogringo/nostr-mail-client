@@ -313,6 +313,24 @@ abstract class AppLocalizations {
   /// **'Get notified when a new email arrives.'**
   String get settingsEnableNotificationsSubtitle;
 
+  /// Settings tile title shown on Android FOSS builds when no UnifiedPush distributor is installed
+  ///
+  /// In en, this message translates to:
+  /// **'Push notifications unavailable'**
+  String get settingsUnifiedPushDistributorMissingTitle;
+
+  /// Settings tile subtitle explaining that a UnifiedPush distributor is required for push notifications
+  ///
+  /// In en, this message translates to:
+  /// **'Install a UnifiedPush distributor like Sunup to receive notifications in the background.'**
+  String get settingsUnifiedPushDistributorMissingSubtitle;
+
+  /// Button label opening the Sunup UnifiedPush distributor install page
+  ///
+  /// In en, this message translates to:
+  /// **'Install Sunup'**
+  String get settingsUnifiedPushDistributorInstallSunup;
+
   /// Settings section header for advanced/developer toggles
   ///
   /// In en, this message translates to:

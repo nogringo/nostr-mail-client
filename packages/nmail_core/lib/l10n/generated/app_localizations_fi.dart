@@ -109,6 +109,17 @@ class AppLocalizationsFi extends AppLocalizations {
       'Saat ilmoituksen, kun uusi sähköposti saapuu.';
 
   @override
+  String get settingsUnifiedPushDistributorMissingTitle =>
+      'Push notifications unavailable';
+
+  @override
+  String get settingsUnifiedPushDistributorMissingSubtitle =>
+      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+
+  @override
+  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
+
+  @override
   String get settingsAdvancedOptions => 'Edistyneet asetukset';
 
   @override

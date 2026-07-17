@@ -110,6 +110,17 @@ class AppLocalizationsFr extends AppLocalizations {
       'Être notifié à l\'arrivée d\'un nouvel e-mail.';
 
   @override
+  String get settingsUnifiedPushDistributorMissingTitle =>
+      'Notifications push indisponibles';
+
+  @override
+  String get settingsUnifiedPushDistributorMissingSubtitle =>
+      'Installez un distributeur UnifiedPush comme Sunup pour recevoir les notifications en arrière-plan.';
+
+  @override
+  String get settingsUnifiedPushDistributorInstallSunup => 'Installer Sunup';
+
+  @override
   String get settingsAdvancedOptions => 'Options avancées';
 
   @override

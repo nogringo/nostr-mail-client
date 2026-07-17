@@ -26,6 +26,7 @@ import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'widgets/about_section.dart';
 import 'widgets/language_tile.dart';
+import 'widgets/unified_push_distributor_help_tile.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -76,6 +77,7 @@ class SettingsView extends StatelessWidget {
                   onChanged: settingsController.setNotificationsEnabled,
                 ),
               ),
+              const UnifiedPushDistributorHelpTile(),
               const SizedBox(height: 16),
               _buildSectionHeader(context, l.settingsAdvancedOptions),
               Obx(
