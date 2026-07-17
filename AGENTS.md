@@ -1,19 +1,26 @@
-# AGENTS.md — Nostr Mail Client (Nmail)
+# AGENTS.md - Nostr Mail Client (Nmail)
 
-This file contains project-specific context for AI coding agents. Read it before making any changes.
+This file contains project-specific context for AI coding agents. Read it before making changes.
 
 ---
 
 ## Project Overview
 
-**Nostr Mail Client** (branded as **Nmail**) is a cross-platform Flutter application that provides a decentralized, privacy-first email experience built on the [Nostr protocol](https://github.com/nostr-protocol/nips). Users own their identity (pubkey/npub) and data; there is no central authority that can revoke an address or scan messages.
+**Nostr Mail Client** (branded as **Nmail**) is a cross-platform Flutter email client built on the [Nostr protocol](https://github.com/nostr-protocol/nips). Users own their identity (`npub`/pubkey) and local data; messages are transported through Nostr relays instead of a central mail provider.
 
-The app communicates over Nostr relays, stores data locally, and supports sending/receiving encrypted messages both to other Nostr users and to traditional email addresses via bridge domains.
+The repository is now a Dart/Flutter workspace with a shared core package and two app distributions:
 
-- **Primary platforms**: Android, Linux, Web
-- **Secondary platform**: macOS (has CI workflow and runner files)
-- **Pubspec version**: `0.10.0+14`
-- **Dart SDK constraint**: `^3.10.8`
+- `packages/nmail_core` - shared Nmail app, UI, routing, services, models, localization, storage, and Nostr/mail logic.
+- `apps/nmail_standard` - standard distribution with Firebase/FCM push support.
+- `apps/nmail_foss` - FOSS distribution with UnifiedPush support and no Firebase dependency.
+
+Current package metadata:
+
+- Workspace SDK constraint: `^3.12.2`
+- App version: `0.14.2+26` in both app pubspecs
+- Core package version: `0.0.1`
+- Primary platforms: Android, Linux, Web
+- Also present: iOS, macOS, Windows runner folders
 
 ---
 
@@ -21,273 +28,327 @@ The app communicates over Nostr relays, stores data locally, and supports sendin
 
 | Layer | Technology |
 |-------|------------|
-| Framework | Flutter (stable channel) |
+| Framework | Flutter |
 | Language | Dart |
-| State management & routing | `get` (GetX) |
-| Nostr protocol | `ndk` + `ndk_flutter` (Nostr Development Kit) |
-| Email domain logic | `nostr_mail` package |
-| Local database | `sembast` (all platforms, including web via `sembast_web`) |
-| Secure storage | `flutter_secure_storage` (handled by NDK) |
-| Rich text editor | `flutter_quill` + `vsc_quill_delta_to_html` |
+| Workspace layout | Dart pub workspace (`pubspec.yaml` with `apps/*` and `packages/*`) |
+| State management / DI | `get` (GetX) |
+| Routing | `go_router` via `MaterialApp.router` |
+| Nostr protocol | `ndk` + `ndk_flutter` |
+| Email domain logic | `nostr_mail` |
+| Address book | `nostr_address_book`, `vcard_dart` |
+| Local database / cache | `sembast`, `sembast_web`, `sqflite`, `sqflite_common_ffi`, `idb_shim` |
+| Offline queues | `broadcast_queue_shim_for_ndk`, `blossom_upload_queue_shim_for_ndk` |
+| Attachments / Blossom | `blossom_cache`, `file_picker`, `file_saver` |
+| Rich text editor | `flutter_quill`, `markdown_quill`, `vsc_quill_delta_to_html` |
 | MIME mail construction | `enough_mail_plus` |
-| PDF viewer | `pdfrx` |
-| HTML rendering | `flutter_widget_from_html_core` |
+| HTML/PDF rendering | `flutter_widget_from_html_core`, `pdfrx` |
+| Push notifications | FCM in `nmail_standard`; UnifiedPush in `nmail_foss`; shared registration logic in core |
+| Local notifications | `flutter_local_notifications` |
 | Toast notifications | `toastification` |
-| File handling | `file_picker`, `file_saver` |
-| Icons / images | `flutter_svg` |
+| Theming | `system_theme` + custom persisted color schemes |
 | Desktop window chrome | `window_manager` |
-| Theming | `system_theme` (accent color on native) |
+| Localization | Flutter gen-l10n from `packages/nmail_core/lib/l10n/*.arb` |
 
 ---
 
-## Project Structure
+## Repository Structure
 
-```
-lib/
-├── main.dart                 # Entry point: initializes window manager, storage, NDK, theme, routes
-├── app/
-│   ├── bindings/
-│   │   └── initial_binding.dart       # Lazy-puts SettingsController & ContactsService
-│   ├── config/
-│   │   ├── app_config.dart            # Sync debounce duration (60s)
-│   │   └── nostr_config.dart          # Bootstrap relays, recommended DM/Blossom/bridge lists
-│   └── routes/
-│       ├── app_routes.dart            # GetX route definitions + constants
-│       └── middlewares/
-│           ├── auth_middleware.dart
-│           ├── guest_middleware.dart
-│           └── onboarding_middleware.dart
-├── controllers/              # GetX controllers (business logic, observable state)
-│   ├── auth_controller.dart
-│   ├── compose_controller.dart
-│   ├── inbox_controller.dart
-│   ├── profile_controller.dart
-│   ├── settings_controller.dart
-│   └── debug_tools_controller.dart
-├── models/                   # Plain Dart data classes
-│   ├── contact.dart
-│   ├── recipient.dart
-│   ├── from_option.dart
-│   ├── send_mode.dart
-│   └── compose_attachment.dart
-├── services/                 # Long-lived GetxServices and platform abstractions
-│   ├── nostr_mail_service.dart        # Wraps NostrMailClient; relay/Blossom/DM list management
-│   ├── storage_service.dart           # Sembast wrapper + settings store
-│   ├── storage_service_io.dart        # IO-specific DB opener
-│   ├── storage_service_stub.dart      # Web stub (falls back to sembast_web in storage_service)
-│   ├── ndk_cache_service.dart         # Creates SembastCacheManager for NDK
-│   ├── theme_service.dart             # Loads/saves custom light/dark ColorSchemes
-│   ├── contacts_service.dart          # Aggregates contacts from email history, follows, etc.
-│   └── android_file_saver.dart        # Platform-specific file save helper
-├── utils/                    # Pure utility functions and extensions
-│   ├── blossom_utils.dart
-│   ├── relay_utils.dart
-│   ├── format_date.dart
-│   ├── format_date_time.dart
-│   ├── get_attachements.dart
-│   ├── get_mime_type.dart
-│   ├── html_has_images.dart
-│   ├── metadata_extensions.dart
-│   ├── nostr_avatar_colors.dart       # NIP-avatar deterministic color derivation
-│   ├── nostr_utils.dart
-│   ├── platform_helper.dart
-│   ├── responsive_helper.dart
-│   ├── sender_name_helper.dart
-│   ├── toast_helper.dart
-│   ├── event_verifiers.dart           # SwitchableVerifier, WebEventVerifier, RustEventVerifier, NoVerifier
-│   ├── confirm_open_link.dart
-│   └── color_scheme_serializer.dart
-├── views/                    # UI screens (one folder per feature)
-│   ├── auth/
-│   ├── compose/
-│   ├── email/
-│   ├── inbox/
-│   ├── onboarding/
-│   ├── profile/
-│   ├── settings/
-│   └── shared/              # Desktop shell, left rail, layout constants
-└── widgets/                  # Reusable widgets shared across views
-    ├── email_avatar.dart
-    └── nostr_avatar.dart
-
-test/
-└── utils/
-    ├── blossom_utils_test.dart
-    └── relay_utils_test.dart
+```text
+.
+|-- pubspec.yaml                         # Workspace root (`apps/*`, `packages/*`)
+|-- pubspec_overrides.yaml               # Optional local dependency overrides
+|-- apps/
+|   |-- nmail_standard/
+|   |   |-- lib/main.dart                # Calls runNmailApp(onReady: FcmPush.init)
+|   |   |-- lib/push/fcm_push.dart       # Firebase Messaging integration
+|   |   |-- lib/firebase_options.dart    # Injected/validated by CI for release builds
+|   |   `-- firebase.json
+|   `-- nmail_foss/
+|       |-- lib/main.dart                # Calls runNmailApp(onReady: UnifiedPushHandler.init)
+|       `-- lib/push/unified_push.dart   # UnifiedPush foreground/background entry points
+|-- packages/
+|   `-- nmail_core/
+|       |-- lib/app/bootstrap.dart       # Shared initialization and MainApp
+|       |-- lib/app/routes/              # go_router route tree and route constants
+|       |-- lib/app/config/              # App/distribution config
+|       |-- lib/config/nostr_config.dart # Bootstrap relays and recommended defaults
+|       |-- lib/controllers/             # GetX controllers
+|       |-- lib/models/                  # Plain Dart models
+|       |-- lib/services/                # Long-lived services and platform abstractions
+|       |-- lib/utils/                   # Pure helpers/extensions
+|       |-- lib/views/                   # Feature screens and shared shells/layouts
+|       |-- lib/widgets/                 # Reusable widgets
+|       |-- lib/l10n/                    # ARB files + generated localizations
+|       `-- test/                        # Unit tests
+|-- .github/workflows/                   # CI/CD for web, Android, Linux, macOS, releases
+`-- scripts/check_android_16kb_alignment.sh
 ```
 
-**Total Dart files in `lib/`**: ~106 files (~3,000+ lines across views alone).
+Approximate Dart file counts:
+
+- `packages/nmail_core/lib`: about 207 Dart files
+- app distribution `lib` folders: 5 Dart files total
+- tests: 10 `*_test.dart` files in `packages/nmail_core/test`
 
 ---
 
-## Build & Run Commands
+## Build, Run, And Test Commands
+
+Run commands from the directory shown in the command when possible. The CI workflows mostly run `flutter pub get` inside each app directory.
 
 ```bash
-# Install dependencies
+# Standard app dependencies
+cd apps/nmail_standard
 flutter pub get
 
-# Run in debug mode (auto-detects platform)
-flutter run
+# FOSS app dependencies
+cd apps/nmail_foss
+flutter pub get
 
-# Run on a specific device
+# Core package tests
+cd packages/nmail_core
+flutter test
+
+# Analyze core
+cd packages/nmail_core
+flutter analyze
+
+# Analyze an app distribution
+cd apps/nmail_standard
+flutter analyze
+
+# Run standard distribution
+cd apps/nmail_standard
 flutter run -d chrome
 flutter run -d linux
 flutter run -d android
 
-# Build for production
-flutter build web
+# Run FOSS distribution
+cd apps/nmail_foss
+flutter run -d linux
+flutter run -d android
+
+# Build web (standard distribution)
+cd apps/nmail_standard
+flutter build web --release --output ../../build/web
+
+# Build Android standard distribution
+cd apps/nmail_standard
 flutter build apk --release
 flutter build appbundle --release
-flutter build linux --release
-flutter build macos --release
+
+# Build Android FOSS distribution
+cd apps/nmail_foss
+flutter build apk --release --flavor foss
+flutter build appbundle --release --flavor foss
+
+# Build ZapStore APK
+cd apps/nmail_foss
+flutter build apk --release --flavor zapstore --target-platform android-arm64
 ```
 
-### Desktop-specific
-On Linux desktop builds, `window_manager` is used with a hidden system title bar (`TitleBarStyle.hidden`). A custom drag-to-move area and window caption buttons are injected in `main.dart` via the `builder` callback of `GetMaterialApp`.
+Linux and macOS release packaging use `fastforge` in CI. There is no Fastforge config file at the repository root; workflows package from `apps/nmail_standard`.
+
+---
+
+## App Bootstrap And Dependency Injection
+
+The shared entry point is `packages/nmail_core/lib/app/bootstrap.dart`.
+
+`runNmailApp()` does the app-wide setup:
+
+- Enables path URL strategy for web.
+- Registers `DistributionConfig`.
+- Initializes `window_manager` on desktop with hidden title bar style.
+- Loads `system_theme` accent color.
+- Initializes `StorageService`.
+- Creates `Ndk` with `NdkEventVerifier`, `NdkEventSignerFactory`, cache, bootstrap relays, and fetched ranges.
+- Registers `Ndk`, `NdkFlutter`, `MetadataService`, `NostrMailService`, `AuthController`, `ThemeService`, `SettingsController`, `NotificationService`, and `PushRegistrationService`.
+- Initializes Blossom cache plus offline broadcast/upload queues as permanent singletons.
+- Runs `InitialBinding` for `AddressBookService` and `ContactsService`.
+- Calls the distribution-specific `onReady` hook.
+- Starts `MainApp`.
+
+Important distribution hooks:
+
+- `apps/nmail_standard/lib/main.dart` passes `FcmPush.init` and an iOS App Store privacy policy URL.
+- `apps/nmail_foss/lib/main.dart` passes `UnifiedPushHandler.init`; when launched with `--unifiedpush-bg`, it runs `UnifiedPushHandler.runBackground()` instead of the full app.
+
+Use `Get.find<T>()` carefully. Many services are permanent and assumed to exist for the whole app lifetime. Route-scoped controllers are still registered and cleaned up in the router where needed.
+
+---
+
+## Routing And Navigation
+
+Routing has migrated from `GetMaterialApp`/`GetPage` to `go_router`.
+
+Key files:
+
+- `packages/nmail_core/lib/app/routes/app_router.dart`
+- `packages/nmail_core/lib/app/routes/app_routes.dart`
+
+Current route model:
+
+- `MaterialApp.router` uses `AppRouter.init()`.
+- `AppRoutes` contains route constants and path helpers.
+- Public routes: `/login`, `/onboarding`.
+- Authenticated shell routes live under a `ShellRoute` that renders `AuthShell`.
+- Folder routes are URL-driven: `/inbox`, `/sent`, `/archive`, `/trash`.
+- Email details are nested under folders as `/<folder>/email/:id`.
+- Scheduled mail: `/scheduled`.
+- Contacts: `/contacts`, `/contacts/form`.
+- Compose: `/compose`; `ComposeController` is disposed in `onExit`.
+- Settings tree: `/settings`, `/settings/identities`, `/settings/identities/new`, `/settings/hosting`, `/settings/debug-tools`.
+- Legacy `/email/:id` redirects through the root NIP-19 dispatcher.
+- Root `/:nostrId` dispatches `npub`, `nprofile`, `nevent`, and note/event references.
+
+GetX is still used for DI, reactivity, dialogs/snackbars, and controller ownership. `AppRouter` aliases its root navigator key to `Get.key` so legacy `Get.context`, `Get.dialog`, and `Get.snackbar` calls continue to work. There is an inline TODO to eventually remove the remaining GetX navigation coupling.
+
+When adding routes:
+
+- Update `AppRoutes`.
+- Update the `GoRouter` tree in `AppRouter`.
+- Decide where the controller is registered and disposed.
+- Prefer `context.go` / `context.push` in widgets. Use `AppRouter.router` only where a controller has no `BuildContext`.
+
+---
+
+## Core Domains
+
+### Nostr And Mail
+
+The app is deeply coupled to `ndk`, `ndk_flutter`, and `nostr_mail`.
+
+- `NostrMailService` wraps `NostrMailClient`.
+- Email events are Nostr gift-wraps.
+- Read/unread state uses NIP-32 labels such as `state:read`.
+- DM relay lists, NIP-65 relay lists, Blossom servers, bridge settings, and recommended defaults are centralized in config/services/controllers.
+- Offline Nostr event broadcast and Blossom uploads are queued through the offline queue shim packages.
+- Event verification is enabled by default through `NdkEventVerifier`; the older switchable verifier/no-verifier setup is no longer present in the current bootstrap.
+
+### Push Notifications
+
+Shared push registration lives in `packages/nmail_core/lib/services/push_registration_service.dart`.
+
+- Standard distribution: `FcmPush` initializes Firebase, registers the FCM token, and routes notification taps.
+- FOSS distribution: `UnifiedPushHandler` registers with a UnifiedPush distributor, handles raw push payloads, and shows local notifications itself. Background delivery uses the `--unifiedpush-bg` entry point.
+- `NotificationService` is shared and initializes local notification display/tap handling.
+
+### Contacts And Address Book
+
+Contacts are more than derived email history now.
+
+- `AddressBookService` manages address book persistence/sync.
+- `ContactsService` aggregates and exposes contact data.
+- `ContactsController` and contact form widgets own the contacts UI workflow.
+- vCard import/export helpers live in `utils/address_book_vcard_mapper.dart`.
+
+### Localization
+
+Localization lives in `packages/nmail_core/lib/l10n`.
+
+- Template: `app_en.arb`
+- Supported ARB files currently include `de`, `en`, `es`, `fi`, `fr`, `it`, `ja`, `pt`, `pt_BR`, `ru`, and `zh`.
+- Generated files are committed under `lib/l10n/generated`.
+- `l10n.yaml` configures output to `AppLocalizations`.
+
+When adding user-facing strings, update `app_en.arb` and corresponding translations or clearly leave translation work visible.
 
 ---
 
 ## Testing
 
-The project currently has a **minimal test suite** (2 utility test files).
+Tests currently live under `packages/nmail_core/test`.
 
-```bash
-# Run all tests
-flutter test
-```
+Existing coverage includes utilities and services such as:
 
-Existing tests cover:
-- `utils/blossom_utils.dart` — URL formatting/normalization/validation
-- `utils/relay_utils.dart` — Relay URL formatting/normalization/validation
+- `address_book_service_test.dart`
+- `push_registration_service_test.dart`
+- `address_book_vcard_mapper_test.dart`
+- `blossom_utils_test.dart`
+- `contact_birthday_utils_test.dart`
+- `get_attachements_test.dart`
+- `nostr_utils_test.dart`
+- `relay_utils_test.dart`
+- `scheduled_email_extensions_test.dart`
+- `string_color_test.dart`
 
-When adding new features, **prefer adding unit tests for utility functions and business logic in controllers/services**. There are no integration or widget tests at this time.
+Prefer unit tests for:
 
----
+- Pure utilities in `utils/`
+- Model transformations
+- Service/controller behavior that can be isolated from Flutter UI
+- Push registration state logic
+- Address book and scheduling behavior
 
-## Code Style & Linting
-
-- **Linter config**: `analysis_options.yaml` includes `package:flutter_lints/flutter.yaml`.
-- **Special rule**: `experimental_member_use` is set to `ignore`.
-- Follow existing naming conventions:
-  - Controllers end with `Controller` and extend `GetxController` (or `GetxService` for services).
-  - Views end with `View` and are `StatelessWidget` (or `StatefulWidget` if needed).
-  - Files are named with `snake_case`.
-  - Rx observables are prefixed with `is`, `has`, or named as plural nouns (e.g., `isLoading`, `emails`).
-
----
-
-## Architecture Conventions
-
-### Dependency Injection (GetX)
-- **Permanent singletons** initialized in `main.dart`:
-  - `StorageService`
-  - `SwitchableVerifier` (event verifier)
-  - `Ndk`
-  - `NdkFlutter`
-  - `NostrMailService`
-  - `AuthController`
-  - `ThemeService`
-- **Permanent singletons** from `InitialBinding`:
-  - `SettingsController`
-  - `ContactsService` (lazy)
-- **Per-route lazy controllers** bound in `AppRoutes`:
-  - `InboxController`, `ComposeController`, `ProfileController`
-
-### Navigation / Routing
-- Uses **GetX routing** (`GetPage`, `GetMaterialApp`).
-- Route constants live in `AppRoutes`.
-- Middleware stack order: `OnboardingMiddleware` → `AuthMiddleware`/`GuestMiddleware`.
-- **Planned migration**: `TODO.md` mentions evaluating `go_router` for nested desktop/web shell navigation (fixed sidebar, changing body).
-
-### State & Reactivity
-- Heavy use of `Rx<T>` / `.obs` for reactive UI.
-- Controllers use `onInit`/`onClose` for lifecycle management.
-- `WidgetsBindingObserver` is used in `InboxController` to trigger background-to-foreground sync.
+There are no broad integration/widget test conventions established yet.
 
 ---
 
-## Nostr Integration Details
+## Code Style And Conventions
 
-The app is deeply coupled to the `ndk` ecosystem:
-
-- **NDK** (`ndk` + `ndk_flutter`) handles accounts, relays, metadata, gift-wrap parsing, Blossom uploads, and event verification.
-- **NostrMailClient** (from `nostr_mail` package) is the high-level email API. It is initialized via `NostrMailService.initClient()` after login.
-- **Email events** are Nostr gift-wraps (kind `1059`).
-- **Read/unread state** uses NIP-32 labels (`state:read`).
-- **DM Relays** are stored as kind `10050` events.
-- **NIP-65 relay lists** (kind `10002`) are managed for inbox/outbox.
-- **Blossom servers** (kind `10063`) store attachments.
-- **Bootstrap relays** and recommended defaults are centralized in `lib/app/config/nostr_config.dart`.
-
-### Event Verification
-`main.dart` sets up a `SwitchableVerifier` that can hot-swap between:
-- `WebEventVerifier` (web platform)
-- `RustEventVerifier` (native platforms)
-- `NoVerifier` (when user toggles "skip event verification" in debug settings)
-
-**TODO**: The project intends to remove the "skip event verification" logic entirely.
+- Linting uses `package:flutter_lints/flutter.yaml`.
+- `experimental_member_use` is ignored in package analysis options.
+- Controllers end with `Controller` and generally extend `GetxController`.
+- Long-lived services end with `Service`; persistent app-level services are registered with `permanent: true`.
+- Files use `snake_case`.
+- Rx observables follow existing naming patterns (`isLoading`, `hasX`, plural collections, etc.).
+- Keep platform branching explicit (`kIsWeb`, `defaultTargetPlatform`, `PlatformHelper`, conditional imports).
+- Prefer existing helper APIs and local patterns over adding new abstractions.
+- Keep generated localization files and platform runner changes intentional; avoid unrelated churn.
 
 ---
 
-## Security & Privacy Considerations
+## CI/CD And Release Notes
 
-- **Private keys** are managed by `ndk_flutter` / `flutter_secure_storage`; the app does not handle raw key strings directly except for `nsec` export in `AuthController`.
-- **Event verification** is required by default; skipping it is only a debug option.
-- **Local database** (`sembast`) stores emails, settings, and NDK cache on-device. No cloud backup.
-- **Bridge domains** (e.g., `uid.ovh`) are used to relay messages to legacy SMTP inboxes. The app auto-selects a bridge `From` address when legacy recipients are detected.
+Workflows live in `.github/workflows/`.
 
----
+| Workflow | Purpose |
+|----------|---------|
+| `firebase-hosting-merge.yml` | Builds `apps/nmail_standard` web and deploys to Firebase Hosting on `main` |
+| `firebase-hosting-pull-request.yml` | Builds web preview deploys for PRs |
+| `build-android.yml` | Manual Android build for standard, FOSS, and ZapStore artifacts |
+| `build-linux.yml` | Manual Linux packaging from `apps/nmail_standard` via Fastforge |
+| `build-macos.yml` | Manual macOS packaging, signing, and notarization |
+| `release.yml` | Tag/manual release across Android, Linux, macOS, then GitHub Release |
+| `deploy-redirect.yml` | Deploys redirect content to GitHub Pages |
 
-## Deployment & CI/CD
+CI uses `.github/actions/inject-nmail-standard-firebase-options` to inject Firebase options for the standard app from secrets. The standard app has `apps/nmail_standard/firebase.json`; the root `firebase.json` points hosting at `build/web`.
 
-All CI lives in `.github/workflows/`:
+Android release workflows build:
 
-| Workflow | Trigger | Purpose |
-|----------|---------|---------|
-| `firebase-hosting-merge.yml` | Push to `main` | Builds `flutter build web` and deploys to Firebase Hosting |
-| `firebase-hosting-pull-request.yml` | PRs | Preview deploys for web |
-| `release.yml` | Tag `v*` or manual | Builds Android (APK + AAB) + Linux (deb + AppImage), creates GitHub Release |
-| `build-android.yml` | Manual | Build signed Android artifacts (uses secrets for keystore) |
-| `build-linux.yml` | Manual | Build Linux packages via `fastforge` |
-| `build-macos.yml` | Manual | Build macOS app |
-| `deploy-redirect.yml` | Unknown | Deploys the redirect page (likely `redirect-page/`) |
-
-### Release Tooling
-- **Android**: Signed with a PKCS12 keystore (`russel.p12`) configured via repository secrets.
-- **Linux**: Uses `fastforge` to generate `.deb` and `.AppImage` packages.
-- **Web**: Hosted on Firebase (`nostr-mail` project). SPA rewrite rules send all routes to `index.html`.
-
-### Build Configuration
-`build-config.yaml` configures `fastforge` metadata:
-- Display name: `Nmail`
-- App ID: `app.nostrmail.client`
-- Maintainer: Russell (`npub1kg4sdvz3l4fr99n2jdz2vdxe2mpacva87hkdetv76ywacsfq5leqquw5te`)
+- Standard universal APK, arm64 APK, and AAB
+- FOSS universal APK, arm64 APK, and AAB
+- ZapStore arm64 APK
+- 16 KB alignment verification via `scripts/check_android_16kb_alignment.sh`
 
 ---
 
-## Assets
+## Current TODOs And Known Follow-Ups
 
-- `icons/original_transparent_2x.svg` — App logo (SVG)
-- `icons/original_transparent_3x.png` — App logo (PNG fallback)
-- macOS icon is generated via `flutter_launcher_icons` from `icons/web/icon-512.png`.
+Inline TODOs currently mention:
+
+- Finish removing remaining GetX navigation/context coupling after replacing `Get.dialog`, `Get.snackbar`, and context reads.
+- Debounce inbox listeners during bulk sync.
+- Allow attachment renaming.
+- Enforce attachment file size limits.
+- Avoid deprecated `file_picker` `withData: true` usage when possible.
+- Add trusted-domain handling and link-text mismatch warnings in external link confirmation.
+- Refactor duplicated account popup UI between inbox/sidebar.
+- Split the large settings view into smaller widgets.
+- Consider encrypted profile image upload/display.
+- Add more context for the resync action in settings.
+
+There is no root `TODO.md` in the current repository.
 
 ---
 
-## Outstanding TODOs
+## Tips For Agents
 
-From `TODO.md` and inline comments:
-1. Evaluate migrating from GetX routing to `go_router` for nested desktop/web layouts.
-2. Add a broadcast retry queue for reliable event delivery.
-3. Remove "skip event verification" debug logic from the codebase.
-4. Allow attachment renaming (inline `TODO` in `ComposeController`).
-5. Attachment file-size limits are not yet enforced.
-
----
-
-## Tips for Agents
-
-- **Do not assume this is a standard email app.** The core transport is Nostr gift-wraps, not SMTP/IMAP. If you need to understand how an email is fetched or sent, look at `nostr_mail_service.dart` and `NostrMailClient` (external package), not SMTP libraries.
-- **Use `Get.find<T>()` carefully.** Many services are marked `permanent: true` and are expected to exist for the app lifetime. If you introduce a new service, register it in `main.dart` or `InitialBinding`.
-- **Respect platform branching.** There are explicit `kIsWeb` and `PlatformHelper.isDesktop` checks throughout the UI (especially `main.dart` and file-saving code). Keep these branches intact.
-- **When modifying routes**, update both `AppRoutes` constants and the `GetPage` list. Remember the middleware order matters.
-- **Tests are minimal.** If you change utility functions in `utils/`, add or update tests in `test/utils/`. There is no test coverage for controllers/views.
+- Do not treat this as a standard SMTP/IMAP app. Mail transport and identity are Nostr-first.
+- Most product code belongs in `packages/nmail_core`; distribution-specific push/Firebase/UnifiedPush code belongs under `apps/nmail_standard` or `apps/nmail_foss`.
+- When changing shared behavior, check both app distributions for imports, platform support, and release implications.
+- When changing routes, verify deep links and shell layout behavior on web/desktop as well as mobile.
+- When changing push behavior, preserve the separation between shared registration logic and distribution transport code.
+- When changing localization strings, update ARB files and generated localization output as appropriate.
+- Respect existing dirty worktrees. Do not revert platform runner, generated, or screenshot changes unless explicitly asked.
