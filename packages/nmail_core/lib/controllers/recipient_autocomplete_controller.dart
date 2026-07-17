@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/services/contacts_service.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 
 class RecipientAutocompleteController extends GetxController {
   RecipientAutocompleteController({
@@ -70,8 +72,11 @@ class RecipientAutocompleteController extends GetxController {
     _overlayBuilder = builder;
   }
 
-  void onTapOutside() {
+  void onTapOutside(PointerDownEvent event) {
     hideOverlay();
+    if (!PlatformHelper.isDesktop && event.kind == PointerDeviceKind.touch) {
+      return;
+    }
     focusNode.unfocus();
   }
 

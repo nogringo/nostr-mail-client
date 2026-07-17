@@ -22,6 +22,7 @@ Releases prior to 0.13.0 are listed on the
 
 ### Fixed
 
+- Allow pasting into To, Cc, and Bcc recipient fields on Android.
 - Keep the macOS app running when the last window is closed, matching native
   macOS behavior.
 

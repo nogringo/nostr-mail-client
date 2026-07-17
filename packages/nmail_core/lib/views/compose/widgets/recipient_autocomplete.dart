@@ -51,7 +51,7 @@ class RecipientAutocomplete extends StatelessWidget {
 
         return TapRegion(
           groupId: controller.tapRegionGroup,
-          onTapOutside: (_) => controller.onTapOutside(),
+          onTapOutside: controller.onTapOutside,
           child: Focus(
             onKeyEvent: controller.handleKeyEvent,
             child: CompositedTransformTarget(
