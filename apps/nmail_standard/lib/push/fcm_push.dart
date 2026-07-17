@@ -17,6 +17,9 @@ import '../firebase_options.dart';
 /// messages that the OS displays directly; this class only wires up init,
 /// the device token, and tap-to-open routing.
 class FcmPush {
+  static const _webVapidKey =
+      'BFMkkTYK_ToRjKT917_8pIHNO4OWeFlia6HGyHTKgGHv9jlv_3ajdSkmUT0HDeE9UcfdMkU2H034pi31e4Tm0zQ';
+
   static Future<void> init() async {
     if (!_isSupportedPlatform) return;
 
@@ -61,7 +64,14 @@ class FcmPush {
   }
 
   static Future<void> _refreshToken(FirebaseMessaging messaging) async {
-    final token = await messaging.getToken();
+    if (kIsWeb && _webVapidKey.isEmpty) {
+      return;
+    }
+
+    final token = await messaging.getToken(
+      vapidKey: kIsWeb ? _webVapidKey : null,
+      serviceWorkerScriptPath: kIsWeb ? 'firebase-messaging-sw.js' : null,
+    );
     await _setToken(token, registerIfEnabled: false);
   }
 
