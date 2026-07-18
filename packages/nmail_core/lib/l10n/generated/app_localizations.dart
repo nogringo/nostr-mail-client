@@ -1141,6 +1141,12 @@ abstract class AppLocalizations {
   /// **'Copy npub'**
   String get inboxCopyNpub;
 
+  /// Account menu entry that opens the login flow to add another account
+  ///
+  /// In en, this message translates to:
+  /// **'Add account'**
+  String get inboxAddAccount;
+
   /// Account menu entry to log the user out
   ///
   /// In en, this message translates to:

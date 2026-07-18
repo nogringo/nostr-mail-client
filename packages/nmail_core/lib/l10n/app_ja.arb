@@ -194,6 +194,7 @@
   },
   "inboxProfile": "プロフィール",
   "inboxCopyNpub": "npub をコピー",
+  "inboxAddAccount": "アカウントを追加",
   "inboxLogout": "ログアウト",
   "inboxAccount": "アカウント",
   "inboxCompose": "作成",

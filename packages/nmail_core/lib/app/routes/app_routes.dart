@@ -34,6 +34,8 @@ class AppRoutes {
   static const compose = '/compose';
   static const contactForm = '/contacts/form';
   static const profile = '/profile';
+  static const accounts = '/accounts';
+  static const addAccount = '/accounts/add';
 
   // Settings (nested)
   static const settings = '/settings';

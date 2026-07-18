@@ -533,6 +533,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inboxCopyNpub => '复制 npub';
 
   @override
+  String get inboxAddAccount => '添加账户';
+
+  @override
   String get inboxLogout => '退出登录';
 
   @override

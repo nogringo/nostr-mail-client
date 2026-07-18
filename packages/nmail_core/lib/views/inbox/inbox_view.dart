@@ -378,6 +378,11 @@ class InboxView extends GetView<InboxController> {
                             child: Text(l.inboxCopyNpub),
                           ),
                           MenuItemButton(
+                            leadingIcon: const Icon(Icons.person_add_outlined),
+                            onPressed: () => context.go(AppRoutes.addAccount),
+                            child: Text(l.inboxAddAccount),
+                          ),
+                          MenuItemButton(
                             leadingIcon: Icon(
                               Icons.logout,
                               color: colorScheme.error,

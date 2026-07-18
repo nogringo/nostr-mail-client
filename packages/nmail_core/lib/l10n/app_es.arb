@@ -194,6 +194,7 @@
   },
   "inboxProfile": "Perfil",
   "inboxCopyNpub": "Copiar npub",
+  "inboxAddAccount": "Añadir cuenta",
   "inboxLogout": "Cerrar sesión",
   "inboxAccount": "Cuenta",
   "inboxCompose": "Redactar",

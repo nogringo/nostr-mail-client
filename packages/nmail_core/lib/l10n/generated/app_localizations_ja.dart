@@ -533,6 +533,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inboxCopyNpub => 'npub をコピー';
 
   @override
+  String get inboxAddAccount => 'アカウントを追加';
+
+  @override
   String get inboxLogout => 'ログアウト';
 
   @override

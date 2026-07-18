@@ -194,6 +194,7 @@
   },
   "inboxProfile": "Профиль",
   "inboxCopyNpub": "Скопировать npub",
+  "inboxAddAccount": "Добавить аккаунт",
   "inboxLogout": "Выйти",
   "inboxAccount": "Аккаунт",
   "inboxCompose": "Написать",

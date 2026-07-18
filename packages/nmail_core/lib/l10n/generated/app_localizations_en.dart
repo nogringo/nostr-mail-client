@@ -544,6 +544,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inboxCopyNpub => 'Copy npub';
 
   @override
+  String get inboxAddAccount => 'Add account';
+
+  @override
   String get inboxLogout => 'Logout';
 
   @override

@@ -550,6 +550,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get inboxCopyNpub => 'Copiar npub';
 
   @override
+  String get inboxAddAccount => 'Adicionar conta';
+
+  @override
   String get inboxLogout => 'Terminar sessão';
 
   @override
@@ -1935,6 +1938,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get inboxCopyNpub => 'Copiar npub';
+
+  @override
+  String get inboxAddAccount => 'Adicionar conta';
 
   @override
   String get inboxLogout => 'Sair';

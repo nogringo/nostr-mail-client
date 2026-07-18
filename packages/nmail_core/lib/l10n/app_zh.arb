@@ -194,6 +194,7 @@
   },
   "inboxProfile": "个人资料",
   "inboxCopyNpub": "复制 npub",
+  "inboxAddAccount": "添加账户",
   "inboxLogout": "退出登录",
   "inboxAccount": "账户",
   "inboxCompose": "撰写",

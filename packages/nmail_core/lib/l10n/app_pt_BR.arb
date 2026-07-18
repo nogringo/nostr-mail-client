@@ -182,6 +182,7 @@
   },
   "inboxProfile": "Perfil",
   "inboxCopyNpub": "Copiar npub",
+  "inboxAddAccount": "Adicionar conta",
   "inboxLogout": "Sair",
   "inboxAccount": "Conta",
   "inboxCompose": "Compor",

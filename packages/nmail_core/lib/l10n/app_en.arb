@@ -368,6 +368,8 @@
   "@inboxProfile": { "description": "Account menu entry that opens the profile editor" },
   "inboxCopyNpub": "Copy npub",
   "@inboxCopyNpub": { "description": "Account menu entry/Semantics label to copy the user's npub to the clipboard" },
+  "inboxAddAccount": "Add account",
+  "@inboxAddAccount": { "description": "Account menu entry that opens the login flow to add another account" },
   "inboxLogout": "Logout",
   "@inboxLogout": { "description": "Account menu entry to log the user out" },
   "inboxAccount": "Account",

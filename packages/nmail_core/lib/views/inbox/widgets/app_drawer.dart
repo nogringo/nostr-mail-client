@@ -243,6 +243,20 @@ class AppDrawer extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: ListTile(
+            leading: const Icon(Icons.person_add_outlined),
+            title: Text(l.inboxAddAccount),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              context.go(AppRoutes.addAccount);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: ListTile(
             leading: Icon(Icons.logout, color: colorScheme.error),
             title: Text(
               l.inboxLogout,

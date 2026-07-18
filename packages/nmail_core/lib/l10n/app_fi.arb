@@ -194,6 +194,7 @@
   },
   "inboxProfile": "Profiili",
   "inboxCopyNpub": "Kopioi npub",
+  "inboxAddAccount": "Lisää tili",
   "inboxLogout": "Kirjaudu ulos",
   "inboxAccount": "Tili",
   "inboxCompose": "Luo sähköposti",

@@ -546,6 +546,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get inboxCopyNpub => 'Kopioi npub';
 
   @override
+  String get inboxAddAccount => 'Lisää tili';
+
+  @override
   String get inboxLogout => 'Kirjaudu ulos';
 
   @override

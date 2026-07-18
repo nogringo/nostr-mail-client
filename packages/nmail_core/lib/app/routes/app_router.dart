@@ -90,6 +90,11 @@ class AppRouter {
         path: AppRoutes.onboarding,
         builder: (_, _) => const OnboardingView(),
       ),
+      GoRoute(
+        path: AppRoutes.accounts,
+        redirect: (_, _) => AppRoutes.addAccount,
+        routes: [GoRoute(path: 'add', builder: (_, _) => const LoginView())],
+      ),
 
       // Authenticated shell: holds DesktopShell (sidebar) on wide screens
       ShellRoute(
