@@ -13,6 +13,7 @@ import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../../widgets/nostr_avatar.dart';
+import '../shared/account_switcher_section.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/old_emails_banner.dart';
@@ -40,25 +41,21 @@ class InboxView extends GetView<InboxController> {
   Widget _buildAccountHeader(BuildContext context) {
     final authController = Get.find<AuthController>();
     final metadata = authController.userMetadata.value;
-    final npub = authController.npub ?? '';
+    final pubkey = authController.currentPubkey!;
+    final npub = authController.currentNpub ?? '';
     final shortNpub = npub.length >= 20
         ? '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}'
         : npub;
     final colorScheme = Theme.of(context).colorScheme;
 
-    final displayName =
-        metadata?.getBestName() ?? getAnonName(authController.publicKey!);
+    final displayName = metadata?.getBestName() ?? getAnonName(pubkey);
 
     return Container(
       width: 240,
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          NostrAvatar(
-            pubkey: authController.publicKey!,
-            metadata: metadata,
-            radius: 18,
-          ),
+          NostrAvatar(pubkey: pubkey, metadata: metadata, radius: 18),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -362,6 +359,13 @@ class InboxView extends GetView<InboxController> {
                         menuChildren: [
                           Obx(() => _buildAccountHeader(context)),
                           const Divider(height: 1),
+                          const AccountSwitcherMenuSection(),
+                          MenuItemButton(
+                            leadingIcon: const Icon(Icons.person_add_outlined),
+                            onPressed: () => context.go(AppRoutes.addAccount),
+                            child: Text(l.inboxAddAccount),
+                          ),
+                          const Divider(height: 1),
                           MenuItemButton(
                             leadingIcon: const Icon(Icons.person_outline),
                             onPressed: () => context.go(AppRoutes.profile),
@@ -370,17 +374,13 @@ class InboxView extends GetView<InboxController> {
                           MenuItemButton(
                             leadingIcon: const Icon(Icons.copy),
                             onPressed: () {
-                              final npub = Get.find<AuthController>().npub;
+                              final npub =
+                                  Get.find<AuthController>().currentNpub;
                               if (npub != null) {
                                 Clipboard.setData(ClipboardData(text: npub));
                               }
                             },
                             child: Text(l.inboxCopyNpub),
-                          ),
-                          MenuItemButton(
-                            leadingIcon: const Icon(Icons.person_add_outlined),
-                            onPressed: () => context.go(AppRoutes.addAccount),
-                            child: Text(l.inboxAddAccount),
                           ),
                           MenuItemButton(
                             leadingIcon: Icon(
@@ -412,8 +412,9 @@ class InboxView extends GetView<InboxController> {
                               child: Obx(() {
                                 final authController =
                                     Get.find<AuthController>();
+                                final pubkey = authController.currentPubkey!;
                                 return NostrAvatar(
-                                  pubkey: authController.publicKey!,
+                                  pubkey: pubkey,
                                   metadata: authController.userMetadata.value,
                                   radius: 18,
                                 );

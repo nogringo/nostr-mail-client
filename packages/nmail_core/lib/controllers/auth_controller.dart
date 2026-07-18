@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
 import 'package:ndk/entities.dart';
@@ -28,6 +30,12 @@ class AuthController extends GetxController {
   final username = ''.obs;
   final usernameController = TextEditingController();
   final Rxn<Metadata> userMetadata = Rxn<Metadata>();
+  final accountPubkeys = <String>[].obs;
+  final activePubkey = RxnString();
+  final activeNpub = RxnString();
+
+  StreamSubscription<Account?>? _authSubscription;
+  int _accountSwitchGeneration = 0;
 
   Ndk get ndk => Get.find();
   NdkFlutter get ndkFlutter => Get.find();
@@ -36,6 +44,7 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       await ndkFlutter.restoreAccountsState();
+      _refreshAccountsState();
 
       if (ndk.accounts.getPublicKey() != null) {
         await _nostrMailService.initClient();
@@ -55,8 +64,13 @@ class AuthController extends GetxController {
   void onInit() {
     super.onInit();
     // Sync controller with observable
+    // TODO: Simplify registration state by reading usernameController.text
+    // directly if no UI needs to observe username reactively.
     usernameController.addListener(() {
       username.value = usernameController.text;
+    });
+    _authSubscription = ndk.accounts.authStateChanges.listen((_) {
+      _refreshAccountsState();
     });
     // In case it wasn't called in main (testing/standalone)
     if (!isLoggedIn.value && ndk.accounts.getPublicKey() == null) {
@@ -66,6 +80,7 @@ class AuthController extends GetxController {
 
   @override
   void onClose() {
+    _authSubscription?.cancel();
     usernameController.dispose();
     super.onClose();
   }
@@ -83,6 +98,7 @@ class AuthController extends GetxController {
 
   Future<void> onLoggedIn() async {
     await _nostrMailService.initClient();
+    _refreshAccountsState();
     userMetadata.value = null;
     if (Get.isRegistered<InboxController>()) {
       await Get.find<InboxController>().activateForCurrentAccount(
@@ -128,6 +144,7 @@ class AuthController extends GetxController {
       privkey: keyPair.privateKey!,
       pubkey: keyPair.publicKey,
     );
+    _refreshAccountsState();
 
     await ndkFlutter.saveAccountsState();
 
@@ -218,6 +235,39 @@ class AuthController extends GetxController {
     AppRouter.router.go(AppRoutes.inbox);
   }
 
+  Future<void> switchAccount(String pubkey) async {
+    if (pubkey == publicKey) return;
+    if (!ndk.accounts.hasAccount(pubkey)) return;
+
+    final generation = ++_accountSwitchGeneration;
+
+    if (_nostrMailService.isClientInitialized) {
+      _nostrMailService.client.stopWatching();
+    }
+    if (Get.isRegistered<InboxController>()) {
+      await Get.find<InboxController>().resetForAccountChange();
+      if (generation != _accountSwitchGeneration) return;
+    }
+    if (Get.isRegistered<ScheduledController>()) {
+      await Get.delete<ScheduledController>();
+      if (generation != _accountSwitchGeneration) return;
+    }
+
+    ndk.accounts.switchAccount(pubkey: pubkey);
+    _refreshAccountsState();
+    userMetadata.value = null;
+    unawaited(ndkFlutter.saveAccountsState());
+    unawaited(loadUserMetadata());
+    AppRouter.router.go(AppRoutes.inbox);
+
+    if (Get.isRegistered<InboxController>()) {
+      await Get.find<InboxController>().activateForCurrentAccount(
+        folder: MailFolder.inbox,
+      );
+      if (generation != _accountSwitchGeneration) return;
+    }
+  }
+
   Future<void> logout() async {
     isLoading.value = true;
     try {
@@ -233,6 +283,7 @@ class AuthController extends GetxController {
       }
       await _nostrMailService.logout();
       await ndkFlutter.saveAccountsState();
+      _refreshAccountsState();
 
       // Reset all auth state
       isLoggedIn.value = false;
@@ -248,7 +299,25 @@ class AuthController extends GetxController {
     }
   }
 
-  String? get publicKey => _nostrMailService.getPublicKey();
+  String? get publicKey => activePubkey.value;
+
+  String? get currentPubkey => activePubkey.value;
+
+  String? get currentNpub => activeNpub.value;
+
+  bool get hasMultipleAccounts => accountPubkeys.length > 1;
+
+  List<String> get otherAccountPubkeys {
+    final current = activePubkey.value;
+    return accountPubkeys.where((pubkey) => pubkey != current).toList();
+  }
+
+  void _refreshAccountsState() {
+    accountPubkeys.assignAll(ndk.accounts.accounts.keys);
+    final pubkey = ndk.accounts.getPublicKey();
+    activePubkey.value = pubkey;
+    activeNpub.value = pubkey == null ? null : Nip19.encodePubKey(pubkey);
+  }
 
   String? get npub {
     final pk = publicKey;

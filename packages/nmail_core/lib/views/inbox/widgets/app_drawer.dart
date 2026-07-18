@@ -23,14 +23,14 @@ class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
   String _shortNpub(AppLocalizations l) {
-    final npub = Get.find<AuthController>().npub;
+    final npub = Get.find<AuthController>().currentNpub;
     if (npub == null || npub.length < 20) return l.inboxUnknown;
     return '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}';
   }
 
   void _copyNpub(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final npub = Get.find<AuthController>().npub;
+    final npub = Get.find<AuthController>().currentNpub;
     if (npub == null) return;
     Clipboard.setData(ClipboardData(text: npub));
     toastification.show(
@@ -44,8 +44,9 @@ class AppDrawer extends StatelessWidget {
 
   Widget _buildAvatar(BuildContext context) {
     final authController = Get.find<AuthController>();
+    final pubkey = authController.currentPubkey!;
     return NostrAvatar(
-      pubkey: authController.publicKey!,
+      pubkey: pubkey,
       metadata: authController.userMetadata.value,
       radius: 28,
     );
@@ -54,7 +55,7 @@ class AppDrawer extends StatelessWidget {
   String _displayName() {
     final authController = Get.find<AuthController>();
     final metadata = authController.userMetadata.value;
-    final pubkey = authController.publicKey!;
+    final pubkey = authController.currentPubkey!;
 
     return metadata?.getBestName() ?? getAnonName(pubkey);
   }
