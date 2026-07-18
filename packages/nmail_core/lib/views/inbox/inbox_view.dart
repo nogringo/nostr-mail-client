@@ -389,7 +389,6 @@ class InboxView extends GetView<InboxController> {
                             ),
                             onPressed: () {
                               Get.find<AuthController>().logout();
-                              context.go(AppRoutes.login);
                             },
                             child: Text(
                               l.inboxLogout,

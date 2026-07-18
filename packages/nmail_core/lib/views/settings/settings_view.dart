@@ -167,7 +167,6 @@ class SettingsView extends StatelessWidget {
                 ),
                 onTap: () {
                   Get.find<AuthController>().logout();
-                  context.go(AppRoutes.login);
                 },
               ),
               ListTile(

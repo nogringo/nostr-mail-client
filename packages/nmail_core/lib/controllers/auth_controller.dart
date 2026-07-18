@@ -271,10 +271,12 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     isLoading.value = true;
     try {
+      ++_accountSwitchGeneration;
       if (Get.find<SettingsController>().notificationsEnabled.value &&
           Get.isRegistered<PushRegistrationService>()) {
         await Get.find<PushRegistrationService>().disableCurrentTransport();
       }
+      final fallbackPubkey = otherAccountPubkeys.firstOrNull;
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().resetForAccountChange();
       }
@@ -282,18 +284,32 @@ class AuthController extends GetxController {
         await Get.delete<ScheduledController>();
       }
       await _nostrMailService.logout();
+      if (fallbackPubkey != null) {
+        ndk.accounts.switchAccount(pubkey: fallbackPubkey);
+        await _nostrMailService.initClient();
+      }
       await ndkFlutter.saveAccountsState();
       _refreshAccountsState();
-
-      // Reset all auth state
-      isLoggedIn.value = false;
       userMetadata.value = null;
+
       isRegistering.value = false;
       username.value = '';
       usernameController.clear();
       showMoreOptions.value = false;
 
-      AppRouter.router.go(AppRoutes.login);
+      if (fallbackPubkey == null) {
+        isLoggedIn.value = false;
+        AppRouter.router.go(AppRoutes.login);
+        return;
+      }
+
+      unawaited(loadUserMetadata());
+      if (Get.isRegistered<InboxController>()) {
+        await Get.find<InboxController>().activateForCurrentAccount(
+          folder: MailFolder.inbox,
+        );
+      }
+      AppRouter.router.go(AppRoutes.inbox);
     } finally {
       isLoading.value = false;
     }

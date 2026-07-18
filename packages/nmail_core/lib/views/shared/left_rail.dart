@@ -181,7 +181,6 @@ class _AccountMenuButton extends StatelessWidget {
           ),
           onPressed: () {
             Get.find<AuthController>().logout();
-            context.go(AppRoutes.login);
           },
           child: Text(
             l.inboxLogout,
