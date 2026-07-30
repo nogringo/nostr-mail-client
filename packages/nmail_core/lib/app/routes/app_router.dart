@@ -93,7 +93,12 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.accounts,
         redirect: (_, _) => AppRoutes.addAccount,
-        routes: [GoRoute(path: 'add', builder: (_, _) => const LoginView())],
+        routes: [
+          GoRoute(
+            path: 'add',
+            builder: (_, _) => const LoginView(isAddingAccount: true),
+          ),
+        ],
       ),
 
       // Authenticated shell: holds DesktopShell (sidebar) on wide screens
