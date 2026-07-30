@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:enough_mail_plus/enough_mail.dart' as mail;
 import 'package:get/get.dart';
 import 'package:ndk/entities.dart' show Nip05Found;
@@ -36,12 +37,15 @@ class AddressBookService extends GetxService {
     _ndk = Get.find<Ndk>();
     _book =
         _injectedBook ??
-        NostrAddressBook(ndk: _ndk, database: Get.find<StorageService>().db);
+        NostrAddressBook(
+          ndk: _ndk,
+          database: Get.find<StorageService>().db,
+          broadcastQueue: Get.find<OfflineBroadcast>(),
+        );
     _watchSubscription = _book.watchAll().listen(_setVisibleContacts);
     _authSubscription = _ndk.accounts.authStateChanges.listen((_) {
       unawaited(load(sync: true));
     });
-    _book.broadcastQueue.start();
     unawaited(load(sync: syncOnInit));
   }
 
@@ -49,9 +53,6 @@ class AddressBookService extends GetxService {
   void onClose() {
     _watchSubscription?.cancel();
     _authSubscription?.cancel();
-    if (_injectedBook == null) {
-      unawaited(_book.dispose());
-    }
     super.onClose();
   }
 
@@ -133,6 +134,16 @@ class AddressBookService extends GetxService {
   }
 
   Future<void> retryBroadcasts() => _book.broadcastQueue.retryNow();
+
+  Future<void> clearLocalAccountData({required String pubkey}) async {
+    await _book.clearLocalAccountData(pubkey: pubkey);
+    _setVisibleContacts(await _book.list());
+  }
+
+  Future<void> clearAllLocalData() async {
+    await _book.clearAllLocalData();
+    _setVisibleContacts(await _book.list());
+  }
 
   List<Contact> suggestionContacts() {
     return contacts.expand(_suggestionsFromContact).toList(growable: false);

@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
 
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
@@ -385,33 +383,7 @@ class SettingsController extends GetxController {
   }
 
   Future<void> resetApplication() async {
-    // Clear all settings from database
-    await _storageService.clearAll();
-
-    // Clear NDK cache
-    await Get.find<Ndk>().config.cache.clearAll();
-
-    // Clear emails, labels, gift wraps
-    final nostrMailService = Get.find<NostrMailService>();
-    if (nostrMailService.isClientInitialized) {
-      await nostrMailService.client.clearAll();
-    }
-
-    // Delete background images folder (native only)
-    if (PlatformHelper.isNative) {
-      try {
-        final appDir = await getApplicationSupportDirectory();
-        final backgroundsDir = Directory(
-          p.join(appDir.path, backgroundsDirName),
-        );
-        if (await backgroundsDir.exists()) {
-          await backgroundsDir.delete(recursive: true);
-        }
-      } catch (_) {}
-    }
-
-    // Logout user
-    await Get.find<AuthController>().logout();
+    await Get.find<AuthController>().logoutAll();
 
     // Reset in-memory state
     showRawEmail.value = false;

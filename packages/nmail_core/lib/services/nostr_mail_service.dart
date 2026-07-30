@@ -62,10 +62,22 @@ class NostrMailService extends GetxService {
     return _ndk.accounts.getPublicKey();
   }
 
-  Future<void> logout() async {
+  Future<void> disposeClient() async {
     await _client?.dispose();
     _client = null;
+  }
+
+  Future<void> logout() async {
+    await disposeClient();
     _ndk.accounts.logout();
+  }
+
+  Future<void> clearLocalAccountData({required String pubkey}) {
+    return client.clearLocalAccountData(pubkey: pubkey);
+  }
+
+  Future<void> clearAllLocalData() {
+    return client.clearAllLocalData();
   }
 
   /// Returns the current user's NIP-65 outbox (write/readWrite) relays,

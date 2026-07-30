@@ -77,6 +77,7 @@ class DmRelaysController extends GetxController {
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
         relays: {...NostrConfig.popularRelays, ...outbox}.toList(),
+        pubkey: account.pubkey,
       );
       if (isClosed) return;
 

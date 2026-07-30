@@ -11,6 +11,7 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
@@ -181,14 +182,22 @@ class AuthController extends GetxController {
     // Metadata (kind 0)
     final signedMetadata = await account.signer.sign(metadata.toEvent());
     await ndk.config.cache.saveMetadata(metadata);
-    await broadcastQueue.broadcast(signedMetadata, relays: signalingTargets);
+    await broadcastQueue.broadcast(
+      signedMetadata,
+      relays: signalingTargets,
+      pubkey: account.pubkey,
+    );
 
     // NIP-65 relay list (kind 10002)
     final signedNip65 = await account.signer.sign(
       userRelayList.toNip65().toEvent(),
     );
     await ndk.config.cache.saveUserRelayList(userRelayList);
-    await broadcastQueue.broadcast(signedNip65, relays: signalingTargets);
+    await broadcastQueue.broadcast(
+      signedNip65,
+      relays: signalingTargets,
+      pubkey: account.pubkey,
+    );
 
     // DM relay list (kind 10050)
     final dmRelays = NostrConfig.recommendedDmRelays;
@@ -200,7 +209,11 @@ class AuthController extends GetxController {
     );
     final signedDm = await account.signer.sign(unsignedDm);
     await ndk.config.cache.saveEvent(signedDm);
-    await broadcastQueue.broadcast(signedDm, relays: signalingTargets);
+    await broadcastQueue.broadcast(
+      signedDm,
+      relays: signalingTargets,
+      pubkey: account.pubkey,
+    );
 
     // Blossom user server list (kind 10063)
     final blossomServers = NostrConfig.recommendedBlossomServers;
@@ -214,7 +227,11 @@ class AuthController extends GetxController {
     );
     final signedBlossom = await account.signer.sign(unsignedBlossom);
     await ndk.config.cache.saveEvent(signedBlossom);
-    await broadcastQueue.broadcast(signedBlossom, relays: signalingTargets);
+    await broadcastQueue.broadcast(
+      signedBlossom,
+      relays: signalingTargets,
+      pubkey: account.pubkey,
+    );
 
     // Must be set BEFORE onLoggedIn flips isLoggedIn, otherwise the router's
     // refreshListenable bounces the user off /login before this screen renders.
@@ -268,10 +285,11 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout({bool clearLocalData = true}) async {
     isLoading.value = true;
     try {
       ++_accountSwitchGeneration;
+      final removedPubkey = publicKey;
       if (Get.find<SettingsController>().notificationsEnabled.value &&
           Get.isRegistered<PushRegistrationService>()) {
         await Get.find<PushRegistrationService>().disableCurrentTransport();
@@ -282,6 +300,11 @@ class AuthController extends GetxController {
       }
       if (Get.isRegistered<ScheduledController>()) {
         await Get.delete<ScheduledController>();
+      }
+      if (clearLocalData && removedPubkey != null) {
+        await Get.find<AccountLocalDataService>().clearLocalAccountData(
+          pubkey: removedPubkey,
+        );
       }
       await _nostrMailService.logout();
       if (fallbackPubkey != null) {
@@ -310,6 +333,43 @@ class AuthController extends GetxController {
         );
       }
       AppRouter.router.go(AppRoutes.inbox);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> logoutAll({bool clearLocalData = true}) async {
+    isLoading.value = true;
+    try {
+      ++_accountSwitchGeneration;
+      if (Get.find<SettingsController>().notificationsEnabled.value &&
+          Get.isRegistered<PushRegistrationService>()) {
+        await Get.find<PushRegistrationService>().disableCurrentTransport();
+      }
+      if (Get.isRegistered<InboxController>()) {
+        await Get.find<InboxController>().resetForAccountChange();
+      }
+      if (Get.isRegistered<ScheduledController>()) {
+        await Get.delete<ScheduledController>();
+      }
+      if (clearLocalData) {
+        await Get.find<AccountLocalDataService>().clearAllLocalData();
+      }
+
+      await _nostrMailService.disposeClient();
+      for (final pubkey in accountPubkeys.toList(growable: false)) {
+        ndk.accounts.removeAccount(pubkey: pubkey);
+      }
+      await ndkFlutter.saveAccountsState();
+      _refreshAccountsState();
+      userMetadata.value = null;
+
+      isRegistering.value = false;
+      username.value = '';
+      usernameController.clear();
+      showMoreOptions.value = false;
+      isLoggedIn.value = false;
+      AppRouter.router.go(AppRoutes.login);
     } finally {
       isLoading.value = false;
     }
