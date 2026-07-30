@@ -8,6 +8,7 @@ import '../../../app/routes/app_routes.dart';
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/nostr_utils.dart';
 import '../../../widgets/nostr_avatar.dart';
 
 const _folderPaths = [
@@ -25,7 +26,7 @@ class AppDrawer extends StatelessWidget {
   String _shortNpub(AppLocalizations l) {
     final npub = Get.find<AuthController>().currentNpub;
     if (npub == null || npub.length < 20) return l.inboxUnknown;
-    return '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}';
+    return shortenNpub(npub);
   }
 
   void _copyNpub(BuildContext context) {
@@ -252,6 +253,20 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pop(context);
               context.go(AppRoutes.addAccount);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: ListTile(
+            leading: const Icon(Icons.manage_accounts_outlined),
+            title: Text(l.accountsManage),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              context.go(AppRoutes.accounts);
             },
           ),
         ),

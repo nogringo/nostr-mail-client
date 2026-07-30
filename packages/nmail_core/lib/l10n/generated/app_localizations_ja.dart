@@ -460,6 +460,54 @@ class AppLocalizationsJa extends AppLocalizations {
   String get identitiesKeepEditing => '編集を続ける';
 
   @override
+  String get accountsTitle => 'アカウント';
+
+  @override
+  String get accountsManage => 'アカウントを管理';
+
+  @override
+  String get accountsManageSubtitle => 'このデバイスのアカウントを切り替え、追加、削除します';
+
+  @override
+  String get accountsActive => '使用中';
+
+  @override
+  String get accountsRemove => 'アカウントを削除';
+
+  @override
+  String get accountsRemoveTitle => 'このアカウントを削除しますか？';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name をこのデバイスから削除し、メール、連絡先、設定などのローカルデータを消去します。リレー上のデータは削除されません。';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      '先にこのアカウントの同期コードを保存してください。同期コードがないと再びログインできません。';
+
+  @override
+  String get accountsRemoveLastWarning => '最後のアカウントのため、ログアウトされます。';
+
+  @override
+  String get accountsRemoveFailed => 'このアカウントを削除できませんでした';
+
+  @override
+  String get accountSignerPrivateKey => '同期コード';
+
+  @override
+  String get accountSignerExtension => 'ブラウザ拡張機能';
+
+  @override
+  String get accountSignerApp => '署名アプリ';
+
+  @override
+  String get accountSignerBunker => 'リモート署名';
+
+  @override
+  String get accountSignerExternal => '外部署名';
+
+  @override
   String get debugToolsEmailTesting => 'メールテスト';
 
   @override

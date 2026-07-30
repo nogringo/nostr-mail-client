@@ -475,6 +475,56 @@ class AppLocalizationsIt extends AppLocalizations {
   String get identitiesKeepEditing => 'Continua a modificare';
 
   @override
+  String get accountsTitle => 'Account';
+
+  @override
+  String get accountsManage => 'Gestisci account';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Cambia, aggiungi o rimuovi account su questo dispositivo';
+
+  @override
+  String get accountsActive => 'Attivo';
+
+  @override
+  String get accountsRemove => 'Rimuovi account';
+
+  @override
+  String get accountsRemoveTitle => 'Rimuovere questo account?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name verrà rimosso da questo dispositivo e i suoi dati locali verranno cancellati: email, contatti e impostazioni. Nulla viene eliminato dai relay.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Salva prima il codice di sincronizzazione di questo account. Senza di esso non potrai più accedere.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'È il tuo ultimo account, quindi verrai disconnesso.';
+
+  @override
+  String get accountsRemoveFailed => 'Impossibile rimuovere questo account';
+
+  @override
+  String get accountSignerPrivateKey => 'Codice di sincronizzazione';
+
+  @override
+  String get accountSignerExtension => 'Estensione del browser';
+
+  @override
+  String get accountSignerApp => 'App di firma';
+
+  @override
+  String get accountSignerBunker => 'Firmatario remoto';
+
+  @override
+  String get accountSignerExternal => 'Firmatario esterno';
+
+  @override
   String get debugToolsEmailTesting => 'Test email';
 
   @override

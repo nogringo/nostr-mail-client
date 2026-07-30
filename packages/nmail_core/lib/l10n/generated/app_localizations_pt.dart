@@ -476,6 +476,56 @@ class AppLocalizationsPt extends AppLocalizations {
   String get identitiesKeepEditing => 'Continuar a editar';
 
   @override
+  String get accountsTitle => 'Contas';
+
+  @override
+  String get accountsManage => 'Gerir contas';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Trocar, adicionar ou remover contas neste dispositivo';
+
+  @override
+  String get accountsActive => 'Ativa';
+
+  @override
+  String get accountsRemove => 'Remover conta';
+
+  @override
+  String get accountsRemoveTitle => 'Remover esta conta?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name será removida deste dispositivo e os seus dados locais serão apagados: e-mails, contactos e configurações. Nada é eliminado dos relays.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Guarde primeiro o código de sincronização desta conta. Sem ele não poderá iniciar sessão novamente.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'Esta é a sua última conta, por isso a sessão será terminada.';
+
+  @override
+  String get accountsRemoveFailed => 'Não foi possível remover esta conta';
+
+  @override
+  String get accountSignerPrivateKey => 'Código de sincronização';
+
+  @override
+  String get accountSignerExtension => 'Extensão do navegador';
+
+  @override
+  String get accountSignerApp => 'Aplicação de assinatura';
+
+  @override
+  String get accountSignerBunker => 'Assinante remoto';
+
+  @override
+  String get accountSignerExternal => 'Assinante externo';
+
+  @override
   String get debugToolsEmailTesting => 'Teste de emails';
 
   @override
@@ -1864,6 +1914,56 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get identitiesKeepEditing => 'Continuar editando';
+
+  @override
+  String get accountsTitle => 'Contas';
+
+  @override
+  String get accountsManage => 'Gerenciar contas';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Trocar, adicionar ou remover contas neste dispositivo';
+
+  @override
+  String get accountsActive => 'Ativa';
+
+  @override
+  String get accountsRemove => 'Remover conta';
+
+  @override
+  String get accountsRemoveTitle => 'Remover esta conta?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name será removida deste dispositivo e seus dados locais serão apagados: e-mails, contatos e configurações. Nada é excluído dos relays.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Salve primeiro o código de sincronização desta conta. Sem ele você não conseguirá entrar novamente.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'Esta é sua última conta, então você será desconectado.';
+
+  @override
+  String get accountsRemoveFailed => 'Não foi possível remover esta conta';
+
+  @override
+  String get accountSignerPrivateKey => 'Código de sincronização';
+
+  @override
+  String get accountSignerExtension => 'Extensão do navegador';
+
+  @override
+  String get accountSignerApp => 'App de assinatura';
+
+  @override
+  String get accountSignerBunker => 'Assinante remoto';
+
+  @override
+  String get accountSignerExternal => 'Assinante externo';
 
   @override
   String get debugToolsEmailTesting => 'Teste de e-mails';

@@ -473,6 +473,56 @@ class AppLocalizationsFi extends AppLocalizations {
   String get identitiesKeepEditing => 'Jatka muokkausta';
 
   @override
+  String get accountsTitle => 'Tilit';
+
+  @override
+  String get accountsManage => 'Hallitse tilejä';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Vaihda, lisää tai poista tilejä tältä laitteelta';
+
+  @override
+  String get accountsActive => 'Käytössä';
+
+  @override
+  String get accountsRemove => 'Poista tili';
+
+  @override
+  String get accountsRemoveTitle => 'Poistetaanko tämä tili?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name poistetaan tältä laitteelta ja sen paikalliset tiedot pyyhitään: sähköpostit, kontaktit ja asetukset. Palvelimilta ei poisteta mitään.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Tallenna ensin tämän tilin synkronointikoodi. Ilman sitä et voi kirjautua enää sisään.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'Tämä on viimeinen tilisi, joten sinut kirjataan ulos.';
+
+  @override
+  String get accountsRemoveFailed => 'Tilin poistaminen ei onnistunut';
+
+  @override
+  String get accountSignerPrivateKey => 'Synkronointikoodi';
+
+  @override
+  String get accountSignerExtension => 'Selainlaajennus';
+
+  @override
+  String get accountSignerApp => 'Allekirjoitussovellus';
+
+  @override
+  String get accountSignerBunker => 'Etäallekirjoittaja';
+
+  @override
+  String get accountSignerExternal => 'Ulkoinen allekirjoittaja';
+
+  @override
   String get debugToolsEmailTesting => 'Sähköpostin testaus';
 
   @override

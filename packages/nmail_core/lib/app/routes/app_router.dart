@@ -16,6 +16,7 @@ import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
+import '../../views/accounts/accounts_view.dart';
 import '../../views/auth/login_view.dart';
 import '../../views/compose/compose_view.dart';
 import '../../views/contacts/contacts_view.dart';
@@ -90,9 +91,11 @@ class AppRouter {
         path: AppRoutes.onboarding,
         builder: (_, _) => const OnboardingView(),
       ),
+      // Account management, outside the shell: full screen, and `add` nests so
+      // that leaving it lands back on the list.
       GoRoute(
         path: AppRoutes.accounts,
-        redirect: (_, _) => AppRoutes.addAccount,
+        builder: (_, _) => const AccountsView(),
         routes: [
           GoRoute(
             path: 'add',

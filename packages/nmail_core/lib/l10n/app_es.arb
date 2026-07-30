@@ -165,6 +165,25 @@
   "identitiesDiscardMessage": "Tienes cambios sin guardar. Salir ahora los descartará.",
   "identitiesKeepEditing": "Seguir editando",
 
+  "accountsTitle": "Cuentas",
+  "accountsManage": "Gestionar cuentas",
+  "accountsManageSubtitle": "Cambia, añade o elimina cuentas en este dispositivo",
+  "accountsActive": "Activa",
+  "accountsRemove": "Eliminar cuenta",
+  "accountsRemoveTitle": "¿Eliminar esta cuenta?",
+  "accountsRemoveMessage": "{name} se eliminará de este dispositivo y sus datos locales se borrarán: correos, contactos y ajustes. No se elimina nada de los relays.",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "Guarda primero el código de sincronización de esta cuenta. Sin él no podrás volver a iniciar sesión.",
+  "accountsRemoveLastWarning": "Es tu última cuenta, así que se cerrará tu sesión.",
+  "accountsRemoveFailed": "No se pudo eliminar esta cuenta",
+  "accountSignerPrivateKey": "Código de sincronización",
+  "accountSignerExtension": "Extensión del navegador",
+  "accountSignerApp": "App de firma",
+  "accountSignerBunker": "Firmante remoto",
+  "accountSignerExternal": "Firmante externo",
+
   "debugToolsEmailTesting": "Pruebas de correo",
   "debugToolsCreateOldTrashed": "Crear correo antiguo en la papelera",
   "debugToolsCreateOldTrashedDescription": "Crea un correo de prueba en la papelera con 31 días de antigüedad. Úsalo para probar la función \"Eliminar correos antiguos\".",

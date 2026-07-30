@@ -1003,6 +1003,96 @@ abstract class AppLocalizations {
   /// **'Keep editing'**
   String get identitiesKeepEditing;
 
+  /// AppBar title of the accounts management screen
+  ///
+  /// In en, this message translates to:
+  /// **'Accounts'**
+  String get accountsTitle;
+
+  /// Menu entry and settings tile that opens the accounts management screen
+  ///
+  /// In en, this message translates to:
+  /// **'Manage accounts'**
+  String get accountsManage;
+
+  /// Subtitle of the settings tile that opens the accounts management screen
+  ///
+  /// In en, this message translates to:
+  /// **'Switch, add or remove accounts on this device'**
+  String get accountsManageSubtitle;
+
+  /// Accessibility label on the checkmark marking the account in use
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get accountsActive;
+
+  /// Tooltip of the button that removes an account from the device
+  ///
+  /// In en, this message translates to:
+  /// **'Remove account'**
+  String get accountsRemove;
+
+  /// Title of the dialog confirming removal of an account
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this account?'**
+  String get accountsRemoveTitle;
+
+  /// Body of the dialog confirming removal of an account
+  ///
+  /// In en, this message translates to:
+  /// **'{name} will be removed from this device and its local data will be erased: emails, contacts and settings. Nothing is deleted from the relays.'**
+  String accountsRemoveMessage(String name);
+
+  /// Extra warning in the removal dialog when the account is backed by a private key
+  ///
+  /// In en, this message translates to:
+  /// **'Save this account\'s sync code first. Without it you will not be able to log in again.'**
+  String get accountsRemoveKeyWarning;
+
+  /// Extra warning in the removal dialog when removing the only remaining account
+  ///
+  /// In en, this message translates to:
+  /// **'This is your last account, so you will be logged out.'**
+  String get accountsRemoveLastWarning;
+
+  /// Error toast shown when removing an account fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not remove this account'**
+  String get accountsRemoveFailed;
+
+  /// Badge on an account whose key is stored on this device
+  ///
+  /// In en, this message translates to:
+  /// **'Sync code'**
+  String get accountSignerPrivateKey;
+
+  /// Badge on an account signing through a NIP-07 browser extension
+  ///
+  /// In en, this message translates to:
+  /// **'Browser extension'**
+  String get accountSignerExtension;
+
+  /// Badge on an account signing through a NIP-55 signer app such as Amber
+  ///
+  /// In en, this message translates to:
+  /// **'Signer app'**
+  String get accountSignerApp;
+
+  /// Badge on an account signing through a NIP-46 remote signer (bunker)
+  ///
+  /// In en, this message translates to:
+  /// **'Remote signer'**
+  String get accountSignerBunker;
+
+  /// Badge on an account signing through an unrecognized external signer
+  ///
+  /// In en, this message translates to:
+  /// **'External signer'**
+  String get accountSignerExternal;
+
   /// Section heading in the debug tools screen for email-related test actions
   ///
   /// In en, this message translates to:

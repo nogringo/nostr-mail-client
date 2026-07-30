@@ -474,6 +474,56 @@ class AppLocalizationsDe extends AppLocalizations {
   String get identitiesKeepEditing => 'Weiter bearbeiten';
 
   @override
+  String get accountsTitle => 'Konten';
+
+  @override
+  String get accountsManage => 'Konten verwalten';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Konten auf diesem Gerät wechseln, hinzufügen oder entfernen';
+
+  @override
+  String get accountsActive => 'Aktiv';
+
+  @override
+  String get accountsRemove => 'Konto entfernen';
+
+  @override
+  String get accountsRemoveTitle => 'Dieses Konto entfernen?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name wird von diesem Gerät entfernt und die lokalen Daten werden gelöscht: E-Mails, Kontakte und Einstellungen. Auf den Relays wird nichts gelöscht.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Sichere zuerst den Sync-Code dieses Kontos. Ohne ihn kannst du dich nicht mehr anmelden.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'Das ist dein letztes Konto, du wirst also abgemeldet.';
+
+  @override
+  String get accountsRemoveFailed => 'Konto konnte nicht entfernt werden';
+
+  @override
+  String get accountSignerPrivateKey => 'Sync-Code';
+
+  @override
+  String get accountSignerExtension => 'Browser-Erweiterung';
+
+  @override
+  String get accountSignerApp => 'Signier-App';
+
+  @override
+  String get accountSignerBunker => 'Remote-Signierer';
+
+  @override
+  String get accountSignerExternal => 'Externer Signierer';
+
+  @override
   String get debugToolsEmailTesting => 'E-Mail-Tests';
 
   @override

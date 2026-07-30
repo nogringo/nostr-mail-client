@@ -43,4 +43,25 @@ void main() {
       expect(nostrEventReferenceFromString('not-an-event'), isNull);
     });
   });
+
+  group('shortenNpub', () {
+    test('keeps the first ten and last six characters', () {
+      final npub = Nip19.encodePubKey(
+        '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
+      );
+
+      final shortened = shortenNpub(npub);
+
+      expect(
+        shortened,
+        '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}',
+      );
+      expect(shortened.length, 19);
+    });
+
+    test('leaves short values untouched', () {
+      expect(shortenNpub('npub1short'), 'npub1short');
+      expect(shortenNpub(''), '');
+    });
+  });
 }

@@ -138,6 +138,13 @@ class SettingsView extends StatelessWidget {
                 ),
               const SizedBox(height: 24),
               _buildSectionHeader(context, l.settingsAccount),
+              ListTile(
+                leading: const Icon(Icons.manage_accounts_outlined),
+                title: Text(l.accountsManage),
+                subtitle: Text(l.accountsManageSubtitle),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.go(AppRoutes.accounts),
+              ),
               Builder(
                 builder: (context) {
                   final authController = Get.find<AuthController>();

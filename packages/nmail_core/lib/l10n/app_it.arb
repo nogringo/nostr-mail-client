@@ -165,6 +165,25 @@
   "identitiesDiscardMessage": "Hai modifiche non salvate. Uscendo ora andranno perse.",
   "identitiesKeepEditing": "Continua a modificare",
 
+  "accountsTitle": "Account",
+  "accountsManage": "Gestisci account",
+  "accountsManageSubtitle": "Cambia, aggiungi o rimuovi account su questo dispositivo",
+  "accountsActive": "Attivo",
+  "accountsRemove": "Rimuovi account",
+  "accountsRemoveTitle": "Rimuovere questo account?",
+  "accountsRemoveMessage": "{name} verrà rimosso da questo dispositivo e i suoi dati locali verranno cancellati: email, contatti e impostazioni. Nulla viene eliminato dai relay.",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "Salva prima il codice di sincronizzazione di questo account. Senza di esso non potrai più accedere.",
+  "accountsRemoveLastWarning": "È il tuo ultimo account, quindi verrai disconnesso.",
+  "accountsRemoveFailed": "Impossibile rimuovere questo account",
+  "accountSignerPrivateKey": "Codice di sincronizzazione",
+  "accountSignerExtension": "Estensione del browser",
+  "accountSignerApp": "App di firma",
+  "accountSignerBunker": "Firmatario remoto",
+  "accountSignerExternal": "Firmatario esterno",
+
   "debugToolsEmailTesting": "Test email",
   "debugToolsCreateOldTrashed": "Crea email vecchia nel cestino",
   "debugToolsCreateOldTrashedDescription": "Crea un'email di test nel cestino vecchia di 31 giorni. Usala per testare la funzione \"Elimina email vecchie\".",

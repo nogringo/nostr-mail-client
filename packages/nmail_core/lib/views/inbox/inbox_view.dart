@@ -11,6 +11,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../../widgets/nostr_avatar.dart';
 import '../shared/account_switcher_section.dart';
@@ -42,10 +43,7 @@ class InboxView extends GetView<InboxController> {
     final authController = Get.find<AuthController>();
     final metadata = authController.userMetadata.value;
     final pubkey = authController.currentPubkey!;
-    final npub = authController.currentNpub ?? '';
-    final shortNpub = npub.length >= 20
-        ? '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}'
-        : npub;
+    final shortNpub = shortenNpub(authController.currentNpub ?? '');
     final colorScheme = Theme.of(context).colorScheme;
 
     final displayName = metadata?.getBestName() ?? getAnonName(pubkey);
@@ -364,6 +362,13 @@ class InboxView extends GetView<InboxController> {
                             leadingIcon: const Icon(Icons.person_add_outlined),
                             onPressed: () => context.go(AppRoutes.addAccount),
                             child: Text(l.inboxAddAccount),
+                          ),
+                          MenuItemButton(
+                            leadingIcon: const Icon(
+                              Icons.manage_accounts_outlined,
+                            ),
+                            onPressed: () => context.go(AppRoutes.accounts),
+                            child: Text(l.accountsManage),
                           ),
                           const Divider(height: 1),
                           MenuItemButton(

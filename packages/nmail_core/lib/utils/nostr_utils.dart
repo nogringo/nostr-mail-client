@@ -31,6 +31,13 @@ String? extractPubkeyFromAddress(String address) {
   return null;
 }
 
+/// Compact an npub for identity rows: `npub1abcdefg...uvwxyz`.
+/// Returns [npub] unchanged when it is too short to be worth truncating.
+String shortenNpub(String npub) {
+  if (npub.length < 20) return npub;
+  return '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}';
+}
+
 /// Extract the hex event id from a NIP-19 nevent, or null if it is not a
 /// valid nevent. The nevent may also carry relay hints via [Nip19.decodeNevent].
 String? eventIdFromNevent(String nevent) {

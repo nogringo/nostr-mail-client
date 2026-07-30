@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:ndk/data_layer/repositories/signers/nip46_event_signer.dart';
 import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/shared/nips/nip01/bip340.dart';
@@ -11,6 +12,7 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/account_signer_kind.dart';
 import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -34,6 +36,10 @@ class AuthController extends GetxController {
   final accountPubkeys = <String>[].obs;
   final activePubkey = RxnString();
   final activeNpub = RxnString();
+
+  /// Account whose switch or removal is running, so the accounts list can show
+  /// progress on that row and ignore taps on the others.
+  final pendingAccountPubkey = RxnString();
 
   StreamSubscription<Account?>? _authSubscription;
   int _accountSwitchGeneration = 0;
@@ -255,33 +261,85 @@ class AuthController extends GetxController {
   Future<void> switchAccount(String pubkey) async {
     if (pubkey == publicKey) return;
     if (!ndk.accounts.hasAccount(pubkey)) return;
+    if (pendingAccountPubkey.value != null) return;
 
     final generation = ++_accountSwitchGeneration;
+    pendingAccountPubkey.value = pubkey;
 
-    if (_nostrMailService.isClientInitialized) {
-      _nostrMailService.client.stopWatching();
-    }
-    if (Get.isRegistered<InboxController>()) {
-      await Get.find<InboxController>().resetForAccountChange();
-      if (generation != _accountSwitchGeneration) return;
-    }
-    if (Get.isRegistered<ScheduledController>()) {
-      await Get.delete<ScheduledController>();
-      if (generation != _accountSwitchGeneration) return;
-    }
+    try {
+      if (_nostrMailService.isClientInitialized) {
+        _nostrMailService.client.stopWatching();
+      }
+      if (Get.isRegistered<InboxController>()) {
+        await Get.find<InboxController>().resetForAccountChange();
+        if (generation != _accountSwitchGeneration) return;
+      }
+      if (Get.isRegistered<ScheduledController>()) {
+        await Get.delete<ScheduledController>();
+        if (generation != _accountSwitchGeneration) return;
+      }
 
-    ndk.accounts.switchAccount(pubkey: pubkey);
-    _refreshAccountsState();
-    userMetadata.value = null;
-    unawaited(ndkFlutter.saveAccountsState());
-    unawaited(loadUserMetadata());
-    AppRouter.router.go(AppRoutes.inbox);
+      ndk.accounts.switchAccount(pubkey: pubkey);
+      _refreshAccountsState();
+      userMetadata.value = null;
+      unawaited(ndkFlutter.saveAccountsState());
+      unawaited(loadUserMetadata());
+      AppRouter.router.go(AppRoutes.inbox);
 
-    if (Get.isRegistered<InboxController>()) {
-      await Get.find<InboxController>().activateForCurrentAccount(
-        folder: MailFolder.inbox,
+      if (Get.isRegistered<InboxController>()) {
+        await Get.find<InboxController>().activateForCurrentAccount(
+          folder: MailFolder.inbox,
+        );
+        if (generation != _accountSwitchGeneration) return;
+      }
+    } finally {
+      // Only release our own lock: a switch that bailed out on a stale
+      // generation must not unlock the operation that superseded it.
+      if (pendingAccountPubkey.value == pubkey) {
+        pendingAccountPubkey.value = null;
+      }
+    }
+  }
+
+  /// Removes [pubkey] from this device and erases its local data. The active
+  /// account goes through [logout] so the fallback switch, push cleanup and
+  /// navigation stay in one place.
+  Future<void> removeAccount(String pubkey) async {
+    if (!ndk.accounts.hasAccount(pubkey)) return;
+    if (pendingAccountPubkey.value != null) return;
+
+    pendingAccountPubkey.value = pubkey;
+    try {
+      if (pubkey == publicKey) {
+        await logout();
+        return;
+      }
+
+      // Snapshot rather than bump: removing an idle account must not abort the
+      // tail of a switch that is already in flight.
+      final generation = _accountSwitchGeneration;
+
+      await Get.find<AccountLocalDataService>().clearLocalAccountData(
+        pubkey: pubkey,
       );
+
+      // A switch or logout during the wipe may have made this account the
+      // active one, and removing it then would clear the logged pubkey and
+      // leave the app logged in with no account.
       if (generation != _accountSwitchGeneration) return;
+      if (!ndk.accounts.hasAccount(pubkey) || pubkey == publicKey) return;
+
+      // Releases the remote signer connection for bunker accounts.
+      await accountFor(pubkey)?.dispose();
+      ndk.accounts.removeAccount(pubkey: pubkey);
+      await ndkFlutter.saveAccountsState();
+      // removeAccount only emits on authStateChanges when it drops the logged
+      // account, so refresh the observables ourselves.
+      _refreshAccountsState();
+    } finally {
+      if (pendingAccountPubkey.value == pubkey) {
+        pendingAccountPubkey.value = null;
+      }
     }
   }
 
@@ -386,6 +444,23 @@ class AuthController extends GetxController {
   List<String> get otherAccountPubkeys {
     final current = activePubkey.value;
     return accountPubkeys.where((pubkey) => pubkey != current).toList();
+  }
+
+  Account? accountFor(String pubkey) => ndk.accounts.accounts[pubkey];
+
+  AccountSignerKind signerKindOf(String pubkey) {
+    final account = accountFor(pubkey);
+    if (account == null) return AccountSignerKind.external;
+    // Class before AccountType: extensions, signer apps and bunkers are all
+    // reported as AccountType.externalSigner.
+    final signer = account.signer;
+    if (signer is Nip07EventSigner) return AccountSignerKind.browserExtension;
+    if (signer is Nip55EventSigner) return AccountSignerKind.signerApp;
+    if (signer is Nip46EventSigner) return AccountSignerKind.bunker;
+    if (account.type == AccountType.privateKey) {
+      return AccountSignerKind.privateKey;
+    }
+    return AccountSignerKind.external;
   }
 
   void _refreshAccountsState() {

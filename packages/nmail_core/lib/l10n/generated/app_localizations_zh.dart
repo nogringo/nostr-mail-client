@@ -460,6 +460,53 @@ class AppLocalizationsZh extends AppLocalizations {
   String get identitiesKeepEditing => '继续编辑';
 
   @override
+  String get accountsTitle => '账户';
+
+  @override
+  String get accountsManage => '管理账户';
+
+  @override
+  String get accountsManageSubtitle => '在此设备上切换、添加或移除账户';
+
+  @override
+  String get accountsActive => '使用中';
+
+  @override
+  String get accountsRemove => '移除账户';
+
+  @override
+  String get accountsRemoveTitle => '移除此账户？';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name 将从此设备移除，其本地数据也会被清除：邮件、联系人和设置。中继上的数据不会被删除。';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning => '请先保存此账户的同步码。没有它将无法再次登录。';
+
+  @override
+  String get accountsRemoveLastWarning => '这是您最后一个账户，因此您将被登出。';
+
+  @override
+  String get accountsRemoveFailed => '无法移除此账户';
+
+  @override
+  String get accountSignerPrivateKey => '同步码';
+
+  @override
+  String get accountSignerExtension => '浏览器扩展';
+
+  @override
+  String get accountSignerApp => '签名应用';
+
+  @override
+  String get accountSignerBunker => '远程签名器';
+
+  @override
+  String get accountSignerExternal => '外部签名器';
+
+  @override
   String get debugToolsEmailTesting => '邮件测试';
 
   @override

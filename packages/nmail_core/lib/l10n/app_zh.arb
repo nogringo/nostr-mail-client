@@ -165,6 +165,25 @@
   "identitiesDiscardMessage": "您有未保存的更改。现在离开将被放弃。",
   "identitiesKeepEditing": "继续编辑",
 
+  "accountsTitle": "账户",
+  "accountsManage": "管理账户",
+  "accountsManageSubtitle": "在此设备上切换、添加或移除账户",
+  "accountsActive": "使用中",
+  "accountsRemove": "移除账户",
+  "accountsRemoveTitle": "移除此账户？",
+  "accountsRemoveMessage": "{name} 将从此设备移除，其本地数据也会被清除：邮件、联系人和设置。中继上的数据不会被删除。",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "请先保存此账户的同步码。没有它将无法再次登录。",
+  "accountsRemoveLastWarning": "这是您最后一个账户，因此您将被登出。",
+  "accountsRemoveFailed": "无法移除此账户",
+  "accountSignerPrivateKey": "同步码",
+  "accountSignerExtension": "浏览器扩展",
+  "accountSignerApp": "签名应用",
+  "accountSignerBunker": "远程签名器",
+  "accountSignerExternal": "外部签名器",
+
   "debugToolsEmailTesting": "邮件测试",
   "debugToolsCreateOldTrashed": "创建旧的已删除邮件",
   "debugToolsCreateOldTrashedDescription": "在回收站创建一封 31 天前的测试邮件。用于测试「删除旧邮件」功能。",

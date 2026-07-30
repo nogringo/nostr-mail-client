@@ -165,6 +165,25 @@
   "identitiesDiscardMessage": "У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.",
   "identitiesKeepEditing": "Продолжить редактирование",
 
+  "accountsTitle": "Аккаунты",
+  "accountsManage": "Управление аккаунтами",
+  "accountsManageSubtitle": "Переключение, добавление и удаление аккаунтов на этом устройстве",
+  "accountsActive": "Активный",
+  "accountsRemove": "Удалить аккаунт",
+  "accountsRemoveTitle": "Удалить этот аккаунт?",
+  "accountsRemoveMessage": "{name} будет удалён с этого устройства, а его локальные данные стёрты: письма, контакты и настройки. На реле ничего не удаляется.",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "Сначала сохраните код синхронизации этого аккаунта. Без него войти снова не получится.",
+  "accountsRemoveLastWarning": "Это ваш последний аккаунт, поэтому вы выйдете из приложения.",
+  "accountsRemoveFailed": "Не удалось удалить этот аккаунт",
+  "accountSignerPrivateKey": "Код синхронизации",
+  "accountSignerExtension": "Расширение браузера",
+  "accountSignerApp": "Приложение для подписи",
+  "accountSignerBunker": "Удалённая подпись",
+  "accountSignerExternal": "Внешняя подпись",
+
   "debugToolsEmailTesting": "Тестирование писем",
   "debugToolsCreateOldTrashed": "Создать старое письмо в корзине",
   "debugToolsCreateOldTrashedDescription": "Создаёт тестовое письмо в корзине возрастом 31 день. Используйте, чтобы протестировать функцию «Удалить старые письма».",
