@@ -8,6 +8,7 @@ import 'auth_controller.dart';
 
 class IdentitiesController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();
+  final _auth = Get.find<AuthController>();
 
   final RxList<MailAddress> identities = <MailAddress>[].obs;
   final RxSet<int> markedForDeletion = <int>{}.obs;
@@ -15,24 +16,52 @@ class IdentitiesController extends GetxController {
   final RxBool isRefreshing = false.obs;
   final RxBool isSaving = false.obs;
 
-  late final String? _myNpub;
-  late final String? _myHex;
-  late final String? _myBase36;
+  String? _myNpub;
+  String? _myHex;
+  String? _myBase36;
 
   List<MailAddress> _original = const [];
   bool _hasLoadedData = false;
+  int _accountGeneration = 0;
+  Worker? _accountWorker;
 
   @override
   void onInit() {
     super.onInit();
-    final auth = Get.find<AuthController>();
-    _myHex = auth.publicKey;
-    _myNpub = auth.npub;
-    _myBase36 = _myHex == null
+    _bindCurrentAccount();
+    _accountWorker = ever(_auth.activePubkey, (_) => _rebindAccount());
+  }
+
+  @override
+  void onClose() {
+    _accountWorker?.dispose();
+    super.onClose();
+  }
+
+  void _bindCurrentAccount() {
+    final hex = _auth.publicKey;
+    _myHex = hex;
+    _myNpub = _auth.npub;
+    _myBase36 = hex == null
         ? null
-        : BigInt.parse(_myHex, radix: 16).toRadixString(36);
+        : BigInt.parse(hex, radix: 16).toRadixString(36);
+    if (hex == null || !_nostrMailService.isClientInitialized) {
+      isLoading.value = false;
+      return;
+    }
     _loadCachedData();
     loadData(preserveLocalChanges: true, fetchFromRelays: true);
+  }
+
+  void _rebindAccount() {
+    _accountGeneration++;
+    _hasLoadedData = false;
+    _original = const [];
+    identities.clear();
+    markedForDeletion.clear();
+    isLoading.value = true;
+    isRefreshing.value = false;
+    _bindCurrentAccount();
   }
 
   ({LocalPartFormat format, String localPart, String domain})? matchedKeyFormat(
@@ -87,6 +116,7 @@ class IdentitiesController extends GetxController {
     bool preserveLocalChanges = false,
     bool fetchFromRelays = false,
   }) async {
+    final generation = _accountGeneration;
     if (_hasLoadedData && fetchFromRelays) {
       isRefreshing.value = true;
     } else if (!_hasLoadedData) {
@@ -97,16 +127,20 @@ class IdentitiesController extends GetxController {
       final settings = fetchFromRelays
           ? await _nostrMailService.client.fetchPrivateSettings()
           : await _nostrMailService.client.getPrivateSettings();
+      if (generation != _accountGeneration) return;
       if (!preserveLocalChanges || !hasChanges) {
         _applySettings(settings);
       }
     } catch (_) {
+      if (generation != _accountGeneration) return;
       if (!_hasLoadedData) {
         _applySettings(null);
       }
     } finally {
-      isLoading.value = false;
-      isRefreshing.value = false;
+      if (generation == _accountGeneration) {
+        isLoading.value = false;
+        isRefreshing.value = false;
+      }
     }
   }
 
@@ -146,6 +180,7 @@ class IdentitiesController extends GetxController {
 
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving.value) return;
+    final generation = _accountGeneration;
     isSaving.value = true;
     try {
       final toSave = <MailAddress>[];
@@ -153,6 +188,7 @@ class IdentitiesController extends GetxController {
         if (!markedForDeletion.contains(i)) toSave.add(identities[i]);
       }
       await _nostrMailService.client.updatePrivateSettings(identities: toSave);
+      if (generation != _accountGeneration) return;
       _original = List.from(toSave);
       identities.assignAll(toSave);
       markedForDeletion.clear();
