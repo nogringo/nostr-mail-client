@@ -132,10 +132,13 @@ class SettingsController extends GetxController {
   }
 
   Future<void> _refreshSignatureFromRelays() async {
-    if (!_nostrMailService.hasAccount) return;
+    final pubkey = _pubkey;
+    if (pubkey == null) return;
     try {
       final remote =
           (await _nostrMailService.client.fetchPrivateSettings())?.signature;
+      // An account switch during the fetch would land this on the new account.
+      if (_pubkey != pubkey) return;
       if (remote != null && remote.isNotEmpty) {
         emailSignature.value = remote;
       }

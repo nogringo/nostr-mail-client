@@ -289,6 +289,10 @@ class AuthController extends GetxController {
       await _nostrMailService.activateForCurrentAccount();
       if (generation != _accountSwitchGeneration) return;
 
+      // Not awaited: the cached signature lands before the first await inside,
+      // and the relay refresh behind it is best-effort.
+      unawaited(Get.find<SettingsController>().reloadSyncedSettings());
+
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().activateForCurrentAccount(
           folder: MailFolder.inbox,
@@ -371,6 +375,7 @@ class AuthController extends GetxController {
       if (fallbackPubkey != null) {
         ndk.accounts.switchAccount(pubkey: fallbackPubkey);
         await _nostrMailService.activateForCurrentAccount();
+        unawaited(Get.find<SettingsController>().reloadSyncedSettings());
       }
       await ndkFlutter.saveAccountsState();
       _refreshAccountsState();
