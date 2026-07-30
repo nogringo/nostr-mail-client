@@ -117,7 +117,7 @@ Future<void> runNmailApp({
 
   // Initialize Services and Controllers early for Middlewares
   Get.put(AccountLocalDataService(), permanent: true);
-  Get.put(NostrMailService(), permanent: true);
+  await Get.putAsync(() => NostrMailService().init(), permanent: true);
   final authController = AuthController();
   await authController.init();
   Get.put(authController, permanent: true);

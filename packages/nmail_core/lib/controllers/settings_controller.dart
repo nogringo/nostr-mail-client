@@ -123,15 +123,16 @@ class SettingsController extends GetxController {
   }
 
   /// Read the signature from the Nostr private-settings cache (primed by
-  /// `NostrMailClient.create()`), falling back to the default.
+  /// `NostrMailService.activateForCurrentAccount()`), falling back to the
+  /// default.
   String get _cachedSignature {
-    if (!_nostrMailService.isClientInitialized) return _defaultSignature;
+    if (!_nostrMailService.hasAccount) return _defaultSignature;
     final sig = _nostrMailService.client.cachedPrivateSettings?.signature;
     return (sig != null && sig.isNotEmpty) ? sig : _defaultSignature;
   }
 
   Future<void> _refreshSignatureFromRelays() async {
-    if (!_nostrMailService.isClientInitialized) return;
+    if (!_nostrMailService.hasAccount) return;
     try {
       final remote =
           (await _nostrMailService.client.fetchPrivateSettings())?.signature;
@@ -144,8 +145,8 @@ class SettingsController extends GetxController {
   }
 
   /// Pull the synced signature into the reactive value. Called by
-  /// `AuthController.onLoggedIn` after `initClient()` completes, since
-  /// `authStateChanges` fires before the Nostr client is constructed.
+  /// `AuthController.onLoggedIn` once the client is attached to the new
+  /// account, since `authStateChanges` fires before that.
   Future<void> reloadSyncedSettings() async {
     emailSignature.value = _cachedSignature;
     await _refreshSignatureFromRelays();
@@ -204,7 +205,7 @@ class SettingsController extends GetxController {
   Future<void> setEmailSignature(String value) async {
     emailSignature.value = value;
 
-    if (_nostrMailService.isClientInitialized) {
+    if (_nostrMailService.hasAccount) {
       try {
         await _nostrMailService.client.updatePrivateSettings(signature: value);
       } catch (_) {

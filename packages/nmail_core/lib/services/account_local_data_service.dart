@@ -20,8 +20,7 @@ class AccountLocalDataService extends GetxService {
 
   Future<void> clearLocalAccountData({required String pubkey}) async {
     await Future.wait([
-      if (Get.isRegistered<NostrMailService>() &&
-          Get.find<NostrMailService>().isClientInitialized)
+      if (Get.isRegistered<NostrMailService>())
         Get.find<NostrMailService>().clearLocalAccountData(pubkey: pubkey),
       if (Get.isRegistered<AddressBookService>())
         Get.find<AddressBookService>().clearLocalAccountData(pubkey: pubkey),
@@ -35,8 +34,7 @@ class AccountLocalDataService extends GetxService {
 
   Future<void> clearAllLocalData() async {
     await Future.wait([
-      if (Get.isRegistered<NostrMailService>() &&
-          Get.find<NostrMailService>().isClientInitialized)
+      if (Get.isRegistered<NostrMailService>())
         Get.find<NostrMailService>().clearAllLocalData(),
       if (Get.isRegistered<AddressBookService>())
         Get.find<AddressBookService>().clearAllLocalData(),

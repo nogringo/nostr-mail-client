@@ -83,8 +83,6 @@ class ContactsService extends GetxService {
     final List<Contact> result = [];
 
     try {
-      if (!_nostrMailService.isClientInitialized) return result;
-
       final myPubkey = _nostrMailService.getPublicKey();
       if (myPubkey == null) return result;
 

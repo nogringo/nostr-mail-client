@@ -151,7 +151,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addObserver(this);
-    if (_nostrMailService.isClientInitialized) {
+    if (_nostrMailService.hasAccount) {
       activateForCurrentAccount();
     }
   }
@@ -213,7 +213,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   Future<void> activateForCurrentAccount({MailFolder? folder}) async {
     await resetForAccountChange(folder: folder);
-    if (!_nostrMailService.isClientInitialized) return;
+    if (!_nostrMailService.hasAccount) return;
 
     await _loadEmails();
     _startWatching();

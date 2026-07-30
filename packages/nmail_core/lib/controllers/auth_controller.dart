@@ -54,7 +54,7 @@ class AuthController extends GetxController {
       _refreshAccountsState();
 
       if (ndk.accounts.getPublicKey() != null) {
-        await _nostrMailService.initClient();
+        await _nostrMailService.activateForCurrentAccount();
         isLoggedIn.value = true;
         // Non-blocking metadata load
         loadUserMetadata();
@@ -104,7 +104,10 @@ class AuthController extends GetxController {
   }
 
   Future<void> onLoggedIn() async {
-    await _nostrMailService.initClient();
+    // Adding an account from /accounts/add runs this while another account is
+    // still watched, so drop its subscriptions before starting the new ones.
+    await _nostrMailService.resetForAccountChange();
+    await _nostrMailService.activateForCurrentAccount();
     _refreshAccountsState();
     userMetadata.value = null;
     if (Get.isRegistered<InboxController>()) {
@@ -117,10 +120,9 @@ class AuthController extends GetxController {
     }
     isLoggedIn.value = true;
     loadUserMetadata();
-    // authStateChanges fires before initClient() runs, so SettingsController's
-    // listener sees an uninitialized client and can't read the synced
-    // signature. Now that the Nostr client is up (and its private-settings
-    // cache primed by NostrMailClient.create()), pull it into the Rx.
+    // authStateChanges fires before the client is attached to the new account,
+    // so SettingsController's listener can't read the synced signature yet.
+    // Now that the private-settings cache is primed, pull it into the Rx.
     await Get.find<SettingsController>().reloadSyncedSettings();
     if (Get.find<SettingsController>().notificationsEnabled.value &&
         Get.isRegistered<PushRegistrationService>()) {
@@ -267,9 +269,7 @@ class AuthController extends GetxController {
     pendingAccountPubkey.value = pubkey;
 
     try {
-      if (_nostrMailService.isClientInitialized) {
-        _nostrMailService.client.stopWatching();
-      }
+      await _nostrMailService.resetForAccountChange();
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().resetForAccountChange();
         if (generation != _accountSwitchGeneration) return;
@@ -285,6 +285,9 @@ class AuthController extends GetxController {
       unawaited(ndkFlutter.saveAccountsState());
       unawaited(loadUserMetadata());
       AppRouter.router.go(AppRoutes.inbox);
+
+      await _nostrMailService.activateForCurrentAccount();
+      if (generation != _accountSwitchGeneration) return;
 
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().activateForCurrentAccount(
@@ -367,7 +370,7 @@ class AuthController extends GetxController {
       await _nostrMailService.logout();
       if (fallbackPubkey != null) {
         ndk.accounts.switchAccount(pubkey: fallbackPubkey);
-        await _nostrMailService.initClient();
+        await _nostrMailService.activateForCurrentAccount();
       }
       await ndkFlutter.saveAccountsState();
       _refreshAccountsState();
@@ -414,7 +417,7 @@ class AuthController extends GetxController {
         await Get.find<AccountLocalDataService>().clearAllLocalData();
       }
 
-      await _nostrMailService.disposeClient();
+      await _nostrMailService.resetForAccountChange();
       for (final pubkey in accountPubkeys.toList(growable: false)) {
         ndk.accounts.removeAccount(pubkey: pubkey);
       }

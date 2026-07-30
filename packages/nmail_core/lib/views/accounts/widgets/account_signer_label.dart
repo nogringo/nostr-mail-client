@@ -31,16 +31,13 @@ class AccountSignerLabel extends StatelessWidget {
         ),
         const SizedBox(width: 6),
         Flexible(
-          child: Text(
-            switch (kind) {
-              AccountSignerKind.privateKey => l.accountSignerPrivateKey,
-              AccountSignerKind.browserExtension => l.accountSignerExtension,
-              AccountSignerKind.signerApp => l.accountSignerApp,
-              AccountSignerKind.bunker => l.accountSignerBunker,
-              AccountSignerKind.external => l.accountSignerExternal,
-            },
-            overflow: TextOverflow.ellipsis,
-          ),
+          child: Text(switch (kind) {
+            AccountSignerKind.privateKey => l.accountSignerPrivateKey,
+            AccountSignerKind.browserExtension => l.accountSignerExtension,
+            AccountSignerKind.signerApp => l.accountSignerApp,
+            AccountSignerKind.bunker => l.accountSignerBunker,
+            AccountSignerKind.external => l.accountSignerExternal,
+          }, overflow: TextOverflow.ellipsis),
         ),
       ],
     );

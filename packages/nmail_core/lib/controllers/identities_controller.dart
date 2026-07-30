@@ -45,7 +45,7 @@ class IdentitiesController extends GetxController {
     _myBase36 = hex == null
         ? null
         : BigInt.parse(hex, radix: 16).toRadixString(36);
-    if (hex == null || !_nostrMailService.isClientInitialized) {
+    if (hex == null || !_nostrMailService.hasAccount) {
       isLoading.value = false;
       return;
     }
