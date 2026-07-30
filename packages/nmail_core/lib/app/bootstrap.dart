@@ -43,6 +43,13 @@ Future<void> runNmailApp({
 }) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Navigation is go_router's, so GetX never sees a route change: its
+  // "current route" stays whatever `Get.dialog` / `Get.bottomSheet` opened
+  // last, and closing that popup would delete every controller registered
+  // since. onlyBuilder disables that route-linked disposal.
+  Get.smartManagement = SmartManagement.onlyBuilder;
+
   Get.put(
     DistributionConfig(
       privacyPolicyUrl: privacyPolicyUrl,
