@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'address_book_service.dart';
 import 'nostr_mail_service.dart';
+import 'push_subscription_service.dart';
 import 'storage_service.dart';
 
 class AccountLocalDataService extends GetxService {
@@ -59,6 +60,13 @@ class AccountLocalDataService extends GetxService {
     );
     await _storageService.deleteSetting(backgroundKey);
     await _deleteBackgroundFile(backgroundPath);
+
+    await _storageService.deleteSetting(
+      PushSubscriptionService.enabledKey(pubkey),
+    );
+    await _storageService.deleteSetting(
+      PushSubscriptionService.registrationKey(pubkey),
+    );
   }
 
   Future<void> _deleteBackgroundFile(String? imagePath) async {

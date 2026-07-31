@@ -5,10 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
-import 'package:nmail_core/controllers/auth_controller.dart';
-import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
+import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:unifiedpush/unifiedpush.dart';
 
@@ -38,10 +37,10 @@ class UnifiedPushHandler {
 
     await _ensureInitialized();
 
-    if (_canUsePush && Get.isRegistered<PushRegistrationService>()) {
-      final service = Get.find<PushRegistrationService>();
-      await service.prepareCurrentTransport();
-      await service.registerCurrentTransport();
+    if (await _hasEnabledAccount() &&
+        Get.isRegistered<PushRegistrationService>()) {
+      await Get.find<PushRegistrationService>().prepareCurrentTransport();
+      await _syncSubscriptions();
     }
   }
 
@@ -61,12 +60,12 @@ class UnifiedPushHandler {
     );
   }
 
+  /// A new endpoint invalidates every account subscribed with the old one.
   static void _onNewEndpoint(PushEndpoint endpoint, String instance) {
     final keys = endpoint.pubKeySet;
     if (!Get.isRegistered<PushRegistrationService>()) return;
 
-    final service = Get.find<PushRegistrationService>();
-    service.setCurrentTransport(
+    Get.find<PushRegistrationService>().setCurrentTransport(
       PushTransport.unifiedPush(
         endpoint: endpoint.url,
         p256dh: keys?.pubKey,
@@ -75,9 +74,7 @@ class UnifiedPushHandler {
       ),
     );
 
-    if (_canUsePush) {
-      unawaited(service.registerCurrentTransport());
-    }
+    unawaited(_syncSubscriptions());
   }
 
   static Future<void> _prepareTransport() async {
@@ -133,12 +130,13 @@ class UnifiedPushHandler {
         defaultTargetPlatform == TargetPlatform.linux;
   }
 
-  static bool get _canUsePush {
-    if (!Get.isRegistered<AuthController>() ||
-        !Get.find<AuthController>().isLoggedIn.value) {
-      return false;
-    }
-    if (!Get.isRegistered<SettingsController>()) return false;
-    return Get.find<SettingsController>().notificationsEnabled.value;
+  static Future<void> _syncSubscriptions() async {
+    if (!Get.isRegistered<PushSubscriptionService>()) return;
+    await Get.find<PushSubscriptionService>().syncAll();
+  }
+
+  static Future<bool> _hasEnabledAccount() async {
+    if (!Get.isRegistered<PushSubscriptionService>()) return false;
+    return Get.find<PushSubscriptionService>().hasEnabledAccount();
   }
 }

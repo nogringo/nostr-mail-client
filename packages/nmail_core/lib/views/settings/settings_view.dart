@@ -26,6 +26,7 @@ import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'widgets/about_section.dart';
 import 'widgets/language_tile.dart';
+import 'widgets/notifications_section.dart';
 import 'widgets/unified_push_distributor_help_tile.dart';
 
 class SettingsView extends StatelessWidget {
@@ -69,14 +70,7 @@ class SettingsView extends StatelessWidget {
               const LanguageTile(),
               const SizedBox(height: 16),
               _buildSectionHeader(context, l.settingsNotifications),
-              Obx(
-                () => SwitchListTile(
-                  title: Text(l.settingsEnableNotifications),
-                  subtitle: Text(l.settingsEnableNotificationsSubtitle),
-                  value: settingsController.notificationsEnabled.value,
-                  onChanged: settingsController.setNotificationsEnabled,
-                ),
-              ),
+              const NotificationsSection(),
               const UnifiedPushDistributorHelpTile(),
               const SizedBox(height: 16),
               _buildSectionHeader(context, l.settingsAdvancedOptions),

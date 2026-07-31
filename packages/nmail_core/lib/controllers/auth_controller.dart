@@ -15,7 +15,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/account_signer_kind.dart';
 import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
-import 'package:nmail_core/services/push_registration_service.dart';
+import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:flutter/material.dart';
 import 'inbox_controller.dart';
@@ -124,11 +124,9 @@ class AuthController extends GetxController {
     // so SettingsController's listener can't read the synced signature yet.
     // Now that the private-settings cache is primed, pull it into the Rx.
     await Get.find<SettingsController>().reloadSyncedSettings();
-    if (Get.find<SettingsController>().notificationsEnabled.value &&
-        Get.isRegistered<PushRegistrationService>()) {
-      final pushService = Get.find<PushRegistrationService>();
-      await pushService.prepareCurrentTransport();
-      await pushService.registerCurrentTransport();
+    final pubkey = publicKey;
+    if (pubkey != null && Get.isRegistered<PushSubscriptionService>()) {
+      await Get.find<PushSubscriptionService>().refreshAccount(pubkey);
     }
   }
 
@@ -293,6 +291,12 @@ class AuthController extends GetxController {
       // and the relay refresh behind it is best-effort.
       unawaited(Get.find<SettingsController>().reloadSyncedSettings());
 
+      // Catches up on a push transport that changed while this account was in
+      // the background.
+      if (Get.isRegistered<PushSubscriptionService>()) {
+        unawaited(Get.find<PushSubscriptionService>().refreshAccount(pubkey));
+      }
+
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().activateForCurrentAccount(
           folder: MailFolder.inbox,
@@ -326,6 +330,10 @@ class AuthController extends GetxController {
       // tail of a switch that is already in flight.
       final generation = _accountSwitchGeneration;
 
+      if (Get.isRegistered<PushSubscriptionService>()) {
+        await Get.find<PushSubscriptionService>().forget(pubkey);
+      }
+
       await Get.find<AccountLocalDataService>().clearLocalAccountData(
         pubkey: pubkey,
       );
@@ -355,9 +363,9 @@ class AuthController extends GetxController {
     try {
       ++_accountSwitchGeneration;
       final removedPubkey = publicKey;
-      if (Get.find<SettingsController>().notificationsEnabled.value &&
-          Get.isRegistered<PushRegistrationService>()) {
-        await Get.find<PushRegistrationService>().disableCurrentTransport();
+      if (removedPubkey != null &&
+          Get.isRegistered<PushSubscriptionService>()) {
+        await Get.find<PushSubscriptionService>().forget(removedPubkey);
       }
       final fallbackPubkey = otherAccountPubkeys.firstOrNull;
       if (Get.isRegistered<InboxController>()) {
@@ -376,6 +384,11 @@ class AuthController extends GetxController {
         ndk.accounts.switchAccount(pubkey: fallbackPubkey);
         await _nostrMailService.activateForCurrentAccount();
         unawaited(Get.find<SettingsController>().reloadSyncedSettings());
+        if (Get.isRegistered<PushSubscriptionService>()) {
+          unawaited(
+            Get.find<PushSubscriptionService>().refreshAccount(fallbackPubkey),
+          );
+        }
       }
       await ndkFlutter.saveAccountsState();
       _refreshAccountsState();
@@ -408,9 +421,11 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       ++_accountSwitchGeneration;
-      if (Get.find<SettingsController>().notificationsEnabled.value &&
-          Get.isRegistered<PushRegistrationService>()) {
-        await Get.find<PushRegistrationService>().disableCurrentTransport();
+      if (Get.isRegistered<PushSubscriptionService>()) {
+        final pushSubscriptions = Get.find<PushSubscriptionService>();
+        for (final pubkey in accountPubkeys.toList(growable: false)) {
+          await pushSubscriptions.forget(pubkey);
+        }
       }
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().resetForAccountChange();

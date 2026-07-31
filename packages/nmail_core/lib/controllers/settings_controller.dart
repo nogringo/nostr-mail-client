@@ -12,6 +12,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
+import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
@@ -24,7 +25,6 @@ class SettingsController extends GetxController {
 
   static const _showRawEmailKey = 'show_raw_email';
   static const _alwaysLoadImagesKey = 'always_load_images';
-  static const _notificationsEnabledKey = 'notifications_enabled';
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
@@ -34,6 +34,10 @@ class SettingsController extends GetxController {
   final showRawEmail = false.obs;
   final alwaysLoadImages = false.obs;
   final notificationsEnabled = false.obs;
+
+  /// Notification setting of every account on this device, keyed by pubkey.
+  /// [notificationsEnabled] mirrors the active account's entry.
+  final notificationsByAccount = <String, bool>{}.obs;
   final emailSignature = _defaultSignature.obs;
   final backgroundImage = Rxn<String>();
   final themeMode = ThemeMode.system.obs;
@@ -93,7 +97,6 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyLight),
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyDark),
       _storageService.getSetting<String>(localeKey),
-      _storageService.getSetting<bool>(_notificationsEnabledKey),
     ]);
 
     showRawEmail.value = (results[0] as bool?) ?? false;
@@ -117,9 +120,30 @@ class SettingsController extends GetxController {
     final savedLocale = results[7] as String?;
     locale.value = _localeFromStorage(savedLocale);
 
-    notificationsEnabled.value = (results[8] as bool?) ?? false;
+    await _loadNotificationSettings();
 
     _refreshSignatureFromRelays();
+  }
+
+  /// Covers every account on this device, not only the active one: each carries
+  /// its own subscription on the push server.
+  Future<void> _loadNotificationSettings() async {
+    if (!Get.isRegistered<PushSubscriptionService>()) return;
+
+    final service = Get.find<PushSubscriptionService>();
+    final active = _pubkey;
+    final loaded = <String, bool>{};
+
+    for (final pubkey in Get.find<Ndk>().accounts.accounts.keys) {
+      loaded[pubkey] = pubkey == active
+          ? await service.resolveEnabled(pubkey)
+          : await service.isEnabled(pubkey);
+    }
+
+    notificationsByAccount.value = loaded;
+    notificationsEnabled.value = active == null
+        ? false
+        : loaded[active] ?? false;
   }
 
   /// Read the signature from the Nostr private-settings cache (primed by
@@ -165,42 +189,41 @@ class SettingsController extends GetxController {
     await _storageService.saveSetting(_alwaysLoadImagesKey, value);
   }
 
-  /// Enabling requests OS notification permission first; if it is denied the
-  /// toggle stays off.
   Future<void> setNotificationsEnabled(bool value) async {
+    final pubkey = _pubkey;
+    if (pubkey == null) {
+      notificationsEnabled.value = false;
+      return;
+    }
+    await setNotificationsEnabledFor(pubkey, value);
+  }
+
+  /// Enabling requests OS notification permission first; if it is denied the
+  /// toggle stays off. The permission is device-wide but the subscription is
+  /// per account, so a second account only goes through the transport step.
+  Future<void> setNotificationsEnabledFor(String pubkey, bool value) async {
     if (value) {
-      if (!Get.find<AuthController>().isLoggedIn.value || _pubkey == null) {
-        notificationsEnabled.value = false;
-        await _storageService.saveSetting(_notificationsEnabledKey, false);
-        return;
-      }
+      if (!Get.find<AuthController>().isLoggedIn.value) return;
 
       final granted = await Get.find<NotificationService>()
           .requestPermissions();
-      if (!granted) {
-        notificationsEnabled.value = false;
-        return;
-      }
+      if (!granted) return;
 
       if (Get.isRegistered<PushRegistrationService>()) {
         final pushService = Get.find<PushRegistrationService>();
-        final transportGranted = await pushService.requestTransportPermission();
-        if (!transportGranted) {
-          notificationsEnabled.value = false;
-          return;
-        }
+        if (!await pushService.requestTransportPermission()) return;
+        await pushService.prepareCurrentTransport();
       }
-    } else if (notificationsEnabled.value &&
-        Get.isRegistered<PushRegistrationService>()) {
-      await Get.find<PushRegistrationService>().disableCurrentTransport();
     }
 
-    notificationsEnabled.value = value;
-    await _storageService.saveSetting(_notificationsEnabledKey, value);
-    if (value && Get.isRegistered<PushRegistrationService>()) {
-      final pushService = Get.find<PushRegistrationService>();
-      await pushService.prepareCurrentTransport();
-      await pushService.registerCurrentTransport();
+    notificationsByAccount[pubkey] = value;
+    if (pubkey == _pubkey) notificationsEnabled.value = value;
+
+    if (Get.isRegistered<PushSubscriptionService>()) {
+      await Get.find<PushSubscriptionService>().setEnabled(
+        pubkey: pubkey,
+        value: value,
+      );
     }
   }
 
@@ -293,16 +316,8 @@ class SettingsController extends GetxController {
   }
 
   Future<void> _refreshPushRegistrationLanguage() async {
-    if (!notificationsEnabled.value ||
-        !Get.isRegistered<AuthController>() ||
-        !Get.find<AuthController>().isLoggedIn.value ||
-        !Get.isRegistered<PushRegistrationService>()) {
-      return;
-    }
-
-    final pushService = Get.find<PushRegistrationService>();
-    await pushService.prepareCurrentTransport();
-    await pushService.registerCurrentTransport();
+    if (!Get.isRegistered<PushSubscriptionService>()) return;
+    await Get.find<PushSubscriptionService>().syncAll();
   }
 
   Future<void> setDynamicTheme(bool value) async {
@@ -393,6 +408,7 @@ class SettingsController extends GetxController {
     showRawEmail.value = false;
     alwaysLoadImages.value = false;
     notificationsEnabled.value = false;
+    notificationsByAccount.clear();
     emailSignature.value = _defaultSignature;
     backgroundImage.value = null;
     themeMode.value = ThemeMode.system;

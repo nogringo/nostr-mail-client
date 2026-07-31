@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
@@ -31,6 +33,7 @@ import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
+import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
@@ -117,6 +120,11 @@ Future<void> runNmailApp({
 
   // Initialize Services and Controllers early for Middlewares
   Get.put(AccountLocalDataService(), permanent: true);
+  // Reads storage only until a transport exists, so it can be registered
+  // before SettingsController loads the per-account notification settings.
+  final pushSubscriptions = PushSubscriptionService();
+  Get.put(pushSubscriptions, permanent: true);
+  unawaited(pushSubscriptions.flushPendingDisables());
   await Get.putAsync(() => NostrMailService().init(), permanent: true);
   final authController = AuthController();
   await authController.init();
