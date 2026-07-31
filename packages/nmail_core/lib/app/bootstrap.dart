@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
@@ -22,6 +24,7 @@ import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
+import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
@@ -30,6 +33,7 @@ import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
+import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
@@ -42,6 +46,13 @@ Future<void> runNmailApp({
 }) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Navigation is go_router's, so GetX never sees a route change: its
+  // "current route" stays whatever `Get.dialog` / `Get.bottomSheet` opened
+  // last, and closing that popup would delete every controller registered
+  // since. onlyBuilder disables that route-linked disposal.
+  Get.smartManagement = SmartManagement.onlyBuilder;
+
   Get.put(
     DistributionConfig(
       privacyPolicyUrl: privacyPolicyUrl,
@@ -108,7 +119,13 @@ Future<void> runNmailApp({
   Get.put(blossomUploadQueue, permanent: true);
 
   // Initialize Services and Controllers early for Middlewares
-  Get.put(NostrMailService(), permanent: true);
+  Get.put(AccountLocalDataService(), permanent: true);
+  // Reads storage only until a transport exists, so it can be registered
+  // before SettingsController loads the per-account notification settings.
+  final pushSubscriptions = PushSubscriptionService();
+  Get.put(pushSubscriptions, permanent: true);
+  unawaited(pushSubscriptions.flushPendingDisables());
+  await Get.putAsync(() => NostrMailService().init(), permanent: true);
   final authController = AuthController();
   await authController.init();
   Get.put(authController, permanent: true);

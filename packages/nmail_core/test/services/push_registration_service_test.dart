@@ -70,6 +70,21 @@ void main() {
       );
     });
 
+    test('builds FCM disable body for a single account', () {
+      expect(
+        PushRegistrationService.buildBody(
+          PushRegistrationAction.disable,
+          const PushTransport.fcm(token: 'token-1'),
+          pubkey: 'a' * 64,
+        ),
+        {
+          'action': 'disable',
+          'pubkey': 'a' * 64,
+          'transport': {'type': 'fcm', 'token': 'token-1'},
+        },
+      );
+    });
+
     test('builds minimal UnifiedPush disable body', () {
       expect(
         PushRegistrationService.buildBody(
@@ -202,6 +217,79 @@ void main() {
       expect(ok, isFalse);
       expect(client.request, isNull);
     });
+
+    test('signs with the given account instead of the logged one', () async {
+      final otherPubkey = 'e' * 64;
+      final logged = FakeEventSigner();
+      final other = FakeEventSigner();
+      final client = _CapturingClient();
+      final service = PushRegistrationService(
+        endpoint: 'https://push.example/register',
+        httpClient: client,
+        accountProvider: () => Account(
+          type: AccountType.privateKey,
+          pubkey: logged.publicKey,
+          signer: logged,
+        ),
+      );
+
+      final ok = await service.register(
+        const PushTransport.fcm(token: 'token-1'),
+        account: Account(
+          type: AccountType.privateKey,
+          pubkey: otherPubkey,
+          signer: other,
+        ),
+      );
+
+      expect(ok, isTrue);
+      expect(logged.lastEvent, isNull);
+      expect(other.lastEvent?.pubKey, otherPubkey);
+    });
+
+    test('sends disable without authorization', () async {
+      final client = _CapturingClient();
+      final service = PushRegistrationService(
+        endpoint: 'https://push.example/register',
+        httpClient: client,
+      );
+
+      final delivery = await service.disable(
+        const PushTransport.fcm(token: 'token-1'),
+        pubkey: 'a' * 64,
+      );
+
+      expect(delivery, PushDelivery.acked);
+      expect(client.request?.headers.containsKey('Authorization'), isFalse);
+      expect(jsonDecode(utf8.decode(client.bodyBytes)), {
+        'action': 'disable',
+        'pubkey': 'a' * 64,
+        'transport': {'type': 'fcm', 'token': 'token-1'},
+      });
+    });
+
+    test(
+      'a rejected disable is not worth retrying, an unreachable one is',
+      () async {
+        final refusing = PushRegistrationService(
+          endpoint: 'https://push.example/register',
+          httpClient: _CapturingClient(statusCode: 400),
+        );
+        final failing = PushRegistrationService(
+          endpoint: 'https://push.example/register',
+          httpClient: _CapturingClient(statusCode: 503),
+        );
+
+        expect(
+          await refusing.disable(const PushTransport.fcm(token: 'token-1')),
+          PushDelivery.refused,
+        );
+        expect(
+          await failing.disable(const PushTransport.fcm(token: 'token-1')),
+          PushDelivery.unreachable,
+        );
+      },
+    );
 
     test('returns false on non-2xx responses', () async {
       final signer = FakeEventSigner();

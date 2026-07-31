@@ -165,6 +165,25 @@
   "identitiesDiscardMessage": "保存されていない変更があります。今離れると破棄されます。",
   "identitiesKeepEditing": "編集を続ける",
 
+  "accountsTitle": "アカウント",
+  "accountsManage": "アカウントを管理",
+  "accountsManageSubtitle": "このデバイスのアカウントを切り替え、追加、削除します",
+  "accountsActive": "使用中",
+  "accountsRemove": "アカウントを削除",
+  "accountsRemoveTitle": "このアカウントを削除しますか？",
+  "accountsRemoveMessage": "{name} をこのデバイスから削除し、メール、連絡先、設定などのローカルデータを消去します。リレー上のデータは削除されません。",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "先にこのアカウントの同期コードを保存してください。同期コードがないと再びログインできません。",
+  "accountsRemoveLastWarning": "最後のアカウントのため、ログアウトされます。",
+  "accountsRemoveFailed": "このアカウントを削除できませんでした",
+  "accountSignerPrivateKey": "同期コード",
+  "accountSignerExtension": "ブラウザ拡張機能",
+  "accountSignerApp": "署名アプリ",
+  "accountSignerBunker": "リモート署名",
+  "accountSignerExternal": "外部署名",
+
   "debugToolsEmailTesting": "メールテスト",
   "debugToolsCreateOldTrashed": "古いゴミ箱メールを作成",
   "debugToolsCreateOldTrashedDescription": "31 日前のテストメールをゴミ箱に作成します。「古いメールを削除」機能のテストに使用します。",
@@ -194,6 +213,7 @@
   },
   "inboxProfile": "プロフィール",
   "inboxCopyNpub": "npub をコピー",
+  "inboxAddAccount": "アカウントを追加",
   "inboxLogout": "ログアウト",
   "inboxAccount": "アカウント",
   "inboxCompose": "作成",

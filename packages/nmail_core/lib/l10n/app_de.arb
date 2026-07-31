@@ -165,6 +165,25 @@
   "identitiesDiscardMessage": "Du hast nicht gespeicherte Änderungen. Wenn du jetzt gehst, gehen sie verloren.",
   "identitiesKeepEditing": "Weiter bearbeiten",
 
+  "accountsTitle": "Konten",
+  "accountsManage": "Konten verwalten",
+  "accountsManageSubtitle": "Konten auf diesem Gerät wechseln, hinzufügen oder entfernen",
+  "accountsActive": "Aktiv",
+  "accountsRemove": "Konto entfernen",
+  "accountsRemoveTitle": "Dieses Konto entfernen?",
+  "accountsRemoveMessage": "{name} wird von diesem Gerät entfernt und die lokalen Daten werden gelöscht: E-Mails, Kontakte und Einstellungen. Auf den Relays wird nichts gelöscht.",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "Sichere zuerst den Sync-Code dieses Kontos. Ohne ihn kannst du dich nicht mehr anmelden.",
+  "accountsRemoveLastWarning": "Das ist dein letztes Konto, du wirst also abgemeldet.",
+  "accountsRemoveFailed": "Konto konnte nicht entfernt werden",
+  "accountSignerPrivateKey": "Sync-Code",
+  "accountSignerExtension": "Browser-Erweiterung",
+  "accountSignerApp": "Signier-App",
+  "accountSignerBunker": "Remote-Signierer",
+  "accountSignerExternal": "Externer Signierer",
+
   "debugToolsEmailTesting": "E-Mail-Tests",
   "debugToolsCreateOldTrashed": "Alte gelöschte E-Mail erstellen",
   "debugToolsCreateOldTrashedDescription": "Erstellt eine Test-E-Mail im Papierkorb, die 31 Tage alt ist. Zum Testen der Funktion \"Alte E-Mails löschen\".",
@@ -194,6 +213,7 @@
   },
   "inboxProfile": "Profil",
   "inboxCopyNpub": "npub kopieren",
+  "inboxAddAccount": "Konto hinzufügen",
   "inboxLogout": "Abmelden",
   "inboxAccount": "Konto",
   "inboxCompose": "Verfassen",

@@ -8,6 +8,7 @@ import '../../../app/routes/app_routes.dart';
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/nostr_utils.dart';
 import '../../../widgets/nostr_avatar.dart';
 
 const _folderPaths = [
@@ -23,14 +24,14 @@ class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
   String _shortNpub(AppLocalizations l) {
-    final npub = Get.find<AuthController>().npub;
+    final npub = Get.find<AuthController>().currentNpub;
     if (npub == null || npub.length < 20) return l.inboxUnknown;
-    return '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}';
+    return shortenNpub(npub);
   }
 
   void _copyNpub(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final npub = Get.find<AuthController>().npub;
+    final npub = Get.find<AuthController>().currentNpub;
     if (npub == null) return;
     Clipboard.setData(ClipboardData(text: npub));
     toastification.show(
@@ -44,8 +45,9 @@ class AppDrawer extends StatelessWidget {
 
   Widget _buildAvatar(BuildContext context) {
     final authController = Get.find<AuthController>();
+    final pubkey = authController.currentPubkey!;
     return NostrAvatar(
-      pubkey: authController.publicKey!,
+      pubkey: pubkey,
       metadata: authController.userMetadata.value,
       radius: 28,
     );
@@ -54,7 +56,7 @@ class AppDrawer extends StatelessWidget {
   String _displayName() {
     final authController = Get.find<AuthController>();
     final metadata = authController.userMetadata.value;
-    final pubkey = authController.publicKey!;
+    final pubkey = authController.currentPubkey!;
 
     return metadata?.getBestName() ?? getAnonName(pubkey);
   }
@@ -243,6 +245,34 @@ class AppDrawer extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: ListTile(
+            leading: const Icon(Icons.person_add_outlined),
+            title: Text(l.inboxAddAccount),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              context.go(AppRoutes.addAccount);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: ListTile(
+            leading: const Icon(Icons.manage_accounts_outlined),
+            title: Text(l.accountsManage),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(28),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+              context.go(AppRoutes.accounts);
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: ListTile(
             leading: Icon(Icons.logout, color: colorScheme.error),
             title: Text(
               l.inboxLogout,
@@ -253,7 +283,6 @@ class AppDrawer extends StatelessWidget {
             ),
             onTap: () {
               Get.find<AuthController>().logout();
-              context.go(AppRoutes.login);
             },
           ),
         ),

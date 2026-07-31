@@ -98,6 +98,7 @@ class Nip65RelaysController extends GetxController {
           ...NostrConfig.popularRelays,
           ...userRelayList.writeUrls,
         }.toList(),
+        pubkey: account.pubkey,
       );
       if (isClosed) return;
 

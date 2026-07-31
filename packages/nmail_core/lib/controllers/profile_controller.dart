@@ -184,6 +184,7 @@ class ProfileController extends GetxController {
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
         relays: {...NostrConfig.popularRelays, ...outbox}.toList(),
+        pubkey: account.pubkey,
       );
 
       // Refresh metadata in AuthController

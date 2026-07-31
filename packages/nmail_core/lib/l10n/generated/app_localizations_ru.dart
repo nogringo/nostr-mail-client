@@ -474,6 +474,56 @@ class AppLocalizationsRu extends AppLocalizations {
   String get identitiesKeepEditing => 'Продолжить редактирование';
 
   @override
+  String get accountsTitle => 'Аккаунты';
+
+  @override
+  String get accountsManage => 'Управление аккаунтами';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Переключение, добавление и удаление аккаунтов на этом устройстве';
+
+  @override
+  String get accountsActive => 'Активный';
+
+  @override
+  String get accountsRemove => 'Удалить аккаунт';
+
+  @override
+  String get accountsRemoveTitle => 'Удалить этот аккаунт?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name будет удалён с этого устройства, а его локальные данные стёрты: письма, контакты и настройки. На реле ничего не удаляется.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Сначала сохраните код синхронизации этого аккаунта. Без него войти снова не получится.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'Это ваш последний аккаунт, поэтому вы выйдете из приложения.';
+
+  @override
+  String get accountsRemoveFailed => 'Не удалось удалить этот аккаунт';
+
+  @override
+  String get accountSignerPrivateKey => 'Код синхронизации';
+
+  @override
+  String get accountSignerExtension => 'Расширение браузера';
+
+  @override
+  String get accountSignerApp => 'Приложение для подписи';
+
+  @override
+  String get accountSignerBunker => 'Удалённая подпись';
+
+  @override
+  String get accountSignerExternal => 'Внешняя подпись';
+
+  @override
   String get debugToolsEmailTesting => 'Тестирование писем';
 
   @override
@@ -546,6 +596,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get inboxCopyNpub => 'Скопировать npub';
+
+  @override
+  String get inboxAddAccount => 'Добавить аккаунт';
 
   @override
   String get inboxLogout => 'Выйти';

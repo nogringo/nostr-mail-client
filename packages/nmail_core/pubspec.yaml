@@ -10,9 +10,9 @@ environment:
 resolution: workspace
 
 dependencies:
-  blossom_cache: ^0.3.0
-  blossom_upload_queue_shim_for_ndk: ^0.4.1
-  broadcast_queue_shim_for_ndk: ^0.2.1
+  blossom_cache: ^0.4.0
+  blossom_upload_queue_shim_for_ndk: ^0.6.0
+  broadcast_queue_shim_for_ndk: ^0.4.0
   collection: ^1.19.1
   crypto: ^3.0.7
   enough_mail_plus: ^2.2.4
@@ -39,10 +39,10 @@ dependencies:
   markdown: ^7.3.1
   markdown_quill: ^4.3.0
   mime: ^2.0.0
-  ndk: ^0.8.4-dev.10
-  ndk_flutter: ^0.8.4-dev.13
-  nostr_address_book: ^0.1.1
-  nostr_mail: ^2.5.0
+  ndk: 0.8.4-dev.10
+  ndk_flutter: 0.8.4-dev.13
+  nostr_address_book: ^0.2.0
+  nostr_mail: ^2.6.2
   package_info_plus: ^9.0.1
   path: ^1.9.1
   path_provider: ^2.1.5
@@ -52,7 +52,7 @@ dependencies:
   sqflite: ^2.4.2+1
   sqflite_common_ffi: ^2.4.0+3
   system_theme: ^3.3.0
-  toastification: ^3.0.3
+  toastification: ^3.2.0
   url_launcher: ^6.3.2
   vcard_dart: ^2.1.0
   vsc_quill_delta_to_html: ^1.0.5

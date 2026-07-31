@@ -6,9 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
-import 'package:nmail_core/controllers/auth_controller.dart';
-import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
+import 'package:nmail_core/services/push_subscription_service.dart';
 
 import '../firebase_options.dart';
 
@@ -43,14 +42,15 @@ class FcmPush {
       prepareTransport: () => _refreshToken(messaging),
     );
 
-    messaging.onTokenRefresh.listen((t) {
-      if (!_canUsePush) return;
-      unawaited(_setToken(t));
+    // A new token invalidates every account subscribed with the old one.
+    messaging.onTokenRefresh.listen((token) {
+      _setToken(token);
+      unawaited(_syncSubscriptions());
     });
 
-    if (_canUsePush) {
+    if (await _hasEnabledAccount()) {
       await pushService.prepareCurrentTransport();
-      await pushService.registerCurrentTransport();
+      await _syncSubscriptions();
     }
 
     final initial = await messaging.getInitialMessage();
@@ -68,11 +68,12 @@ class FcmPush {
       return;
     }
 
-    final token = await messaging.getToken(
-      vapidKey: kIsWeb ? _webVapidKey : null,
-      serviceWorkerScriptPath: kIsWeb ? 'firebase-messaging-sw.js' : null,
+    _setToken(
+      await messaging.getToken(
+        vapidKey: kIsWeb ? _webVapidKey : null,
+        serviceWorkerScriptPath: kIsWeb ? 'firebase-messaging-sw.js' : null,
+      ),
     );
-    await _setToken(token, registerIfEnabled: false);
   }
 
   static void _handleTap(RemoteMessage message) {
@@ -84,28 +85,23 @@ class FcmPush {
     );
   }
 
-  static Future<void> _setToken(
-    String? token, {
-    bool registerIfEnabled = true,
-  }) async {
+  static void _setToken(String? token) {
     if (token == null || token.isEmpty) return;
     if (!Get.isRegistered<PushRegistrationService>()) return;
 
-    final service = Get.find<PushRegistrationService>();
-    service.setCurrentTransport(PushTransport.fcm(token: token));
-
-    if (registerIfEnabled && _canUsePush) {
-      await service.registerCurrentTransport();
-    }
+    Get.find<PushRegistrationService>().setCurrentTransport(
+      PushTransport.fcm(token: token),
+    );
   }
 
-  static bool get _canUsePush {
-    if (!Get.isRegistered<AuthController>() ||
-        !Get.find<AuthController>().isLoggedIn.value) {
-      return false;
-    }
-    if (!Get.isRegistered<SettingsController>()) return false;
-    return Get.find<SettingsController>().notificationsEnabled.value;
+  static Future<void> _syncSubscriptions() async {
+    if (!Get.isRegistered<PushSubscriptionService>()) return;
+    await Get.find<PushSubscriptionService>().syncAll();
+  }
+
+  static Future<bool> _hasEnabledAccount() async {
+    if (!Get.isRegistered<PushSubscriptionService>()) return false;
+    return Get.find<PushSubscriptionService>().hasEnabledAccount();
   }
 
   static bool get _isSupportedPlatform {

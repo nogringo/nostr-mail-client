@@ -165,6 +165,25 @@
   "identitiesDiscardMessage": "Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.",
   "identitiesKeepEditing": "Jatka muokkausta",
 
+  "accountsTitle": "Tilit",
+  "accountsManage": "Hallitse tilejä",
+  "accountsManageSubtitle": "Vaihda, lisää tai poista tilejä tältä laitteelta",
+  "accountsActive": "Käytössä",
+  "accountsRemove": "Poista tili",
+  "accountsRemoveTitle": "Poistetaanko tämä tili?",
+  "accountsRemoveMessage": "{name} poistetaan tältä laitteelta ja sen paikalliset tiedot pyyhitään: sähköpostit, kontaktit ja asetukset. Palvelimilta ei poisteta mitään.",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "Tallenna ensin tämän tilin synkronointikoodi. Ilman sitä et voi kirjautua enää sisään.",
+  "accountsRemoveLastWarning": "Tämä on viimeinen tilisi, joten sinut kirjataan ulos.",
+  "accountsRemoveFailed": "Tilin poistaminen ei onnistunut",
+  "accountSignerPrivateKey": "Synkronointikoodi",
+  "accountSignerExtension": "Selainlaajennus",
+  "accountSignerApp": "Allekirjoitussovellus",
+  "accountSignerBunker": "Etäallekirjoittaja",
+  "accountSignerExternal": "Ulkoinen allekirjoittaja",
+
   "debugToolsEmailTesting": "Sähköpostin testaus",
   "debugToolsCreateOldTrashed": "Luo vanha poistettu viesti.",
   "debugToolsCreateOldTrashedDescription": "Luo roskakoriin 31 päivää vanhan testiviestin. Käytä \"Poista vanhat viestit\" -ominaisuuden testaukseen.",
@@ -194,6 +213,7 @@
   },
   "inboxProfile": "Profiili",
   "inboxCopyNpub": "Kopioi npub",
+  "inboxAddAccount": "Lisää tili",
   "inboxLogout": "Kirjaudu ulos",
   "inboxAccount": "Tili",
   "inboxCompose": "Luo sähköposti",

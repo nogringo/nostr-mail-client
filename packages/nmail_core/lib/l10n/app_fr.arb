@@ -168,6 +168,25 @@
   "identitiesDiscardMessage": "Vous avez des modifications non enregistrées. Quitter maintenant les supprimera.",
   "identitiesKeepEditing": "Continuer à modifier",
 
+  "accountsTitle": "Comptes",
+  "accountsManage": "Gérer les comptes",
+  "accountsManageSubtitle": "Changer, ajouter ou supprimer des comptes sur cet appareil",
+  "accountsActive": "Actif",
+  "accountsRemove": "Supprimer le compte",
+  "accountsRemoveTitle": "Supprimer ce compte ?",
+  "accountsRemoveMessage": "{name} sera retiré de cet appareil et ses données locales seront effacées : e-mails, contacts et réglages. Rien n'est supprimé sur les relais.",
+  "@accountsRemoveMessage": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountsRemoveKeyWarning": "Sauvegardez d'abord le code de synchronisation de ce compte. Sans lui, vous ne pourrez plus vous connecter.",
+  "accountsRemoveLastWarning": "C'est votre dernier compte, vous serez donc déconnecté.",
+  "accountsRemoveFailed": "Impossible de supprimer ce compte",
+  "accountSignerPrivateKey": "Code de synchronisation",
+  "accountSignerExtension": "Extension de navigateur",
+  "accountSignerApp": "Application de signature",
+  "accountSignerBunker": "Signataire distant",
+  "accountSignerExternal": "Signataire externe",
+
   "debugToolsEmailTesting": "Test d'e-mails",
   "debugToolsCreateOldTrashed": "Créer un e-mail ancien à la corbeille",
   "debugToolsCreateOldTrashedDescription": "Crée un e-mail de test dans la corbeille, daté de 31 jours. Utilisez-le pour tester la fonctionnalité « Supprimer les anciens e-mails ».",
@@ -197,6 +216,7 @@
   },
   "inboxProfile": "Profil",
   "inboxCopyNpub": "Copier le npub",
+  "inboxAddAccount": "Ajouter un compte",
   "inboxLogout": "Déconnexion",
   "inboxAccount": "Compte",
   "inboxCompose": "Composer",

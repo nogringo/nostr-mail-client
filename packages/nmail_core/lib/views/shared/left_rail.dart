@@ -8,7 +8,9 @@ import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/nostr_utils.dart';
 import '../../widgets/nostr_avatar.dart';
+import 'account_switcher_section.dart';
 import 'layout_constants.dart';
 
 class LeftRail extends StatelessWidget {
@@ -74,8 +76,9 @@ class _AccountMenuButton extends StatelessWidget {
 
   Widget _buildAvatar(BuildContext context) {
     final authController = Get.find<AuthController>();
+    final pubkey = authController.currentPubkey!;
     return NostrAvatar(
-      pubkey: authController.publicKey!,
+      pubkey: pubkey,
       metadata: authController.userMetadata.value,
       radius: 14,
     );
@@ -84,14 +87,11 @@ class _AccountMenuButton extends StatelessWidget {
   Widget _buildAccountHeader(BuildContext context) {
     final authController = Get.find<AuthController>();
     final metadata = authController.userMetadata.value;
-    final npub = authController.npub ?? '';
-    final shortNpub = npub.length >= 20
-        ? '${npub.substring(0, 10)}...${npub.substring(npub.length - 6)}'
-        : npub;
+    final pubkey = authController.currentPubkey!;
+    final shortNpub = shortenNpub(authController.currentNpub ?? '');
     final colorScheme = Theme.of(context).colorScheme;
 
-    final displayName =
-        metadata?.getBestName() ?? getAnonName(authController.publicKey!);
+    final displayName = metadata?.getBestName() ?? getAnonName(pubkey);
 
     return Container(
       width: 220,
@@ -150,6 +150,18 @@ class _AccountMenuButton extends StatelessWidget {
       menuChildren: [
         Obx(() => _buildAccountHeader(context)),
         const Divider(height: 1),
+        const AccountSwitcherMenuSection(),
+        MenuItemButton(
+          leadingIcon: const Icon(Icons.person_add_outlined),
+          onPressed: () => context.go(AppRoutes.addAccount),
+          child: Text(l.inboxAddAccount),
+        ),
+        MenuItemButton(
+          leadingIcon: const Icon(Icons.manage_accounts_outlined),
+          onPressed: () => context.go(AppRoutes.accounts),
+          child: Text(l.accountsManage),
+        ),
+        const Divider(height: 1),
         MenuItemButton(
           leadingIcon: const Icon(Icons.person_outline),
           onPressed: () => context.go(AppRoutes.profile),
@@ -158,7 +170,7 @@ class _AccountMenuButton extends StatelessWidget {
         MenuItemButton(
           leadingIcon: const Icon(Icons.copy),
           onPressed: () {
-            final npub = Get.find<AuthController>().npub;
+            final npub = Get.find<AuthController>().currentNpub;
             if (npub != null) {
               Clipboard.setData(ClipboardData(text: npub));
             }
@@ -172,7 +184,6 @@ class _AccountMenuButton extends StatelessWidget {
           ),
           onPressed: () {
             Get.find<AuthController>().logout();
-            context.go(AppRoutes.login);
           },
           child: Text(
             l.inboxLogout,

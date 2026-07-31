@@ -26,29 +26,24 @@ class EmailSyncStatus {
   });
 }
 
+/// Owns the one [NostrMailClient] of the process. The client is account
+/// agnostic: its managers read the logged account from ndk on every call and
+/// its settings cache is keyed by pubkey, so an account change only detaches
+/// and re-attaches it. Never dispose it: that closes the scheduler for good.
 class NostrMailService extends GetxService {
-  NostrMailClient? _client;
+  late final NostrMailClient client;
 
   final _storageService = Get.find<StorageService>();
   final _ndk = Get.find<Ndk>();
 
-  NostrMailClient get client {
-    if (_client == null) {
-      throw Exception(
-        'NostrMailClient not initialized. Call initClient() first.',
-      );
-    }
-    return _client!;
-  }
-
-  bool get isClientInitialized => _client != null;
+  bool get hasAccount => _ndk.accounts.getPublicKey() != null;
 
   /// Stream of relay connectivity changes
   Stream<Map<String, RelayConnectivity>> get relayConnectivityChanges =>
       _ndk.connectivity.relayConnectivityChanges;
 
-  Future<void> initClient() async {
-    _client = await NostrMailClient.create(
+  Future<NostrMailService> init() async {
+    client = await NostrMailClient.create(
       ndk: _ndk,
       db: _storageService.db,
       blossomCache: Get.find<BlossomCache>(),
@@ -56,6 +51,21 @@ class NostrMailService extends GetxService {
       blossomUploadQueue: Get.find<OfflineBlossomUpload>(),
       schedulerDvm: NostrConfig.schedulerDvm,
     );
+    return this;
+  }
+
+  /// Drops the relay subscriptions and the DVM listener of the account that is
+  /// going away. Both restart on the next [activateForCurrentAccount].
+  Future<void> resetForAccountChange() async {
+    client.stopWatching();
+    await client.stopScheduling();
+  }
+
+  /// Primes the private-settings cache so `cachedPrivateSettings` is readable
+  /// synchronously right after an account becomes active.
+  Future<void> activateForCurrentAccount() async {
+    if (!hasAccount) return;
+    await client.getPrivateSettings();
   }
 
   String? getPublicKey() {
@@ -63,9 +73,16 @@ class NostrMailService extends GetxService {
   }
 
   Future<void> logout() async {
-    await _client?.dispose();
-    _client = null;
+    await resetForAccountChange();
     _ndk.accounts.logout();
+  }
+
+  Future<void> clearLocalAccountData({required String pubkey}) {
+    return client.clearLocalAccountData(pubkey: pubkey);
+  }
+
+  Future<void> clearAllLocalData() {
+    return client.clearAllLocalData();
   }
 
   /// Returns the current user's NIP-65 outbox (write/readWrite) relays,

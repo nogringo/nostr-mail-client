@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
 import 'package:ndk/entities.dart' show Nip05;
 import 'package:ndk/ndk.dart';
@@ -11,6 +12,7 @@ import 'package:sembast/sembast_memory.dart';
 void main() {
   late Database db;
   late Ndk ndk;
+  late OfflineBroadcast broadcastQueue;
   late NostrAddressBook book;
   late AddressBookService service;
 
@@ -29,14 +31,19 @@ void main() {
     final (privateKey, pubkey) = factory.generateKeyPair();
     ndk.accounts.loginPrivateKey(pubkey: pubkey, privkey: privateKey);
     Get.put<Ndk>(ndk);
-    book = NostrAddressBook(ndk: ndk, database: db);
+    broadcastQueue = OfflineBroadcast.withNdk(ndk, db: db);
+    book = NostrAddressBook(
+      ndk: ndk,
+      database: db,
+      broadcastQueue: broadcastQueue,
+    );
     service = Get.put(AddressBookService(book: book, syncOnInit: false));
     await Future<void>.delayed(Duration.zero);
   });
 
   tearDown(() async {
     Get.delete<AddressBookService>();
-    await book.dispose();
+    await broadcastQueue.dispose();
     await ndk.destroy();
     await db.close();
     Get.reset();

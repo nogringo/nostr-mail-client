@@ -470,6 +470,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String get identitiesKeepEditing => 'Keep editing';
 
   @override
+  String get accountsTitle => 'Accounts';
+
+  @override
+  String get accountsManage => 'Manage accounts';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Switch, add or remove accounts on this device';
+
+  @override
+  String get accountsActive => 'Active';
+
+  @override
+  String get accountsRemove => 'Remove account';
+
+  @override
+  String get accountsRemoveTitle => 'Remove this account?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name will be removed from this device and its local data will be erased: emails, contacts and settings. Nothing is deleted from the relays.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Save this account\'s sync code first. Without it you will not be able to log in again.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'This is your last account, so you will be logged out.';
+
+  @override
+  String get accountsRemoveFailed => 'Could not remove this account';
+
+  @override
+  String get accountSignerPrivateKey => 'Sync code';
+
+  @override
+  String get accountSignerExtension => 'Browser extension';
+
+  @override
+  String get accountSignerApp => 'Signer app';
+
+  @override
+  String get accountSignerBunker => 'Remote signer';
+
+  @override
+  String get accountSignerExternal => 'External signer';
+
+  @override
   String get debugToolsEmailTesting => 'Email Testing';
 
   @override
@@ -542,6 +592,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inboxCopyNpub => 'Copy npub';
+
+  @override
+  String get inboxAddAccount => 'Add account';
 
   @override
   String get inboxLogout => 'Logout';

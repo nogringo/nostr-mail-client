@@ -478,6 +478,56 @@ class AppLocalizationsFr extends AppLocalizations {
   String get identitiesKeepEditing => 'Continuer à modifier';
 
   @override
+  String get accountsTitle => 'Comptes';
+
+  @override
+  String get accountsManage => 'Gérer les comptes';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Changer, ajouter ou supprimer des comptes sur cet appareil';
+
+  @override
+  String get accountsActive => 'Actif';
+
+  @override
+  String get accountsRemove => 'Supprimer le compte';
+
+  @override
+  String get accountsRemoveTitle => 'Supprimer ce compte ?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name sera retiré de cet appareil et ses données locales seront effacées : e-mails, contacts et réglages. Rien n\'est supprimé sur les relais.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Sauvegardez d\'abord le code de synchronisation de ce compte. Sans lui, vous ne pourrez plus vous connecter.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'C\'est votre dernier compte, vous serez donc déconnecté.';
+
+  @override
+  String get accountsRemoveFailed => 'Impossible de supprimer ce compte';
+
+  @override
+  String get accountSignerPrivateKey => 'Code de synchronisation';
+
+  @override
+  String get accountSignerExtension => 'Extension de navigateur';
+
+  @override
+  String get accountSignerApp => 'Application de signature';
+
+  @override
+  String get accountSignerBunker => 'Signataire distant';
+
+  @override
+  String get accountSignerExternal => 'Signataire externe';
+
+  @override
   String get debugToolsEmailTesting => 'Test d\'e-mails';
 
   @override
@@ -552,6 +602,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get inboxCopyNpub => 'Copier le npub';
+
+  @override
+  String get inboxAddAccount => 'Ajouter un compte';
 
   @override
   String get inboxLogout => 'Déconnexion';

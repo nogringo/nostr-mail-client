@@ -475,6 +475,56 @@ class AppLocalizationsEs extends AppLocalizations {
   String get identitiesKeepEditing => 'Seguir editando';
 
   @override
+  String get accountsTitle => 'Cuentas';
+
+  @override
+  String get accountsManage => 'Gestionar cuentas';
+
+  @override
+  String get accountsManageSubtitle =>
+      'Cambia, añade o elimina cuentas en este dispositivo';
+
+  @override
+  String get accountsActive => 'Activa';
+
+  @override
+  String get accountsRemove => 'Eliminar cuenta';
+
+  @override
+  String get accountsRemoveTitle => '¿Eliminar esta cuenta?';
+
+  @override
+  String accountsRemoveMessage(String name) {
+    return '$name se eliminará de este dispositivo y sus datos locales se borrarán: correos, contactos y ajustes. No se elimina nada de los relays.';
+  }
+
+  @override
+  String get accountsRemoveKeyWarning =>
+      'Guarda primero el código de sincronización de esta cuenta. Sin él no podrás volver a iniciar sesión.';
+
+  @override
+  String get accountsRemoveLastWarning =>
+      'Es tu última cuenta, así que se cerrará tu sesión.';
+
+  @override
+  String get accountsRemoveFailed => 'No se pudo eliminar esta cuenta';
+
+  @override
+  String get accountSignerPrivateKey => 'Código de sincronización';
+
+  @override
+  String get accountSignerExtension => 'Extensión del navegador';
+
+  @override
+  String get accountSignerApp => 'App de firma';
+
+  @override
+  String get accountSignerBunker => 'Firmante remoto';
+
+  @override
+  String get accountSignerExternal => 'Firmante externo';
+
+  @override
   String get debugToolsEmailTesting => 'Pruebas de correo';
 
   @override
@@ -548,6 +598,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get inboxCopyNpub => 'Copiar npub';
+
+  @override
+  String get inboxAddAccount => 'Añadir cuenta';
 
   @override
   String get inboxLogout => 'Cerrar sesión';

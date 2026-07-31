@@ -23,7 +23,7 @@ class ScheduledController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (_nostrMailService.isClientInitialized) {
+    if (_nostrMailService.hasAccount) {
       _activate();
     }
   }
