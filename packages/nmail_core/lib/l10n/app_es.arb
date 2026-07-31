@@ -36,6 +36,8 @@
   "settingsNotifications": "Notificaciones",
   "settingsEnableNotifications": "Activar notificaciones",
   "settingsEnableNotificationsSubtitle": "Recibe un aviso cuando llegue un nuevo correo.",
+  "settingsManageNotifications": "Gestionar las notificaciones",
+  "settingsManageNotificationsSubtitle": "Avisos de nuevos correos",
   "settingsAdvancedOptions": "Opciones avanzadas",
   "settingsShowEmailSource": "Mostrar código fuente del correo",
   "settingsShowEmailSourceSubtitle": "Añade un botón para ver el correo en bruto",

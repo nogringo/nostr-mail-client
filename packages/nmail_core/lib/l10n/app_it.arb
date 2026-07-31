@@ -36,6 +36,8 @@
   "settingsNotifications": "Notifiche",
   "settingsEnableNotifications": "Attiva le notifiche",
   "settingsEnableNotificationsSubtitle": "Ricevi un avviso quando arriva una nuova email.",
+  "settingsManageNotifications": "Gestisci le notifiche",
+  "settingsManageNotificationsSubtitle": "Avvisi per le nuove email",
   "settingsAdvancedOptions": "Opzioni avanzate",
   "settingsShowEmailSource": "Mostra codice sorgente dell'email",
   "settingsShowEmailSourceSubtitle": "Aggiunge un pulsante per visualizzare l'email grezza",

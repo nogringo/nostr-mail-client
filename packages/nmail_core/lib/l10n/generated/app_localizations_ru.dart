@@ -110,6 +110,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Получайте уведомления о новых письмах.';
 
   @override
+  String get settingsManageNotifications => 'Управление уведомлениями';
+
+  @override
+  String get settingsManageNotificationsSubtitle =>
+      'Оповещения о новых письмах';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push notifications unavailable';
 

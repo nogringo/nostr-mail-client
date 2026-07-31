@@ -109,6 +109,13 @@ class AppLocalizationsFi extends AppLocalizations {
       'Saat ilmoituksen, kun uusi sähköposti saapuu.';
 
   @override
+  String get settingsManageNotifications => 'Hallitse ilmoituksia';
+
+  @override
+  String get settingsManageNotificationsSubtitle =>
+      'Ilmoitukset uusista sähköposteista';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push notifications unavailable';
 

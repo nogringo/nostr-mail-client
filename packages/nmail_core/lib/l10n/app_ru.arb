@@ -36,6 +36,8 @@
   "settingsNotifications": "Уведомления",
   "settingsEnableNotifications": "Включить уведомления",
   "settingsEnableNotificationsSubtitle": "Получайте уведомления о новых письмах.",
+  "settingsManageNotifications": "Управление уведомлениями",
+  "settingsManageNotificationsSubtitle": "Оповещения о новых письмах",
   "settingsAdvancedOptions": "Дополнительные параметры",
   "settingsShowEmailSource": "Показать исходный код письма",
   "settingsShowEmailSourceSubtitle": "Добавляет кнопку для просмотра исходного письма",

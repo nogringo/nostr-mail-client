@@ -36,6 +36,8 @@
   "settingsNotifications": "通知",
   "settingsEnableNotifications": "通知を有効にする",
   "settingsEnableNotificationsSubtitle": "新しいメールが届いたら通知します。",
+  "settingsManageNotifications": "通知を管理",
+  "settingsManageNotificationsSubtitle": "新着メールのお知らせ",
   "settingsAdvancedOptions": "詳細設定",
   "settingsShowEmailSource": "メールのソースコードを表示",
   "settingsShowEmailSourceSubtitle": "生メールを表示するボタンを追加します",

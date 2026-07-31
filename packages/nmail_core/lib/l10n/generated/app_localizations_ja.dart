@@ -108,6 +108,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsEnableNotificationsSubtitle => '新しいメールが届いたら通知します。';
 
   @override
+  String get settingsManageNotifications => '通知を管理';
+
+  @override
+  String get settingsManageNotificationsSubtitle => '新着メールのお知らせ';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push notifications unavailable';
 

@@ -33,6 +33,8 @@
   "settingsNotifications": "Notificações",
   "settingsEnableNotifications": "Ativar notificações",
   "settingsEnableNotificationsSubtitle": "Seja notificado quando um novo email chegar.",
+  "settingsManageNotifications": "Gerir notificações",
+  "settingsManageNotificationsSubtitle": "Alertas de novos emails",
   "settingsAdvancedOptions": "Opções avançadas",
   "settingsShowEmailSource": "Mostrar código-fonte do email",
   "settingsShowEmailSourceSubtitle": "Adiciona um botão para ver o email bruto",

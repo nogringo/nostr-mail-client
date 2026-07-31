@@ -110,6 +110,12 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ricevi un avviso quando arriva una nuova email.';
 
   @override
+  String get settingsManageNotifications => 'Gestisci le notifiche';
+
+  @override
+  String get settingsManageNotificationsSubtitle => 'Avvisi per le nuove email';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push notifications unavailable';
 

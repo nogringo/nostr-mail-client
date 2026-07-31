@@ -36,6 +36,8 @@
   "settingsNotifications": "Benachrichtigungen",
   "settingsEnableNotifications": "Benachrichtigungen aktivieren",
   "settingsEnableNotificationsSubtitle": "Werde benachrichtigt, wenn eine neue E-Mail eintrifft.",
+  "settingsManageNotifications": "Benachrichtigungen verwalten",
+  "settingsManageNotificationsSubtitle": "Hinweise bei neuen E-Mails",
   "settingsAdvancedOptions": "Erweiterte Optionen",
   "settingsShowEmailSource": "E-Mail-Quellcode anzeigen",
   "settingsShowEmailSourceSubtitle": "Fügt eine Schaltfläche zur Anzeige der Roh-E-Mail hinzu",

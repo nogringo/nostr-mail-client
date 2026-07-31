@@ -32,6 +32,7 @@ import '../../views/scheduled/scheduled_view.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
 import '../../views/settings/identities_view.dart';
+import '../../views/settings/notifications_settings_view.dart';
 import '../../views/settings/settings_view.dart';
 import '../../views/shared/auth_shell.dart';
 import '../../views/shared/not_found_view.dart';
@@ -213,6 +214,10 @@ class AppRouter {
                     builder: (_, _) => const CreateIdentityView(),
                   ),
                 ],
+              ),
+              GoRoute(
+                path: 'notifications',
+                builder: (_, _) => const NotificationsSettingsView(),
               ),
               GoRoute(
                 path: 'hosting',

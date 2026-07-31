@@ -36,6 +36,8 @@
   "settingsNotifications": "Notifications",
   "settingsEnableNotifications": "Activer les notifications",
   "settingsEnableNotificationsSubtitle": "Être notifié à l'arrivée d'un nouvel e-mail.",
+  "settingsManageNotifications": "Gérer les notifications",
+  "settingsManageNotificationsSubtitle": "Alertes pour les nouveaux e-mails",
   "settingsUnifiedPushDistributorMissingTitle": "Notifications push indisponibles",
   "settingsUnifiedPushDistributorMissingSubtitle": "Installez un distributeur UnifiedPush comme Sunup pour recevoir les notifications en arrière-plan.",
   "settingsUnifiedPushDistributorInstallSunup": "Installer Sunup",

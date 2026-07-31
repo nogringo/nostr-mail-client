@@ -108,6 +108,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsEnableNotificationsSubtitle => '收到新邮件时通知您。';
 
   @override
+  String get settingsManageNotifications => '管理通知';
+
+  @override
+  String get settingsManageNotificationsSubtitle => '新邮件提醒';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push notifications unavailable';
 

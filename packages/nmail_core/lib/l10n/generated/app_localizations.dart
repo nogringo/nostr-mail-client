@@ -313,6 +313,18 @@ abstract class AppLocalizations {
   /// **'Get notified when a new email arrives.'**
   String get settingsEnableNotificationsSubtitle;
 
+  /// Settings tile title that opens the notifications settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Manage notifications'**
+  String get settingsManageNotifications;
+
+  /// Subtitle for the manage notifications tile
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts for new emails'**
+  String get settingsManageNotificationsSubtitle;
+
   /// Settings tile title shown on Android FOSS builds when no UnifiedPush distributor is installed
   ///
   /// In en, this message translates to:

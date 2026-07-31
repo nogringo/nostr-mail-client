@@ -36,6 +36,8 @@
   "settingsNotifications": "通知",
   "settingsEnableNotifications": "启用通知",
   "settingsEnableNotificationsSubtitle": "收到新邮件时通知您。",
+  "settingsManageNotifications": "管理通知",
+  "settingsManageNotificationsSubtitle": "新邮件提醒",
   "settingsAdvancedOptions": "高级选项",
   "settingsShowEmailSource": "显示邮件源代码",
   "settingsShowEmailSourceSubtitle": "添加查看原始邮件的按钮",

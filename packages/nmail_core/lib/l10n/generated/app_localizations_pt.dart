@@ -110,6 +110,12 @@ class AppLocalizationsPt extends AppLocalizations {
       'Seja notificado quando um novo email chegar.';
 
   @override
+  String get settingsManageNotifications => 'Gerir notificações';
+
+  @override
+  String get settingsManageNotificationsSubtitle => 'Alertas de novos emails';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push notifications unavailable';
 
@@ -1559,6 +1565,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get settingsEnableNotificationsSubtitle =>
       'Seja notificado quando um novo e-mail chegar.';
+
+  @override
+  String get settingsManageNotifications => 'Gerenciar notificações';
+
+  @override
+  String get settingsManageNotificationsSubtitle => 'Alertas de novos e-mails';
 
   @override
   String get settingsAdvancedOptions => 'Opções avançadas';
