@@ -17,6 +17,8 @@ Releases prior to 0.13.0 are listed on the
 
 ### Added
 
+- Use several accounts on the same device: add them from the account menu and
+  switch in one tap, without signing out.
 - Guide Android FOSS users to install a UnifiedPush distributor when none is available.
 - Enable push notifications on web.
 
