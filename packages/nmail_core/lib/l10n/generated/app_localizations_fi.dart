@@ -84,6 +84,15 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsAppearance => 'Ulkoasu';
 
   @override
+  String get settingsManageAppearance => 'Hallitse ulkoasua';
+
+  @override
+  String get settingsManageAppearanceSubtitle => 'Teema, taustakuva, kieli';
+
+  @override
+  String get settingsBackground => 'Taustakuva';
+
+  @override
   String get settingsDynamicTheme => 'Mukautuva teema';
 
   @override

@@ -39,6 +39,7 @@ class AppRoutes {
 
   // Settings (nested)
   static const settings = '/settings';
+  static const settingsAppearance = '/settings/appearance';
   static const settingsIdentities = '/settings/identities';
   static const settingsIdentitiesNew = '/settings/identities/new';
   static const settingsNotifications = '/settings/notifications';

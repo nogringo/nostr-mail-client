@@ -84,6 +84,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsAppearance => '外観';
 
   @override
+  String get settingsManageAppearance => '外観を管理';
+
+  @override
+  String get settingsManageAppearanceSubtitle => 'テーマ、背景、言語';
+
+  @override
+  String get settingsBackground => '背景';
+
+  @override
   String get settingsDynamicTheme => 'ダイナミックテーマ';
 
   @override

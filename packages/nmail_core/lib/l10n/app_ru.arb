@@ -28,6 +28,9 @@
 
   "settingsTitle": "Настройки",
   "settingsAppearance": "Внешний вид",
+  "settingsManageAppearance": "Управление внешним видом",
+  "settingsManageAppearanceSubtitle": "Тема, фон, язык",
+  "settingsBackground": "Фон",
   "settingsLanguage": "Язык",
   "settingsLanguageSystem": "Язык системы",
   "settingsLanguageDialogTitle": "Выберите язык",

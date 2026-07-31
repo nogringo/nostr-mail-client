@@ -84,6 +84,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsAppearance => 'Внешний вид';
 
   @override
+  String get settingsManageAppearance => 'Управление внешним видом';
+
+  @override
+  String get settingsManageAppearanceSubtitle => 'Тема, фон, язык';
+
+  @override
+  String get settingsBackground => 'Фон';
+
+  @override
   String get settingsDynamicTheme => 'Динамическая тема';
 
   @override

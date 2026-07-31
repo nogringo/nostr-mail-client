@@ -84,6 +84,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsAppearance => 'Apparence';
 
   @override
+  String get settingsManageAppearance => 'Gérer l\'apparence';
+
+  @override
+  String get settingsManageAppearanceSubtitle => 'Thème, fond, langue';
+
+  @override
+  String get settingsBackground => 'Fond';
+
+  @override
   String get settingsDynamicTheme => 'Thème dynamique';
 
   @override

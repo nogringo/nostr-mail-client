@@ -28,6 +28,9 @@
 
   "settingsTitle": "设置",
   "settingsAppearance": "外观",
+  "settingsManageAppearance": "管理外观",
+  "settingsManageAppearanceSubtitle": "主题、背景、语言",
+  "settingsBackground": "背景",
   "settingsLanguage": "语言",
   "settingsLanguageSystem": "系统默认",
   "settingsLanguageDialogTitle": "选择语言",

@@ -84,6 +84,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsAppearance => 'Darstellung';
 
   @override
+  String get settingsManageAppearance => 'Darstellung anpassen';
+
+  @override
+  String get settingsManageAppearanceSubtitle => 'Design, Hintergrund, Sprache';
+
+  @override
+  String get settingsBackground => 'Hintergrund';
+
+  @override
   String get settingsDynamicTheme => 'Dynamisches Design';
 
   @override

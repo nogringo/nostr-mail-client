@@ -84,6 +84,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsAppearance => 'Aparência';
 
   @override
+  String get settingsManageAppearance => 'Gerir aparência';
+
+  @override
+  String get settingsManageAppearanceSubtitle => 'Tema, fundo, idioma';
+
+  @override
+  String get settingsBackground => 'Fundo';
+
+  @override
   String get settingsDynamicTheme => 'Tema dinâmico';
 
   @override
@@ -1539,6 +1548,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsAppearance => 'Aparência';
+
+  @override
+  String get settingsManageAppearance => 'Gerenciar aparência';
+
+  @override
+  String get settingsManageAppearanceSubtitle => 'Tema, fundo, idioma';
+
+  @override
+  String get settingsBackground => 'Fundo';
 
   @override
   String get settingsDynamicTheme => 'Tema dinâmico';

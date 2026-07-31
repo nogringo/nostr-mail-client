@@ -28,6 +28,9 @@
 
   "settingsTitle": "Einstellungen",
   "settingsAppearance": "Darstellung",
+  "settingsManageAppearance": "Darstellung anpassen",
+  "settingsManageAppearanceSubtitle": "Design, Hintergrund, Sprache",
+  "settingsBackground": "Hintergrund",
   "settingsLanguage": "Sprache",
   "settingsLanguageSystem": "Systemsprache",
   "settingsLanguageDialogTitle": "Sprache wählen",

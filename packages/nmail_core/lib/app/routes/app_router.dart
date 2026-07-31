@@ -5,6 +5,7 @@ import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 
 import '../../controllers/auth_controller.dart';
+import '../../controllers/backgrounds_controller.dart';
 import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/identities_controller.dart';
@@ -29,6 +30,7 @@ import '../../views/nostr/profile_share_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
 import '../../views/profile/profile_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
+import '../../views/settings/appearance_settings_view.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
 import '../../views/settings/identities_view.dart';
@@ -202,6 +204,13 @@ class AppRouter {
             path: AppRoutes.settings,
             builder: (_, _) => const SettingsView(),
             routes: [
+              GoRoute(
+                path: 'appearance',
+                builder: (_, _) {
+                  Get.lazyPut(() => BackgroundsController());
+                  return const AppearanceSettingsView();
+                },
+              ),
               GoRoute(
                 path: 'identities',
                 builder: (_, _) {

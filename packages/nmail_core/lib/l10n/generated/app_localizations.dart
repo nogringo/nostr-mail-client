@@ -265,6 +265,24 @@ abstract class AppLocalizations {
   /// **'Appearance'**
   String get settingsAppearance;
 
+  /// Settings tile title that opens the appearance settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Manage appearance'**
+  String get settingsManageAppearance;
+
+  /// Subtitle for the manage appearance tile
+  ///
+  /// In en, this message translates to:
+  /// **'Theme, background, language'**
+  String get settingsManageAppearanceSubtitle;
+
+  /// Label above the background image gallery in appearance settings
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get settingsBackground;
+
   /// Settings switch title: derive theme colors from the background image
   ///
   /// In en, this message translates to:

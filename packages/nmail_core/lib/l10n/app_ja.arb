@@ -28,6 +28,9 @@
 
   "settingsTitle": "設定",
   "settingsAppearance": "外観",
+  "settingsManageAppearance": "外観を管理",
+  "settingsManageAppearanceSubtitle": "テーマ、背景、言語",
+  "settingsBackground": "背景",
   "settingsLanguage": "言語",
   "settingsLanguageSystem": "システムの既定",
   "settingsLanguageDialogTitle": "言語を選択",
