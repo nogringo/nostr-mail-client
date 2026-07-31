@@ -139,13 +139,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsAdvancedOptions => 'Opciones avanzadas';
 
   @override
-  String get settingsShowEmailSource => 'Mostrar código fuente del correo';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Añade un botón para ver el correo en bruto';
-
-  @override
   String get settingsAlwaysLoadImages => 'Cargar siempre las imágenes';
 
   @override
@@ -734,12 +727,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get emailNotFound => 'Correo no encontrado';
 
   @override
-  String get emailShowFormatted => 'Mostrar formato';
-
-  @override
-  String get emailShowRaw => 'Mostrar fuente';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub del remitente: $npub';
   }
@@ -856,6 +843,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Descargar correo';
+
+  @override
+  String get emailActionViewSource => 'Mostrar fuente';
 
   @override
   String get emailMoreActions => 'Más acciones';

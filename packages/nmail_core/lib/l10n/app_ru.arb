@@ -42,8 +42,6 @@
   "settingsManageNotifications": "Управление уведомлениями",
   "settingsManageNotificationsSubtitle": "Оповещения о новых письмах",
   "settingsAdvancedOptions": "Дополнительные параметры",
-  "settingsShowEmailSource": "Показать исходный код письма",
-  "settingsShowEmailSourceSubtitle": "Добавляет кнопку для просмотра исходного письма",
   "settingsAlwaysLoadImages": "Всегда загружать изображения",
   "settingsAlwaysLoadImagesSubtitle": "По умолчанию изображения блокируются для приватности",
   "settingsIdentities": "Идентичности",
@@ -266,8 +264,6 @@
   "emailExtraRecipients": "{count, plural, one{ещё {count} получатель} few{ещё {count} получателя} many{ещё {count} получателей} other{ещё {count} получателя}}",
 
   "emailNotFound": "Письмо не найдено",
-  "emailShowFormatted": "Показать форматированное",
-  "emailShowRaw": "Показать исходный код",
   "emailSenderNpub": "npub отправителя: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -338,6 +334,7 @@
   "emailActionNip59": "События NIP-59",
   "emailActionRepost": "Репост",
   "emailActionDownload": "Скачать письмо",
+  "emailActionViewSource": "Показать исходный код",
   "emailMoreActions": "Больше действий",
   "emailMoreOptions": "Больше опций",
   "emailShowRecipients": "Показать получателей",

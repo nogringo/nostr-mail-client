@@ -91,6 +91,11 @@ EmailActions buildEmailActions(
         label: l.emailActionDownload,
         onPressed: controller.downloadEmail,
       ),
+      EmailAction(
+        icon: Icons.code,
+        label: l.emailActionViewSource,
+        onPressed: controller.showEmailSource,
+      ),
     ],
     delete: EmailAction(
       icon: Icons.delete_outline,

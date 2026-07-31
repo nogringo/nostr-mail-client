@@ -42,8 +42,6 @@
   "settingsManageNotifications": "通知を管理",
   "settingsManageNotificationsSubtitle": "新着メールのお知らせ",
   "settingsAdvancedOptions": "詳細設定",
-  "settingsShowEmailSource": "メールのソースコードを表示",
-  "settingsShowEmailSourceSubtitle": "生メールを表示するボタンを追加します",
   "settingsAlwaysLoadImages": "常に画像を読み込む",
   "settingsAlwaysLoadImagesSubtitle": "プライバシー保護のため、画像は既定でブロックされます",
   "settingsIdentities": "アイデンティティ",
@@ -266,8 +264,6 @@
   "emailExtraRecipients": "他に {count} 人の受信者",
 
   "emailNotFound": "メールが見つかりません",
-  "emailShowFormatted": "整形表示",
-  "emailShowRaw": "ソースを表示",
   "emailSenderNpub": "送信者の npub: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -338,6 +334,7 @@
   "emailActionNip59": "NIP-59 イベント",
   "emailActionRepost": "リポスト",
   "emailActionDownload": "メールをダウンロード",
+  "emailActionViewSource": "ソースを表示",
   "emailMoreActions": "その他の操作",
   "emailMoreOptions": "その他のオプション",
   "emailShowRecipients": "宛先を表示",

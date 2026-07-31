@@ -139,13 +139,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsAdvancedOptions => 'Advanced options';
 
   @override
-  String get settingsShowEmailSource => 'Show email source code';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Adds a button to view raw email';
-
-  @override
   String get settingsAlwaysLoadImages => 'Always load images';
 
   @override
@@ -728,12 +721,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailNotFound => 'Email not found';
 
   @override
-  String get emailShowFormatted => 'Show formatted';
-
-  @override
-  String get emailShowRaw => 'Show raw';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'Sender npub: $npub';
   }
@@ -847,6 +834,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Download email';
+
+  @override
+  String get emailActionViewSource => 'View source';
 
   @override
   String get emailMoreActions => 'More actions';

@@ -39,8 +39,6 @@
   "settingsManageNotifications": "Gerir notificações",
   "settingsManageNotificationsSubtitle": "Alertas de novos emails",
   "settingsAdvancedOptions": "Opções avançadas",
-  "settingsShowEmailSource": "Mostrar código-fonte do email",
-  "settingsShowEmailSourceSubtitle": "Adiciona um botão para ver o email bruto",
   "settingsAlwaysLoadImages": "Sempre carregar imagens",
   "settingsAlwaysLoadImagesSubtitle": "Imagens são bloqueadas por padrão para privacidade",
   "settingsIdentities": "Identidades",
@@ -258,8 +256,6 @@
   "emailNoSubject": "(Sem assunto)",
   "emailExtraRecipients": "{count, plural, one{mais {count} destinatário} other{mais {count} destinatários}}",
   "emailNotFound": "Email não encontrado",
-  "emailShowFormatted": "Mostrar formatado",
-  "emailShowRaw": "Mostrar fonte",
   "emailSenderNpub": "npub do remetente: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -348,6 +344,7 @@
   "emailActionNip59": "Eventos NIP-59",
   "emailActionRepost": "Repostar",
   "emailActionDownload": "Transferir email",
+  "emailActionViewSource": "Mostrar fonte",
   "emailMoreActions": "Mais ações",
   "emailMoreOptions": "Mais opções",
   "emailShowRecipients": "Mostrar destinatários",

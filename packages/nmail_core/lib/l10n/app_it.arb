@@ -42,8 +42,6 @@
   "settingsManageNotifications": "Gestisci le notifiche",
   "settingsManageNotificationsSubtitle": "Avvisi per le nuove email",
   "settingsAdvancedOptions": "Opzioni avanzate",
-  "settingsShowEmailSource": "Mostra codice sorgente dell'email",
-  "settingsShowEmailSourceSubtitle": "Aggiunge un pulsante per visualizzare l'email grezza",
   "settingsAlwaysLoadImages": "Carica sempre le immagini",
   "settingsAlwaysLoadImagesSubtitle": "Le immagini sono bloccate per impostazione predefinita per la privacy",
   "settingsIdentities": "Identità",
@@ -266,8 +264,6 @@
   "emailExtraRecipients": "{count, plural, one{{count} altro destinatario} other{{count} altri destinatari}}",
 
   "emailNotFound": "Email non trovata",
-  "emailShowFormatted": "Mostra formattata",
-  "emailShowRaw": "Mostra sorgente",
   "emailSenderNpub": "npub del mittente: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -338,6 +334,7 @@
   "emailActionNip59": "Eventi NIP-59",
   "emailActionRepost": "Repost",
   "emailActionDownload": "Scarica email",
+  "emailActionViewSource": "Mostra sorgente",
   "emailMoreActions": "Altre azioni",
   "emailMoreOptions": "Altre opzioni",
   "emailShowRecipients": "Mostra destinatari",

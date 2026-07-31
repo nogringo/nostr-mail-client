@@ -140,13 +140,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsAdvancedOptions => 'Дополнительные параметры';
 
   @override
-  String get settingsShowEmailSource => 'Показать исходный код письма';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Добавляет кнопку для просмотра исходного письма';
-
-  @override
   String get settingsAlwaysLoadImages => 'Всегда загружать изображения';
 
   @override
@@ -739,12 +732,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailNotFound => 'Письмо не найдено';
 
   @override
-  String get emailShowFormatted => 'Показать форматированное';
-
-  @override
-  String get emailShowRaw => 'Показать исходный код';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub отправителя: $npub';
   }
@@ -864,6 +851,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Скачать письмо';
+
+  @override
+  String get emailActionViewSource => 'Показать исходный код';
 
   @override
   String get emailMoreActions => 'Больше действий';

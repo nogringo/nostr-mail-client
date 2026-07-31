@@ -42,8 +42,6 @@
   "settingsManageNotifications": "管理通知",
   "settingsManageNotificationsSubtitle": "新邮件提醒",
   "settingsAdvancedOptions": "高级选项",
-  "settingsShowEmailSource": "显示邮件源代码",
-  "settingsShowEmailSourceSubtitle": "添加查看原始邮件的按钮",
   "settingsAlwaysLoadImages": "始终加载图片",
   "settingsAlwaysLoadImagesSubtitle": "为保护隐私,图片默认被屏蔽",
   "settingsIdentities": "身份",
@@ -266,8 +264,6 @@
   "emailExtraRecipients": "另外 {count} 位收件人",
 
   "emailNotFound": "未找到邮件",
-  "emailShowFormatted": "显示格式化版本",
-  "emailShowRaw": "显示源代码",
   "emailSenderNpub": "发件人 npub: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -338,6 +334,7 @@
   "emailActionNip59": "NIP-59 事件",
   "emailActionRepost": "转发",
   "emailActionDownload": "下载邮件",
+  "emailActionViewSource": "显示源代码",
   "emailMoreActions": "更多操作",
   "emailMoreOptions": "更多选项",
   "emailShowRecipients": "显示收件人",

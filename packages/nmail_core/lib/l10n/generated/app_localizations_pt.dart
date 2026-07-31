@@ -139,13 +139,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsAdvancedOptions => 'Opções avançadas';
 
   @override
-  String get settingsShowEmailSource => 'Mostrar código-fonte do email';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Adiciona um botão para ver o email bruto';
-
-  @override
   String get settingsAlwaysLoadImages => 'Sempre carregar imagens';
 
   @override
@@ -734,12 +727,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emailNotFound => 'Email não encontrado';
 
   @override
-  String get emailShowFormatted => 'Mostrar formatado';
-
-  @override
-  String get emailShowRaw => 'Mostrar fonte';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub do remetente: $npub';
   }
@@ -854,6 +841,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Transferir email';
+
+  @override
+  String get emailActionViewSource => 'Mostrar fonte';
 
   @override
   String get emailMoreActions => 'Mais ações';
@@ -1594,13 +1584,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsAdvancedOptions => 'Opções avançadas';
 
   @override
-  String get settingsShowEmailSource => 'Mostrar código-fonte do e-mail';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Adiciona um botão para ver o e-mail bruto';
-
-  @override
   String get settingsAlwaysLoadImages => 'Sempre carregar imagens';
 
   @override
@@ -2189,12 +2172,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get emailNotFound => 'E-mail não encontrado';
 
   @override
-  String get emailShowFormatted => 'Mostrar formatado';
-
-  @override
-  String get emailShowRaw => 'Mostrar fonte';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub do remetente: $npub';
   }
@@ -2310,6 +2287,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get emailActionDownload => 'Baixar e-mail';
+
+  @override
+  String get emailActionViewSource => 'Mostrar fonte';
 
   @override
   String get emailMoreActions => 'Mais ações';

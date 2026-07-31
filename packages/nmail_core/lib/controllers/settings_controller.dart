@@ -23,7 +23,6 @@ class SettingsController extends GetxController {
   final _themeService = Get.find<ThemeService>();
   StreamSubscription? _authSubscription;
 
-  static const _showRawEmailKey = 'show_raw_email';
   static const _alwaysLoadImagesKey = 'always_load_images';
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
@@ -31,7 +30,6 @@ class SettingsController extends GetxController {
   static const backgroundsDirName = 'backgrounds';
   static const _defaultSignature = '--\nSent with Nmail\nhttps://nostrmail.org';
 
-  final showRawEmail = false.obs;
   final alwaysLoadImages = false.obs;
   final notificationsEnabled = false.obs;
 
@@ -89,7 +87,6 @@ class SettingsController extends GetxController {
 
   Future<void> _loadSettings() async {
     final results = await Future.wait([
-      _storageService.getSetting<bool>(_showRawEmailKey),
       _storageService.getSetting<bool>(_alwaysLoadImagesKey),
       _storageService.getSetting<String>(_backgroundKey),
       _storageService.getSetting<int>(themeModeKey),
@@ -99,25 +96,24 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(localeKey),
     ]);
 
-    showRawEmail.value = (results[0] as bool?) ?? false;
-    alwaysLoadImages.value = (results[1] as bool?) ?? false;
+    alwaysLoadImages.value = (results[0] as bool?) ?? false;
     emailSignature.value = _cachedSignature;
 
-    backgroundImage.value = results[2] as String?;
-    themeMode.value = ThemeMode.values[(results[3] as int?) ?? 0];
-    dynamicTheme.value = (results[4] as bool?) ?? true;
+    backgroundImage.value = results[1] as String?;
+    themeMode.value = ThemeMode.values[(results[2] as int?) ?? 0];
+    dynamicTheme.value = (results[3] as bool?) ?? true;
 
-    final savedLightScheme = results[5] as String?;
+    final savedLightScheme = results[4] as String?;
     if (savedLightScheme != null) {
       lightColorScheme.value = colorSchemeFromJson(savedLightScheme);
     }
 
-    final savedDarkScheme = results[6] as String?;
+    final savedDarkScheme = results[5] as String?;
     if (savedDarkScheme != null) {
       darkColorScheme.value = colorSchemeFromJson(savedDarkScheme);
     }
 
-    final savedLocale = results[7] as String?;
+    final savedLocale = results[6] as String?;
     locale.value = _localeFromStorage(savedLocale);
 
     await _loadNotificationSettings();
@@ -177,11 +173,6 @@ class SettingsController extends GetxController {
   Future<void> reloadSyncedSettings() async {
     emailSignature.value = _cachedSignature;
     await _refreshSignatureFromRelays();
-  }
-
-  Future<void> setShowRawEmail(bool value) async {
-    showRawEmail.value = value;
-    await _storageService.saveSetting(_showRawEmailKey, value);
   }
 
   Future<void> setAlwaysLoadImages(bool value) async {
@@ -405,7 +396,6 @@ class SettingsController extends GetxController {
     await Get.find<AuthController>().logoutAll();
 
     // Reset in-memory state
-    showRawEmail.value = false;
     alwaysLoadImages.value = false;
     notificationsEnabled.value = false;
     notificationsByAccount.clear();

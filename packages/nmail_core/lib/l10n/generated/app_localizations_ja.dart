@@ -137,12 +137,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsAdvancedOptions => '詳細設定';
 
   @override
-  String get settingsShowEmailSource => 'メールのソースコードを表示';
-
-  @override
-  String get settingsShowEmailSourceSubtitle => '生メールを表示するボタンを追加します';
-
-  @override
   String get settingsAlwaysLoadImages => '常に画像を読み込む';
 
   @override
@@ -697,12 +691,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailNotFound => 'メールが見つかりません';
 
   @override
-  String get emailShowFormatted => '整形表示';
-
-  @override
-  String get emailShowRaw => 'ソースを表示';
-
-  @override
   String emailSenderNpub(String npub) {
     return '送信者の npub: $npub';
   }
@@ -804,6 +792,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'メールをダウンロード';
+
+  @override
+  String get emailActionViewSource => 'ソースを表示';
 
   @override
   String get emailMoreActions => 'その他の操作';

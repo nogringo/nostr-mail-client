@@ -42,8 +42,6 @@
   "settingsManageNotifications": "Benachrichtigungen verwalten",
   "settingsManageNotificationsSubtitle": "Hinweise bei neuen E-Mails",
   "settingsAdvancedOptions": "Erweiterte Optionen",
-  "settingsShowEmailSource": "E-Mail-Quellcode anzeigen",
-  "settingsShowEmailSourceSubtitle": "Fügt eine Schaltfläche zur Anzeige der Roh-E-Mail hinzu",
   "settingsAlwaysLoadImages": "Bilder immer laden",
   "settingsAlwaysLoadImagesSubtitle": "Bilder werden standardmäßig aus Datenschutzgründen blockiert",
   "settingsIdentities": "Identitäten",
@@ -266,8 +264,6 @@
   "emailExtraRecipients": "{count, plural, one{{count} weiterer Empfänger} other{{count} weitere Empfänger}}",
 
   "emailNotFound": "E-Mail nicht gefunden",
-  "emailShowFormatted": "Formatiert anzeigen",
-  "emailShowRaw": "Quelle anzeigen",
   "emailSenderNpub": "Absender-npub: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -338,6 +334,7 @@
   "emailActionNip59": "NIP-59-Ereignisse",
   "emailActionRepost": "Reposten",
   "emailActionDownload": "E-Mail herunterladen",
+  "emailActionViewSource": "Quelle anzeigen",
   "emailMoreActions": "Weitere Aktionen",
   "emailMoreOptions": "Weitere Optionen",
   "emailShowRecipients": "Empfänger anzeigen",

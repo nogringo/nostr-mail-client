@@ -42,8 +42,6 @@
   "settingsManageNotifications": "Hallitse ilmoituksia",
   "settingsManageNotificationsSubtitle": "Ilmoitukset uusista sähköposteista",
   "settingsAdvancedOptions": "Edistyneet asetukset",
-  "settingsShowEmailSource": "Näytä sähköpostin lähdekoodi",
-  "settingsShowEmailSourceSubtitle": "Lisää painikkeen muotoilemattoman sähköpostin näyttämiselle",
   "settingsAlwaysLoadImages": "Lataa kuvat aina",
   "settingsAlwaysLoadImagesSubtitle": "Yksityisyyden suojaamiseksi kuvat estetään oletuksena",
   "settingsIdentities": "Henkilöllisyydet",
@@ -271,8 +269,6 @@
   },
 
   "emailNotFound": "Sähköpostia ei löydy",
-  "emailShowFormatted": "Näytä muotoilu",
-  "emailShowRaw": "Näytä muotoilematon",
   "emailSenderNpub": "Lähettäjän npub: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -343,6 +339,7 @@
   "emailActionNip59": "NIP-59 tapahtumat",
   "emailActionRepost": "Lähetä uudelleen",
   "emailActionDownload": "Lataa viesti",
+  "emailActionViewSource": "Näytä lähdekoodi",
   "emailMoreActions": "Lisää toimintoja",
   "emailMoreOptions": "Lisää vaihtoehtoja",
   "emailShowRecipients": "Näytä vastaanottajat",

@@ -62,14 +62,6 @@ class SettingsView extends StatelessWidget {
               SettingsSectionHeader(title: l.settingsAdvancedOptions),
               Obx(
                 () => SwitchListTile(
-                  title: Text(l.settingsShowEmailSource),
-                  subtitle: Text(l.settingsShowEmailSourceSubtitle),
-                  value: settingsController.showRawEmail.value,
-                  onChanged: settingsController.setShowRawEmail,
-                ),
-              ),
-              Obx(
-                () => SwitchListTile(
                   title: Text(l.settingsAlwaysLoadImages),
                   subtitle: Text(l.settingsAlwaysLoadImagesSubtitle),
                   value: settingsController.alwaysLoadImages.value,

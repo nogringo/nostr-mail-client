@@ -367,18 +367,6 @@ abstract class AppLocalizations {
   /// **'Advanced options'**
   String get settingsAdvancedOptions;
 
-  /// Settings switch title: expose raw email source view
-  ///
-  /// In en, this message translates to:
-  /// **'Show email source code'**
-  String get settingsShowEmailSource;
-
-  /// Subtitle for the email source code switch
-  ///
-  /// In en, this message translates to:
-  /// **'Adds a button to view raw email'**
-  String get settingsShowEmailSourceSubtitle;
-
   /// Settings switch title controlling automatic image loading in emails
   ///
   /// In en, this message translates to:
@@ -1447,18 +1435,6 @@ abstract class AppLocalizations {
   /// **'Email not found'**
   String get emailNotFound;
 
-  /// Tooltip on the toggle that switches from raw view back to formatted view
-  ///
-  /// In en, this message translates to:
-  /// **'Show formatted'**
-  String get emailShowFormatted;
-
-  /// Tooltip on the toggle that switches to raw email source view
-  ///
-  /// In en, this message translates to:
-  /// **'Show raw'**
-  String get emailShowRaw;
-
   /// Header above the raw email source, showing the sender's npub-encoded pubkey
   ///
   /// In en, this message translates to:
@@ -1632,6 +1608,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download email'**
   String get emailActionDownload;
+
+  /// Button label that opens the raw email source dialog
+  ///
+  /// In en, this message translates to:
+  /// **'View source'**
+  String get emailActionViewSource;
 
   /// Tooltip on the overflow menu in the desktop email actions bar
   ///

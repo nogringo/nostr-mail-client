@@ -45,8 +45,6 @@
   "settingsUnifiedPushDistributorMissingSubtitle": "Installez un distributeur UnifiedPush comme Sunup pour recevoir les notifications en arrière-plan.",
   "settingsUnifiedPushDistributorInstallSunup": "Installer Sunup",
   "settingsAdvancedOptions": "Options avancées",
-  "settingsShowEmailSource": "Afficher le code source des e-mails",
-  "settingsShowEmailSourceSubtitle": "Ajoute un bouton pour voir l'e-mail brut",
   "settingsAlwaysLoadImages": "Toujours charger les images",
   "settingsAlwaysLoadImagesSubtitle": "Les images sont bloquées par défaut pour la confidentialité",
   "settingsIdentities": "Identités",
@@ -269,8 +267,6 @@
   "emailExtraRecipients": "{count, plural, one{{count} autre destinataire} other{{count} autres destinataires}}",
 
   "emailNotFound": "E-mail introuvable",
-  "emailShowFormatted": "Afficher la version formatée",
-  "emailShowRaw": "Afficher la source",
   "emailSenderNpub": "npub de l'expéditeur : {npub}",
   "@emailSenderNpub": {
     "placeholders": {
@@ -341,6 +337,7 @@
   "emailActionNip59": "Événements NIP-59",
   "emailActionRepost": "Rediffuser",
   "emailActionDownload": "Télécharger l'e-mail",
+  "emailActionViewSource": "Afficher la source",
   "emailMoreActions": "Plus d'actions",
   "emailMoreOptions": "Plus d'options",
   "emailShowRecipients": "Afficher les destinataires",

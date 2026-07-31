@@ -137,12 +137,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsAdvancedOptions => '高级选项';
 
   @override
-  String get settingsShowEmailSource => '显示邮件源代码';
-
-  @override
-  String get settingsShowEmailSourceSubtitle => '添加查看原始邮件的按钮';
-
-  @override
   String get settingsAlwaysLoadImages => '始终加载图片';
 
   @override
@@ -696,12 +690,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailNotFound => '未找到邮件';
 
   @override
-  String get emailShowFormatted => '显示格式化版本';
-
-  @override
-  String get emailShowRaw => '显示源代码';
-
-  @override
   String emailSenderNpub(String npub) {
     return '发件人 npub: $npub';
   }
@@ -803,6 +791,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get emailActionDownload => '下载邮件';
+
+  @override
+  String get emailActionViewSource => '显示源代码';
 
   @override
   String get emailMoreActions => '更多操作';

@@ -139,13 +139,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsAdvancedOptions => 'Edistyneet asetukset';
 
   @override
-  String get settingsShowEmailSource => 'Näytä sähköpostin lähdekoodi';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Lisää painikkeen muotoilemattoman sähköpostin näyttämiselle';
-
-  @override
   String get settingsAlwaysLoadImages => 'Lataa kuvat aina';
 
   @override
@@ -731,12 +724,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailNotFound => 'Sähköpostia ei löydy';
 
   @override
-  String get emailShowFormatted => 'Näytä muotoilu';
-
-  @override
-  String get emailShowRaw => 'Näytä muotoilematon';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'Lähettäjän npub: $npub';
   }
@@ -851,6 +838,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Lataa viesti';
+
+  @override
+  String get emailActionViewSource => 'Näytä lähdekoodi';
 
   @override
   String get emailMoreActions => 'Lisää toimintoja';

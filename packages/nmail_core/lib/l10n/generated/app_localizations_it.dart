@@ -139,13 +139,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settingsAdvancedOptions => 'Opzioni avanzate';
 
   @override
-  String get settingsShowEmailSource => 'Mostra codice sorgente dell\'email';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Aggiunge un pulsante per visualizzare l\'email grezza';
-
-  @override
   String get settingsAlwaysLoadImages => 'Carica sempre le immagini';
 
   @override
@@ -733,12 +726,6 @@ class AppLocalizationsIt extends AppLocalizations {
   String get emailNotFound => 'Email non trovata';
 
   @override
-  String get emailShowFormatted => 'Mostra formattata';
-
-  @override
-  String get emailShowRaw => 'Mostra sorgente';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub del mittente: $npub';
   }
@@ -855,6 +842,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Scarica email';
+
+  @override
+  String get emailActionViewSource => 'Mostra sorgente';
 
   @override
   String get emailMoreActions => 'Altre azioni';
