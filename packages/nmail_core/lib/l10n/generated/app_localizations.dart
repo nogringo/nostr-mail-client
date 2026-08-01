@@ -145,35 +145,11 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get actionClear;
 
-  /// Generic Close button/tooltip label
-  ///
-  /// In en, this message translates to:
-  /// **'Close'**
-  String get actionClose;
-
   /// Continue button label used to advance a flow (e.g. registration)
   ///
   /// In en, this message translates to:
   /// **'Continue'**
   String get actionContinue;
-
-  /// Generic Back button label
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get actionBack;
-
-  /// Generic Confirm button label
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm'**
-  String get actionConfirm;
-
-  /// Generic OK button label
-  ///
-  /// In en, this message translates to:
-  /// **'OK'**
-  String get actionOk;
 
   /// Generic Copy button label, e.g. copy a link or value to clipboard
   ///
@@ -217,12 +193,6 @@ abstract class AppLocalizations {
   /// **'Discard'**
   String get actionDiscard;
 
-  /// Loading state label without trailing punctuation
-  ///
-  /// In en, this message translates to:
-  /// **'Loading'**
-  String get stateLoading;
-
   /// Loading state label with ellipsis, used in list tiles and progress dialogs
   ///
   /// In en, this message translates to:
@@ -235,24 +205,6 @@ abstract class AppLocalizations {
   /// **'Resetting...'**
   String get stateResetting;
 
-  /// Progress label shown while validating an image URL
-  ///
-  /// In en, this message translates to:
-  /// **'Validating...'**
-  String get stateValidating;
-
-  /// Progress label shown while downloading an image
-  ///
-  /// In en, this message translates to:
-  /// **'Downloading...'**
-  String get stateDownloading;
-
-  /// Progress label shown while uploading an image
-  ///
-  /// In en, this message translates to:
-  /// **'Uploading...'**
-  String get stateUploading;
-
   /// Title of the Settings screen and drawer entry
   ///
   /// In en, this message translates to:
@@ -264,18 +216,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Appearance'**
   String get settingsAppearance;
-
-  /// Settings tile title that opens the appearance settings screen
-  ///
-  /// In en, this message translates to:
-  /// **'Manage appearance'**
-  String get settingsManageAppearance;
-
-  /// Subtitle for the manage appearance tile
-  ///
-  /// In en, this message translates to:
-  /// **'Theme, background, language'**
-  String get settingsManageAppearanceSubtitle;
 
   /// Label above the background image gallery in appearance settings
   ///
@@ -319,6 +259,12 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get settingsNotifications;
 
+  /// Settings tile and screen title for message options (signature, remote images)
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get settingsMessages;
+
   /// Toggle label to enable OS notifications for new emails
   ///
   /// In en, this message translates to:
@@ -330,18 +276,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Get notified when a new email arrives.'**
   String get settingsEnableNotificationsSubtitle;
-
-  /// Settings tile title that opens the notifications settings screen
-  ///
-  /// In en, this message translates to:
-  /// **'Manage notifications'**
-  String get settingsManageNotifications;
-
-  /// Subtitle for the manage notifications tile
-  ///
-  /// In en, this message translates to:
-  /// **'Alerts for new emails'**
-  String get settingsManageNotificationsSubtitle;
 
   /// Settings tile title shown on Android FOSS builds when no UnifiedPush distributor is installed
   ///
@@ -361,12 +295,6 @@ abstract class AppLocalizations {
   /// **'Install Sunup'**
   String get settingsUnifiedPushDistributorInstallSunup;
 
-  /// Settings section header for advanced/developer toggles
-  ///
-  /// In en, this message translates to:
-  /// **'Advanced options'**
-  String get settingsAdvancedOptions;
-
   /// Settings switch title controlling automatic image loading in emails
   ///
   /// In en, this message translates to:
@@ -384,24 +312,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Identities'**
   String get settingsIdentities;
-
-  /// Settings tile title that opens the identities management screen
-  ///
-  /// In en, this message translates to:
-  /// **'Manage identities'**
-  String get settingsManageIdentities;
-
-  /// Subtitle for the manage identities tile
-  ///
-  /// In en, this message translates to:
-  /// **'Add, remove or reorder addresses'**
-  String get settingsManageIdentitiesSubtitle;
-
-  /// Settings section header for compose-related options (signature, etc.)
-  ///
-  /// In en, this message translates to:
-  /// **'Compose'**
-  String get settingsCompose;
 
   /// Settings tile title and dialog title for editing the email signature
   ///
@@ -421,23 +331,11 @@ abstract class AppLocalizations {
   /// **'Enter your signature...'**
   String get settingsEmailSignatureHint;
 
-  /// Settings section header for sync/hosting options
-  ///
-  /// In en, this message translates to:
-  /// **'Synchronization'**
-  String get settingsSynchronization;
-
   /// Settings tile and screen title for relays/blossom/bridges
   ///
   /// In en, this message translates to:
   /// **'Hosting'**
   String get settingsHosting;
-
-  /// Subtitle for the hosting settings tile
-  ///
-  /// In en, this message translates to:
-  /// **'Relays, blossom servers, connectivity'**
-  String get settingsHostingSubtitle;
 
   /// Debug tools tile/screen title (debug builds only)
   ///
@@ -445,29 +343,11 @@ abstract class AppLocalizations {
   /// **'Debug Tools'**
   String get settingsDebugTools;
 
-  /// Subtitle for the debug tools tile
-  ///
-  /// In en, this message translates to:
-  /// **'Testing and development features'**
-  String get settingsDebugToolsSubtitle;
-
-  /// Settings section header for account actions
-  ///
-  /// In en, this message translates to:
-  /// **'Account'**
-  String get settingsAccount;
-
   /// Settings tile title to copy the user's sync code (nsec) to the clipboard
   ///
   /// In en, this message translates to:
   /// **'Copy sync code'**
   String get settingsCopySyncCode;
-
-  /// Subtitle explaining what the sync code is for
-  ///
-  /// In en, this message translates to:
-  /// **'Use this code to sync your account on other devices'**
-  String get settingsCopySyncCodeSubtitle;
 
   /// Toast confirmation after the sync code is copied
   ///
@@ -487,12 +367,6 @@ abstract class AppLocalizations {
   /// **'Reset application'**
   String get settingsResetApplication;
 
-  /// Subtitle for the reset application tile
-  ///
-  /// In en, this message translates to:
-  /// **'Delete all local data'**
-  String get settingsResetApplicationSubtitle;
-
   /// Confirmation message shown before resetting the application
   ///
   /// In en, this message translates to:
@@ -504,18 +378,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About'**
   String get settingsAbout;
-
-  /// Settings tile title that opens the about screen
-  ///
-  /// In en, this message translates to:
-  /// **'App information'**
-  String get settingsAboutApp;
-
-  /// Subtitle for the app information tile
-  ///
-  /// In en, this message translates to:
-  /// **'Version, source code'**
-  String get settingsAboutAppSubtitle;
 
   /// Tile subtitle under the developer's Nostr name, linking to their profile
   ///
@@ -631,12 +493,6 @@ abstract class AppLocalizations {
   /// **'Remove this image from your saved backgrounds?'**
   String get settingsBackgroundDeleteMessage;
 
-  /// Toast shown after a saved background image is deleted
-  ///
-  /// In en, this message translates to:
-  /// **'Image deleted'**
-  String get settingsBackgroundImageDeleted;
-
   /// Error toast shown when deleting a saved background image fails
   ///
   /// In en, this message translates to:
@@ -673,18 +529,6 @@ abstract class AppLocalizations {
   /// **'https://example.com/image.jpg'**
   String get settingsBackgroundUrlHint;
 
-  /// Toast shown after a web image URL has been validated and applied as background
-  ///
-  /// In en, this message translates to:
-  /// **'Background set'**
-  String get settingsBackgroundSet;
-
-  /// Toast shown after a local image file has been copied and applied as background
-  ///
-  /// In en, this message translates to:
-  /// **'Image set'**
-  String get settingsBackgroundImageSet;
-
   /// Error toast when copying a picked image into local storage fails
   ///
   /// In en, this message translates to:
@@ -696,12 +540,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Image not accessible (CORS or network error)'**
   String get settingsBackgroundUrlError;
-
-  /// Toast shown after a background image has been downloaded and applied
-  ///
-  /// In en, this message translates to:
-  /// **'Image downloaded'**
-  String get settingsBackgroundDownloaded;
 
   /// Error toast when downloading a background image fails
   ///
@@ -1050,18 +888,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage accounts'**
   String get accountsManage;
-
-  /// Subtitle of the settings tile that opens the accounts management screen
-  ///
-  /// In en, this message translates to:
-  /// **'Switch, add or remove accounts on this device'**
-  String get accountsManageSubtitle;
-
-  /// Accessibility label on the checkmark marking the account in use
-  ///
-  /// In en, this message translates to:
-  /// **'Active'**
-  String get accountsActive;
 
   /// Tooltip of the button that removes an account from the device
   ///
@@ -2125,12 +1951,6 @@ abstract class AppLocalizations {
   /// **'Email addresses'**
   String get contactsEmailsLabel;
 
-  /// Hint for multi-value contact fields
-  ///
-  /// In en, this message translates to:
-  /// **'One per line'**
-  String get contactsMultilineHint;
-
   /// Hint for the add-email input in the contact form
   ///
   /// In en, this message translates to:
@@ -2179,23 +1999,11 @@ abstract class AppLocalizations {
   /// **'Year'**
   String get contactsBirthdayYearLabel;
 
-  /// Hint for the contact birthday field
-  ///
-  /// In en, this message translates to:
-  /// **'YYYY-MM-DD'**
-  String get contactsBirthdayHint;
-
   /// Label for Nostr identifiers in the contact form
   ///
   /// In en, this message translates to:
   /// **'Nostr identities'**
   String get contactsNostrLabel;
-
-  /// Hint for Nostr identifier input
-  ///
-  /// In en, this message translates to:
-  /// **'npub, nprofile, hex pubkey, or NIP-05'**
-  String get contactsNostrHint;
 
   /// Hint for the add-Nostr-identity input in the contact form
   ///

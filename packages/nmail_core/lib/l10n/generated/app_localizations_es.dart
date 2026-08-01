@@ -24,19 +24,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get actionClear => 'Borrar';
 
   @override
-  String get actionClose => 'Cerrar';
-
-  @override
   String get actionContinue => 'Continuar';
-
-  @override
-  String get actionBack => 'Atrás';
-
-  @override
-  String get actionConfirm => 'Confirmar';
-
-  @override
-  String get actionOk => 'OK';
 
   @override
   String get actionCopy => 'Copiar';
@@ -60,34 +48,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get actionDiscard => 'Descartar';
 
   @override
-  String get stateLoading => 'Cargando';
-
-  @override
   String get stateLoadingEllipsis => 'Cargando...';
 
   @override
   String get stateResetting => 'Restableciendo...';
 
   @override
-  String get stateValidating => 'Validando...';
-
-  @override
-  String get stateDownloading => 'Descargando...';
-
-  @override
-  String get stateUploading => 'Subiendo...';
-
-  @override
   String get settingsTitle => 'Ajustes';
 
   @override
   String get settingsAppearance => 'Apariencia';
-
-  @override
-  String get settingsManageAppearance => 'Gestionar la apariencia';
-
-  @override
-  String get settingsManageAppearanceSubtitle => 'Tema, fondo, idioma';
 
   @override
   String get settingsBackground => 'Fondo';
@@ -112,6 +82,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsNotifications => 'Notificaciones';
 
   @override
+  String get settingsMessages => 'Mensajes';
+
+  @override
   String get settingsEnableNotifications => 'Activar notificaciones';
 
   @override
@@ -119,24 +92,15 @@ class AppLocalizationsEs extends AppLocalizations {
       'Recibe un aviso cuando llegue un nuevo correo.';
 
   @override
-  String get settingsManageNotifications => 'Gestionar las notificaciones';
-
-  @override
-  String get settingsManageNotificationsSubtitle => 'Avisos de nuevos correos';
-
-  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
-      'Push notifications unavailable';
+      'Notificaciones push no disponibles';
 
   @override
   String get settingsUnifiedPushDistributorMissingSubtitle =>
-      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+      'Instala un distribuidor UnifiedPush como Sunup para recibir notificaciones en segundo plano.';
 
   @override
-  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
-
-  @override
-  String get settingsAdvancedOptions => 'Opciones avanzadas';
+  String get settingsUnifiedPushDistributorInstallSunup => 'Instalar Sunup';
 
   @override
   String get settingsAlwaysLoadImages => 'Cargar siempre las imágenes';
@@ -149,16 +113,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsIdentities => 'Identidades';
 
   @override
-  String get settingsManageIdentities => 'Gestionar identidades';
-
-  @override
-  String get settingsManageIdentitiesSubtitle =>
-      'Añadir, eliminar o reordenar direcciones';
-
-  @override
-  String get settingsCompose => 'Redacción';
-
-  @override
   String get settingsEmailSignature => 'Firma de correo';
 
   @override
@@ -168,30 +122,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Introduce tu firma...';
 
   @override
-  String get settingsSynchronization => 'Sincronización';
-
-  @override
   String get settingsHosting => 'Alojamiento';
-
-  @override
-  String get settingsHostingSubtitle =>
-      'Relays, servidores Blossom, conectividad';
 
   @override
   String get settingsDebugTools => 'Herramientas de depuración';
 
   @override
-  String get settingsDebugToolsSubtitle => 'Funciones de prueba y desarrollo';
-
-  @override
-  String get settingsAccount => 'Cuenta';
-
-  @override
   String get settingsCopySyncCode => 'Copiar código de sincronización';
-
-  @override
-  String get settingsCopySyncCodeSubtitle =>
-      'Usa este código para sincronizar tu cuenta en otros dispositivos';
 
   @override
   String get settingsSyncCodeCopied => 'Código de sincronización copiado';
@@ -203,21 +140,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsResetApplication => 'Restablecer la aplicación';
 
   @override
-  String get settingsResetApplicationSubtitle =>
-      'Eliminar todos los datos locales';
-
-  @override
   String get settingsResetConfirmMessage =>
       'Esto eliminará todos los datos locales, incluidos ajustes e imágenes de fondo, y cerrará la sesión.\n\nEsta acción no se puede deshacer.';
 
   @override
   String get settingsAbout => 'Acerca de';
-
-  @override
-  String get settingsAboutApp => 'Información de la aplicación';
-
-  @override
-  String get settingsAboutAppSubtitle => 'Versión, código fuente';
 
   @override
   String get settingsDeveloper => 'Desarrollador';
@@ -280,9 +207,6 @@ class AppLocalizationsEs extends AppLocalizations {
       '¿Quitar esta imagen de tus fondos guardados?';
 
   @override
-  String get settingsBackgroundImageDeleted => 'Imagen eliminada';
-
-  @override
   String get settingsBackgroundDeleteFailed => 'Error al eliminar la imagen';
 
   @override
@@ -301,20 +225,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsBackgroundUrlHint => 'https://ejemplo.com/imagen.jpg';
 
   @override
-  String get settingsBackgroundSet => 'Fondo establecido';
-
-  @override
-  String get settingsBackgroundImageSet => 'Imagen establecida';
-
-  @override
   String get settingsBackgroundCopyFailed => 'Error al copiar la imagen';
 
   @override
   String get settingsBackgroundUrlError =>
       'Imagen inaccesible (error de CORS o red)';
-
-  @override
-  String get settingsBackgroundDownloaded => 'Imagen descargada';
 
   @override
   String get settingsBackgroundDownloadFailed => 'Error al descargar la imagen';
@@ -496,13 +411,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get accountsManage => 'Gestionar cuentas';
-
-  @override
-  String get accountsManageSubtitle =>
-      'Cambia, añade o elimina cuentas en este dispositivo';
-
-  @override
-  String get accountsActive => 'Activa';
 
   @override
   String get accountsRemove => 'Eliminar cuenta';
@@ -1115,9 +1023,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contactsEmailsLabel => 'Direcciones de correo';
 
   @override
-  String get contactsMultilineHint => 'Uno por línea';
-
-  @override
   String get contactsAddEmailHint => 'Añadir dirección de correo';
 
   @override
@@ -1142,13 +1047,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contactsBirthdayYearLabel => 'Año';
 
   @override
-  String get contactsBirthdayHint => 'AAAA-MM-DD';
-
-  @override
   String get contactsNostrLabel => 'Identidades Nostr';
-
-  @override
-  String get contactsNostrHint => 'npub, nprofile, clave pública hex o NIP-05';
 
   @override
   String get contactsAddNostrHint =>

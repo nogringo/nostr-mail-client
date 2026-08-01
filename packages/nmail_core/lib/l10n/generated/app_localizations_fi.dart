@@ -24,19 +24,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionClear => 'Tyhjennä';
 
   @override
-  String get actionClose => 'Sulje';
-
-  @override
   String get actionContinue => 'Jatka';
-
-  @override
-  String get actionBack => 'Takaisin';
-
-  @override
-  String get actionConfirm => 'Hyväksy';
-
-  @override
-  String get actionOk => 'OK';
 
   @override
   String get actionCopy => 'Kopioi';
@@ -60,34 +48,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionDiscard => 'Hylkää';
 
   @override
-  String get stateLoading => 'Ladataan';
-
-  @override
   String get stateLoadingEllipsis => 'Ladataan...';
 
   @override
   String get stateResetting => 'Nollataan...';
 
   @override
-  String get stateValidating => 'Vahvistetaan...';
-
-  @override
-  String get stateDownloading => 'Lataa...';
-
-  @override
-  String get stateUploading => 'Tallennetaan palvelimelle...';
-
-  @override
   String get settingsTitle => 'Asetukset';
 
   @override
   String get settingsAppearance => 'Ulkoasu';
-
-  @override
-  String get settingsManageAppearance => 'Hallitse ulkoasua';
-
-  @override
-  String get settingsManageAppearanceSubtitle => 'Teema, taustakuva, kieli';
 
   @override
   String get settingsBackground => 'Taustakuva';
@@ -111,6 +81,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsNotifications => 'Ilmoitukset';
 
   @override
+  String get settingsMessages => 'Viestit';
+
+  @override
   String get settingsEnableNotifications => 'Ota ilmoitukset käyttöön';
 
   @override
@@ -118,25 +91,15 @@ class AppLocalizationsFi extends AppLocalizations {
       'Saat ilmoituksen, kun uusi sähköposti saapuu.';
 
   @override
-  String get settingsManageNotifications => 'Hallitse ilmoituksia';
-
-  @override
-  String get settingsManageNotificationsSubtitle =>
-      'Ilmoitukset uusista sähköposteista';
-
-  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
-      'Push notifications unavailable';
+      'Push-ilmoitukset eivät ole käytettävissä';
 
   @override
   String get settingsUnifiedPushDistributorMissingSubtitle =>
-      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+      'Asenna UnifiedPush-jakelija, kuten Sunup, jotta saat ilmoituksia taustalla.';
 
   @override
-  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
-
-  @override
-  String get settingsAdvancedOptions => 'Edistyneet asetukset';
+  String get settingsUnifiedPushDistributorInstallSunup => 'Asenna Sunup';
 
   @override
   String get settingsAlwaysLoadImages => 'Lataa kuvat aina';
@@ -149,16 +112,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsIdentities => 'Henkilöllisyydet';
 
   @override
-  String get settingsManageIdentities => 'Hallitse henkilöllisyyksiä';
-
-  @override
-  String get settingsManageIdentitiesSubtitle =>
-      'Lisää, poista tai järjestele henkilöllisyyksiä';
-
-  @override
-  String get settingsCompose => 'Kirjoita';
-
-  @override
   String get settingsEmailSignature => 'Sähköpostin allekirjoitus';
 
   @override
@@ -168,30 +121,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Luo allekirjoitus...';
 
   @override
-  String get settingsSynchronization => 'Synkronointi';
-
-  @override
   String get settingsHosting => 'Palvelimet';
-
-  @override
-  String get settingsHostingSubtitle =>
-      'Nostr-palvelimet, Blossom-palvelimet, yhteydet';
 
   @override
   String get settingsDebugTools => 'Kehittäjätyökalut';
 
   @override
-  String get settingsDebugToolsSubtitle => 'Testaus- ja kehitysominaisuudet';
-
-  @override
-  String get settingsAccount => 'Tili';
-
-  @override
   String get settingsCopySyncCode => 'Kopioi synkronointikoodi';
-
-  @override
-  String get settingsCopySyncCodeSubtitle =>
-      'Koodin avulla voit synkronoida sovelluksen muilla laitteilla';
 
   @override
   String get settingsSyncCodeCopied => 'Synkronointikoodi kopioitu';
@@ -203,20 +139,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsResetApplication => 'Palauta sovellus';
 
   @override
-  String get settingsResetApplicationSubtitle => 'Poista paikalliset tiedot';
-
-  @override
   String get settingsResetConfirmMessage =>
       'Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.';
 
   @override
   String get settingsAbout => 'Tietoja';
-
-  @override
-  String get settingsAboutApp => 'Sovelluksen tiedot';
-
-  @override
-  String get settingsAboutAppSubtitle => 'Versio, lähdekoodi';
 
   @override
   String get settingsDeveloper => 'Kehittäjä';
@@ -279,9 +206,6 @@ class AppLocalizationsFi extends AppLocalizations {
       'Poista kuvan tallennus taustakuvista?';
 
   @override
-  String get settingsBackgroundImageDeleted => 'Kuva poistettu';
-
-  @override
   String get settingsBackgroundDeleteFailed => 'Kuvan poisto epäonnistui';
 
   @override
@@ -300,20 +224,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsBackgroundUrlHint => 'https://example.com/image.jpg';
 
   @override
-  String get settingsBackgroundSet => 'Taustakuva asetettu';
-
-  @override
-  String get settingsBackgroundImageSet => 'Kuva asetettu';
-
-  @override
   String get settingsBackgroundCopyFailed => 'Kuvan kopiointi epäonnistui';
 
   @override
   String get settingsBackgroundUrlError =>
       'Kuva ei saatavilla (CORS tai verkko-ongelma)';
-
-  @override
-  String get settingsBackgroundDownloaded => 'Kuva ladattu';
 
   @override
   String get settingsBackgroundDownloadFailed => 'Kuvan lataaminen epäonnistui';
@@ -495,13 +410,6 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get accountsManage => 'Hallitse tilejä';
-
-  @override
-  String get accountsManageSubtitle =>
-      'Vaihda, lisää tai poista tilejä tältä laitteelta';
-
-  @override
-  String get accountsActive => 'Käytössä';
 
   @override
   String get accountsRemove => 'Poista tili';
@@ -1110,9 +1018,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsEmailsLabel => 'Sähköpostiosoitteet';
 
   @override
-  String get contactsMultilineHint => 'Yksi per rivi';
-
-  @override
   String get contactsAddEmailHint => 'Lisää sähköpostiosoite';
 
   @override
@@ -1137,14 +1042,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsBirthdayYearLabel => 'Vuosi';
 
   @override
-  String get contactsBirthdayHint => 'VVVV-KK-PP';
-
-  @override
   String get contactsNostrLabel => 'Nostr-identiteetit';
-
-  @override
-  String get contactsNostrHint =>
-      'npub, nprofile, hex-julkinen avain tai NIP-05';
 
   @override
   String get contactsAddNostrHint =>

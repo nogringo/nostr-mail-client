@@ -36,6 +36,7 @@ import '../../views/settings/appearance_settings_view.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
 import '../../views/settings/identities_view.dart';
+import '../../views/settings/messages_settings_view.dart';
 import '../../views/settings/notifications_settings_view.dart';
 import '../../views/settings/settings_view.dart';
 import '../../views/shared/auth_shell.dart';
@@ -204,7 +205,11 @@ class AppRouter {
           // Settings tree
           GoRoute(
             path: AppRoutes.settings,
-            builder: (_, _) => const SettingsView(),
+            builder: (_, _) {
+              // The root list shows how many identities the account has.
+              Get.lazyPut(() => IdentitiesController());
+              return const SettingsView();
+            },
             routes: [
               GoRoute(
                 path: 'appearance',
@@ -225,6 +230,10 @@ class AppRouter {
                     builder: (_, _) => const CreateIdentityView(),
                   ),
                 ],
+              ),
+              GoRoute(
+                path: 'messages',
+                builder: (_, _) => const MessagesSettingsView(),
               ),
               GoRoute(
                 path: 'notifications',
