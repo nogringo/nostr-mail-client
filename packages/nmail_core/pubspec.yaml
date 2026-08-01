@@ -56,7 +56,7 @@ dependencies:
   url_launcher: ^6.3.2
   vcard_dart: ^2.1.0
   vsc_quill_delta_to_html: ^1.0.5
-  window_manager: ^0.5.1
+  window_manager: ^0.5.2
 
 dev_dependencies:
   flutter_test:
