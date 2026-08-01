@@ -5,7 +5,7 @@ import '../../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/language_names.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
-import 'language_dialog.dart';
+import 'show_language_picker.dart';
 
 class LanguageTile extends StatelessWidget {
   const LanguageTile({super.key, required this.index, required this.count});
@@ -36,10 +36,7 @@ class LanguageTile extends StatelessWidget {
             current == null ? l.settingsLanguageSystem : languageName(current),
           ),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => showDialog(
-            context: context,
-            builder: (_) => const LanguageDialog(),
-          ),
+          onTap: () => showLanguagePicker(context),
         );
       }),
     );

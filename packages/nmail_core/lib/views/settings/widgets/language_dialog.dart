@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/utils/language_names.dart';
+import 'language_options_list.dart';
 
 class LanguageDialog extends StatelessWidget {
   const LanguageDialog({super.key});
@@ -11,38 +9,16 @@ class LanguageDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<SettingsController>();
+    final colorScheme = Theme.of(context).colorScheme;
 
     return AlertDialog(
+      // The default dialog surface is surfaceContainerHigh, the tile colour itself.
+      backgroundColor: colorScheme.surfaceContainerLow,
       title: Text(l.settingsLanguageDialogTitle),
       contentPadding: const EdgeInsets.symmetric(vertical: 8),
-      content: SizedBox(
+      content: const SizedBox(
         width: 320,
-        child: Obx(
-          () => SingleChildScrollView(
-            child: RadioGroup<Locale?>(
-              groupValue: controller.locale.value,
-              onChanged: (locale) {
-                controller.setLocale(locale);
-                Navigator.pop(context);
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  RadioListTile<Locale?>(
-                    value: null,
-                    title: Text(l.settingsLanguageSystem),
-                  ),
-                  for (final locale in pickableLocales)
-                    RadioListTile<Locale?>(
-                      value: locale,
-                      title: Text(languageName(locale)),
-                    ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        child: SingleChildScrollView(child: LanguageOptionsList()),
       ),
       actions: [
         TextButton(
