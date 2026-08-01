@@ -148,8 +148,12 @@ class BackgroundAddButton extends StatelessWidget {
       return BackgroundThumbnail(
         label: l.settingsBackgroundAddLabel,
         onTap: isBusy ? null : () => _addBackground(context),
-        child: ColoredBox(
-          color: colorScheme.surfaceContainerHighest,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colorScheme.surfaceContainerLowest,
+            border: Border.all(color: colorScheme.outlineVariant),
+            borderRadius: BorderRadius.circular(8),
+          ),
           child: isBusy
               ? const Center(
                   child: SizedBox.square(

@@ -17,20 +17,23 @@ class BackgroundWebImage extends StatelessWidget {
 
     return SizedBox(
       height: backgroundThumbnailSize,
-      child: Obx(() {
-        final url = settings.backgroundImage.value;
-        return Row(
-          children: [
-            const BackgroundDefaultSwatch(),
-            if (url != null && url.isNotEmpty) ...[
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Obx(() {
+          final url = settings.backgroundImage.value;
+          return Row(
+            children: [
+              const BackgroundDefaultSwatch(),
+              if (url != null && url.isNotEmpty) ...[
+                const SizedBox(width: 8),
+                BackgroundUrlThumbnail(url: url),
+              ],
               const SizedBox(width: 8),
-              BackgroundUrlThumbnail(url: url),
+              const BackgroundAddButton(),
             ],
-            const SizedBox(width: 8),
-            const BackgroundAddButton(),
-          ],
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }

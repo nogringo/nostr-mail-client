@@ -31,6 +31,7 @@ class BackgroundGallery extends StatelessWidget {
           final files = controller.savedImages;
           return ListView.separated(
             scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: files.length + 2,
             separatorBuilder: (_, _) => const SizedBox(width: 8),
             itemBuilder: (context, index) {
