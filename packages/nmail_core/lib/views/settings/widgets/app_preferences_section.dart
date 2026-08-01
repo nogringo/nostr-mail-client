@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'language_tile.dart';
 import 'settings_group.dart';
 import 'settings_nav_tile.dart';
 
@@ -36,6 +37,7 @@ class AppPreferencesSection extends StatelessWidget {
           count: count,
           onTap: () => context.go(AppRoutes.settingsAppearance),
         ),
+        (index, count) => LanguageTile(index: index, count: count),
       ],
     );
   }

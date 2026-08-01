@@ -35,7 +35,7 @@ class LanguageTile extends StatelessWidget {
           subtitle: Text(
             current == null ? l.settingsLanguageSystem : languageName(current),
           ),
-          trailing: const Icon(Icons.expand_more),
+          trailing: const Icon(Icons.chevron_right),
           onTap: () => showDialog(
             context: context,
             builder: (_) => const LanguageDialog(),
