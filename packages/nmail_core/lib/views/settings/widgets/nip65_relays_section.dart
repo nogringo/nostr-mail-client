@@ -7,7 +7,13 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/nip65_relays_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/relay_utils.dart';
+import 'hosting_add_tile.dart';
+import 'hosting_empty_tile.dart';
+import 'hosting_loading_tile.dart';
+import 'hosting_resource_tile.dart';
 import 'recommendation_chips.dart';
+import 'settings_group.dart';
+import 'settings_section_header.dart';
 
 class Nip65RelaysSection extends StatelessWidget {
   const Nip65RelaysSection({super.key});
@@ -66,8 +72,7 @@ class Nip65RelaysSection extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
                     l.hostingWillBeAddedAs(preview!),
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
@@ -75,8 +80,7 @@ class Nip65RelaysSection extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 l.relayDirection,
-                style: TextStyle(
-                  fontSize: 12,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
@@ -144,112 +148,57 @@ class Nip65RelaysSection extends StatelessWidget {
     return GetBuilder<Nip65RelaysController>(
       init: Nip65RelaysController(),
       builder: (controller) {
-        if (controller.isLoading) {
-          return ListTile(
-            leading: const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-            title: Text(l.stateLoadingEllipsis),
-          );
-        }
+        final relays = controller.relays ?? const <String, ReadWriteMarker>{};
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ListTile(
-              dense: true,
-              title: Text(
-                l.relayInboxOutboxTitle,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.add, size: 18),
-                onPressed: () => _addRelay(context, controller),
-                tooltip: l.relayAddTooltip,
-              ),
+            SettingsSectionHeader(
+              title: l.relayInboxOutboxTitle,
+              description: l.relayInboxOutboxDescription,
             ),
-            RecommendationChips(
-              recommendations: NostrConfig.recommendedInboxOutboxRelays,
-              isAlreadyAdded: (relay) =>
-                  controller.relays != null &&
-                  controller.relays!.containsKey(relay),
-              onAdd: controller.addRecommendedRelay,
-              formatLabel: formatRelayUrl,
-            ),
-            if (controller.relays == null || controller.relays!.isEmpty)
-              ListTile(
-                leading: const Icon(Icons.warning_rounded),
-                title: Text(l.relayInboxOutboxEmpty),
-                subtitle: Text(l.relayEmptyHint),
-              )
-            else
-              ...controller.relays!.entries.map((entry) {
-                final relay = entry.key;
-                final marker = entry.value;
-                final isMarked = controller.markedForDeletion.contains(relay);
-
-                return ListTile(
-                  leading: Icon(
-                    Icons.dns_outlined,
-                    color: isMarked ? Theme.of(context).disabledColor : null,
-                  ),
-                  title: Text(
-                    formatRelayUrl(relay),
-                    style: TextStyle(
-                      fontSize: 14,
-                      decoration: isMarked ? TextDecoration.lineThrough : null,
-                      color: isMarked ? Theme.of(context).disabledColor : null,
-                    ),
-                  ),
-                  subtitle: GestureDetector(
-                    onTap: isMarked
-                        ? null
-                        : () => controller.cycleMarker(relay),
-                    child: Text(
-                      _markerLabel(l, marker),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isMarked
-                            ? Theme.of(context).disabledColor
-                            : Theme.of(context).colorScheme.primary,
+            if (controller.isLoading)
+              const HostingLoadingTile()
+            else ...[
+              SettingsGroup(
+                rows: [
+                  if (relays.isEmpty)
+                    (index, count) => HostingEmptyTile(
+                      icon: Icons.warning_amber_rounded,
+                      message: l.relayInboxOutboxEmpty,
+                      index: index,
+                      count: count,
+                    )
+                  else
+                    for (final entry in relays.entries)
+                      (index, count) => HostingResourceTile(
+                        icon: Icons.dns_outlined,
+                        label: formatRelayUrl(entry.key),
+                        subtitle: _markerLabel(l, entry.value),
+                        index: index,
+                        count: count,
+                        isMarkedForDeletion: controller.markedForDeletion
+                            .contains(entry.key),
+                        removeTooltip: l.relayRemoveTooltip,
+                        onToggleDeletion: () =>
+                            controller.toggleRelayDeletion(entry.key),
+                        onTap: () => controller.cycleMarker(entry.key),
                       ),
-                    ),
+                  (index, count) => HostingAddTile(
+                    label: l.relayAdd,
+                    index: index,
+                    count: count,
+                    onTap: () => _addRelay(context, controller),
                   ),
-                  trailing: IconButton(
-                    icon: Icon(isMarked ? Icons.undo : Icons.close, size: 18),
-                    onPressed: () => controller.toggleRelayDeletion(relay),
-                    tooltip: isMarked ? l.actionUndo : l.relayRemoveTooltip,
-                  ),
-                );
-              }),
-            if (controller.hasChanges)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: controller.isSaving
-                        ? null
-                        : controller.saveChanges,
-                    child: controller.isSaving
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l.actionSave),
-                  ),
-                ),
+                ],
               ),
+              RecommendationChips(
+                recommendations: NostrConfig.recommendedInboxOutboxRelays,
+                isAlreadyAdded: relays.containsKey,
+                onAdd: controller.addRecommendedRelay,
+                formatLabel: formatRelayUrl,
+              ),
+            ],
           ],
         );
       },

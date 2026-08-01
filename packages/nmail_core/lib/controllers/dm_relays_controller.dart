@@ -54,6 +54,13 @@ class DmRelaysController extends GetxController {
     update();
   }
 
+  void discardChanges() {
+    if (originalDmRelays == null) return;
+    dmRelays = List.from(originalDmRelays!);
+    markedForDeletion.clear();
+    update();
+  }
+
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving) return;
     isSaving = true;

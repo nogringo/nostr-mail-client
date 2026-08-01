@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
-import 'widgets/bridges_section.dart';
 import 'widgets/blossom_servers_section.dart';
+import 'widgets/bridges_section.dart';
 import 'widgets/dm_relays_section.dart';
+import 'widgets/hosting_save_button.dart';
 import 'widgets/nip65_relays_section.dart';
 import 'widgets/relay_connectivity_section.dart';
 import 'widgets/sync_status_section.dart';
@@ -16,38 +17,32 @@ class HostingSettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    Widget content = Scaffold(
-      appBar: AppBar(title: Text(l.settingsHosting)),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l.settingsHosting),
+        actionsPadding: .only(right: 8),
+        actions: const [HostingSaveButton()],
+      ),
       body: SafeArea(
         top: false,
         child: SingleChildScrollView(
-          child: ResponsiveCenter(
+          child: const ResponsiveCenter(
             maxWidth: 600,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Nip65RelaysSection(),
-                  const SizedBox(height: 16),
-                  const DmRelaysSection(),
-                  const SizedBox(height: 16),
-                  const BlossomServersSection(),
-                  const SizedBox(height: 16),
-                  const BridgesSection(),
-                  const SizedBox(height: 16),
-                  const RelayConnectivitySection(),
-                  const SizedBox(height: 8),
-                  const SyncStatusSection(),
-                  const SizedBox(height: 24),
-                ],
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Nip65RelaysSection(),
+                DmRelaysSection(),
+                BlossomServersSection(),
+                BridgesSection(),
+                RelayConnectivitySection(),
+                SyncStatusSection(),
+                SizedBox(height: 32),
+              ],
             ),
           ),
         ),
       ),
     );
-
-    return content;
   }
 }

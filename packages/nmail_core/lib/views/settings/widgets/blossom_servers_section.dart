@@ -6,7 +6,13 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/blossom_servers_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/blossom_utils.dart';
+import 'hosting_add_tile.dart';
+import 'hosting_empty_tile.dart';
+import 'hosting_loading_tile.dart';
+import 'hosting_resource_tile.dart';
 import 'recommendation_chips.dart';
+import 'settings_group.dart';
+import 'settings_section_header.dart';
 
 class BlossomServersSection extends StatelessWidget {
   const BlossomServersSection({super.key});
@@ -64,8 +70,7 @@ class BlossomServersSection extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
                     l.hostingWillBeAddedAs(preview!),
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
@@ -103,96 +108,55 @@ class BlossomServersSection extends StatelessWidget {
     return GetBuilder<BlossomServersController>(
       init: BlossomServersController(),
       builder: (controller) {
-        if (controller.isLoading) {
-          return ListTile(
-            leading: const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-            title: Text(l.stateLoadingEllipsis),
-          );
-        }
+        final servers = controller.servers ?? const <String>[];
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ListTile(
-              dense: true,
-              title: Text(
-                l.blossomSectionTitle,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.add, size: 18),
-                onPressed: () => _addServer(context, controller),
-                tooltip: l.blossomAddTooltip,
-              ),
+            SettingsSectionHeader(
+              title: l.blossomSectionTitle,
+              description: l.blossomDescription,
             ),
-            RecommendationChips(
-              recommendations: NostrConfig.recommendedBlossomServers,
-              isAlreadyAdded: (server) =>
-                  controller.servers != null &&
-                  controller.servers!.contains(server),
-              onAdd: controller.addServer,
-              formatLabel: formatBlossomUrl,
-            ),
-            if (controller.servers == null || controller.servers!.isEmpty)
-              ListTile(
-                leading: const Icon(Icons.cloud_off_outlined),
-                title: Text(l.blossomEmpty),
-                subtitle: Text(l.blossomEmptyHint),
-              )
-            else
-              ...controller.servers!.map((server) {
-                final isMarked = controller.markedForDeletion.contains(server);
-
-                return ListTile(
-                  leading: Icon(
-                    Icons.cloud_outlined,
-                    color: isMarked ? Theme.of(context).disabledColor : null,
+            if (controller.isLoading)
+              const HostingLoadingTile()
+            else ...[
+              SettingsGroup(
+                rows: [
+                  if (servers.isEmpty)
+                    (index, count) => HostingEmptyTile(
+                      icon: Icons.cloud_off_outlined,
+                      message: l.blossomEmpty,
+                      index: index,
+                      count: count,
+                    )
+                  else
+                    for (final server in servers)
+                      (index, count) => HostingResourceTile(
+                        icon: Icons.cloud_outlined,
+                        label: formatBlossomUrl(server),
+                        index: index,
+                        count: count,
+                        isMarkedForDeletion: controller.markedForDeletion
+                            .contains(server),
+                        removeTooltip: l.blossomRemoveTooltip,
+                        onToggleDeletion: () =>
+                            controller.toggleServerDeletion(server),
+                      ),
+                  (index, count) => HostingAddTile(
+                    label: l.blossomAdd,
+                    index: index,
+                    count: count,
+                    onTap: () => _addServer(context, controller),
                   ),
-                  title: Text(
-                    formatBlossomUrl(server),
-                    style: TextStyle(
-                      fontSize: 14,
-                      decoration: isMarked ? TextDecoration.lineThrough : null,
-                      color: isMarked ? Theme.of(context).disabledColor : null,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(isMarked ? Icons.undo : Icons.close, size: 18),
-                    onPressed: () => controller.toggleServerDeletion(server),
-                    tooltip: isMarked ? l.actionUndo : l.blossomRemoveTooltip,
-                  ),
-                );
-              }),
-            if (controller.hasChanges)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: controller.isSaving
-                        ? null
-                        : controller.saveChanges,
-                    child: controller.isSaving
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l.actionSave),
-                  ),
-                ),
+                ],
               ),
+              RecommendationChips(
+                recommendations: NostrConfig.recommendedBlossomServers,
+                isAlreadyAdded: servers.contains,
+                onAdd: controller.addServer,
+                formatLabel: formatBlossomUrl,
+              ),
+            ],
           ],
         );
       },

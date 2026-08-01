@@ -24,19 +24,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionClear => 'クリア';
 
   @override
-  String get actionClose => '閉じる';
-
-  @override
   String get actionContinue => '続ける';
-
-  @override
-  String get actionBack => '戻る';
-
-  @override
-  String get actionConfirm => '確認';
-
-  @override
-  String get actionOk => 'OK';
 
   @override
   String get actionCopy => 'コピー';
@@ -60,7 +48,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionDiscard => '破棄';
 
   @override
-  String get stateLoading => '読み込み中';
+  String get actionKeepEditing => '編集を続ける';
+
+  @override
+  String get discardChangesTitle => '変更を破棄しますか?';
+
+  @override
+  String get discardChangesMessage => '保存されていない変更があります。今離れると破棄されます。';
 
   @override
   String get stateLoadingEllipsis => '読み込み中...';
@@ -69,19 +63,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get stateResetting => 'リセット中...';
 
   @override
-  String get stateValidating => '検証中...';
-
-  @override
-  String get stateDownloading => 'ダウンロード中...';
-
-  @override
-  String get stateUploading => 'アップロード中...';
-
-  @override
   String get settingsTitle => '設定';
 
   @override
   String get settingsAppearance => '外観';
+
+  @override
+  String get settingsBackground => '背景';
 
   @override
   String get settingsDynamicTheme => 'ダイナミックテーマ';
@@ -102,30 +90,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsNotifications => '通知';
 
   @override
+  String get settingsMessages => 'メッセージ';
+
+  @override
   String get settingsEnableNotifications => '通知を有効にする';
 
   @override
   String get settingsEnableNotificationsSubtitle => '新しいメールが届いたら通知します。';
 
   @override
-  String get settingsUnifiedPushDistributorMissingTitle =>
-      'Push notifications unavailable';
+  String get settingsUnifiedPushDistributorMissingTitle => 'プッシュ通知を利用できません';
 
   @override
   String get settingsUnifiedPushDistributorMissingSubtitle =>
-      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+      'バックグラウンドで通知を受け取るには、Sunup などの UnifiedPush ディストリビューターをインストールしてください。';
 
   @override
-  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
-
-  @override
-  String get settingsAdvancedOptions => '詳細設定';
-
-  @override
-  String get settingsShowEmailSource => 'メールのソースコードを表示';
-
-  @override
-  String get settingsShowEmailSourceSubtitle => '生メールを表示するボタンを追加します';
+  String get settingsUnifiedPushDistributorInstallSunup => 'Sunup をインストール';
 
   @override
   String get settingsAlwaysLoadImages => '常に画像を読み込む';
@@ -137,15 +118,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsIdentities => 'アイデンティティ';
 
   @override
-  String get settingsManageIdentities => 'アイデンティティを管理';
-
-  @override
-  String get settingsManageIdentitiesSubtitle => 'アドレスの追加・削除・並び替え';
-
-  @override
-  String get settingsCompose => '作成';
-
-  @override
   String get settingsEmailSignature => 'メール署名';
 
   @override
@@ -155,28 +127,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsEmailSignatureHint => '署名を入力...';
 
   @override
-  String get settingsSynchronization => '同期';
-
-  @override
   String get settingsHosting => 'ホスティング';
-
-  @override
-  String get settingsHostingSubtitle => 'リレー、Blossom サーバー、接続';
 
   @override
   String get settingsDebugTools => 'デバッグツール';
 
   @override
-  String get settingsDebugToolsSubtitle => 'テストおよび開発機能';
-
-  @override
-  String get settingsAccount => 'アカウント';
-
-  @override
   String get settingsCopySyncCode => '同期コードをコピー';
-
-  @override
-  String get settingsCopySyncCodeSubtitle => 'このコードで他のデバイスとアカウントを同期できます';
 
   @override
   String get settingsSyncCodeCopied => '同期コードをコピーしました';
@@ -188,9 +145,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsResetApplication => 'アプリをリセット';
 
   @override
-  String get settingsResetApplicationSubtitle => 'ローカルデータをすべて削除';
-
-  @override
   String get settingsResetConfirmMessage =>
       '設定や背景画像を含むすべてのローカルデータが削除され、ログアウトされます。\n\nこの操作は元に戻せません。';
 
@@ -198,7 +152,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsAbout => 'アプリ情報';
 
   @override
-  String get settingsVersion => 'バージョン';
+  String get settingsDeveloper => '開発者';
+
+  @override
+  String get settingsLicense => 'ライセンス';
 
   @override
   String get settingsSourceCode => 'ソースコード';
@@ -253,9 +210,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsBackgroundDeleteMessage => '保存済みの背景からこの画像を削除しますか?';
 
   @override
-  String get settingsBackgroundImageDeleted => '画像を削除しました';
-
-  @override
   String get settingsBackgroundDeleteFailed => '画像の削除に失敗しました';
 
   @override
@@ -274,19 +228,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsBackgroundUrlHint => 'https://example.com/image.jpg';
 
   @override
-  String get settingsBackgroundSet => '背景を設定しました';
-
-  @override
-  String get settingsBackgroundImageSet => '画像を設定しました';
-
-  @override
   String get settingsBackgroundCopyFailed => '画像のコピーに失敗しました';
 
   @override
   String get settingsBackgroundUrlError => '画像にアクセスできません (CORS またはネットワークエラー)';
-
-  @override
-  String get settingsBackgroundDownloaded => '画像をダウンロードしました';
 
   @override
   String get settingsBackgroundDownloadFailed => '画像のダウンロードに失敗しました';
@@ -343,7 +288,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relayInboxOutboxTitle => '受信/送信リレー';
 
   @override
-  String get relayAddTooltip => 'リレーを追加';
+  String get relayInboxOutboxDescription => 'アカウントが公開と読み込みに使うリレーです。';
+
+  @override
+  String get relayAdd => 'リレーを追加';
 
   @override
   String get relayRemoveTooltip => 'リレーを削除';
@@ -352,13 +300,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relayInboxOutboxEmpty => '受信/送信リレーが設定されていません';
 
   @override
-  String get relayEmptyHint => '+ をタップしてリレーを追加';
-
-  @override
   String get dmRelayAddTitle => 'DM リレーを追加';
 
   @override
   String get dmRelaySectionTitle => 'DM リレー';
+
+  @override
+  String get dmRelayDescription => '暗号化されたメッセージを受け取るリレーです。';
+
+  @override
+  String get dmRelayAdd => 'DM リレーを追加';
 
   @override
   String get dmRelayEmpty => 'DM リレーが設定されていません';
@@ -379,13 +330,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get bridgeSectionTitle => 'ブリッジ';
 
   @override
-  String get bridgeAddTooltip => 'ブリッジを追加';
+  String get bridgeDescription => '通常のメールアドレスを提供するドメインです。';
+
+  @override
+  String get bridgeAdd => 'ブリッジを追加';
 
   @override
   String get bridgeEmpty => 'ブリッジが設定されていません';
-
-  @override
-  String get bridgeEmptyHint => '+ をタップしてブリッジを追加';
 
   @override
   String get bridgeDefault => '既定のブリッジ';
@@ -406,7 +357,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blossomSectionTitle => 'ファイルホスティング';
 
   @override
-  String get blossomAddTooltip => 'サーバーを追加';
+  String get blossomDescription => '添付ファイルや画像を保存するサーバーです。';
+
+  @override
+  String get blossomAdd => 'サーバーを追加';
 
   @override
   String get blossomRemoveTooltip => 'サーバーを削除';
@@ -415,13 +369,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blossomEmpty => 'Blossom サーバーが設定されていません';
 
   @override
-  String get blossomEmptyHint => '+ をタップしてサーバーを追加';
-
-  @override
   String get connectivitySectionTitle => 'リアルタイム接続';
 
   @override
-  String get connectivityRelayConnectivity => 'リレー接続状態';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$total 件中 $connected 件のリレーに接続中';
+  }
+
+  @override
+  String get connectivityConnected => '接続中';
+
+  @override
+  String get connectivityDisconnected => '未接続';
 
   @override
   String get syncStatusSectionTitle => '同期ステータス';
@@ -430,10 +389,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get syncStatusEmpty => '同期データがありません';
 
   @override
-  String get syncStatusEmptyHint => 'メールを同期するとリレーの状態が表示されます';
+  String get syncStatusResync => '再同期';
 
   @override
-  String get syncStatusResync => '再同期';
+  String get syncStatusResyncSubtitle => 'リレーからすべてのメッセージを読み直します。';
 
   @override
   String get syncStatusBeginningOfTime => '時の始まり';
@@ -451,25 +410,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get identitiesCreate => 'アイデンティティを作成';
 
   @override
-  String get identitiesDiscardTitle => '変更を破棄しますか?';
-
-  @override
-  String get identitiesDiscardMessage => '保存されていない変更があります。今離れると破棄されます。';
-
-  @override
-  String get identitiesKeepEditing => '編集を続ける';
-
-  @override
   String get accountsTitle => 'アカウント';
 
   @override
   String get accountsManage => 'アカウントを管理';
-
-  @override
-  String get accountsManageSubtitle => 'このデバイスのアカウントを切り替え、追加、削除します';
-
-  @override
-  String get accountsActive => '使用中';
 
   @override
   String get accountsRemove => 'アカウントを削除';
@@ -682,12 +626,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailNotFound => 'メールが見つかりません';
 
   @override
-  String get emailShowFormatted => '整形表示';
-
-  @override
-  String get emailShowRaw => 'ソースを表示';
-
-  @override
   String emailSenderNpub(String npub) {
     return '送信者の npub: $npub';
   }
@@ -789,6 +727,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'メールをダウンロード';
+
+  @override
+  String get emailActionViewSource => 'ソースを表示';
 
   @override
   String get emailMoreActions => 'その他の操作';
@@ -1043,9 +984,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsEmailsLabel => 'メールアドレス';
 
   @override
-  String get contactsMultilineHint => '1 行に 1 件';
-
-  @override
   String get contactsAddEmailHint => 'メールアドレスを追加';
 
   @override
@@ -1070,13 +1008,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsBirthdayYearLabel => '年';
 
   @override
-  String get contactsBirthdayHint => 'YYYY-MM-DD';
-
-  @override
   String get contactsNostrLabel => 'Nostr アイデンティティ';
-
-  @override
-  String get contactsNostrHint => 'npub、nprofile、hex 公開鍵、または NIP-05';
 
   @override
   String get contactsAddNostrHint => 'npub、nprofile、hex 公開鍵、または NIP-05 を追加';

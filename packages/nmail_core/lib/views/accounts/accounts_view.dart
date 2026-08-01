@@ -23,11 +23,7 @@ class AccountsView extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-            onPressed: () => _leave(context),
-          ),
+          leading: BackButton(onPressed: () => _leave(context)),
           title: Text(l.accountsTitle),
         ),
         body: const SafeArea(

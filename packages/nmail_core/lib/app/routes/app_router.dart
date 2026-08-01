@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 
+import '../../controllers/about_controller.dart';
 import '../../controllers/auth_controller.dart';
+import '../../controllers/backgrounds_controller.dart';
 import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/identities_controller.dart';
@@ -29,12 +31,19 @@ import '../../views/nostr/profile_share_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
 import '../../views/profile/profile_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
+import '../../views/settings/about_settings_view.dart';
+import '../../views/settings/appearance_settings_view.dart';
+import '../../views/settings/confirm_discard_hosting_changes.dart';
+import '../../views/settings/confirm_discard_identity_changes.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
 import '../../views/settings/identities_view.dart';
+import '../../views/settings/messages_settings_view.dart';
+import '../../views/settings/notifications_settings_view.dart';
 import '../../views/settings/settings_view.dart';
 import '../../views/shared/auth_shell.dart';
 import '../../views/shared/not_found_view.dart';
+import '../../views/shared/window_caption_inset.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -83,23 +92,28 @@ class AppRouter {
     initialLocation: AppRoutes.inbox,
     refreshListenable: _authNotifier,
     redirect: _globalRedirect,
-    errorBuilder: (_, _) => const NotFoundView(),
+    errorBuilder: (_, _) => const WindowCaptionInset(child: NotFoundView()),
     routes: [
       // Public routes (outside shell)
-      GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginView()),
+      GoRoute(
+        path: AppRoutes.login,
+        builder: (_, _) => const WindowCaptionInset(child: LoginView()),
+      ),
       GoRoute(
         path: AppRoutes.onboarding,
-        builder: (_, _) => const OnboardingView(),
+        builder: (_, _) => const WindowCaptionInset(child: OnboardingView()),
       ),
       // Account management, outside the shell: full screen, and `add` nests so
       // that leaving it lands back on the list.
       GoRoute(
         path: AppRoutes.accounts,
-        builder: (_, _) => const AccountsView(),
+        builder: (_, _) => const WindowCaptionInset(child: AccountsView()),
         routes: [
           GoRoute(
             path: 'add',
-            builder: (_, _) => const LoginView(isAddingAccount: true),
+            builder: (_, _) => const WindowCaptionInset(
+              child: LoginView(isAddingAccount: true),
+            ),
           ),
         ],
       ),
@@ -199,10 +213,22 @@ class AppRouter {
           // Settings tree
           GoRoute(
             path: AppRoutes.settings,
-            builder: (_, _) => const SettingsView(),
+            builder: (_, _) {
+              // The root list shows how many identities the account has.
+              Get.lazyPut(() => IdentitiesController());
+              return const SettingsView();
+            },
             routes: [
               GoRoute(
+                path: 'appearance',
+                builder: (_, _) {
+                  Get.lazyPut(() => BackgroundsController());
+                  return const AppearanceSettingsView();
+                },
+              ),
+              GoRoute(
                 path: 'identities',
+                onExit: (context, _) => confirmDiscardIdentityChanges(context),
                 builder: (_, _) {
                   Get.lazyPut(() => IdentitiesController());
                   return const IdentitiesView();
@@ -215,12 +241,28 @@ class AppRouter {
                 ],
               ),
               GoRoute(
+                path: 'messages',
+                builder: (_, _) => const MessagesSettingsView(),
+              ),
+              GoRoute(
+                path: 'notifications',
+                builder: (_, _) => const NotificationsSettingsView(),
+              ),
+              GoRoute(
                 path: 'hosting',
+                onExit: (context, _) => confirmDiscardHostingChanges(context),
                 builder: (_, _) => const HostingSettingsView(),
               ),
               GoRoute(
                 path: 'debug-tools',
                 builder: (_, _) => const DebugToolsView(),
+              ),
+              GoRoute(
+                path: 'about',
+                builder: (_, _) {
+                  Get.lazyPut(() => AboutController());
+                  return const AboutSettingsView();
+                },
               ),
             ],
           ),

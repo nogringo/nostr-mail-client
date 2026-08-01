@@ -5,7 +5,13 @@ import 'package:get/get.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/bridges_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'hosting_add_tile.dart';
+import 'hosting_empty_tile.dart';
+import 'hosting_loading_tile.dart';
+import 'hosting_resource_tile.dart';
 import 'recommendation_chips.dart';
+import 'settings_group.dart';
+import 'settings_section_header.dart';
 
 class BridgesSection extends StatelessWidget {
   const BridgesSection({super.key});
@@ -81,108 +87,56 @@ class BridgesSection extends StatelessWidget {
     return GetBuilder<BridgesController>(
       init: BridgesController(),
       builder: (controller) {
-        if (controller.isLoading) {
-          return ListTile(
-            leading: const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-            title: Text(l.stateLoadingEllipsis),
-          );
-        }
+        final bridges = controller.bridges ?? const <String>[];
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ListTile(
-              dense: true,
-              title: Text(
-                l.bridgeSectionTitle,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.add, size: 18),
-                onPressed: () => _addBridge(context, controller),
-                tooltip: l.bridgeAddTooltip,
-              ),
+            SettingsSectionHeader(
+              title: l.bridgeSectionTitle,
+              description: l.bridgeDescription,
             ),
-            RecommendationChips(
-              recommendations: NostrConfig.recommendedBridges,
-              isAlreadyAdded: (bridge) =>
-                  controller.bridges != null &&
-                  controller.bridges!.contains(bridge),
-              onAdd: controller.addBridge,
-              formatLabel: (bridge) => bridge,
-            ),
-            if (controller.bridges == null || controller.bridges!.isEmpty)
-              ListTile(
-                leading: const Icon(Icons.alternate_email),
-                title: Text(l.bridgeEmpty),
-                subtitle: Text(l.bridgeEmptyHint),
-              )
-            else
-              ...controller.bridges!.map((bridge) {
-                final isMarked = controller.markedForDeletion.contains(bridge);
-                final isDefault = bridge == 'uid.ovh';
-
-                return ListTile(
-                  leading: Icon(
-                    Icons.alternate_email,
-                    color: isMarked ? Theme.of(context).disabledColor : null,
+            if (controller.isLoading)
+              const HostingLoadingTile()
+            else ...[
+              SettingsGroup(
+                rows: [
+                  if (bridges.isEmpty)
+                    (index, count) => HostingEmptyTile(
+                      icon: Icons.alternate_email,
+                      message: l.bridgeEmpty,
+                      index: index,
+                      count: count,
+                    )
+                  else
+                    for (final bridge in bridges)
+                      (index, count) => HostingResourceTile(
+                        icon: Icons.alternate_email,
+                        label: bridge,
+                        subtitle: bridge == 'uid.ovh' ? l.bridgeDefault : null,
+                        index: index,
+                        count: count,
+                        isMarkedForDeletion: controller.markedForDeletion
+                            .contains(bridge),
+                        removeTooltip: l.actionRemove,
+                        onToggleDeletion: () =>
+                            controller.toggleBridgeDeletion(bridge),
+                      ),
+                  (index, count) => HostingAddTile(
+                    label: l.bridgeAdd,
+                    index: index,
+                    count: count,
+                    onTap: () => _addBridge(context, controller),
                   ),
-                  title: Text(
-                    bridge,
-                    style: TextStyle(
-                      fontSize: 14,
-                      decoration: isMarked ? TextDecoration.lineThrough : null,
-                      color: isMarked ? Theme.of(context).disabledColor : null,
-                    ),
-                  ),
-                  subtitle: isDefault
-                      ? Text(
-                          l.bridgeDefault,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
-                          ),
-                        )
-                      : null,
-                  trailing: IconButton(
-                    icon: Icon(isMarked ? Icons.undo : Icons.close, size: 18),
-                    onPressed: () => controller.toggleBridgeDeletion(bridge),
-                    tooltip: isMarked ? l.actionUndo : l.actionRemove,
-                  ),
-                );
-              }),
-            if (controller.hasChanges)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: controller.isSaving
-                        ? null
-                        : controller.saveChanges,
-                    child: controller.isSaving
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l.actionSave),
-                  ),
-                ),
+                ],
               ),
+              RecommendationChips(
+                recommendations: NostrConfig.recommendedBridges,
+                isAlreadyAdded: bridges.contains,
+                onAdd: controller.addBridge,
+                formatLabel: (bridge) => bridge,
+              ),
+            ],
           ],
         );
       },

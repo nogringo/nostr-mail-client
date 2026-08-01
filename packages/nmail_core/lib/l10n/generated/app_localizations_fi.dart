@@ -24,19 +24,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionClear => 'Tyhjennä';
 
   @override
-  String get actionClose => 'Sulje';
-
-  @override
   String get actionContinue => 'Jatka';
-
-  @override
-  String get actionBack => 'Takaisin';
-
-  @override
-  String get actionConfirm => 'Hyväksy';
-
-  @override
-  String get actionOk => 'OK';
 
   @override
   String get actionCopy => 'Kopioi';
@@ -60,7 +48,14 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionDiscard => 'Hylkää';
 
   @override
-  String get stateLoading => 'Ladataan';
+  String get actionKeepEditing => 'Jatka muokkausta';
+
+  @override
+  String get discardChangesTitle => 'Hylkää muutokset?';
+
+  @override
+  String get discardChangesMessage =>
+      'Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.';
 
   @override
   String get stateLoadingEllipsis => 'Ladataan...';
@@ -69,19 +64,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get stateResetting => 'Nollataan...';
 
   @override
-  String get stateValidating => 'Vahvistetaan...';
-
-  @override
-  String get stateDownloading => 'Lataa...';
-
-  @override
-  String get stateUploading => 'Tallennetaan palvelimelle...';
-
-  @override
   String get settingsTitle => 'Asetukset';
 
   @override
   String get settingsAppearance => 'Ulkoasu';
+
+  @override
+  String get settingsBackground => 'Taustakuva';
 
   @override
   String get settingsDynamicTheme => 'Mukautuva teema';
@@ -102,6 +91,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsNotifications => 'Ilmoitukset';
 
   @override
+  String get settingsMessages => 'Viestit';
+
+  @override
   String get settingsEnableNotifications => 'Ota ilmoitukset käyttöön';
 
   @override
@@ -110,24 +102,14 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get settingsUnifiedPushDistributorMissingTitle =>
-      'Push notifications unavailable';
+      'Push-ilmoitukset eivät ole käytettävissä';
 
   @override
   String get settingsUnifiedPushDistributorMissingSubtitle =>
-      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+      'Asenna UnifiedPush-jakelija, kuten Sunup, jotta saat ilmoituksia taustalla.';
 
   @override
-  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
-
-  @override
-  String get settingsAdvancedOptions => 'Edistyneet asetukset';
-
-  @override
-  String get settingsShowEmailSource => 'Näytä sähköpostin lähdekoodi';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Lisää painikkeen muotoilemattoman sähköpostin näyttämiselle';
+  String get settingsUnifiedPushDistributorInstallSunup => 'Asenna Sunup';
 
   @override
   String get settingsAlwaysLoadImages => 'Lataa kuvat aina';
@@ -140,16 +122,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsIdentities => 'Henkilöllisyydet';
 
   @override
-  String get settingsManageIdentities => 'Hallitse henkilöllisyyksiä';
-
-  @override
-  String get settingsManageIdentitiesSubtitle =>
-      'Lisää, poista tai järjestele henkilöllisyyksiä';
-
-  @override
-  String get settingsCompose => 'Kirjoita';
-
-  @override
   String get settingsEmailSignature => 'Sähköpostin allekirjoitus';
 
   @override
@@ -159,30 +131,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Luo allekirjoitus...';
 
   @override
-  String get settingsSynchronization => 'Synkronointi';
-
-  @override
   String get settingsHosting => 'Palvelimet';
-
-  @override
-  String get settingsHostingSubtitle =>
-      'Nostr-palvelimet, Blossom-palvelimet, yhteydet';
 
   @override
   String get settingsDebugTools => 'Kehittäjätyökalut';
 
   @override
-  String get settingsDebugToolsSubtitle => 'Testaus- ja kehitysominaisuudet';
-
-  @override
-  String get settingsAccount => 'Tili';
-
-  @override
   String get settingsCopySyncCode => 'Kopioi synkronointikoodi';
-
-  @override
-  String get settingsCopySyncCodeSubtitle =>
-      'Koodin avulla voit synkronoida sovelluksen muilla laitteilla';
 
   @override
   String get settingsSyncCodeCopied => 'Synkronointikoodi kopioitu';
@@ -194,9 +149,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsResetApplication => 'Palauta sovellus';
 
   @override
-  String get settingsResetApplicationSubtitle => 'Poista paikalliset tiedot';
-
-  @override
   String get settingsResetConfirmMessage =>
       'Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.';
 
@@ -204,7 +156,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsAbout => 'Tietoja';
 
   @override
-  String get settingsVersion => 'Versio';
+  String get settingsDeveloper => 'Kehittäjä';
+
+  @override
+  String get settingsLicense => 'Lisenssi';
 
   @override
   String get settingsSourceCode => 'Lähdekoodi';
@@ -261,9 +216,6 @@ class AppLocalizationsFi extends AppLocalizations {
       'Poista kuvan tallennus taustakuvista?';
 
   @override
-  String get settingsBackgroundImageDeleted => 'Kuva poistettu';
-
-  @override
   String get settingsBackgroundDeleteFailed => 'Kuvan poisto epäonnistui';
 
   @override
@@ -282,20 +234,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsBackgroundUrlHint => 'https://example.com/image.jpg';
 
   @override
-  String get settingsBackgroundSet => 'Taustakuva asetettu';
-
-  @override
-  String get settingsBackgroundImageSet => 'Kuva asetettu';
-
-  @override
   String get settingsBackgroundCopyFailed => 'Kuvan kopiointi epäonnistui';
 
   @override
   String get settingsBackgroundUrlError =>
       'Kuva ei saatavilla (CORS tai verkko-ongelma)';
-
-  @override
-  String get settingsBackgroundDownloaded => 'Kuva ladattu';
 
   @override
   String get settingsBackgroundDownloadFailed => 'Kuvan lataaminen epäonnistui';
@@ -352,7 +295,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Saapuvien ja lähtevien palvelin';
 
   @override
-  String get relayAddTooltip => 'Lisää palvelin';
+  String get relayInboxOutboxDescription =>
+      'Palvelimet, joille tilisi julkaisee ja joilta se lukee.';
+
+  @override
+  String get relayAdd => 'Lisää palvelin';
 
   @override
   String get relayRemoveTooltip => 'Poista palvelin';
@@ -362,13 +309,17 @@ class AppLocalizationsFi extends AppLocalizations {
       'Saapuvien/lähtevien palvelimia ei ole asetettu';
 
   @override
-  String get relayEmptyHint => 'Paina + lisätäksesi palvelimen';
-
-  @override
   String get dmRelayAddTitle => 'Lisää yksityisviestien palvelin';
 
   @override
   String get dmRelaySectionTitle => 'Yksityisviestien palvelimet';
+
+  @override
+  String get dmRelayDescription =>
+      'Palvelimet, jotka vastaanottavat salatut viestisi.';
+
+  @override
+  String get dmRelayAdd => 'Lisää yksityisviestien palvelin';
 
   @override
   String get dmRelayEmpty => 'Yksityisviestien palvelimia ei ole asetettu';
@@ -389,13 +340,14 @@ class AppLocalizationsFi extends AppLocalizations {
   String get bridgeSectionTitle => 'Sillat';
 
   @override
-  String get bridgeAddTooltip => 'Lisää silta';
+  String get bridgeDescription =>
+      'Verkkotunnukset, jotka antavat sinulle tavallisen sähköpostiosoitteen.';
+
+  @override
+  String get bridgeAdd => 'Lisää silta';
 
   @override
   String get bridgeEmpty => 'Siltoja ei asetettu';
-
-  @override
-  String get bridgeEmptyHint => 'Paina + lisätäksesi sillan';
 
   @override
   String get bridgeDefault => 'Oletussilta';
@@ -416,7 +368,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get blossomSectionTitle => 'Tiedostojen ylläpito';
 
   @override
-  String get blossomAddTooltip => 'Lisää palvelin';
+  String get blossomDescription =>
+      'Palvelimet, joille liitteesi ja kuvasi tallennetaan.';
+
+  @override
+  String get blossomAdd => 'Lisää palvelin';
 
   @override
   String get blossomRemoveTooltip => 'Poista palvelin';
@@ -425,13 +381,18 @@ class AppLocalizationsFi extends AppLocalizations {
   String get blossomEmpty => 'Blossom-palvelimia ei asetettu';
 
   @override
-  String get blossomEmptyHint => 'Paina + lisätäksesi palvelimen';
-
-  @override
   String get connectivitySectionTitle => 'Reaaliaikainen yhteys';
 
   @override
-  String get connectivityRelayConnectivity => 'Välityspalvelimen yhteys';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected/$total palvelinta yhdistetty';
+  }
+
+  @override
+  String get connectivityConnected => 'Yhdistetty';
+
+  @override
+  String get connectivityDisconnected => 'Ei yhteyttä';
 
   @override
   String get syncStatusSectionTitle => 'Synkronoinnin tila';
@@ -440,11 +401,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get syncStatusEmpty => 'Synkronointitietoja ei saatavilla';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Synkronoi posti nähdäksesi palvelimen tilan';
+  String get syncStatusResync => 'Synkronoi uudelleen';
 
   @override
-  String get syncStatusResync => 'Synkronoi uudelleen';
+  String get syncStatusResyncSubtitle =>
+      'Lue kaikki viestit uudelleen palvelimilta.';
 
   @override
   String get syncStatusBeginningOfTime => 'Alkuhetkestä';
@@ -463,27 +424,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get identitiesCreate => 'Luo henkilöllisyys';
 
   @override
-  String get identitiesDiscardTitle => 'Hylkää muutokset?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.';
-
-  @override
-  String get identitiesKeepEditing => 'Jatka muokkausta';
-
-  @override
   String get accountsTitle => 'Tilit';
 
   @override
   String get accountsManage => 'Hallitse tilejä';
-
-  @override
-  String get accountsManageSubtitle =>
-      'Vaihda, lisää tai poista tilejä tältä laitteelta';
-
-  @override
-  String get accountsActive => 'Käytössä';
 
   @override
   String get accountsRemove => 'Poista tili';
@@ -715,12 +659,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailNotFound => 'Sähköpostia ei löydy';
 
   @override
-  String get emailShowFormatted => 'Näytä muotoilu';
-
-  @override
-  String get emailShowRaw => 'Näytä muotoilematon';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'Lähettäjän npub: $npub';
   }
@@ -835,6 +773,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Lataa viesti';
+
+  @override
+  String get emailActionViewSource => 'Näytä lähdekoodi';
 
   @override
   String get emailMoreActions => 'Lisää toimintoja';
@@ -1095,9 +1036,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsEmailsLabel => 'Sähköpostiosoitteet';
 
   @override
-  String get contactsMultilineHint => 'Yksi per rivi';
-
-  @override
   String get contactsAddEmailHint => 'Lisää sähköpostiosoite';
 
   @override
@@ -1122,14 +1060,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsBirthdayYearLabel => 'Vuosi';
 
   @override
-  String get contactsBirthdayHint => 'VVVV-KK-PP';
-
-  @override
   String get contactsNostrLabel => 'Nostr-identiteetit';
-
-  @override
-  String get contactsNostrHint =>
-      'npub, nprofile, hex-julkinen avain tai NIP-05';
 
   @override
   String get contactsAddNostrHint =>

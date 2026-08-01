@@ -3,8 +3,13 @@ import 'package:get/get.dart';
 
 import '../../../controllers/sync_status_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/utils/format_date_time.dart';
-import 'package:nmail_core/utils/relay_utils.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'hosting_empty_tile.dart';
+import 'hosting_loading_tile.dart';
+import 'resync_tile.dart';
+import 'settings_group.dart';
+import 'settings_section_header.dart';
+import 'sync_status_tile.dart';
 
 class SyncStatusSection extends StatelessWidget {
   const SyncStatusSection({super.key});
@@ -17,68 +22,39 @@ class SyncStatusSection extends StatelessWidget {
       init: SyncStatusController(),
       global: false,
       builder: (controller) {
-        if (controller.isLoading) {
-          return ListTile(
-            leading: const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-            title: Text(l.stateLoadingEllipsis),
-          );
-        }
+        final statuses = controller.syncStatus ?? const <EmailSyncStatus>[];
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ListTile(
-              dense: true,
-              title: Text(
-                l.syncStatusSectionTitle,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
-              ),
-            ),
-            if (controller.syncStatus == null || controller.syncStatus!.isEmpty)
-              ListTile(
-                leading: const Icon(Icons.sync_disabled),
-                title: Text(l.syncStatusEmpty),
-                subtitle: Text(l.syncStatusEmptyHint),
-              )
+            SettingsSectionHeader(title: l.syncStatusSectionTitle),
+            if (controller.isLoading)
+              const HostingLoadingTile()
             else
-              ...controller.syncStatus!.map(
-                (status) => ListTile(
-                  leading: const Icon(Icons.cloud_outlined),
-                  title: Text(
-                    formatRelayUrl(status.relayUrl),
-                    style: const TextStyle(fontSize: 14),
+              SettingsGroup(
+                rows: [
+                  if (statuses.isEmpty)
+                    (index, count) => HostingEmptyTile(
+                      icon: Icons.sync_disabled,
+                      message: l.syncStatusEmpty,
+                      index: index,
+                      count: count,
+                    )
+                  else
+                    for (final status in statuses)
+                      (index, count) => SyncStatusTile(
+                        status: status,
+                        index: index,
+                        count: count,
+                      ),
+                  (index, count) => ResyncTile(
+                    isSyncing: controller.isSyncing,
+                    onResync: controller.resync,
+                    index: index,
+                    count: count,
                   ),
-                  subtitle: Text(
-                    '${formatSyncTimestamp(context, status.oldestTimestamp)} → ${formatSyncTimestamp(context, status.newestTimestamp)}',
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
+                ],
               ),
-            // TODO: add description explaining when to use Resync
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: controller.isSyncing ? null : controller.resync,
-                  child: controller.isSyncing
-                      ? const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(l.syncStatusResync),
-                ),
-              ),
-            ),
           ],
         );
       },

@@ -60,6 +60,13 @@ class Nip65RelaysController extends GetxController {
     update();
   }
 
+  void discardChanges() {
+    if (originalRelays == null) return;
+    relays = Map.from(originalRelays!);
+    markedForDeletion.clear();
+    update();
+  }
+
   void cycleMarker(String relayUrl) {
     if (relays == null || !relays!.containsKey(relayUrl)) return;
     final current = relays![relayUrl]!;

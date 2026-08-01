@@ -24,19 +24,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionClear => 'Limpar';
 
   @override
-  String get actionClose => 'Fechar';
-
-  @override
   String get actionContinue => 'Continuar';
-
-  @override
-  String get actionBack => 'Voltar';
-
-  @override
-  String get actionConfirm => 'Confirmar';
-
-  @override
-  String get actionOk => 'OK';
 
   @override
   String get actionCopy => 'Copiar';
@@ -60,7 +48,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionDiscard => 'Descartar';
 
   @override
-  String get stateLoading => 'A carregar';
+  String get actionKeepEditing => 'Continuar a editar';
+
+  @override
+  String get discardChangesTitle => 'Descartar alterações?';
+
+  @override
+  String get discardChangesMessage =>
+      'Você tem alterações não salvas. Terminar sessão agora irá descartá-las.';
 
   @override
   String get stateLoadingEllipsis => 'A carregar...';
@@ -69,19 +64,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get stateResetting => 'A repor...';
 
   @override
-  String get stateValidating => 'Validando...';
-
-  @override
-  String get stateDownloading => 'A transferir...';
-
-  @override
-  String get stateUploading => 'A enviar...';
-
-  @override
   String get settingsTitle => 'Definições';
 
   @override
   String get settingsAppearance => 'Aparência';
+
+  @override
+  String get settingsBackground => 'Fundo';
 
   @override
   String get settingsDynamicTheme => 'Tema dinâmico';
@@ -103,6 +92,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsNotifications => 'Notificações';
 
   @override
+  String get settingsMessages => 'Mensagens';
+
+  @override
   String get settingsEnableNotifications => 'Ativar notificações';
 
   @override
@@ -111,24 +103,14 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settingsUnifiedPushDistributorMissingTitle =>
-      'Push notifications unavailable';
+      'Notificações push indisponíveis';
 
   @override
   String get settingsUnifiedPushDistributorMissingSubtitle =>
-      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+      'Instale um distribuidor UnifiedPush como o Sunup para receber notificações em segundo plano.';
 
   @override
-  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
-
-  @override
-  String get settingsAdvancedOptions => 'Opções avançadas';
-
-  @override
-  String get settingsShowEmailSource => 'Mostrar código-fonte do email';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Adiciona um botão para ver o email bruto';
+  String get settingsUnifiedPushDistributorInstallSunup => 'Instalar Sunup';
 
   @override
   String get settingsAlwaysLoadImages => 'Sempre carregar imagens';
@@ -141,16 +123,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsIdentities => 'Identidades';
 
   @override
-  String get settingsManageIdentities => 'Gerenciar identidades';
-
-  @override
-  String get settingsManageIdentitiesSubtitle =>
-      'Adicionar, remover ou reordenar endereços';
-
-  @override
-  String get settingsCompose => 'Composição';
-
-  @override
   String get settingsEmailSignature => 'Assinatura de email';
 
   @override
@@ -160,31 +132,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Introduza a sua assinatura...';
 
   @override
-  String get settingsSynchronization => 'Sincronização';
-
-  @override
   String get settingsHosting => 'Hospedagem';
-
-  @override
-  String get settingsHostingSubtitle =>
-      'Relays, servidores Blossom, conectividade';
 
   @override
   String get settingsDebugTools => 'Ferramentas de depuração';
 
   @override
-  String get settingsDebugToolsSubtitle =>
-      'Recursos de teste e desenvolvimento';
-
-  @override
-  String get settingsAccount => 'Conta';
-
-  @override
   String get settingsCopySyncCode => 'Copiar código de sincronização';
-
-  @override
-  String get settingsCopySyncCodeSubtitle =>
-      'Use este código para sincronizar sua conta em outros dispositivos';
 
   @override
   String get settingsSyncCodeCopied => 'Código de sincronização copiado';
@@ -196,10 +150,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsResetApplication => 'Repor aplicação';
 
   @override
-  String get settingsResetApplicationSubtitle =>
-      'Eliminar todos os dados locais';
-
-  @override
   String get settingsResetConfirmMessage =>
       'Isto eliminará todos os dados locais, incluindo definições e imagens de fundo, e terminará a sessão.\n\nEsta ação não pode ser anulada.';
 
@@ -207,7 +157,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsAbout => 'Sobre';
 
   @override
-  String get settingsVersion => 'Versão';
+  String get settingsDeveloper => 'Programador';
+
+  @override
+  String get settingsLicense => 'Licença';
 
   @override
   String get settingsSourceCode => 'Código-fonte';
@@ -264,9 +217,6 @@ class AppLocalizationsPt extends AppLocalizations {
       'Remover esta imagem dos seus fundos guardados?';
 
   @override
-  String get settingsBackgroundImageDeleted => 'Imagem eliminada';
-
-  @override
   String get settingsBackgroundDeleteFailed => 'Falha ao eliminar a imagem';
 
   @override
@@ -285,20 +235,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsBackgroundUrlHint => 'https://exemplo.com/imagem.jpg';
 
   @override
-  String get settingsBackgroundSet => 'Fundo definido';
-
-  @override
-  String get settingsBackgroundImageSet => 'Imagem definida';
-
-  @override
   String get settingsBackgroundCopyFailed => 'Falha ao copiar a imagem';
 
   @override
   String get settingsBackgroundUrlError =>
       'Imagem inacessível (erro de CORS ou rede)';
-
-  @override
-  String get settingsBackgroundDownloaded => 'Imagem transferida';
 
   @override
   String get settingsBackgroundDownloadFailed => 'Falha ao transferir a imagem';
@@ -355,7 +296,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Relays de entrada/saída';
 
   @override
-  String get relayAddTooltip => 'Adicionar relay';
+  String get relayInboxOutboxDescription =>
+      'Relays onde a sua conta publica e lê.';
+
+  @override
+  String get relayAdd => 'Adicionar relay';
 
   @override
   String get relayRemoveTooltip => 'Remover relay';
@@ -365,13 +310,17 @@ class AppLocalizationsPt extends AppLocalizations {
       'Nenhum relay de entrada/saída configurado';
 
   @override
-  String get relayEmptyHint => 'Toque em + para adicionar um relay';
-
-  @override
   String get dmRelayAddTitle => 'Adicionar relay DM';
 
   @override
   String get dmRelaySectionTitle => 'Relays DM';
+
+  @override
+  String get dmRelayDescription =>
+      'Relays que recebem as suas mensagens cifradas.';
+
+  @override
+  String get dmRelayAdd => 'Adicionar relay DM';
 
   @override
   String get dmRelayEmpty => 'Nenhum relay DM configurado';
@@ -392,13 +341,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bridgeSectionTitle => 'Bridges';
 
   @override
-  String get bridgeAddTooltip => 'Adicionar bridge';
+  String get bridgeDescription =>
+      'Domínios que lhe dão um endereço de email normal.';
+
+  @override
+  String get bridgeAdd => 'Adicionar bridge';
 
   @override
   String get bridgeEmpty => 'Nenhum bridge configurado';
-
-  @override
-  String get bridgeEmptyHint => 'Toque em + para adicionar um bridge';
 
   @override
   String get bridgeDefault => 'Bridge padrão';
@@ -419,7 +369,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get blossomSectionTitle => 'Hospedagem de ficheiros';
 
   @override
-  String get blossomAddTooltip => 'Adicionar servidor';
+  String get blossomDescription =>
+      'Servidores que guardam os seus anexos e imagens.';
+
+  @override
+  String get blossomAdd => 'Adicionar servidor';
 
   @override
   String get blossomRemoveTooltip => 'Remover servidor';
@@ -428,13 +382,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get blossomEmpty => 'Nenhum servidor Blossom configurado';
 
   @override
-  String get blossomEmptyHint => 'Toque em + para adicionar um servidor';
-
-  @override
   String get connectivitySectionTitle => 'Conexão em tempo real';
 
   @override
-  String get connectivityRelayConnectivity => 'Conectividade dos relays';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected de $total relays ligados';
+  }
+
+  @override
+  String get connectivityConnected => 'Ligado';
+
+  @override
+  String get connectivityDisconnected => 'Sem ligação';
 
   @override
   String get syncStatusSectionTitle => 'Status de sincronização';
@@ -443,11 +402,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get syncStatusEmpty => 'Nenhum dado de sincronização disponível';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Sincronize os seus emails para ver o estado dos relays';
+  String get syncStatusResync => 'Ressincronizar';
 
   @override
-  String get syncStatusResync => 'Ressincronizar';
+  String get syncStatusResyncSubtitle =>
+      'Ler novamente todas as mensagens dos seus relays.';
 
   @override
   String get syncStatusBeginningOfTime => 'Início dos tempos';
@@ -466,27 +425,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get identitiesCreate => 'Criar identidade';
 
   @override
-  String get identitiesDiscardTitle => 'Descartar alterações?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'Você tem alterações não salvas. Terminar sessão agora irá descartá-las.';
-
-  @override
-  String get identitiesKeepEditing => 'Continuar a editar';
-
-  @override
   String get accountsTitle => 'Contas';
 
   @override
   String get accountsManage => 'Gerir contas';
-
-  @override
-  String get accountsManageSubtitle =>
-      'Trocar, adicionar ou remover contas neste dispositivo';
-
-  @override
-  String get accountsActive => 'Ativa';
 
   @override
   String get accountsRemove => 'Remover conta';
@@ -719,12 +661,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emailNotFound => 'Email não encontrado';
 
   @override
-  String get emailShowFormatted => 'Mostrar formatado';
-
-  @override
-  String get emailShowRaw => 'Mostrar fonte';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub do remetente: $npub';
   }
@@ -839,6 +775,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Transferir email';
+
+  @override
+  String get emailActionViewSource => 'Mostrar fonte';
 
   @override
   String get emailMoreActions => 'Mais ações';
@@ -1099,9 +1038,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsEmailsLabel => 'Endereços de email';
 
   @override
-  String get contactsMultilineHint => 'Um por linha';
-
-  @override
   String get contactsAddEmailHint => 'Adicionar endereço de email';
 
   @override
@@ -1126,13 +1062,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsBirthdayYearLabel => 'Ano';
 
   @override
-  String get contactsBirthdayHint => 'AAAA-MM-DD';
-
-  @override
   String get contactsNostrLabel => 'Identidades Nostr';
-
-  @override
-  String get contactsNostrHint => 'npub, nprofile, chave pública hex ou NIP-05';
 
   @override
   String get contactsAddNostrHint =>
@@ -1475,19 +1405,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get actionClear => 'Limpar';
 
   @override
-  String get actionClose => 'Fechar';
-
-  @override
   String get actionContinue => 'Continuar';
-
-  @override
-  String get actionBack => 'Voltar';
-
-  @override
-  String get actionConfirm => 'Confirmar';
-
-  @override
-  String get actionOk => 'OK';
 
   @override
   String get actionCopy => 'Copiar';
@@ -1511,7 +1429,14 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get actionDiscard => 'Descartar';
 
   @override
-  String get stateLoading => 'Carregando';
+  String get actionKeepEditing => 'Continuar editando';
+
+  @override
+  String get discardChangesTitle => 'Descartar alterações?';
+
+  @override
+  String get discardChangesMessage =>
+      'Você tem alterações não salvas. Sair agora irá descartá-las.';
 
   @override
   String get stateLoadingEllipsis => 'Carregando...';
@@ -1520,19 +1445,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get stateResetting => 'Redefinindo...';
 
   @override
-  String get stateValidating => 'Validando...';
-
-  @override
-  String get stateDownloading => 'Baixando...';
-
-  @override
-  String get stateUploading => 'Enviando...';
-
-  @override
   String get settingsTitle => 'Configurações';
 
   @override
   String get settingsAppearance => 'Aparência';
+
+  @override
+  String get settingsBackground => 'Fundo';
 
   @override
   String get settingsDynamicTheme => 'Tema dinâmico';
@@ -1554,6 +1473,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsNotifications => 'Notificações';
 
   @override
+  String get settingsMessages => 'Mensagens';
+
+  @override
   String get settingsEnableNotifications => 'Ativar notificações';
 
   @override
@@ -1561,14 +1483,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Seja notificado quando um novo e-mail chegar.';
 
   @override
-  String get settingsAdvancedOptions => 'Opções avançadas';
+  String get settingsUnifiedPushDistributorMissingTitle =>
+      'Notificações push indisponíveis';
 
   @override
-  String get settingsShowEmailSource => 'Mostrar código-fonte do e-mail';
+  String get settingsUnifiedPushDistributorMissingSubtitle =>
+      'Instale um distribuidor UnifiedPush como o Sunup para receber notificações em segundo plano.';
 
   @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Adiciona um botão para ver o e-mail bruto';
+  String get settingsUnifiedPushDistributorInstallSunup => 'Instalar Sunup';
 
   @override
   String get settingsAlwaysLoadImages => 'Sempre carregar imagens';
@@ -1581,16 +1504,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsIdentities => 'Identidades';
 
   @override
-  String get settingsManageIdentities => 'Gerenciar identidades';
-
-  @override
-  String get settingsManageIdentitiesSubtitle =>
-      'Adicionar, remover ou reordenar endereços';
-
-  @override
-  String get settingsCompose => 'Composição';
-
-  @override
   String get settingsEmailSignature => 'Assinatura de e-mail';
 
   @override
@@ -1600,31 +1513,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsEmailSignatureHint => 'Digite sua assinatura...';
 
   @override
-  String get settingsSynchronization => 'Sincronização';
-
-  @override
   String get settingsHosting => 'Hospedagem';
-
-  @override
-  String get settingsHostingSubtitle =>
-      'Relays, servidores Blossom, conectividade';
 
   @override
   String get settingsDebugTools => 'Ferramentas de depuração';
 
   @override
-  String get settingsDebugToolsSubtitle =>
-      'Recursos de teste e desenvolvimento';
-
-  @override
-  String get settingsAccount => 'Conta';
-
-  @override
   String get settingsCopySyncCode => 'Copiar código de sincronização';
-
-  @override
-  String get settingsCopySyncCodeSubtitle =>
-      'Use este código para sincronizar sua conta em outros dispositivos';
 
   @override
   String get settingsSyncCodeCopied => 'Código de sincronização copiado';
@@ -1636,10 +1531,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsResetApplication => 'Redefinir aplicativo';
 
   @override
-  String get settingsResetApplicationSubtitle =>
-      'Excluir todos os dados locais';
-
-  @override
   String get settingsResetConfirmMessage =>
       'Isso excluirá todos os dados locais, incluindo configurações e imagens de fundo, e fará logout.\n\nEsta ação não pode ser desfeita.';
 
@@ -1647,7 +1538,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsAbout => 'Sobre';
 
   @override
-  String get settingsVersion => 'Versão';
+  String get settingsDeveloper => 'Desenvolvedor';
+
+  @override
+  String get settingsLicense => 'Licença';
 
   @override
   String get settingsSourceCode => 'Código-fonte';
@@ -1704,9 +1598,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Remover esta imagem dos seus fundos salvos?';
 
   @override
-  String get settingsBackgroundImageDeleted => 'Imagem excluída';
-
-  @override
   String get settingsBackgroundDeleteFailed => 'Falha ao excluir a imagem';
 
   @override
@@ -1725,20 +1616,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsBackgroundUrlHint => 'https://exemplo.com/imagem.jpg';
 
   @override
-  String get settingsBackgroundSet => 'Fundo definido';
-
-  @override
-  String get settingsBackgroundImageSet => 'Imagem definida';
-
-  @override
   String get settingsBackgroundCopyFailed => 'Falha ao copiar a imagem';
 
   @override
   String get settingsBackgroundUrlError =>
       'Imagem inacessível (erro de CORS ou rede)';
-
-  @override
-  String get settingsBackgroundDownloaded => 'Imagem baixada';
 
   @override
   String get settingsBackgroundDownloadFailed => 'Falha ao baixar a imagem';
@@ -1795,7 +1677,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get relayInboxOutboxTitle => 'Relays de entrada e saída';
 
   @override
-  String get relayAddTooltip => 'Adicionar relay';
+  String get relayInboxOutboxDescription =>
+      'Relays onde sua conta publica e lê.';
+
+  @override
+  String get relayAdd => 'Adicionar relay';
 
   @override
   String get relayRemoveTooltip => 'Remover relay';
@@ -1805,13 +1691,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Nenhum relay de entrada/saída configurado';
 
   @override
-  String get relayEmptyHint => 'Toque em + para adicionar um relay';
-
-  @override
   String get dmRelayAddTitle => 'Adicionar relay DM';
 
   @override
   String get dmRelaySectionTitle => 'Relays DM';
+
+  @override
+  String get dmRelayDescription =>
+      'Relays que recebem suas mensagens criptografadas.';
+
+  @override
+  String get dmRelayAdd => 'Adicionar relay DM';
 
   @override
   String get dmRelayEmpty => 'Nenhum relay DM configurado';
@@ -1832,13 +1722,14 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get bridgeSectionTitle => 'Bridges';
 
   @override
-  String get bridgeAddTooltip => 'Adicionar bridge';
+  String get bridgeDescription =>
+      'Domínios que dão a você um endereço de e-mail comum.';
+
+  @override
+  String get bridgeAdd => 'Adicionar bridge';
 
   @override
   String get bridgeEmpty => 'Nenhum bridge configurado';
-
-  @override
-  String get bridgeEmptyHint => 'Toque em + para adicionar um bridge';
 
   @override
   String get bridgeDefault => 'Bridge padrão';
@@ -1859,7 +1750,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get blossomSectionTitle => 'Hospedagem de arquivos';
 
   @override
-  String get blossomAddTooltip => 'Adicionar servidor';
+  String get blossomDescription =>
+      'Servidores que guardam seus anexos e imagens.';
+
+  @override
+  String get blossomAdd => 'Adicionar servidor';
 
   @override
   String get blossomRemoveTooltip => 'Remover servidor';
@@ -1868,13 +1763,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get blossomEmpty => 'Nenhum servidor Blossom configurado';
 
   @override
-  String get blossomEmptyHint => 'Toque em + para adicionar um servidor';
-
-  @override
   String get connectivitySectionTitle => 'Conexão em tempo real';
 
   @override
-  String get connectivityRelayConnectivity => 'Conectividade dos relays';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected de $total relays conectados';
+  }
+
+  @override
+  String get connectivityConnected => 'Conectado';
+
+  @override
+  String get connectivityDisconnected => 'Sem conexão';
 
   @override
   String get syncStatusSectionTitle => 'Status de sincronização';
@@ -1883,11 +1783,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get syncStatusEmpty => 'Nenhum dado de sincronização disponível';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Sincronize seus e-mails para ver o status dos relays';
+  String get syncStatusResync => 'Ressincronizar';
 
   @override
-  String get syncStatusResync => 'Ressincronizar';
+  String get syncStatusResyncSubtitle =>
+      'Ler todas as mensagens dos seus relays novamente.';
 
   @override
   String get syncStatusBeginningOfTime => 'Início dos tempos';
@@ -1906,27 +1806,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get identitiesCreate => 'Criar identidade';
 
   @override
-  String get identitiesDiscardTitle => 'Descartar alterações?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'Você tem alterações não salvas. Sair agora irá descartá-las.';
-
-  @override
-  String get identitiesKeepEditing => 'Continuar editando';
-
-  @override
   String get accountsTitle => 'Contas';
 
   @override
   String get accountsManage => 'Gerenciar contas';
-
-  @override
-  String get accountsManageSubtitle =>
-      'Trocar, adicionar ou remover contas neste dispositivo';
-
-  @override
-  String get accountsActive => 'Ativa';
 
   @override
   String get accountsRemove => 'Remover conta';
@@ -2159,12 +2042,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get emailNotFound => 'E-mail não encontrado';
 
   @override
-  String get emailShowFormatted => 'Mostrar formatado';
-
-  @override
-  String get emailShowRaw => 'Mostrar fonte';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub do remetente: $npub';
   }
@@ -2280,6 +2157,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get emailActionDownload => 'Baixar e-mail';
+
+  @override
+  String get emailActionViewSource => 'Mostrar fonte';
 
   @override
   String get emailMoreActions => 'Mais ações';
@@ -2539,9 +2419,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get contactsEmailsLabel => 'Endereços de e-mail';
 
   @override
-  String get contactsMultilineHint => 'Um por linha';
-
-  @override
   String get contactsAddEmailHint => 'Adicionar endereço de e-mail';
 
   @override
@@ -2566,13 +2443,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get contactsBirthdayYearLabel => 'Ano';
 
   @override
-  String get contactsBirthdayHint => 'AAAA-MM-DD';
-
-  @override
   String get contactsNostrLabel => 'Identidades Nostr';
-
-  @override
-  String get contactsNostrHint => 'npub, nprofile, chave pública hex ou NIP-05';
 
   @override
   String get contactsAddNostrHint =>

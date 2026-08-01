@@ -24,19 +24,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionClear => '清除';
 
   @override
-  String get actionClose => '关闭';
-
-  @override
   String get actionContinue => '继续';
-
-  @override
-  String get actionBack => '返回';
-
-  @override
-  String get actionConfirm => '确认';
-
-  @override
-  String get actionOk => '确定';
 
   @override
   String get actionCopy => '复制';
@@ -60,7 +48,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionDiscard => '放弃';
 
   @override
-  String get stateLoading => '加载中';
+  String get actionKeepEditing => '继续编辑';
+
+  @override
+  String get discardChangesTitle => '放弃更改?';
+
+  @override
+  String get discardChangesMessage => '您有未保存的更改。现在离开将被放弃。';
 
   @override
   String get stateLoadingEllipsis => '加载中...';
@@ -69,19 +63,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get stateResetting => '重置中...';
 
   @override
-  String get stateValidating => '验证中...';
-
-  @override
-  String get stateDownloading => '下载中...';
-
-  @override
-  String get stateUploading => '上传中...';
-
-  @override
   String get settingsTitle => '设置';
 
   @override
   String get settingsAppearance => '外观';
+
+  @override
+  String get settingsBackground => '背景';
 
   @override
   String get settingsDynamicTheme => '动态主题';
@@ -102,30 +90,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsNotifications => '通知';
 
   @override
+  String get settingsMessages => '消息';
+
+  @override
   String get settingsEnableNotifications => '启用通知';
 
   @override
   String get settingsEnableNotificationsSubtitle => '收到新邮件时通知您。';
 
   @override
-  String get settingsUnifiedPushDistributorMissingTitle =>
-      'Push notifications unavailable';
+  String get settingsUnifiedPushDistributorMissingTitle => '推送通知不可用';
 
   @override
   String get settingsUnifiedPushDistributorMissingSubtitle =>
-      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+      '安装 Sunup 等 UnifiedPush 分发器，以便在后台接收通知。';
 
   @override
-  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
-
-  @override
-  String get settingsAdvancedOptions => '高级选项';
-
-  @override
-  String get settingsShowEmailSource => '显示邮件源代码';
-
-  @override
-  String get settingsShowEmailSourceSubtitle => '添加查看原始邮件的按钮';
+  String get settingsUnifiedPushDistributorInstallSunup => '安装 Sunup';
 
   @override
   String get settingsAlwaysLoadImages => '始终加载图片';
@@ -137,15 +118,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsIdentities => '身份';
 
   @override
-  String get settingsManageIdentities => '管理身份';
-
-  @override
-  String get settingsManageIdentitiesSubtitle => '添加、移除或重新排序地址';
-
-  @override
-  String get settingsCompose => '撰写';
-
-  @override
   String get settingsEmailSignature => '邮件签名';
 
   @override
@@ -155,28 +127,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsEmailSignatureHint => '输入您的签名...';
 
   @override
-  String get settingsSynchronization => '同步';
-
-  @override
   String get settingsHosting => '托管';
-
-  @override
-  String get settingsHostingSubtitle => '中继、Blossom 服务器、连接';
 
   @override
   String get settingsDebugTools => '调试工具';
 
   @override
-  String get settingsDebugToolsSubtitle => '测试和开发功能';
-
-  @override
-  String get settingsAccount => '账户';
-
-  @override
   String get settingsCopySyncCode => '复制同步码';
-
-  @override
-  String get settingsCopySyncCodeSubtitle => '使用此代码在其他设备上同步您的账户';
 
   @override
   String get settingsSyncCodeCopied => '已复制同步码';
@@ -188,9 +145,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsResetApplication => '重置应用';
 
   @override
-  String get settingsResetApplicationSubtitle => '删除所有本地数据';
-
-  @override
   String get settingsResetConfirmMessage =>
       '这将删除所有本地数据,包括设置和背景图片,并将您注销。\n\n此操作无法撤销。';
 
@@ -198,7 +152,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsAbout => '关于';
 
   @override
-  String get settingsVersion => '版本';
+  String get settingsDeveloper => '开发者';
+
+  @override
+  String get settingsLicense => '许可证';
 
   @override
   String get settingsSourceCode => '源代码';
@@ -253,9 +210,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsBackgroundDeleteMessage => '从已保存的背景中移除此图片?';
 
   @override
-  String get settingsBackgroundImageDeleted => '图片已删除';
-
-  @override
   String get settingsBackgroundDeleteFailed => '删除图片失败';
 
   @override
@@ -274,19 +228,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsBackgroundUrlHint => 'https://example.com/image.jpg';
 
   @override
-  String get settingsBackgroundSet => '已设置背景';
-
-  @override
-  String get settingsBackgroundImageSet => '已设置图片';
-
-  @override
   String get settingsBackgroundCopyFailed => '复制图片失败';
 
   @override
   String get settingsBackgroundUrlError => '图片无法访问(CORS 或网络错误)';
-
-  @override
-  String get settingsBackgroundDownloaded => '图片已下载';
 
   @override
   String get settingsBackgroundDownloadFailed => '下载图片失败';
@@ -343,7 +288,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relayInboxOutboxTitle => '收件箱/发件箱中继';
 
   @override
-  String get relayAddTooltip => '添加中继';
+  String get relayInboxOutboxDescription => '您的账号用于发布和读取的中继。';
+
+  @override
+  String get relayAdd => '添加中继';
 
   @override
   String get relayRemoveTooltip => '移除中继';
@@ -352,13 +300,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relayInboxOutboxEmpty => '未配置收件箱/发件箱中继';
 
   @override
-  String get relayEmptyHint => '点击 + 添加中继';
-
-  @override
   String get dmRelayAddTitle => '添加 DM 中继';
 
   @override
   String get dmRelaySectionTitle => 'DM 中继';
+
+  @override
+  String get dmRelayDescription => '接收加密消息的中继。';
+
+  @override
+  String get dmRelayAdd => '添加 DM 中继';
 
   @override
   String get dmRelayEmpty => '未配置 DM 中继';
@@ -379,13 +330,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bridgeSectionTitle => '桥接';
 
   @override
-  String get bridgeAddTooltip => '添加桥接';
+  String get bridgeDescription => '为您提供标准邮箱地址的域名。';
+
+  @override
+  String get bridgeAdd => '添加桥接';
 
   @override
   String get bridgeEmpty => '未配置桥接';
-
-  @override
-  String get bridgeEmptyHint => '点击 + 添加桥接';
 
   @override
   String get bridgeDefault => '默认桥接';
@@ -406,7 +357,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get blossomSectionTitle => '文件托管';
 
   @override
-  String get blossomAddTooltip => '添加服务器';
+  String get blossomDescription => '存储附件和图片的服务器。';
+
+  @override
+  String get blossomAdd => '添加服务器';
 
   @override
   String get blossomRemoveTooltip => '移除服务器';
@@ -415,13 +369,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get blossomEmpty => '未配置 Blossom 服务器';
 
   @override
-  String get blossomEmptyHint => '点击 + 添加服务器';
-
-  @override
   String get connectivitySectionTitle => '实时连接';
 
   @override
-  String get connectivityRelayConnectivity => '中继连接状态';
+  String connectivityConnectedCount(int connected, int total) {
+    return '已连接 $total 个中继中的 $connected 个';
+  }
+
+  @override
+  String get connectivityConnected => '已连接';
+
+  @override
+  String get connectivityDisconnected => '未连接';
 
   @override
   String get syncStatusSectionTitle => '同步状态';
@@ -430,10 +389,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get syncStatusEmpty => '暂无同步数据';
 
   @override
-  String get syncStatusEmptyHint => '同步您的邮件以查看中继状态';
+  String get syncStatusResync => '重新同步';
 
   @override
-  String get syncStatusResync => '重新同步';
+  String get syncStatusResyncSubtitle => '重新从中继读取所有消息。';
 
   @override
   String get syncStatusBeginningOfTime => '时间的起点';
@@ -451,25 +410,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get identitiesCreate => '创建身份';
 
   @override
-  String get identitiesDiscardTitle => '放弃更改?';
-
-  @override
-  String get identitiesDiscardMessage => '您有未保存的更改。现在离开将被放弃。';
-
-  @override
-  String get identitiesKeepEditing => '继续编辑';
-
-  @override
   String get accountsTitle => '账户';
 
   @override
   String get accountsManage => '管理账户';
-
-  @override
-  String get accountsManageSubtitle => '在此设备上切换、添加或移除账户';
-
-  @override
-  String get accountsActive => '使用中';
 
   @override
   String get accountsRemove => '移除账户';
@@ -681,12 +625,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailNotFound => '未找到邮件';
 
   @override
-  String get emailShowFormatted => '显示格式化版本';
-
-  @override
-  String get emailShowRaw => '显示源代码';
-
-  @override
   String emailSenderNpub(String npub) {
     return '发件人 npub: $npub';
   }
@@ -788,6 +726,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get emailActionDownload => '下载邮件';
+
+  @override
+  String get emailActionViewSource => '显示源代码';
 
   @override
   String get emailMoreActions => '更多操作';
@@ -1038,9 +979,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsEmailsLabel => '电子邮件地址';
 
   @override
-  String get contactsMultilineHint => '每行一个';
-
-  @override
   String get contactsAddEmailHint => '添加电子邮件地址';
 
   @override
@@ -1065,13 +1003,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsBirthdayYearLabel => '年';
 
   @override
-  String get contactsBirthdayHint => 'YYYY-MM-DD';
-
-  @override
   String get contactsNostrLabel => 'Nostr 身份';
-
-  @override
-  String get contactsNostrHint => 'npub、nprofile、hex 公钥或 NIP-05';
 
   @override
   String get contactsAddNostrHint => '添加 npub、nprofile、hex 公钥或 NIP-05';

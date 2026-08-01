@@ -54,6 +54,13 @@ class BlossomServersController extends GetxController {
     update();
   }
 
+  void discardChanges() {
+    if (originalServers == null) return;
+    servers = List.from(originalServers!);
+    markedForDeletion.clear();
+    update();
+  }
+
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving) return;
     isSaving = true;

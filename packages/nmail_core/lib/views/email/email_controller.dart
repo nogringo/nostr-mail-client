@@ -16,6 +16,7 @@ import 'package:nmail_core/utils/get_mime_type.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
+import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
 import 'package:path/path.dart' as p;
 import 'package:pdfrx/pdfrx.dart';
@@ -47,7 +48,6 @@ class EmailController extends GetxController {
   Metadata? recipientMetadata;
   final Map<String, Metadata> recipientsMetadata = {}; // keyed by hex pubkey
   bool isLoading = true;
-  bool showRawContent = false;
   bool showRecipients = false;
   late bool showImages;
   String? rawContent;
@@ -105,10 +105,11 @@ class EmailController extends GetxController {
     return Get.find<InboxController>().isEmailRead(email!.id);
   }
 
-  void toggleShowRawContent() {
-    showRawContent = !showRawContent;
-    update();
-    if (showRawContent) _ensureRawContent();
+  Future<void> showEmailSource() async {
+    if (email == null) return;
+
+    _ensureRawContent();
+    await showEmailSourceDialog(Get.context!);
   }
 
   Future<String?> _ensureRawContent() async {

@@ -145,35 +145,11 @@ abstract class AppLocalizations {
   /// **'Clear'**
   String get actionClear;
 
-  /// Generic Close button/tooltip label
-  ///
-  /// In en, this message translates to:
-  /// **'Close'**
-  String get actionClose;
-
   /// Continue button label used to advance a flow (e.g. registration)
   ///
   /// In en, this message translates to:
   /// **'Continue'**
   String get actionContinue;
-
-  /// Generic Back button label
-  ///
-  /// In en, this message translates to:
-  /// **'Back'**
-  String get actionBack;
-
-  /// Generic Confirm button label
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm'**
-  String get actionConfirm;
-
-  /// Generic OK button label
-  ///
-  /// In en, this message translates to:
-  /// **'OK'**
-  String get actionOk;
 
   /// Generic Copy button label, e.g. copy a link or value to clipboard
   ///
@@ -217,11 +193,23 @@ abstract class AppLocalizations {
   /// **'Discard'**
   String get actionDiscard;
 
-  /// Loading state label without trailing punctuation
+  /// Button label to stay on the screen and continue editing
   ///
   /// In en, this message translates to:
-  /// **'Loading'**
-  String get stateLoading;
+  /// **'Keep editing'**
+  String get actionKeepEditing;
+
+  /// Dialog title shown when leaving a screen with unsaved changes
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get discardChangesTitle;
+
+  /// Message in the discard-changes dialog
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes. Leaving now will discard them.'**
+  String get discardChangesMessage;
 
   /// Loading state label with ellipsis, used in list tiles and progress dialogs
   ///
@@ -235,24 +223,6 @@ abstract class AppLocalizations {
   /// **'Resetting...'**
   String get stateResetting;
 
-  /// Progress label shown while validating an image URL
-  ///
-  /// In en, this message translates to:
-  /// **'Validating...'**
-  String get stateValidating;
-
-  /// Progress label shown while downloading an image
-  ///
-  /// In en, this message translates to:
-  /// **'Downloading...'**
-  String get stateDownloading;
-
-  /// Progress label shown while uploading an image
-  ///
-  /// In en, this message translates to:
-  /// **'Uploading...'**
-  String get stateUploading;
-
   /// Title of the Settings screen and drawer entry
   ///
   /// In en, this message translates to:
@@ -264,6 +234,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Appearance'**
   String get settingsAppearance;
+
+  /// Label above the background image gallery in appearance settings
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get settingsBackground;
 
   /// Settings switch title: derive theme colors from the background image
   ///
@@ -301,6 +277,12 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get settingsNotifications;
 
+  /// Settings tile and screen title for message options (signature, remote images)
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get settingsMessages;
+
   /// Toggle label to enable OS notifications for new emails
   ///
   /// In en, this message translates to:
@@ -331,24 +313,6 @@ abstract class AppLocalizations {
   /// **'Install Sunup'**
   String get settingsUnifiedPushDistributorInstallSunup;
 
-  /// Settings section header for advanced/developer toggles
-  ///
-  /// In en, this message translates to:
-  /// **'Advanced options'**
-  String get settingsAdvancedOptions;
-
-  /// Settings switch title: expose raw email source view
-  ///
-  /// In en, this message translates to:
-  /// **'Show email source code'**
-  String get settingsShowEmailSource;
-
-  /// Subtitle for the email source code switch
-  ///
-  /// In en, this message translates to:
-  /// **'Adds a button to view raw email'**
-  String get settingsShowEmailSourceSubtitle;
-
   /// Settings switch title controlling automatic image loading in emails
   ///
   /// In en, this message translates to:
@@ -366,24 +330,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Identities'**
   String get settingsIdentities;
-
-  /// Settings tile title that opens the identities management screen
-  ///
-  /// In en, this message translates to:
-  /// **'Manage identities'**
-  String get settingsManageIdentities;
-
-  /// Subtitle for the manage identities tile
-  ///
-  /// In en, this message translates to:
-  /// **'Add, remove or reorder addresses'**
-  String get settingsManageIdentitiesSubtitle;
-
-  /// Settings section header for compose-related options (signature, etc.)
-  ///
-  /// In en, this message translates to:
-  /// **'Compose'**
-  String get settingsCompose;
 
   /// Settings tile title and dialog title for editing the email signature
   ///
@@ -403,23 +349,11 @@ abstract class AppLocalizations {
   /// **'Enter your signature...'**
   String get settingsEmailSignatureHint;
 
-  /// Settings section header for sync/hosting options
-  ///
-  /// In en, this message translates to:
-  /// **'Synchronization'**
-  String get settingsSynchronization;
-
   /// Settings tile and screen title for relays/blossom/bridges
   ///
   /// In en, this message translates to:
   /// **'Hosting'**
   String get settingsHosting;
-
-  /// Subtitle for the hosting settings tile
-  ///
-  /// In en, this message translates to:
-  /// **'Relays, blossom servers, connectivity'**
-  String get settingsHostingSubtitle;
 
   /// Debug tools tile/screen title (debug builds only)
   ///
@@ -427,29 +361,11 @@ abstract class AppLocalizations {
   /// **'Debug Tools'**
   String get settingsDebugTools;
 
-  /// Subtitle for the debug tools tile
-  ///
-  /// In en, this message translates to:
-  /// **'Testing and development features'**
-  String get settingsDebugToolsSubtitle;
-
-  /// Settings section header for account actions
-  ///
-  /// In en, this message translates to:
-  /// **'Account'**
-  String get settingsAccount;
-
   /// Settings tile title to copy the user's sync code (nsec) to the clipboard
   ///
   /// In en, this message translates to:
   /// **'Copy sync code'**
   String get settingsCopySyncCode;
-
-  /// Subtitle explaining what the sync code is for
-  ///
-  /// In en, this message translates to:
-  /// **'Use this code to sync your account on other devices'**
-  String get settingsCopySyncCodeSubtitle;
 
   /// Toast confirmation after the sync code is copied
   ///
@@ -469,12 +385,6 @@ abstract class AppLocalizations {
   /// **'Reset application'**
   String get settingsResetApplication;
 
-  /// Subtitle for the reset application tile
-  ///
-  /// In en, this message translates to:
-  /// **'Delete all local data'**
-  String get settingsResetApplicationSubtitle;
-
   /// Confirmation message shown before resetting the application
   ///
   /// In en, this message translates to:
@@ -487,11 +397,17 @@ abstract class AppLocalizations {
   /// **'About'**
   String get settingsAbout;
 
-  /// Tile title for the app version in the About section
+  /// Tile subtitle under the developer's Nostr name, linking to their profile
   ///
   /// In en, this message translates to:
-  /// **'Version'**
-  String get settingsVersion;
+  /// **'Developer'**
+  String get settingsDeveloper;
+
+  /// Tile title for the link to the project's license
+  ///
+  /// In en, this message translates to:
+  /// **'License'**
+  String get settingsLicense;
 
   /// Tile title for the link to the project's GitHub repository
   ///
@@ -595,12 +511,6 @@ abstract class AppLocalizations {
   /// **'Remove this image from your saved backgrounds?'**
   String get settingsBackgroundDeleteMessage;
 
-  /// Toast shown after a saved background image is deleted
-  ///
-  /// In en, this message translates to:
-  /// **'Image deleted'**
-  String get settingsBackgroundImageDeleted;
-
   /// Error toast shown when deleting a saved background image fails
   ///
   /// In en, this message translates to:
@@ -637,18 +547,6 @@ abstract class AppLocalizations {
   /// **'https://example.com/image.jpg'**
   String get settingsBackgroundUrlHint;
 
-  /// Toast shown after a web image URL has been validated and applied as background
-  ///
-  /// In en, this message translates to:
-  /// **'Background set'**
-  String get settingsBackgroundSet;
-
-  /// Toast shown after a local image file has been copied and applied as background
-  ///
-  /// In en, this message translates to:
-  /// **'Image set'**
-  String get settingsBackgroundImageSet;
-
   /// Error toast when copying a picked image into local storage fails
   ///
   /// In en, this message translates to:
@@ -660,12 +558,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Image not accessible (CORS or network error)'**
   String get settingsBackgroundUrlError;
-
-  /// Toast shown after a background image has been downloaded and applied
-  ///
-  /// In en, this message translates to:
-  /// **'Image downloaded'**
-  String get settingsBackgroundDownloaded;
 
   /// Error toast when downloading a background image fails
   ///
@@ -769,11 +661,17 @@ abstract class AppLocalizations {
   /// **'Inbox Outbox Relays'**
   String get relayInboxOutboxTitle;
 
-  /// Tooltip on the + icon used to add a relay
+  /// One-line explanation under the inbox/outbox relays section header
+  ///
+  /// In en, this message translates to:
+  /// **'Relays your account publishes to and reads from.'**
+  String get relayInboxOutboxDescription;
+
+  /// Label of the row that opens the add-relay dialog
   ///
   /// In en, this message translates to:
   /// **'Add relay'**
-  String get relayAddTooltip;
+  String get relayAdd;
 
   /// Tooltip on the X icon used to mark a relay for deletion
   ///
@@ -787,12 +685,6 @@ abstract class AppLocalizations {
   /// **'No Inbox/Outbox relays configured'**
   String get relayInboxOutboxEmpty;
 
-  /// Helper text below empty-state messages instructing the user to add a relay
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add a relay'**
-  String get relayEmptyHint;
-
   /// Dialog title for adding a NIP-17 DM relay
   ///
   /// In en, this message translates to:
@@ -804,6 +696,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DM Relays'**
   String get dmRelaySectionTitle;
+
+  /// One-line explanation under the DM relays section header
+  ///
+  /// In en, this message translates to:
+  /// **'Relays that receive your encrypted messages.'**
+  String get dmRelayDescription;
+
+  /// Label of the row that opens the add-DM-relay dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Add DM relay'**
+  String get dmRelayAdd;
 
   /// Empty-state message shown when no DM relays are configured
   ///
@@ -841,23 +745,23 @@ abstract class AppLocalizations {
   /// **'Bridges'**
   String get bridgeSectionTitle;
 
-  /// Tooltip on the + icon used to add a bridge
+  /// One-line explanation under the bridges section header
+  ///
+  /// In en, this message translates to:
+  /// **'Domains that give you a standard email address.'**
+  String get bridgeDescription;
+
+  /// Label of the row that opens the add-bridge dialog
   ///
   /// In en, this message translates to:
   /// **'Add bridge'**
-  String get bridgeAddTooltip;
+  String get bridgeAdd;
 
   /// Empty-state message shown when no bridges are configured
   ///
   /// In en, this message translates to:
   /// **'No bridges configured'**
   String get bridgeEmpty;
-
-  /// Helper text below the empty bridges state
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add a bridge'**
-  String get bridgeEmptyHint;
 
   /// Subtitle shown next to the bundled default bridge (uid.ovh)
   ///
@@ -895,11 +799,17 @@ abstract class AppLocalizations {
   /// **'File Hosting'**
   String get blossomSectionTitle;
 
-  /// Tooltip on the + icon used to add a Blossom server
+  /// One-line explanation under the file hosting section header
+  ///
+  /// In en, this message translates to:
+  /// **'Servers that store your attachments and images.'**
+  String get blossomDescription;
+
+  /// Label of the row that opens the add-Blossom-server dialog
   ///
   /// In en, this message translates to:
   /// **'Add server'**
-  String get blossomAddTooltip;
+  String get blossomAdd;
 
   /// Tooltip on the X icon used to mark a Blossom server for deletion
   ///
@@ -913,23 +823,29 @@ abstract class AppLocalizations {
   /// **'No Blossom servers configured'**
   String get blossomEmpty;
 
-  /// Helper text below the empty Blossom servers state
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add a server'**
-  String get blossomEmptyHint;
-
   /// Section header for the live relay connectivity status block
   ///
   /// In en, this message translates to:
   /// **'Realtime Connection'**
   String get connectivitySectionTitle;
 
-  /// Title inside the relay connectivity ExpansionTile
+  /// Title of the expandable relay connectivity row, counting live connections
   ///
   /// In en, this message translates to:
-  /// **'Relay Connectivity'**
-  String get connectivityRelayConnectivity;
+  /// **'{connected} of {total} relays connected'**
+  String connectivityConnectedCount(int connected, int total);
+
+  /// Status of a relay the app is currently connected to
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get connectivityConnected;
+
+  /// Status of a relay the app is not connected to
+  ///
+  /// In en, this message translates to:
+  /// **'Not connected'**
+  String get connectivityDisconnected;
 
   /// Section header for per-relay email sync status
   ///
@@ -943,17 +859,17 @@ abstract class AppLocalizations {
   /// **'No sync data available'**
   String get syncStatusEmpty;
 
-  /// Helper text below the empty sync state
-  ///
-  /// In en, this message translates to:
-  /// **'Sync your emails to see relay status'**
-  String get syncStatusEmptyHint;
-
-  /// Button label that forces a fresh sync of all relays
+  /// Row label that forces a fresh sync of all relays
   ///
   /// In en, this message translates to:
   /// **'Resync'**
   String get syncStatusResync;
+
+  /// Subtitle under the resync row explaining what it does
+  ///
+  /// In en, this message translates to:
+  /// **'Read every message from your relays again.'**
+  String get syncStatusResyncSubtitle;
 
   /// Sentinel label for a zero timestamp (i.e. sync started from the dawn of time)
   ///
@@ -985,24 +901,6 @@ abstract class AppLocalizations {
   /// **'Create identity'**
   String get identitiesCreate;
 
-  /// Dialog title shown when leaving the identities screen with unsaved changes
-  ///
-  /// In en, this message translates to:
-  /// **'Discard changes?'**
-  String get identitiesDiscardTitle;
-
-  /// Message in the discard-changes dialog
-  ///
-  /// In en, this message translates to:
-  /// **'You have unsaved changes. Leaving now will discard them.'**
-  String get identitiesDiscardMessage;
-
-  /// Button label to stay on the screen and continue editing
-  ///
-  /// In en, this message translates to:
-  /// **'Keep editing'**
-  String get identitiesKeepEditing;
-
   /// AppBar title of the accounts management screen
   ///
   /// In en, this message translates to:
@@ -1014,18 +912,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage accounts'**
   String get accountsManage;
-
-  /// Subtitle of the settings tile that opens the accounts management screen
-  ///
-  /// In en, this message translates to:
-  /// **'Switch, add or remove accounts on this device'**
-  String get accountsManageSubtitle;
-
-  /// Accessibility label on the checkmark marking the account in use
-  ///
-  /// In en, this message translates to:
-  /// **'Active'**
-  String get accountsActive;
 
   /// Tooltip of the button that removes an account from the device
   ///
@@ -1417,18 +1303,6 @@ abstract class AppLocalizations {
   /// **'Email not found'**
   String get emailNotFound;
 
-  /// Tooltip on the toggle that switches from raw view back to formatted view
-  ///
-  /// In en, this message translates to:
-  /// **'Show formatted'**
-  String get emailShowFormatted;
-
-  /// Tooltip on the toggle that switches to raw email source view
-  ///
-  /// In en, this message translates to:
-  /// **'Show raw'**
-  String get emailShowRaw;
-
   /// Header above the raw email source, showing the sender's npub-encoded pubkey
   ///
   /// In en, this message translates to:
@@ -1602,6 +1476,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Download email'**
   String get emailActionDownload;
+
+  /// Button label that opens the raw email source dialog
+  ///
+  /// In en, this message translates to:
+  /// **'View source'**
+  String get emailActionViewSource;
 
   /// Tooltip on the overflow menu in the desktop email actions bar
   ///
@@ -2095,12 +1975,6 @@ abstract class AppLocalizations {
   /// **'Email addresses'**
   String get contactsEmailsLabel;
 
-  /// Hint for multi-value contact fields
-  ///
-  /// In en, this message translates to:
-  /// **'One per line'**
-  String get contactsMultilineHint;
-
   /// Hint for the add-email input in the contact form
   ///
   /// In en, this message translates to:
@@ -2149,23 +2023,11 @@ abstract class AppLocalizations {
   /// **'Year'**
   String get contactsBirthdayYearLabel;
 
-  /// Hint for the contact birthday field
-  ///
-  /// In en, this message translates to:
-  /// **'YYYY-MM-DD'**
-  String get contactsBirthdayHint;
-
   /// Label for Nostr identifiers in the contact form
   ///
   /// In en, this message translates to:
   /// **'Nostr identities'**
   String get contactsNostrLabel;
-
-  /// Hint for Nostr identifier input
-  ///
-  /// In en, this message translates to:
-  /// **'npub, nprofile, hex pubkey, or NIP-05'**
-  String get contactsNostrHint;
 
   /// Hint for the add-Nostr-identity input in the contact form
   ///

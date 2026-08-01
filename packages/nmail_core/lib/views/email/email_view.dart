@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ndk/ndk.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
 
 import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/inbox_controller.dart';
-import '../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/desktop_actions_bar.dart';
@@ -61,27 +59,9 @@ class EmailView extends StatelessWidget {
 
         Widget content = Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-              onPressed: () => _goBack(context, controller),
-            ),
+            leading: BackButton(onPressed: () => _goBack(context, controller)),
             actionsPadding: .only(right: 8),
             actions: [
-              Obx(() {
-                if (!Get.find<SettingsController>().showRawEmail.value) {
-                  return const SizedBox.shrink();
-                }
-                return IconButton(
-                  icon: Icon(
-                    controller.showRawContent ? Icons.article : Icons.code,
-                  ),
-                  tooltip: controller.showRawContent
-                      ? l.emailShowFormatted
-                      : l.emailShowRaw,
-                  onPressed: controller.toggleShowRawContent,
-                );
-              }),
               if (controller.folder == MailFolder.trash)
                 IconButton(
                   icon: const Icon(Icons.restore_from_trash_outlined),
@@ -97,65 +77,32 @@ class EmailView extends StatelessWidget {
               child: ResponsiveCenter(
                 maxWidth: 800,
                 padding: const EdgeInsets.all(16),
-                child: controller.showRawContent
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SelectableText(
-                            l.emailSenderNpub(
-                              Nip19.encodePubKey(
-                                controller.email!.senderPubkey,
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontFamily: 'monospace',
-                              color: Theme.of(context).colorScheme.primary,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    HeaderView(),
+                    // Desktop: actions bar between header and body
+                    if (isWide)
+                      Container(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .outlineVariant
+                                  .withValues(alpha: 0.5),
                             ),
                           ),
-                          const Divider(height: 24),
-                          if (controller.isLoadingRawContent)
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              child: Center(child: CircularProgressIndicator()),
-                            )
-                          else
-                            SelectableText(
-                              controller.rawContent ?? '',
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontFamily: 'monospace',
-                                height: 1.4,
-                              ),
-                            ),
-                        ],
+                        ),
+                        child: const DesktopActionsBar(),
                       )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          HeaderView(),
-                          // Desktop: actions bar between header and body
-                          if (isWide)
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 16),
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .outlineVariant
-                                        .withValues(alpha: 0.5),
-                                  ),
-                                ),
-                              ),
-                              child: const DesktopActionsBar(),
-                            )
-                          else
-                            const SizedBox(height: 16),
-                          EmailBodyView(email: controller.email!),
-                        ],
-                      ),
+                    else
+                      const SizedBox(height: 16),
+                    EmailBodyView(email: controller.email!),
+                  ],
+                ),
               ),
             ),
           ),

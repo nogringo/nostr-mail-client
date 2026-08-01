@@ -24,19 +24,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionClear => 'Очистить';
 
   @override
-  String get actionClose => 'Закрыть';
-
-  @override
   String get actionContinue => 'Продолжить';
-
-  @override
-  String get actionBack => 'Назад';
-
-  @override
-  String get actionConfirm => 'Подтвердить';
-
-  @override
-  String get actionOk => 'OK';
 
   @override
   String get actionCopy => 'Копировать';
@@ -60,7 +48,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionDiscard => 'Отбросить';
 
   @override
-  String get stateLoading => 'Загрузка';
+  String get actionKeepEditing => 'Продолжить редактирование';
+
+  @override
+  String get discardChangesTitle => 'Отбросить изменения?';
+
+  @override
+  String get discardChangesMessage =>
+      'У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.';
 
   @override
   String get stateLoadingEllipsis => 'Загрузка...';
@@ -69,19 +64,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get stateResetting => 'Сброс...';
 
   @override
-  String get stateValidating => 'Проверка...';
-
-  @override
-  String get stateDownloading => 'Скачивание...';
-
-  @override
-  String get stateUploading => 'Загрузка...';
-
-  @override
   String get settingsTitle => 'Настройки';
 
   @override
   String get settingsAppearance => 'Внешний вид';
+
+  @override
+  String get settingsBackground => 'Фон';
 
   @override
   String get settingsDynamicTheme => 'Динамическая тема';
@@ -103,6 +92,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsNotifications => 'Уведомления';
 
   @override
+  String get settingsMessages => 'Сообщения';
+
+  @override
   String get settingsEnableNotifications => 'Включить уведомления';
 
   @override
@@ -111,24 +103,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsUnifiedPushDistributorMissingTitle =>
-      'Push notifications unavailable';
+      'Push-уведомления недоступны';
 
   @override
   String get settingsUnifiedPushDistributorMissingSubtitle =>
-      'Install a UnifiedPush distributor like Sunup to receive notifications in the background.';
+      'Установите дистрибьютор UnifiedPush, например Sunup, чтобы получать уведомления в фоновом режиме.';
 
   @override
-  String get settingsUnifiedPushDistributorInstallSunup => 'Install Sunup';
-
-  @override
-  String get settingsAdvancedOptions => 'Дополнительные параметры';
-
-  @override
-  String get settingsShowEmailSource => 'Показать исходный код письма';
-
-  @override
-  String get settingsShowEmailSourceSubtitle =>
-      'Добавляет кнопку для просмотра исходного письма';
+  String get settingsUnifiedPushDistributorInstallSunup => 'Установить Sunup';
 
   @override
   String get settingsAlwaysLoadImages => 'Всегда загружать изображения';
@@ -141,16 +123,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsIdentities => 'Идентичности';
 
   @override
-  String get settingsManageIdentities => 'Управление идентичностями';
-
-  @override
-  String get settingsManageIdentitiesSubtitle =>
-      'Добавить, удалить или изменить порядок адресов';
-
-  @override
-  String get settingsCompose => 'Написание';
-
-  @override
   String get settingsEmailSignature => 'Подпись письма';
 
   @override
@@ -160,29 +132,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Введите вашу подпись...';
 
   @override
-  String get settingsSynchronization => 'Синхронизация';
-
-  @override
   String get settingsHosting => 'Хостинг';
-
-  @override
-  String get settingsHostingSubtitle => 'Реле, серверы Blossom, подключение';
 
   @override
   String get settingsDebugTools => 'Инструменты отладки';
 
   @override
-  String get settingsDebugToolsSubtitle => 'Функции тестирования и разработки';
-
-  @override
-  String get settingsAccount => 'Аккаунт';
-
-  @override
   String get settingsCopySyncCode => 'Скопировать код синхронизации';
-
-  @override
-  String get settingsCopySyncCodeSubtitle =>
-      'Используйте этот код для синхронизации аккаунта на других устройствах';
 
   @override
   String get settingsSyncCodeCopied => 'Код синхронизации скопирован';
@@ -194,9 +150,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsResetApplication => 'Сбросить приложение';
 
   @override
-  String get settingsResetApplicationSubtitle => 'Удалить все локальные данные';
-
-  @override
   String get settingsResetConfirmMessage =>
       'Все локальные данные, включая настройки и фоновые изображения, будут удалены, и вы выйдете из аккаунта.\n\nЭто действие нельзя отменить.';
 
@@ -204,7 +157,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsAbout => 'О приложении';
 
   @override
-  String get settingsVersion => 'Версия';
+  String get settingsDeveloper => 'Разработчик';
+
+  @override
+  String get settingsLicense => 'Лицензия';
 
   @override
   String get settingsSourceCode => 'Исходный код';
@@ -261,9 +217,6 @@ class AppLocalizationsRu extends AppLocalizations {
       'Убрать это изображение из сохранённых фонов?';
 
   @override
-  String get settingsBackgroundImageDeleted => 'Изображение удалено';
-
-  @override
   String get settingsBackgroundDeleteFailed => 'Не удалось удалить изображение';
 
   @override
@@ -282,21 +235,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsBackgroundUrlHint => 'https://example.com/image.jpg';
 
   @override
-  String get settingsBackgroundSet => 'Фон установлен';
-
-  @override
-  String get settingsBackgroundImageSet => 'Изображение установлено';
-
-  @override
   String get settingsBackgroundCopyFailed =>
       'Не удалось скопировать изображение';
 
   @override
   String get settingsBackgroundUrlError =>
       'Изображение недоступно (ошибка CORS или сети)';
-
-  @override
-  String get settingsBackgroundDownloaded => 'Изображение скачано';
 
   @override
   String get settingsBackgroundDownloadFailed =>
@@ -354,7 +298,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Реле входящих/исходящих';
 
   @override
-  String get relayAddTooltip => 'Добавить реле';
+  String get relayInboxOutboxDescription =>
+      'Реле, куда ваш аккаунт публикует и откуда читает.';
+
+  @override
+  String get relayAdd => 'Добавить реле';
 
   @override
   String get relayRemoveTooltip => 'Удалить реле';
@@ -363,13 +311,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get relayInboxOutboxEmpty => 'Реле входящих/исходящих не настроены';
 
   @override
-  String get relayEmptyHint => 'Нажмите +, чтобы добавить реле';
-
-  @override
   String get dmRelayAddTitle => 'Добавить DM-реле';
 
   @override
   String get dmRelaySectionTitle => 'DM-реле';
+
+  @override
+  String get dmRelayDescription =>
+      'Реле, которые принимают ваши зашифрованные сообщения.';
+
+  @override
+  String get dmRelayAdd => 'Добавить DM-реле';
 
   @override
   String get dmRelayEmpty => 'DM-реле не настроены';
@@ -390,13 +342,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bridgeSectionTitle => 'Мосты';
 
   @override
-  String get bridgeAddTooltip => 'Добавить мост';
+  String get bridgeDescription =>
+      'Домены, которые дают вам обычный адрес электронной почты.';
+
+  @override
+  String get bridgeAdd => 'Добавить мост';
 
   @override
   String get bridgeEmpty => 'Мосты не настроены';
-
-  @override
-  String get bridgeEmptyHint => 'Нажмите +, чтобы добавить мост';
 
   @override
   String get bridgeDefault => 'Мост по умолчанию';
@@ -417,7 +370,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get blossomSectionTitle => 'Хостинг файлов';
 
   @override
-  String get blossomAddTooltip => 'Добавить сервер';
+  String get blossomDescription =>
+      'Серверы, где хранятся ваши вложения и изображения.';
+
+  @override
+  String get blossomAdd => 'Добавить сервер';
 
   @override
   String get blossomRemoveTooltip => 'Удалить сервер';
@@ -426,13 +383,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get blossomEmpty => 'Серверы Blossom не настроены';
 
   @override
-  String get blossomEmptyHint => 'Нажмите +, чтобы добавить сервер';
-
-  @override
   String get connectivitySectionTitle => 'Подключение в реальном времени';
 
   @override
-  String get connectivityRelayConnectivity => 'Подключение реле';
+  String connectivityConnectedCount(int connected, int total) {
+    return 'Подключено реле: $connected из $total';
+  }
+
+  @override
+  String get connectivityConnected => 'Подключено';
+
+  @override
+  String get connectivityDisconnected => 'Нет подключения';
 
   @override
   String get syncStatusSectionTitle => 'Статус синхронизации';
@@ -441,11 +403,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get syncStatusEmpty => 'Нет данных о синхронизации';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Синхронизируйте письма, чтобы увидеть статус реле';
+  String get syncStatusResync => 'Пересинхронизировать';
 
   @override
-  String get syncStatusResync => 'Пересинхронизировать';
+  String get syncStatusResyncSubtitle =>
+      'Заново прочитать все сообщения с ваших реле.';
 
   @override
   String get syncStatusBeginningOfTime => 'Начало времён';
@@ -464,27 +426,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get identitiesCreate => 'Создать идентичность';
 
   @override
-  String get identitiesDiscardTitle => 'Отбросить изменения?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.';
-
-  @override
-  String get identitiesKeepEditing => 'Продолжить редактирование';
-
-  @override
   String get accountsTitle => 'Аккаунты';
 
   @override
   String get accountsManage => 'Управление аккаунтами';
-
-  @override
-  String get accountsManageSubtitle =>
-      'Переключение, добавление и удаление аккаунтов на этом устройстве';
-
-  @override
-  String get accountsActive => 'Активный';
 
   @override
   String get accountsRemove => 'Удалить аккаунт';
@@ -723,12 +668,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailNotFound => 'Письмо не найдено';
 
   @override
-  String get emailShowFormatted => 'Показать форматированное';
-
-  @override
-  String get emailShowRaw => 'Показать исходный код';
-
-  @override
   String emailSenderNpub(String npub) {
     return 'npub отправителя: $npub';
   }
@@ -848,6 +787,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get emailActionDownload => 'Скачать письмо';
+
+  @override
+  String get emailActionViewSource => 'Показать исходный код';
 
   @override
   String get emailMoreActions => 'Больше действий';
@@ -1106,9 +1048,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsEmailsLabel => 'Адреса электронной почты';
 
   @override
-  String get contactsMultilineHint => 'По одному в строке';
-
-  @override
   String get contactsAddEmailHint => 'Добавить адрес электронной почты';
 
   @override
@@ -1133,14 +1072,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsBirthdayYearLabel => 'Год';
 
   @override
-  String get contactsBirthdayHint => 'ГГГГ-ММ-ДД';
-
-  @override
   String get contactsNostrLabel => 'Идентификаторы Nostr';
-
-  @override
-  String get contactsNostrHint =>
-      'npub, nprofile, hex-публичный ключ или NIP-05';
 
   @override
   String get contactsAddNostrHint =>

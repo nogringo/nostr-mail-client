@@ -13,7 +13,8 @@ class WideLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final loc = GoRouterState.of(context).matchedLocation;
     final isContacts = loc == AppRoutes.contacts;
     return Row(
@@ -46,7 +47,23 @@ class WideLayout extends StatelessWidget {
               ),
             ),
             clipBehavior: Clip.antiAlias,
-            child: body,
+            child: Theme(
+              // A static divider, as on the inbox toolbar, replaces the Material
+              // 3 scrolled-under swap to surfaceContainer, which reads as a
+              // full-width color jump behind the centered content of a pane.
+              data: theme.copyWith(
+                appBarTheme: theme.appBarTheme.copyWith(
+                  backgroundColor: colorScheme.surface,
+                  scrolledUnderElevation: 0,
+                  shape: Border(
+                    bottom: BorderSide(
+                      color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+                    ),
+                  ),
+                ),
+              ),
+              child: body,
+            ),
           ),
         ),
       ],

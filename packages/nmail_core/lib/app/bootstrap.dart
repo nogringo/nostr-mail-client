@@ -206,41 +206,42 @@ class MainApp extends StatelessWidget {
           routerConfig: AppRouter.init(),
           builder: (context, child) {
             if (PlatformHelper.isDesktop) {
-              return DragToResizeArea(
-                child: ColoredBox(
-                  color: Theme.of(context).colorScheme.surface,
-                  child: Stack(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: ResponsiveHelper.isMobile(context) ? 32 : 0,
-                        ),
-                        child: child!,
+              final shell = ColoredBox(
+                color: Theme.of(context).colorScheme.surface,
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: ResponsiveHelper.isMobile(context) ? 32 : 0,
                       ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: 32,
-                        child: Row(
-                          children: [
-                            Expanded(child: DragToMoveArea(child: Container())),
-                            if (!GetPlatform.isMacOS)
-                              SizedBox(
-                                width: 154,
-                                child: WindowCaption(
-                                  brightness: Theme.of(context).brightness,
-                                  backgroundColor: Colors.transparent,
-                                ),
+                      child: child!,
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: 32,
+                      child: Row(
+                        children: [
+                          Expanded(child: DragToMoveArea(child: Container())),
+                          if (!GetPlatform.isMacOS)
+                            SizedBox(
+                              width: 154,
+                              child: WindowCaption(
+                                brightness: Theme.of(context).brightness,
+                                backgroundColor: Colors.transparent,
                               ),
-                          ],
-                        ),
+                            ),
+                        ],
                       ),
-                      const PendingRequestsOverlay(),
-                    ],
-                  ),
+                    ),
+                    const PendingRequestsOverlay(),
+                  ],
                 ),
               );
+
+              if (GetPlatform.isMacOS) return shell;
+              return DragToResizeArea(child: shell);
             }
             return Stack(children: [child!, const PendingRequestsOverlay()]);
           },

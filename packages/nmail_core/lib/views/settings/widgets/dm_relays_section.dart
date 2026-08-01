@@ -6,7 +6,13 @@ import '../../../controllers/dm_relays_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/relay_utils.dart';
 import 'package:nmail_core/config/nostr_config.dart';
+import 'hosting_add_tile.dart';
+import 'hosting_empty_tile.dart';
+import 'hosting_loading_tile.dart';
+import 'hosting_resource_tile.dart';
 import 'recommendation_chips.dart';
+import 'settings_group.dart';
+import 'settings_section_header.dart';
 
 class DmRelaysSection extends StatelessWidget {
   const DmRelaysSection({super.key});
@@ -64,8 +70,7 @@ class DmRelaysSection extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8),
                   child: Text(
                     l.hostingWillBeAddedAs(preview!),
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
@@ -103,95 +108,55 @@ class DmRelaysSection extends StatelessWidget {
     return GetBuilder<DmRelaysController>(
       init: DmRelaysController(),
       builder: (controller) {
-        if (controller.isLoading) {
-          return ListTile(
-            leading: const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(strokeWidth: 2),
-            ),
-            title: Text(l.stateLoadingEllipsis),
-          );
-        }
+        final relays = controller.dmRelays ?? const <String>[];
 
         return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ListTile(
-              dense: true,
-              title: Text(
-                l.dmRelaySectionTitle,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.add, size: 18),
-                onPressed: () => _addRelay(context, controller),
-                tooltip: l.relayAddTooltip,
-              ),
+            SettingsSectionHeader(
+              title: l.dmRelaySectionTitle,
+              description: l.dmRelayDescription,
             ),
-            RecommendationChips(
-              recommendations: NostrConfig.recommendedDmRelays,
-              isAlreadyAdded: (relay) =>
-                  controller.dmRelays != null &&
-                  controller.dmRelays!.contains(relay),
-              onAdd: controller.addRelay,
-              formatLabel: formatRelayUrl,
-            ),
-            if (controller.dmRelays == null || controller.dmRelays!.isEmpty)
-              ListTile(
-                leading: const Icon(Icons.warning_rounded),
-                title: Text(l.dmRelayEmpty),
-                subtitle: Text(l.relayEmptyHint),
-              )
-            else
-              ...controller.dmRelays!.map((relay) {
-                final isMarked = controller.markedForDeletion.contains(relay);
-                return ListTile(
-                  leading: Icon(
-                    Icons.dns_outlined,
-                    color: isMarked ? Theme.of(context).disabledColor : null,
+            if (controller.isLoading)
+              const HostingLoadingTile()
+            else ...[
+              SettingsGroup(
+                rows: [
+                  if (relays.isEmpty)
+                    (index, count) => HostingEmptyTile(
+                      icon: Icons.warning_amber_rounded,
+                      message: l.dmRelayEmpty,
+                      index: index,
+                      count: count,
+                    )
+                  else
+                    for (final relay in relays)
+                      (index, count) => HostingResourceTile(
+                        icon: Icons.dns_outlined,
+                        label: formatRelayUrl(relay),
+                        index: index,
+                        count: count,
+                        isMarkedForDeletion: controller.markedForDeletion
+                            .contains(relay),
+                        removeTooltip: l.relayRemoveTooltip,
+                        onToggleDeletion: () =>
+                            controller.toggleRelayDeletion(relay),
+                      ),
+                  (index, count) => HostingAddTile(
+                    label: l.dmRelayAdd,
+                    index: index,
+                    count: count,
+                    onTap: () => _addRelay(context, controller),
                   ),
-                  title: Text(
-                    formatRelayUrl(relay),
-                    style: TextStyle(
-                      fontSize: 14,
-                      decoration: isMarked ? TextDecoration.lineThrough : null,
-                      color: isMarked ? Theme.of(context).disabledColor : null,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    icon: Icon(isMarked ? Icons.undo : Icons.close, size: 18),
-                    onPressed: () => controller.toggleRelayDeletion(relay),
-                    tooltip: isMarked ? l.actionUndo : l.relayRemoveTooltip,
-                  ),
-                );
-              }),
-            if (controller.hasChanges)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: controller.isSaving
-                        ? null
-                        : controller.saveChanges,
-                    child: controller.isSaving
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : Text(l.actionSave),
-                  ),
-                ),
+                ],
               ),
+              RecommendationChips(
+                recommendations: NostrConfig.recommendedDmRelays,
+                isAlreadyAdded: relays.contains,
+                onAdd: controller.addRelay,
+                formatLabel: formatRelayUrl,
+              ),
+            ],
           ],
         );
       },
