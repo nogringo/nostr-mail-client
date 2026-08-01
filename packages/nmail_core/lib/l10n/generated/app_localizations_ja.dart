@@ -48,6 +48,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionDiscard => '破棄';
 
   @override
+  String get actionKeepEditing => '編集を続ける';
+
+  @override
+  String get discardChangesTitle => '変更を破棄しますか?';
+
+  @override
+  String get discardChangesMessage => '保存されていない変更があります。今離れると破棄されます。';
+
+  @override
   String get stateLoadingEllipsis => '読み込み中...';
 
   @override
@@ -279,7 +288,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relayInboxOutboxTitle => '受信/送信リレー';
 
   @override
-  String get relayAddTooltip => 'リレーを追加';
+  String get relayInboxOutboxDescription => 'アカウントが公開と読み込みに使うリレーです。';
+
+  @override
+  String get relayAdd => 'リレーを追加';
 
   @override
   String get relayRemoveTooltip => 'リレーを削除';
@@ -288,13 +300,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relayInboxOutboxEmpty => '受信/送信リレーが設定されていません';
 
   @override
-  String get relayEmptyHint => '+ をタップしてリレーを追加';
-
-  @override
   String get dmRelayAddTitle => 'DM リレーを追加';
 
   @override
   String get dmRelaySectionTitle => 'DM リレー';
+
+  @override
+  String get dmRelayDescription => '暗号化されたメッセージを受け取るリレーです。';
+
+  @override
+  String get dmRelayAdd => 'DM リレーを追加';
 
   @override
   String get dmRelayEmpty => 'DM リレーが設定されていません';
@@ -315,13 +330,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get bridgeSectionTitle => 'ブリッジ';
 
   @override
-  String get bridgeAddTooltip => 'ブリッジを追加';
+  String get bridgeDescription => '通常のメールアドレスを提供するドメインです。';
+
+  @override
+  String get bridgeAdd => 'ブリッジを追加';
 
   @override
   String get bridgeEmpty => 'ブリッジが設定されていません';
-
-  @override
-  String get bridgeEmptyHint => '+ をタップしてブリッジを追加';
 
   @override
   String get bridgeDefault => '既定のブリッジ';
@@ -342,7 +357,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blossomSectionTitle => 'ファイルホスティング';
 
   @override
-  String get blossomAddTooltip => 'サーバーを追加';
+  String get blossomDescription => '添付ファイルや画像を保存するサーバーです。';
+
+  @override
+  String get blossomAdd => 'サーバーを追加';
 
   @override
   String get blossomRemoveTooltip => 'サーバーを削除';
@@ -351,13 +369,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blossomEmpty => 'Blossom サーバーが設定されていません';
 
   @override
-  String get blossomEmptyHint => '+ をタップしてサーバーを追加';
-
-  @override
   String get connectivitySectionTitle => 'リアルタイム接続';
 
   @override
-  String get connectivityRelayConnectivity => 'リレー接続状態';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$total 件中 $connected 件のリレーに接続中';
+  }
+
+  @override
+  String get connectivityConnected => '接続中';
+
+  @override
+  String get connectivityDisconnected => '未接続';
 
   @override
   String get syncStatusSectionTitle => '同期ステータス';
@@ -366,10 +389,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get syncStatusEmpty => '同期データがありません';
 
   @override
-  String get syncStatusEmptyHint => 'メールを同期するとリレーの状態が表示されます';
+  String get syncStatusResync => '再同期';
 
   @override
-  String get syncStatusResync => '再同期';
+  String get syncStatusResyncSubtitle => 'リレーからすべてのメッセージを読み直します。';
 
   @override
   String get syncStatusBeginningOfTime => '時の始まり';
@@ -385,15 +408,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get identitiesCreate => 'アイデンティティを作成';
-
-  @override
-  String get identitiesDiscardTitle => '変更を破棄しますか?';
-
-  @override
-  String get identitiesDiscardMessage => '保存されていない変更があります。今離れると破棄されます。';
-
-  @override
-  String get identitiesKeepEditing => '編集を続ける';
 
   @override
   String get accountsTitle => 'アカウント';

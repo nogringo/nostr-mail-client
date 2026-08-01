@@ -14,6 +14,9 @@
   "actionUndo": "Annuler",
   "actionRemove": "Supprimer",
   "actionDiscard": "Abandonner",
+  "actionKeepEditing": "Continuer à modifier",
+  "discardChangesTitle": "Abandonner les modifications ?",
+  "discardChangesMessage": "Vous avez des modifications non enregistrées. Quitter maintenant les supprimera.",
 
   "stateLoadingEllipsis": "Chargement...",
   "stateResetting": "Réinitialisation...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "lecture",
   "relayMarkerWrite": "écriture",
   "relayInboxOutboxTitle": "Relais de réception et d'envoi",
-  "relayAddTooltip": "Ajouter un relais",
+  "relayInboxOutboxDescription": "Relais sur lesquels votre compte publie et lit.",
+  "relayAdd": "Ajouter un relais",
   "relayRemoveTooltip": "Retirer le relais",
   "relayInboxOutboxEmpty": "Aucun relais de réception/envoi configuré",
-  "relayEmptyHint": "Appuyez sur + pour ajouter un relais",
 
   "dmRelayAddTitle": "Ajouter un relais DM",
   "dmRelaySectionTitle": "Relais DM",
+  "dmRelayDescription": "Relais qui reçoivent vos messages chiffrés.",
+  "dmRelayAdd": "Ajouter un relais DM",
   "dmRelayEmpty": "Aucun relais DM configuré",
 
   "bridgeAddTitle": "Ajouter un bridge",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.exemple.com",
   "bridgeInvalidDomain": "Domaine invalide",
   "bridgeSectionTitle": "Bridges",
-  "bridgeAddTooltip": "Ajouter un bridge",
+  "bridgeDescription": "Domaines qui vous donnent une adresse e-mail classique.",
+  "bridgeAdd": "Ajouter un bridge",
   "bridgeEmpty": "Aucun bridge configuré",
-  "bridgeEmptyHint": "Appuyez sur + pour ajouter un bridge",
   "bridgeDefault": "Bridge par défaut",
 
   "blossomAddTitle": "Ajouter un serveur Blossom",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.exemple.com",
   "blossomInvalidUrl": "URL de serveur invalide",
   "blossomSectionTitle": "Hébergement de fichiers",
-  "blossomAddTooltip": "Ajouter un serveur",
+  "blossomDescription": "Serveurs qui stockent vos pièces jointes et vos images.",
+  "blossomAdd": "Ajouter un serveur",
   "blossomRemoveTooltip": "Retirer le serveur",
   "blossomEmpty": "Aucun serveur Blossom configuré",
-  "blossomEmptyHint": "Appuyez sur + pour ajouter un serveur",
 
   "connectivitySectionTitle": "Connexion en temps réel",
-  "connectivityRelayConnectivity": "Connectivité des relais",
+  "connectivityConnectedCount": "{connected} relais connectés sur {total}",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "Connecté",
+  "connectivityDisconnected": "Non connecté",
 
   "syncStatusSectionTitle": "État de synchronisation",
   "syncStatusEmpty": "Aucune donnée de synchronisation",
-  "syncStatusEmptyHint": "Synchronisez vos e-mails pour voir l'état des relais",
   "syncStatusResync": "Resynchroniser",
+  "syncStatusResyncSubtitle": "Relire tous les messages depuis vos relais.",
   "syncStatusBeginningOfTime": "Origine des temps",
 
   "identitiesTitle": "Identités",
   "identitiesEmptyTitle": "Aucune identité",
   "identitiesEmptyMessage": "Créez-en une pour envoyer des e-mails depuis une adresse personnalisée.",
   "identitiesCreate": "Créer une identité",
-  "identitiesDiscardTitle": "Abandonner les modifications ?",
-  "identitiesDiscardMessage": "Vous avez des modifications non enregistrées. Quitter maintenant les supprimera.",
-  "identitiesKeepEditing": "Continuer à modifier",
 
   "accountsTitle": "Comptes",
   "accountsManage": "Gérer les comptes",

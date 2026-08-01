@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../app/routes/app_router.dart';
 import '../../app/routes/app_routes.dart';
 import '../../controllers/identities_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -18,7 +17,7 @@ class IdentitiesView extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final controller = Get.find<IdentitiesController>();
 
-    final scaffold = Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: Text(l.identitiesTitle),
         actionsPadding: .only(right: 8),
@@ -71,47 +70,6 @@ class IdentitiesView extends StatelessWidget {
             ],
           );
         }),
-      ),
-    );
-
-    final content = Obx(
-      () => PopScope(
-        canPop: !controller.hasChanges,
-        onPopInvokedWithResult: (didPop, _) async {
-          if (didPop) return;
-          final shouldDiscard = await _confirmDiscard(context);
-          if (shouldDiscard == true) {
-            controller.discardChanges();
-            if (AppRouter.router.canPop()) {
-              AppRouter.router.pop();
-            } else {
-              AppRouter.router.go(AppRoutes.settings);
-            }
-          }
-        },
-        child: scaffold,
-      ),
-    );
-
-    return content;
-  }
-
-  Future<bool?> _confirmDiscard(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    return Get.dialog<bool>(
-      AlertDialog(
-        title: Text(l.identitiesDiscardTitle),
-        content: Text(l.identitiesDiscardMessage),
-        actions: [
-          TextButton(
-            onPressed: () => Get.back(result: false),
-            child: Text(l.identitiesKeepEditing),
-          ),
-          TextButton(
-            onPressed: () => Get.back(result: true),
-            child: Text(l.actionDiscard),
-          ),
-        ],
       ),
     );
   }

@@ -33,6 +33,8 @@ import '../../views/profile/profile_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
 import '../../views/settings/about_settings_view.dart';
 import '../../views/settings/appearance_settings_view.dart';
+import '../../views/settings/confirm_discard_hosting_changes.dart';
+import '../../views/settings/confirm_discard_identity_changes.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
 import '../../views/settings/identities_view.dart';
@@ -220,6 +222,7 @@ class AppRouter {
               ),
               GoRoute(
                 path: 'identities',
+                onExit: (context, _) => confirmDiscardIdentityChanges(context),
                 builder: (_, _) {
                   Get.lazyPut(() => IdentitiesController());
                   return const IdentitiesView();
@@ -241,6 +244,7 @@ class AppRouter {
               ),
               GoRoute(
                 path: 'hosting',
+                onExit: (context, _) => confirmDiscardHostingChanges(context),
                 builder: (_, _) => const HostingSettingsView(),
               ),
               GoRoute(

@@ -14,6 +14,9 @@
   "actionUndo": "Deshacer",
   "actionRemove": "Quitar",
   "actionDiscard": "Descartar",
+  "actionKeepEditing": "Seguir editando",
+  "discardChangesTitle": "¿Descartar cambios?",
+  "discardChangesMessage": "Tienes cambios sin guardar. Salir ahora los descartará.",
 
   "stateLoadingEllipsis": "Cargando...",
   "stateResetting": "Restableciendo...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "lectura",
   "relayMarkerWrite": "escritura",
   "relayInboxOutboxTitle": "Relays de entrada y salida",
-  "relayAddTooltip": "Añadir relay",
+  "relayInboxOutboxDescription": "Relays en los que tu cuenta publica y lee.",
+  "relayAdd": "Añadir relay",
   "relayRemoveTooltip": "Quitar relay",
   "relayInboxOutboxEmpty": "No hay relays de entrada/salida configurados",
-  "relayEmptyHint": "Toca + para añadir un relay",
 
   "dmRelayAddTitle": "Añadir relay DM",
   "dmRelaySectionTitle": "Relays DM",
+  "dmRelayDescription": "Relays que reciben tus mensajes cifrados.",
+  "dmRelayAdd": "Añadir relay DM",
   "dmRelayEmpty": "No hay relays DM configurados",
 
   "bridgeAddTitle": "Añadir bridge",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.ejemplo.com",
   "bridgeInvalidDomain": "Dominio no válido",
   "bridgeSectionTitle": "Bridges",
-  "bridgeAddTooltip": "Añadir bridge",
+  "bridgeDescription": "Dominios que te dan una dirección de correo estándar.",
+  "bridgeAdd": "Añadir bridge",
   "bridgeEmpty": "No hay bridges configurados",
-  "bridgeEmptyHint": "Toca + para añadir un bridge",
   "bridgeDefault": "Bridge predeterminado",
 
   "blossomAddTitle": "Añadir servidor Blossom",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.ejemplo.com",
   "blossomInvalidUrl": "URL de servidor no válida",
   "blossomSectionTitle": "Alojamiento de archivos",
-  "blossomAddTooltip": "Añadir servidor",
+  "blossomDescription": "Servidores que guardan tus adjuntos e imágenes.",
+  "blossomAdd": "Añadir servidor",
   "blossomRemoveTooltip": "Quitar servidor",
   "blossomEmpty": "No hay servidores Blossom configurados",
-  "blossomEmptyHint": "Toca + para añadir un servidor",
 
   "connectivitySectionTitle": "Conexión en tiempo real",
-  "connectivityRelayConnectivity": "Conectividad de relays",
+  "connectivityConnectedCount": "{connected} de {total} relays conectados",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "Conectado",
+  "connectivityDisconnected": "Sin conexión",
 
   "syncStatusSectionTitle": "Estado de sincronización",
   "syncStatusEmpty": "No hay datos de sincronización",
-  "syncStatusEmptyHint": "Sincroniza tus correos para ver el estado de los relays",
   "syncStatusResync": "Resincronizar",
+  "syncStatusResyncSubtitle": "Volver a leer todos los mensajes desde tus relays.",
   "syncStatusBeginningOfTime": "Inicio de los tiempos",
 
   "identitiesTitle": "Identidades",
   "identitiesEmptyTitle": "Aún no hay identidades",
   "identitiesEmptyMessage": "Crea una para enviar correos desde una dirección personalizada.",
   "identitiesCreate": "Crear identidad",
-  "identitiesDiscardTitle": "¿Descartar cambios?",
-  "identitiesDiscardMessage": "Tienes cambios sin guardar. Salir ahora los descartará.",
-  "identitiesKeepEditing": "Seguir editando",
 
   "accountsTitle": "Cuentas",
   "accountsManage": "Gestionar cuentas",

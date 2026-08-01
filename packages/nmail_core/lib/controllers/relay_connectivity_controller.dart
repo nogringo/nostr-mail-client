@@ -8,7 +8,6 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 class RelayConnectivityController extends GetxController {
   StreamSubscription<Map<String, RelayConnectivity>>? _subscription;
   Map<String, RelayConnectivity> connectivityMap = {};
-  bool isExpanded = false;
 
   int get connectedCount =>
       connectivityMap.values.where((c) => c.isConnected).length;
@@ -23,11 +22,6 @@ class RelayConnectivityController extends GetxController {
   void onClose() {
     _subscription?.cancel();
     super.onClose();
-  }
-
-  void setExpanded(bool expanded) {
-    isExpanded = expanded;
-    update();
   }
 
   void _subscribeToConnectivity() {

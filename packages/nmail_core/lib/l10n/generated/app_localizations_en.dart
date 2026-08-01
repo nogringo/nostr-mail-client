@@ -48,6 +48,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionDiscard => 'Discard';
 
   @override
+  String get actionKeepEditing => 'Keep editing';
+
+  @override
+  String get discardChangesTitle => 'Discard changes?';
+
+  @override
+  String get discardChangesMessage =>
+      'You have unsaved changes. Leaving now will discard them.';
+
+  @override
   String get stateLoadingEllipsis => 'Loading...';
 
   @override
@@ -285,7 +295,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Inbox Outbox Relays';
 
   @override
-  String get relayAddTooltip => 'Add relay';
+  String get relayInboxOutboxDescription =>
+      'Relays your account publishes to and reads from.';
+
+  @override
+  String get relayAdd => 'Add relay';
 
   @override
   String get relayRemoveTooltip => 'Remove relay';
@@ -294,13 +308,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get relayInboxOutboxEmpty => 'No Inbox/Outbox relays configured';
 
   @override
-  String get relayEmptyHint => 'Tap + to add a relay';
-
-  @override
   String get dmRelayAddTitle => 'Add DM Relay';
 
   @override
   String get dmRelaySectionTitle => 'DM Relays';
+
+  @override
+  String get dmRelayDescription =>
+      'Relays that receive your encrypted messages.';
+
+  @override
+  String get dmRelayAdd => 'Add DM relay';
 
   @override
   String get dmRelayEmpty => 'No DM relays configured';
@@ -321,13 +339,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bridgeSectionTitle => 'Bridges';
 
   @override
-  String get bridgeAddTooltip => 'Add bridge';
+  String get bridgeDescription =>
+      'Domains that give you a standard email address.';
+
+  @override
+  String get bridgeAdd => 'Add bridge';
 
   @override
   String get bridgeEmpty => 'No bridges configured';
-
-  @override
-  String get bridgeEmptyHint => 'Tap + to add a bridge';
 
   @override
   String get bridgeDefault => 'Default bridge';
@@ -348,7 +367,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get blossomSectionTitle => 'File Hosting';
 
   @override
-  String get blossomAddTooltip => 'Add server';
+  String get blossomDescription =>
+      'Servers that store your attachments and images.';
+
+  @override
+  String get blossomAdd => 'Add server';
 
   @override
   String get blossomRemoveTooltip => 'Remove server';
@@ -357,13 +380,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get blossomEmpty => 'No Blossom servers configured';
 
   @override
-  String get blossomEmptyHint => 'Tap + to add a server';
-
-  @override
   String get connectivitySectionTitle => 'Realtime Connection';
 
   @override
-  String get connectivityRelayConnectivity => 'Relay Connectivity';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected of $total relays connected';
+  }
+
+  @override
+  String get connectivityConnected => 'Connected';
+
+  @override
+  String get connectivityDisconnected => 'Not connected';
 
   @override
   String get syncStatusSectionTitle => 'Sync Status';
@@ -372,10 +400,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get syncStatusEmpty => 'No sync data available';
 
   @override
-  String get syncStatusEmptyHint => 'Sync your emails to see relay status';
+  String get syncStatusResync => 'Resync';
 
   @override
-  String get syncStatusResync => 'Resync';
+  String get syncStatusResyncSubtitle =>
+      'Read every message from your relays again.';
 
   @override
   String get syncStatusBeginningOfTime => 'Beginning of time';
@@ -392,16 +421,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get identitiesCreate => 'Create identity';
-
-  @override
-  String get identitiesDiscardTitle => 'Discard changes?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'You have unsaved changes. Leaving now will discard them.';
-
-  @override
-  String get identitiesKeepEditing => 'Keep editing';
 
   @override
   String get accountsTitle => 'Accounts';

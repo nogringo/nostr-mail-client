@@ -14,6 +14,9 @@
   "actionUndo": "Отменить",
   "actionRemove": "Удалить",
   "actionDiscard": "Отбросить",
+  "actionKeepEditing": "Продолжить редактирование",
+  "discardChangesTitle": "Отбросить изменения?",
+  "discardChangesMessage": "У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.",
 
   "stateLoadingEllipsis": "Загрузка...",
   "stateResetting": "Сброс...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "чтение",
   "relayMarkerWrite": "запись",
   "relayInboxOutboxTitle": "Реле входящих/исходящих",
-  "relayAddTooltip": "Добавить реле",
+  "relayInboxOutboxDescription": "Реле, куда ваш аккаунт публикует и откуда читает.",
+  "relayAdd": "Добавить реле",
   "relayRemoveTooltip": "Удалить реле",
   "relayInboxOutboxEmpty": "Реле входящих/исходящих не настроены",
-  "relayEmptyHint": "Нажмите +, чтобы добавить реле",
 
   "dmRelayAddTitle": "Добавить DM-реле",
   "dmRelaySectionTitle": "DM-реле",
+  "dmRelayDescription": "Реле, которые принимают ваши зашифрованные сообщения.",
+  "dmRelayAdd": "Добавить DM-реле",
   "dmRelayEmpty": "DM-реле не настроены",
 
   "bridgeAddTitle": "Добавить мост",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.example.com",
   "bridgeInvalidDomain": "Недействительный домен",
   "bridgeSectionTitle": "Мосты",
-  "bridgeAddTooltip": "Добавить мост",
+  "bridgeDescription": "Домены, которые дают вам обычный адрес электронной почты.",
+  "bridgeAdd": "Добавить мост",
   "bridgeEmpty": "Мосты не настроены",
-  "bridgeEmptyHint": "Нажмите +, чтобы добавить мост",
   "bridgeDefault": "Мост по умолчанию",
 
   "blossomAddTitle": "Добавить сервер Blossom",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.example.com",
   "blossomInvalidUrl": "Недействительный URL сервера",
   "blossomSectionTitle": "Хостинг файлов",
-  "blossomAddTooltip": "Добавить сервер",
+  "blossomDescription": "Серверы, где хранятся ваши вложения и изображения.",
+  "blossomAdd": "Добавить сервер",
   "blossomRemoveTooltip": "Удалить сервер",
   "blossomEmpty": "Серверы Blossom не настроены",
-  "blossomEmptyHint": "Нажмите +, чтобы добавить сервер",
 
   "connectivitySectionTitle": "Подключение в реальном времени",
-  "connectivityRelayConnectivity": "Подключение реле",
+  "connectivityConnectedCount": "Подключено реле: {connected} из {total}",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "Подключено",
+  "connectivityDisconnected": "Нет подключения",
 
   "syncStatusSectionTitle": "Статус синхронизации",
   "syncStatusEmpty": "Нет данных о синхронизации",
-  "syncStatusEmptyHint": "Синхронизируйте письма, чтобы увидеть статус реле",
   "syncStatusResync": "Пересинхронизировать",
+  "syncStatusResyncSubtitle": "Заново прочитать все сообщения с ваших реле.",
   "syncStatusBeginningOfTime": "Начало времён",
 
   "identitiesTitle": "Идентичности",
   "identitiesEmptyTitle": "Идентичностей пока нет",
   "identitiesEmptyMessage": "Создайте одну, чтобы отправлять письма с собственного адреса.",
   "identitiesCreate": "Создать идентичность",
-  "identitiesDiscardTitle": "Отбросить изменения?",
-  "identitiesDiscardMessage": "У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.",
-  "identitiesKeepEditing": "Продолжить редактирование",
 
   "accountsTitle": "Аккаунты",
   "accountsManage": "Управление аккаунтами",

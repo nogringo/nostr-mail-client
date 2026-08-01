@@ -48,6 +48,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionDiscard => 'Descartar';
 
   @override
+  String get actionKeepEditing => 'Continuar a editar';
+
+  @override
+  String get discardChangesTitle => 'Descartar alterações?';
+
+  @override
+  String get discardChangesMessage =>
+      'Você tem alterações não salvas. Terminar sessão agora irá descartá-las.';
+
+  @override
   String get stateLoadingEllipsis => 'A carregar...';
 
   @override
@@ -286,7 +296,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Relays de entrada/saída';
 
   @override
-  String get relayAddTooltip => 'Adicionar relay';
+  String get relayInboxOutboxDescription =>
+      'Relays onde a sua conta publica e lê.';
+
+  @override
+  String get relayAdd => 'Adicionar relay';
 
   @override
   String get relayRemoveTooltip => 'Remover relay';
@@ -296,13 +310,17 @@ class AppLocalizationsPt extends AppLocalizations {
       'Nenhum relay de entrada/saída configurado';
 
   @override
-  String get relayEmptyHint => 'Toque em + para adicionar um relay';
-
-  @override
   String get dmRelayAddTitle => 'Adicionar relay DM';
 
   @override
   String get dmRelaySectionTitle => 'Relays DM';
+
+  @override
+  String get dmRelayDescription =>
+      'Relays que recebem as suas mensagens cifradas.';
+
+  @override
+  String get dmRelayAdd => 'Adicionar relay DM';
 
   @override
   String get dmRelayEmpty => 'Nenhum relay DM configurado';
@@ -323,13 +341,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bridgeSectionTitle => 'Bridges';
 
   @override
-  String get bridgeAddTooltip => 'Adicionar bridge';
+  String get bridgeDescription =>
+      'Domínios que lhe dão um endereço de email normal.';
+
+  @override
+  String get bridgeAdd => 'Adicionar bridge';
 
   @override
   String get bridgeEmpty => 'Nenhum bridge configurado';
-
-  @override
-  String get bridgeEmptyHint => 'Toque em + para adicionar um bridge';
 
   @override
   String get bridgeDefault => 'Bridge padrão';
@@ -350,7 +369,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get blossomSectionTitle => 'Hospedagem de ficheiros';
 
   @override
-  String get blossomAddTooltip => 'Adicionar servidor';
+  String get blossomDescription =>
+      'Servidores que guardam os seus anexos e imagens.';
+
+  @override
+  String get blossomAdd => 'Adicionar servidor';
 
   @override
   String get blossomRemoveTooltip => 'Remover servidor';
@@ -359,13 +382,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get blossomEmpty => 'Nenhum servidor Blossom configurado';
 
   @override
-  String get blossomEmptyHint => 'Toque em + para adicionar um servidor';
-
-  @override
   String get connectivitySectionTitle => 'Conexão em tempo real';
 
   @override
-  String get connectivityRelayConnectivity => 'Conectividade dos relays';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected de $total relays ligados';
+  }
+
+  @override
+  String get connectivityConnected => 'Ligado';
+
+  @override
+  String get connectivityDisconnected => 'Sem ligação';
 
   @override
   String get syncStatusSectionTitle => 'Status de sincronização';
@@ -374,11 +402,11 @@ class AppLocalizationsPt extends AppLocalizations {
   String get syncStatusEmpty => 'Nenhum dado de sincronização disponível';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Sincronize os seus emails para ver o estado dos relays';
+  String get syncStatusResync => 'Ressincronizar';
 
   @override
-  String get syncStatusResync => 'Ressincronizar';
+  String get syncStatusResyncSubtitle =>
+      'Ler novamente todas as mensagens dos seus relays.';
 
   @override
   String get syncStatusBeginningOfTime => 'Início dos tempos';
@@ -395,16 +423,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get identitiesCreate => 'Criar identidade';
-
-  @override
-  String get identitiesDiscardTitle => 'Descartar alterações?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'Você tem alterações não salvas. Terminar sessão agora irá descartá-las.';
-
-  @override
-  String get identitiesKeepEditing => 'Continuar a editar';
 
   @override
   String get accountsTitle => 'Contas';
@@ -1411,6 +1429,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get actionDiscard => 'Descartar';
 
   @override
+  String get actionKeepEditing => 'Continuar editando';
+
+  @override
+  String get discardChangesTitle => 'Descartar alterações?';
+
+  @override
+  String get discardChangesMessage =>
+      'Você tem alterações não salvas. Sair agora irá descartá-las.';
+
+  @override
   String get stateLoadingEllipsis => 'Carregando...';
 
   @override
@@ -1649,7 +1677,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get relayInboxOutboxTitle => 'Relays de entrada e saída';
 
   @override
-  String get relayAddTooltip => 'Adicionar relay';
+  String get relayInboxOutboxDescription =>
+      'Relays onde sua conta publica e lê.';
+
+  @override
+  String get relayAdd => 'Adicionar relay';
 
   @override
   String get relayRemoveTooltip => 'Remover relay';
@@ -1659,13 +1691,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Nenhum relay de entrada/saída configurado';
 
   @override
-  String get relayEmptyHint => 'Toque em + para adicionar um relay';
-
-  @override
   String get dmRelayAddTitle => 'Adicionar relay DM';
 
   @override
   String get dmRelaySectionTitle => 'Relays DM';
+
+  @override
+  String get dmRelayDescription =>
+      'Relays que recebem suas mensagens criptografadas.';
+
+  @override
+  String get dmRelayAdd => 'Adicionar relay DM';
 
   @override
   String get dmRelayEmpty => 'Nenhum relay DM configurado';
@@ -1686,13 +1722,14 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get bridgeSectionTitle => 'Bridges';
 
   @override
-  String get bridgeAddTooltip => 'Adicionar bridge';
+  String get bridgeDescription =>
+      'Domínios que dão a você um endereço de e-mail comum.';
+
+  @override
+  String get bridgeAdd => 'Adicionar bridge';
 
   @override
   String get bridgeEmpty => 'Nenhum bridge configurado';
-
-  @override
-  String get bridgeEmptyHint => 'Toque em + para adicionar um bridge';
 
   @override
   String get bridgeDefault => 'Bridge padrão';
@@ -1713,7 +1750,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get blossomSectionTitle => 'Hospedagem de arquivos';
 
   @override
-  String get blossomAddTooltip => 'Adicionar servidor';
+  String get blossomDescription =>
+      'Servidores que guardam seus anexos e imagens.';
+
+  @override
+  String get blossomAdd => 'Adicionar servidor';
 
   @override
   String get blossomRemoveTooltip => 'Remover servidor';
@@ -1722,13 +1763,18 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get blossomEmpty => 'Nenhum servidor Blossom configurado';
 
   @override
-  String get blossomEmptyHint => 'Toque em + para adicionar um servidor';
-
-  @override
   String get connectivitySectionTitle => 'Conexão em tempo real';
 
   @override
-  String get connectivityRelayConnectivity => 'Conectividade dos relays';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected de $total relays conectados';
+  }
+
+  @override
+  String get connectivityConnected => 'Conectado';
+
+  @override
+  String get connectivityDisconnected => 'Sem conexão';
 
   @override
   String get syncStatusSectionTitle => 'Status de sincronização';
@@ -1737,11 +1783,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get syncStatusEmpty => 'Nenhum dado de sincronização disponível';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Sincronize seus e-mails para ver o status dos relays';
+  String get syncStatusResync => 'Ressincronizar';
 
   @override
-  String get syncStatusResync => 'Ressincronizar';
+  String get syncStatusResyncSubtitle =>
+      'Ler todas as mensagens dos seus relays novamente.';
 
   @override
   String get syncStatusBeginningOfTime => 'Início dos tempos';
@@ -1758,16 +1804,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get identitiesCreate => 'Criar identidade';
-
-  @override
-  String get identitiesDiscardTitle => 'Descartar alterações?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'Você tem alterações não salvas. Sair agora irá descartá-las.';
-
-  @override
-  String get identitiesKeepEditing => 'Continuar editando';
 
   @override
   String get accountsTitle => 'Contas';

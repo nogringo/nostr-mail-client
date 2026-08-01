@@ -193,6 +193,24 @@ abstract class AppLocalizations {
   /// **'Discard'**
   String get actionDiscard;
 
+  /// Button label to stay on the screen and continue editing
+  ///
+  /// In en, this message translates to:
+  /// **'Keep editing'**
+  String get actionKeepEditing;
+
+  /// Dialog title shown when leaving a screen with unsaved changes
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get discardChangesTitle;
+
+  /// Message in the discard-changes dialog
+  ///
+  /// In en, this message translates to:
+  /// **'You have unsaved changes. Leaving now will discard them.'**
+  String get discardChangesMessage;
+
   /// Loading state label with ellipsis, used in list tiles and progress dialogs
   ///
   /// In en, this message translates to:
@@ -643,11 +661,17 @@ abstract class AppLocalizations {
   /// **'Inbox Outbox Relays'**
   String get relayInboxOutboxTitle;
 
-  /// Tooltip on the + icon used to add a relay
+  /// One-line explanation under the inbox/outbox relays section header
+  ///
+  /// In en, this message translates to:
+  /// **'Relays your account publishes to and reads from.'**
+  String get relayInboxOutboxDescription;
+
+  /// Label of the row that opens the add-relay dialog
   ///
   /// In en, this message translates to:
   /// **'Add relay'**
-  String get relayAddTooltip;
+  String get relayAdd;
 
   /// Tooltip on the X icon used to mark a relay for deletion
   ///
@@ -661,12 +685,6 @@ abstract class AppLocalizations {
   /// **'No Inbox/Outbox relays configured'**
   String get relayInboxOutboxEmpty;
 
-  /// Helper text below empty-state messages instructing the user to add a relay
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add a relay'**
-  String get relayEmptyHint;
-
   /// Dialog title for adding a NIP-17 DM relay
   ///
   /// In en, this message translates to:
@@ -678,6 +696,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DM Relays'**
   String get dmRelaySectionTitle;
+
+  /// One-line explanation under the DM relays section header
+  ///
+  /// In en, this message translates to:
+  /// **'Relays that receive your encrypted messages.'**
+  String get dmRelayDescription;
+
+  /// Label of the row that opens the add-DM-relay dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Add DM relay'**
+  String get dmRelayAdd;
 
   /// Empty-state message shown when no DM relays are configured
   ///
@@ -715,23 +745,23 @@ abstract class AppLocalizations {
   /// **'Bridges'**
   String get bridgeSectionTitle;
 
-  /// Tooltip on the + icon used to add a bridge
+  /// One-line explanation under the bridges section header
+  ///
+  /// In en, this message translates to:
+  /// **'Domains that give you a standard email address.'**
+  String get bridgeDescription;
+
+  /// Label of the row that opens the add-bridge dialog
   ///
   /// In en, this message translates to:
   /// **'Add bridge'**
-  String get bridgeAddTooltip;
+  String get bridgeAdd;
 
   /// Empty-state message shown when no bridges are configured
   ///
   /// In en, this message translates to:
   /// **'No bridges configured'**
   String get bridgeEmpty;
-
-  /// Helper text below the empty bridges state
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add a bridge'**
-  String get bridgeEmptyHint;
 
   /// Subtitle shown next to the bundled default bridge (uid.ovh)
   ///
@@ -769,11 +799,17 @@ abstract class AppLocalizations {
   /// **'File Hosting'**
   String get blossomSectionTitle;
 
-  /// Tooltip on the + icon used to add a Blossom server
+  /// One-line explanation under the file hosting section header
+  ///
+  /// In en, this message translates to:
+  /// **'Servers that store your attachments and images.'**
+  String get blossomDescription;
+
+  /// Label of the row that opens the add-Blossom-server dialog
   ///
   /// In en, this message translates to:
   /// **'Add server'**
-  String get blossomAddTooltip;
+  String get blossomAdd;
 
   /// Tooltip on the X icon used to mark a Blossom server for deletion
   ///
@@ -787,23 +823,29 @@ abstract class AppLocalizations {
   /// **'No Blossom servers configured'**
   String get blossomEmpty;
 
-  /// Helper text below the empty Blossom servers state
-  ///
-  /// In en, this message translates to:
-  /// **'Tap + to add a server'**
-  String get blossomEmptyHint;
-
   /// Section header for the live relay connectivity status block
   ///
   /// In en, this message translates to:
   /// **'Realtime Connection'**
   String get connectivitySectionTitle;
 
-  /// Title inside the relay connectivity ExpansionTile
+  /// Title of the expandable relay connectivity row, counting live connections
   ///
   /// In en, this message translates to:
-  /// **'Relay Connectivity'**
-  String get connectivityRelayConnectivity;
+  /// **'{connected} of {total} relays connected'**
+  String connectivityConnectedCount(int connected, int total);
+
+  /// Status of a relay the app is currently connected to
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get connectivityConnected;
+
+  /// Status of a relay the app is not connected to
+  ///
+  /// In en, this message translates to:
+  /// **'Not connected'**
+  String get connectivityDisconnected;
 
   /// Section header for per-relay email sync status
   ///
@@ -817,17 +859,17 @@ abstract class AppLocalizations {
   /// **'No sync data available'**
   String get syncStatusEmpty;
 
-  /// Helper text below the empty sync state
-  ///
-  /// In en, this message translates to:
-  /// **'Sync your emails to see relay status'**
-  String get syncStatusEmptyHint;
-
-  /// Button label that forces a fresh sync of all relays
+  /// Row label that forces a fresh sync of all relays
   ///
   /// In en, this message translates to:
   /// **'Resync'**
   String get syncStatusResync;
+
+  /// Subtitle under the resync row explaining what it does
+  ///
+  /// In en, this message translates to:
+  /// **'Read every message from your relays again.'**
+  String get syncStatusResyncSubtitle;
 
   /// Sentinel label for a zero timestamp (i.e. sync started from the dawn of time)
   ///
@@ -858,24 +900,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create identity'**
   String get identitiesCreate;
-
-  /// Dialog title shown when leaving the identities screen with unsaved changes
-  ///
-  /// In en, this message translates to:
-  /// **'Discard changes?'**
-  String get identitiesDiscardTitle;
-
-  /// Message in the discard-changes dialog
-  ///
-  /// In en, this message translates to:
-  /// **'You have unsaved changes. Leaving now will discard them.'**
-  String get identitiesDiscardMessage;
-
-  /// Button label to stay on the screen and continue editing
-  ///
-  /// In en, this message translates to:
-  /// **'Keep editing'**
-  String get identitiesKeepEditing;
 
   /// AppBar title of the accounts management screen
   ///

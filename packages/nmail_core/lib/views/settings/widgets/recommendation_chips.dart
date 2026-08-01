@@ -21,39 +21,39 @@ class RecommendationChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final filtered = recommendations.where((r) => !isAlreadyAdded(r)).toList();
 
     if (filtered.isEmpty) return const SizedBox.shrink();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title ?? l.hostingRecommended,
-            style: TextStyle(
-              fontSize: 11,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            style: theme.textTheme.labelSmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 8),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: filtered.map((item) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ActionChip(
-                    avatar: const Icon(Icons.add, size: 14),
-                    label: Text(formatLabel(item)),
-                    onPressed: () => onAdd(item),
-                    visualDensity: VisualDensity.compact,
-                    labelStyle: const TextStyle(fontSize: 12),
-                    shape: StadiumBorder(),
+              children: [
+                for (final item in filtered)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: ActionChip(
+                      avatar: const Icon(Icons.add),
+                      label: Text(formatLabel(item)),
+                      onPressed: () => onAdd(item),
+                      visualDensity: VisualDensity.compact,
+                      shape: const StadiumBorder(),
+                    ),
                   ),
-                );
-              }).toList(),
+              ],
             ),
           ),
         ],

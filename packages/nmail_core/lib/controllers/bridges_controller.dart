@@ -62,6 +62,13 @@ class BridgesController extends GetxController {
     update();
   }
 
+  void discardChanges() {
+    if (originalBridges == null) return;
+    bridges = List.from(originalBridges!);
+    markedForDeletion.clear();
+    update();
+  }
+
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving) return;
     isSaving = true;

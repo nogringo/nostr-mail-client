@@ -48,6 +48,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionDiscard => '放弃';
 
   @override
+  String get actionKeepEditing => '继续编辑';
+
+  @override
+  String get discardChangesTitle => '放弃更改?';
+
+  @override
+  String get discardChangesMessage => '您有未保存的更改。现在离开将被放弃。';
+
+  @override
   String get stateLoadingEllipsis => '加载中...';
 
   @override
@@ -279,7 +288,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relayInboxOutboxTitle => '收件箱/发件箱中继';
 
   @override
-  String get relayAddTooltip => '添加中继';
+  String get relayInboxOutboxDescription => '您的账号用于发布和读取的中继。';
+
+  @override
+  String get relayAdd => '添加中继';
 
   @override
   String get relayRemoveTooltip => '移除中继';
@@ -288,13 +300,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relayInboxOutboxEmpty => '未配置收件箱/发件箱中继';
 
   @override
-  String get relayEmptyHint => '点击 + 添加中继';
-
-  @override
   String get dmRelayAddTitle => '添加 DM 中继';
 
   @override
   String get dmRelaySectionTitle => 'DM 中继';
+
+  @override
+  String get dmRelayDescription => '接收加密消息的中继。';
+
+  @override
+  String get dmRelayAdd => '添加 DM 中继';
 
   @override
   String get dmRelayEmpty => '未配置 DM 中继';
@@ -315,13 +330,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bridgeSectionTitle => '桥接';
 
   @override
-  String get bridgeAddTooltip => '添加桥接';
+  String get bridgeDescription => '为您提供标准邮箱地址的域名。';
+
+  @override
+  String get bridgeAdd => '添加桥接';
 
   @override
   String get bridgeEmpty => '未配置桥接';
-
-  @override
-  String get bridgeEmptyHint => '点击 + 添加桥接';
 
   @override
   String get bridgeDefault => '默认桥接';
@@ -342,7 +357,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get blossomSectionTitle => '文件托管';
 
   @override
-  String get blossomAddTooltip => '添加服务器';
+  String get blossomDescription => '存储附件和图片的服务器。';
+
+  @override
+  String get blossomAdd => '添加服务器';
 
   @override
   String get blossomRemoveTooltip => '移除服务器';
@@ -351,13 +369,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get blossomEmpty => '未配置 Blossom 服务器';
 
   @override
-  String get blossomEmptyHint => '点击 + 添加服务器';
-
-  @override
   String get connectivitySectionTitle => '实时连接';
 
   @override
-  String get connectivityRelayConnectivity => '中继连接状态';
+  String connectivityConnectedCount(int connected, int total) {
+    return '已连接 $total 个中继中的 $connected 个';
+  }
+
+  @override
+  String get connectivityConnected => '已连接';
+
+  @override
+  String get connectivityDisconnected => '未连接';
 
   @override
   String get syncStatusSectionTitle => '同步状态';
@@ -366,10 +389,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get syncStatusEmpty => '暂无同步数据';
 
   @override
-  String get syncStatusEmptyHint => '同步您的邮件以查看中继状态';
+  String get syncStatusResync => '重新同步';
 
   @override
-  String get syncStatusResync => '重新同步';
+  String get syncStatusResyncSubtitle => '重新从中继读取所有消息。';
 
   @override
   String get syncStatusBeginningOfTime => '时间的起点';
@@ -385,15 +408,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get identitiesCreate => '创建身份';
-
-  @override
-  String get identitiesDiscardTitle => '放弃更改?';
-
-  @override
-  String get identitiesDiscardMessage => '您有未保存的更改。现在离开将被放弃。';
-
-  @override
-  String get identitiesKeepEditing => '继续编辑';
 
   @override
   String get accountsTitle => '账户';

@@ -14,6 +14,9 @@
   "actionUndo": "元に戻す",
   "actionRemove": "削除",
   "actionDiscard": "破棄",
+  "actionKeepEditing": "編集を続ける",
+  "discardChangesTitle": "変更を破棄しますか?",
+  "discardChangesMessage": "保存されていない変更があります。今離れると破棄されます。",
 
   "stateLoadingEllipsis": "読み込み中...",
   "stateResetting": "リセット中...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "読み取り",
   "relayMarkerWrite": "書き込み",
   "relayInboxOutboxTitle": "受信/送信リレー",
-  "relayAddTooltip": "リレーを追加",
+  "relayInboxOutboxDescription": "アカウントが公開と読み込みに使うリレーです。",
+  "relayAdd": "リレーを追加",
   "relayRemoveTooltip": "リレーを削除",
   "relayInboxOutboxEmpty": "受信/送信リレーが設定されていません",
-  "relayEmptyHint": "+ をタップしてリレーを追加",
 
   "dmRelayAddTitle": "DM リレーを追加",
   "dmRelaySectionTitle": "DM リレー",
+  "dmRelayDescription": "暗号化されたメッセージを受け取るリレーです。",
+  "dmRelayAdd": "DM リレーを追加",
   "dmRelayEmpty": "DM リレーが設定されていません",
 
   "bridgeAddTitle": "ブリッジを追加",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.example.com",
   "bridgeInvalidDomain": "無効なドメイン",
   "bridgeSectionTitle": "ブリッジ",
-  "bridgeAddTooltip": "ブリッジを追加",
+  "bridgeDescription": "通常のメールアドレスを提供するドメインです。",
+  "bridgeAdd": "ブリッジを追加",
   "bridgeEmpty": "ブリッジが設定されていません",
-  "bridgeEmptyHint": "+ をタップしてブリッジを追加",
   "bridgeDefault": "既定のブリッジ",
 
   "blossomAddTitle": "Blossom サーバーを追加",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.example.com",
   "blossomInvalidUrl": "無効なサーバー URL",
   "blossomSectionTitle": "ファイルホスティング",
-  "blossomAddTooltip": "サーバーを追加",
+  "blossomDescription": "添付ファイルや画像を保存するサーバーです。",
+  "blossomAdd": "サーバーを追加",
   "blossomRemoveTooltip": "サーバーを削除",
   "blossomEmpty": "Blossom サーバーが設定されていません",
-  "blossomEmptyHint": "+ をタップしてサーバーを追加",
 
   "connectivitySectionTitle": "リアルタイム接続",
-  "connectivityRelayConnectivity": "リレー接続状態",
+  "connectivityConnectedCount": "{total} 件中 {connected} 件のリレーに接続中",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "接続中",
+  "connectivityDisconnected": "未接続",
 
   "syncStatusSectionTitle": "同期ステータス",
   "syncStatusEmpty": "同期データがありません",
-  "syncStatusEmptyHint": "メールを同期するとリレーの状態が表示されます",
   "syncStatusResync": "再同期",
+  "syncStatusResyncSubtitle": "リレーからすべてのメッセージを読み直します。",
   "syncStatusBeginningOfTime": "時の始まり",
 
   "identitiesTitle": "アイデンティティ",
   "identitiesEmptyTitle": "アイデンティティがありません",
   "identitiesEmptyMessage": "カスタムアドレスからメールを送信するために 1 つ作成してください。",
   "identitiesCreate": "アイデンティティを作成",
-  "identitiesDiscardTitle": "変更を破棄しますか?",
-  "identitiesDiscardMessage": "保存されていない変更があります。今離れると破棄されます。",
-  "identitiesKeepEditing": "編集を続ける",
 
   "accountsTitle": "アカウント",
   "accountsManage": "アカウントを管理",

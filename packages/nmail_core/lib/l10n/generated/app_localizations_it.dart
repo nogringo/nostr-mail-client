@@ -48,6 +48,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get actionDiscard => 'Scarta';
 
   @override
+  String get actionKeepEditing => 'Continua a modificare';
+
+  @override
+  String get discardChangesTitle => 'Scartare le modifiche?';
+
+  @override
+  String get discardChangesMessage =>
+      'Hai modifiche non salvate. Uscendo ora andranno perse.';
+
+  @override
   String get stateLoadingEllipsis => 'Caricamento...';
 
   @override
@@ -288,7 +298,11 @@ class AppLocalizationsIt extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Relay di entrata e uscita';
 
   @override
-  String get relayAddTooltip => 'Aggiungi relay';
+  String get relayInboxOutboxDescription =>
+      'Relay su cui il tuo account pubblica e legge.';
+
+  @override
+  String get relayAdd => 'Aggiungi relay';
 
   @override
   String get relayRemoveTooltip => 'Rimuovi relay';
@@ -298,13 +312,17 @@ class AppLocalizationsIt extends AppLocalizations {
       'Nessun relay di entrata/uscita configurato';
 
   @override
-  String get relayEmptyHint => 'Tocca + per aggiungere un relay';
-
-  @override
   String get dmRelayAddTitle => 'Aggiungi relay DM';
 
   @override
   String get dmRelaySectionTitle => 'Relay DM';
+
+  @override
+  String get dmRelayDescription =>
+      'Relay che ricevono i tuoi messaggi cifrati.';
+
+  @override
+  String get dmRelayAdd => 'Aggiungi relay DM';
 
   @override
   String get dmRelayEmpty => 'Nessun relay DM configurato';
@@ -325,13 +343,14 @@ class AppLocalizationsIt extends AppLocalizations {
   String get bridgeSectionTitle => 'Bridge';
 
   @override
-  String get bridgeAddTooltip => 'Aggiungi bridge';
+  String get bridgeDescription =>
+      'Domini che ti danno un indirizzo email standard.';
+
+  @override
+  String get bridgeAdd => 'Aggiungi bridge';
 
   @override
   String get bridgeEmpty => 'Nessun bridge configurato';
-
-  @override
-  String get bridgeEmptyHint => 'Tocca + per aggiungere un bridge';
 
   @override
   String get bridgeDefault => 'Bridge predefinito';
@@ -352,7 +371,11 @@ class AppLocalizationsIt extends AppLocalizations {
   String get blossomSectionTitle => 'Hosting file';
 
   @override
-  String get blossomAddTooltip => 'Aggiungi server';
+  String get blossomDescription =>
+      'Server che conservano i tuoi allegati e le tue immagini.';
+
+  @override
+  String get blossomAdd => 'Aggiungi server';
 
   @override
   String get blossomRemoveTooltip => 'Rimuovi server';
@@ -361,13 +384,18 @@ class AppLocalizationsIt extends AppLocalizations {
   String get blossomEmpty => 'Nessun server Blossom configurato';
 
   @override
-  String get blossomEmptyHint => 'Tocca + per aggiungere un server';
-
-  @override
   String get connectivitySectionTitle => 'Connessione in tempo reale';
 
   @override
-  String get connectivityRelayConnectivity => 'Connettività dei relay';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected di $total relay connessi';
+  }
+
+  @override
+  String get connectivityConnected => 'Connesso';
+
+  @override
+  String get connectivityDisconnected => 'Non connesso';
 
   @override
   String get syncStatusSectionTitle => 'Stato sincronizzazione';
@@ -376,11 +404,11 @@ class AppLocalizationsIt extends AppLocalizations {
   String get syncStatusEmpty => 'Nessun dato di sincronizzazione disponibile';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Sincronizza le tue email per vedere lo stato dei relay';
+  String get syncStatusResync => 'Risincronizza';
 
   @override
-  String get syncStatusResync => 'Risincronizza';
+  String get syncStatusResyncSubtitle =>
+      'Rileggi tutti i messaggi dai tuoi relay.';
 
   @override
   String get syncStatusBeginningOfTime => 'Inizio dei tempi';
@@ -397,16 +425,6 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get identitiesCreate => 'Crea identità';
-
-  @override
-  String get identitiesDiscardTitle => 'Scartare le modifiche?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'Hai modifiche non salvate. Uscendo ora andranno perse.';
-
-  @override
-  String get identitiesKeepEditing => 'Continua a modificare';
 
   @override
   String get accountsTitle => 'Account';

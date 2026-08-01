@@ -48,6 +48,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionDiscard => 'Hylkää';
 
   @override
+  String get actionKeepEditing => 'Jatka muokkausta';
+
+  @override
+  String get discardChangesTitle => 'Hylkää muutokset?';
+
+  @override
+  String get discardChangesMessage =>
+      'Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.';
+
+  @override
   String get stateLoadingEllipsis => 'Ladataan...';
 
   @override
@@ -285,7 +295,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Saapuvien ja lähtevien palvelin';
 
   @override
-  String get relayAddTooltip => 'Lisää palvelin';
+  String get relayInboxOutboxDescription =>
+      'Palvelimet, joille tilisi julkaisee ja joilta se lukee.';
+
+  @override
+  String get relayAdd => 'Lisää palvelin';
 
   @override
   String get relayRemoveTooltip => 'Poista palvelin';
@@ -295,13 +309,17 @@ class AppLocalizationsFi extends AppLocalizations {
       'Saapuvien/lähtevien palvelimia ei ole asetettu';
 
   @override
-  String get relayEmptyHint => 'Paina + lisätäksesi palvelimen';
-
-  @override
   String get dmRelayAddTitle => 'Lisää yksityisviestien palvelin';
 
   @override
   String get dmRelaySectionTitle => 'Yksityisviestien palvelimet';
+
+  @override
+  String get dmRelayDescription =>
+      'Palvelimet, jotka vastaanottavat salatut viestisi.';
+
+  @override
+  String get dmRelayAdd => 'Lisää yksityisviestien palvelin';
 
   @override
   String get dmRelayEmpty => 'Yksityisviestien palvelimia ei ole asetettu';
@@ -322,13 +340,14 @@ class AppLocalizationsFi extends AppLocalizations {
   String get bridgeSectionTitle => 'Sillat';
 
   @override
-  String get bridgeAddTooltip => 'Lisää silta';
+  String get bridgeDescription =>
+      'Verkkotunnukset, jotka antavat sinulle tavallisen sähköpostiosoitteen.';
+
+  @override
+  String get bridgeAdd => 'Lisää silta';
 
   @override
   String get bridgeEmpty => 'Siltoja ei asetettu';
-
-  @override
-  String get bridgeEmptyHint => 'Paina + lisätäksesi sillan';
 
   @override
   String get bridgeDefault => 'Oletussilta';
@@ -349,7 +368,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get blossomSectionTitle => 'Tiedostojen ylläpito';
 
   @override
-  String get blossomAddTooltip => 'Lisää palvelin';
+  String get blossomDescription =>
+      'Palvelimet, joille liitteesi ja kuvasi tallennetaan.';
+
+  @override
+  String get blossomAdd => 'Lisää palvelin';
 
   @override
   String get blossomRemoveTooltip => 'Poista palvelin';
@@ -358,13 +381,18 @@ class AppLocalizationsFi extends AppLocalizations {
   String get blossomEmpty => 'Blossom-palvelimia ei asetettu';
 
   @override
-  String get blossomEmptyHint => 'Paina + lisätäksesi palvelimen';
-
-  @override
   String get connectivitySectionTitle => 'Reaaliaikainen yhteys';
 
   @override
-  String get connectivityRelayConnectivity => 'Välityspalvelimen yhteys';
+  String connectivityConnectedCount(int connected, int total) {
+    return '$connected/$total palvelinta yhdistetty';
+  }
+
+  @override
+  String get connectivityConnected => 'Yhdistetty';
+
+  @override
+  String get connectivityDisconnected => 'Ei yhteyttä';
 
   @override
   String get syncStatusSectionTitle => 'Synkronoinnin tila';
@@ -373,11 +401,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get syncStatusEmpty => 'Synkronointitietoja ei saatavilla';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Synkronoi posti nähdäksesi palvelimen tilan';
+  String get syncStatusResync => 'Synkronoi uudelleen';
 
   @override
-  String get syncStatusResync => 'Synkronoi uudelleen';
+  String get syncStatusResyncSubtitle =>
+      'Lue kaikki viestit uudelleen palvelimilta.';
 
   @override
   String get syncStatusBeginningOfTime => 'Alkuhetkestä';
@@ -394,16 +422,6 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get identitiesCreate => 'Luo henkilöllisyys';
-
-  @override
-  String get identitiesDiscardTitle => 'Hylkää muutokset?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.';
-
-  @override
-  String get identitiesKeepEditing => 'Jatka muokkausta';
 
   @override
   String get accountsTitle => 'Tilit';

@@ -14,6 +14,9 @@
   "actionUndo": "撤销",
   "actionRemove": "移除",
   "actionDiscard": "放弃",
+  "actionKeepEditing": "继续编辑",
+  "discardChangesTitle": "放弃更改?",
+  "discardChangesMessage": "您有未保存的更改。现在离开将被放弃。",
 
   "stateLoadingEllipsis": "加载中...",
   "stateResetting": "重置中...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "读",
   "relayMarkerWrite": "写",
   "relayInboxOutboxTitle": "收件箱/发件箱中继",
-  "relayAddTooltip": "添加中继",
+  "relayInboxOutboxDescription": "您的账号用于发布和读取的中继。",
+  "relayAdd": "添加中继",
   "relayRemoveTooltip": "移除中继",
   "relayInboxOutboxEmpty": "未配置收件箱/发件箱中继",
-  "relayEmptyHint": "点击 + 添加中继",
 
   "dmRelayAddTitle": "添加 DM 中继",
   "dmRelaySectionTitle": "DM 中继",
+  "dmRelayDescription": "接收加密消息的中继。",
+  "dmRelayAdd": "添加 DM 中继",
   "dmRelayEmpty": "未配置 DM 中继",
 
   "bridgeAddTitle": "添加桥接",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.example.com",
   "bridgeInvalidDomain": "无效的域名",
   "bridgeSectionTitle": "桥接",
-  "bridgeAddTooltip": "添加桥接",
+  "bridgeDescription": "为您提供标准邮箱地址的域名。",
+  "bridgeAdd": "添加桥接",
   "bridgeEmpty": "未配置桥接",
-  "bridgeEmptyHint": "点击 + 添加桥接",
   "bridgeDefault": "默认桥接",
 
   "blossomAddTitle": "添加 Blossom 服务器",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.example.com",
   "blossomInvalidUrl": "无效的服务器 URL",
   "blossomSectionTitle": "文件托管",
-  "blossomAddTooltip": "添加服务器",
+  "blossomDescription": "存储附件和图片的服务器。",
+  "blossomAdd": "添加服务器",
   "blossomRemoveTooltip": "移除服务器",
   "blossomEmpty": "未配置 Blossom 服务器",
-  "blossomEmptyHint": "点击 + 添加服务器",
 
   "connectivitySectionTitle": "实时连接",
-  "connectivityRelayConnectivity": "中继连接状态",
+  "connectivityConnectedCount": "已连接 {total} 个中继中的 {connected} 个",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "已连接",
+  "connectivityDisconnected": "未连接",
 
   "syncStatusSectionTitle": "同步状态",
   "syncStatusEmpty": "暂无同步数据",
-  "syncStatusEmptyHint": "同步您的邮件以查看中继状态",
   "syncStatusResync": "重新同步",
+  "syncStatusResyncSubtitle": "重新从中继读取所有消息。",
   "syncStatusBeginningOfTime": "时间的起点",
 
   "identitiesTitle": "身份",
   "identitiesEmptyTitle": "暂无身份",
   "identitiesEmptyMessage": "创建一个以从自定义地址发送邮件。",
   "identitiesCreate": "创建身份",
-  "identitiesDiscardTitle": "放弃更改?",
-  "identitiesDiscardMessage": "您有未保存的更改。现在离开将被放弃。",
-  "identitiesKeepEditing": "继续编辑",
 
   "accountsTitle": "账户",
   "accountsManage": "管理账户",

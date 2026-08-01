@@ -14,6 +14,9 @@
   "actionUndo": "Annulla",
   "actionRemove": "Rimuovi",
   "actionDiscard": "Scarta",
+  "actionKeepEditing": "Continua a modificare",
+  "discardChangesTitle": "Scartare le modifiche?",
+  "discardChangesMessage": "Hai modifiche non salvate. Uscendo ora andranno perse.",
 
   "stateLoadingEllipsis": "Caricamento...",
   "stateResetting": "Reimpostazione...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "lettura",
   "relayMarkerWrite": "scrittura",
   "relayInboxOutboxTitle": "Relay di entrata e uscita",
-  "relayAddTooltip": "Aggiungi relay",
+  "relayInboxOutboxDescription": "Relay su cui il tuo account pubblica e legge.",
+  "relayAdd": "Aggiungi relay",
   "relayRemoveTooltip": "Rimuovi relay",
   "relayInboxOutboxEmpty": "Nessun relay di entrata/uscita configurato",
-  "relayEmptyHint": "Tocca + per aggiungere un relay",
 
   "dmRelayAddTitle": "Aggiungi relay DM",
   "dmRelaySectionTitle": "Relay DM",
+  "dmRelayDescription": "Relay che ricevono i tuoi messaggi cifrati.",
+  "dmRelayAdd": "Aggiungi relay DM",
   "dmRelayEmpty": "Nessun relay DM configurato",
 
   "bridgeAddTitle": "Aggiungi bridge",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.esempio.it",
   "bridgeInvalidDomain": "Dominio non valido",
   "bridgeSectionTitle": "Bridge",
-  "bridgeAddTooltip": "Aggiungi bridge",
+  "bridgeDescription": "Domini che ti danno un indirizzo email standard.",
+  "bridgeAdd": "Aggiungi bridge",
   "bridgeEmpty": "Nessun bridge configurato",
-  "bridgeEmptyHint": "Tocca + per aggiungere un bridge",
   "bridgeDefault": "Bridge predefinito",
 
   "blossomAddTitle": "Aggiungi server Blossom",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.esempio.it",
   "blossomInvalidUrl": "URL del server non valida",
   "blossomSectionTitle": "Hosting file",
-  "blossomAddTooltip": "Aggiungi server",
+  "blossomDescription": "Server che conservano i tuoi allegati e le tue immagini.",
+  "blossomAdd": "Aggiungi server",
   "blossomRemoveTooltip": "Rimuovi server",
   "blossomEmpty": "Nessun server Blossom configurato",
-  "blossomEmptyHint": "Tocca + per aggiungere un server",
 
   "connectivitySectionTitle": "Connessione in tempo reale",
-  "connectivityRelayConnectivity": "Connettività dei relay",
+  "connectivityConnectedCount": "{connected} di {total} relay connessi",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "Connesso",
+  "connectivityDisconnected": "Non connesso",
 
   "syncStatusSectionTitle": "Stato sincronizzazione",
   "syncStatusEmpty": "Nessun dato di sincronizzazione disponibile",
-  "syncStatusEmptyHint": "Sincronizza le tue email per vedere lo stato dei relay",
   "syncStatusResync": "Risincronizza",
+  "syncStatusResyncSubtitle": "Rileggi tutti i messaggi dai tuoi relay.",
   "syncStatusBeginningOfTime": "Inizio dei tempi",
 
   "identitiesTitle": "Identità",
   "identitiesEmptyTitle": "Nessuna identità ancora",
   "identitiesEmptyMessage": "Creane una per inviare email da un indirizzo personalizzato.",
   "identitiesCreate": "Crea identità",
-  "identitiesDiscardTitle": "Scartare le modifiche?",
-  "identitiesDiscardMessage": "Hai modifiche non salvate. Uscendo ora andranno perse.",
-  "identitiesKeepEditing": "Continua a modificare",
 
   "accountsTitle": "Account",
   "accountsManage": "Gestisci account",

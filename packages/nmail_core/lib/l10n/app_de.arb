@@ -14,6 +14,9 @@
   "actionUndo": "Rückgängig",
   "actionRemove": "Entfernen",
   "actionDiscard": "Verwerfen",
+  "actionKeepEditing": "Weiter bearbeiten",
+  "discardChangesTitle": "Änderungen verwerfen?",
+  "discardChangesMessage": "Du hast nicht gespeicherte Änderungen. Wenn du jetzt gehst, gehen sie verloren.",
 
   "stateLoadingEllipsis": "Lädt...",
   "stateResetting": "Wird zurückgesetzt...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "lesen",
   "relayMarkerWrite": "schreiben",
   "relayInboxOutboxTitle": "Inbox/Outbox-Relays",
-  "relayAddTooltip": "Relay hinzufügen",
+  "relayInboxOutboxDescription": "Relays, auf denen dein Konto veröffentlicht und liest.",
+  "relayAdd": "Relay hinzufügen",
   "relayRemoveTooltip": "Relay entfernen",
   "relayInboxOutboxEmpty": "Keine Inbox/Outbox-Relays konfiguriert",
-  "relayEmptyHint": "Tippe auf +, um ein Relay hinzuzufügen",
 
   "dmRelayAddTitle": "DM-Relay hinzufügen",
   "dmRelaySectionTitle": "DM-Relays",
+  "dmRelayDescription": "Relays, die deine verschlüsselten Nachrichten empfangen.",
+  "dmRelayAdd": "DM-Relay hinzufügen",
   "dmRelayEmpty": "Keine DM-Relays konfiguriert",
 
   "bridgeAddTitle": "Bridge hinzufügen",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.beispiel.de",
   "bridgeInvalidDomain": "Ungültige Domain",
   "bridgeSectionTitle": "Bridges",
-  "bridgeAddTooltip": "Bridge hinzufügen",
+  "bridgeDescription": "Domains, die dir eine normale E-Mail-Adresse geben.",
+  "bridgeAdd": "Bridge hinzufügen",
   "bridgeEmpty": "Keine Bridges konfiguriert",
-  "bridgeEmptyHint": "Tippe auf +, um eine Bridge hinzuzufügen",
   "bridgeDefault": "Standard-Bridge",
 
   "blossomAddTitle": "Blossom-Server hinzufügen",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.beispiel.de",
   "blossomInvalidUrl": "Ungültige Server-URL",
   "blossomSectionTitle": "Datei-Hosting",
-  "blossomAddTooltip": "Server hinzufügen",
+  "blossomDescription": "Server, die deine Anhänge und Bilder speichern.",
+  "blossomAdd": "Server hinzufügen",
   "blossomRemoveTooltip": "Server entfernen",
   "blossomEmpty": "Keine Blossom-Server konfiguriert",
-  "blossomEmptyHint": "Tippe auf +, um einen Server hinzuzufügen",
 
   "connectivitySectionTitle": "Echtzeit-Verbindung",
-  "connectivityRelayConnectivity": "Relay-Konnektivität",
+  "connectivityConnectedCount": "{connected} von {total} Relays verbunden",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "Verbunden",
+  "connectivityDisconnected": "Nicht verbunden",
 
   "syncStatusSectionTitle": "Sync-Status",
   "syncStatusEmpty": "Keine Sync-Daten verfügbar",
-  "syncStatusEmptyHint": "Synchronisiere deine E-Mails, um den Relay-Status zu sehen",
   "syncStatusResync": "Erneut synchronisieren",
+  "syncStatusResyncSubtitle": "Alle Nachrichten erneut von deinen Relays lesen.",
   "syncStatusBeginningOfTime": "Anfang der Zeit",
 
   "identitiesTitle": "Identitäten",
   "identitiesEmptyTitle": "Noch keine Identitäten",
   "identitiesEmptyMessage": "Erstelle eine, um E-Mails von einer benutzerdefinierten Adresse zu senden.",
   "identitiesCreate": "Identität erstellen",
-  "identitiesDiscardTitle": "Änderungen verwerfen?",
-  "identitiesDiscardMessage": "Du hast nicht gespeicherte Änderungen. Wenn du jetzt gehst, gehen sie verloren.",
-  "identitiesKeepEditing": "Weiter bearbeiten",
 
   "accountsTitle": "Konten",
   "accountsManage": "Konten verwalten",

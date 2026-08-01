@@ -14,6 +14,9 @@
   "actionUndo": "Kumoa",
   "actionRemove": "Poista",
   "actionDiscard": "Hylkää",
+  "actionKeepEditing": "Jatka muokkausta",
+  "discardChangesTitle": "Hylkää muutokset?",
+  "discardChangesMessage": "Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.",
 
   "stateLoadingEllipsis": "Ladataan...",
   "stateResetting": "Nollataan...",
@@ -101,13 +104,15 @@
   "relayMarkerRead": "lue",
   "relayMarkerWrite": "kirjoita",
   "relayInboxOutboxTitle": "Saapuvien ja lähtevien palvelin",
-  "relayAddTooltip": "Lisää palvelin",
+  "relayInboxOutboxDescription": "Palvelimet, joille tilisi julkaisee ja joilta se lukee.",
+  "relayAdd": "Lisää palvelin",
   "relayRemoveTooltip": "Poista palvelin",
   "relayInboxOutboxEmpty": "Saapuvien/lähtevien palvelimia ei ole asetettu",
-  "relayEmptyHint": "Paina + lisätäksesi palvelimen",
 
   "dmRelayAddTitle": "Lisää yksityisviestien palvelin",
   "dmRelaySectionTitle": "Yksityisviestien palvelimet",
+  "dmRelayDescription": "Palvelimet, jotka vastaanottavat salatut viestisi.",
+  "dmRelayAdd": "Lisää yksityisviestien palvelin",
   "dmRelayEmpty": "Yksityisviestien palvelimia ei ole asetettu",
 
   "bridgeAddTitle": "Lisää silta",
@@ -115,9 +120,9 @@
   "bridgeDomainHint": "bridge.example.com",
   "bridgeInvalidDomain": "Kelvoton verkko-osoite",
   "bridgeSectionTitle": "Sillat",
-  "bridgeAddTooltip": "Lisää silta",
+  "bridgeDescription": "Verkkotunnukset, jotka antavat sinulle tavallisen sähköpostiosoitteen.",
+  "bridgeAdd": "Lisää silta",
   "bridgeEmpty": "Siltoja ei asetettu",
-  "bridgeEmptyHint": "Paina + lisätäksesi sillan",
   "bridgeDefault": "Oletussilta",
 
   "blossomAddTitle": "Lisää Blossom-palvelimia",
@@ -125,27 +130,32 @@
   "blossomServerUrlHint": "https://blossom.example.com",
   "blossomInvalidUrl": "Kelvoton palvelimen URL",
   "blossomSectionTitle": "Tiedostojen ylläpito",
-  "blossomAddTooltip": "Lisää palvelin",
+  "blossomDescription": "Palvelimet, joille liitteesi ja kuvasi tallennetaan.",
+  "blossomAdd": "Lisää palvelin",
   "blossomRemoveTooltip": "Poista palvelin",
   "blossomEmpty": "Blossom-palvelimia ei asetettu",
-  "blossomEmptyHint": "Paina + lisätäksesi palvelimen",
 
   "connectivitySectionTitle": "Reaaliaikainen yhteys",
-  "connectivityRelayConnectivity": "Välityspalvelimen yhteys",
+  "connectivityConnectedCount": "{connected}/{total} palvelinta yhdistetty",
+  "@connectivityConnectedCount": {
+    "placeholders": {
+      "connected": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "connectivityConnected": "Yhdistetty",
+  "connectivityDisconnected": "Ei yhteyttä",
 
   "syncStatusSectionTitle": "Synkronoinnin tila",
   "syncStatusEmpty": "Synkronointitietoja ei saatavilla",
-  "syncStatusEmptyHint": "Synkronoi posti nähdäksesi palvelimen tilan",
   "syncStatusResync": "Synkronoi uudelleen",
+  "syncStatusResyncSubtitle": "Lue kaikki viestit uudelleen palvelimilta.",
   "syncStatusBeginningOfTime": "Alkuhetkestä",
 
   "identitiesTitle": "Henkilöllisyydet",
   "identitiesEmptyTitle": "Ei henkilöllisyyksiä",
   "identitiesEmptyMessage": "Luo henkilöllisyys lähettääksesi sähköpostia mukautetusta osoitteesta.",
   "identitiesCreate": "Luo henkilöllisyys",
-  "identitiesDiscardTitle": "Hylkää muutokset?",
-  "identitiesDiscardMessage": "Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.",
-  "identitiesKeepEditing": "Jatka muokkausta",
 
   "accountsTitle": "Tilit",
   "accountsManage": "Hallitse tilejä",

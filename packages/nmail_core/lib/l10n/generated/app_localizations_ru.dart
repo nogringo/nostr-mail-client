@@ -48,6 +48,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionDiscard => 'Отбросить';
 
   @override
+  String get actionKeepEditing => 'Продолжить редактирование';
+
+  @override
+  String get discardChangesTitle => 'Отбросить изменения?';
+
+  @override
+  String get discardChangesMessage =>
+      'У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.';
+
+  @override
   String get stateLoadingEllipsis => 'Загрузка...';
 
   @override
@@ -288,7 +298,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get relayInboxOutboxTitle => 'Реле входящих/исходящих';
 
   @override
-  String get relayAddTooltip => 'Добавить реле';
+  String get relayInboxOutboxDescription =>
+      'Реле, куда ваш аккаунт публикует и откуда читает.';
+
+  @override
+  String get relayAdd => 'Добавить реле';
 
   @override
   String get relayRemoveTooltip => 'Удалить реле';
@@ -297,13 +311,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get relayInboxOutboxEmpty => 'Реле входящих/исходящих не настроены';
 
   @override
-  String get relayEmptyHint => 'Нажмите +, чтобы добавить реле';
-
-  @override
   String get dmRelayAddTitle => 'Добавить DM-реле';
 
   @override
   String get dmRelaySectionTitle => 'DM-реле';
+
+  @override
+  String get dmRelayDescription =>
+      'Реле, которые принимают ваши зашифрованные сообщения.';
+
+  @override
+  String get dmRelayAdd => 'Добавить DM-реле';
 
   @override
   String get dmRelayEmpty => 'DM-реле не настроены';
@@ -324,13 +342,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bridgeSectionTitle => 'Мосты';
 
   @override
-  String get bridgeAddTooltip => 'Добавить мост';
+  String get bridgeDescription =>
+      'Домены, которые дают вам обычный адрес электронной почты.';
+
+  @override
+  String get bridgeAdd => 'Добавить мост';
 
   @override
   String get bridgeEmpty => 'Мосты не настроены';
-
-  @override
-  String get bridgeEmptyHint => 'Нажмите +, чтобы добавить мост';
 
   @override
   String get bridgeDefault => 'Мост по умолчанию';
@@ -351,7 +370,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get blossomSectionTitle => 'Хостинг файлов';
 
   @override
-  String get blossomAddTooltip => 'Добавить сервер';
+  String get blossomDescription =>
+      'Серверы, где хранятся ваши вложения и изображения.';
+
+  @override
+  String get blossomAdd => 'Добавить сервер';
 
   @override
   String get blossomRemoveTooltip => 'Удалить сервер';
@@ -360,13 +383,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get blossomEmpty => 'Серверы Blossom не настроены';
 
   @override
-  String get blossomEmptyHint => 'Нажмите +, чтобы добавить сервер';
-
-  @override
   String get connectivitySectionTitle => 'Подключение в реальном времени';
 
   @override
-  String get connectivityRelayConnectivity => 'Подключение реле';
+  String connectivityConnectedCount(int connected, int total) {
+    return 'Подключено реле: $connected из $total';
+  }
+
+  @override
+  String get connectivityConnected => 'Подключено';
+
+  @override
+  String get connectivityDisconnected => 'Нет подключения';
 
   @override
   String get syncStatusSectionTitle => 'Статус синхронизации';
@@ -375,11 +403,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get syncStatusEmpty => 'Нет данных о синхронизации';
 
   @override
-  String get syncStatusEmptyHint =>
-      'Синхронизируйте письма, чтобы увидеть статус реле';
+  String get syncStatusResync => 'Пересинхронизировать';
 
   @override
-  String get syncStatusResync => 'Пересинхронизировать';
+  String get syncStatusResyncSubtitle =>
+      'Заново прочитать все сообщения с ваших реле.';
 
   @override
   String get syncStatusBeginningOfTime => 'Начало времён';
@@ -396,16 +424,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get identitiesCreate => 'Создать идентичность';
-
-  @override
-  String get identitiesDiscardTitle => 'Отбросить изменения?';
-
-  @override
-  String get identitiesDiscardMessage =>
-      'У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.';
-
-  @override
-  String get identitiesKeepEditing => 'Продолжить редактирование';
 
   @override
   String get accountsTitle => 'Аккаунты';
