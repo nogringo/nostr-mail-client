@@ -25,9 +25,9 @@ void main() {
     });
 
     test('rebuilds the roles missing from a legacy payload', () {
-      final legacy = jsonDecode(colorSchemeToJson(scheme))
-          as Map<String, dynamic>
-        ..removeWhere((key, _) => key.startsWith('surfaceContainer'));
+      final legacy =
+          jsonDecode(colorSchemeToJson(scheme)) as Map<String, dynamic>
+            ..removeWhere((key, _) => key.startsWith('surfaceContainer'));
 
       final restored = colorSchemeFromJson(jsonEncode(legacy))!;
 

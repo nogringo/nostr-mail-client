@@ -43,6 +43,7 @@ import '../../views/settings/notifications_settings_view.dart';
 import '../../views/settings/settings_view.dart';
 import '../../views/shared/auth_shell.dart';
 import '../../views/shared/not_found_view.dart';
+import '../../views/shared/window_caption_inset.dart';
 import 'app_routes.dart';
 
 class AppRouter {
@@ -91,23 +92,28 @@ class AppRouter {
     initialLocation: AppRoutes.inbox,
     refreshListenable: _authNotifier,
     redirect: _globalRedirect,
-    errorBuilder: (_, _) => const NotFoundView(),
+    errorBuilder: (_, _) => const WindowCaptionInset(child: NotFoundView()),
     routes: [
       // Public routes (outside shell)
-      GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginView()),
+      GoRoute(
+        path: AppRoutes.login,
+        builder: (_, _) => const WindowCaptionInset(child: LoginView()),
+      ),
       GoRoute(
         path: AppRoutes.onboarding,
-        builder: (_, _) => const OnboardingView(),
+        builder: (_, _) => const WindowCaptionInset(child: OnboardingView()),
       ),
       // Account management, outside the shell: full screen, and `add` nests so
       // that leaving it lands back on the list.
       GoRoute(
         path: AppRoutes.accounts,
-        builder: (_, _) => const AccountsView(),
+        builder: (_, _) => const WindowCaptionInset(child: AccountsView()),
         routes: [
           GoRoute(
             path: 'add',
-            builder: (_, _) => const LoginView(isAddingAccount: true),
+            builder: (_, _) => const WindowCaptionInset(
+              child: LoginView(isAddingAccount: true),
+            ),
           ),
         ],
       ),
