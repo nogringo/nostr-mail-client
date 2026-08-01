@@ -19,9 +19,7 @@ class SettingsView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+        leading: BackButton(
           // Reached via `context.go` from inbox/drawer/rail, so there is
           // typically nothing to pop. Fall back to the inbox.
           onPressed: () =>

@@ -59,11 +59,7 @@ class EmailView extends StatelessWidget {
 
         Widget content = Scaffold(
           appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-              onPressed: () => _goBack(context, controller),
-            ),
+            leading: BackButton(onPressed: () => _goBack(context, controller)),
             actionsPadding: .only(right: 8),
             actions: [
               if (controller.folder == MailFolder.trash)
