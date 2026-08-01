@@ -21,14 +21,21 @@ Releases prior to 0.13.0 are listed on the
   switch in one tap, without signing out.
 - Guide Android FOSS users to install a UnifiedPush distributor when none is available.
 - Enable push notifications on web.
+- Confirm before leaving the hosting or address settings with unsaved changes.
 
 ### Changed
 
+- Reorganize the settings into their own pages, with related settings grouped
+  into cards.
 - Improve the macOS DMG installer window with a custom background and icon
   layout for both app variants.
 
 ### Fixed
 
+- Keep the container colors of a theme built from a wallpaper, which made cards
+  and grouped rows blend into the background.
+- Keep full-screen pages clear of the window controls on desktop.
+- Restore window resizing from the window edges on macOS.
 - Allow pasting into To, Cc, and Bcc recipient fields on Android.
 - Allow adding and downloading email attachments on macOS.
 - Keep the macOS app running when the last window is closed, matching native
