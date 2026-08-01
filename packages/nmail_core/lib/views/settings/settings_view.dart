@@ -11,7 +11,6 @@ import 'package:nmail_core/services/sensitive_clipboard.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
-import 'widgets/about_section.dart';
 import 'widgets/settings_section_header.dart';
 
 class SettingsView extends StatelessWidget {
@@ -162,7 +161,13 @@ class SettingsView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               SettingsSectionHeader(title: l.settingsAbout),
-              const AboutSection(),
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: Text(l.settingsAboutApp),
+                subtitle: Text(l.settingsAboutAppSubtitle),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.go(AppRoutes.settingsAbout),
+              ),
               const SizedBox(height: 48),
             ],
           ),

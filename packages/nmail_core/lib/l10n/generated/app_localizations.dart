@@ -505,11 +505,29 @@ abstract class AppLocalizations {
   /// **'About'**
   String get settingsAbout;
 
-  /// Tile title for the app version in the About section
+  /// Settings tile title that opens the about screen
   ///
   /// In en, this message translates to:
-  /// **'Version'**
-  String get settingsVersion;
+  /// **'App information'**
+  String get settingsAboutApp;
+
+  /// Subtitle for the app information tile
+  ///
+  /// In en, this message translates to:
+  /// **'Version, source code'**
+  String get settingsAboutAppSubtitle;
+
+  /// Tile subtitle under the developer's Nostr name, linking to their profile
+  ///
+  /// In en, this message translates to:
+  /// **'Developer'**
+  String get settingsDeveloper;
+
+  /// Tile title for the link to the project's license
+  ///
+  /// In en, this message translates to:
+  /// **'License'**
+  String get settingsLicense;
 
   /// Tile title for the link to the project's GitHub repository
   ///

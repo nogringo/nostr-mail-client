@@ -212,7 +212,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settingsAbout => 'Informazioni';
 
   @override
-  String get settingsVersion => 'Versione';
+  String get settingsAboutApp => 'Informazioni sull\'app';
+
+  @override
+  String get settingsAboutAppSubtitle => 'Versione, codice sorgente';
+
+  @override
+  String get settingsDeveloper => 'Sviluppatore';
+
+  @override
+  String get settingsLicense => 'Licenza';
 
   @override
   String get settingsSourceCode => 'Codice sorgente';

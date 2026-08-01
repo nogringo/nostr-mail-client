@@ -66,7 +66,10 @@
   "settingsResetConfirmMessage": "Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.",
 
   "settingsAbout": "Tietoja",
-  "settingsVersion": "Versio",
+  "settingsDeveloper": "Kehittäjä",
+  "settingsLicense": "Lisenssi",
+  "settingsAboutApp": "Sovelluksen tiedot",
+  "settingsAboutAppSubtitle": "Versio, lähdekoodi",
   "settingsSourceCode": "Lähdekoodi",
   "settingsSourceCodeSubtitle": "Näytä GitHubissa",
   "settingsPrivacyPolicy": "Tietosuojakäytäntö",

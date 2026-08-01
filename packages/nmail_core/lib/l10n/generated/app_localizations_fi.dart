@@ -213,7 +213,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsAbout => 'Tietoja';
 
   @override
-  String get settingsVersion => 'Versio';
+  String get settingsAboutApp => 'Sovelluksen tiedot';
+
+  @override
+  String get settingsAboutAppSubtitle => 'Versio, lähdekoodi';
+
+  @override
+  String get settingsDeveloper => 'Kehittäjä';
+
+  @override
+  String get settingsLicense => 'Lisenssi';
 
   @override
   String get settingsSourceCode => 'Lähdekoodi';

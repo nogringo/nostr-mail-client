@@ -213,7 +213,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsAbout => 'О приложении';
 
   @override
-  String get settingsVersion => 'Версия';
+  String get settingsAboutApp => 'Сведения о приложении';
+
+  @override
+  String get settingsAboutAppSubtitle => 'Версия, исходный код';
+
+  @override
+  String get settingsDeveloper => 'Разработчик';
+
+  @override
+  String get settingsLicense => 'Лицензия';
 
   @override
   String get settingsSourceCode => 'Исходный код';

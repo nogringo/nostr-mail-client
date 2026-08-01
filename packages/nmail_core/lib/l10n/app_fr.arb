@@ -69,7 +69,10 @@
   "settingsResetConfirmMessage": "Cela supprimera toutes les données locales, y compris les paramètres et les images de fond, et vous déconnectera.\n\nCette action est irréversible.",
 
   "settingsAbout": "À propos",
-  "settingsVersion": "Version",
+  "settingsDeveloper": "Développeur",
+  "settingsLicense": "Licence",
+  "settingsAboutApp": "Informations sur l'application",
+  "settingsAboutAppSubtitle": "Version, code source",
   "settingsSourceCode": "Code source",
   "settingsSourceCodeSubtitle": "Voir sur GitHub",
   "settingsPrivacyPolicy": "Politique de confidentialité",

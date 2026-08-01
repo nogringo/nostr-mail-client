@@ -66,7 +66,10 @@
   "settingsResetConfirmMessage": "Dies löscht alle lokalen Daten einschließlich Einstellungen und Hintergrundbilder und meldet dich ab.\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
 
   "settingsAbout": "Über",
-  "settingsVersion": "Version",
+  "settingsDeveloper": "Entwickler",
+  "settingsLicense": "Lizenz",
+  "settingsAboutApp": "App-Informationen",
+  "settingsAboutAppSubtitle": "Version, Quellcode",
   "settingsSourceCode": "Quellcode",
   "settingsSourceCodeSubtitle": "Auf GitHub ansehen",
   "settingsPrivacyPolicy": "Datenschutzrichtlinie",

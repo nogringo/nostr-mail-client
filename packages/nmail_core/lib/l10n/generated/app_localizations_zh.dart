@@ -207,7 +207,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsAbout => '关于';
 
   @override
-  String get settingsVersion => '版本';
+  String get settingsAboutApp => '应用信息';
+
+  @override
+  String get settingsAboutAppSubtitle => '版本、源代码';
+
+  @override
+  String get settingsDeveloper => '开发者';
+
+  @override
+  String get settingsLicense => '许可证';
 
   @override
   String get settingsSourceCode => '源代码';

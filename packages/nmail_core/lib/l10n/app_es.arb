@@ -66,7 +66,10 @@
   "settingsResetConfirmMessage": "Esto eliminará todos los datos locales, incluidos ajustes e imágenes de fondo, y cerrará la sesión.\n\nEsta acción no se puede deshacer.",
 
   "settingsAbout": "Acerca de",
-  "settingsVersion": "Versión",
+  "settingsDeveloper": "Desarrollador",
+  "settingsLicense": "Licencia",
+  "settingsAboutApp": "Información de la aplicación",
+  "settingsAboutAppSubtitle": "Versión, código fuente",
   "settingsSourceCode": "Código fuente",
   "settingsSourceCodeSubtitle": "Ver en GitHub",
   "settingsPrivacyPolicy": "Política de privacidad",

@@ -66,7 +66,10 @@
   "settingsResetConfirmMessage": "設定や背景画像を含むすべてのローカルデータが削除され、ログアウトされます。\n\nこの操作は元に戻せません。",
 
   "settingsAbout": "アプリ情報",
-  "settingsVersion": "バージョン",
+  "settingsDeveloper": "開発者",
+  "settingsLicense": "ライセンス",
+  "settingsAboutApp": "アプリの詳細",
+  "settingsAboutAppSubtitle": "バージョン、ソースコード",
   "settingsSourceCode": "ソースコード",
   "settingsSourceCodeSubtitle": "GitHubで見る",
   "settingsPrivacyPolicy": "プライバシーポリシー",

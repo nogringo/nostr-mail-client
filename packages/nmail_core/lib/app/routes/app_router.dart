@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 
+import '../../controllers/about_controller.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/backgrounds_controller.dart';
 import '../../controllers/compose_controller.dart';
@@ -30,6 +31,7 @@ import '../../views/nostr/profile_share_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
 import '../../views/profile/profile_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
+import '../../views/settings/about_settings_view.dart';
 import '../../views/settings/appearance_settings_view.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
@@ -235,6 +237,13 @@ class AppRouter {
               GoRoute(
                 path: 'debug-tools',
                 builder: (_, _) => const DebugToolsView(),
+              ),
+              GoRoute(
+                path: 'about',
+                builder: (_, _) {
+                  Get.lazyPut(() => AboutController());
+                  return const AboutSettingsView();
+                },
               ),
             ],
           ),

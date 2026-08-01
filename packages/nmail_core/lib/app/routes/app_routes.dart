@@ -45,6 +45,7 @@ class AppRoutes {
   static const settingsNotifications = '/settings/notifications';
   static const settingsHosting = '/settings/hosting';
   static const settingsDebugTools = '/settings/debug-tools';
+  static const settingsAbout = '/settings/about';
 
   // Backward compat: legacy in-app links keep working.
   // `/email/:id` redirects to `/:hex` which the nostr dispatcher resolves.

@@ -215,7 +215,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsAbout => 'Sobre';
 
   @override
-  String get settingsVersion => 'Versão';
+  String get settingsAboutApp => 'Informações da aplicação';
+
+  @override
+  String get settingsAboutAppSubtitle => 'Versão, código-fonte';
+
+  @override
+  String get settingsDeveloper => 'Programador';
+
+  @override
+  String get settingsLicense => 'Licença';
 
   @override
   String get settingsSourceCode => 'Código-fonte';
@@ -1660,7 +1669,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsAbout => 'Sobre';
 
   @override
-  String get settingsVersion => 'Versão';
+  String get settingsAboutApp => 'Informações do aplicativo';
+
+  @override
+  String get settingsAboutAppSubtitle => 'Versão, código-fonte';
+
+  @override
+  String get settingsDeveloper => 'Desenvolvedor';
+
+  @override
+  String get settingsLicense => 'Licença';
 
   @override
   String get settingsSourceCode => 'Código-fonte';

@@ -66,7 +66,10 @@
   "settingsResetConfirmMessage": "这将删除所有本地数据,包括设置和背景图片,并将您注销。\n\n此操作无法撤销。",
 
   "settingsAbout": "关于",
-  "settingsVersion": "版本",
+  "settingsDeveloper": "开发者",
+  "settingsLicense": "许可证",
+  "settingsAboutApp": "应用信息",
+  "settingsAboutAppSubtitle": "版本、源代码",
   "settingsSourceCode": "源代码",
   "settingsSourceCodeSubtitle": "在 GitHub 上查看",
   "settingsPrivacyPolicy": "隐私政策",
