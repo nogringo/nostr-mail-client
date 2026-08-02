@@ -19,6 +19,11 @@ class AppRoutes {
   static const login = '/login';
   static const onboarding = '/onboarding';
 
+  /// Report of a NIP-62 request to vanish, reached right after the account it
+  /// deleted left the device. Public because that account is already gone.
+  static const accountDeleted = '/account-deleted';
+  static const accountDeletedRequestParam = 'request';
+
   // Folders (drive InboxController.currentFolder from URL)
   static const inbox = '/inbox';
   static const sent = '/sent';
@@ -65,4 +70,9 @@ class AppRoutes {
   /// In-app deep-linkable email URL: `/<folder>/email/<hex>`.
   static String emailPath(MailFolder folder, String id) =>
       '${folderPath(folder)}/email/$id';
+
+  /// The request id travels in the URL rather than in `extra` so a reload on
+  /// web keeps the report on screen.
+  static String accountDeletedPath(String requestId) =>
+      '$accountDeleted?$accountDeletedRequestParam=$requestId';
 }

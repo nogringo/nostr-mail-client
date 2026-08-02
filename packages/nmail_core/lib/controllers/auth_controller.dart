@@ -312,6 +312,54 @@ class AuthController extends GetxController {
     }
   }
 
+  /// Asks the relays to erase the active account (NIP-62 request to vanish),
+  /// then removes it from this device. Returns the queued request so the
+  /// caller can follow its delivery relay by relay.
+  ///
+  /// Works offline: the request is signed and queued locally, and the queue
+  /// retries it until every relay has answered. It is queued unattributed, so
+  /// the account wipe behind it, which drops that account's queue, cannot take
+  /// the request down with it.
+  ///
+  /// Throws when the signer refuses, which leaves the account untouched.
+  Future<QueuedBroadcast> deleteAccount({String reason = ''}) async {
+    final account = ndk.accounts.getLoggedAccount();
+    if (account == null) throw StateError('No account to delete');
+    if (pendingAccountPubkey.value != null) {
+      throw StateError('Another account operation is running');
+    }
+
+    final pubkey = account.pubkey;
+    // Cache reads only: deleting an account must not depend on the network.
+    final userRelayList = await ndk.config.cache.loadUserRelayList(pubkey);
+    final dmRelays = await _nostrMailService.getDmRelays();
+    // A relay only honours a request it receives, so aim at every relay this
+    // account could have reached: read and write alike, not just the outbox.
+    final targets = {
+      ...NostrConfig.popularRelays,
+      ...NostrConfig.bootstrapRelays,
+      ...?userRelayList?.relays.keys,
+      ...dmRelays,
+    }.toList();
+
+    final unsignedVanish = Nip01Event(
+      pubKey: pubkey,
+      kind: vanishRequestKind,
+      tags: [
+        ['relay', vanishAllRelays],
+      ],
+      content: reason,
+    );
+    final signedVanish = await account.signer.sign(unsignedVanish);
+    final queued = await Get.find<OfflineBroadcast>().broadcast(
+      signedVanish,
+      relays: targets,
+    );
+
+    await removeAccount(pubkey);
+    return queued;
+  }
+
   /// Removes [pubkey] from this device and erases its local data. The active
   /// account goes through [logout] so the fallback switch, push cleanup and
   /// navigation stay in one place.

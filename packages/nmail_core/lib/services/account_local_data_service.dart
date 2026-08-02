@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'address_book_service.dart';
+import 'metadata_service.dart';
 import 'nostr_mail_service.dart';
 import 'push_subscription_service.dart';
 import 'storage_service.dart';
@@ -29,8 +30,39 @@ class AccountLocalDataService extends GetxService {
         Get.find<OfflineBroadcast>().clearLocalAccountData(pubkey: pubkey),
       if (Get.isRegistered<OfflineBlossomUpload>())
         Get.find<OfflineBlossomUpload>().clearLocalAccountData(pubkey: pubkey),
+      _clearNdkCache(pubkey),
       _clearAccountSettings(pubkey),
     ]);
+  }
+
+  /// Drops what the ndk cache holds about [pubkey]: the events it signed, the
+  /// gift wraps addressed to it, and the records derived from them. Without
+  /// this the account's own notes, contacts, profile and received mail outlive
+  /// its removal and are served straight back from cache the next time the
+  /// same key logs in.
+  Future<void> _clearNdkCache(String pubkey) async {
+    if (!Get.isRegistered<Ndk>()) return;
+
+    final cache = Get.find<Ndk>().config.cache;
+    await Future.wait([
+      cache.removeAllEventsByPubKey(pubkey),
+      // Gift wraps carry an ephemeral author, so the recipient p tag is the
+      // only thing tying them to this account.
+      cache.removeEvents(
+        kinds: [GiftWrap.kGiftWrapEventkind],
+        tags: {
+          'p': [pubkey],
+        },
+      ),
+      cache.removeMetadata(pubkey),
+      cache.removeUserRelayList(pubkey),
+      cache.removeContactList(pubkey),
+      cache.removeNip05(pubkey),
+    ]);
+
+    if (Get.isRegistered<MetadataService>()) {
+      Get.find<MetadataService>().forget(pubkey);
+    }
   }
 
   Future<void> clearAllLocalData() async {

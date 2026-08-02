@@ -15,6 +15,7 @@
   "actionRemove": "移除",
   "actionDiscard": "放弃",
   "actionKeepEditing": "继续编辑",
+  "actionFinish": "完成",
   "discardChangesTitle": "放弃更改?",
   "discardChangesMessage": "您有未保存的更改。现在离开将被放弃。",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "退出登录",
   "settingsResetApplication": "重置应用",
   "settingsResetConfirmMessage": "这将删除所有本地数据,包括设置和背景图片,并将您注销。\n\n此操作无法撤销。",
+  "settingsDeleteAccount": "删除账户",
+  "settingsDeleteAccountTitle": "删除此账户？",
+  "settingsDeleteAccountMessage": "将请求各中继删除您的消息和个人资料,并从此设备移除该账户。",
+  "settingsDeleteAccountWarning": "此操作无法撤销。已删除的内容无法恢复。",
+  "settingsDeleteAccountConfirmWord": "删除",
+  "settingsDeleteAccountConfirmLabel": "输入 {word} 以确认",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "请求未被签名。没有删除任何内容。",
+
+  "accountDeletedTitle": "已从此设备删除账户",
+  "accountDeletedRelayCount": "{total} 个中继中有 {erased} 个已删除您的数据",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "已删除",
+  "accountDeletedRelayNotErased": "未删除",
+  "accountDeletedRelayPending": "发送中",
+  "accountDeletedPendingNote": "其余中继将在您下次打开应用时再次联系。",
 
   "settingsAbout": "关于",
   "settingsDeveloper": "开发者",

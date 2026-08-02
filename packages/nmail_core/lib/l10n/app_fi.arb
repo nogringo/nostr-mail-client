@@ -15,6 +15,7 @@
   "actionRemove": "Poista",
   "actionDiscard": "Hylkää",
   "actionKeepEditing": "Jatka muokkausta",
+  "actionFinish": "Valmis",
   "discardChangesTitle": "Hylkää muutokset?",
   "discardChangesMessage": "Muutoksia ei ole tallennettu. Poistuminen hävittää tehdyt muokkaukset.",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "Kirjaudu ulos",
   "settingsResetApplication": "Palauta sovellus",
   "settingsResetConfirmMessage": "Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.",
+  "settingsDeleteAccount": "Poista tili",
+  "settingsDeleteAccountTitle": "Poistetaanko tämä tili?",
+  "settingsDeleteAccountMessage": "Palvelimia pyydetään poistamaan viestisi ja profiilisi, ja tili poistetaan tältä laitteelta.",
+  "settingsDeleteAccountWarning": "Toimintoa ei voi kumota. Poistettua ei voi palauttaa.",
+  "settingsDeleteAccountConfirmWord": "POISTA",
+  "settingsDeleteAccountConfirmLabel": "Vahvista kirjoittamalla {word}",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "Pyyntöä ei allekirjoitettu. Mitään ei poistettu.",
+
+  "accountDeletedTitle": "Tili poistettu tältä laitteelta",
+  "accountDeletedRelayCount": "{erased}/{total} palvelinta poisti tietosi",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Poistettu",
+  "accountDeletedRelayNotErased": "Ei poistettu",
+  "accountDeletedRelayPending": "Lähetetään",
+  "accountDeletedPendingNote": "Loput palvelimet tavoitetaan uudelleen, kun avaat sovelluksen seuraavan kerran.",
 
   "settingsAbout": "Tietoja",
   "settingsDeveloper": "Kehittäjä",

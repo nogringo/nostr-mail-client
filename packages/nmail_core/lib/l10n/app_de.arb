@@ -15,6 +15,7 @@
   "actionRemove": "Entfernen",
   "actionDiscard": "Verwerfen",
   "actionKeepEditing": "Weiter bearbeiten",
+  "actionFinish": "Fertig",
   "discardChangesTitle": "Änderungen verwerfen?",
   "discardChangesMessage": "Du hast nicht gespeicherte Änderungen. Wenn du jetzt gehst, gehen sie verloren.",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "Abmelden",
   "settingsResetApplication": "App zurücksetzen",
   "settingsResetConfirmMessage": "Dies löscht alle lokalen Daten einschließlich Einstellungen und Hintergrundbilder und meldet dich ab.\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
+  "settingsDeleteAccount": "Konto löschen",
+  "settingsDeleteAccountTitle": "Dieses Konto löschen?",
+  "settingsDeleteAccountMessage": "Deine Relays werden gebeten, deine Nachrichten und dein Profil zu löschen, und das Konto wird von diesem Gerät entfernt.",
+  "settingsDeleteAccountWarning": "Das lässt sich nicht rückgängig machen. Was gelöscht ist, kann nicht wiederhergestellt werden.",
+  "settingsDeleteAccountConfirmWord": "LÖSCHEN",
+  "settingsDeleteAccountConfirmLabel": "Gib {word} ein, um zu bestätigen",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "Die Anfrage wurde nicht signiert. Es wurde nichts gelöscht.",
+
+  "accountDeletedTitle": "Konto von diesem Gerät gelöscht",
+  "accountDeletedRelayCount": "{erased} von {total} Relays haben deine Daten gelöscht",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Gelöscht",
+  "accountDeletedRelayNotErased": "Nicht gelöscht",
+  "accountDeletedRelayPending": "Wird gesendet",
+  "accountDeletedPendingNote": "Die übrigen Relays werden beim nächsten Öffnen der App erneut kontaktiert.",
 
   "settingsAbout": "Über",
   "settingsDeveloper": "Entwickler",

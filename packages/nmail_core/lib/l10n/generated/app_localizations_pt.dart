@@ -51,6 +51,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionKeepEditing => 'Continuar a editar';
 
   @override
+  String get actionFinish => 'Concluir';
+
+  @override
   String get discardChangesTitle => 'Descartar alterações?';
 
   @override
@@ -152,6 +155,53 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'Isto eliminará todos os dados locais, incluindo definições e imagens de fundo, e terminará a sessão.\n\nEsta ação não pode ser anulada.';
+
+  @override
+  String get settingsDeleteAccount => 'Eliminar conta';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Eliminar esta conta?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'É pedido aos seus relays que apaguem as suas mensagens e o seu perfil, e a conta é removida deste dispositivo.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Esta ação não pode ser anulada. Nada do que for apagado pode ser recuperado.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'ELIMINAR';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Escreva $word para confirmar';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'O pedido não foi assinado. Nada foi eliminado.';
+
+  @override
+  String get accountDeletedTitle => 'Conta eliminada deste dispositivo';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased de $total relays apagaram os seus dados';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Apagado';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Por apagar';
+
+  @override
+  String get accountDeletedRelayPending => 'A enviar';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'Os restantes relays são contactados de novo na próxima vez que abrir a aplicação.';
 
   @override
   String get settingsAbout => 'Sobre';
@@ -1441,6 +1491,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get actionKeepEditing => 'Continuar editando';
 
   @override
+  String get actionFinish => 'Concluir';
+
+  @override
   String get discardChangesTitle => 'Descartar alterações?';
 
   @override
@@ -1542,6 +1595,53 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get settingsResetConfirmMessage =>
       'Isso excluirá todos os dados locais, incluindo configurações e imagens de fundo, e fará logout.\n\nEsta ação não pode ser desfeita.';
+
+  @override
+  String get settingsDeleteAccount => 'Excluir conta';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Excluir esta conta?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Seus relays são solicitados a apagar suas mensagens e seu perfil, e a conta é removida deste dispositivo.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Esta ação não pode ser desfeita. Nada do que for apagado pode ser recuperado.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'EXCLUIR';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Digite $word para confirmar';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'A solicitação não foi assinada. Nada foi excluído.';
+
+  @override
+  String get accountDeletedTitle => 'Conta excluída deste dispositivo';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased de $total relays apagaram seus dados';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Apagado';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Não apagado';
+
+  @override
+  String get accountDeletedRelayPending => 'Enviando';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'Os relays restantes serão contatados novamente na próxima vez que você abrir o app.';
 
   @override
   String get settingsAbout => 'Sobre';

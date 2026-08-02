@@ -18,6 +18,7 @@ import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
+import '../../views/account_deleted/account_deleted_view.dart';
 import '../../views/accounts/accounts_view.dart';
 import '../../views/auth/login_view.dart';
 import '../../views/compose/compose_view.dart';
@@ -102,6 +103,17 @@ class AppRouter {
       GoRoute(
         path: AppRoutes.onboarding,
         builder: (_, _) => const WindowCaptionInset(child: OnboardingView()),
+      ),
+      GoRoute(
+        path: AppRoutes.accountDeleted,
+        builder: (_, state) => WindowCaptionInset(
+          child: AccountDeletedView(
+            requestId:
+                state.uri.queryParameters[AppRoutes
+                    .accountDeletedRequestParam] ??
+                '',
+          ),
+        ),
       ),
       // Account management, outside the shell: full screen, and `add` nests so
       // that leaving it lands back on the list.
@@ -384,7 +396,11 @@ class AppRouter {
     // 2. Guest paths: don't force auth on /login or /onboarding,
     // but kick logged-in users off /login. Exception: after a fresh signup
     // we want LoginView to render SyncCodeExplanationView (nsec backup).
-    const publicPaths = {AppRoutes.login, AppRoutes.onboarding};
+    const publicPaths = {
+      AppRoutes.login,
+      AppRoutes.onboarding,
+      AppRoutes.accountDeleted,
+    };
     if (publicPaths.contains(loc)) {
       if (auth.isLoggedIn.value &&
           loc == AppRoutes.login &&

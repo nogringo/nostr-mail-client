@@ -51,6 +51,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionKeepEditing => '編集を続ける';
 
   @override
+  String get actionFinish => '完了';
+
+  @override
   String get discardChangesTitle => '変更を破棄しますか?';
 
   @override
@@ -147,6 +150,50 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       '設定や背景画像を含むすべてのローカルデータが削除され、ログアウトされます。\n\nこの操作は元に戻せません。';
+
+  @override
+  String get settingsDeleteAccount => 'アカウントを削除';
+
+  @override
+  String get settingsDeleteAccountTitle => 'このアカウントを削除しますか？';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'リレーにメッセージとプロフィールの削除を依頼し、このアカウントを端末から削除します。';
+
+  @override
+  String get settingsDeleteAccountWarning => 'この操作は元に戻せません。削除されたものは復元できません。';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => '削除';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return '確認のため $word と入力してください';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed => 'リクエストに署名されませんでした。何も削除されていません。';
+
+  @override
+  String get accountDeletedTitle => 'この端末からアカウントを削除しました';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$total 件中 $erased 件のリレーがデータを削除しました';
+  }
+
+  @override
+  String get accountDeletedRelayErased => '削除済み';
+
+  @override
+  String get accountDeletedRelayNotErased => '未削除';
+
+  @override
+  String get accountDeletedRelayPending => '送信中';
+
+  @override
+  String get accountDeletedPendingNote => '残りのリレーには、次回アプリを開いたときに再送します。';
 
   @override
   String get settingsAbout => 'アプリ情報';

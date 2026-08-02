@@ -30,6 +30,12 @@ class MetadataService extends GetxService {
     return slot;
   }
 
+  /// Drops the slot for [pubkey] and blanks it first, so widgets still holding
+  /// the old reference stop showing a profile the app has just erased.
+  void forget(String pubkey) {
+    _cache.remove(pubkey)?.value = null;
+  }
+
   Future<void> _load(String pubkey) async {
     final metadata = await _ndk.metadata.loadMetadata(pubkey);
     if (metadata == null) return;

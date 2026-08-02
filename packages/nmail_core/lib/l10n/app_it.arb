@@ -15,6 +15,7 @@
   "actionRemove": "Rimuovi",
   "actionDiscard": "Scarta",
   "actionKeepEditing": "Continua a modificare",
+  "actionFinish": "Fine",
   "discardChangesTitle": "Scartare le modifiche?",
   "discardChangesMessage": "Hai modifiche non salvate. Uscendo ora andranno perse.",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "Esci",
   "settingsResetApplication": "Reimposta applicazione",
   "settingsResetConfirmMessage": "Verranno eliminati tutti i dati locali, comprese le impostazioni e le immagini di sfondo, e verrai disconnesso.\n\nQuesta azione non può essere annullata.",
+  "settingsDeleteAccount": "Elimina account",
+  "settingsDeleteAccountTitle": "Eliminare questo account?",
+  "settingsDeleteAccountMessage": "Ai tuoi relay viene chiesto di cancellare i tuoi messaggi e il tuo profilo, e l'account viene rimosso da questo dispositivo.",
+  "settingsDeleteAccountWarning": "Questa azione non può essere annullata. Nulla di ciò che viene cancellato può essere recuperato.",
+  "settingsDeleteAccountConfirmWord": "ELIMINA",
+  "settingsDeleteAccountConfirmLabel": "Digita {word} per confermare",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "La richiesta non è stata firmata. Non è stato eliminato nulla.",
+
+  "accountDeletedTitle": "Account eliminato da questo dispositivo",
+  "accountDeletedRelayCount": "{erased} di {total} relay hanno cancellato i tuoi dati",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Cancellato",
+  "accountDeletedRelayNotErased": "Non cancellato",
+  "accountDeletedRelayPending": "Invio",
+  "accountDeletedPendingNote": "I relay rimanenti verranno ricontattati alla prossima apertura dell'app.",
 
   "settingsAbout": "Informazioni",
   "settingsDeveloper": "Sviluppatore",

@@ -51,6 +51,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get actionKeepEditing => 'Weiter bearbeiten';
 
   @override
+  String get actionFinish => 'Fertig';
+
+  @override
   String get discardChangesTitle => 'Änderungen verwerfen?';
 
   @override
@@ -152,6 +155,53 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'Dies löscht alle lokalen Daten einschließlich Einstellungen und Hintergrundbilder und meldet dich ab.\n\nDiese Aktion kann nicht rückgängig gemacht werden.';
+
+  @override
+  String get settingsDeleteAccount => 'Konto löschen';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Dieses Konto löschen?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Deine Relays werden gebeten, deine Nachrichten und dein Profil zu löschen, und das Konto wird von diesem Gerät entfernt.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Das lässt sich nicht rückgängig machen. Was gelöscht ist, kann nicht wiederhergestellt werden.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'LÖSCHEN';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Gib $word ein, um zu bestätigen';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'Die Anfrage wurde nicht signiert. Es wurde nichts gelöscht.';
+
+  @override
+  String get accountDeletedTitle => 'Konto von diesem Gerät gelöscht';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased von $total Relays haben deine Daten gelöscht';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Gelöscht';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Nicht gelöscht';
+
+  @override
+  String get accountDeletedRelayPending => 'Wird gesendet';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'Die übrigen Relays werden beim nächsten Öffnen der App erneut kontaktiert.';
 
   @override
   String get settingsAbout => 'Über';

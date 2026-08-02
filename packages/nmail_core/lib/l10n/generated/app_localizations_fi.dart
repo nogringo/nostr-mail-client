@@ -51,6 +51,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionKeepEditing => 'Jatka muokkausta';
 
   @override
+  String get actionFinish => 'Valmis';
+
+  @override
   String get discardChangesTitle => 'Hylkää muutokset?';
 
   @override
@@ -151,6 +154,53 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.';
+
+  @override
+  String get settingsDeleteAccount => 'Poista tili';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Poistetaanko tämä tili?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Palvelimia pyydetään poistamaan viestisi ja profiilisi, ja tili poistetaan tältä laitteelta.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Toimintoa ei voi kumota. Poistettua ei voi palauttaa.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'POISTA';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Vahvista kirjoittamalla $word';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'Pyyntöä ei allekirjoitettu. Mitään ei poistettu.';
+
+  @override
+  String get accountDeletedTitle => 'Tili poistettu tältä laitteelta';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased/$total palvelinta poisti tietosi';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Poistettu';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Ei poistettu';
+
+  @override
+  String get accountDeletedRelayPending => 'Lähetetään';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'Loput palvelimet tavoitetaan uudelleen, kun avaat sovelluksen seuraavan kerran.';
 
   @override
   String get settingsAbout => 'Tietoja';

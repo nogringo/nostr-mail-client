@@ -29,6 +29,8 @@
   "@actionDiscard": { "description": "Discard button label used when leaving a form with unsaved changes" },
   "actionKeepEditing": "Keep editing",
   "@actionKeepEditing": { "description": "Button label to stay on the screen and continue editing" },
+  "actionFinish": "Finish",
+  "@actionFinish": { "description": "Button label that closes a terminal screen at the end of a flow" },
   "discardChangesTitle": "Discard changes?",
   "@discardChangesTitle": { "description": "Dialog title shown when leaving a screen with unsaved changes" },
   "discardChangesMessage": "You have unsaved changes. Leaving now will discard them.",
@@ -95,6 +97,44 @@
   "@settingsResetApplication": { "description": "Destructive tile title and confirmation dialog title for resetting the app" },
   "settingsResetConfirmMessage": "This will delete all local data including settings, background images, and log you out.\n\nThis action cannot be undone.",
   "@settingsResetConfirmMessage": { "description": "Confirmation message shown before resetting the application" },
+  "settingsDeleteAccount": "Delete account",
+  "@settingsDeleteAccount": { "description": "Destructive tile title in settings that starts deleting the Nostr account" },
+  "settingsDeleteAccountTitle": "Delete this account?",
+  "@settingsDeleteAccountTitle": { "description": "Title of the dialog confirming deletion of the Nostr account" },
+  "settingsDeleteAccountMessage": "Your relays are asked to erase your messages and your profile, and the account is removed from this device.",
+  "@settingsDeleteAccountMessage": { "description": "Main explanation in the delete-account confirmation dialog" },
+  "settingsDeleteAccountWarning": "This cannot be undone. Nothing that is erased can be recovered.",
+  "@settingsDeleteAccountWarning": { "description": "Warning that the deletion is final, shown in red in the delete-account dialog" },
+  "settingsDeleteAccountConfirmWord": "DELETE",
+  "@settingsDeleteAccountConfirmWord": { "description": "Word the user must type to unlock the delete button. Translate it, and keep it short and uppercase where the script allows" },
+  "settingsDeleteAccountConfirmLabel": "Type {word} to confirm",
+  "@settingsDeleteAccountConfirmLabel": {
+    "description": "Label of the text field where the user types the confirmation word",
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "The request was not signed. Nothing was deleted.",
+  "@settingsDeleteAccountSignFailed": { "description": "Inline error shown in the delete-account dialog when the signer did not sign the request" },
+
+  "accountDeletedTitle": "Account deleted from this device",
+  "@accountDeletedTitle": { "description": "Title of the screen reporting how relays answered the deletion" },
+  "accountDeletedRelayCount": "{erased} of {total} relays erased your data",
+  "@accountDeletedRelayCount": {
+    "description": "Running count of relays that have erased the account's data",
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Erased",
+  "@accountDeletedRelayErased": { "description": "Status of a relay that confirmed it erased the account's data" },
+  "accountDeletedRelayNotErased": "Not erased",
+  "@accountDeletedRelayNotErased": { "description": "Status of a relay the app has given up on, whether it turned the request down or stayed out of reach" },
+  "accountDeletedRelayPending": "Sending",
+  "@accountDeletedRelayPending": { "description": "Status of a relay that has not answered yet" },
+  "accountDeletedPendingNote": "The remaining relays are contacted again next time you open the app.",
+  "@accountDeletedPendingNote": { "description": "Note explaining when the relays that have not answered will be contacted again" },
 
   "settingsAbout": "About",
   "@settingsAbout": { "description": "Settings section header for app info (version, source code)" },

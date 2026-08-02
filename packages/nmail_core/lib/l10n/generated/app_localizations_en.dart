@@ -51,6 +51,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionKeepEditing => 'Keep editing';
 
   @override
+  String get actionFinish => 'Finish';
+
+  @override
   String get discardChangesTitle => 'Discard changes?';
 
   @override
@@ -152,6 +155,53 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'This will delete all local data including settings, background images, and log you out.\n\nThis action cannot be undone.';
+
+  @override
+  String get settingsDeleteAccount => 'Delete account';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Delete this account?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Your relays are asked to erase your messages and your profile, and the account is removed from this device.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'This cannot be undone. Nothing that is erased can be recovered.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'DELETE';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Type $word to confirm';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'The request was not signed. Nothing was deleted.';
+
+  @override
+  String get accountDeletedTitle => 'Account deleted from this device';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased of $total relays erased your data';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Erased';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Not erased';
+
+  @override
+  String get accountDeletedRelayPending => 'Sending';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'The remaining relays are contacted again next time you open the app.';
 
   @override
   String get settingsAbout => 'About';

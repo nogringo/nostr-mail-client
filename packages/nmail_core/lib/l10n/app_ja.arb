@@ -15,6 +15,7 @@
   "actionRemove": "削除",
   "actionDiscard": "破棄",
   "actionKeepEditing": "編集を続ける",
+  "actionFinish": "完了",
   "discardChangesTitle": "変更を破棄しますか?",
   "discardChangesMessage": "保存されていない変更があります。今離れると破棄されます。",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "ログアウト",
   "settingsResetApplication": "アプリをリセット",
   "settingsResetConfirmMessage": "設定や背景画像を含むすべてのローカルデータが削除され、ログアウトされます。\n\nこの操作は元に戻せません。",
+  "settingsDeleteAccount": "アカウントを削除",
+  "settingsDeleteAccountTitle": "このアカウントを削除しますか？",
+  "settingsDeleteAccountMessage": "リレーにメッセージとプロフィールの削除を依頼し、このアカウントを端末から削除します。",
+  "settingsDeleteAccountWarning": "この操作は元に戻せません。削除されたものは復元できません。",
+  "settingsDeleteAccountConfirmWord": "削除",
+  "settingsDeleteAccountConfirmLabel": "確認のため {word} と入力してください",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "リクエストに署名されませんでした。何も削除されていません。",
+
+  "accountDeletedTitle": "この端末からアカウントを削除しました",
+  "accountDeletedRelayCount": "{total} 件中 {erased} 件のリレーがデータを削除しました",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "削除済み",
+  "accountDeletedRelayNotErased": "未削除",
+  "accountDeletedRelayPending": "送信中",
+  "accountDeletedPendingNote": "残りのリレーには、次回アプリを開いたときに再送します。",
 
   "settingsAbout": "アプリ情報",
   "settingsDeveloper": "開発者",

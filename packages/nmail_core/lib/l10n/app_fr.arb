@@ -15,6 +15,7 @@
   "actionRemove": "Supprimer",
   "actionDiscard": "Abandonner",
   "actionKeepEditing": "Continuer à modifier",
+  "actionFinish": "Terminer",
   "discardChangesTitle": "Abandonner les modifications ?",
   "discardChangesMessage": "Vous avez des modifications non enregistrées. Quitter maintenant les supprimera.",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "Déconnexion",
   "settingsResetApplication": "Réinitialiser l'application",
   "settingsResetConfirmMessage": "Cela supprimera toutes les données locales, y compris les paramètres et les images de fond, et vous déconnectera.\n\nCette action est irréversible.",
+  "settingsDeleteAccount": "Supprimer le compte",
+  "settingsDeleteAccountTitle": "Supprimer ce compte ?",
+  "settingsDeleteAccountMessage": "Vos relais sont invités à effacer vos messages et votre profil, et le compte est retiré de cet appareil.",
+  "settingsDeleteAccountWarning": "Cette action est irréversible. Rien de ce qui est effacé ne peut être récupéré.",
+  "settingsDeleteAccountConfirmWord": "SUPPRIMER",
+  "settingsDeleteAccountConfirmLabel": "Saisissez {word} pour confirmer",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "La demande n'a pas été signée. Rien n'a été supprimé.",
+
+  "accountDeletedTitle": "Compte supprimé de cet appareil",
+  "accountDeletedRelayCount": "{erased} relais sur {total} ont effacé vos données",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Effacé",
+  "accountDeletedRelayNotErased": "Non effacé",
+  "accountDeletedRelayPending": "Envoi",
+  "accountDeletedPendingNote": "Les relais restants seront recontactés à la prochaine ouverture de l'application.",
 
   "settingsAbout": "À propos",
   "settingsDeveloper": "Développeur",

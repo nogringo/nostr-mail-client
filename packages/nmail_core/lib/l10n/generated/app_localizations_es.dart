@@ -51,6 +51,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get actionKeepEditing => 'Seguir editando';
 
   @override
+  String get actionFinish => 'Finalizar';
+
+  @override
   String get discardChangesTitle => '¿Descartar cambios?';
 
   @override
@@ -152,6 +155,53 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'Esto eliminará todos los datos locales, incluidos ajustes e imágenes de fondo, y cerrará la sesión.\n\nEsta acción no se puede deshacer.';
+
+  @override
+  String get settingsDeleteAccount => 'Eliminar cuenta';
+
+  @override
+  String get settingsDeleteAccountTitle => '¿Eliminar esta cuenta?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Se pide a tus relays que borren tus mensajes y tu perfil, y la cuenta se elimina de este dispositivo.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Esta acción no se puede deshacer. Nada de lo que se borre podrá recuperarse.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'ELIMINAR';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Escribe $word para confirmar';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'La solicitud no se firmó. No se ha eliminado nada.';
+
+  @override
+  String get accountDeletedTitle => 'Cuenta eliminada de este dispositivo';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased de $total relays borraron tus datos';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Borrado';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Sin borrar';
+
+  @override
+  String get accountDeletedRelayPending => 'Enviando';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'Los relays restantes se contactarán de nuevo la próxima vez que abras la app.';
 
   @override
   String get settingsAbout => 'Acerca de';

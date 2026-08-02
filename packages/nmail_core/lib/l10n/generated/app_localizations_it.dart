@@ -51,6 +51,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get actionKeepEditing => 'Continua a modificare';
 
   @override
+  String get actionFinish => 'Fine';
+
+  @override
   String get discardChangesTitle => 'Scartare le modifiche?';
 
   @override
@@ -152,6 +155,53 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'Verranno eliminati tutti i dati locali, comprese le impostazioni e le immagini di sfondo, e verrai disconnesso.\n\nQuesta azione non può essere annullata.';
+
+  @override
+  String get settingsDeleteAccount => 'Elimina account';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Eliminare questo account?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Ai tuoi relay viene chiesto di cancellare i tuoi messaggi e il tuo profilo, e l\'account viene rimosso da questo dispositivo.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Questa azione non può essere annullata. Nulla di ciò che viene cancellato può essere recuperato.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'ELIMINA';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Digita $word per confermare';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'La richiesta non è stata firmata. Non è stato eliminato nulla.';
+
+  @override
+  String get accountDeletedTitle => 'Account eliminato da questo dispositivo';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased di $total relay hanno cancellato i tuoi dati';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Cancellato';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Non cancellato';
+
+  @override
+  String get accountDeletedRelayPending => 'Invio';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'I relay rimanenti verranno ricontattati alla prossima apertura dell\'app.';
 
   @override
   String get settingsAbout => 'Informazioni';

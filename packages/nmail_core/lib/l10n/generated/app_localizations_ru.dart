@@ -51,6 +51,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get actionKeepEditing => 'Продолжить редактирование';
 
   @override
+  String get actionFinish => 'Готово';
+
+  @override
   String get discardChangesTitle => 'Отбросить изменения?';
 
   @override
@@ -152,6 +155,53 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'Все локальные данные, включая настройки и фоновые изображения, будут удалены, и вы выйдете из аккаунта.\n\nЭто действие нельзя отменить.';
+
+  @override
+  String get settingsDeleteAccount => 'Удалить аккаунт';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Удалить этот аккаунт?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Реле получат запрос удалить ваши сообщения и профиль, а аккаунт будет удалён с этого устройства.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Это действие нельзя отменить. Удалённое восстановить не получится.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'УДАЛИТЬ';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Введите $word для подтверждения';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'Запрос не был подписан. Ничего не удалено.';
+
+  @override
+  String get accountDeletedTitle => 'Аккаунт удалён с этого устройства';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return 'Данные удалили реле: $erased из $total';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Удалено';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Не удалено';
+
+  @override
+  String get accountDeletedRelayPending => 'Отправка';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'К остальным реле приложение обратится снова при следующем запуске.';
 
   @override
   String get settingsAbout => 'О приложении';

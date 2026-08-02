@@ -51,6 +51,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionKeepEditing => '继续编辑';
 
   @override
+  String get actionFinish => '完成';
+
+  @override
   String get discardChangesTitle => '放弃更改?';
 
   @override
@@ -147,6 +150,49 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       '这将删除所有本地数据,包括设置和背景图片,并将您注销。\n\n此操作无法撤销。';
+
+  @override
+  String get settingsDeleteAccount => '删除账户';
+
+  @override
+  String get settingsDeleteAccountTitle => '删除此账户？';
+
+  @override
+  String get settingsDeleteAccountMessage => '将请求各中继删除您的消息和个人资料,并从此设备移除该账户。';
+
+  @override
+  String get settingsDeleteAccountWarning => '此操作无法撤销。已删除的内容无法恢复。';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => '删除';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return '输入 $word 以确认';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed => '请求未被签名。没有删除任何内容。';
+
+  @override
+  String get accountDeletedTitle => '已从此设备删除账户';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$total 个中继中有 $erased 个已删除您的数据';
+  }
+
+  @override
+  String get accountDeletedRelayErased => '已删除';
+
+  @override
+  String get accountDeletedRelayNotErased => '未删除';
+
+  @override
+  String get accountDeletedRelayPending => '发送中';
+
+  @override
+  String get accountDeletedPendingNote => '其余中继将在您下次打开应用时再次联系。';
 
   @override
   String get settingsAbout => '关于';

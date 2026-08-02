@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'delete_account_tile.dart';
 import 'reset_application_tile.dart';
 import 'settings_action_tile.dart';
 import 'settings_group.dart';
@@ -24,6 +25,7 @@ class DangerZoneSection extends StatelessWidget {
           count: count,
           onTap: () => Get.find<AuthController>().logout(),
         ),
+        (index, count) => DeleteAccountTile(index: index, count: count),
         (index, count) => ResetApplicationTile(index: index, count: count),
       ],
     );

@@ -13,6 +13,13 @@ import 'package:nmail_core/services/storage_service.dart';
 const dmRelayListKind = 10050;
 const blossomServerListKind = 10063;
 
+/// NIP-62 request to vanish.
+const vanishRequestKind = 62;
+
+/// Sentinel [vanishRequestKind] relay tag asking every relay that receives the
+/// request to honour it, not just the ones named in it.
+const vanishAllRelays = 'ALL_RELAYS';
+
 /// Information about email sync status from relays
 class EmailSyncStatus {
   final String relayUrl;

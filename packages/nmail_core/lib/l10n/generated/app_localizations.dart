@@ -199,6 +199,12 @@ abstract class AppLocalizations {
   /// **'Keep editing'**
   String get actionKeepEditing;
 
+  /// Button label that closes a terminal screen at the end of a flow
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get actionFinish;
+
   /// Dialog title shown when leaving a screen with unsaved changes
   ///
   /// In en, this message translates to:
@@ -390,6 +396,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This will delete all local data including settings, background images, and log you out.\n\nThis action cannot be undone.'**
   String get settingsResetConfirmMessage;
+
+  /// Destructive tile title in settings that starts deleting the Nostr account
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get settingsDeleteAccount;
+
+  /// Title of the dialog confirming deletion of the Nostr account
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this account?'**
+  String get settingsDeleteAccountTitle;
+
+  /// Main explanation in the delete-account confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Your relays are asked to erase your messages and your profile, and the account is removed from this device.'**
+  String get settingsDeleteAccountMessage;
+
+  /// Warning that the deletion is final, shown in red in the delete-account dialog
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone. Nothing that is erased can be recovered.'**
+  String get settingsDeleteAccountWarning;
+
+  /// Word the user must type to unlock the delete button. Translate it, and keep it short and uppercase where the script allows
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get settingsDeleteAccountConfirmWord;
+
+  /// Label of the text field where the user types the confirmation word
+  ///
+  /// In en, this message translates to:
+  /// **'Type {word} to confirm'**
+  String settingsDeleteAccountConfirmLabel(String word);
+
+  /// Inline error shown in the delete-account dialog when the signer did not sign the request
+  ///
+  /// In en, this message translates to:
+  /// **'The request was not signed. Nothing was deleted.'**
+  String get settingsDeleteAccountSignFailed;
+
+  /// Title of the screen reporting how relays answered the deletion
+  ///
+  /// In en, this message translates to:
+  /// **'Account deleted from this device'**
+  String get accountDeletedTitle;
+
+  /// Running count of relays that have erased the account's data
+  ///
+  /// In en, this message translates to:
+  /// **'{erased} of {total} relays erased your data'**
+  String accountDeletedRelayCount(int erased, int total);
+
+  /// Status of a relay that confirmed it erased the account's data
+  ///
+  /// In en, this message translates to:
+  /// **'Erased'**
+  String get accountDeletedRelayErased;
+
+  /// Status of a relay the app has given up on, whether it turned the request down or stayed out of reach
+  ///
+  /// In en, this message translates to:
+  /// **'Not erased'**
+  String get accountDeletedRelayNotErased;
+
+  /// Status of a relay that has not answered yet
+  ///
+  /// In en, this message translates to:
+  /// **'Sending'**
+  String get accountDeletedRelayPending;
+
+  /// Note explaining when the relays that have not answered will be contacted again
+  ///
+  /// In en, this message translates to:
+  /// **'The remaining relays are contacted again next time you open the app.'**
+  String get accountDeletedPendingNote;
 
   /// Settings section header for app info (version, source code)
   ///

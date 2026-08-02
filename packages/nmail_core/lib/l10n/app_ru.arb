@@ -15,6 +15,7 @@
   "actionRemove": "Удалить",
   "actionDiscard": "Отбросить",
   "actionKeepEditing": "Продолжить редактирование",
+  "actionFinish": "Готово",
   "discardChangesTitle": "Отбросить изменения?",
   "discardChangesMessage": "У вас есть несохранённые изменения. Если выйти сейчас, они будут потеряны.",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "Выйти",
   "settingsResetApplication": "Сбросить приложение",
   "settingsResetConfirmMessage": "Все локальные данные, включая настройки и фоновые изображения, будут удалены, и вы выйдете из аккаунта.\n\nЭто действие нельзя отменить.",
+  "settingsDeleteAccount": "Удалить аккаунт",
+  "settingsDeleteAccountTitle": "Удалить этот аккаунт?",
+  "settingsDeleteAccountMessage": "Реле получат запрос удалить ваши сообщения и профиль, а аккаунт будет удалён с этого устройства.",
+  "settingsDeleteAccountWarning": "Это действие нельзя отменить. Удалённое восстановить не получится.",
+  "settingsDeleteAccountConfirmWord": "УДАЛИТЬ",
+  "settingsDeleteAccountConfirmLabel": "Введите {word} для подтверждения",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "Запрос не был подписан. Ничего не удалено.",
+
+  "accountDeletedTitle": "Аккаунт удалён с этого устройства",
+  "accountDeletedRelayCount": "Данные удалили реле: {erased} из {total}",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Удалено",
+  "accountDeletedRelayNotErased": "Не удалено",
+  "accountDeletedRelayPending": "Отправка",
+  "accountDeletedPendingNote": "К остальным реле приложение обратится снова при следующем запуске.",
 
   "settingsAbout": "О приложении",
   "settingsDeveloper": "Разработчик",

@@ -24,6 +24,8 @@ Releases prior to 0.13.0 are listed on the
 - Confirm before leaving the hosting or address settings with unsaved changes.
 - Add background presets with light and dark variants, including
   animated waves and image backgrounds.
+- Delete your account from the settings: your relays are asked to erase your
+  messages.
 
 ### Changed
 

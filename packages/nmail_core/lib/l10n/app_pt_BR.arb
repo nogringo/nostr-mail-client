@@ -14,6 +14,7 @@
   "actionRemove": "Remover",
   "actionDiscard": "Descartar",
   "actionKeepEditing": "Continuar editando",
+  "actionFinish": "Concluir",
   "discardChangesTitle": "Descartar alterações?",
   "discardChangesMessage": "Você tem alterações não salvas. Sair agora irá descartá-las.",
   "stateLoadingEllipsis": "Carregando...",
@@ -46,6 +47,31 @@
   "settingsLogOut": "Sair",
   "settingsResetApplication": "Redefinir aplicativo",
   "settingsResetConfirmMessage": "Isso excluirá todos os dados locais, incluindo configurações e imagens de fundo, e fará logout.\n\nEsta ação não pode ser desfeita.",
+  "settingsDeleteAccount": "Excluir conta",
+  "settingsDeleteAccountTitle": "Excluir esta conta?",
+  "settingsDeleteAccountMessage": "Seus relays são solicitados a apagar suas mensagens e seu perfil, e a conta é removida deste dispositivo.",
+  "settingsDeleteAccountWarning": "Esta ação não pode ser desfeita. Nada do que for apagado pode ser recuperado.",
+  "settingsDeleteAccountConfirmWord": "EXCLUIR",
+  "settingsDeleteAccountConfirmLabel": "Digite {word} para confirmar",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "A solicitação não foi assinada. Nada foi excluído.",
+
+  "accountDeletedTitle": "Conta excluída deste dispositivo",
+  "accountDeletedRelayCount": "{erased} de {total} relays apagaram seus dados",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Apagado",
+  "accountDeletedRelayNotErased": "Não apagado",
+  "accountDeletedRelayPending": "Enviando",
+  "accountDeletedPendingNote": "Os relays restantes serão contatados novamente na próxima vez que você abrir o app.",
   "settingsAbout": "Sobre",
   "settingsDeveloper": "Desenvolvedor",
   "settingsLicense": "Licença",

@@ -51,6 +51,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get actionKeepEditing => 'Continuer à modifier';
 
   @override
+  String get actionFinish => 'Terminer';
+
+  @override
   String get discardChangesTitle => 'Abandonner les modifications ?';
 
   @override
@@ -152,6 +155,53 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get settingsResetConfirmMessage =>
       'Cela supprimera toutes les données locales, y compris les paramètres et les images de fond, et vous déconnectera.\n\nCette action est irréversible.';
+
+  @override
+  String get settingsDeleteAccount => 'Supprimer le compte';
+
+  @override
+  String get settingsDeleteAccountTitle => 'Supprimer ce compte ?';
+
+  @override
+  String get settingsDeleteAccountMessage =>
+      'Vos relais sont invités à effacer vos messages et votre profil, et le compte est retiré de cet appareil.';
+
+  @override
+  String get settingsDeleteAccountWarning =>
+      'Cette action est irréversible. Rien de ce qui est effacé ne peut être récupéré.';
+
+  @override
+  String get settingsDeleteAccountConfirmWord => 'SUPPRIMER';
+
+  @override
+  String settingsDeleteAccountConfirmLabel(String word) {
+    return 'Saisissez $word pour confirmer';
+  }
+
+  @override
+  String get settingsDeleteAccountSignFailed =>
+      'La demande n\'a pas été signée. Rien n\'a été supprimé.';
+
+  @override
+  String get accountDeletedTitle => 'Compte supprimé de cet appareil';
+
+  @override
+  String accountDeletedRelayCount(int erased, int total) {
+    return '$erased relais sur $total ont effacé vos données';
+  }
+
+  @override
+  String get accountDeletedRelayErased => 'Effacé';
+
+  @override
+  String get accountDeletedRelayNotErased => 'Non effacé';
+
+  @override
+  String get accountDeletedRelayPending => 'Envoi';
+
+  @override
+  String get accountDeletedPendingNote =>
+      'Les relais restants seront recontactés à la prochaine ouverture de l\'application.';
 
   @override
   String get settingsAbout => 'À propos';

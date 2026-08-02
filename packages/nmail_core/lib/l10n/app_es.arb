@@ -15,6 +15,7 @@
   "actionRemove": "Quitar",
   "actionDiscard": "Descartar",
   "actionKeepEditing": "Seguir editando",
+  "actionFinish": "Finalizar",
   "discardChangesTitle": "¿Descartar cambios?",
   "discardChangesMessage": "Tienes cambios sin guardar. Salir ahora los descartará.",
 
@@ -49,6 +50,31 @@
   "settingsLogOut": "Cerrar sesión",
   "settingsResetApplication": "Restablecer la aplicación",
   "settingsResetConfirmMessage": "Esto eliminará todos los datos locales, incluidos ajustes e imágenes de fondo, y cerrará la sesión.\n\nEsta acción no se puede deshacer.",
+  "settingsDeleteAccount": "Eliminar cuenta",
+  "settingsDeleteAccountTitle": "¿Eliminar esta cuenta?",
+  "settingsDeleteAccountMessage": "Se pide a tus relays que borren tus mensajes y tu perfil, y la cuenta se elimina de este dispositivo.",
+  "settingsDeleteAccountWarning": "Esta acción no se puede deshacer. Nada de lo que se borre podrá recuperarse.",
+  "settingsDeleteAccountConfirmWord": "ELIMINAR",
+  "settingsDeleteAccountConfirmLabel": "Escribe {word} para confirmar",
+  "@settingsDeleteAccountConfirmLabel": {
+    "placeholders": {
+      "word": { "type": "String" }
+    }
+  },
+  "settingsDeleteAccountSignFailed": "La solicitud no se firmó. No se ha eliminado nada.",
+
+  "accountDeletedTitle": "Cuenta eliminada de este dispositivo",
+  "accountDeletedRelayCount": "{erased} de {total} relays borraron tus datos",
+  "@accountDeletedRelayCount": {
+    "placeholders": {
+      "erased": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "accountDeletedRelayErased": "Borrado",
+  "accountDeletedRelayNotErased": "Sin borrar",
+  "accountDeletedRelayPending": "Enviando",
+  "accountDeletedPendingNote": "Los relays restantes se contactarán de nuevo la próxima vez que abras la app.",
 
   "settingsAbout": "Acerca de",
   "settingsDeveloper": "Desarrollador",
