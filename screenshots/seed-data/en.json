@@ -87,7 +87,6 @@
       ],
       "relativeDate": "Today",
       "isUnread": false,
-      "hasAttachments": true,
       "attachments": [
         {
           "fileName": "setup-notes.pdf",
@@ -107,7 +106,12 @@
       "bodyHtml": "<p>I added the last notes before we publish the release.</p><ul><li>Privacy review complete</li><li>Screenshots ready</li><li>Store copy ready for one final pass</li></ul>",
       "relativeDate": "Yesterday",
       "isUnread": true,
-      "hasAttachments": true
+      "attachments": [
+        {
+          "fileName": "launch-checklist.pdf",
+          "mimeType": "application/pdf"
+        }
+      ]
     },
     {
       "senderKey": "contact2",
@@ -118,8 +122,7 @@
         "Let's meet near the station and compare notes on the relay setup."
       ],
       "relativeDate": "Mon",
-      "isUnread": false,
-      "hasAttachments": false
+      "isUnread": false
     },
     {
       "senderKey": "contact3",
@@ -132,7 +135,12 @@
       "bodyHtml": "<p>Sharing the notes from the privacy panel.</p><blockquote>The best inbox is the one the user can leave with.</blockquote><p>The most useful section is the comparison between local-first apps and hosted inboxes.</p>",
       "relativeDate": "Jul 12",
       "isUnread": false,
-      "hasAttachments": true
+      "attachments": [
+        {
+          "fileName": "conference-notes.pdf",
+          "mimeType": "application/pdf"
+        }
+      ]
     }
   ],
   "composeDraft": {

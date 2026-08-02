@@ -27,6 +27,7 @@ class SeederRuntime {
     required String databasePath,
     required List<String> bootstrapRelays,
     required List<String> defaultDmRelays,
+    required List<String> blossomServers,
   }) async {
     final db = await databaseFactoryIo.openDatabase(databasePath);
     final cache = SembastCacheManager(db);
@@ -50,7 +51,7 @@ class SeederRuntime {
       blossomCache: blossomCache,
       defaultDmRelays: defaultDmRelays,
       broadcastQueue: broadcastQueue,
-      defaultBlossomServers: const [],
+      defaultBlossomServers: blossomServers,
     );
 
     return SeederRuntime._(

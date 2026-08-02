@@ -87,7 +87,6 @@
       ],
       "relativeDate": "Aujourd'hui",
       "isUnread": false,
-      "hasAttachments": true,
       "attachments": [
         {
           "fileName": "notes-configuration.pdf",
@@ -107,7 +106,12 @@
       "bodyHtml": "<p>J'ai ajouté les dernières notes avant la publication.</p><ul><li>Revue de confidentialité terminée</li><li>Captures prêtes</li><li>Texte de fiche prêt pour une dernière relecture</li></ul>",
       "relativeDate": "Hier",
       "isUnread": true,
-      "hasAttachments": true
+      "attachments": [
+        {
+          "fileName": "checklist-lancement.pdf",
+          "mimeType": "application/pdf"
+        }
+      ]
     },
     {
       "senderKey": "contact2",
@@ -118,8 +122,7 @@
         "On peut se retrouver près de la gare et comparer nos notes sur la configuration des relais."
       ],
       "relativeDate": "Lun.",
-      "isUnread": false,
-      "hasAttachments": false
+      "isUnread": false
     },
     {
       "senderKey": "contact3",
@@ -132,7 +135,12 @@
       "bodyHtml": "<p>Je partage les notes du panel sur la vie privée.</p><blockquote>La meilleure boîte mail est celle que l'utilisateur peut quitter avec ses données.</blockquote><p>La partie la plus utile compare les apps local-first et les boîtes mail hébergées.</p>",
       "relativeDate": "12 juil.",
       "isUnread": false,
-      "hasAttachments": true
+      "attachments": [
+        {
+          "fileName": "notes-conference.pdf",
+          "mimeType": "application/pdf"
+        }
+      ]
     }
   ],
   "composeDraft": {

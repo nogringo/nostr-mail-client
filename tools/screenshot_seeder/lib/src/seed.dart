@@ -118,6 +118,7 @@ class SeedEmail {
   final String? bodyHtml;
   final String? relativeDate;
   final bool isUnread;
+  final List<SeedAttachment> attachments;
 
   const SeedEmail({
     required this.from,
@@ -128,6 +129,7 @@ class SeedEmail {
     required this.bodyHtml,
     required this.relativeDate,
     required this.isUnread,
+    required this.attachments,
   });
 
   factory SeedEmail.fromJson(Map<String, dynamic> json) {
@@ -140,6 +142,24 @@ class SeedEmail {
       bodyHtml: json['bodyHtml'] as String?,
       relativeDate: json['relativeDate'] as String?,
       isUnread: json['isUnread'] as bool? ?? false,
+      attachments: [
+        for (final item in json['attachments'] as List? ?? const [])
+          SeedAttachment.fromJson(item as Map<String, dynamic>),
+      ],
+    );
+  }
+}
+
+class SeedAttachment {
+  final String fileName;
+  final String mimeType;
+
+  const SeedAttachment({required this.fileName, required this.mimeType});
+
+  factory SeedAttachment.fromJson(Map<String, dynamic> json) {
+    return SeedAttachment(
+      fileName: json['fileName'] as String,
+      mimeType: json['mimeType'] as String,
     );
   }
 }

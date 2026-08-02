@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:ndk/entities.dart';
@@ -14,6 +16,7 @@ import 'seed.dart';
 
 const _dmRelayListKind = 10050;
 const _blossomServerListKind = 10063;
+const _attachmentBlobFile = 'attachment.pdf';
 const _bridgePictureUrl =
     'https://image.nostr.build/22922e08e22b8a4c26816054d03c176f2716fb0dafe5065cdafe09119bb0f0b2.png';
 
@@ -21,6 +24,8 @@ class ScreenshotSeeder {
   final SeederConfig config;
   final ScreenshotSeed seed;
   final ScreenshotKeys keys;
+
+  Uint8List _attachmentBytes = Uint8List(0);
 
   ScreenshotSeeder({
     required this.config,
@@ -38,11 +43,14 @@ class ScreenshotSeeder {
     }
     await workDir.create(recursive: true);
 
+    await _loadAttachmentBytes();
+
     final primary = await SeederRuntime.create(
       privateKey: keys.primary.privateKey,
       databasePath: p.join(workDir.path, 'primary.db'),
       bootstrapRelays: [config.bootstrapRelay, config.dataRelay],
       defaultDmRelays: [config.dataRelay],
+      blossomServers: [config.blossomServer],
     );
 
     try {
@@ -59,6 +67,42 @@ class ScreenshotSeeder {
     } finally {
       await primary.dispose();
     }
+  }
+
+  Future<void> printInboxPreview() async {
+    await _loadAttachmentBytes();
+    final recipient = mail.NostrRecipient.fromPubkey(keys.primary.pubkey);
+    for (var i = 0; i < seed.inbox.length; i++) {
+      final email = seed.inbox[i];
+      final senderKey = keys.senders[email.senderKey];
+      if (senderKey == null) {
+        stdout.writeln('  "${email.subject}": no key for ${email.senderKey}');
+        continue;
+      }
+
+      final message = _buildEmailMessage(
+        email: email,
+        from: MailAddress(
+          email.from,
+          email.fromEmail ?? '${Nip19.encodePubKey(senderKey.pubkey)}@nostr',
+        ),
+        to: recipient.mailAddress,
+        date: _dateForEmail(email, i),
+      );
+      final size = utf8.encode(message.renderMessage()).length;
+      final transport = size >= mail.maxInlineSize ? 'blossom blob' : 'inline';
+      stdout.writeln(
+        '  "${email.subject}": ${email.attachments.length} attachment(s), '
+        '$size bytes, $transport',
+      );
+    }
+  }
+
+  Future<void> _loadAttachmentBytes() async {
+    if (seed.inbox.every((email) => email.attachments.isEmpty)) return;
+    _attachmentBytes = await File(
+      p.join(config.seedDir, _attachmentBlobFile),
+    ).readAsBytes();
   }
 
   Future<void> _publishPrimaryBootstrap(SeederRuntime runtime) async {
@@ -107,7 +151,9 @@ class ScreenshotSeeder {
     await _publishRelayListEvent(
       runtime: runtime,
       kind: _blossomServerListKind,
-      tags: const [],
+      tags: [
+        ['server', config.blossomServer],
+      ],
       label: 'kind:10063',
     );
 
@@ -190,6 +236,7 @@ class ScreenshotSeeder {
         ),
         bootstrapRelays: [config.dataRelay],
         defaultDmRelays: [config.dataRelay],
+        blossomServers: [config.blossomServer],
       );
       try {
         final client = senderRuntime.client;
@@ -308,16 +355,45 @@ class ScreenshotSeeder {
     required MailAddress to,
     required DateTime date,
   }) {
-    final builder = MessageBuilder.prepareMultipartAlternativeMessage()
+    final htmlBody = email.bodyHtml;
+    final hasAttachments = email.attachments.isNotEmpty;
+
+    // Mirrors the compose flow: with attachments the root has to be
+    // multipart/mixed, or clients hide the attachment.
+    final MessageBuilder builder;
+    final PartBuilder bodyBuilder;
+    if (hasAttachments) {
+      builder = MessageBuilder.prepareMultipartMixedMessage();
+      bodyBuilder = htmlBody == null
+          ? builder
+          : builder.addPart(mediaSubtype: MediaSubtype.multipartAlternative);
+    } else {
+      builder = MessageBuilder.prepareMultipartAlternativeMessage();
+      bodyBuilder = builder;
+    }
+
+    builder
       ..from = [from]
       ..to = [to]
       ..subject = email.subject
       ..date = date;
-    builder.addTextPlain(email.body.join('\n\n'));
-    final htmlBody = email.bodyHtml;
+
+    bodyBuilder.addTextPlain(email.body.join('\n\n'));
     if (htmlBody != null) {
-      builder.addTextHtml(htmlBody, transferEncoding: TransferEncoding.base64);
+      bodyBuilder.addTextHtml(
+        htmlBody,
+        transferEncoding: TransferEncoding.base64,
+      );
     }
+
+    for (final attachment in email.attachments) {
+      builder.addBinary(
+        _attachmentBytes,
+        MediaType.fromText(attachment.mimeType),
+        filename: attachment.fileName,
+      );
+    }
+
     return builder.buildMimeMessage();
   }
 

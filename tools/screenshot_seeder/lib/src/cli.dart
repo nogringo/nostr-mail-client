@@ -28,6 +28,7 @@ Future<void> _run(List<String> arguments) async {
     ..addOption('keys', defaultsTo: defaultKeysPath)
     ..addOption('bootstrap-relay', defaultsTo: defaultBootstrapRelay)
     ..addOption('data-relay', defaultsTo: defaultDataRelay)
+    ..addOption('blossom-server', defaultsTo: defaultBlossomServer)
     ..addFlag('publish', negatable: false)
     ..addFlag('help', abbr: 'h', negatable: false);
 
@@ -45,6 +46,7 @@ Future<void> _run(List<String> arguments) async {
     keysPath: resolvePath(args['keys'] as String, repoRoot),
     bootstrapRelay: args['bootstrap-relay'] as String,
     dataRelay: args['data-relay'] as String,
+    blossomServer: args['blossom-server'] as String,
     publish: args['publish'] as bool,
   );
 
@@ -52,13 +54,17 @@ Future<void> _run(List<String> arguments) async {
   final keys = await ScreenshotKeys.load(config.keysPath, config.locale);
 
   _printPlan(config, seed, keys);
+
+  final seeder = ScreenshotSeeder(config: config, seed: seed, keys: keys);
   if (!config.publish) {
+    stdout.writeln('');
+    stdout.writeln('Messages');
+    await seeder.printInboxPreview();
     stdout.writeln('');
     stdout.writeln('Dry run only. Re-run with --publish to broadcast events.');
     return;
   }
 
-  final seeder = ScreenshotSeeder(config: config, seed: seed, keys: keys);
   await seeder.run();
 }
 
@@ -69,6 +75,7 @@ void _printPlan(SeederConfig config, ScreenshotSeed seed, ScreenshotKeys keys) {
   stdout.writeln('  keys: ${config.keysPath}');
   stdout.writeln('  bootstrap relay: ${config.bootstrapRelay}');
   stdout.writeln('  data relay: ${config.dataRelay}');
+  stdout.writeln('  blossom server: ${config.blossomServer}');
   stdout.writeln('  mode: ${config.publish ? 'publish' : 'dry-run'}');
   stdout.writeln('');
   stdout.writeln('Accounts');
