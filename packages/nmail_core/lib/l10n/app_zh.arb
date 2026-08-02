@@ -65,7 +65,7 @@
   "settingsThemeLight": "浅色",
   "settingsThemeDark": "深色",
 
-  "settingsBackgroundDefaultLabel": "默认主题颜色",
+  "settingsBackgroundDefaultLabel": "系统颜色",
   "settingsBackgroundSelectLabel": "选择背景图片",
   "settingsBackgroundDeleteLabel": "删除背景图片",
   "settingsBackgroundRemoveLabel": "移除背景图片",
@@ -541,5 +541,8 @@
   "dateYesterday": "昨天",
 
   "notFoundTitle": "页面未找到",
-  "notFoundBackToInbox": "返回收件箱"
+  "notFoundBackToInbox": "返回收件箱",
+  "backgroundPresetAnimatedWaves": "动态波纹",
+  "backgroundPresetSoftGradient": "柔和渐变",
+  "backgroundPresetBloomImage": "花影图像"
 }

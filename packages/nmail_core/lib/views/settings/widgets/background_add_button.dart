@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../../controllers/backgrounds_controller.dart';
 import '../../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/background_preset.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'background_thumbnail.dart';
 
@@ -74,10 +75,13 @@ class BackgroundAddButton extends StatelessWidget {
   /// An empty result clears the background.
   Future<String?> _askUrl(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final currentValue = Get.find<SettingsController>().backgroundImage.value;
     final inputController = TextEditingController(
-      text: PlatformHelper.isNative
+      text:
+          PlatformHelper.isNative ||
+              !BackgroundPreset.isCustomImageValue(currentValue)
           ? ''
-          : Get.find<SettingsController>().backgroundImage.value ?? '',
+          : currentValue,
     );
 
     return showDialog<String>(

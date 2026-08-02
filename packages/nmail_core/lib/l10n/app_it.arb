@@ -65,7 +65,7 @@
   "settingsThemeLight": "Chiaro",
   "settingsThemeDark": "Scuro",
 
-  "settingsBackgroundDefaultLabel": "Colore tema predefinito",
+  "settingsBackgroundDefaultLabel": "Colore di sistema",
   "settingsBackgroundSelectLabel": "Seleziona immagine di sfondo",
   "settingsBackgroundDeleteLabel": "Elimina immagine di sfondo",
   "settingsBackgroundRemoveLabel": "Rimuovi immagine di sfondo",
@@ -541,5 +541,8 @@
   "dateYesterday": "Ieri",
 
   "notFoundTitle": "Pagina non trovata",
-  "notFoundBackToInbox": "Torna alla posta in arrivo"
+  "notFoundBackToInbox": "Torna alla posta in arrivo",
+  "backgroundPresetAnimatedWaves": "Onde animate",
+  "backgroundPresetSoftGradient": "Gradiente morbido",
+  "backgroundPresetBloomImage": "Fioritura"
 }

@@ -469,10 +469,10 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get settingsThemeDark;
 
-  /// Accessibility label for the default-color background swatch in the gallery
+  /// Accessibility label for the background swatch that follows the device system accent color
   ///
   /// In en, this message translates to:
-  /// **'Default theme color'**
+  /// **'System color'**
   String get settingsBackgroundDefaultLabel;
 
   /// Accessibility label for tapping a saved background image to select it
@@ -2610,6 +2610,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to inbox'**
   String get notFoundBackToInbox;
+
+  /// Name of the bundled animated background preset with light and dark variants
+  ///
+  /// In en, this message translates to:
+  /// **'Animated Waves'**
+  String get backgroundPresetAnimatedWaves;
+
+  /// Name of the bundled gradient background preset with light and dark variants
+  ///
+  /// In en, this message translates to:
+  /// **'Soft Gradient'**
+  String get backgroundPresetSoftGradient;
+
+  /// Name of the bundled image background preset with light and dark variants
+  ///
+  /// In en, this message translates to:
+  /// **'Bloom Image'**
+  String get backgroundPresetBloomImage;
 }
 
 class _AppLocalizationsDelegate

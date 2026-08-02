@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-const backgroundThumbnailSize = 80.0;
-
 /// One tile of the background gallery. The current background is outlined so
 /// the selection survives on top of any image.
 class BackgroundThumbnail extends StatelessWidget {
@@ -35,24 +33,47 @@ class BackgroundThumbnail extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           onLongPress: onLongPress,
-          child: SizedBox.square(
-            dimension: backgroundThumbnailSize,
-            child: Stack(
-              fit: StackFit.expand,
+          child: SizedBox.expand(
+            child: Column(
               children: [
-                ClipRRect(borderRadius: BorderRadius.circular(8), child: child),
-                if (isSelected ?? false)
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary,
-                        width: 3,
+                Expanded(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: child,
                       ),
-                    ),
+                      if (isSelected ?? false)
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.primary,
+                              width: 3,
+                            ),
+                          ),
+                        ),
+                      if (badge != null)
+                        PositionedDirectional(top: 4, end: 4, child: badge!),
+                    ],
                   ),
-                if (badge != null)
-                  PositionedDirectional(top: 4, end: 4, child: badge!),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    color: isSelected ?? false
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: isSelected ?? false
+                        ? FontWeight.w700
+                        : FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           ),

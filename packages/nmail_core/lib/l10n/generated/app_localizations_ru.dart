@@ -195,7 +195,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsThemeDark => 'Тёмная';
 
   @override
-  String get settingsBackgroundDefaultLabel => 'Цвет темы по умолчанию';
+  String get settingsBackgroundDefaultLabel => 'Цвет системы';
 
   @override
   String get settingsBackgroundSelectLabel => 'Выбрать фоновое изображение';
@@ -1394,4 +1394,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get notFoundBackToInbox => 'Вернуться во входящие';
+
+  @override
+  String get backgroundPresetAnimatedWaves => 'Анимированные волны';
+
+  @override
+  String get backgroundPresetSoftGradient => 'Мягкий градиент';
+
+  @override
+  String get backgroundPresetBloomImage => 'Цветение';
 }

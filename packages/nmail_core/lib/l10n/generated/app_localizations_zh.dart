@@ -189,7 +189,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsThemeDark => '深色';
 
   @override
-  String get settingsBackgroundDefaultLabel => '默认主题颜色';
+  String get settingsBackgroundDefaultLabel => '系统颜色';
 
   @override
   String get settingsBackgroundSelectLabel => '选择背景图片';
@@ -1315,4 +1315,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get notFoundBackToInbox => '返回收件箱';
+
+  @override
+  String get backgroundPresetAnimatedWaves => '动态波纹';
+
+  @override
+  String get backgroundPresetSoftGradient => '柔和渐变';
+
+  @override
+  String get backgroundPresetBloomImage => '花影图像';
 }

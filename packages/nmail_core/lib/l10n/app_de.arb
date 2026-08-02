@@ -65,7 +65,7 @@
   "settingsThemeLight": "Hell",
   "settingsThemeDark": "Dunkel",
 
-  "settingsBackgroundDefaultLabel": "Standard-Designfarbe",
+  "settingsBackgroundDefaultLabel": "Systemfarbe",
   "settingsBackgroundSelectLabel": "Hintergrundbild auswählen",
   "settingsBackgroundDeleteLabel": "Hintergrundbild löschen",
   "settingsBackgroundRemoveLabel": "Hintergrundbild entfernen",
@@ -541,5 +541,8 @@
   "dateYesterday": "Gestern",
 
   "notFoundTitle": "Seite nicht gefunden",
-  "notFoundBackToInbox": "Zurück zum Posteingang"
+  "notFoundBackToInbox": "Zurück zum Posteingang",
+  "backgroundPresetAnimatedWaves": "Animierte Wellen",
+  "backgroundPresetSoftGradient": "Sanfter Verlauf",
+  "backgroundPresetBloomImage": "Blüte"
 }

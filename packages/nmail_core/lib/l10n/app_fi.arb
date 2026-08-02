@@ -65,7 +65,7 @@
   "settingsThemeLight": "Vaalea",
   "settingsThemeDark": "Tumma",
 
-  "settingsBackgroundDefaultLabel": "Teeman oletusväri",
+  "settingsBackgroundDefaultLabel": "Järjestelmän väri",
   "settingsBackgroundSelectLabel": "Valitse taustakuva",
   "settingsBackgroundDeleteLabel": "Poista taustakuva",
   "settingsBackgroundRemoveLabel": "Irrota taustakuva",
@@ -546,5 +546,8 @@
   "dateYesterday": "Eilen",
 
   "notFoundTitle": "Sivua ei löydy",
-  "notFoundBackToInbox": "Palaa saapuneisiin"
+  "notFoundBackToInbox": "Palaa saapuneisiin",
+  "backgroundPresetAnimatedWaves": "Animoidut aallot",
+  "backgroundPresetSoftGradient": "Pehmeä liukuväri",
+  "backgroundPresetBloomImage": "Kukinta"
 }

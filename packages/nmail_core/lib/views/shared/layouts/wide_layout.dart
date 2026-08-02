@@ -23,7 +23,7 @@ class WideLayout extends StatelessWidget {
         Container(
           width: LayoutConstants.sidebarWidth,
           decoration: BoxDecoration(
-            color: colorScheme.surface.withValues(alpha: 0.9),
+            color: colorScheme.surface.withValues(alpha: 0.72),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(LayoutConstants.borderRadius),
               bottomLeft: Radius.circular(LayoutConstants.borderRadius),

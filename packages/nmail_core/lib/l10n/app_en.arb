@@ -124,8 +124,8 @@
   "settingsThemeDark": "Dark",
   "@settingsThemeDark": { "description": "Theme mode option: dark" },
 
-  "settingsBackgroundDefaultLabel": "Default theme color",
-  "@settingsBackgroundDefaultLabel": { "description": "Accessibility label for the default-color background swatch in the gallery" },
+  "settingsBackgroundDefaultLabel": "System color",
+  "@settingsBackgroundDefaultLabel": { "description": "Accessibility label for the background swatch that follows the device system accent color" },
   "settingsBackgroundSelectLabel": "Select background image",
   "@settingsBackgroundSelectLabel": { "description": "Accessibility label for tapping a saved background image to select it" },
   "settingsBackgroundDeleteLabel": "Delete background image",
@@ -987,5 +987,12 @@
   "notFoundTitle": "Page not found",
   "@notFoundTitle": { "description": "Heading shown on the 404 page when go_router cannot resolve the requested URL" },
   "notFoundBackToInbox": "Back to inbox",
-  "@notFoundBackToInbox": { "description": "Button label on the 404 page that returns the user to the inbox" }
+  "@notFoundBackToInbox": { "description": "Button label on the 404 page that returns the user to the inbox" },
+
+  "backgroundPresetAnimatedWaves": "Animated Waves",
+  "@backgroundPresetAnimatedWaves": { "description": "Name of the bundled animated background preset with light and dark variants" },
+  "backgroundPresetSoftGradient": "Soft Gradient",
+  "@backgroundPresetSoftGradient": { "description": "Name of the bundled gradient background preset with light and dark variants" },
+  "backgroundPresetBloomImage": "Bloom Image",
+  "@backgroundPresetBloomImage": { "description": "Name of the bundled image background preset with light and dark variants" }
 }

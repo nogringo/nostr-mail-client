@@ -194,7 +194,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsThemeDark => 'Dark';
 
   @override
-  String get settingsBackgroundDefaultLabel => 'Default theme color';
+  String get settingsBackgroundDefaultLabel => 'System color';
 
   @override
   String get settingsBackgroundSelectLabel => 'Select background image';
@@ -1376,4 +1376,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notFoundBackToInbox => 'Back to inbox';
+
+  @override
+  String get backgroundPresetAnimatedWaves => 'Animated Waves';
+
+  @override
+  String get backgroundPresetSoftGradient => 'Soft Gradient';
+
+  @override
+  String get backgroundPresetBloomImage => 'Bloom Image';
 }

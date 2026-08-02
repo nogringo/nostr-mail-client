@@ -22,6 +22,8 @@ Releases prior to 0.13.0 are listed on the
 - Guide Android FOSS users to install a UnifiedPush distributor when none is available.
 - Enable push notifications on web.
 - Confirm before leaving the hosting or address settings with unsaved changes.
+- Add background presets with light and dark variants, including
+  animated waves and image backgrounds.
 
 ### Changed
 

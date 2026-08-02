@@ -65,7 +65,7 @@
   "settingsThemeLight": "ライト",
   "settingsThemeDark": "ダーク",
 
-  "settingsBackgroundDefaultLabel": "既定のテーマカラー",
+  "settingsBackgroundDefaultLabel": "システムカラー",
   "settingsBackgroundSelectLabel": "背景画像を選択",
   "settingsBackgroundDeleteLabel": "背景画像を削除",
   "settingsBackgroundRemoveLabel": "背景画像を取り除く",
@@ -541,5 +541,8 @@
   "dateYesterday": "昨日",
 
   "notFoundTitle": "ページが見つかりません",
-  "notFoundBackToInbox": "受信トレイに戻る"
+  "notFoundBackToInbox": "受信トレイに戻る",
+  "backgroundPresetAnimatedWaves": "動く波",
+  "backgroundPresetSoftGradient": "柔らかなグラデーション",
+  "backgroundPresetBloomImage": "花のイメージ"
 }

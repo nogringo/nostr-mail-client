@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/settings_controller.dart';
+import '../../models/background_preset.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/widgets/background_preset_visual.dart';
 import '../inbox/widgets/app_drawer.dart';
 import 'layouts/shell_desktop.dart';
 import 'layouts/shell_fold.dart';
@@ -20,11 +22,18 @@ class DesktopShell extends StatelessWidget {
   Widget _buildBackground(BuildContext context) {
     return Obx(() {
       final image = Get.find<SettingsController>().backgroundImage.value;
+      final preset = BackgroundPreset.resolve(image);
 
-      if (image != null && image.isNotEmpty) {
+      if (preset != null) {
+        return BackgroundPresetVisual(
+          variant: preset.variantForBrightness(Theme.of(context).brightness),
+        );
+      }
+
+      if (BackgroundPreset.isCustomImageValue(image)) {
         // Native: local file path
         if (PlatformHelper.isNative) {
-          final file = File(image);
+          final file = File(image!);
           if (file.existsSync()) {
             return Image.file(
               file,
@@ -36,7 +45,7 @@ class DesktopShell extends StatelessWidget {
         } else {
           // Web: URL
           return Image.network(
-            image,
+            image!,
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -73,12 +82,6 @@ class DesktopShell extends StatelessWidget {
     }
 
     // Mobile layout with drawer
-    return Scaffold(
-      drawer: const AppDrawer(),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [_buildBackground(context), body],
-      ),
-    );
+    return Scaffold(drawer: const AppDrawer(), body: body);
   }
 }

@@ -9,6 +9,7 @@ import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/background_preset.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -117,6 +118,12 @@ class SettingsController extends GetxController {
     locale.value = _localeFromStorage(savedLocale);
 
     await _loadNotificationSettings();
+
+    if (dynamicTheme.value) {
+      await _refreshStoredBackgroundTheme(backgroundImage.value);
+    } else {
+      _applyTheme();
+    }
 
     _refreshSignatureFromRelays();
   }
@@ -244,7 +251,23 @@ class SettingsController extends GetxController {
     }
   }
 
+  Future<void> _refreshStoredBackgroundTheme(String? value) async {
+    if (value == null ||
+        value.isEmpty ||
+        BackgroundPreset.isSystemColorValue(value) ||
+        BackgroundPreset.fromStorageValue(value) != null) {
+      await extractThemeFromImage(value);
+      return;
+    }
+
+    _applyTheme();
+  }
+
   Future<void> setThemeMode(ThemeMode value) async {
+    await _saveThemeMode(value);
+  }
+
+  Future<void> _saveThemeMode(ThemeMode value) async {
     themeMode.value = value;
     await _storageService.saveSetting(themeModeKey, value.index);
   }
@@ -315,7 +338,7 @@ class SettingsController extends GetxController {
     dynamicTheme.value = value;
     await _storageService.saveSetting(ThemeService.dynamicThemeKey, value);
 
-    if (value && backgroundImage.value != null) {
+    if (value) {
       await extractThemeFromImage(backgroundImage.value);
     } else {
       await _clearColorSchemes();
@@ -325,12 +348,26 @@ class SettingsController extends GetxController {
 
   Future<void> extractThemeFromImage(String? imagePath) async {
     if (imagePath == null || imagePath.isEmpty) {
+      await _setDefaultBackgroundColorSchemes();
+      return;
+    }
+
+    if (BackgroundPreset.isSystemColorValue(imagePath)) {
       await _clearColorSchemes();
       _applyTheme();
       return;
     }
 
     try {
+      final preset = BackgroundPreset.fromStorageValue(imagePath);
+      if (preset != null) {
+        await _setColorSchemesFromSeeds(
+          lightSeedColor: preset.lightSeedColor,
+          darkSeedColor: preset.darkSeedColor,
+        );
+        return;
+      }
+
       final ImageProvider provider;
       if (PlatformHelper.isNative) {
         provider = FileImage(File(imagePath));
@@ -370,6 +407,44 @@ class SettingsController extends GetxController {
       await _clearColorSchemes();
       _applyTheme();
     }
+  }
+
+  Future<void> _setColorSchemesFromSeeds({
+    required Color lightSeedColor,
+    required Color darkSeedColor,
+  }) async {
+    final light = ColorScheme.fromSeed(
+      seedColor: lightSeedColor,
+      brightness: Brightness.light,
+    );
+    final dark = ColorScheme.fromSeed(
+      seedColor: darkSeedColor,
+      brightness: Brightness.dark,
+    );
+
+    lightColorScheme.value = light;
+    darkColorScheme.value = dark;
+
+    await Future.wait([
+      _storageService.saveSetting(
+        ThemeService.colorSchemeKeyLight,
+        colorSchemeToJson(light),
+      ),
+      _storageService.saveSetting(
+        ThemeService.colorSchemeKeyDark,
+        colorSchemeToJson(dark),
+      ),
+    ]);
+
+    _applyTheme();
+  }
+
+  Future<void> _setDefaultBackgroundColorSchemes() async {
+    final preset = BackgroundPreset.defaultPreset();
+    await _setColorSchemesFromSeeds(
+      lightSeedColor: preset.lightSeedColor,
+      darkSeedColor: preset.darkSeedColor,
+    );
   }
 
   Future<void> _clearColorSchemes() async {

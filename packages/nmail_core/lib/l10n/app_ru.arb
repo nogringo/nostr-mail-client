@@ -65,7 +65,7 @@
   "settingsThemeLight": "Светлая",
   "settingsThemeDark": "Тёмная",
 
-  "settingsBackgroundDefaultLabel": "Цвет темы по умолчанию",
+  "settingsBackgroundDefaultLabel": "Цвет системы",
   "settingsBackgroundSelectLabel": "Выбрать фоновое изображение",
   "settingsBackgroundDeleteLabel": "Удалить фоновое изображение",
   "settingsBackgroundRemoveLabel": "Убрать фоновое изображение",
@@ -541,5 +541,8 @@
   "dateYesterday": "Вчера",
 
   "notFoundTitle": "Страница не найдена",
-  "notFoundBackToInbox": "Вернуться во входящие"
+  "notFoundBackToInbox": "Вернуться во входящие",
+  "backgroundPresetAnimatedWaves": "Анимированные волны",
+  "backgroundPresetSoftGradient": "Мягкий градиент",
+  "backgroundPresetBloomImage": "Цветение"
 }

@@ -194,7 +194,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsThemeDark => 'Tumma';
 
   @override
-  String get settingsBackgroundDefaultLabel => 'Teeman oletusväri';
+  String get settingsBackgroundDefaultLabel => 'Järjestelmän väri';
 
   @override
   String get settingsBackgroundSelectLabel => 'Valitse taustakuva';
@@ -1382,4 +1382,13 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get notFoundBackToInbox => 'Palaa saapuneisiin';
+
+  @override
+  String get backgroundPresetAnimatedWaves => 'Animoidut aallot';
+
+  @override
+  String get backgroundPresetSoftGradient => 'Pehmeä liukuväri';
+
+  @override
+  String get backgroundPresetBloomImage => 'Kukinta';
 }

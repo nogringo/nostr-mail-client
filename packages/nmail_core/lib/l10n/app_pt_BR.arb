@@ -59,7 +59,7 @@
   "settingsThemeAuto": "Auto",
   "settingsThemeLight": "Claro",
   "settingsThemeDark": "Escuro",
-  "settingsBackgroundDefaultLabel": "Cor padrão do tema",
+  "settingsBackgroundDefaultLabel": "Cor do sistema",
   "settingsBackgroundSelectLabel": "Selecionar imagem de fundo",
   "settingsBackgroundDeleteLabel": "Excluir imagem de fundo",
   "settingsBackgroundRemoveLabel": "Remover imagem de fundo",
@@ -547,5 +547,8 @@
   },
   "dateYesterday": "Ontem",
   "notFoundTitle": "Página não encontrada",
-  "notFoundBackToInbox": "Voltar para a caixa de entrada"
+  "notFoundBackToInbox": "Voltar para a caixa de entrada",
+  "backgroundPresetAnimatedWaves": "Ondas animadas",
+  "backgroundPresetSoftGradient": "Gradiente suave",
+  "backgroundPresetBloomImage": "Floração"
 }

@@ -5,6 +5,7 @@ import 'package:system_theme/system_theme.dart';
 import '../../../controllers/backgrounds_controller.dart';
 import '../../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/background_preset.dart';
 import 'background_thumbnail.dart';
 
 class BackgroundDefaultSwatch extends StatelessWidget {
@@ -24,8 +25,10 @@ class BackgroundDefaultSwatch extends StatelessWidget {
       final current = settings.backgroundImage.value;
       return BackgroundThumbnail(
         label: l.settingsBackgroundDefaultLabel,
-        isSelected: current == null || current.isEmpty,
-        onTap: () => Get.find<BackgroundsController>().select(null),
+        isSelected: BackgroundPreset.isSystemColorValue(current),
+        onTap: () => Get.find<BackgroundsController>().select(
+          BackgroundPreset.systemColorStorageValue,
+        ),
         child: ColoredBox(color: systemScheme.primaryContainer),
       );
     });

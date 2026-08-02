@@ -189,7 +189,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsThemeDark => 'ダーク';
 
   @override
-  String get settingsBackgroundDefaultLabel => '既定のテーマカラー';
+  String get settingsBackgroundDefaultLabel => 'システムカラー';
 
   @override
   String get settingsBackgroundSelectLabel => '背景画像を選択';
@@ -1324,4 +1324,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get notFoundBackToInbox => '受信トレイに戻る';
+
+  @override
+  String get backgroundPresetAnimatedWaves => '動く波';
+
+  @override
+  String get backgroundPresetSoftGradient => '柔らかなグラデーション';
+
+  @override
+  String get backgroundPresetBloomImage => '花のイメージ';
 }

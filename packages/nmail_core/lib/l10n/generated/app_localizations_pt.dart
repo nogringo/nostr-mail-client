@@ -195,7 +195,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsThemeDark => 'Escuro';
 
   @override
-  String get settingsBackgroundDefaultLabel => 'Cor predefinida do tema';
+  String get settingsBackgroundDefaultLabel => 'Cor do sistema';
 
   @override
   String get settingsBackgroundSelectLabel => 'Selecionar imagem de fundo';
@@ -1383,6 +1383,15 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get notFoundBackToInbox => 'Voltar à caixa de entrada';
+
+  @override
+  String get backgroundPresetAnimatedWaves => 'Ondas animadas';
+
+  @override
+  String get backgroundPresetSoftGradient => 'Gradiente suave';
+
+  @override
+  String get backgroundPresetBloomImage => 'Floração';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -1576,7 +1585,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get settingsThemeDark => 'Escuro';
 
   @override
-  String get settingsBackgroundDefaultLabel => 'Cor padrão do tema';
+  String get settingsBackgroundDefaultLabel => 'Cor do sistema';
 
   @override
   String get settingsBackgroundSelectLabel => 'Selecionar imagem de fundo';
@@ -2764,4 +2773,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get notFoundBackToInbox => 'Voltar para a caixa de entrada';
+
+  @override
+  String get backgroundPresetAnimatedWaves => 'Ondas animadas';
+
+  @override
+  String get backgroundPresetSoftGradient => 'Gradiente suave';
+
+  @override
+  String get backgroundPresetBloomImage => 'Floração';
 }
