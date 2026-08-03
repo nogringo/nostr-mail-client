@@ -575,5 +575,42 @@
   "notFoundBackToInbox": "Palaa saapuneisiin",
   "backgroundPresetAnimatedWaves": "Animoidut aallot",
   "backgroundPresetSoftGradient": "Pehmeä liukuväri",
-  "backgroundPresetBloomImage": "Kukinta"
+  "backgroundPresetBloomImage": "Kukinta",
+
+  "relaySetupSearching": "Etsitään releluetteloasi...",
+  "relaySetupUnreachableTitle": "Yhtään relettä ei tavoitettu",
+  "relaySetupUnreachableDescription": "Niin kauan kuin yksikään rele ei vastaa, emme voi tietää onko luettelosi olemassa. Tarkista yhteytesi ja yritä uudelleen.",
+  "relaySetupRetry": "Yritä uudelleen",
+  "relaySetupMissingTitle": "Releluetteloasi ei löytynyt",
+  "relaySetupMissingDescription": "Releluettelosi kertoo sovelluksille, missä tilisi asuu. Jos sinulla on sellainen, kerro mistä etsiä. Jos ei, voit luoda sen nyt.",
+  "relaySetupHintLabel": "Mistä etsitään?",
+  "relaySetupHintHelper": "Rele, Nostr-osoite tai nprofile. Se voi olla myös jonkun toisen.",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "Anna rele, Nostr-osoite tai nprofile",
+  "relaySetupHintErrorNpub": "npub ei sisällä yhtään relettä. Käytä nprofilea, Nostr-osoitetta tai releen URL-osoitetta.",
+  "relaySetupHintErrorMalformed": "Tämä ei ole rele, Nostr-osoite eikä nprofile",
+  "relaySetupSearch": "Etsi",
+  "relaySetupHintNotFound": "Siellä ei ole releluetteloa tilillesi",
+  "relaySetupHintUnreachable": "Relettä ei tavoitettu",
+  "relaySetupHintNip05NotFound": "Tuo Nostr-osoite ei mainitse yhtään relettä",
+  "relaySetupHintNip05Unreachable": "Tuota Nostr-osoitetta ei voitu selvittää",
+  "relaySetupFoundTitle": "Releluettelo löytyi",
+  "relaySetupFoundCount": "{count, plural, one{{count} rele} other{{count} relettä}}",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "Käytä tätä luetteloa",
+  "relaySetupSearchAgain": "Etsi muualta",
+  "relaySetupOr": "tai",
+  "relaySetupCreate": "Luo uusi releluettelo",
+  "relaySetupCreateDescription": "Julkaisee luettelon: {relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "Jatka ilman luetteloa",
+  "relaySetupContinueAnyway": "Jatka silti"
 }

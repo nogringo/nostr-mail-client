@@ -570,5 +570,42 @@
   "notFoundBackToInbox": "返回收件箱",
   "backgroundPresetAnimatedWaves": "动态波纹",
   "backgroundPresetSoftGradient": "柔和渐变",
-  "backgroundPresetBloomImage": "花影图像"
+  "backgroundPresetBloomImage": "花影图像",
+
+  "relaySetupSearching": "正在查找你的中继列表...",
+  "relaySetupUnreachableTitle": "无法连接任何中继",
+  "relaySetupUnreachableDescription": "只要没有中继响应，就无法判断你的列表是否存在。请检查网络连接后重试。",
+  "relaySetupRetry": "重试",
+  "relaySetupMissingTitle": "没有找到你的中继列表",
+  "relaySetupMissingDescription": "中继列表告诉应用你的账户在哪里。如果你已经有一个，请告诉我们去哪里查找。如果没有，可以现在创建一个。",
+  "relaySetupHintLabel": "去哪里查找？",
+  "relaySetupHintHelper": "一个中继、一个 Nostr 地址或一个 nprofile。也可以是别人的。",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "请输入中继、Nostr 地址或 nprofile",
+  "relaySetupHintErrorNpub": "npub 不包含任何中继。请使用 nprofile、Nostr 地址或中继网址。",
+  "relaySetupHintErrorMalformed": "这既不是中继，也不是 Nostr 地址或 nprofile",
+  "relaySetupSearch": "查找",
+  "relaySetupHintNotFound": "那里没有你账户的中继列表",
+  "relaySetupHintUnreachable": "无法连接该中继",
+  "relaySetupHintNip05NotFound": "该 Nostr 地址没有指明任何中继",
+  "relaySetupHintNip05Unreachable": "无法解析该 Nostr 地址",
+  "relaySetupFoundTitle": "已找到中继列表",
+  "relaySetupFoundCount": "{count} 个中继",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "使用此列表",
+  "relaySetupSearchAgain": "换个地方查找",
+  "relaySetupOr": "或",
+  "relaySetupCreate": "创建新的中继列表",
+  "relaySetupCreateDescription": "将发布包含以下中继的列表：{relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "不使用列表继续",
+  "relaySetupContinueAnyway": "仍然继续"
 }

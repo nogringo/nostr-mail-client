@@ -570,5 +570,42 @@
   "notFoundBackToInbox": "受信トレイに戻る",
   "backgroundPresetAnimatedWaves": "動く波",
   "backgroundPresetSoftGradient": "柔らかなグラデーション",
-  "backgroundPresetBloomImage": "花のイメージ"
+  "backgroundPresetBloomImage": "花のイメージ",
+
+  "relaySetupSearching": "リレーリストを検索しています...",
+  "relaySetupUnreachableTitle": "どのリレーにも接続できません",
+  "relaySetupUnreachableDescription": "どのリレーからも応答がない間は、リレーリストが存在するかどうか判断できません。接続を確認してもう一度お試しください。",
+  "relaySetupRetry": "再試行",
+  "relaySetupMissingTitle": "リレーリストが見つかりませんでした",
+  "relaySetupMissingDescription": "リレーリストは、あなたのアカウントがどこにあるかをアプリに伝えます。すでにお持ちなら探す場所を教えてください。お持ちでなければ今すぐ作成できます。",
+  "relaySetupHintLabel": "どこを探しますか？",
+  "relaySetupHintHelper": "リレー、Nostr アドレス、または nprofile。他人のものでも構いません。",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "リレー、Nostr アドレス、または nprofile を入力してください",
+  "relaySetupHintErrorNpub": "npub にはリレーが含まれていません。nprofile、Nostr アドレス、またはリレー URL を使ってください。",
+  "relaySetupHintErrorMalformed": "リレー、Nostr アドレス、nprofile のいずれでもありません",
+  "relaySetupSearch": "検索",
+  "relaySetupHintNotFound": "そこにはあなたのアカウントのリレーリストがありません",
+  "relaySetupHintUnreachable": "そのリレーに接続できませんでした",
+  "relaySetupHintNip05NotFound": "その Nostr アドレスはリレーを示していません",
+  "relaySetupHintNip05Unreachable": "その Nostr アドレスを解決できませんでした",
+  "relaySetupFoundTitle": "リレーリストが見つかりました",
+  "relaySetupFoundCount": "リレー {count} 件",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "このリストを使う",
+  "relaySetupSearchAgain": "別の場所を探す",
+  "relaySetupOr": "または",
+  "relaySetupCreate": "新しいリレーリストを作成",
+  "relaySetupCreateDescription": "次のリストを公開します: {relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "リストなしで続ける",
+  "relaySetupContinueAnyway": "このまま続ける"
 }

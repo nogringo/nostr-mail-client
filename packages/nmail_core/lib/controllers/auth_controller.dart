@@ -30,6 +30,10 @@ class AuthController extends GetxController {
   final showMoreOptions = false.obs;
   final isRegistering = false.obs;
   final showSyncCodeExplanation = false.obs;
+
+  /// The account logged in without a NIP-65 relay list, so the login is parked
+  /// on RelaySetupView until it is found or the user opts out.
+  final needsRelayListSetup = false.obs;
   final username = ''.obs;
   final usernameController = TextEditingController();
   final Rxn<Metadata> userMetadata = Rxn<Metadata>();
@@ -107,9 +111,38 @@ class AuthController extends GetxController {
     // Adding an account from /accounts/add runs this while another account is
     // still watched, so drop its subscriptions before starting the new ones.
     await _nostrMailService.resetForAccountChange();
-    await _nostrMailService.activateForCurrentAccount();
+    // Before the early return below: RelaySetupView reads `publicKey`, which
+    // is this Rx and not ndk, so it would otherwise see the previous account.
     _refreshAccountsState();
     userMetadata.value = null;
+
+    final pubkey = ndk.accounts.getPublicKey();
+    if (pubkey != null) {
+      final cached = await ndk.config.cache.loadUserRelayList(pubkey);
+      if (cached == null || cached.relays.isEmpty) {
+        // Without a NIP-65 list we don't know which relays to watch, so the
+        // subscriptions below must wait until RelaySetupView resolves it.
+        // Must be set BEFORE isLoggedIn flips, otherwise the router's
+        // refreshListenable bounces the user to /inbox first.
+        needsRelayListSetup.value = true;
+        isLoggedIn.value = true;
+        return;
+      }
+    }
+
+    await completeLogin();
+  }
+
+  /// Second half of [onLoggedIn], deferred while the relay list is missing.
+  ///
+  /// TODO: the two awaits at the end are best-effort refreshes that nothing on
+  /// screen needs, yet callers navigate only once they resolve. Offline that
+  /// costs ~28s (two relay round trips, then the push server's 20s HTTP
+  /// timeout). Mirror `switchAccount`, which navigates first and fires both
+  /// with `unawaited`.
+  Future<void> completeLogin() async {
+    needsRelayListSetup.value = false;
+    await _nostrMailService.activateForCurrentAccount();
     if (Get.isRegistered<InboxController>()) {
       await Get.find<InboxController>().activateForCurrentAccount(
         folder: MailFolder.inbox,
@@ -179,11 +212,16 @@ class AuthController extends GetxController {
       createdAt: now,
       refreshedTimestamp: now,
     );
-    // Signaling events: broadcast widely (popular + outbox).
+    // Kinds 0 and 10002 are what every other app bootstraps from, so they go
+    // wide: popular + indexers + outbox.
     final signalingTargets = {
       ...NostrConfig.popularRelays,
+      ...NostrConfig.discoveryRelays,
       ...userRelayList.writeUrls,
     }.toList();
+    // Kinds 10050 and 10063 are only ever read once the 10002 above has been
+    // found, so the outbox relays it names are enough.
+    final outboxTargets = userRelayList.writeUrls.toList();
 
     // Metadata (kind 0)
     final signedMetadata = await account.signer.sign(metadata.toEvent());
@@ -217,7 +255,7 @@ class AuthController extends GetxController {
     await ndk.config.cache.saveEvent(signedDm);
     await broadcastQueue.broadcast(
       signedDm,
-      relays: signalingTargets,
+      relays: outboxTargets,
       pubkey: account.pubkey,
     );
 
@@ -235,7 +273,7 @@ class AuthController extends GetxController {
     await ndk.config.cache.saveEvent(signedBlossom);
     await broadcastQueue.broadcast(
       signedBlossom,
-      relays: signalingTargets,
+      relays: outboxTargets,
       pubkey: account.pubkey,
     );
 

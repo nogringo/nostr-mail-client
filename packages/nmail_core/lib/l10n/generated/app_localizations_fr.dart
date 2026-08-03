@@ -1450,4 +1450,101 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Floraison';
+
+  @override
+  String get relaySetupSearching => 'Recherche de votre liste de relais...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Aucun relais joignable';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Tant qu\'aucun relais ne répond, impossible de savoir si votre liste existe. Vérifiez votre connexion et réessayez.';
+
+  @override
+  String get relaySetupRetry => 'Réessayer';
+
+  @override
+  String get relaySetupMissingTitle => 'Liste de relais introuvable';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Votre liste de relais indique aux applications où vit votre compte. Si vous en avez une, dites-nous où chercher. Sinon, vous pouvez en créer une maintenant.';
+
+  @override
+  String get relaySetupHintLabel => 'Où faut-il chercher ?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Un relais, une adresse Nostr ou un nprofile. Il peut être celui de quelqu\'un d\'autre.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Saisissez un relais, une adresse Nostr ou un nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'Un npub ne contient aucun relais. Utilisez un nprofile, une adresse Nostr ou une URL de relais.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Ce n\'est ni un relais, ni une adresse Nostr, ni un nprofile';
+
+  @override
+  String get relaySetupSearch => 'Rechercher';
+
+  @override
+  String get relaySetupHintNotFound =>
+      'Aucune liste de relais pour votre compte à cet endroit';
+
+  @override
+  String get relaySetupHintUnreachable => 'Ce relais est injoignable';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Cette adresse Nostr n\'indique aucun relais';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Impossible de résoudre cette adresse Nostr';
+
+  @override
+  String get relaySetupFoundTitle => 'Liste de relais trouvée';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count relais',
+      one: '$count relais',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Utiliser cette liste';
+
+  @override
+  String get relaySetupSearchAgain => 'Chercher ailleurs';
+
+  @override
+  String get relaySetupOr => 'ou';
+
+  @override
+  String get relaySetupCreate => 'Créer une nouvelle liste de relais';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Publie une liste avec : $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Continuer sans liste';
+
+  @override
+  String get relaySetupContinueAnyway => 'Continuer quand même';
 }

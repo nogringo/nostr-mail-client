@@ -1380,4 +1380,92 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => '花のイメージ';
+
+  @override
+  String get relaySetupSearching => 'リレーリストを検索しています...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'どのリレーにも接続できません';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'どのリレーからも応答がない間は、リレーリストが存在するかどうか判断できません。接続を確認してもう一度お試しください。';
+
+  @override
+  String get relaySetupRetry => '再試行';
+
+  @override
+  String get relaySetupMissingTitle => 'リレーリストが見つかりませんでした';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'リレーリストは、あなたのアカウントがどこにあるかをアプリに伝えます。すでにお持ちなら探す場所を教えてください。お持ちでなければ今すぐ作成できます。';
+
+  @override
+  String get relaySetupHintLabel => 'どこを探しますか？';
+
+  @override
+  String get relaySetupHintHelper =>
+      'リレー、Nostr アドレス、または nprofile。他人のものでも構いません。';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'リレー、Nostr アドレス、または nprofile を入力してください';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'npub にはリレーが含まれていません。nprofile、Nostr アドレス、またはリレー URL を使ってください。';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'リレー、Nostr アドレス、nprofile のいずれでもありません';
+
+  @override
+  String get relaySetupSearch => '検索';
+
+  @override
+  String get relaySetupHintNotFound => 'そこにはあなたのアカウントのリレーリストがありません';
+
+  @override
+  String get relaySetupHintUnreachable => 'そのリレーに接続できませんでした';
+
+  @override
+  String get relaySetupHintNip05NotFound => 'その Nostr アドレスはリレーを示していません';
+
+  @override
+  String get relaySetupHintNip05Unreachable => 'その Nostr アドレスを解決できませんでした';
+
+  @override
+  String get relaySetupFoundTitle => 'リレーリストが見つかりました';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    return 'リレー $count 件';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'このリストを使う';
+
+  @override
+  String get relaySetupSearchAgain => '別の場所を探す';
+
+  @override
+  String get relaySetupOr => 'または';
+
+  @override
+  String get relaySetupCreate => '新しいリレーリストを作成';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return '次のリストを公開します: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'リストなしで続ける';
+
+  @override
+  String get relaySetupContinueAnyway => 'このまま続ける';
 }

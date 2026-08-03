@@ -99,10 +99,20 @@ class Nip65RelaysController extends GetxController {
         userRelayList.toNip65().toEvent(),
       );
       await ndk.config.cache.saveUserRelayList(userRelayList);
+      // TODO: a relay added here receives only this list, so it hosts a relay
+      // list pointing at itself and nothing else. Worse, rotating relays drops
+      // data: add B, later remove the A that held the kind 30078, and the
+      // identities and bridges are gone from the network while the local cache
+      // still shows them. Republish kinds 0, 10050, 10063 and 30078 to the
+      // relays added by this save (originalRelays vs relaysToSave), rebroadcasting
+      // the cached signed events rather than re-signing, as `adopt()` does.
+      // Not the emails: they belong to the DM relay list and moving them is a
+      // migration of its own.
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
         relays: {
           ...NostrConfig.popularRelays,
+          ...NostrConfig.discoveryRelays,
           ...userRelayList.writeUrls,
         }.toList(),
         pubkey: account.pubkey,

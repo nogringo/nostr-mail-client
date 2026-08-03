@@ -1370,4 +1370,89 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => '花影图像';
+
+  @override
+  String get relaySetupSearching => '正在查找你的中继列表...';
+
+  @override
+  String get relaySetupUnreachableTitle => '无法连接任何中继';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      '只要没有中继响应，就无法判断你的列表是否存在。请检查网络连接后重试。';
+
+  @override
+  String get relaySetupRetry => '重试';
+
+  @override
+  String get relaySetupMissingTitle => '没有找到你的中继列表';
+
+  @override
+  String get relaySetupMissingDescription =>
+      '中继列表告诉应用你的账户在哪里。如果你已经有一个，请告诉我们去哪里查找。如果没有，可以现在创建一个。';
+
+  @override
+  String get relaySetupHintLabel => '去哪里查找？';
+
+  @override
+  String get relaySetupHintHelper => '一个中继、一个 Nostr 地址或一个 nprofile。也可以是别人的。';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty => '请输入中继、Nostr 地址或 nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'npub 不包含任何中继。请使用 nprofile、Nostr 地址或中继网址。';
+
+  @override
+  String get relaySetupHintErrorMalformed => '这既不是中继，也不是 Nostr 地址或 nprofile';
+
+  @override
+  String get relaySetupSearch => '查找';
+
+  @override
+  String get relaySetupHintNotFound => '那里没有你账户的中继列表';
+
+  @override
+  String get relaySetupHintUnreachable => '无法连接该中继';
+
+  @override
+  String get relaySetupHintNip05NotFound => '该 Nostr 地址没有指明任何中继';
+
+  @override
+  String get relaySetupHintNip05Unreachable => '无法解析该 Nostr 地址';
+
+  @override
+  String get relaySetupFoundTitle => '已找到中继列表';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    return '$count 个中继';
+  }
+
+  @override
+  String get relaySetupUseFoundList => '使用此列表';
+
+  @override
+  String get relaySetupSearchAgain => '换个地方查找';
+
+  @override
+  String get relaySetupOr => '或';
+
+  @override
+  String get relaySetupCreate => '创建新的中继列表';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return '将发布包含以下中继的列表：$relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => '不使用列表继续';
+
+  @override
+  String get relaySetupContinueAnyway => '仍然继续';
 }

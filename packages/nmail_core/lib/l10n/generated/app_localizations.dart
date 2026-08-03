@@ -2712,6 +2712,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bloom Image'**
   String get backgroundPresetBloomImage;
+
+  /// Status line shown under the spinner while the app sweeps every relay for the account's kind 10002
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for your relay list...'**
+  String get relaySetupSearching;
+
+  /// Heading shown when the search found nothing because the device is offline or every relay is down
+  ///
+  /// In en, this message translates to:
+  /// **'No relay could be reached'**
+  String get relaySetupUnreachableTitle;
+
+  /// Explains that an empty result means nothing while no relay answered
+  ///
+  /// In en, this message translates to:
+  /// **'We can\'t tell whether your relay list exists until at least one relay answers. Check your connection and try again.'**
+  String get relaySetupUnreachableDescription;
+
+  /// Button that restarts the relay list search after a connection failure
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get relaySetupRetry;
+
+  /// Heading shown when relays answered but this account has no NIP-65 list on them
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t find your relay list'**
+  String get relaySetupMissingTitle;
+
+  /// Explains what a NIP-65 relay list is for and the two ways out of this screen
+  ///
+  /// In en, this message translates to:
+  /// **'Your relay list tells apps where your account lives. If you have one, tell us where to look. If you don\'t, you can create one now.'**
+  String get relaySetupMissingDescription;
+
+  /// Label of the field where the user types a relay, a NIP-05 identifier or an nprofile
+  ///
+  /// In en, this message translates to:
+  /// **'Where should we look?'**
+  String get relaySetupHintLabel;
+
+  /// Helper text clarifying that the hint may point at any account, not only the user's own
+  ///
+  /// In en, this message translates to:
+  /// **'A relay, a Nostr address, or an nprofile. It can be someone else\'s.'**
+  String get relaySetupHintHelper;
+
+  /// Placeholder text of the hint field
+  ///
+  /// In en, this message translates to:
+  /// **'wss://relay.example.com'**
+  String get relaySetupHintHint;
+
+  /// Validation error shown when the hint field is left empty
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a relay, a Nostr address, or an nprofile'**
+  String get relaySetupHintErrorEmpty;
+
+  /// Validation error shown when the user pastes an npub, which contains no relay hint
+  ///
+  /// In en, this message translates to:
+  /// **'An npub carries no relay. Use an nprofile, a Nostr address, or a relay URL.'**
+  String get relaySetupHintErrorNpub;
+
+  /// Validation error shown when the hint matches none of the accepted formats
+  ///
+  /// In en, this message translates to:
+  /// **'This isn\'t a relay, a Nostr address, or an nprofile'**
+  String get relaySetupHintErrorMalformed;
+
+  /// Button that searches for the relay list using the hint the user typed
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get relaySetupSearch;
+
+  /// Error shown when the hinted relays answered but hold no kind 10002 for this account
+  ///
+  /// In en, this message translates to:
+  /// **'No relay list there for your account'**
+  String get relaySetupHintNotFound;
+
+  /// Error shown when none of the hinted relays could be connected to
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach that relay'**
+  String get relaySetupHintUnreachable;
+
+  /// Error shown when the NIP-05 resolved but its nostr.json lists no relays
+  ///
+  /// In en, this message translates to:
+  /// **'That Nostr address names no relay'**
+  String get relaySetupHintNip05NotFound;
+
+  /// Error shown when the NIP-05 .well-known/nostr.json could not be fetched
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t resolve that Nostr address'**
+  String get relaySetupHintNip05Unreachable;
+
+  /// Heading of the preview shown after the hint located the account's relay list
+  ///
+  /// In en, this message translates to:
+  /// **'Relay list found'**
+  String get relaySetupFoundTitle;
+
+  /// Number of relays in the relay list found through the hint
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 relay} other{{count} relays}}'**
+  String relaySetupFoundCount(int count);
+
+  /// Button that adopts the relay list found through the hint and finishes the login
+  ///
+  /// In en, this message translates to:
+  /// **'Use this list'**
+  String get relaySetupUseFoundList;
+
+  /// Button that discards the found list and returns to the hint field
+  ///
+  /// In en, this message translates to:
+  /// **'Search somewhere else'**
+  String get relaySetupSearchAgain;
+
+  /// Separator between searching for an existing relay list and creating a new one
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get relaySetupOr;
+
+  /// Button that publishes a fresh NIP-65 list built from the recommended relays
+  ///
+  /// In en, this message translates to:
+  /// **'Create a new relay list'**
+  String get relaySetupCreate;
+
+  /// Names the relays that will be published, so the user knows what the create button does before pressing it
+  ///
+  /// In en, this message translates to:
+  /// **'Publishes a list with: {relays}'**
+  String relaySetupCreateDescription(String relays);
+
+  /// Button that skips the screen, publishing nothing, and opens the inbox anyway
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without a list'**
+  String get relaySetupContinueWithout;
+
+  /// Button on the unreachable state that opens the inbox without knowing whether a relay list exists
+  ///
+  /// In en, this message translates to:
+  /// **'Continue anyway'**
+  String get relaySetupContinueAnyway;
 }
 
 class _AppLocalizationsDelegate

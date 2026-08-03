@@ -1446,4 +1446,101 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Blüte';
+
+  @override
+  String get relaySetupSearching => 'Suche nach deiner Relay-Liste...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Kein Relay erreichbar';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Solange kein Relay antwortet, lässt sich nicht sagen, ob deine Relay-Liste existiert. Prüfe deine Verbindung und versuche es erneut.';
+
+  @override
+  String get relaySetupRetry => 'Erneut versuchen';
+
+  @override
+  String get relaySetupMissingTitle => 'Deine Relay-Liste wurde nicht gefunden';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Deine Relay-Liste sagt Apps, wo dein Konto lebt. Wenn du eine hast, sag uns, wo wir suchen sollen. Wenn nicht, kannst du jetzt eine anlegen.';
+
+  @override
+  String get relaySetupHintLabel => 'Wo sollen wir suchen?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Ein Relay, eine Nostr-Adresse oder ein nprofile. Es darf auch das einer anderen Person sein.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Gib ein Relay, eine Nostr-Adresse oder ein nprofile ein';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'Ein npub enthält kein Relay. Nutze ein nprofile, eine Nostr-Adresse oder eine Relay-URL.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Das ist weder ein Relay noch eine Nostr-Adresse noch ein nprofile';
+
+  @override
+  String get relaySetupSearch => 'Suchen';
+
+  @override
+  String get relaySetupHintNotFound =>
+      'Dort liegt keine Relay-Liste für dein Konto';
+
+  @override
+  String get relaySetupHintUnreachable => 'Dieses Relay ist nicht erreichbar';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Diese Nostr-Adresse nennt kein Relay';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Diese Nostr-Adresse konnte nicht aufgelöst werden';
+
+  @override
+  String get relaySetupFoundTitle => 'Relay-Liste gefunden';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Relays',
+      one: '$count Relay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Diese Liste verwenden';
+
+  @override
+  String get relaySetupSearchAgain => 'Woanders suchen';
+
+  @override
+  String get relaySetupOr => 'oder';
+
+  @override
+  String get relaySetupCreate => 'Neue Relay-Liste anlegen';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Veröffentlicht eine Liste mit: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Ohne Liste fortfahren';
+
+  @override
+  String get relaySetupContinueAnyway => 'Trotzdem fortfahren';
 }

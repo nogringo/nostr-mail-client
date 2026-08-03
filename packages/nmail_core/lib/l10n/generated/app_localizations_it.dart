@@ -1447,4 +1447,103 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Fioritura';
+
+  @override
+  String get relaySetupSearching => 'Ricerca del tuo elenco di relay...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Nessun relay raggiungibile';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Finché nessun relay risponde, non possiamo sapere se il tuo elenco esiste. Controlla la connessione e riprova.';
+
+  @override
+  String get relaySetupRetry => 'Riprova';
+
+  @override
+  String get relaySetupMissingTitle =>
+      'Non abbiamo trovato il tuo elenco di relay';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Il tuo elenco di relay dice alle app dove vive il tuo account. Se ne hai uno, dicci dove cercare. Altrimenti puoi crearne uno adesso.';
+
+  @override
+  String get relaySetupHintLabel => 'Dove dobbiamo cercare?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Un relay, un indirizzo Nostr o un nprofile. Può anche essere quello di qualcun altro.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Inserisci un relay, un indirizzo Nostr o un nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'Un npub non contiene alcun relay. Usa un nprofile, un indirizzo Nostr o un URL di relay.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Questo non è né un relay, né un indirizzo Nostr, né un nprofile';
+
+  @override
+  String get relaySetupSearch => 'Cerca';
+
+  @override
+  String get relaySetupHintNotFound =>
+      'Lì non c\'è nessun elenco di relay per il tuo account';
+
+  @override
+  String get relaySetupHintUnreachable =>
+      'Non è stato possibile raggiungere quel relay';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Quell\'indirizzo Nostr non indica alcun relay';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Non è stato possibile risolvere quell\'indirizzo Nostr';
+
+  @override
+  String get relaySetupFoundTitle => 'Elenco di relay trovato';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count relay',
+      one: '$count relay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Usa questo elenco';
+
+  @override
+  String get relaySetupSearchAgain => 'Cerca altrove';
+
+  @override
+  String get relaySetupOr => 'oppure';
+
+  @override
+  String get relaySetupCreate => 'Crea un nuovo elenco di relay';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Pubblica un elenco con: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Continua senza elenco';
+
+  @override
+  String get relaySetupContinueAnyway => 'Continua comunque';
 }

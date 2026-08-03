@@ -24,6 +24,10 @@ class AppRoutes {
   static const accountDeleted = '/account-deleted';
   static const accountDeletedRequestParam = 'request';
 
+  /// Post-login step for an account with no NIP-65 relay list. Authenticated,
+  /// but outside the shell: nothing else can be loaded until it resolves.
+  static const relaySetup = '/relay-setup';
+
   // Folders (drive InboxController.currentFolder from URL)
   static const inbox = '/inbox';
   static const sent = '/sent';

@@ -31,6 +31,7 @@ import '../../views/inbox/inbox_view.dart';
 import '../../views/nostr/profile_share_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
 import '../../views/profile/profile_view.dart';
+import '../../views/relay_setup/relay_setup_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
 import '../../views/settings/about_settings_view.dart';
 import '../../views/settings/appearance_settings_view.dart';
@@ -114,6 +115,10 @@ class AppRouter {
                 '',
           ),
         ),
+      ),
+      GoRoute(
+        path: AppRoutes.relaySetup,
+        builder: (_, _) => const WindowCaptionInset(child: RelaySetupView()),
       ),
       // Account management, outside the shell: full screen, and `add` nests so
       // that leaving it lands back on the list.

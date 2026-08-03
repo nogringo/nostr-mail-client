@@ -570,5 +570,42 @@
   "notFoundBackToInbox": "Torna alla posta in arrivo",
   "backgroundPresetAnimatedWaves": "Onde animate",
   "backgroundPresetSoftGradient": "Gradiente morbido",
-  "backgroundPresetBloomImage": "Fioritura"
+  "backgroundPresetBloomImage": "Fioritura",
+
+  "relaySetupSearching": "Ricerca del tuo elenco di relay...",
+  "relaySetupUnreachableTitle": "Nessun relay raggiungibile",
+  "relaySetupUnreachableDescription": "Finché nessun relay risponde, non possiamo sapere se il tuo elenco esiste. Controlla la connessione e riprova.",
+  "relaySetupRetry": "Riprova",
+  "relaySetupMissingTitle": "Non abbiamo trovato il tuo elenco di relay",
+  "relaySetupMissingDescription": "Il tuo elenco di relay dice alle app dove vive il tuo account. Se ne hai uno, dicci dove cercare. Altrimenti puoi crearne uno adesso.",
+  "relaySetupHintLabel": "Dove dobbiamo cercare?",
+  "relaySetupHintHelper": "Un relay, un indirizzo Nostr o un nprofile. Può anche essere quello di qualcun altro.",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "Inserisci un relay, un indirizzo Nostr o un nprofile",
+  "relaySetupHintErrorNpub": "Un npub non contiene alcun relay. Usa un nprofile, un indirizzo Nostr o un URL di relay.",
+  "relaySetupHintErrorMalformed": "Questo non è né un relay, né un indirizzo Nostr, né un nprofile",
+  "relaySetupSearch": "Cerca",
+  "relaySetupHintNotFound": "Lì non c'è nessun elenco di relay per il tuo account",
+  "relaySetupHintUnreachable": "Non è stato possibile raggiungere quel relay",
+  "relaySetupHintNip05NotFound": "Quell'indirizzo Nostr non indica alcun relay",
+  "relaySetupHintNip05Unreachable": "Non è stato possibile risolvere quell'indirizzo Nostr",
+  "relaySetupFoundTitle": "Elenco di relay trovato",
+  "relaySetupFoundCount": "{count, plural, one{{count} relay} other{{count} relay}}",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "Usa questo elenco",
+  "relaySetupSearchAgain": "Cerca altrove",
+  "relaySetupOr": "oppure",
+  "relaySetupCreate": "Crea un nuovo elenco di relay",
+  "relaySetupCreateDescription": "Pubblica un elenco con: {relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "Continua senza elenco",
+  "relaySetupContinueAnyway": "Continua comunque"
 }

@@ -1442,6 +1442,104 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Floração';
+
+  @override
+  String get relaySetupSearching => 'A procurar a sua lista de relés...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Nenhum relé acessível';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Enquanto nenhum relé responder, não é possível saber se a sua lista existe. Verifique a ligação e tente novamente.';
+
+  @override
+  String get relaySetupRetry => 'Tentar novamente';
+
+  @override
+  String get relaySetupMissingTitle => 'Não encontrámos a sua lista de relés';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'A sua lista de relés diz às aplicações onde vive a sua conta. Se tiver uma, diga-nos onde procurar. Caso contrário, pode criar uma agora.';
+
+  @override
+  String get relaySetupHintLabel => 'Onde devemos procurar?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Um relé, um endereço Nostr ou um nprofile. Pode ser o de outra pessoa.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Introduza um relé, um endereço Nostr ou um nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'Um npub não contém qualquer relé. Use um nprofile, um endereço Nostr ou um URL de relé.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Isto não é um relé, nem um endereço Nostr, nem um nprofile';
+
+  @override
+  String get relaySetupSearch => 'Procurar';
+
+  @override
+  String get relaySetupHintNotFound =>
+      'Aí não existe nenhuma lista de relés para a sua conta';
+
+  @override
+  String get relaySetupHintUnreachable =>
+      'Não foi possível contactar esse relé';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Esse endereço Nostr não indica qualquer relé';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Não foi possível resolver esse endereço Nostr';
+
+  @override
+  String get relaySetupFoundTitle => 'Lista de relés encontrada';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count relés',
+      one: '$count relé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Usar esta lista';
+
+  @override
+  String get relaySetupSearchAgain => 'Procurar noutro sítio';
+
+  @override
+  String get relaySetupOr => 'ou';
+
+  @override
+  String get relaySetupCreate => 'Criar uma nova lista de relés';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Publica uma lista com: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Continuar sem lista';
+
+  @override
+  String get relaySetupContinueAnyway => 'Continuar mesmo assim';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -2882,4 +2980,102 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get backgroundPresetBloomImage => 'Floração';
+
+  @override
+  String get relaySetupSearching => 'Procurando sua lista de relays...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Nenhum relay acessível';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Enquanto nenhum relay responder, não dá para saber se sua lista existe. Verifique sua conexão e tente novamente.';
+
+  @override
+  String get relaySetupRetry => 'Tentar novamente';
+
+  @override
+  String get relaySetupMissingTitle => 'Não encontramos sua lista de relays';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Sua lista de relays diz aos aplicativos onde sua conta vive. Se você tem uma, diga onde procurar. Se não, pode criar uma agora.';
+
+  @override
+  String get relaySetupHintLabel => 'Onde devemos procurar?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Um relay, um endereço Nostr ou um nprofile. Pode ser o de outra pessoa.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Digite um relay, um endereço Nostr ou um nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'Um npub não contém nenhum relay. Use um nprofile, um endereço Nostr ou uma URL de relay.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Isso não é um relay, nem um endereço Nostr, nem um nprofile';
+
+  @override
+  String get relaySetupSearch => 'Procurar';
+
+  @override
+  String get relaySetupHintNotFound =>
+      'Ali não há nenhuma lista de relays para sua conta';
+
+  @override
+  String get relaySetupHintUnreachable =>
+      'Não foi possível alcançar esse relay';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Esse endereço Nostr não indica nenhum relay';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Não foi possível resolver esse endereço Nostr';
+
+  @override
+  String get relaySetupFoundTitle => 'Lista de relays encontrada';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count relays',
+      one: '$count relay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Usar esta lista';
+
+  @override
+  String get relaySetupSearchAgain => 'Procurar em outro lugar';
+
+  @override
+  String get relaySetupOr => 'ou';
+
+  @override
+  String get relaySetupCreate => 'Criar uma nova lista de relays';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Publica uma lista com: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Continuar sem lista';
+
+  @override
+  String get relaySetupContinueAnyway => 'Continuar mesmo assim';
 }

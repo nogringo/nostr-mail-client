@@ -1453,4 +1453,104 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Цветение';
+
+  @override
+  String get relaySetupSearching => 'Поиск вашего списка реле...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Ни одно реле недоступно';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Пока ни одно реле не ответило, невозможно понять, существует ли ваш список. Проверьте подключение и попробуйте снова.';
+
+  @override
+  String get relaySetupRetry => 'Повторить';
+
+  @override
+  String get relaySetupMissingTitle => 'Не удалось найти ваш список реле';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Список реле подсказывает приложениям, где живёт ваша учётная запись. Если он у вас есть, укажите, где искать. Если нет, вы можете создать его сейчас.';
+
+  @override
+  String get relaySetupHintLabel => 'Где искать?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Реле, адрес Nostr или nprofile. Может быть и чужой.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Введите реле, адрес Nostr или nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'npub не содержит реле. Используйте nprofile, адрес Nostr или URL реле.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Это не реле, не адрес Nostr и не nprofile';
+
+  @override
+  String get relaySetupSearch => 'Искать';
+
+  @override
+  String get relaySetupHintNotFound =>
+      'Там нет списка реле для вашей учётной записи';
+
+  @override
+  String get relaySetupHintUnreachable =>
+      'Не удалось подключиться к этому реле';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Этот адрес Nostr не указывает ни одного реле';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Не удалось разрешить этот адрес Nostr';
+
+  @override
+  String get relaySetupFoundTitle => 'Список реле найден';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count реле',
+      many: '$count реле',
+      few: '$count реле',
+      one: '$count реле',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Использовать этот список';
+
+  @override
+  String get relaySetupSearchAgain => 'Искать в другом месте';
+
+  @override
+  String get relaySetupOr => 'или';
+
+  @override
+  String get relaySetupCreate => 'Создать новый список реле';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Опубликует список: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Продолжить без списка';
+
+  @override
+  String get relaySetupContinueAnyway => 'Всё равно продолжить';
 }

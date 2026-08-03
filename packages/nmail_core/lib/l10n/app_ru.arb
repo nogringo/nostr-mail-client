@@ -570,5 +570,42 @@
   "notFoundBackToInbox": "Вернуться во входящие",
   "backgroundPresetAnimatedWaves": "Анимированные волны",
   "backgroundPresetSoftGradient": "Мягкий градиент",
-  "backgroundPresetBloomImage": "Цветение"
+  "backgroundPresetBloomImage": "Цветение",
+
+  "relaySetupSearching": "Поиск вашего списка реле...",
+  "relaySetupUnreachableTitle": "Ни одно реле недоступно",
+  "relaySetupUnreachableDescription": "Пока ни одно реле не ответило, невозможно понять, существует ли ваш список. Проверьте подключение и попробуйте снова.",
+  "relaySetupRetry": "Повторить",
+  "relaySetupMissingTitle": "Не удалось найти ваш список реле",
+  "relaySetupMissingDescription": "Список реле подсказывает приложениям, где живёт ваша учётная запись. Если он у вас есть, укажите, где искать. Если нет, вы можете создать его сейчас.",
+  "relaySetupHintLabel": "Где искать?",
+  "relaySetupHintHelper": "Реле, адрес Nostr или nprofile. Может быть и чужой.",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "Введите реле, адрес Nostr или nprofile",
+  "relaySetupHintErrorNpub": "npub не содержит реле. Используйте nprofile, адрес Nostr или URL реле.",
+  "relaySetupHintErrorMalformed": "Это не реле, не адрес Nostr и не nprofile",
+  "relaySetupSearch": "Искать",
+  "relaySetupHintNotFound": "Там нет списка реле для вашей учётной записи",
+  "relaySetupHintUnreachable": "Не удалось подключиться к этому реле",
+  "relaySetupHintNip05NotFound": "Этот адрес Nostr не указывает ни одного реле",
+  "relaySetupHintNip05Unreachable": "Не удалось разрешить этот адрес Nostr",
+  "relaySetupFoundTitle": "Список реле найден",
+  "relaySetupFoundCount": "{count, plural, one{{count} реле} few{{count} реле} many{{count} реле} other{{count} реле}}",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "Использовать этот список",
+  "relaySetupSearchAgain": "Искать в другом месте",
+  "relaySetupOr": "или",
+  "relaySetupCreate": "Создать новый список реле",
+  "relaySetupCreateDescription": "Опубликует список: {relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "Продолжить без списка",
+  "relaySetupContinueAnyway": "Всё равно продолжить"
 }

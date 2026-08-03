@@ -33,6 +33,10 @@ Releases prior to 0.13.0 are listed on the
   into cards.
 - Improve the macOS DMG installer window with a custom background and icon
   layout for both app variants.
+- Publish your profile and relay list to the relays that index them, so another
+  app or a fresh device can find your account from your key alone.
+- Publish your message relay and media server lists to your own relays only,
+  since nothing reads them before your relay list has been found.
 
 ### Fixed
 

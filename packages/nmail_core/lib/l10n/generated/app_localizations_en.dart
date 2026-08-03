@@ -1435,4 +1435,99 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Bloom Image';
+
+  @override
+  String get relaySetupSearching => 'Looking for your relay list...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'No relay could be reached';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'We can\'t tell whether your relay list exists until at least one relay answers. Check your connection and try again.';
+
+  @override
+  String get relaySetupRetry => 'Try again';
+
+  @override
+  String get relaySetupMissingTitle => 'We couldn\'t find your relay list';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Your relay list tells apps where your account lives. If you have one, tell us where to look. If you don\'t, you can create one now.';
+
+  @override
+  String get relaySetupHintLabel => 'Where should we look?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'A relay, a Nostr address, or an nprofile. It can be someone else\'s.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Enter a relay, a Nostr address, or an nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'An npub carries no relay. Use an nprofile, a Nostr address, or a relay URL.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'This isn\'t a relay, a Nostr address, or an nprofile';
+
+  @override
+  String get relaySetupSearch => 'Search';
+
+  @override
+  String get relaySetupHintNotFound => 'No relay list there for your account';
+
+  @override
+  String get relaySetupHintUnreachable => 'Couldn\'t reach that relay';
+
+  @override
+  String get relaySetupHintNip05NotFound => 'That Nostr address names no relay';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Couldn\'t resolve that Nostr address';
+
+  @override
+  String get relaySetupFoundTitle => 'Relay list found';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count relays',
+      one: '1 relay',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Use this list';
+
+  @override
+  String get relaySetupSearchAgain => 'Search somewhere else';
+
+  @override
+  String get relaySetupOr => 'or';
+
+  @override
+  String get relaySetupCreate => 'Create a new relay list';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Publishes a list with: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Continue without a list';
+
+  @override
+  String get relaySetupContinueAnyway => 'Continue anyway';
 }

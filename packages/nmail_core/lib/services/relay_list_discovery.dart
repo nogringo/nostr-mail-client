@@ -1,0 +1,106 @@
+import 'dart:async';
+
+import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
+import 'package:get/get.dart';
+import 'package:ndk/entities.dart';
+import 'package:ndk/ndk.dart';
+
+import 'package:nmail_core/config/nostr_config.dart';
+import 'package:nmail_core/models/relay_list_discovery_result.dart';
+
+/// Searches the network for a user's NIP-65 relay list (kind 10002).
+///
+/// Deliberately bypasses `ndk.userRelayLists`: that one reads the cache first,
+/// gives no control over which relays are queried, and silently falls back to
+/// the kind 3 contact list, which is not a NIP-65 list.
+class RelayListDiscovery {
+  final Ndk _ndk;
+
+  /// Observed for the whole lifetime of the instance, not just during a query:
+  /// a single query window can be too narrow to catch an emission, and telling
+  /// "no list" from "no network" hangs on this map.
+  StreamSubscription<Map<String, RelayConnectivity>>? _connectivitySub;
+  Map<String, RelayConnectivity>? _connectivity;
+
+  RelayListDiscovery(this._ndk) {
+    _connectivitySub = _ndk.connectivity.relayConnectivityChanges.listen(
+      (map) => _connectivity = map,
+    );
+  }
+
+  void dispose() {
+    _connectivitySub?.cancel();
+    _connectivitySub = null;
+  }
+
+  static const _relayListKind = 10002;
+
+  /// Every relay worth asking, in one pass: the ones the account is likely to
+  /// have published to, plus the ones that index kind 10002 network-wide.
+  ///
+  /// One pass rather than two, because a query resolves only once every relay
+  /// has sent its EOSE, never on the first hit. Splitting it would pay the
+  /// slowest relay twice for no extra coverage.
+  Future<RelayListDiscoveryResult> searchEverywhere(String pubkey) {
+    return searchOn(pubkey, {
+      ...NostrConfig.bootstrapRelays,
+      ...NostrConfig.popularRelays,
+      ...NostrConfig.discoveryRelays,
+    }.toList());
+  }
+
+  Future<RelayListDiscoveryResult> searchOn(
+    String pubkey,
+    List<String> relays, {
+    Duration timeout = const Duration(seconds: 12),
+  }) async {
+    if (relays.isEmpty) return const RelayListUnreachable();
+
+    List<Nip01Event> events;
+    try {
+      final response = _ndk.requests.query(
+        filter: Filter(kinds: [_relayListKind], authors: [pubkey], limit: 1),
+        explicitRelays: relays,
+        cacheRead: false,
+      );
+      events = await response.future.timeout(
+        timeout,
+        onTimeout: () => const [],
+      );
+    } catch (_) {
+      events = const [];
+    }
+
+    if (events.isNotEmpty) {
+      final latest = events.reduce(
+        (a, b) => a.createdAt > b.createdAt ? a : b,
+      );
+      final nip65 = Nip65.fromEvent(latest);
+      if (nip65.relays.isNotEmpty) {
+        return RelayListFound(event: latest, relays: nip65.relays);
+      }
+    }
+
+    // An empty result only means "no list" if something actually answered.
+    final observed = _connectivity;
+    if (observed != null && !observed.values.any((c) => c.isConnected)) {
+      return const RelayListUnreachable();
+    }
+    return const RelayListMissing();
+  }
+
+  /// Caches the found list so every reader picks it up, and rebroadcasts the
+  /// event untouched so the next app on the next device finds it too.
+  Future<void> adopt(RelayListFound found) async {
+    final userRelayList = UserRelayList.fromNip65(Nip65.fromEvent(found.event));
+    await _ndk.config.cache.saveUserRelayList(userRelayList);
+    await Get.find<OfflineBroadcast>().broadcast(
+      found.event,
+      relays: {
+        ...NostrConfig.popularRelays,
+        ...NostrConfig.discoveryRelays,
+      }.toList(),
+      pubkey: found.event.pubKey,
+    );
+  }
+}

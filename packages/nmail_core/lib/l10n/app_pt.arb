@@ -576,5 +576,42 @@
   "notFoundBackToInbox": "Voltar à caixa de entrada",
   "backgroundPresetAnimatedWaves": "Ondas animadas",
   "backgroundPresetSoftGradient": "Gradiente suave",
-  "backgroundPresetBloomImage": "Floração"
+  "backgroundPresetBloomImage": "Floração",
+
+  "relaySetupSearching": "A procurar a sua lista de relés...",
+  "relaySetupUnreachableTitle": "Nenhum relé acessível",
+  "relaySetupUnreachableDescription": "Enquanto nenhum relé responder, não é possível saber se a sua lista existe. Verifique a ligação e tente novamente.",
+  "relaySetupRetry": "Tentar novamente",
+  "relaySetupMissingTitle": "Não encontrámos a sua lista de relés",
+  "relaySetupMissingDescription": "A sua lista de relés diz às aplicações onde vive a sua conta. Se tiver uma, diga-nos onde procurar. Caso contrário, pode criar uma agora.",
+  "relaySetupHintLabel": "Onde devemos procurar?",
+  "relaySetupHintHelper": "Um relé, um endereço Nostr ou um nprofile. Pode ser o de outra pessoa.",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "Introduza um relé, um endereço Nostr ou um nprofile",
+  "relaySetupHintErrorNpub": "Um npub não contém qualquer relé. Use um nprofile, um endereço Nostr ou um URL de relé.",
+  "relaySetupHintErrorMalformed": "Isto não é um relé, nem um endereço Nostr, nem um nprofile",
+  "relaySetupSearch": "Procurar",
+  "relaySetupHintNotFound": "Aí não existe nenhuma lista de relés para a sua conta",
+  "relaySetupHintUnreachable": "Não foi possível contactar esse relé",
+  "relaySetupHintNip05NotFound": "Esse endereço Nostr não indica qualquer relé",
+  "relaySetupHintNip05Unreachable": "Não foi possível resolver esse endereço Nostr",
+  "relaySetupFoundTitle": "Lista de relés encontrada",
+  "relaySetupFoundCount": "{count, plural, one{{count} relé} other{{count} relés}}",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "Usar esta lista",
+  "relaySetupSearchAgain": "Procurar noutro sítio",
+  "relaySetupOr": "ou",
+  "relaySetupCreate": "Criar uma nova lista de relés",
+  "relaySetupCreateDescription": "Publica uma lista com: {relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "Continuar sem lista",
+  "relaySetupContinueAnyway": "Continuar mesmo assim"
 }

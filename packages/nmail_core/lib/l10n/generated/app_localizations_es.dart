@@ -1444,4 +1444,101 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Floración';
+
+  @override
+  String get relaySetupSearching => 'Buscando tu lista de relés...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Ningún relé accesible';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Mientras ningún relé responda, no podemos saber si tu lista existe. Comprueba tu conexión e inténtalo de nuevo.';
+
+  @override
+  String get relaySetupRetry => 'Reintentar';
+
+  @override
+  String get relaySetupMissingTitle => 'No encontramos tu lista de relés';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Tu lista de relés indica a las aplicaciones dónde vive tu cuenta. Si tienes una, dinos dónde buscar. Si no, puedes crear una ahora.';
+
+  @override
+  String get relaySetupHintLabel => '¿Dónde debemos buscar?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Un relé, una dirección Nostr o un nprofile. Puede ser el de otra persona.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty =>
+      'Escribe un relé, una dirección Nostr o un nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'Un npub no contiene ningún relé. Usa un nprofile, una dirección Nostr o una URL de relé.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Esto no es un relé, ni una dirección Nostr, ni un nprofile';
+
+  @override
+  String get relaySetupSearch => 'Buscar';
+
+  @override
+  String get relaySetupHintNotFound =>
+      'Ahí no hay ninguna lista de relés para tu cuenta';
+
+  @override
+  String get relaySetupHintUnreachable => 'No se pudo conectar con ese relé';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Esa dirección Nostr no indica ningún relé';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'No se pudo resolver esa dirección Nostr';
+
+  @override
+  String get relaySetupFoundTitle => 'Lista de relés encontrada';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count relés',
+      one: '$count relé',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Usar esta lista';
+
+  @override
+  String get relaySetupSearchAgain => 'Buscar en otro sitio';
+
+  @override
+  String get relaySetupOr => 'o';
+
+  @override
+  String get relaySetupCreate => 'Crear una nueva lista de relés';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Publica una lista con: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Continuar sin lista';
+
+  @override
+  String get relaySetupContinueAnyway => 'Continuar de todos modos';
 }

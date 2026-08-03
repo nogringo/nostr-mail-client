@@ -179,11 +179,15 @@ class ProfileController extends GetxController {
       final account = ndk.accounts.getLoggedAccount()!;
       final signed = await account.signer.sign(metadata.toEvent());
       await ndk.config.cache.saveMetadata(metadata);
-      // Signaling event: broadcast widely (popular + outbox).
+      // Signaling event: broadcast widely (popular + indexers + outbox).
       final outbox = await Get.find<NostrMailService>().getOutboxRelays();
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
-        relays: {...NostrConfig.popularRelays, ...outbox}.toList(),
+        relays: {
+          ...NostrConfig.popularRelays,
+          ...NostrConfig.discoveryRelays,
+          ...outbox,
+        }.toList(),
         pubkey: account.pubkey,
       );
 

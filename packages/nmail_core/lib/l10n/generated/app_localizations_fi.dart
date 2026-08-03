@@ -1441,4 +1441,99 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get backgroundPresetBloomImage => 'Kukinta';
+
+  @override
+  String get relaySetupSearching => 'Etsitään releluetteloasi...';
+
+  @override
+  String get relaySetupUnreachableTitle => 'Yhtään relettä ei tavoitettu';
+
+  @override
+  String get relaySetupUnreachableDescription =>
+      'Niin kauan kuin yksikään rele ei vastaa, emme voi tietää onko luettelosi olemassa. Tarkista yhteytesi ja yritä uudelleen.';
+
+  @override
+  String get relaySetupRetry => 'Yritä uudelleen';
+
+  @override
+  String get relaySetupMissingTitle => 'Releluetteloasi ei löytynyt';
+
+  @override
+  String get relaySetupMissingDescription =>
+      'Releluettelosi kertoo sovelluksille, missä tilisi asuu. Jos sinulla on sellainen, kerro mistä etsiä. Jos ei, voit luoda sen nyt.';
+
+  @override
+  String get relaySetupHintLabel => 'Mistä etsitään?';
+
+  @override
+  String get relaySetupHintHelper =>
+      'Rele, Nostr-osoite tai nprofile. Se voi olla myös jonkun toisen.';
+
+  @override
+  String get relaySetupHintHint => 'wss://relay.example.com';
+
+  @override
+  String get relaySetupHintErrorEmpty => 'Anna rele, Nostr-osoite tai nprofile';
+
+  @override
+  String get relaySetupHintErrorNpub =>
+      'npub ei sisällä yhtään relettä. Käytä nprofilea, Nostr-osoitetta tai releen URL-osoitetta.';
+
+  @override
+  String get relaySetupHintErrorMalformed =>
+      'Tämä ei ole rele, Nostr-osoite eikä nprofile';
+
+  @override
+  String get relaySetupSearch => 'Etsi';
+
+  @override
+  String get relaySetupHintNotFound => 'Siellä ei ole releluetteloa tilillesi';
+
+  @override
+  String get relaySetupHintUnreachable => 'Relettä ei tavoitettu';
+
+  @override
+  String get relaySetupHintNip05NotFound =>
+      'Tuo Nostr-osoite ei mainitse yhtään relettä';
+
+  @override
+  String get relaySetupHintNip05Unreachable =>
+      'Tuota Nostr-osoitetta ei voitu selvittää';
+
+  @override
+  String get relaySetupFoundTitle => 'Releluettelo löytyi';
+
+  @override
+  String relaySetupFoundCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count relettä',
+      one: '$count rele',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get relaySetupUseFoundList => 'Käytä tätä luetteloa';
+
+  @override
+  String get relaySetupSearchAgain => 'Etsi muualta';
+
+  @override
+  String get relaySetupOr => 'tai';
+
+  @override
+  String get relaySetupCreate => 'Luo uusi releluettelo';
+
+  @override
+  String relaySetupCreateDescription(String relays) {
+    return 'Julkaisee luettelon: $relays';
+  }
+
+  @override
+  String get relaySetupContinueWithout => 'Jatka ilman luetteloa';
+
+  @override
+  String get relaySetupContinueAnyway => 'Jatka silti';
 }

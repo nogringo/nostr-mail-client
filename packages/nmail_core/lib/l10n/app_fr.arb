@@ -570,5 +570,42 @@
   "notFoundBackToInbox": "Retour à la boîte de réception",
   "backgroundPresetAnimatedWaves": "Ondes animées",
   "backgroundPresetSoftGradient": "Dégradé doux",
-  "backgroundPresetBloomImage": "Floraison"
+  "backgroundPresetBloomImage": "Floraison",
+
+  "relaySetupSearching": "Recherche de votre liste de relais...",
+  "relaySetupUnreachableTitle": "Aucun relais joignable",
+  "relaySetupUnreachableDescription": "Tant qu'aucun relais ne répond, impossible de savoir si votre liste existe. Vérifiez votre connexion et réessayez.",
+  "relaySetupRetry": "Réessayer",
+  "relaySetupMissingTitle": "Liste de relais introuvable",
+  "relaySetupMissingDescription": "Votre liste de relais indique aux applications où vit votre compte. Si vous en avez une, dites-nous où chercher. Sinon, vous pouvez en créer une maintenant.",
+  "relaySetupHintLabel": "Où faut-il chercher ?",
+  "relaySetupHintHelper": "Un relais, une adresse Nostr ou un nprofile. Il peut être celui de quelqu'un d'autre.",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "Saisissez un relais, une adresse Nostr ou un nprofile",
+  "relaySetupHintErrorNpub": "Un npub ne contient aucun relais. Utilisez un nprofile, une adresse Nostr ou une URL de relais.",
+  "relaySetupHintErrorMalformed": "Ce n'est ni un relais, ni une adresse Nostr, ni un nprofile",
+  "relaySetupSearch": "Rechercher",
+  "relaySetupHintNotFound": "Aucune liste de relais pour votre compte à cet endroit",
+  "relaySetupHintUnreachable": "Ce relais est injoignable",
+  "relaySetupHintNip05NotFound": "Cette adresse Nostr n'indique aucun relais",
+  "relaySetupHintNip05Unreachable": "Impossible de résoudre cette adresse Nostr",
+  "relaySetupFoundTitle": "Liste de relais trouvée",
+  "relaySetupFoundCount": "{count, plural, one{{count} relais} other{{count} relais}}",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "Utiliser cette liste",
+  "relaySetupSearchAgain": "Chercher ailleurs",
+  "relaySetupOr": "ou",
+  "relaySetupCreate": "Créer une nouvelle liste de relais",
+  "relaySetupCreateDescription": "Publie une liste avec : {relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "Continuer sans liste",
+  "relaySetupContinueAnyway": "Continuer quand même"
 }

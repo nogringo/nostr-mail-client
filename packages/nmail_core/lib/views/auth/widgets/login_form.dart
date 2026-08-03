@@ -23,7 +23,12 @@ class LoginForm extends GetView<AuthController> {
             ndkFlutter: controller.ndkFlutter,
             onLoggedIn: () async {
               await controller.onLoggedIn();
-              if (context.mounted) context.go(AppRoutes.inbox);
+              if (!context.mounted) return;
+              context.go(
+                controller.needsRelayListSetup.value
+                    ? AppRoutes.relaySetup
+                    : AppRoutes.inbox,
+              );
             },
             nsecLabelText: l.authSyncCodeLabel,
             enableNip07Login: false,

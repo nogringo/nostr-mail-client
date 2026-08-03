@@ -576,5 +576,42 @@
   "notFoundBackToInbox": "Voltar para a caixa de entrada",
   "backgroundPresetAnimatedWaves": "Ondas animadas",
   "backgroundPresetSoftGradient": "Gradiente suave",
-  "backgroundPresetBloomImage": "Floração"
+  "backgroundPresetBloomImage": "Floração",
+
+  "relaySetupSearching": "Procurando sua lista de relays...",
+  "relaySetupUnreachableTitle": "Nenhum relay acessível",
+  "relaySetupUnreachableDescription": "Enquanto nenhum relay responder, não dá para saber se sua lista existe. Verifique sua conexão e tente novamente.",
+  "relaySetupRetry": "Tentar novamente",
+  "relaySetupMissingTitle": "Não encontramos sua lista de relays",
+  "relaySetupMissingDescription": "Sua lista de relays diz aos aplicativos onde sua conta vive. Se você tem uma, diga onde procurar. Se não, pode criar uma agora.",
+  "relaySetupHintLabel": "Onde devemos procurar?",
+  "relaySetupHintHelper": "Um relay, um endereço Nostr ou um nprofile. Pode ser o de outra pessoa.",
+  "relaySetupHintHint": "wss://relay.example.com",
+  "relaySetupHintErrorEmpty": "Digite um relay, um endereço Nostr ou um nprofile",
+  "relaySetupHintErrorNpub": "Um npub não contém nenhum relay. Use um nprofile, um endereço Nostr ou uma URL de relay.",
+  "relaySetupHintErrorMalformed": "Isso não é um relay, nem um endereço Nostr, nem um nprofile",
+  "relaySetupSearch": "Procurar",
+  "relaySetupHintNotFound": "Ali não há nenhuma lista de relays para sua conta",
+  "relaySetupHintUnreachable": "Não foi possível alcançar esse relay",
+  "relaySetupHintNip05NotFound": "Esse endereço Nostr não indica nenhum relay",
+  "relaySetupHintNip05Unreachable": "Não foi possível resolver esse endereço Nostr",
+  "relaySetupFoundTitle": "Lista de relays encontrada",
+  "relaySetupFoundCount": "{count, plural, one{{count} relay} other{{count} relays}}",
+  "@relaySetupFoundCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "relaySetupUseFoundList": "Usar esta lista",
+  "relaySetupSearchAgain": "Procurar em outro lugar",
+  "relaySetupOr": "ou",
+  "relaySetupCreate": "Criar uma nova lista de relays",
+  "relaySetupCreateDescription": "Publica uma lista com: {relays}",
+  "@relaySetupCreateDescription": {
+    "placeholders": {
+      "relays": { "type": "String" }
+    }
+  },
+  "relaySetupContinueWithout": "Continuar sem lista",
+  "relaySetupContinueAnyway": "Continuar mesmo assim"
 }
