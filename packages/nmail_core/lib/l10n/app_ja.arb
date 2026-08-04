@@ -171,6 +171,7 @@
   },
   "connectivityConnected": "接続中",
   "connectivityDisconnected": "未接続",
+  "connectivityDeviceOffline": "ネットワークに接続されていません",
 
   "syncStatusSectionTitle": "同期ステータス",
   "syncStatusEmpty": "同期データがありません",

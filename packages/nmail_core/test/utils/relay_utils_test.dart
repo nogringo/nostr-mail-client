@@ -87,5 +87,45 @@ void main() {
         expect(isValidRelayUrl('wss://'), isFalse);
       });
     });
+
+    group('isLocalRelayUrl', () {
+      test('should return true for loopback', () {
+        expect(isLocalRelayUrl('ws://localhost:4869'), isTrue);
+        expect(isLocalRelayUrl('ws://127.0.0.1:4869'), isTrue);
+        expect(isLocalRelayUrl('ws://[::1]:4869'), isTrue);
+      });
+
+      test('should return true for private LAN ranges', () {
+        expect(isLocalRelayUrl('ws://192.168.1.50:8080'), isTrue);
+        expect(isLocalRelayUrl('ws://10.0.0.5:8080'), isTrue);
+        expect(isLocalRelayUrl('ws://172.16.0.1:8080'), isTrue);
+        expect(isLocalRelayUrl('ws://172.31.255.254:8080'), isTrue);
+        expect(isLocalRelayUrl('ws://169.254.1.1:8080'), isTrue);
+      });
+
+      test('should return true for mDNS and bare hostnames', () {
+        expect(isLocalRelayUrl('ws://nas.local:8080'), isTrue);
+        expect(isLocalRelayUrl('ws://citrine:4869'), isTrue);
+      });
+
+      test('should return false for public relays', () {
+        expect(isLocalRelayUrl('wss://relay.damus.io'), isFalse);
+        expect(isLocalRelayUrl('wss://nos.lol'), isFalse);
+        expect(isLocalRelayUrl('wss://8.8.8.8'), isFalse);
+      });
+
+      test('should not mistake a public host for a private range', () {
+        expect(isLocalRelayUrl('wss://172.15.0.1'), isFalse);
+        expect(isLocalRelayUrl('wss://172.32.0.1'), isFalse);
+        expect(isLocalRelayUrl('wss://192.169.1.1'), isFalse);
+        expect(isLocalRelayUrl('wss://fdns.example.com'), isFalse);
+        expect(isLocalRelayUrl('wss://localhost.example.com'), isFalse);
+      });
+
+      test('should return false for unparseable input', () {
+        expect(isLocalRelayUrl(''), isFalse);
+        expect(isLocalRelayUrl('wss://'), isFalse);
+      });
+    });
   });
 }

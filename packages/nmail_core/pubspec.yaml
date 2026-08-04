@@ -14,6 +14,7 @@ dependencies:
   blossom_upload_queue_shim_for_ndk: ^0.6.0
   broadcast_queue_shim_for_ndk: ^0.4.0
   collection: ^1.19.1
+  connectivity_plus: ^7.3.1
   crypto: ^3.0.7
   enough_mail_plus: ^2.2.4
   file_picker: ^11.0.2

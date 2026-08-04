@@ -38,6 +38,7 @@ Current package metadata:
 | Address book | `nostr_address_book`, `vcard_dart` |
 | Local database / cache | `sembast`, `sembast_web`, `sqflite`, `sqflite_common_ffi`, `idb_shim` |
 | Offline queues | `broadcast_queue_shim_for_ndk`, `blossom_upload_queue_shim_for_ndk` |
+| Device connectivity | `connectivity_plus` |
 | Attachments / Blossom | `blossom_cache`, `file_picker`, `file_saver` |
 | Rich text editor | `flutter_quill`, `markdown_quill`, `vsc_quill_delta_to_html` |
 | MIME mail construction | `enough_mail_plus` |
@@ -165,6 +166,7 @@ The shared entry point is `packages/nmail_core/lib/app/bootstrap.dart`.
 - Creates `Ndk` with `NdkEventVerifier`, `NdkEventSignerFactory`, cache, bootstrap relays, and fetched ranges.
 - Registers `Ndk`, `NdkFlutter`, `MetadataService`, `NostrMailService`, `AuthController`, `ThemeService`, `SettingsController`, `NotificationService`, and `PushRegistrationService`.
 - Initializes Blossom cache plus offline broadcast/upload queues as permanent singletons.
+- Registers `DeviceConnectivityService`, which forces NDK relays past their connect backoff when the OS regains a network.
 - Runs `InitialBinding` for `AddressBookService` and `ContactsService`.
 - Calls the distribution-specific `onReady` hook.
 - Starts `MainApp`.

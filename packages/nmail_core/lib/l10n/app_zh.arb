@@ -171,6 +171,7 @@
   },
   "connectivityConnected": "已连接",
   "connectivityDisconnected": "未连接",
+  "connectivityDeviceOffline": "无网络连接",
 
   "syncStatusSectionTitle": "同步状态",
   "syncStatusEmpty": "暂无同步数据",

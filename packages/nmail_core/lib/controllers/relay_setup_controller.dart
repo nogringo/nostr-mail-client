@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/models/relay_list_discovery_result.dart';
+import 'package:nmail_core/services/device_connectivity_service.dart';
 import 'package:nmail_core/services/relay_list_discovery.dart';
 import 'package:nmail_core/utils/relay_hint_parser.dart';
 
@@ -35,7 +38,15 @@ class RelaySetupController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
   final _ndk = Get.find<Ndk>();
-  late final RelayListDiscovery _discovery = RelayListDiscovery(_ndk);
+  final _device = Get.find<DeviceConnectivityService>();
+  late final RelayListDiscovery _discovery = RelayListDiscovery(
+    _ndk,
+    device: _device,
+  );
+  Worker? _onlineWorker;
+
+  /// An online edge that landed mid-search, replayed once the search settles.
+  bool _searchAgainWhenSettled = false;
 
   RelaySetupStage stage = RelaySetupStage.searching;
 
@@ -55,14 +66,41 @@ class RelaySetupController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _onlineWorker = ever(_device.isOffline, _handleOnlineEdge);
     _startAutoSearch();
   }
 
   @override
   void onClose() {
+    _onlineWorker?.dispose();
     _discovery.dispose();
     hintController.dispose();
     super.onClose();
+  }
+
+  /// The network came back, so recover without waiting for the retry button.
+  void _handleOnlineEdge(bool offline) {
+    if (offline || isLeaving) return;
+    if (stage == RelaySetupStage.searching) {
+      _searchAgainWhenSettled = true;
+      return;
+    }
+    if (stage != RelaySetupStage.unreachable) return;
+    unawaited(_recoverAfterOnlineEdge());
+  }
+
+  /// Rides the reconnect the service already scheduled instead of racing it
+  /// with one of its own: a force-reconnect fired before the network carries
+  /// traffic re-arms NDK's backoff on every relay.
+  Future<void> _recoverAfterOnlineEdge() async {
+    stage = RelaySetupStage.searching;
+    showProgress = true;
+    update();
+
+    await _device.reconnectSoon();
+    if (isClosed) return;
+
+    await _startAutoSearch(showProgressNow: true);
   }
 
   Future<void> _startAutoSearch({bool showProgressNow = false}) async {
@@ -86,6 +124,10 @@ class RelaySetupController extends GetxController {
         ? RelaySetupStage.unreachable
         : RelaySetupStage.missing;
     update();
+
+    if (!_searchAgainWhenSettled) return;
+    _searchAgainWhenSettled = false;
+    if (stage == RelaySetupStage.unreachable) await _recoverAfterOnlineEdge();
   }
 
   Future<void> retryAutoSearch() async {
@@ -95,18 +137,9 @@ class RelaySetupController extends GetxController {
     showProgress = true;
     update();
 
-    // A failed connect blocks the next try for FAIL_RELAY_CONNECT_TRY_AFTER_
-    // SECONDS, and `requests.query` never forces, so without this the button
-    // does nothing at all for a minute. Capped because tryReconnect awaits
-    // each relay in turn: offline that is 4s apiece.
-    //
-    // TODO: an app-wide connectivity_plus service would make this button a
-    // fallback rather than the only way back: call tryReconnect on the
-    // none -> connected edge (debounced, iOS and macOS emit duplicates), and
-    // let `RelayListDiscovery` answer Unreachable straight away on `none`
-    // instead of waiting out its timeout. Only its negative is trustworthy,
-    // so relay connectivity stays the source of truth.
-    await _ndk.connectivity.tryReconnect().timeout(
+    // Capped because the pass awaits each relay in turn: offline that is 4s
+    // apiece, and this one is on a button rather than a background edge.
+    await _device.reconnectNow().timeout(
       const Duration(seconds: 6),
       onTimeout: () {},
     );

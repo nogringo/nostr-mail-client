@@ -161,6 +161,7 @@
   },
   "connectivityConnected": "Ligado",
   "connectivityDisconnected": "Sem ligação",
+  "connectivityDeviceOffline": "Sem ligação de rede",
   "syncStatusSectionTitle": "Status de sincronização",
   "syncStatusEmpty": "Nenhum dado de sincronização disponível",
   "syncStatusResync": "Ressincronizar",

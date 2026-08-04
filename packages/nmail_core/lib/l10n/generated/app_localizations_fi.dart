@@ -445,6 +445,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get connectivityDisconnected => 'Ei yhteyttä';
 
   @override
+  String get connectivityDeviceOffline => 'Ei verkkoyhteyttä';
+
+  @override
   String get syncStatusSectionTitle => 'Synkronoinnin tila';
 
   @override

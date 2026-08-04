@@ -430,6 +430,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get connectivityDisconnected => '未接続';
 
   @override
+  String get connectivityDeviceOffline => 'ネットワークに接続されていません';
+
+  @override
   String get syncStatusSectionTitle => '同期ステータス';
 
   @override

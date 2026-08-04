@@ -171,6 +171,7 @@
   },
   "connectivityConnected": "Verbunden",
   "connectivityDisconnected": "Nicht verbunden",
+  "connectivityDeviceOffline": "Keine Netzwerkverbindung",
 
   "syncStatusSectionTitle": "Sync-Status",
   "syncStatusEmpty": "Keine Sync-Daten verfügbar",

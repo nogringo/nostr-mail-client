@@ -447,6 +447,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get connectivityDisconnected => 'Nicht verbunden';
 
   @override
+  String get connectivityDeviceOffline => 'Keine Netzwerkverbindung';
+
+  @override
   String get syncStatusSectionTitle => 'Sync-Status';
 
   @override

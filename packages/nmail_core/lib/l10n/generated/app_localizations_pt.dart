@@ -446,6 +446,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get connectivityDisconnected => 'Sem ligação';
 
   @override
+  String get connectivityDeviceOffline => 'Sem ligação de rede';
+
+  @override
   String get syncStatusSectionTitle => 'Status de sincronização';
 
   @override
@@ -1982,6 +1985,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get connectivityDisconnected => 'Sem conexão';
+
+  @override
+  String get connectivityDeviceOffline => 'Sem conexão de rede';
 
   @override
   String get syncStatusSectionTitle => 'Status de sincronização';

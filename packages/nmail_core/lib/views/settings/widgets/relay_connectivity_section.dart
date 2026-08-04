@@ -22,6 +22,7 @@ class RelayConnectivitySection extends StatelessWidget {
           RelayConnectivityTile(
             connectivity: controller.connectivityMap,
             connectedCount: controller.connectedCount,
+            isDeviceOffline: controller.isDeviceOffline,
           ),
         ],
       ),

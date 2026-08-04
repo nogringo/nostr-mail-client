@@ -307,6 +307,8 @@
   "@connectivityConnected": { "description": "Status of a relay the app is currently connected to" },
   "connectivityDisconnected": "Not connected",
   "@connectivityDisconnected": { "description": "Status of a relay the app is not connected to" },
+  "connectivityDeviceOffline": "No network connection",
+  "@connectivityDeviceOffline": { "description": "Shown under the relay count when the device itself has no network, to distinguish it from the relays being down" },
 
   "syncStatusSectionTitle": "Sync Status",
   "@syncStatusSectionTitle": { "description": "Section header for per-relay email sync status" },

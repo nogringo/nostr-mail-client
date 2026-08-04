@@ -28,6 +28,7 @@ import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
+import 'package:nmail_core/services/device_connectivity_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -117,6 +118,8 @@ Future<void> runNmailApp({
     db: storageService.db,
   )..start();
   Get.put(blossomUploadQueue, permanent: true);
+
+  Get.put(DeviceConnectivityService(), permanent: true);
 
   // Initialize Services and Controllers early for Middlewares
   Get.put(AccountLocalDataService(), permanent: true);

@@ -445,6 +445,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get connectivityDisconnected => 'Sin conexión';
 
   @override
+  String get connectivityDeviceOffline => 'Sin conexión de red';
+
+  @override
   String get syncStatusSectionTitle => 'Estado de sincronización';
 
   @override

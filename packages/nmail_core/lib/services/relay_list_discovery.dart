@@ -7,6 +7,8 @@ import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/models/relay_list_discovery_result.dart';
+import 'package:nmail_core/services/device_connectivity_service.dart';
+import 'package:nmail_core/utils/relay_utils.dart';
 
 /// Searches the network for a user's NIP-65 relay list (kind 10002).
 ///
@@ -15,6 +17,7 @@ import 'package:nmail_core/models/relay_list_discovery_result.dart';
 /// the kind 3 contact list, which is not a NIP-65 list.
 class RelayListDiscovery {
   final Ndk _ndk;
+  final DeviceConnectivityService? _device;
 
   /// Observed for the whole lifetime of the instance, not just during a query:
   /// a single query window can be too narrow to catch an emission, and telling
@@ -22,7 +25,7 @@ class RelayListDiscovery {
   StreamSubscription<Map<String, RelayConnectivity>>? _connectivitySub;
   Map<String, RelayConnectivity>? _connectivity;
 
-  RelayListDiscovery(this._ndk) {
+  RelayListDiscovery(this._ndk, {this._device}) {
     _connectivitySub = _ndk.connectivity.relayConnectivityChanges.listen(
       (map) => _connectivity = map,
     );
@@ -31,6 +34,14 @@ class RelayListDiscovery {
   void dispose() {
     _connectivitySub?.cancel();
     _connectivitySub = null;
+  }
+
+  /// Observed at least once, and nothing was up. A map still unset means "not
+  /// known yet", which is not the same as "nothing is connected": NDK fills it
+  /// the moment it starts dialling, so waiting for it costs nothing.
+  bool get _relaysProvenDown {
+    final observed = _connectivity;
+    return observed != null && !observed.values.any((c) => c.isConnected);
   }
 
   static const _relayListKind = 10002;
@@ -55,6 +66,16 @@ class RelayListDiscovery {
     Duration timeout = const Duration(seconds: 12),
   }) async {
     if (relays.isEmpty) return const RelayListUnreachable();
+
+    // Skip the timeout when every signal agrees there is nothing to reach. The
+    // OS verdict alone would not do: on Linux and Windows it comes from an
+    // internet probe a firewall can fail, and a local relay answers with no
+    // internet at all.
+    if (_device?.isOffline.value == true &&
+        _relaysProvenDown &&
+        !relays.any(isLocalRelayUrl)) {
+      return const RelayListUnreachable();
+    }
 
     List<Nip01Event> events;
     try {
@@ -82,10 +103,7 @@ class RelayListDiscovery {
     }
 
     // An empty result only means "no list" if something actually answered.
-    final observed = _connectivity;
-    if (observed != null && !observed.values.any((c) => c.isConnected)) {
-      return const RelayListUnreachable();
-    }
+    if (_relaysProvenDown) return const RelayListUnreachable();
     return const RelayListMissing();
   }
 

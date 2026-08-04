@@ -429,6 +429,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get connectivityDisconnected => '未连接';
 
   @override
+  String get connectivityDeviceOffline => '无网络连接';
+
+  @override
   String get syncStatusSectionTitle => '同步状态';
 
   @override

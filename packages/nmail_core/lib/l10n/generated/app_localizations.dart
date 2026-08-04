@@ -931,6 +931,12 @@ abstract class AppLocalizations {
   /// **'Not connected'**
   String get connectivityDisconnected;
 
+  /// Shown under the relay count when the device itself has no network, to distinguish it from the relays being down
+  ///
+  /// In en, this message translates to:
+  /// **'No network connection'**
+  String get connectivityDeviceOffline;
+
   /// Section header for per-relay email sync status
   ///
   /// In en, this message translates to:

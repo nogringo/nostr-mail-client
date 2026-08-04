@@ -171,6 +171,7 @@
   },
   "connectivityConnected": "Подключено",
   "connectivityDisconnected": "Нет подключения",
+  "connectivityDeviceOffline": "Нет сетевого подключения",
 
   "syncStatusSectionTitle": "Статус синхронизации",
   "syncStatusEmpty": "Нет данных о синхронизации",

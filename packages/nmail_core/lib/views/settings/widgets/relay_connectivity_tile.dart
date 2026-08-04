@@ -11,10 +11,12 @@ class RelayConnectivityTile extends StatelessWidget {
     super.key,
     required this.connectivity,
     required this.connectedCount,
+    required this.isDeviceOffline,
   });
 
   final Map<String, RelayConnectivity> connectivity;
   final int connectedCount;
+  final bool isDeviceOffline;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,9 @@ class RelayConnectivityTile extends StatelessWidget {
           title: Text(
             l.connectivityConnectedCount(connectedCount, connectivity.length),
           ),
+          subtitle: isDeviceOffline
+              ? Text(l.connectivityDeviceOffline)
+              : null,
           children: [
             for (final entry in connectivity.entries)
               RelayConnectivityRow(

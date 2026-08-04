@@ -26,6 +26,8 @@ Releases prior to 0.13.0 are listed on the
   animated waves and image backgrounds.
 - Delete your account from the settings: your relays are asked to erase your
   messages.
+- Show in the hosting settings when the device itself has no network, so it can
+  be told apart from your relays being down.
 
 ### Changed
 
@@ -37,6 +39,8 @@ Releases prior to 0.13.0 are listed on the
   app or a fresh device can find your account from your key alone.
 - Publish your message relay and media server lists to your own relays only,
   since nothing reads them before your relay list has been found.
+- Reconnect to your relays as soon as the device regains a network, and when the
+  app returns to the foreground, instead of waiting out the retry delay.
 
 ### Fixed
 
@@ -48,6 +52,10 @@ Releases prior to 0.13.0 are listed on the
 - Allow adding and downloading email attachments on macOS.
 - Keep the macOS app running when the last window is closed, matching native
   macOS behavior.
+- Leave the relay setup screen on its own once the network is back, instead of
+  waiting for a tap on Try again.
+- Report that no relay could be reached right away when the device has no
+  network, instead of waiting for the search to time out.
 
 ## [0.14.2]
 

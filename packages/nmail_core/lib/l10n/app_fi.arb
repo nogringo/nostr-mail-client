@@ -171,6 +171,7 @@
   },
   "connectivityConnected": "Yhdistetty",
   "connectivityDisconnected": "Ei yhteyttä",
+  "connectivityDeviceOffline": "Ei verkkoyhteyttä",
 
   "syncStatusSectionTitle": "Synkronoinnin tila",
   "syncStatusEmpty": "Synkronointitietoja ei saatavilla",

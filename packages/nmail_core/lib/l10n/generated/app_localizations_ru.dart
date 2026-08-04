@@ -447,6 +447,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get connectivityDisconnected => 'Нет подключения';
 
   @override
+  String get connectivityDeviceOffline => 'Нет сетевого подключения';
+
+  @override
   String get syncStatusSectionTitle => 'Статус синхронизации';
 
   @override
