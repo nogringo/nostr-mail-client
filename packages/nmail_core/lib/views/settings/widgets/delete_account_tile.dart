@@ -9,7 +9,11 @@ import 'delete_account_dialog.dart';
 import 'settings_action_tile.dart';
 
 class DeleteAccountTile extends StatelessWidget {
-  const DeleteAccountTile({super.key, required this.index, required this.count});
+  const DeleteAccountTile({
+    super.key,
+    required this.index,
+    required this.count,
+  });
 
   final int index;
   final int count;

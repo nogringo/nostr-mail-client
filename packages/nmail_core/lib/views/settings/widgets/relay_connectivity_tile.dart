@@ -41,9 +41,7 @@ class RelayConnectivityTile extends StatelessWidget {
           title: Text(
             l.connectivityConnectedCount(connectedCount, connectivity.length),
           ),
-          subtitle: isDeviceOffline
-              ? Text(l.connectivityDeviceOffline)
-              : null,
+          subtitle: isDeviceOffline ? Text(l.connectivityDeviceOffline) : null,
           children: [
             for (final entry in connectivity.entries)
               RelayConnectivityRow(

@@ -20,7 +20,10 @@ class NostrConfig {
 
   /// Relays that index kind 0 / 10002 for the whole network, queried when the
   /// user's NIP-65 list is not on the bootstrap relays.
-  static const discoveryRelays = ['wss://purplepag.es', 'wss://user.kindpag.es'];
+  static const discoveryRelays = [
+    'wss://purplepag.es',
+    'wss://user.kindpag.es',
+  ];
 
   static const recommendedInboxOutboxRelays = [
     'wss://relay.nmail.li',

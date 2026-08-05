@@ -61,10 +61,7 @@ void main() {
         );
         final result = parseRelayHint(nprofile);
         expect(result.hint!.kind, RelayHintKind.nprofile);
-        expect(result.hint!.relays, [
-          'wss://relay.damus.io',
-          'wss://nos.lol',
-        ]);
+        expect(result.hint!.relays, ['wss://relay.damus.io', 'wss://nos.lol']);
       });
 
       test('rejects an nprofile carrying no relay', () {

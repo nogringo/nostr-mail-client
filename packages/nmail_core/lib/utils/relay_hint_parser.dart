@@ -59,9 +59,7 @@ RelayHintParseResult parseRelayHint(String input) {
   final withoutScheme = trimmed.replaceFirst(RegExp('^nostr:'), '');
 
   if (withoutScheme.startsWith('npub1')) {
-    return const RelayHintParseResult.failure(
-      RelayHintError.npubWithoutRelays,
-    );
+    return const RelayHintParseResult.failure(RelayHintError.npubWithoutRelays);
   }
 
   if (withoutScheme.startsWith('nprofile1')) {

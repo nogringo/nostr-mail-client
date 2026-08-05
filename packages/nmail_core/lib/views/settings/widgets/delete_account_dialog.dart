@@ -101,7 +101,9 @@ class DeleteAccountDialog extends StatelessWidget {
                   backgroundColor: colorScheme.error,
                   foregroundColor: colorScheme.onError,
                 ),
-                onPressed: canDelete ? () => _delete(context, controller) : null,
+                onPressed: canDelete
+                    ? () => _delete(context, controller)
+                    : null,
                 child: isDeleting
                     ? const SizedBox(
                         width: 16,

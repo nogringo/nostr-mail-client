@@ -35,7 +35,8 @@ bool isLocalRelayUrl(String url) {
   }
 
   final octets = host.split('.').map(int.tryParse).toList();
-  if (octets.length == 4 && octets.every((o) => o != null && o >= 0 && o <= 255)) {
+  if (octets.length == 4 &&
+      octets.every((o) => o != null && o >= 0 && o <= 255)) {
     final first = octets[0]!;
     final second = octets[1]!;
     if (first == 127 || first == 10) return true;

@@ -53,11 +53,14 @@ class RelayListDiscovery {
   /// has sent its EOSE, never on the first hit. Splitting it would pay the
   /// slowest relay twice for no extra coverage.
   Future<RelayListDiscoveryResult> searchEverywhere(String pubkey) {
-    return searchOn(pubkey, {
-      ...NostrConfig.bootstrapRelays,
-      ...NostrConfig.popularRelays,
-      ...NostrConfig.discoveryRelays,
-    }.toList());
+    return searchOn(
+      pubkey,
+      {
+        ...NostrConfig.bootstrapRelays,
+        ...NostrConfig.popularRelays,
+        ...NostrConfig.discoveryRelays,
+      }.toList(),
+    );
   }
 
   Future<RelayListDiscoveryResult> searchOn(
@@ -93,9 +96,7 @@ class RelayListDiscovery {
     }
 
     if (events.isNotEmpty) {
-      final latest = events.reduce(
-        (a, b) => a.createdAt > b.createdAt ? a : b,
-      );
+      final latest = events.reduce((a, b) => a.createdAt > b.createdAt ? a : b);
       final nip65 = Nip65.fromEvent(latest);
       if (nip65.relays.isNotEmpty) {
         return RelayListFound(event: latest, relays: nip65.relays);

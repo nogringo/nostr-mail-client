@@ -60,14 +60,11 @@ class RelaySetupFoundPreview extends StatelessWidget {
                 formatRelayUrl(relays[i].key),
                 overflow: TextOverflow.ellipsis,
               ),
-              trailing: Icon(
-                switch (relays[i].value) {
-                  ReadWriteMarker.readOnly => Icons.south,
-                  ReadWriteMarker.writeOnly => Icons.north,
-                  ReadWriteMarker.readWrite => Icons.swap_vert,
-                },
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
+              trailing: Icon(switch (relays[i].value) {
+                ReadWriteMarker.readOnly => Icons.south,
+                ReadWriteMarker.writeOnly => Icons.north,
+                ReadWriteMarker.readWrite => Icons.swap_vert,
+              }, color: theme.colorScheme.onSurfaceVariant),
             ),
           ),
         const SizedBox(height: 24),

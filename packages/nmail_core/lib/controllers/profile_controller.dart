@@ -6,6 +6,7 @@ import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
+import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
@@ -196,8 +197,6 @@ class ProfileController extends GetxController {
       final authController = Get.find<AuthController>();
       authController.userMetadata.value = metadata;
       authController.userMetadata.refresh();
-
-      AppRouter.router.pop();
     } catch (e) {
       if (!isClosed) {
         isSaving.value = false;
@@ -205,6 +204,15 @@ class ProfileController extends GetxController {
         final l = AppLocalizations.of(Get.context!);
         ToastHelper.error(Get.context!, l.profileUpdateFailed);
       }
+      return;
+    }
+
+    // Reached via `context.go`, so there is typically nothing to pop.
+    final router = AppRouter.router;
+    if (router.canPop()) {
+      router.pop();
+    } else {
+      router.go(AppRoutes.inbox);
     }
   }
 }

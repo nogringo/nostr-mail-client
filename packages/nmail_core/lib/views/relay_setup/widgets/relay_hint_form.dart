@@ -40,7 +40,8 @@ class RelayHintForm extends StatelessWidget {
                 HintOutcome.notFound => l.relaySetupHintNotFound,
                 HintOutcome.unreachable => l.relaySetupHintUnreachable,
                 HintOutcome.nip05NotFound => l.relaySetupHintNip05NotFound,
-                HintOutcome.nip05Unreachable => l.relaySetupHintNip05Unreachable,
+                HintOutcome.nip05Unreachable =>
+                  l.relaySetupHintNip05Unreachable,
               },
             ),
             validator: (value) => switch (parseRelayHint(value ?? '').error) {

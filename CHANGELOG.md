@@ -56,6 +56,8 @@ Releases prior to 0.13.0 are listed on the
   waiting for a tap on Try again.
 - Report that no relay could be reached right away when the device has no
   network, instead of waiting for the search to time out.
+- Stop reporting a failure when saving your profile, which was in fact saved and
+  published every time.
 
 ## [0.14.2]
 
