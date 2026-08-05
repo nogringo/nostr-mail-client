@@ -51,11 +51,10 @@ import 'app_routes.dart';
 class AppRouter {
   AppRouter._();
 
-  /// Shared with GetX so `Get.context`, `Get.dialog`, `Get.snackbar` keep
-  /// working without a `GetMaterialApp`. They all read `Get.key.currentContext`.
+  /// Shared with GetX so `Get.context` keeps working without a
+  /// `GetMaterialApp`: it reads `Get.key.currentContext`.
   ///
-  /// TODO: drop GetX for navigation entirely. Replace `Get.dialog` with
-  /// `showDialog`, `Get.snackbar` with toastification, and pass `BuildContext`
+  /// TODO: drop GetX for navigation entirely by passing `BuildContext`
   /// through controllers instead of reading `Get.context!`. Once those are
   /// gone, this aliasing line can be deleted and `_rootNavigatorKey` can
   /// become a plain `GlobalKey<NavigatorState>()`.

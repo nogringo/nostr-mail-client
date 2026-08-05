@@ -2,35 +2,35 @@
 // TODO: Show warning when link text differs from actual URL (phishing detection)
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-Future<void> confirmOpenLink(String url) async {
-  final l = AppLocalizations.of(Get.context!);
-  final confirmed = await Get.dialog<bool>(
-    AlertDialog(
+Future<void> confirmOpenLink(BuildContext context, String url) async {
+  final l = AppLocalizations.of(context);
+  final confirmed = await showDialog<bool>(
+    context: context,
+    builder: (dialogContext) => AlertDialog(
       title: Text(l.linkOpenTitle),
       content: SelectableText(
         url,
-        style: TextStyle(color: Theme.of(Get.context!).colorScheme.primary),
+        style: TextStyle(color: Theme.of(dialogContext).colorScheme.primary),
       ),
       actions: [
         TextButton(
-          onPressed: () => Get.back(result: false),
+          onPressed: () => Navigator.pop(dialogContext, false),
           child: Text(l.actionCancel),
         ),
         TextButton(
           onPressed: () {
             Clipboard.setData(ClipboardData(text: url));
-            Get.back(result: false);
-            ToastHelper.success(Get.context!, l.linkCopied);
+            Navigator.pop(dialogContext, false);
+            ToastHelper.success(context, l.linkCopied);
           },
           child: Text(l.actionCopy),
         ),
         TextButton(
-          onPressed: () => Get.back(result: true),
+          onPressed: () => Navigator.pop(dialogContext, true),
           child: Text(l.actionOpen),
         ),
       ],

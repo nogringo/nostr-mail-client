@@ -13,6 +13,7 @@ class DesktopActionsBar extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final emailController = Get.find<EmailController>();
     final actions = buildEmailActions(
+      context,
       l,
       emailController,
       emailController.folder,

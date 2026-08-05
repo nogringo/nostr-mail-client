@@ -27,6 +27,7 @@ class EmailActions {
 /// context, so folder-specific actions (mark-read, archive/unarchive)
 /// are conservatively hidden.
 EmailActions buildEmailActions(
+  BuildContext context,
   AppLocalizations l,
   EmailController controller,
   MailFolder? folder,
@@ -100,7 +101,7 @@ EmailActions buildEmailActions(
     delete: EmailAction(
       icon: Icons.delete_outline,
       label: l.actionDelete,
-      onPressed: controller.deleteEmail,
+      onPressed: () => controller.deleteEmail(context),
     ),
   );
 }

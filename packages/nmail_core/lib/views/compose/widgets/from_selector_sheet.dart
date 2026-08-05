@@ -13,13 +13,17 @@ import '../../../widgets/nostr_avatar.dart';
 class FromSelectorSheet extends StatelessWidget {
   const FromSelectorSheet({super.key});
 
-  static Future<void> show() {
-    return Get.bottomSheet(
-      const FromSelectorSheet(),
-      backgroundColor: Get.theme.colorScheme.surface,
+  static Future<void> show(BuildContext context) {
+    return showModalBottomSheet(
+      context: context,
+      // Compose lives in the shell navigator, which would confine the sheet
+      // to the content area instead of the whole window.
+      useRootNavigator: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
+      builder: (context) => const FromSelectorSheet(),
     );
   }
 

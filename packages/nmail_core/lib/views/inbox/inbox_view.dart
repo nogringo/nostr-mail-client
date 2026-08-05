@@ -490,15 +490,19 @@ class InboxView extends GetView<InboxController> {
     final l = AppLocalizations.of(context);
     final oldCount = controller.oldEmailsCount.value;
 
-    Get.dialog(
-      AlertDialog(
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
         title: Text(l.inboxDeleteOldEmailsTitle),
         content: Text(l.inboxDeleteOldEmailsMessage(oldCount)),
         actions: [
-          TextButton(onPressed: () => Get.back(), child: Text(l.actionCancel)),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l.actionCancel),
+          ),
           TextButton(
             onPressed: () async {
-              Get.back(); // Close confirmation dialog
+              Navigator.pop(dialogContext);
 
               try {
                 await controller.deleteOldEmails();

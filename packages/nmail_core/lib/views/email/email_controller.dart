@@ -215,27 +215,28 @@ class EmailController extends GetxController {
     update();
   }
 
-  Future<void> deleteEmail() async {
+  Future<void> deleteEmail(BuildContext context) async {
     if (email == null) return;
 
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(context);
     final inboxController = Get.find<InboxController>();
     final isInTrash = folder == MailFolder.trash;
 
     if (isInTrash) {
-      final confirmed = await Get.dialog<bool>(
-        AlertDialog(
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
           title: Text(l.emailDeletePermanentlyTitle),
           content: Text(l.emailDeletePermanentlyMessage),
           actions: [
             TextButton(
-              onPressed: () => Get.back(result: false),
+              onPressed: () => Navigator.pop(dialogContext, false),
               child: Text(l.actionCancel),
             ),
             TextButton(
-              onPressed: () => Get.back(result: true),
+              onPressed: () => Navigator.pop(dialogContext, true),
               style: TextButton.styleFrom(
-                foregroundColor: Theme.of(Get.context!).colorScheme.error,
+                foregroundColor: Theme.of(dialogContext).colorScheme.error,
               ),
               child: Text(l.actionDelete),
             ),

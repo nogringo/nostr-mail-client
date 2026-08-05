@@ -15,7 +15,7 @@ class FromSelectorView extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return InkWell(
-      onTap: () => FromSelectorSheet.show(),
+      onTap: () => FromSelectorSheet.show(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(

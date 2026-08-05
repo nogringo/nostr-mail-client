@@ -66,7 +66,7 @@ class HtmlBodyView extends StatelessWidget {
                     return null;
                   },
             onTapUrl: (url) {
-              confirmOpenLink(url);
+              confirmOpenLink(context, url);
               return true;
             },
           ),
