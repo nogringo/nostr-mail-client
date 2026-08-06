@@ -32,8 +32,6 @@ import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
 import 'settings_controller.dart';
 
-// TODO: allow attachments renaming
-
 const String _defaultBridgeDomain = 'uid.ovh';
 
 class ComposeController extends GetxController {

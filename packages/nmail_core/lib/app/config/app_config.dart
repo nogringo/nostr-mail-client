@@ -3,6 +3,9 @@ class AppConfig {
   /// when user returns to the app from background
   static const syncDebounceDuration = Duration(seconds: 60);
 
+  /// How often the inbox reloads while watch events stream in
+  static const watchReloadThrottle = Duration(milliseconds: 300);
+
   static const sourceCodeUrl = 'https://github.com/nogringo/nostr-mail-client';
   static const licenseName = 'MIT';
   static const licenseUrl = '$sourceCodeUrl/blob/main/LICENSE';

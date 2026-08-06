@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
+import 'package:rxdart/rxdart.dart' hide Rx;
 
 import '../app/config/app_config.dart';
 import 'settings_controller.dart';
@@ -27,11 +28,13 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final Rx<DateTime?> _backgroundTime = Rx<DateTime?>(null);
   final RxSet<String> readEmailIds = <String>{}.obs;
 
-  StreamSubscription? _watchSubscription;
-  StreamSubscription? _labelWatchSubscription;
+  StreamSubscription? _notifySubscription;
+  StreamSubscription? _reloadSubscription;
   int _accountGeneration = 0;
   AppLifecycleState _lifecycleState = AppLifecycleState.resumed;
   DateTime? _watchStartedAt;
+  bool _isLoadingEmails = false;
+  bool _pendingReload = false;
 
   bool get isSearching => searchQuery.value.isNotEmpty;
   int get unreadCount => emails.length - readEmailIds.length;
@@ -159,8 +162,8 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   @override
   void onClose() {
     WidgetsBinding.instance.removeObserver(this);
-    _watchSubscription?.cancel();
-    _labelWatchSubscription?.cancel();
+    _notifySubscription?.cancel();
+    _reloadSubscription?.cancel();
     super.onClose();
   }
 
@@ -194,10 +197,10 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   Future<void> resetForAccountChange({MailFolder? folder}) async {
     _accountGeneration++;
-    await _watchSubscription?.cancel();
-    await _labelWatchSubscription?.cancel();
-    _watchSubscription = null;
-    _labelWatchSubscription = null;
+    await _notifySubscription?.cancel();
+    await _reloadSubscription?.cancel();
+    _notifySubscription = null;
+    _reloadSubscription = null;
 
     emails.clear();
     readEmailIds.clear();
@@ -220,7 +223,26 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     sync(); // Auto-sync from relays on startup/login
   }
 
+  /// Serialized so overlapping reloads cannot land out of order and leave the
+  /// list on an older snapshot. A request arriving mid-load runs right after.
   Future<void> _loadEmails() async {
+    if (_isLoadingEmails) {
+      _pendingReload = true;
+      return;
+    }
+
+    _isLoadingEmails = true;
+    try {
+      do {
+        _pendingReload = false;
+        await _queryEmails();
+      } while (_pendingReload);
+    } finally {
+      _isLoadingEmails = false;
+    }
+  }
+
+  Future<void> _queryEmails() async {
     final generation = _accountGeneration;
     final client = _nostrMailService.client;
 
@@ -272,21 +294,27 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   void _startWatching() {
     _watchStartedAt = DateTime.now();
-    // TODO: debounce both listeners. A bulk sync that surfaces N emails or
-    // N label events triggers N successive _loadEmails() calls (each a
-    // full local query + Rx rebuild). Merge both streams through a small
-    // debounce (e.g. 100ms via rxdart) once the cost becomes noticeable.
-    _watchSubscription = _nostrMailService.client.onEmail.listen((email) {
-      _loadEmails();
-      _notifyIncomingEmail(email);
-    }, onError: (e) {});
+    final client = _nostrMailService.client;
+
+    _notifySubscription = client.onEmail.listen(
+      _notifyIncomingEmail,
+      onError: (e) {},
+    );
+
     // Cross-device sync: label add/remove events from other devices arrive
     // via the label subscription in WatchManager. Reload so read/unread,
     // trash, archive and star state stay in sync without a manual refresh.
-    _labelWatchSubscription = _nostrMailService.client.onLabel.listen(
-      (_) => _loadEmails(),
-      onError: (e) {},
-    );
+    //
+    // Throttled, not debounced: a bulk sync emits continuously for seconds, so
+    // waiting for silence would leave the list empty until the very end.
+    // leading gives an immediate first paint, trailing the final state.
+    _reloadSubscription = MergeStream<Object>([client.onEmail, client.onLabel])
+        .throttleTime(
+          AppConfig.watchReloadThrottle,
+          leading: true,
+          trailing: true,
+        )
+        .listen((_) => _loadEmails(), onError: (e) {});
   }
 
   /// Surface a system notification for a genuinely new incoming email, but only
