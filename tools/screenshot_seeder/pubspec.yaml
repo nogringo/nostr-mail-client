@@ -6,14 +6,14 @@ environment:
 
 dependencies:
   args: ^2.7.0
-  blossom_cache: ^0.3.0
-  broadcast_queue_shim_for_ndk: ^0.2.1
+  blossom_cache: ^0.4.0
+  broadcast_queue_shim_for_ndk: ^0.4.0
   enough_mail_plus: ^2.2.4
-  ndk: ^0.8.4-dev.10
-  nostr_address_book: ^0.1.1
-  nostr_mail: ^2.5.0
+  ndk: 0.8.4-dev.10
+  nostr_address_book: ^0.2.0
+  nostr_mail: ^2.6.2
   path: ^1.9.1
-  sembast: ^3.8.6
+  sembast: ^3.8.9+1
 
 dev_dependencies:
-  lints: ^6.0.0
+  lints: ^6.1.0

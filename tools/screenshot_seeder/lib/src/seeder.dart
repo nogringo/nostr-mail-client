@@ -160,17 +160,13 @@ class ScreenshotSeeder {
     final addressBook = NostrAddressBook(
       ndk: runtime.ndk,
       database: runtime.db,
+      broadcastQueue: runtime.broadcastQueue,
     );
-    addressBook.broadcastQueue.start();
-    try {
-      for (final contact in seed.contacts) {
-        final vCard = _buildVCard(contact);
-        await addressBook.upsertVCard(vCard);
-      }
-      await addressBook.broadcastQueue.retryNow();
-    } finally {
-      await addressBook.dispose();
+    for (final contact in seed.contacts) {
+      final vCard = _buildVCard(contact);
+      await addressBook.upsertVCard(vCard);
     }
+    await runtime.broadcastQueue.retryNow();
     stdout.writeln('Published profile and ${seed.contacts.length} contacts');
   }
 

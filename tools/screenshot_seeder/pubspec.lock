@@ -77,26 +77,26 @@ packages:
     dependency: "direct main"
     description:
       name: blossom_cache
-      sha256: "0c5066f12afa2ea7ef504f1192f3375db4d3ea840fe49d76e6189ff09e9fd6e6"
+      sha256: "17ba1c11971657a000d2b4126773fffb4743232408a6310c8248c6974df1ba5f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0"
   blossom_upload_queue_shim_for_ndk:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: "4b9add65e43cb040bba07db9f9001b1746922e662005635077649d12a2c4bb77"
+      sha256: "75916e025bf8d3690f126d13b716dce3d8c69dd7d58d10861014ec5fceeb093f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.1"
+    version: "0.6.0"
   broadcast_queue_shim_for_ndk:
     dependency: "direct main"
     description:
       name: broadcast_queue_shim_for_ndk
-      sha256: dc11cbc4ed8270288f803f88474806de6f8d4584386300a22dbdb5914b9cf6a3
+      sha256: a673189ce012a193ef3d35fa22b13414b6b0f127dff98645da10a93716c8a83a
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1"
+    version: "0.4.0"
   bs58check:
     dependency: transitive
     description:
@@ -349,26 +349,26 @@ packages:
     dependency: "direct main"
     description:
       name: nostr_address_book
-      sha256: "4d7564e1b849d8a7c8de1e57420e5c12d077719c389382c7bbca8911632f5bf4"
+      sha256: "61be8b131c4f0f81732716f976f766e4547e1a2ec07444ca39720bc8168adb8a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1"
+    version: "0.2.0"
   nostr_event_scheduler:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: ee77470f2929b00739ca3bba077b2ed3c56760be5144086d41a96ae6dd52d852
+      sha256: "436546005850cc2cd46f2e7b06be1e43589e8c6d31e1886dc89429d041a4c883"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.3"
+    version: "0.3.0"
   nostr_mail:
     dependency: "direct main"
     description:
       name: nostr_mail
-      sha256: "98188db3ae878a6157881f3f0905acc70eaab6e21b9eb319f974b94eab7a060d"
+      sha256: b187206d3d3a4b3b729087e81af76e63fb90fb6192a9c61f61d1a472e099047d
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.2"
   path:
     dependency: "direct main"
     description:

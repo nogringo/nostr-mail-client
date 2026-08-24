@@ -53,6 +53,12 @@ class MemoryBlossomCache implements blossom.BlossomCache {
   Future<List<blossom.BlobDescriptor>> list() async =>
       _descriptors.values.toList();
 
+  @override
+  Future<void> clearAllLocalData() async {
+    _bytes.clear();
+    _descriptors.clear();
+  }
+
   Future<bool> _setPinned(String sha256, bool pinned) async {
     final current = _descriptors[sha256];
     if (current == null || current.pinned == pinned) return false;
