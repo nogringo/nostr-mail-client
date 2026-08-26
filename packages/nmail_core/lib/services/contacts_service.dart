@@ -9,6 +9,7 @@ import 'package:ndk/ndk.dart';
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/services/address_book_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class ContactsService extends GetxService {
@@ -157,18 +158,9 @@ class ContactsService extends GetxService {
       }
 
       // Batch load all metadata at once
-      final metadataMap = <String, Metadata>{};
-      if (allPubkeys.isNotEmpty) {
-        try {
-          final metadatas = await _ndk.metadata.loadMetadatas(
-            allPubkeys.toList(),
-            null,
-          );
-          for (final m in metadatas) {
-            metadataMap[m.pubKey] = m;
-          }
-        } catch (_) {}
-      }
+      final metadataMap = allPubkeys.isEmpty
+          ? const <String, Metadata>{}
+          : await Get.find<MetadataService>().loadMany(allPubkeys.toList());
 
       // Add Nostr contacts from pubkeyDates
       for (final entry in pubkeyDates.entries) {
@@ -256,16 +248,9 @@ class ContactsService extends GetxService {
       if (followPubkeys.isEmpty) return result;
 
       // Batch load all metadata at once
-      final metadataMap = <String, Metadata>{};
-      try {
-        final metadatas = await _ndk.metadata.loadMetadatas(
-          followPubkeys.toList(),
-          null,
-        );
-        for (final m in metadatas) {
-          metadataMap[m.pubKey] = m;
-        }
-      } catch (_) {}
+      final metadataMap = await Get.find<MetadataService>().loadMany(
+        followPubkeys.toList(),
+      );
 
       // Create contacts with loaded metadata
       for (final pubkey in followPubkeys) {
@@ -410,7 +395,7 @@ class ContactsService extends GetxService {
       // Fetch metadata for this pubkey
       Metadata? metadata;
       try {
-        metadata = await _ndk.metadata.loadMetadata(pubkey);
+        metadata = await Get.find<MetadataService>().load(pubkey);
       } catch (_) {}
 
       return Contact(

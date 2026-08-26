@@ -185,6 +185,7 @@ class MainApp extends StatelessWidget {
 
       return ToastificationWrapper(
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           title: 'Nmail',
           locale: settingsController.locale.value,
           theme: ThemeData.from(

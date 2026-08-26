@@ -1,6 +1,12 @@
 analyzer:
   exclude:
     - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
   errors:
     experimental_member_use: ignore
 include: package:flutter_lints/flutter.yaml

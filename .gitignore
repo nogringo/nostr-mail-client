@@ -56,5 +56,9 @@ app.*.map.json
 *.keystore
 android/key.properties
 
+# Local screenshot demo account private keys
+screenshots/seed-keys/*.json
+!screenshots/seed-keys/*.example.json
+
 # Local dependency overrides
 pubspec_overrides.yaml
