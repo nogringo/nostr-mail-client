@@ -63,6 +63,8 @@ class SeedProfile {
 class SeedContact {
   final String? key;
   final String displayName;
+  final String? username;
+  final String? about;
   final SeedBirthday? birthday;
   final List<String> emails;
   final List<String> phones;
@@ -71,6 +73,8 @@ class SeedContact {
   const SeedContact({
     required this.key,
     required this.displayName,
+    required this.username,
+    required this.about,
     required this.birthday,
     required this.emails,
     required this.phones,
@@ -81,6 +85,8 @@ class SeedContact {
     return SeedContact(
       key: json['key'] as String?,
       displayName: json['displayName'] as String,
+      username: json['username'] as String?,
+      about: json['about'] as String?,
       birthday: json['birthday'] == null
           ? null
           : SeedBirthday.fromJson(json['birthday'] as Map<String, dynamic>),

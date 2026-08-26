@@ -106,21 +106,35 @@ class ScreenshotSeeder {
   }
 
   Future<void> _publishPrimaryBootstrap(SeederRuntime runtime) async {
+    await _publishBootstrapRelayList(runtime, keys.primary);
+    stdout.writeln('Published kind:10002 to ${config.bootstrapRelay}');
+  }
+
+  /// The kind:10002 pointing at the data relay, on the bootstrap relay. Without
+  /// it the app never looks at the data relay for that author's profile.
+  Future<void> _publishBootstrapRelayList(
+    SeederRuntime runtime,
+    ScreenshotAccount account,
+  ) async {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     final relayList = UserRelayList(
-      pubKey: keys.primary.pubkey,
+      pubKey: account.pubkey,
       relays: {config.dataRelay: ReadWriteMarker.readWrite},
       createdAt: now,
       refreshedTimestamp: now,
     );
-    final signed = await runtime.sign(relayList.toNip65().toEvent());
+    final signed = await _signerFor(account).sign(relayList.toNip65().toEvent());
     await runtime.ndk.config.cache.saveUserRelayList(relayList);
     await runtime.broadcastQueue.broadcast(
       signed,
       relays: [config.bootstrapRelay],
     );
-    stdout.writeln('Published kind:10002 to ${config.bootstrapRelay}');
   }
+
+  EventSigner _signerFor(ScreenshotAccount account) => Bip340EventSigner(
+    privateKey: account.privateKey,
+    publicKey: account.pubkey,
+  );
 
   Future<void> _publishPrimaryData(SeederRuntime runtime) async {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -139,6 +153,7 @@ class ScreenshotSeeder {
       relays: [config.dataRelay],
     );
     await _publishBridgeMetadata(runtime);
+    await _publishContactProfiles(runtime);
 
     await _publishRelayListEvent(
       runtime: runtime,
@@ -183,13 +198,40 @@ class ScreenshotSeeder {
       about: 'SMTP bridge used for Nmail screenshot fixtures.',
       updatedAt: now,
     );
-    final signed = await Bip340EventSigner(
-      privateKey: bridge.privateKey,
-      publicKey: bridge.pubkey,
-    ).sign(metadata.toEvent());
+    final signed = await _signerFor(bridge).sign(metadata.toEvent());
     await runtime.ndk.config.cache.saveMetadata(metadata);
     await runtime.broadcastQueue.broadcast(signed, relays: [config.dataRelay]);
+    await _publishBootstrapRelayList(runtime, bridge);
     stdout.writeln('Published bridge profile to ${config.dataRelay}');
+  }
+
+  Future<void> _publishContactProfiles(SeederRuntime runtime) async {
+    var published = 0;
+    for (final contact in seed.contacts) {
+      final key = contact.key;
+      final account = key == null ? null : keys.senders[key];
+      if (account == null) continue;
+
+      final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+      final metadata = Metadata(
+        pubKey: account.pubkey,
+        name: contact.username,
+        displayName: contact.displayName,
+        about: contact.about,
+        updatedAt: now,
+      );
+      final signed = await _signerFor(account).sign(metadata.toEvent());
+      await runtime.ndk.config.cache.saveMetadata(metadata);
+      await runtime.broadcastQueue.broadcast(
+        signed,
+        relays: [config.dataRelay],
+      );
+      await _publishBootstrapRelayList(runtime, account);
+      published++;
+    }
+    if (published > 0) {
+      stdout.writeln('Published $published contact profiles');
+    }
   }
 
   Future<void> _publishRelayListEvent({
@@ -512,6 +554,7 @@ class ScreenshotSeeder {
     final lines = <String>[
       'BEGIN:VCARD',
       'VERSION:4.0',
+      'UID:${_contactUid(contact)}',
       'FN:${contact.displayName}',
     ];
     final birthday = contact.birthday;
@@ -533,6 +576,21 @@ class ScreenshotSeeder {
     lines.add('END:VCARD');
     return lines.join('\n');
   }
+
+  /// Stable across runs, so a re-run replaces the contact instead of adding a
+  /// second one: the uid becomes the `d` tag of the addressable event.
+  String _contactUid(SeedContact contact) {
+    final fallback = contact.emails.isEmpty
+        ? contact.displayName
+        : contact.emails.first.split('@').first;
+    final key = contact.key ?? _slug(fallback);
+    return 'urn:nmail-screenshot:${config.locale}:$key';
+  }
+
+  String _slug(String value) => value
+      .toLowerCase()
+      .replaceAll(RegExp(r'[^a-z0-9]+'), '-')
+      .replaceAll(RegExp(r'^-+|-+$'), '');
 
   List<String> _nostrPubkeysFor(SeedContact contact) {
     final key = contact.key;

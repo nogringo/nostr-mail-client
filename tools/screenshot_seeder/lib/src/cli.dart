@@ -84,7 +84,11 @@ void _printPlan(SeederConfig config, ScreenshotSeed seed, ScreenshotKeys keys) {
     stdout.writeln('  ${entry.key}: ${Nip19.encodePubKey(entry.value.pubkey)}');
   }
   stdout.writeln('');
+  final withNostrIdentity = seed.contacts
+      .where((contact) => keys.senders[contact.key] != null)
+      .length;
   stdout.writeln('Seed data');
   stdout.writeln('  contacts: ${seed.contacts.length}');
+  stdout.writeln('  contact profiles to publish: $withNostrIdentity');
   stdout.writeln('  inbox emails: ${seed.inbox.length}');
 }

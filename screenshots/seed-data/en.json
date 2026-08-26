@@ -9,6 +9,8 @@
     {
       "key": "contact1",
       "displayName": "Maya Chen",
+      "username": "maya",
+      "about": "Product design. Fewer notifications, better defaults.",
       "birthday": {
         "year": null,
         "month": 5,
@@ -27,6 +29,8 @@
     {
       "key": "contact2",
       "displayName": "Noah Patel",
+      "username": "noah",
+      "about": "Backend work, long walks, even longer coffees.",
       "birthday": {
         "year": 1990,
         "month": 9,
@@ -46,6 +50,8 @@
     {
       "key": "contact3",
       "displayName": "Elena Garcia",
+      "username": "elena",
+      "about": "Research, conference notes, and open protocols.",
       "birthday": {
         "year": null,
         "month": 11,
