@@ -9,6 +9,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -171,8 +172,9 @@ class EmailController extends GetxController {
 
   Future<void> loadSenderMetadata(Email loadedEmail) async {
     try {
-      final ndk = Get.find<Ndk>();
-      final meta = await ndk.metadata.loadMetadata(loadedEmail.senderPubkey);
+      final meta = await Get.find<MetadataService>().load(
+        loadedEmail.senderPubkey,
+      );
       if (meta != null) {
         senderMetadata = meta;
         update();
@@ -182,8 +184,9 @@ class EmailController extends GetxController {
 
   Future<void> loadRecipientMetadata(Email loadedEmail) async {
     try {
-      final ndk = Get.find<Ndk>();
-      final meta = await ndk.metadata.loadMetadata(loadedEmail.recipientPubkey);
+      final meta = await Get.find<MetadataService>().load(
+        loadedEmail.recipientPubkey,
+      );
       if (meta != null) {
         recipientMetadata = meta;
         update();
@@ -205,13 +208,9 @@ class EmailController extends GetxController {
     }
     if (pubkeys.isEmpty) return;
 
-    final metadatas = await Get.find<Ndk>().metadata.loadMetadatas(
-      pubkeys.toList(),
-      null,
+    recipientsMetadata.addAll(
+      await Get.find<MetadataService>().loadMany(pubkeys.toList()),
     );
-    for (final m in metadatas) {
-      recipientsMetadata[m.pubKey] = m;
-    }
     update();
   }
 

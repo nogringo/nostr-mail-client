@@ -20,6 +20,7 @@ import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 import '../app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_attachment.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/models/from_option.dart';
@@ -383,7 +384,7 @@ class ComposeController extends GetxController {
 
   Future<Metadata?> _fetchMetadata(String pubkey) async {
     try {
-      return await Get.find<Ndk>().metadata.loadMetadata(pubkey);
+      return await Get.find<MetadataService>().load(pubkey);
     } catch (_) {
       return null;
     }

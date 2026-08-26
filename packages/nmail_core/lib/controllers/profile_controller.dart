@@ -8,6 +8,7 @@ import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'auth_controller.dart';
@@ -59,8 +60,7 @@ class ProfileController extends GetxController {
     }
 
     try {
-      final ndk = Get.find<Ndk>();
-      final metadata = await ndk.metadata.loadMetadata(pubkey);
+      final metadata = await Get.find<MetadataService>().load(pubkey);
 
       if (metadata != null) {
         authController.userMetadata.value = metadata;

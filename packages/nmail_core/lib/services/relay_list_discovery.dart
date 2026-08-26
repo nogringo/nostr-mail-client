@@ -39,7 +39,7 @@ class RelayListDiscovery {
   /// Observed at least once, and nothing was up. A map still unset means "not
   /// known yet", which is not the same as "nothing is connected": NDK fills it
   /// the moment it starts dialling, so waiting for it costs nothing.
-  bool get _relaysProvenDown {
+  bool get relaysProvenDown {
     final observed = _connectivity;
     return observed != null && !observed.values.any((c) => c.isConnected);
   }
@@ -75,7 +75,7 @@ class RelayListDiscovery {
     // internet probe a firewall can fail, and a local relay answers with no
     // internet at all.
     if (_device?.isOffline.value == true &&
-        _relaysProvenDown &&
+        relaysProvenDown &&
         !relays.any(isLocalRelayUrl)) {
       return const RelayListUnreachable();
     }
@@ -104,8 +104,64 @@ class RelayListDiscovery {
     }
 
     // An empty result only means "no list" if something actually answered.
-    if (_relaysProvenDown) return const RelayListUnreachable();
+    if (relaysProvenDown) return const RelayListUnreachable();
     return const RelayListMissing();
+  }
+
+  /// The lists found for [pubkeys], in one query rather than one per pubkey.
+  ///
+  /// A pubkey is simply absent from the result when nothing was found for it;
+  /// [relaysProvenDown] tells "no list" from "no network" for the batch as a
+  /// whole. Carries no `limit`, which with several authors would cap the whole
+  /// relay response rather than each author's newest event.
+  Future<Map<String, RelayListFound>> searchManyEverywhere(
+    List<String> pubkeys, {
+    Duration timeout = const Duration(seconds: 12),
+  }) async {
+    if (pubkeys.isEmpty) return const {};
+
+    final relays = {
+      ...NostrConfig.bootstrapRelays,
+      ...NostrConfig.popularRelays,
+      ...NostrConfig.discoveryRelays,
+    }.toList();
+
+    if (_device?.isOffline.value == true &&
+        relaysProvenDown &&
+        !relays.any(isLocalRelayUrl)) {
+      return const {};
+    }
+
+    List<Nip01Event> events;
+    try {
+      final response = _ndk.requests.query(
+        filter: Filter(kinds: [_relayListKind], authors: pubkeys),
+        explicitRelays: relays,
+        cacheRead: false,
+      );
+      events = await response.future.timeout(timeout, onTimeout: () => const []);
+    } catch (_) {
+      events = const [];
+    }
+
+    final latest = <String, Nip01Event>{};
+    for (final event in events) {
+      final current = latest[event.pubKey];
+      if (current == null || event.createdAt > current.createdAt) {
+        latest[event.pubKey] = event;
+      }
+    }
+
+    final found = <String, RelayListFound>{};
+    for (final entry in latest.entries) {
+      final nip65 = Nip65.fromEvent(entry.value);
+      if (nip65.relays.isEmpty) continue;
+      found[entry.key] = RelayListFound(
+        event: entry.value,
+        relays: nip65.relays,
+      );
+    }
+    return found;
   }
 
   /// Caches the found list so every reader picks it up, and rebroadcasts the
