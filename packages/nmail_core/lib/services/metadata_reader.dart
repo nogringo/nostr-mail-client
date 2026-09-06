@@ -83,9 +83,8 @@ class MetadataReader {
     ]);
 
     for (final entry in winners.entries) {
-      final metadata = Metadata.fromEvent(entry.value);
-      await _save(metadata, null);
-      result[entry.key] = metadata;
+      await _save(entry.value, null);
+      result[entry.key] = Metadata.fromEvent(entry.value);
     }
     return result;
   }
@@ -201,7 +200,7 @@ class MetadataReader {
     }
 
     if (winner != null) {
-      await _save(Metadata.fromEvent(winner), cached);
+      await _save(winner, cached);
     } else if (_discovery.relaysProvenDown) {
       subject.addError(MetadataUnreachable(pubkey));
     } else {
@@ -218,11 +217,12 @@ class MetadataReader {
     return candidate.id.compareTo(current.id) < 0;
   }
 
-  Future<void> _save(Metadata metadata, Metadata? cached) async {
+  /// The event itself, signature included, rather than the [Metadata] read off
+  /// it: the cache derives the profile from the newest kind 0 it holds.
+  Future<void> _save(Nip01Event event, Metadata? cached) async {
     final known = cached?.updatedAt;
-    if (known != null && (metadata.updatedAt ?? 0) <= known) return;
-    metadata.refreshedTimestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    await _ndk.config.cache.saveMetadata(metadata);
+    if (known != null && event.createdAt <= known) return;
+    await _ndk.config.cache.saveEvent(event);
   }
 
   /// Null falls back to NDK's own routing, which is the bootstrap relays.

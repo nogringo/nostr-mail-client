@@ -54,9 +54,9 @@ class AccountLocalDataService extends GetxService {
           'p': [pubkey],
         },
       ),
-      cache.removeMetadata(pubkey),
+      cache.removeEvents(pubKeys: [pubkey], kinds: [Metadata.kKind]),
       cache.removeUserRelayList(pubkey),
-      cache.removeContactList(pubkey),
+      cache.removeEvents(pubKeys: [pubkey], kinds: [ContactList.kKind]),
       cache.removeNip05(pubkey),
     ]);
 

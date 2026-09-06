@@ -149,7 +149,7 @@ class ScreenshotSeeder {
       updatedAt: now,
     );
     final signedMetadata = await runtime.sign(metadata.toEvent());
-    await runtime.ndk.config.cache.saveMetadata(metadata);
+    await runtime.ndk.config.cache.saveEvent(signedMetadata);
     await runtime.broadcastQueue.broadcast(
       signedMetadata,
       relays: [config.dataRelay],
@@ -201,7 +201,7 @@ class ScreenshotSeeder {
       updatedAt: now,
     );
     final signed = await _signerFor(bridge).sign(metadata.toEvent());
-    await runtime.ndk.config.cache.saveMetadata(metadata);
+    await runtime.ndk.config.cache.saveEvent(signed);
     await runtime.broadcastQueue.broadcast(signed, relays: [config.dataRelay]);
     await _publishBootstrapRelayList(runtime, bridge);
     stdout.writeln('Published bridge profile to ${config.dataRelay}');
@@ -223,7 +223,7 @@ class ScreenshotSeeder {
         updatedAt: now,
       );
       final signed = await _signerFor(account).sign(metadata.toEvent());
-      await runtime.ndk.config.cache.saveMetadata(metadata);
+      await runtime.ndk.config.cache.saveEvent(signed);
       await runtime.broadcastQueue.broadcast(
         signed,
         relays: [config.dataRelay],

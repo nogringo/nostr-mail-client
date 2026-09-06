@@ -226,7 +226,7 @@ class AuthController extends GetxController {
 
     // Metadata (kind 0)
     final signedMetadata = await account.signer.sign(metadata.toEvent());
-    await ndk.config.cache.saveMetadata(metadata);
+    await ndk.config.cache.saveEvent(signedMetadata);
     await broadcastQueue.broadcast(
       signedMetadata,
       relays: signalingTargets,
