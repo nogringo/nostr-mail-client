@@ -358,23 +358,6 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  Future<void> resync() async {
-    if (isSyncing.value) return;
-
-    final generation = _accountGeneration;
-    isSyncing.value = true;
-    try {
-      await _nostrMailService.client.resync();
-      if (generation == _accountGeneration) {
-        await _loadEmails();
-      }
-    } finally {
-      if (generation == _accountGeneration) {
-        isSyncing.value = false;
-      }
-    }
-  }
-
   Future<void> moveToTrash(String id) async {
     await _nostrMailService.client.moveToTrash(id);
     await _loadEmails();

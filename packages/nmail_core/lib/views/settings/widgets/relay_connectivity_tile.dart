@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ndk/entities.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
@@ -9,12 +8,12 @@ import 'relay_connectivity_row.dart';
 class RelayConnectivityTile extends StatelessWidget {
   const RelayConnectivityTile({
     super.key,
-    required this.connectivity,
+    required this.relays,
     required this.connectedCount,
     required this.isDeviceOffline,
   });
 
-  final Map<String, RelayConnectivity> connectivity;
+  final Map<String, bool> relays;
   final int connectedCount;
   final bool isDeviceOffline;
 
@@ -39,15 +38,12 @@ class RelayConnectivityTile extends StatelessWidget {
           childrenPadding: const EdgeInsets.fromLTRB(56, 0, 0, 8),
           leading: Icon(connectedCount > 0 ? Icons.wifi : Icons.wifi_off),
           title: Text(
-            l.connectivityConnectedCount(connectedCount, connectivity.length),
+            l.connectivityConnectedCount(connectedCount, relays.length),
           ),
           subtitle: isDeviceOffline ? Text(l.connectivityDeviceOffline) : null,
           children: [
-            for (final entry in connectivity.entries)
-              RelayConnectivityRow(
-                url: entry.key,
-                isConnected: entry.value.isConnected,
-              ),
+            for (final entry in relays.entries)
+              RelayConnectivityRow(url: entry.key, isConnected: entry.value),
           ],
         ),
       ),

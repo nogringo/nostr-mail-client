@@ -20,7 +20,7 @@ class RelayConnectivitySection extends StatelessWidget {
         children: [
           SettingsSectionHeader(title: l.connectivitySectionTitle),
           RelayConnectivityTile(
-            connectivity: controller.connectivityMap,
+            relays: controller.relays,
             connectedCount: controller.connectedCount,
             isDeviceOffline: controller.isDeviceOffline,
           ),

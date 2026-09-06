@@ -26,7 +26,7 @@ class SyncStatusController extends GetxController {
     update();
     try {
       final nostrMailService = Get.find<NostrMailService>();
-      await nostrMailService.client.resync();
+      await nostrMailService.client.fetchRecent();
       await loadData();
     } finally {
       isSyncing = false;

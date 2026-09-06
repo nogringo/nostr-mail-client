@@ -21,13 +21,13 @@ class RelayListDiscovery {
 
   /// Observed for the whole lifetime of the instance, not just during a query:
   /// a single query window can be too narrow to catch an emission, and telling
-  /// "no list" from "no network" hangs on this map.
-  StreamSubscription<Map<String, RelayConnectivity>>? _connectivitySub;
-  Map<String, RelayConnectivity>? _connectivity;
+  /// "no list" from "no network" hangs on this list.
+  StreamSubscription<List<RelayConnectivity>>? _connectivitySub;
+  List<RelayConnectivity>? _connectivity;
 
   RelayListDiscovery(this._ndk, {this._device}) {
     _connectivitySub = _ndk.connectivity.relayConnectivityChanges.listen(
-      (map) => _connectivity = map,
+      (connections) => _connectivity = connections,
     );
   }
 
@@ -36,12 +36,12 @@ class RelayListDiscovery {
     _connectivitySub = null;
   }
 
-  /// Observed at least once, and nothing was up. A map still unset means "not
+  /// Observed at least once, and nothing was up. A list still unset means "not
   /// known yet", which is not the same as "nothing is connected": NDK fills it
   /// the moment it starts dialling, so waiting for it costs nothing.
   bool get relaysProvenDown {
     final observed = _connectivity;
-    return observed != null && !observed.values.any((c) => c.isConnected);
+    return observed != null && !observed.any((c) => c.isConnected);
   }
 
   static const _relayListKind = 10002;
@@ -139,7 +139,10 @@ class RelayListDiscovery {
         explicitRelays: relays,
         cacheRead: false,
       );
-      events = await response.future.timeout(timeout, onTimeout: () => const []);
+      events = await response.future.timeout(
+        timeout,
+        onTimeout: () => const [],
+      );
     } catch (_) {
       events = const [];
     }

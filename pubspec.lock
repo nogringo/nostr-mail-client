@@ -73,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
+  bip32_keys:
+    dependency: transitive
+    description:
+      name: bip32_keys
+      sha256: "40f3bcdbb6dac449d95405d58aa203706a917a27eca76cea10b54715aebd53c6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.4"
   bip340:
     dependency: transitive
     description:
@@ -101,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: "75916e025bf8d3690f126d13b716dce3d8c69dd7d58d10861014ec5fceeb093f"
+      sha256: "3dcd9720ba5cc4b9489dc529f64cfda03c37e640aff1c6c9ecd05eeac2653545"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.7.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -117,10 +125,10 @@ packages:
     dependency: transitive
     description:
       name: broadcast_queue_shim_for_ndk
-      sha256: a673189ce012a193ef3d35fa22b13414b6b0f127dff98645da10a93716c8a83a
+      sha256: "8408fe0b418624b62ddbca841d3333f4808ff347ac1fc7899e1acc33d9082adb"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.0"
   bs58check:
     dependency: transitive
     description:
@@ -953,26 +961,18 @@ packages:
     dependency: transitive
     description:
       name: ndk
-      sha256: d10177c99f27c184637a8c6a7dad120372f09432ddb49a59da82d8bc338ce972
+      sha256: fbd74c455d2002d0f711b7c37099d010384b8b828487f454aed4dbf031d52018
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.10"
-  ndk_bip32_keys:
-    dependency: transitive
-    description:
-      name: ndk_bip32_keys
-      sha256: "6bc311451646b6d488ca8e4c9907dc0e8486d93de752d5ab09c5c7b6c96238d8"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
+    version: "0.9.3"
   ndk_flutter:
     dependency: transitive
     description:
       name: ndk_flutter
-      sha256: e903492128efccb03d648526f2c72b4951cee5208569c65b0eb3c49aa932a92d
+      sha256: "2a4a4c3273e48d31c529edbf8a096ffa9791eba320d936a67398e000eb57696c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.4-dev.13"
+    version: "0.9.0"
   nm:
     dependency: transitive
     description:
@@ -985,25 +985,25 @@ packages:
     dependency: transitive
     description:
       name: nostr_address_book
-      sha256: "61be8b131c4f0f81732716f976f766e4547e1a2ec07444ca39720bc8168adb8a"
+      sha256: a1819d57301b1eeb79d0666af8079c801283569b3092bf1446ca3d82a6574b9e
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.3.0"
   nostr_event_scheduler:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: "436546005850cc2cd46f2e7b06be1e43589e8c6d31e1886dc89429d041a4c883"
+      sha256: ff40190e8e7a74ef0c8e25738f7273417d75e56e578fee7d1005e6140bfd0b0a
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0"
   nostr_mail:
     dependency: "direct overridden"
     description:
       path: "../nostr-mail-dart"
       relative: true
     source: path
-    version: "2.6.2"
+    version: "3.0.0"
   objective_c:
     dependency: transitive
     description:
@@ -1433,6 +1433,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.1"
+  sync_engine_shim_for_ndk:
+    dependency: transitive
+    description:
+      name: sync_engine_shim_for_ndk
+      sha256: "4b10c71a6ec59d053552e1fb577489afaff439d2f7723c6c110c9414f30232ad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   synchronized:
     dependency: transitive
     description:

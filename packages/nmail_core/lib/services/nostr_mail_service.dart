@@ -6,6 +6,7 @@ import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/domain_layer/entities/filter.dart' as ndk_filter;
 import 'package:nostr_mail/nostr_mail.dart';
+import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/services/storage_service.dart';
@@ -45,8 +46,9 @@ class NostrMailService extends GetxService {
 
   bool get hasAccount => _ndk.accounts.getPublicKey() != null;
 
-  /// Stream of relay connectivity changes
-  Stream<Map<String, RelayConnectivity>> get relayConnectivityChanges =>
+  /// Stream of relay connectivity changes. One entry per connection, and a
+  /// relay reached under several identities has one connection each.
+  Stream<List<RelayConnectivity>> get relayConnectivityChanges =>
       _ndk.connectivity.relayConnectivityChanges;
 
   Future<NostrMailService> init() async {
@@ -54,6 +56,7 @@ class NostrMailService extends GetxService {
       ndk: _ndk,
       db: _storageService.db,
       blossomCache: Get.find<BlossomCache>(),
+      syncEngine: Get.find<SyncEngine>(),
       broadcastQueue: Get.find<OfflineBroadcast>(),
       blossomUploadQueue: Get.find<OfflineBlossomUpload>(),
       schedulerDvm: NostrConfig.schedulerDvm,

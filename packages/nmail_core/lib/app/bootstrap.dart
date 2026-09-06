@@ -11,6 +11,7 @@ import 'package:ndk/ndk.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
 import 'package:ndk_flutter/l10n/app_localizations.dart' as ndk_flutter;
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:toastification/toastification.dart';
 import 'package:window_manager/window_manager.dart';
@@ -117,6 +118,10 @@ Future<void> runNmailApp({
     db: storageService.db,
   )..start();
   Get.put(blossomUploadQueue, permanent: true);
+
+  // Fills the ndk cache from the relays. NostrMailClient.create() starts it and
+  // declares what the active account needs, but never stops nor disposes it.
+  Get.put(SyncEngine(ndk, db: storageService.db), permanent: true);
 
   Get.put(DeviceConnectivityService(), permanent: true);
 

@@ -9,12 +9,15 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 class RelayConnectivityController extends GetxController {
   final _device = Get.find<DeviceConnectivityService>();
 
-  StreamSubscription<Map<String, RelayConnectivity>>? _subscription;
+  StreamSubscription<List<RelayConnectivity>>? _subscription;
   Worker? _deviceWorker;
-  Map<String, RelayConnectivity> connectivityMap = {};
+
+  /// Whether each relay is reachable, by url. NDK opens one connection per
+  /// authenticated identity, and a relay listed twice would read as two.
+  Map<String, bool> relays = {};
 
   int get connectedCount =>
-      connectivityMap.values.where((c) => c.isConnected).length;
+      relays.values.where((isConnected) => isConnected).length;
 
   /// Only claimed alongside dead relays: the OS verdict comes from an internet
   /// probe on Linux and Windows, which a firewall can fail on a working network.
@@ -36,9 +39,16 @@ class RelayConnectivityController extends GetxController {
 
   void _subscribeToConnectivity() {
     final nostrMailService = Get.find<NostrMailService>();
-    _subscription = nostrMailService.relayConnectivityChanges.listen((map) {
+    _subscription = nostrMailService.relayConnectivityChanges.listen((
+      connections,
+    ) {
       if (isClosed) return;
-      connectivityMap = map;
+      final byUrl = <String, bool>{};
+      for (final connection in connections) {
+        byUrl[connection.url] =
+            (byUrl[connection.url] ?? false) || connection.isConnected;
+      }
+      relays = byUrl;
       update();
     });
   }

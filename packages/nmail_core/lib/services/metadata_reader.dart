@@ -97,14 +97,15 @@ class MetadataReader {
     void Function(Nip01Event) consider,
   ) async {
     try {
-      await for (final event in _ndk.requests
-          .query(
-            name: 'metadatas-outbox',
-            filter: Filter(kinds: [Metadata.kKind], authors: pubkeys),
-            explicitRelays: relays,
-            timeout: timeout,
-          )
-          .stream) {
+      await for (final event
+          in _ndk.requests
+              .query(
+                name: 'metadatas-outbox',
+                filter: Filter(kinds: [Metadata.kKind], authors: pubkeys),
+                explicitRelays: relays,
+                timeout: timeout,
+              )
+              .stream) {
         consider(event);
       }
     } catch (_) {
@@ -173,18 +174,19 @@ class MetadataReader {
 
     Nip01Event? winner;
     try {
-      await for (final event in _ndk.requests
-          .query(
-            name: 'metadata-outbox',
-            filter: Filter(
-              kinds: [Metadata.kKind],
-              authors: [pubkey],
-              limit: 1,
-            ),
-            explicitRelays: await _writeRelays(pubkey),
-            timeout: timeout,
-          )
-          .stream) {
+      await for (final event
+          in _ndk.requests
+              .query(
+                name: 'metadata-outbox',
+                filter: Filter(
+                  kinds: [Metadata.kKind],
+                  authors: [pubkey],
+                  limit: 1,
+                ),
+                explicitRelays: await _writeRelays(pubkey),
+                timeout: timeout,
+              )
+              .stream) {
         if (winner == null) {
           final known = cached?.updatedAt;
           if (known != null && event.createdAt < known) continue;

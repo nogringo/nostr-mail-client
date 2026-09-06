@@ -45,6 +45,15 @@ class FakeEventSigner implements EventSigner {
   String getPublicKey() => publicKey;
 
   @override
+  bool get requiresInteractiveSigning => false;
+
+  @override
+  bool get requiresSignerNetwork => false;
+
+  @override
+  Iterable<String> get signerTransportRelayUrls => const [];
+
+  @override
   List<PendingSignerRequest> get pendingRequests => const [];
 
   @override

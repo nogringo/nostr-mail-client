@@ -123,7 +123,9 @@ class ScreenshotSeeder {
       createdAt: now,
       refreshedTimestamp: now,
     );
-    final signed = await _signerFor(account).sign(relayList.toNip65().toEvent());
+    final signed = await _signerFor(
+      account,
+    ).sign(relayList.toNip65().toEvent());
     await runtime.ndk.config.cache.saveUserRelayList(relayList);
     await runtime.broadcastQueue.broadcast(
       signed,
