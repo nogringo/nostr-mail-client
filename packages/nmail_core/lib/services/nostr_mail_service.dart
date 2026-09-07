@@ -54,6 +54,7 @@ class NostrMailService extends GetxService {
   Future<NostrMailService> init() async {
     client = await NostrMailClient.create(
       ndk: _ndk,
+      database: Get.find<NostrMailDatabase>(),
       db: _storageService.db,
       blossomCache: Get.find<BlossomCache>(),
       syncEngine: Get.find<SyncEngine>(),

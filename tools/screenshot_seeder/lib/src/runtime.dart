@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
+import 'package:drift/native.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart' as mail;
 import 'package:sembast/sembast_io.dart';
@@ -9,6 +12,7 @@ import 'memory_blossom_cache.dart';
 class SeederRuntime {
   final Ndk ndk;
   final Database db;
+  final mail.NostrMailDatabase database;
   final OfflineBroadcast broadcastQueue;
   final SyncEngine syncEngine;
   final mail.NostrMailClient client;
@@ -18,6 +22,7 @@ class SeederRuntime {
   SeederRuntime._({
     required this.ndk,
     required this.db,
+    required this.database,
     required this.broadcastQueue,
     required this.syncEngine,
     required this.client,
@@ -49,8 +54,12 @@ class SeederRuntime {
     final broadcastQueue = OfflineBroadcast.withNdk(ndk, db: db)..start();
     final blossomCache = MemoryBlossomCache();
     final syncEngine = SyncEngine(ndk, db: db);
+    final database = mail.NostrMailDatabase(
+      NativeDatabase(File('$databasePath.sqlite')),
+    );
     final client = await mail.NostrMailClient.create(
       ndk: ndk,
+      database: database,
       db: db,
       blossomCache: blossomCache,
       syncEngine: syncEngine,
@@ -62,6 +71,7 @@ class SeederRuntime {
     return SeederRuntime._(
       ndk: ndk,
       db: db,
+      database: database,
       broadcastQueue: broadcastQueue,
       syncEngine: syncEngine,
       client: client,
@@ -76,6 +86,7 @@ class SeederRuntime {
 
   Future<void> dispose() async {
     await client.dispose();
+    await database.close();
     await syncEngine.dispose();
     await broadcastQueue.dispose();
     await ndk.destroy();

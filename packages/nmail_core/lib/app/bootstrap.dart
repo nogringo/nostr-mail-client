@@ -30,6 +30,7 @@ import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
 import 'package:nmail_core/services/device_connectivity_service.dart';
+import 'package:nmail_core/services/mail_database.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -122,6 +123,8 @@ Future<void> runNmailApp({
   // Fills the ndk cache from the relays. NostrMailClient.create() starts it and
   // declares what the active account needs, but never stops nor disposes it.
   Get.put(SyncEngine(ndk, db: storageService.db), permanent: true);
+
+  Get.put(openMailDatabase(), permanent: true);
 
   Get.put(DeviceConnectivityService(), permanent: true);
 

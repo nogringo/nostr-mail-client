@@ -16,6 +16,7 @@ dependencies:
   collection: ^1.19.1
   connectivity_plus: ^7.3.1
   crypto: ^3.0.7
+  drift_flutter: ^0.3.1
   enough_mail_plus: ^2.2.4
   file_picker: ^11.0.2
   file_saver: ^0.4.0
@@ -41,6 +42,7 @@ dependencies:
   markdown_quill: ^4.3.0
   mime: ^2.0.0
   ndk: ^0.9.2
+  ndk_drift: ^0.1.1+1
   ndk_flutter: ^0.9.0
   nostr_address_book: ^0.3.0
   nostr_mail: ^3.0.0
@@ -70,3 +72,8 @@ flutter:
   generate: true
   assets:
     - assets/backgrounds/
+
+# ndk_drift 0.1.1+1 still pins drift_flutter ^0.2.8, which caps sqlite3 at 2.x
+# while drift 2.34 (nostr_mail 3.0.0) needs 3.x.
+dependency_overrides:
+  drift_flutter: ^0.3.1
