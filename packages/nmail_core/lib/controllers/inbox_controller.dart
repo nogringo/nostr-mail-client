@@ -17,7 +17,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final _nostrMailService = Get.find<NostrMailService>();
   final _notifications = Get.find<NotificationService>();
 
-  final RxList<Email> emails = <Email>[].obs;
+  final RxList<EmailSummary> emails = <EmailSummary>[].obs;
   final searchQuery = ''.obs;
   final isSearchMode = false.obs;
   final isSyncing = false.obs;
@@ -41,6 +41,10 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   // Read/unread status management
   bool isEmailRead(String emailId) => readEmailIds.contains(emailId);
+
+  /// The full message behind a row, for the paths a summary cannot serve
+  /// (reply and forward need the MIME).
+  Future<Email?> loadEmail(String id) => _nostrMailService.client.getEmail(id);
 
   Future<void> markAsRead(String emailId) async {
     await _nostrMailService.markEmailAsRead(emailId);
@@ -247,30 +251,23 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     final client = _nostrMailService.client;
 
     if (isSearching) {
-      final loaded = await client.search(searchQuery.value);
+      final loaded = await client.getSummaries(search: searchQuery.value);
       if (generation != _accountGeneration) return;
-      emails.assignAll(loaded);
+      _applyLoaded(loaded.items);
       oldEmailsCount.value = 0;
       return;
     }
 
-    final loaded = switch (currentFolder.value) {
-      MailFolder.inbox => await client.getInboxEmails(),
-      MailFolder.sent => await client.getSentEmails(),
-      MailFolder.trash => await client.getTrashedEmails(),
-      MailFolder.archive => await client.getArchivedEmails(),
-    };
+    final loaded = await client.getSummaries(
+      folder: switch (currentFolder.value) {
+        MailFolder.inbox => 'inbox',
+        MailFolder.sent => 'sent',
+        MailFolder.trash => 'trash',
+        MailFolder.archive => 'archive',
+      },
+    );
     if (generation != _accountGeneration) return;
-    emails.assignAll(loaded);
-
-    // Load read email IDs only for inbox folder
-    if (currentFolder.value == MailFolder.inbox) {
-      final loadedReadIds = await _nostrMailService.getReadEmailIds();
-      if (generation != _accountGeneration) return;
-      readEmailIds.assignAll(loadedReadIds);
-    } else {
-      readEmailIds.clear();
-    }
+    _applyLoaded(loaded.items);
 
     // Update old emails count if in trash folder
     if (currentFolder.value == MailFolder.trash) {
@@ -280,6 +277,14 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     } else {
       oldEmailsCount.value = 0;
     }
+  }
+
+  void _applyLoaded(List<EmailSummary> loaded) {
+    emails.assignAll(loaded);
+    readEmailIds.assignAll([
+      for (final email in loaded)
+        if (email.isRead) email.id,
+    ]);
   }
 
   void setFolder(MailFolder folder) {

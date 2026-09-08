@@ -456,29 +456,38 @@ class InboxView extends GetView<InboxController> {
     );
   }
 
-  void _replyTo(BuildContext context, Email email) {
-    context.push(
-      AppRoutes.compose,
-      extra: {'email': email, 'mode': ComposeMode.reply},
-    );
+  Future<void> _replyTo(BuildContext context, EmailSummary email) =>
+      _composeFrom(context, email, ComposeMode.reply);
+
+  Future<void> _forward(BuildContext context, EmailSummary email) =>
+      _composeFrom(context, email, ComposeMode.forward);
+
+  /// A row carries a summary, but the composer needs the MIME to quote or
+  /// forward, so load the message before opening it.
+  Future<void> _composeFrom(
+    BuildContext context,
+    EmailSummary summary,
+    ComposeMode mode,
+  ) async {
+    final l = AppLocalizations.of(context);
+    final email = await controller.loadEmail(summary.id);
+    if (!context.mounted) return;
+    if (email == null) {
+      ToastHelper.error(context, l.emailNotFound);
+      return;
+    }
+    context.push(AppRoutes.compose, extra: {'email': email, 'mode': mode});
   }
 
-  void _forward(BuildContext context, Email email) {
-    context.push(
-      AppRoutes.compose,
-      extra: {'email': email, 'mode': ComposeMode.forward},
-    );
-  }
-
-  void _deleteEmail(BuildContext context, Email email) {
+  void _deleteEmail(BuildContext context, EmailSummary email) {
     controller.deleteEmail(email.id);
   }
 
-  void _archiveEmail(BuildContext context, Email email) {
+  void _archiveEmail(BuildContext context, EmailSummary email) {
     controller.moveToArchive(email.id);
   }
 
-  void _restoreEmail(BuildContext context, Email email) {
+  void _restoreEmail(BuildContext context, EmailSummary email) {
     if (controller.currentFolder.value == MailFolder.archive) {
       controller.restoreFromArchive(email.id);
     } else {

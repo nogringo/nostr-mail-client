@@ -204,10 +204,4 @@ class NostrMailService extends GetxService {
   /// Mark an email as unread by removing 'state:read' label
   Future<void> markEmailAsUnread(String emailId) =>
       client.markAsUnread(emailId);
-
-  /// Get all email IDs that are marked as read
-  Future<Set<String>> getReadEmailIds() async {
-    final list = await client.getReadEmailIds();
-    return list.toSet();
-  }
 }

@@ -553,14 +553,14 @@ class ComposeController extends GetxController {
       final myPubkey = _nostrMailService.getPublicKey();
       if (myPubkey == null) return null;
 
-      final emails = await _nostrMailService.client.getEmails();
+      final emails = (await _nostrMailService.client.getSummaries()).items;
 
       // Check sent emails first
       final sentEmail = emails
           .where((e) => e.senderPubkey == myPubkey)
           .firstOrNull;
-      if (sentEmail != null && sentEmail.sender != null) {
-        return sentEmail.sender!.encode();
+      if (sentEmail != null && sentEmail.from.isNotEmpty) {
+        return MailAddress(sentEmail.fromName, sentEmail.from).encode();
       }
 
       // Fallback to received emails (use "to" which is my address)
@@ -568,7 +568,7 @@ class ComposeController extends GetxController {
           .where((e) => e.senderPubkey != myPubkey)
           .firstOrNull;
       if (receivedEmail != null) {
-        return receivedEmail.mime.to?.firstOrNull?.encode();
+        return receivedEmail.to.firstOrNull?.encode();
       }
     } catch (_) {}
 

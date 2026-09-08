@@ -87,7 +87,7 @@ class ContactsService extends GetxService {
       final myPubkey = _nostrMailService.getPublicKey();
       if (myPubkey == null) return result;
 
-      final emails = await _nostrMailService.client.getEmails();
+      final emails = (await _nostrMailService.client.getSummaries()).items;
 
       // Collect unique pubkeys from emails with their last interaction date
       final pubkeyDates = <String, DateTime>{};
@@ -97,21 +97,22 @@ class ContactsService extends GetxService {
       for (final email in emails) {
         final isSentByMe = email.senderPubkey == myPubkey;
 
-        // Handle Nostr contacts (with pubkey)
-        final otherPubkey = isSentByMe
-            ? email.recipientPubkey
-            : email.senderPubkey;
-        if (otherPubkey.isNotEmpty && otherPubkey != myPubkey) {
-          final existing = pubkeyDates[otherPubkey];
+        // Handle Nostr contacts (with pubkey). Received only: on a sent email
+        // the counterpart was read from recipientPubkey, which is the account
+        // itself, so that side never produced a contact.
+        if (!isSentByMe &&
+            email.senderPubkey.isNotEmpty &&
+            email.senderPubkey != myPubkey) {
+          final existing = pubkeyDates[email.senderPubkey];
           if (existing == null || email.date.isAfter(existing)) {
-            pubkeyDates[otherPubkey] = email.date;
+            pubkeyDates[email.senderPubkey] = email.date;
           }
         }
 
         // Handle legacy emails - addresses NOT ending with @nostr
         // For sent emails
         if (isSentByMe) {
-          final toAddr = email.mime.to?.firstOrNull;
+          final toAddr = email.to.firstOrNull;
           if (toAddr != null && _isLegacyEmail(toAddr.email)) {
             final legacyEmail = toAddr.email.toLowerCase();
             final existingEntry = legacyEmailDates.entries.firstWhereOrNull(
@@ -125,8 +126,8 @@ class ContactsService extends GetxService {
         }
         // For received emails
         if (!isSentByMe) {
-          final fromAddr = email.sender;
-          if (fromAddr != null && _isLegacyEmail(fromAddr.email)) {
+          final fromAddr = MailAddress(email.fromName, email.from);
+          if (_isLegacyEmail(fromAddr.email)) {
             final legacyEmail = fromAddr.email.toLowerCase();
             final existingEntry = legacyEmailDates.entries.firstWhereOrNull(
               (e) => e.key.email.toLowerCase() == legacyEmail,

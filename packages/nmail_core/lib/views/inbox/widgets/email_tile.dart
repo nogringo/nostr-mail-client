@@ -17,7 +17,7 @@ import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 
 class EmailTile extends StatelessWidget {
-  final Email email;
+  final EmailSummary email;
   final VoidCallback onTap;
   final bool isSelected;
   final VoidCallback? onToggleSelect;
@@ -49,9 +49,9 @@ class EmailTile extends StatelessWidget {
   /// Get the address to display (to for sent emails, from for received).
   MailAddress get _displayAddress {
     if (_isSentByMe) {
-      return email.mime.to?.firstOrNull ?? MailAddress(null, '');
+      return email.to.firstOrNull ?? MailAddress(null, '');
     } else {
-      return email.sender ?? MailAddress(null, '');
+      return MailAddress(email.fromName, email.from);
     }
   }
 
@@ -60,8 +60,7 @@ class EmailTile extends StatelessWidget {
   List<MailAddress> get _displayAddresses {
     if (!_isSentByMe) return [_displayAddress];
 
-    final mime = email.mime;
-    return [...?mime.to, ...?mime.cc, ...?mime.bcc];
+    return [...email.to, ...email.cc, ...email.bcc];
   }
 
   /// Pubkey of the contact (other side of the conversation) when they
@@ -78,7 +77,7 @@ class EmailTile extends StatelessWidget {
     if (!_isSentByMe) {
       return email.isBridged ? '' : email.senderPubkey;
     }
-    final to = email.mime.to?.firstOrNull;
+    final to = email.to.firstOrNull;
     if (to == null) return '';
     return extractPubkeyFromAddress(to.email) ?? '';
   }
@@ -450,9 +449,7 @@ class EmailTile extends StatelessWidget {
     final l = AppLocalizations.of(context);
     return Obx(() {
       final isUnread = this.isUnread;
-      final subject = (email.subject?.isEmpty ?? true)
-          ? l.emailNoSubject
-          : email.subject!;
+      final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
       final attachments = email.attachmentRefs;
 
       return InkWell(
@@ -520,7 +517,7 @@ class EmailTile extends StatelessWidget {
                         Flexible(
                           flex: 3,
                           child: Text(
-                            email.body,
+                            email.preview,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -559,9 +556,7 @@ class EmailTile extends StatelessWidget {
       final attachments = email.attachmentRefs;
       final controller = Get.find<InboxController>();
       final isSelectionMode = controller.hasSelection;
-      final subject = (email.subject?.isEmpty ?? true)
-          ? l.emailNoSubject
-          : email.subject!;
+      final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
 
       return Column(
         children: [
@@ -609,7 +604,7 @@ class EmailTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  email.body,
+                  email.preview,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
