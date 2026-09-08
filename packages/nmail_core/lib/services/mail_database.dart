@@ -5,10 +5,14 @@ import 'package:path_provider/path_provider.dart';
 
 /// Opens the nostr_mail drift store: a `.sqlite` file next to the sembast
 /// database on native, OPFS or IndexedDB through `drift_worker.js` on web.
+///
+/// The name must differ from the sembast database's (`nostr_mail`): on web both
+/// are IndexedDB databases and the name is the whole key, so sharing one makes
+/// drift open sembast's and fail on its version.
 NostrMailDatabase openMailDatabase() {
   return NostrMailDatabase(
     driftDatabase(
-      name: kDebugMode ? 'nostr_mail_dev' : 'nostr_mail',
+      name: kDebugMode ? 'nostr_mail_store_dev' : 'nostr_mail_store',
       native: const DriftNativeOptions(
         databaseDirectory: getApplicationSupportDirectory,
       ),
