@@ -5,7 +5,7 @@ import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/views/compose/widgets/from_selector_view.dart';
-import 'package:nmail_core/views/compose/widgets/recipient_chip.dart';
+import 'package:nmail_core/views/compose/widgets/recipient_chips_row.dart';
 
 import 'attachment_chip.dart';
 import 'quill_toolbar_view.dart';
@@ -30,18 +30,9 @@ class ScrollableContentView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (controller.recipients.isNotEmpty)
-                SizedBox(
-                  height: 48,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                    itemCount: controller.recipients.length,
-                    separatorBuilder: (_, _) => const SizedBox(width: 8),
-                    itemBuilder: (context, index) => RecipientChip(
-                      recipient: controller.recipients[index],
-                      onDelete: () => controller.removeRecipient(index),
-                    ),
-                  ),
+                RecipientChipsRow(
+                  recipients: controller.recipients,
+                  onDelete: controller.removeRecipient,
                 ),
               Row(
                 children: [
@@ -92,18 +83,9 @@ class ScrollableContentView extends StatelessWidget {
               if (controller.showExpandedFields.value) ...[
                 const Divider(height: 1),
                 if (controller.ccRecipients.isNotEmpty)
-                  SizedBox(
-                    height: 48,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                      itemCount: controller.ccRecipients.length,
-                      separatorBuilder: (_, _) => const SizedBox(width: 8),
-                      itemBuilder: (context, index) => RecipientChip(
-                        recipient: controller.ccRecipients[index],
-                        onDelete: () => controller.removeCcRecipient(index),
-                      ),
-                    ),
+                  RecipientChipsRow(
+                    recipients: controller.ccRecipients,
+                    onDelete: controller.removeCcRecipient,
                   ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -118,18 +100,9 @@ class ScrollableContentView extends StatelessWidget {
                 ),
                 const Divider(height: 1),
                 if (controller.bccRecipients.isNotEmpty)
-                  SizedBox(
-                    height: 48,
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                      itemCount: controller.bccRecipients.length,
-                      separatorBuilder: (_, _) => const SizedBox(width: 8),
-                      itemBuilder: (context, index) => RecipientChip(
-                        recipient: controller.bccRecipients[index],
-                        onDelete: () => controller.removeBccRecipient(index),
-                      ),
-                    ),
+                  RecipientChipsRow(
+                    recipients: controller.bccRecipients,
+                    onDelete: controller.removeBccRecipient,
                   ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
