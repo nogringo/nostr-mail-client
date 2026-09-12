@@ -14,24 +14,45 @@ class ContactHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final name = contact.index.formattedName;
+    final copy = _copyNameAction(context, name);
+    final label = Padding(
+      // Horizontal inset keeps the glyphs clear of the pill's curve, and the
+      // gap after the avatar is shortened so the name barely moves.
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      child: Text(
+        name,
+        style: Theme.of(context).textTheme.headlineSmall,
+        // One line, so the pill stays a pill: a wrapped name would make it
+        // two lines tall and as wide as the row.
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+
     return Row(
       children: [
         ContactAvatar(contact: contact, radius: 32),
-        const SizedBox(width: 16),
+        const SizedBox(width: 8),
         Expanded(
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: _copyNameAction(context, name),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Text(
-                name,
-                style: Theme.of(context).textTheme.headlineSmall,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          ),
+          child: copy == null
+              ? label
+              : Align(
+                  alignment: Alignment.centerLeft,
+                  child: Tooltip(
+                    message: l.actionCopy,
+                    triggerMode: TooltipTriggerMode.manual,
+                    child: Semantics(
+                      button: true,
+                      child: InkWell(
+                        onTap: copy,
+                        customBorder: const StadiumBorder(),
+                        child: label,
+                      ),
+                    ),
+                  ),
+                ),
         ),
       ],
     );
