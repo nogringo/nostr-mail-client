@@ -29,13 +29,15 @@ class ContactNostrSection extends StatelessWidget {
       children: [
         ContactSectionTitle(l.contactsNostrTitle),
         const SizedBox(height: 8),
-        for (final pubkey in pubkeys)
+        for (final (i, pubkey) in pubkeys.indexed)
           ContactActionRow(
             icon: Icons.key,
             title: NostrIdentityName(identifier: pubkey),
             leading: NostrAvatar(pubkey: pubkey, radius: 16),
             copyValue: Nip19.encodePubKey(pubkey),
             onCompose: () => controller.composeToPubkey(context, pubkey),
+            index: i,
+            count: pubkeys.length,
           ),
       ],
     );

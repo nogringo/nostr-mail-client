@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/utils/segmented_list_shape.dart';
 import 'contact_copy_feedback.dart';
 
 class ContactActionRow extends StatelessWidget {
@@ -16,11 +17,18 @@ class ContactActionRow extends StatelessWidget {
   /// precedence over the [onCompose] mail button when provided.
   final Widget? trailing;
 
+  /// Position within its section, so the row picks the matching segmented
+  /// shape. A lone row takes `index: 0, count: 1` and is rounded on all sides.
+  final int index;
+  final int count;
+
   const ContactActionRow({
     super.key,
     required this.icon,
     required this.title,
     required this.copyValue,
+    required this.index,
+    required this.count,
     this.onCompose,
     this.trailing,
     this.leading,
@@ -29,22 +37,31 @@ class ContactActionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => _copyValue(context),
-      child: ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: leading ?? Icon(icon),
-        title: title,
-        trailing:
-            trailing ??
-            (onCompose == null
-                ? null
-                : IconButton(
-                    icon: const Icon(Icons.mail_outline),
-                    tooltip: l.inboxCompose,
-                    onPressed: onCompose,
-                  )),
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: segmentedListGap / 2),
+      child: Tooltip(
+        message: l.actionCopy,
+        // Anything but manual steals the hold-to-copy gesture: the long-press
+        // trigger opens the bubble and the tile's tap never fires.
+        triggerMode: TooltipTriggerMode.manual,
+        child: ListTile(
+          onTap: () => _copyValue(context),
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          leading: leading ?? Icon(icon),
+          title: title,
+          trailing:
+              trailing ??
+              (onCompose == null
+                  ? null
+                  : IconButton(
+                      icon: const Icon(Icons.mail_outline),
+                      tooltip: l.inboxCompose,
+                      onPressed: onCompose,
+                    )),
+        ),
       ),
     );
   }
