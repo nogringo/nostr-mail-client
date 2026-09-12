@@ -94,7 +94,7 @@ class ContactsController extends GetxController {
     selectedUid.value = contact.uid;
   }
 
-  Future<void> syncContacts() => addressBookService.fetchRecent();
+  Future<void> syncContacts() => addressBookService.pull();
 
   Future<void> retryBroadcasts() => addressBookService.retryBroadcasts();
 

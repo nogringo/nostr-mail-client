@@ -8,6 +8,7 @@ import 'package:ndk/ndk.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
+import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/services/storage_service.dart';
@@ -41,9 +42,11 @@ class AddressBookService extends GetxService {
           ndk: _ndk,
           database: Get.find<StorageService>().db,
           broadcastQueue: Get.find<OfflineBroadcast>(),
+          syncEngine: Get.find<SyncEngine>(),
         );
     _watchSubscription = _book.watchAll().listen(_setVisibleContacts);
     _authSubscription = _ndk.accounts.authStateChanges.listen((_) {
+      _book.stopAllSync();
       unawaited(load(sync: true));
     });
     unawaited(load(sync: syncOnInit));
@@ -51,6 +54,7 @@ class AddressBookService extends GetxService {
 
   @override
   void onClose() {
+    _book.stopAllSync();
     _watchSubscription?.cancel();
     _authSubscription?.cancel();
     super.onClose();
@@ -69,21 +73,16 @@ class AddressBookService extends GetxService {
       isLoading.value = false;
     }
     if (sync && _currentPubkey != null) {
-      unawaited(fetchRecent());
+      unawaited(startSync());
     }
   }
 
-  Future<void> fetchRecent() async {
-    if (isSyncing.value || _currentPubkey == null) return;
-    isSyncing.value = true;
-    lastError.value = null;
+  Future<void> startSync() async {
+    if (_currentPubkey == null) return;
     try {
-      await _book.fetchRecent();
-      _setVisibleContacts(await _book.list());
+      await _book.sync();
     } catch (error) {
       lastError.value = error.toString();
-    } finally {
-      isSyncing.value = false;
     }
   }
 
@@ -92,7 +91,7 @@ class AddressBookService extends GetxService {
     isSyncing.value = true;
     lastError.value = null;
     try {
-      await _book.pull(paginate: true);
+      await _book.refresh();
       _setVisibleContacts(await _book.list());
     } catch (error) {
       lastError.value = error.toString();

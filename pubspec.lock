@@ -33,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.7.0"
-  ascii_qr:
-    dependency: transitive
-    description:
-      name: ascii_qr
-      sha256: "2046e400a0fa4ea0de5df44c87b992cdd1f76403bb15e64513b89263598750ae"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   asn1lib:
     dependency: transitive
     description:
@@ -109,10 +101,10 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: "3dcd9720ba5cc4b9489dc529f64cfda03c37e640aff1c6c9ecd05eeac2653545"
+      sha256: e297158955e5f6b0860b0540dedff6c8cde266674a51b296ad60ef12950d64ff
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -125,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: broadcast_queue_shim_for_ndk
-      sha256: "8408fe0b418624b62ddbca841d3333f4808ff347ac1fc7899e1acc33d9082adb"
+      sha256: fd7cdb572eb1993de4d0282eff6080522d83fa7114d70d47f28d496273cafa56
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.1"
   bs58check:
     dependency: transitive
     description:
@@ -322,7 +314,7 @@ packages:
     source: hosted
     version: "2.34.4"
   drift_flutter:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: drift_flutter
       sha256: "91acf4bee7c3c84467cba46455aa70e5292a3b889f4582645d74f2e5a8c106f2"
@@ -977,26 +969,27 @@ packages:
     dependency: transitive
     description:
       name: ndk
-      sha256: fbd74c455d2002d0f711b7c37099d010384b8b828487f454aed4dbf031d52018
+      sha256: "86a2f0f2c853f142fa8add4d55f63be91ac318854c46ad361d27191ddf1891ef"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3"
+    version: "0.10.0-dev.1"
   ndk_drift:
     dependency: transitive
     description:
-      name: ndk_drift
-      sha256: "7cff2bb39d58fdda227333237ae6801de65ff42e51c870776beb5290b1410124"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.1+1"
+      path: "packages/drift"
+      ref: "v0.10.0-dev.1"
+      resolved-ref: "4c0c57c926da6d462f32f1580d8b1ca2d8f7092e"
+      url: "https://github.com/relaystr/ndk.git"
+    source: git
+    version: "0.1.1-dev.9"
   ndk_flutter:
     dependency: transitive
     description:
       name: ndk_flutter
-      sha256: "2a4a4c3273e48d31c529edbf8a096ffa9791eba320d936a67398e000eb57696c"
+      sha256: "0ab8d98eea503d58411aa429ecdfcbdfd758896820f790af5c4f94477ebd11b1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.0"
+    version: "0.9.0-dev.7"
   nm:
     dependency: transitive
     description:
@@ -1009,26 +1002,26 @@ packages:
     dependency: transitive
     description:
       name: nostr_address_book
-      sha256: a1819d57301b1eeb79d0666af8079c801283569b3092bf1446ca3d82a6574b9e
+      sha256: e6d157e8b76704b003fb54eecf3b1adea877c88ca6f570885353eaa25cc8e10b
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0"
   nostr_event_scheduler:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: ff40190e8e7a74ef0c8e25738f7273417d75e56e578fee7d1005e6140bfd0b0a
+      sha256: e992d3a66872f2da79ad619793c65e7bb11f779e4f13742d312566b33206b59b
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.1"
   nostr_mail:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: "6e0c7ebcdaa85b52a57a37896513a9f2c5a3a254b9dca01178cbba1d312fd29a"
+      sha256: "135a54932276b9ca64df5b61a307a6ee6314d5c932be4c968767db9efcf56dae"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.1.0"
   objective_c:
     dependency: transitive
     description:
@@ -1478,10 +1471,10 @@ packages:
     dependency: transitive
     description:
       name: sync_engine_shim_for_ndk
-      sha256: "4b10c71a6ec59d053552e1fb577489afaff439d2f7723c6c110c9414f30232ad"
+      sha256: "2b556a4a6989d916d2134de47f350da879e7895bed8473d96b191d328ee699f4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.7.0"
   synchronized:
     dependency: transitive
     description:

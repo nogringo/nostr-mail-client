@@ -8,11 +8,13 @@ import 'package:nmail_core/services/address_book_service.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:sembast/sembast_memory.dart';
+import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
 void main() {
   late Database db;
   late Ndk ndk;
   late OfflineBroadcast broadcastQueue;
+  late SyncEngine syncEngine;
   late NostrAddressBook book;
   late AddressBookService service;
 
@@ -32,10 +34,12 @@ void main() {
     ndk.accounts.loginPrivateKey(pubkey: pubkey, privkey: privateKey);
     Get.put<Ndk>(ndk);
     broadcastQueue = OfflineBroadcast.withNdk(ndk, db: db);
+    syncEngine = SyncEngine(ndk, db: db);
     book = NostrAddressBook(
       ndk: ndk,
       database: db,
       broadcastQueue: broadcastQueue,
+      syncEngine: syncEngine,
     );
     service = Get.put(AddressBookService(book: book, syncOnInit: false));
     await Future<void>.delayed(Duration.zero);
@@ -43,6 +47,7 @@ void main() {
 
   tearDown(() async {
     Get.delete<AddressBookService>();
+    await syncEngine.dispose();
     await broadcastQueue.dispose();
     await ndk.destroy();
     await db.close();
