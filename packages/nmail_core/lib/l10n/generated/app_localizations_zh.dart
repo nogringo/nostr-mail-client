@@ -671,6 +671,22 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get emailUnread => '未读';
+
+  @override
+  String emailAttachmentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个附件',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailSelectRow => '选择';
+
+  @override
   String get emailNotFound => '未找到邮件';
 
   @override

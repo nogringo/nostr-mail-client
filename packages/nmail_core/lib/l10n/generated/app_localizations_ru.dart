@@ -718,6 +718,25 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get emailUnread => 'Непрочитанное';
+
+  @override
+  String emailAttachmentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count вложения',
+      many: '$count вложений',
+      few: '$count вложения',
+      one: '$count вложение',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailSelectRow => 'Выбрать';
+
+  @override
   String get emailNotFound => 'Письмо не найдено';
 
   @override

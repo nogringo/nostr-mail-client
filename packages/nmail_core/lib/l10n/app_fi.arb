@@ -276,6 +276,9 @@
   "emailDeletePermanently": "Poista pysyvästi",
   "emailNoSubject": "(Ei aihetta)",
   "emailExtraRecipients": "{count, plural, one{{count} muu vastaanottaja} other{{count} muuta vastaanottajaa}}",
+  "emailUnread": "Lukematon",
+  "emailAttachmentCount": "{count, plural, one{{count} liite} other{{count} liitettä}}",
+  "emailSelectRow": "Valitse",
   "@emailExtraRecipients": {
     "placeholders": {
       "count": { "type": "int" }

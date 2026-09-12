@@ -276,6 +276,9 @@
   "emailDeletePermanently": "Удалить навсегда",
   "emailNoSubject": "(Без темы)",
   "emailExtraRecipients": "{count, plural, one{ещё {count} получатель} few{ещё {count} получателя} many{ещё {count} получателей} other{ещё {count} получателя}}",
+  "emailUnread": "Непрочитанное",
+  "emailAttachmentCount": "{count, plural, one{{count} вложение} few{{count} вложения} many{{count} вложений} other{{count} вложения}}",
+  "emailSelectRow": "Выбрать",
 
   "emailNotFound": "Письмо не найдено",
   "emailSenderNpub": "npub отправителя: {npub}",

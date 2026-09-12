@@ -276,6 +276,9 @@
   "emailDeletePermanently": "完全に削除",
   "emailNoSubject": "(件名なし)",
   "emailExtraRecipients": "他に {count} 人の受信者",
+  "emailUnread": "未読",
+  "emailAttachmentCount": "{count, plural, other{添付ファイル{count}件}}",
+  "emailSelectRow": "選択",
 
   "emailNotFound": "メールが見つかりません",
   "emailSenderNpub": "送信者の npub: {npub}",

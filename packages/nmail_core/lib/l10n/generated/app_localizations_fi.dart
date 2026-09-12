@@ -709,6 +709,23 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String get emailUnread => 'Lukematon';
+
+  @override
+  String emailAttachmentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count liitettä',
+      one: '$count liite',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailSelectRow => 'Valitse';
+
+  @override
   String get emailNotFound => 'Sähköpostia ei löydy';
 
   @override

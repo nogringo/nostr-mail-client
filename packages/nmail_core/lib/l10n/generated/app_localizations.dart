@@ -1387,6 +1387,24 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{{count} more recipient} other{{count} more recipients}}'**
   String emailExtraRecipients(int count);
 
+  /// Leading fragment of a mailbox row's Semantics label, announced for a row the user has not opened yet. The read/unread state is otherwise carried only by a colored dot and a bolder subject
+  ///
+  /// In en, this message translates to:
+  /// **'Unread'**
+  String get emailUnread;
+
+  /// Trailing fragment of a mailbox row's Semantics label, announcing how many files the email carries. Plural-aware
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} attachment} other{{count} attachments}}'**
+  String emailAttachmentCount(int count);
+
+  /// Name of the custom accessibility action on a mailbox row that adds it to the selection, the screen-reader equivalent of the checkbox and of long-pressing the row
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get emailSelectRow;
+
   /// Error shown on the email screen when the email id does not resolve
   ///
   /// In en, this message translates to:

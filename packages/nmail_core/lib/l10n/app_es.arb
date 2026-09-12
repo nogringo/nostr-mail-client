@@ -276,6 +276,9 @@
   "emailDeletePermanently": "Eliminar permanentemente",
   "emailNoSubject": "(Sin asunto)",
   "emailExtraRecipients": "{count, plural, one{{count} destinatario más} other{{count} destinatarios más}}",
+  "emailUnread": "No leído",
+  "emailAttachmentCount": "{count, plural, one{{count} adjunto} other{{count} adjuntos}}",
+  "emailSelectRow": "Seleccionar",
 
   "emailNotFound": "Correo no encontrado",
   "emailSenderNpub": "npub del remitente: {npub}",

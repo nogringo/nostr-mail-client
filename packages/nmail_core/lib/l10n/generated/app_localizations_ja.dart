@@ -673,6 +673,22 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get emailUnread => '未読';
+
+  @override
+  String emailAttachmentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '添付ファイル$count件',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailSelectRow => '選択';
+
+  @override
   String get emailNotFound => 'メールが見つかりません';
 
   @override

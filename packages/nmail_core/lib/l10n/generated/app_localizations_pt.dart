@@ -711,6 +711,23 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get emailUnread => 'Não lida';
+
+  @override
+  String emailAttachmentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count anexos',
+      one: '$count anexo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailSelectRow => 'Selecionar';
+
+  @override
   String get emailNotFound => 'Email não encontrado';
 
   @override
@@ -2250,6 +2267,23 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
     );
     return '$_temp0';
   }
+
+  @override
+  String get emailUnread => 'Não lida';
+
+  @override
+  String emailAttachmentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count anexos',
+      one: '$count anexo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailSelectRow => 'Selecionar';
 
   @override
   String get emailNotFound => 'E-mail não encontrado';

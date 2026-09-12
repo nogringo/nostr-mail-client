@@ -715,6 +715,23 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get emailUnread => 'Non lu';
+
+  @override
+  String emailAttachmentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count pièces jointes',
+      one: '$count pièce jointe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailSelectRow => 'Sélectionner';
+
+  @override
   String get emailNotFound => 'E-mail introuvable';
 
   @override

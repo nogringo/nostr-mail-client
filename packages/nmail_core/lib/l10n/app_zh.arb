@@ -276,6 +276,9 @@
   "emailDeletePermanently": "永久删除",
   "emailNoSubject": "(无主题)",
   "emailExtraRecipients": "另外 {count} 位收件人",
+  "emailUnread": "未读",
+  "emailAttachmentCount": "{count, plural, other{{count} 个附件}}",
+  "emailSelectRow": "选择",
 
   "emailNotFound": "未找到邮件",
   "emailSenderNpub": "发件人 npub: {npub}",

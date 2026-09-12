@@ -1,5 +1,6 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/utils/format_date.dart';
@@ -155,8 +156,49 @@ class EmailTile extends StatelessWidget {
     );
   }
 
+  /// The row as one sentence, for screen readers. The visual tile spreads the
+  /// same facts over an avatar, a dot, four text runs and a chip, none of
+  /// which announce their role on their own.
+  String _semanticsLabel(BuildContext context) {
+    final l = AppLocalizations.of(context);
+    final attachmentCount = email.attachmentRefs.length;
+
+    return [
+      if (isUnread) l.emailUnread,
+      _displayName,
+      email.subject.isEmpty ? l.emailNoSubject : email.subject,
+      email.preview,
+      formatDate(context, email.date),
+      if (attachmentCount > 0) l.emailAttachmentCount(attachmentCount),
+    ].where((part) => part.isNotEmpty).join(', ');
+  }
+
+  /// Screen-reader equivalents of the swipe gestures and the checkbox, which
+  /// [Semantics.excludeSemantics] would otherwise leave unreachable. Mirrors
+  /// the directions [Dismissible] accepts for the current folder.
+  Map<CustomSemanticsAction, VoidCallback> _semanticsActions(
+    AppLocalizations l, {
+    required bool isInTrash,
+    required bool isInArchive,
+  }) {
+    return {
+      CustomSemanticsAction(label: l.emailSelectRow): ?onToggleSelect,
+      if (isInTrash) ...{
+        CustomSemanticsAction(label: l.emailRestore): ?onRestore,
+        CustomSemanticsAction(label: l.emailDeletePermanently): ?onDelete,
+      } else ...{
+        if (isInArchive)
+          CustomSemanticsAction(label: l.emailUnarchive): ?onRestore
+        else
+          CustomSemanticsAction(label: l.emailArchive): ?onArchive,
+        CustomSemanticsAction(label: l.emailMoveToTrash): ?onDelete,
+      },
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final isWide = ResponsiveHelper.isDesktop(context);
     final currentFolder = Get.find<InboxController>().currentFolder.value;
     final isInTrash = currentFolder == MailFolder.trash;
@@ -165,46 +207,61 @@ class EmailTile extends StatelessWidget {
 
     return Column(
       children: [
-        Dismissible(
-          key: ValueKey(email.id),
-          direction: isInTrash
-              ? DismissDirection.endToStart
-              : DismissDirection.horizontal,
-          background: Container(
-            color: isInArchive ? Colors.blue : Colors.green,
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.only(left: 16),
-            child: Icon(
-              isInArchive ? Icons.inbox : Icons.archive,
-              color: Colors.white,
+        Obx(
+          () => Semantics(
+            label: _semanticsLabel(context),
+            button: true,
+            selected: isSelected,
+            excludeSemantics: true,
+            onTap: onTap,
+            onLongPress: onToggleSelect,
+            customSemanticsActions: _semanticsActions(
+              l,
+              isInTrash: isInTrash,
+              isInArchive: isInArchive,
             ),
-          ),
-          secondaryBackground: Container(
-            color: colorScheme.error,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 16),
-            child: Icon(Icons.delete, color: colorScheme.onError),
-          ),
-          onDismissed: (direction) {
-            if (direction == DismissDirection.startToEnd) {
-              // Swipe right - archive (or restore from archive)
-              if (isInArchive) {
-                onRestore?.call();
-              } else {
-                onArchive?.call();
-              }
-            } else if (direction == DismissDirection.endToStart) {
-              // Swipe left - delete
-              onDelete?.call();
-            }
-          },
-          child: GestureDetector(
-            onSecondaryTapUp: (details) =>
-                _showContextMenu(context, position: details.globalPosition),
-            onLongPress: () => _showContextMenu(context),
-            child: isWide
-                ? _buildCompactTile(context, colorScheme)
-                : _buildDefaultTile(context),
+            child: Dismissible(
+              key: ValueKey(email.id),
+              direction: isInTrash
+                  ? DismissDirection.endToStart
+                  : DismissDirection.horizontal,
+              background: Container(
+                color: isInArchive ? Colors.blue : Colors.green,
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(left: 16),
+                child: Icon(
+                  isInArchive ? Icons.inbox : Icons.archive,
+                  color: Colors.white,
+                ),
+              ),
+              secondaryBackground: Container(
+                color: colorScheme.error,
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 16),
+                child: Icon(Icons.delete, color: colorScheme.onError),
+              ),
+              onDismissed: (direction) {
+                if (direction == DismissDirection.startToEnd) {
+                  // Swipe right - archive (or restore from archive)
+                  if (isInArchive) {
+                    onRestore?.call();
+                  } else {
+                    onArchive?.call();
+                  }
+                } else if (direction == DismissDirection.endToStart) {
+                  // Swipe left - delete
+                  onDelete?.call();
+                }
+              },
+              child: GestureDetector(
+                onSecondaryTapUp: (details) =>
+                    _showContextMenu(context, position: details.globalPosition),
+                onLongPress: () => _showContextMenu(context),
+                child: isWide
+                    ? _buildCompactTile(context, colorScheme)
+                    : _buildDefaultTile(context),
+              ),
+            ),
           ),
         ),
         const Divider(height: 1),

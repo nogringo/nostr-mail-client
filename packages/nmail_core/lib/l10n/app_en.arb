@@ -493,6 +493,17 @@
       "count": { "type": "int" }
     }
   },
+  "emailUnread": "Unread",
+  "@emailUnread": { "description": "Leading fragment of a mailbox row's Semantics label, announced for a row the user has not opened yet. The read/unread state is otherwise carried only by a colored dot and a bolder subject" },
+  "emailAttachmentCount": "{count, plural, one{{count} attachment} other{{count} attachments}}",
+  "@emailAttachmentCount": {
+    "description": "Trailing fragment of a mailbox row's Semantics label, announcing how many files the email carries. Plural-aware",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "emailSelectRow": "Select",
+  "@emailSelectRow": { "description": "Name of the custom accessibility action on a mailbox row that adds it to the selection, the screen-reader equivalent of the checkbox and of long-pressing the row" },
 
   "emailNotFound": "Email not found",
   "@emailNotFound": { "description": "Error shown on the email screen when the email id does not resolve" },
