@@ -29,22 +29,27 @@ class LeftRail extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Tooltip(
               message: l.folderInbox,
-              child: InkWell(
-                customBorder: const CircleBorder(),
-                onTap: () => context.go(AppRoutes.inbox),
-                child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    shape: BoxShape.circle,
-                  ),
-                  padding: const EdgeInsets.all(6),
-                  child: SvgPicture.asset(
-                    'icons/original_transparent_2x.svg',
-                    colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.surface,
-                      BlendMode.srcIn,
+              // No label alongside: IconButton announces a tooltip the same
+              // way, and both would read the name twice.
+              child: Semantics(
+                button: true,
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  onTap: () => context.go(AppRoutes.inbox),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    padding: const EdgeInsets.all(6),
+                    child: SvgPicture.asset(
+                      'icons/original_transparent_2x.svg',
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.surface,
+                        BlendMode.srcIn,
+                      ),
                     ),
                   ),
                 ),

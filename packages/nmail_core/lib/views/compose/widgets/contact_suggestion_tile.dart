@@ -26,46 +26,49 @@ class ContactSuggestionTile extends StatelessWidget {
       color: isHighlighted
           ? colorScheme.primaryContainer.withValues(alpha: 0.5)
           : Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        canRequestFocus: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          child: Row(
-            children: [
-              _buildAvatar(context),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      contact.label,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: colorScheme.onSurface,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (contact.subtitle != null) ...[
-                      const SizedBox(height: 2),
+      child: Semantics(
+        button: true,
+        child: InkWell(
+          onTap: onTap,
+          canRequestFocus: false,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Row(
+              children: [
+                _buildAvatar(context),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
                       Text(
-                        contact.subtitle!,
+                        contact.label,
                         style: TextStyle(
-                          fontSize: 12,
-                          color: colorScheme.onSurfaceVariant,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: colorScheme.onSurface,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
+                      if (contact.subtitle != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          contact.subtitle!,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: colorScheme.onSurfaceVariant,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              _buildSourceIndicator(context),
-            ],
+                const SizedBox(width: 8),
+                _buildSourceIndicator(context),
+              ],
+            ),
           ),
         ),
       ),

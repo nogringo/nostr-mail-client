@@ -105,31 +105,34 @@ class _CreateNewIdentityTile extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
 
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: colorScheme.outline, width: 1),
+    return Semantics(
+      button: true,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colorScheme.outline, width: 1),
+                ),
+                child: Icon(Icons.add, size: 16, color: colorScheme.primary),
               ),
-              child: Icon(Icons.add, size: 16, color: colorScheme.primary),
-            ),
-            const SizedBox(width: 12),
-            Text(
-              l.composeCreateNewIdentity,
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-                color: colorScheme.primary,
+              const SizedBox(width: 12),
+              Text(
+                l.composeCreateNewIdentity,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: colorScheme.primary,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -151,62 +154,68 @@ class _FromOptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? colorScheme.primaryContainer.withValues(alpha: 0.3)
-              : null,
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: isSelected ? colorScheme.primary : colorScheme.outline,
-                  width: 2,
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: BoxDecoration(
+            color: isSelected
+                ? colorScheme.primaryContainer.withValues(alpha: 0.3)
+                : null,
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isSelected
+                        ? colorScheme.primary
+                        : colorScheme.outline,
+                    width: 2,
+                  ),
+                  color: isSelected ? colorScheme.primary : Colors.transparent,
                 ),
-                color: isSelected ? colorScheme.primary : Colors.transparent,
+                child: isSelected
+                    ? Icon(Icons.check, size: 16, color: colorScheme.onPrimary)
+                    : null,
               ),
-              child: isSelected
-                  ? Icon(Icons.check, size: 16, color: colorScheme.onPrimary)
-                  : null,
-            ),
-            const SizedBox(width: 12),
-            _buildAvatar(context),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (option.displayName != null &&
-                      option.displayName!.isNotEmpty) ...[
+              const SizedBox(width: 12),
+              _buildAvatar(context),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (option.displayName != null &&
+                        option.displayName!.isNotEmpty) ...[
+                      Text(
+                        option.displayName!,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                    ],
                     Text(
-                      option.displayName!,
+                      option.shortAddress,
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: colorScheme.onSurface,
+                        fontSize: 13,
+                        color: colorScheme.onSurfaceVariant,
                       ),
                     ),
-                    const SizedBox(height: 2),
                   ],
-                  Text(
-                    option.shortAddress,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
