@@ -168,7 +168,7 @@ class _BackgroundPresetPainter extends CustomPainter {
     _fillLinear(
       canvas,
       rect,
-      const [Color(0xFFFFF6EE), Color(0xFFF4C2AA), Color(0xFFAEDDD3)],
+      const [Color(0xFFFAF7F0), Color(0xFFDDE2EC), Color(0xFFBAC7DC)],
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
     );
@@ -177,15 +177,15 @@ class _BackgroundPresetPainter extends CustomPainter {
       size,
       const Offset(.18, .16),
       .42,
-      const Color(0xFFFFD36E),
-      .32,
+      const Color(0xFFC2A47E),
+      .36,
     );
     _softCircle(
       canvas,
       size,
       const Offset(.78, .82),
       .48,
-      const Color(0xFF4FB7A5),
+      const Color(0xFF5E7FB5),
       .34,
     );
     _softCircle(
@@ -193,8 +193,8 @@ class _BackgroundPresetPainter extends CustomPainter {
       size,
       const Offset(.08, .72),
       .36,
-      const Color(0xFFE56F86),
-      .18,
+      const Color(0xFF8FA5CE),
+      .20,
     );
   }
 
@@ -204,7 +204,7 @@ class _BackgroundPresetPainter extends CustomPainter {
       _fillLinear(
         canvas,
         rect,
-        const [Color(0xFFFCFAF5), Color(0xFFF0E8DD), Color(0xFFD9E5E3)],
+        const [Color(0xFFFCFAF5), Color(0xFFF3EFE4), Color(0xFFCEDFD9)],
         begin: Alignment.topCenter,
         end: Alignment.bottomRight,
       );
@@ -213,15 +213,15 @@ class _BackgroundPresetPainter extends CustomPainter {
         size,
         const Offset(.12, .2),
         .36,
-        const Color(0xFFE7AA93),
-        .2,
+        const Color(0xFFE0CB99),
+        .22,
       );
       _softCircle(
         canvas,
         size,
         const Offset(.86, .68),
         .42,
-        const Color(0xFFA9C1BC),
+        const Color(0xFF8FBCAC),
         .3,
       );
     }
@@ -231,7 +231,7 @@ class _BackgroundPresetPainter extends CustomPainter {
     _drawWaves(
       canvas,
       size,
-      const Color(0xFF9A806F).withValues(alpha: .11),
+      const Color(0xFF4F7D71).withValues(alpha: .11),
       progress: progress,
       count: 8,
       baseYFactor: -.05,
@@ -291,7 +291,7 @@ class _BackgroundPresetPainter extends CustomPainter {
     _fillLinear(
       canvas,
       rect,
-      const [Color(0xFF0E1718), Color(0xFF1D3434), Color(0xFF284A43)],
+      const [Color(0xFF0D131C), Color(0xFF1B2739), Color(0xFF27384F)],
       begin: Alignment.topRight,
       end: Alignment.bottomRight,
     );
@@ -300,7 +300,7 @@ class _BackgroundPresetPainter extends CustomPainter {
       size,
       const Offset(.16, .86),
       .48,
-      const Color(0xFF2A8A78),
+      const Color(0xFF3C6699),
       .26,
     );
     _softCircle(
@@ -316,7 +316,7 @@ class _BackgroundPresetPainter extends CustomPainter {
       size,
       const Offset(.5, .45),
       .5,
-      const Color(0xFF344B6C),
+      const Color(0xFF3B4477),
       .16,
     );
   }

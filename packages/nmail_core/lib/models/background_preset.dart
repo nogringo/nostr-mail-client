@@ -47,7 +47,7 @@ class BackgroundPreset {
       id: 'animated_waves',
       lightVariant: BackgroundPresetVariant(
         id: 'paper_light',
-        seedColor: Color(0xFFC67A60),
+        seedColor: Color(0xFF5A9787),
       ),
       darkVariant: BackgroundPresetVariant(
         id: 'midnight_inbox',
@@ -58,11 +58,11 @@ class BackgroundPreset {
       id: 'soft_gradient',
       lightVariant: BackgroundPresetVariant(
         id: 'relay_map',
-        seedColor: Color(0xFFC56C62),
+        seedColor: Color(0xFF6A89AA),
       ),
       darkVariant: BackgroundPresetVariant(
         id: 'dawn_sync',
-        seedColor: Color(0xFF7FB4A4),
+        seedColor: Color(0xFF8EAED1),
       ),
     ),
     BackgroundPreset(
