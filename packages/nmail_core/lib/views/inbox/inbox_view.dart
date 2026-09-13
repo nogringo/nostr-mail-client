@@ -331,11 +331,6 @@ class InboxView extends GetView<InboxController> {
                       tooltip: l.inboxSearch,
                       onPressed: () => controller.enterSearchMode(),
                     ),
-                    IconButton(
-                      icon: const Icon(Icons.settings),
-                      tooltip: l.inboxSettings,
-                      onPressed: () => context.go(AppRoutes.settings),
-                    ),
                     const SizedBox(width: 8),
                     Builder(
                       builder: (context) => MenuAnchor(
