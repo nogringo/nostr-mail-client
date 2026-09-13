@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +12,7 @@ import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/models/compose_mode.dart';
+import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/get_mime_type.dart';
@@ -68,6 +70,15 @@ class EmailController extends GetxController {
     // Bridged (or metadata not yet loaded): rely on the email headers,
     // which carry the actual legacy contact.
     return email!.sender?.encode() ?? '';
+  }
+
+  EmailPerson get senderPerson {
+    final email = this.email!;
+    if (!email.isBridged) return EmailPerson.nostr(email.senderPubkey);
+    return EmailPerson.email(
+      email.sender ?? MailAddress(null, ''),
+      bridgePubkey: email.senderPubkey,
+    );
   }
 
   String get recipientDisplayName {

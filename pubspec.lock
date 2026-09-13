@@ -969,19 +969,18 @@ packages:
     dependency: transitive
     description:
       name: ndk
-      sha256: "86a2f0f2c853f142fa8add4d55f63be91ac318854c46ad361d27191ddf1891ef"
+      sha256: "8cb136964f22df34529ec2a956bc47a6cdea32006b13de4cd1cdea50b9dc3cae"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.0-dev.1"
+    version: "0.10.0-dev.3"
   ndk_drift:
     dependency: transitive
     description:
-      path: "packages/drift"
-      ref: "v0.10.0-dev.1"
-      resolved-ref: "4c0c57c926da6d462f32f1580d8b1ca2d8f7092e"
-      url: "https://github.com/relaystr/ndk.git"
-    source: git
-    version: "0.1.1-dev.9"
+      name: ndk_drift
+      sha256: "63b9694b950a71bfaa16d6e5e7952e98fddfcb7a1b3da977ed1373d2b4907a06"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1-dev.15"
   ndk_flutter:
     dependency: transitive
     description:
@@ -1018,10 +1017,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: "135a54932276b9ca64df5b61a307a6ee6314d5c932be4c968767db9efcf56dae"
+      sha256: f1a056539c00f2dd52514758aa6c954d50def31d311dea980e6197cfb6f764be
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.1.1"
   objective_c:
     dependency: transitive
     description:

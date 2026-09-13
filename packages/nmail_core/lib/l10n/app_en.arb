@@ -767,6 +767,19 @@
   "@contactsAdd": { "description": "Button label to add a new contact" },
   "contactsAddToContacts": "Add to contacts",
   "@contactsAddToContacts": { "description": "Tooltip or action label to save a sender/recipient to contacts" },
+  "personCardCompose": "Write an email",
+  "@personCardCompose": { "description": "Action in the person card (opened from an avatar in the email header) that starts a new email to that person" },
+  "personCardViewContact": "View contact",
+  "@personCardViewContact": { "description": "Action in the person card that opens the matching address book contact" },
+  "personCardCopyEmail": "Copy email address",
+  "@personCardCopyEmail": { "description": "Action in the person card that copies the person's email address" },
+  "personCardViaBridge": "Via {bridge}",
+  "@personCardViaBridge": {
+    "description": "Line in the person card naming the bridge that relayed the email",
+    "placeholders": {
+      "bridge": { "type": "String" }
+    }
+  },
   "contactsSync": "Sync contacts",
   "@contactsSync": { "description": "Tooltip for syncing private contacts from relays" },
   "contactsRetry": "Retry pending contact updates",

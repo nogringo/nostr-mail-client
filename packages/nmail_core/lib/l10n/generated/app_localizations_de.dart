@@ -1090,6 +1090,20 @@ class AppLocalizationsDe extends AppLocalizations {
   String get contactsAddToContacts => 'Zu Kontakten hinzufügen';
 
   @override
+  String get personCardCompose => 'E-Mail schreiben';
+
+  @override
+  String get personCardViewContact => 'Kontakt anzeigen';
+
+  @override
+  String get personCardCopyEmail => 'E-Mail-Adresse kopieren';
+
+  @override
+  String personCardViaBridge(String bridge) {
+    return 'Über $bridge';
+  }
+
+  @override
   String get contactsSync => 'Kontakte synchronisieren';
 
   @override

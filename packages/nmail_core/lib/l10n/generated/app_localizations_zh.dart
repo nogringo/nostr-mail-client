@@ -1023,6 +1023,20 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsAddToContacts => '添加到联系人';
 
   @override
+  String get personCardCompose => '写邮件';
+
+  @override
+  String get personCardViewContact => '查看联系人';
+
+  @override
+  String get personCardCopyEmail => '复制邮箱地址';
+
+  @override
+  String personCardViaBridge(String bridge) {
+    return '经由 $bridge';
+  }
+
+  @override
   String get contactsSync => '同步联系人';
 
   @override

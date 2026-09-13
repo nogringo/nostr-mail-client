@@ -1084,6 +1084,20 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsAddToContacts => 'Lisää yhteystietoihin';
 
   @override
+  String get personCardCompose => 'Kirjoita sähköposti';
+
+  @override
+  String get personCardViewContact => 'Näytä yhteystieto';
+
+  @override
+  String get personCardCopyEmail => 'Kopioi sähköpostiosoite';
+
+  @override
+  String personCardViaBridge(String bridge) {
+    return 'Välittäjä: $bridge';
+  }
+
+  @override
   String get contactsSync => 'Synkronoi yhteystiedot';
 
   @override

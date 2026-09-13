@@ -43,14 +43,10 @@ dependencies:
   markdown_quill: ^4.3.0
   mime: ^2.0.0
   ndk: ^0.10.0-dev.1
-  ndk_drift:
-    git:
-      url: https://github.com/relaystr/ndk.git
-      ref: v0.10.0-dev.1
-      path: packages/drift
+  ndk_drift: ^0.1.1-dev.15
   ndk_flutter: ^0.9.0-dev.7
   nostr_address_book: ^0.4.0
-  nostr_mail: ^3.0.0
+  nostr_mail: ^3.1.1
   package_info_plus: ^9.0.1
   path: ^1.9.1
   path_provider: ^2.1.6

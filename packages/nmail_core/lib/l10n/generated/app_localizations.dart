@@ -2041,6 +2041,30 @@ abstract class AppLocalizations {
   /// **'Add to contacts'**
   String get contactsAddToContacts;
 
+  /// Action in the person card (opened from an avatar in the email header) that starts a new email to that person
+  ///
+  /// In en, this message translates to:
+  /// **'Write an email'**
+  String get personCardCompose;
+
+  /// Action in the person card that opens the matching address book contact
+  ///
+  /// In en, this message translates to:
+  /// **'View contact'**
+  String get personCardViewContact;
+
+  /// Action in the person card that copies the person's email address
+  ///
+  /// In en, this message translates to:
+  /// **'Copy email address'**
+  String get personCardCopyEmail;
+
+  /// Line in the person card naming the bridge that relayed the email
+  ///
+  /// In en, this message translates to:
+  /// **'Via {bridge}'**
+  String personCardViaBridge(String bridge);
+
   /// Tooltip for syncing private contacts from relays
   ///
   /// In en, this message translates to:

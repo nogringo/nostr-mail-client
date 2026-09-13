@@ -1087,6 +1087,20 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsAddToContacts => 'Adicionar aos contactos';
 
   @override
+  String get personCardCompose => 'Escrever um email';
+
+  @override
+  String get personCardViewContact => 'Ver contacto';
+
+  @override
+  String get personCardCopyEmail => 'Copiar endereço de email';
+
+  @override
+  String personCardViaBridge(String bridge) {
+    return 'Via $bridge';
+  }
+
+  @override
   String get contactsSync => 'Sincronizar contactos';
 
   @override
@@ -2652,6 +2666,20 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get contactsAddToContacts => 'Adicionar aos contatos';
+
+  @override
+  String get personCardCompose => 'Escrever um e-mail';
+
+  @override
+  String get personCardViewContact => 'Ver contato';
+
+  @override
+  String get personCardCopyEmail => 'Copiar endereço de e-mail';
+
+  @override
+  String personCardViaBridge(String bridge) {
+    return 'Via $bridge';
+  }
 
   @override
   String get contactsSync => 'Sincronizar contatos';

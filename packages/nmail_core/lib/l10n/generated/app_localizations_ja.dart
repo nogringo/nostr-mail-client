@@ -1029,6 +1029,20 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsAddToContacts => '連絡先に追加';
 
   @override
+  String get personCardCompose => 'メールを書く';
+
+  @override
+  String get personCardViewContact => '連絡先を表示';
+
+  @override
+  String get personCardCopyEmail => 'メールアドレスをコピー';
+
+  @override
+  String personCardViaBridge(String bridge) {
+    return '$bridge 経由';
+  }
+
+  @override
   String get contactsSync => '連絡先を同期';
 
   @override

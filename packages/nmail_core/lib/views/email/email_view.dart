@@ -76,7 +76,7 @@ class EmailView extends StatelessWidget {
             child: SingleChildScrollView(
               child: ResponsiveCenter(
                 maxWidth: 800,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -84,7 +84,7 @@ class EmailView extends StatelessWidget {
                     // Desktop: actions bar between header and body
                     if (isWide)
                       Container(
-                        margin: const EdgeInsets.only(bottom: 16),
+                        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
                           border: Border(
@@ -99,8 +99,11 @@ class EmailView extends StatelessWidget {
                         child: const DesktopActionsBar(),
                       )
                     else
-                      const SizedBox(height: 16),
-                    EmailBodyView(email: controller.email!),
+                      const SizedBox(height: 8),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: EmailBodyView(email: controller.email!),
+                    ),
                   ],
                 ),
               ),

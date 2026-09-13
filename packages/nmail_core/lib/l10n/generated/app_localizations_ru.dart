@@ -1099,6 +1099,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsAddToContacts => 'Добавить в контакты';
 
   @override
+  String get personCardCompose => 'Написать письмо';
+
+  @override
+  String get personCardViewContact => 'Открыть контакт';
+
+  @override
+  String get personCardCopyEmail => 'Скопировать адрес почты';
+
+  @override
+  String personCardViaBridge(String bridge) {
+    return 'Через $bridge';
+  }
+
+  @override
   String get contactsSync => 'Синхронизировать контакты';
 
   @override

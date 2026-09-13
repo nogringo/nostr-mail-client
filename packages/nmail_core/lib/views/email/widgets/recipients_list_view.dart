@@ -1,16 +1,14 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:nmail_core/controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/models/address_book_contact_form.dart';
+import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
-import 'package:nmail_core/views/contacts/widgets/show_contact_form.dart';
 import 'package:nmail_core/widgets/email_avatar.dart';
 import 'package:nmail_core/widgets/nostr_avatar.dart';
 
 import '../email_controller.dart';
+import 'person_anchor.dart';
 
 class RecipientsListView extends StatelessWidget {
   const RecipientsListView({super.key});
@@ -100,37 +98,40 @@ class RecipientsListView extends StatelessWidget {
         ? metadata.getBestName()
         : (pubkey != null ? getAnonName(pubkey) : recipient.email);
 
-    return ActionChip(
-      shape: const StadiumBorder(),
-      backgroundColor: colorScheme.primaryContainer,
-      side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
-      avatar: _buildAvatar(recipient, pubkey),
-      label: Text(
-        label,
-        style: TextStyle(
-          color: colorScheme.primary,
-          fontWeight: FontWeight.w500,
+    return PersonAnchor(
+      person: pubkey != null
+          ? EmailPerson.nostr(pubkey)
+          : EmailPerson.email(recipient),
+      builder: (context, open) => ActionChip(
+        shape: const StadiumBorder(),
+        backgroundColor: colorScheme.primaryContainer,
+        side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
+        avatar: _buildAvatar(recipient, pubkey),
+        label: Text(
+          label,
+          style: TextStyle(
+            color: colorScheme.primary,
+            fontWeight: FontWeight.w500,
+          ),
         ),
+        onPressed: open,
       ),
-      onPressed: () =>
-          _showContactForm(context, displayName: label, pubkey: pubkey),
     );
   }
 
   Widget _buildLegacyChip(BuildContext context, MailAddress recipient) {
     final colorScheme = Theme.of(context).colorScheme;
-    return ActionChip(
-      shape: const StadiumBorder(),
-      backgroundColor: colorScheme.surfaceContainerHighest,
-      side: BorderSide(color: colorScheme.outlineVariant),
-      label: Text(
-        recipient.personalName ?? recipient.email,
-        style: TextStyle(color: colorScheme.onSurfaceVariant),
-      ),
-      onPressed: () => _showContactForm(
-        context,
-        displayName: recipient.personalName ?? recipient.email,
-        email: recipient.email,
+    return PersonAnchor(
+      person: EmailPerson.email(recipient),
+      builder: (context, open) => ActionChip(
+        shape: const StadiumBorder(),
+        backgroundColor: colorScheme.surfaceContainerHighest,
+        side: BorderSide(color: colorScheme.outlineVariant),
+        label: Text(
+          recipient.personalName ?? recipient.email,
+          style: TextStyle(color: colorScheme.onSurfaceVariant),
+        ),
+        onPressed: open,
       ),
     );
   }
@@ -141,24 +142,5 @@ class RecipientsListView extends StatelessWidget {
     }
 
     return NostrAvatar(pubkey: pubkey, radius: 12);
-  }
-
-  void _showContactForm(
-    BuildContext context, {
-    required String displayName,
-    String? email,
-    String? pubkey,
-  }) {
-    if (!Get.isRegistered<ContactsController>()) {
-      Get.put(ContactsController());
-    }
-    showContactForm(
-      context,
-      initialForm: AddressBookContactForm(
-        displayName: displayName,
-        emails: email == null || email.isEmpty ? const [] : [email],
-        nostrPubkeys: pubkey == null || pubkey.isEmpty ? const [] : [pubkey],
-      ),
-    );
   }
 }
