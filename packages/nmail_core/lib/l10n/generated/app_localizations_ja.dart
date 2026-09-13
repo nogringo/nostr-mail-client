@@ -323,6 +323,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relayWrite => '書き込み';
 
   @override
+  String get relayReadWriteDescription => '両方を同時に';
+
+  @override
+  String get relayReadDescription => 'あなた宛てのものを受け取ります';
+
+  @override
+  String get relayWriteDescription => 'アカウントから公開します';
+
+  @override
   String get relayMarkerReadWrite => '読み書き';
 
   @override

@@ -336,6 +336,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get relayWrite => 'Écriture';
 
   @override
+  String get relayReadWriteDescription => 'Les deux à la fois';
+
+  @override
+  String get relayReadDescription => 'Reçoit ce qui vous est destiné';
+
+  @override
+  String get relayWriteDescription => 'Publie depuis votre compte';
+
+  @override
   String get relayMarkerReadWrite => 'lecture/écriture';
 
   @override

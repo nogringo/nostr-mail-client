@@ -322,6 +322,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relayWrite => '写';
 
   @override
+  String get relayReadWriteDescription => '两者兼顾';
+
+  @override
+  String get relayReadDescription => '接收发给您的内容';
+
+  @override
+  String get relayWriteDescription => '从您的账号发布';
+
+  @override
   String get relayMarkerReadWrite => '读/写';
 
   @override

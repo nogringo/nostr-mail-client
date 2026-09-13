@@ -333,6 +333,15 @@ class AppLocalizationsFi extends AppLocalizations {
   String get relayWrite => 'Kirjoita';
 
   @override
+  String get relayReadWriteDescription => 'Molemmat samanaikaisesti';
+
+  @override
+  String get relayReadDescription => 'Vastaanottaa sinulle tarkoitetun';
+
+  @override
+  String get relayWriteDescription => 'Julkaisee tililtäsi';
+
+  @override
   String get relayMarkerReadWrite => 'lue/kirjoita';
 
   @override

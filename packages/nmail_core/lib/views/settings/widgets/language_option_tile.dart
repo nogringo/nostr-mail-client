@@ -50,7 +50,6 @@ class LanguageOptionTile extends StatelessWidget {
               : null,
           minTileHeight: 56,
           title: Text(label),
-          trailing: isSelected ? const Icon(Icons.check) : null,
           onTap: () {
             if (!isSelected) controller.setLocale(locale);
             Navigator.pop(context);

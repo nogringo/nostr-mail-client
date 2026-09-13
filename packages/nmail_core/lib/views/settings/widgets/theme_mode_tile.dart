@@ -53,7 +53,6 @@ class ThemeModeTile extends StatelessWidget {
             ThemeMode.light => l.settingsThemeLight,
             ThemeMode.dark => l.settingsThemeDark,
           }),
-          trailing: isSelected ? const Icon(Icons.check) : null,
           onTap: isSelected ? null : () => controller.setThemeMode(mode),
         );
       }),

@@ -12,6 +12,7 @@ import 'hosting_empty_tile.dart';
 import 'hosting_loading_tile.dart';
 import 'hosting_resource_tile.dart';
 import 'recommendation_chips.dart';
+import 'relay_direction_tile.dart';
 import 'settings_group.dart';
 import 'settings_section_header.dart';
 
@@ -32,6 +33,7 @@ class Nip65RelaysSection extends StatelessWidget {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
           title: Text(l.relayAddTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -85,25 +87,17 @@ class Nip65RelaysSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              SegmentedButton<ReadWriteMarker>(
-                segments: [
-                  ButtonSegment(
-                    value: ReadWriteMarker.readWrite,
-                    label: Text(l.relayReadWrite),
-                  ),
-                  ButtonSegment(
-                    value: ReadWriteMarker.readOnly,
-                    label: Text(l.relayRead),
-                  ),
-                  ButtonSegment(
-                    value: ReadWriteMarker.writeOnly,
-                    label: Text(l.relayWrite),
-                  ),
+              SettingsGroup(
+                rows: [
+                  for (final option in ReadWriteMarker.values)
+                    (index, count) => RelayDirectionTile(
+                      marker: option,
+                      isSelected: option == marker,
+                      onSelected: () => setDialogState(() => marker = option),
+                      index: index,
+                      count: count,
+                    ),
                 ],
-                selected: {marker},
-                onSelectionChanged: (selected) {
-                  setDialogState(() => marker = selected.first);
-                },
               ),
             ],
           ),

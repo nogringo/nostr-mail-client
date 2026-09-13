@@ -336,6 +336,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get relayWrite => 'Schreiben';
 
   @override
+  String get relayReadWriteDescription => 'Beides gleichzeitig';
+
+  @override
+  String get relayReadDescription => 'Empfängt, was für dich bestimmt ist';
+
+  @override
+  String get relayWriteDescription => 'Veröffentlicht von deinem Konto';
+
+  @override
   String get relayMarkerReadWrite => 'lesen/schreiben';
 
   @override

@@ -333,6 +333,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get relayWrite => 'Write';
 
   @override
+  String get relayReadWriteDescription => 'Both at once';
+
+  @override
+  String get relayReadDescription => 'Receives what\'s meant for you';
+
+  @override
+  String get relayWriteDescription => 'Publishes from your account';
+
+  @override
   String get relayMarkerReadWrite => 'read/write';
 
   @override

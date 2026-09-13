@@ -334,6 +334,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get relayWrite => 'Escrita';
 
   @override
+  String get relayReadWriteDescription => 'Ambas em simultâneo';
+
+  @override
+  String get relayReadDescription => 'Recebe o que se destina a si';
+
+  @override
+  String get relayWriteDescription => 'Publica a partir da sua conta';
+
+  @override
   String get relayMarkerReadWrite => 'leitura/escrita';
 
   @override
@@ -1890,6 +1899,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get relayWrite => 'Escrita';
+
+  @override
+  String get relayReadWriteDescription => 'Ambas ao mesmo tempo';
+
+  @override
+  String get relayReadDescription => 'Recebe o que é destinado a você';
+
+  @override
+  String get relayWriteDescription => 'Publica da sua conta';
 
   @override
   String get relayMarkerReadWrite => 'leitura/escrita';

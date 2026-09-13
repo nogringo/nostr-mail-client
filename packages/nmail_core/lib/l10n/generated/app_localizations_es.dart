@@ -334,6 +334,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get relayWrite => 'Escritura';
 
   @override
+  String get relayReadWriteDescription => 'Ambas a la vez';
+
+  @override
+  String get relayReadDescription => 'Recibe lo que va dirigido a ti';
+
+  @override
+  String get relayWriteDescription => 'Publica desde tu cuenta';
+
+  @override
   String get relayMarkerReadWrite => 'lectura/escritura';
 
   @override

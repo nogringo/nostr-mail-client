@@ -336,6 +336,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get relayWrite => 'Запись';
 
   @override
+  String get relayReadWriteDescription => 'И то и другое';
+
+  @override
+  String get relayReadDescription => 'Получает то, что адресовано вам';
+
+  @override
+  String get relayWriteDescription => 'Публикует от вашего аккаунта';
+
+  @override
   String get relayMarkerReadWrite => 'чтение/запись';
 
   @override

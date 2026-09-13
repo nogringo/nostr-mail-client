@@ -721,6 +721,24 @@ abstract class AppLocalizations {
   /// **'Write'**
   String get relayWrite;
 
+  /// Subtitle of the read & write direction option
+  ///
+  /// In en, this message translates to:
+  /// **'Both at once'**
+  String get relayReadWriteDescription;
+
+  /// Subtitle of the read-only direction option
+  ///
+  /// In en, this message translates to:
+  /// **'Receives what\'s meant for you'**
+  String get relayReadDescription;
+
+  /// Subtitle of the write-only direction option
+  ///
+  /// In en, this message translates to:
+  /// **'Publishes from your account'**
+  String get relayWriteDescription;
+
   /// Inline marker below a relay row showing it is read/write
   ///
   /// In en, this message translates to:
