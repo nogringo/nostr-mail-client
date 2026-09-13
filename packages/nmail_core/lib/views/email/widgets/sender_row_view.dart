@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/format_date_time.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
+import 'package:nmail_core/views/email/widgets/person_name.dart';
 import 'package:nmail_core/views/email/widgets/sender_avatar_view.dart';
 
 class SenderRowView extends StatelessWidget {
@@ -27,8 +28,8 @@ class SenderRowView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                controller.senderDisplayName,
+              PersonName(
+                person: controller.senderPerson,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,

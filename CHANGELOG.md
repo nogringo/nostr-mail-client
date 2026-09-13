@@ -28,6 +28,9 @@ Releases prior to 0.13.0 are listed on the
   messages.
 - Show in the hosting settings when the device itself has no network, so it can
   be told apart from your relays being down.
+- Tap the sender or a recipient of an email to open their card: write to them,
+  open or add their contact, or copy their address. It replaces the add to
+  contacts button in the email header.
 
 ### Changed
 
@@ -58,6 +61,8 @@ Releases prior to 0.13.0 are listed on the
   network, instead of waiting for the search to time out.
 - Stop reporting a failure when saving your profile, which was in fact saved and
   published every time.
+- Show a readable name for a Nostr sender without a profile, instead of their
+  full `npub@nostr` address, in the email header and the inbox.
 
 ## [0.14.2]
 

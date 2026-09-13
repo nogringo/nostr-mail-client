@@ -5,18 +5,15 @@ import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
-import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/get_mime_type.dart';
-import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
@@ -44,12 +41,6 @@ class EmailController extends GetxController {
   final MailFolder? folder;
 
   Email? email;
-  // Always the nostr identity behind the conversation. For not-bridged
-  // emails, this IS the contact; for bridged emails, this is the bridge
-  // that relayed the email (and the actual contact is in the MIME From).
-  Metadata? senderMetadata;
-  Metadata? recipientMetadata;
-  final Map<String, Metadata> recipientsMetadata = {}; // keyed by hex pubkey
   bool isLoading = true;
   bool showRecipients = false;
   late bool showImages;
@@ -61,17 +52,6 @@ class EmailController extends GetxController {
     loadEmail();
   }
 
-  String get senderDisplayName {
-    // Direct nostr conversation: the sender pubkey IS the contact, so
-    // its nostr profile name is the right thing to show.
-    if (!(email?.isBridged ?? false) && senderMetadata != null) {
-      return senderMetadata!.getBestName();
-    }
-    // Bridged (or metadata not yet loaded): rely on the email headers,
-    // which carry the actual legacy contact.
-    return email!.sender?.encode() ?? '';
-  }
-
   EmailPerson get senderPerson {
     final email = this.email!;
     if (!email.isBridged) return EmailPerson.nostr(email.senderPubkey);
@@ -79,21 +59,6 @@ class EmailController extends GetxController {
       email.sender ?? MailAddress(null, ''),
       bridgePubkey: email.senderPubkey,
     );
-  }
-
-  String get recipientDisplayName {
-    if (!(email?.isBridged ?? false) && recipientMetadata != null) {
-      return recipientMetadata!.getBestName();
-    }
-    final to = email!.mime.to?.firstOrNull;
-    if (to != null && to.email.isNotEmpty) {
-      return to.encode();
-    }
-    final pubkey = email?.recipientPubkey;
-    if (pubkey != null && pubkey.isNotEmpty) {
-      return getAnonName(pubkey);
-    }
-    return '';
   }
 
   /// Check if Reply All should be shown (multiple recipients or cc/bcc)
@@ -164,12 +129,6 @@ class EmailController extends GetxController {
             relays: reference.relays,
           );
 
-    if (loaded != null) {
-      loadSenderMetadata(loaded);
-      loadRecipientMetadata(loaded);
-      loadAllRecipientsMetadata(loaded);
-    }
-
     email = loaded;
     isLoading = false;
     update();
@@ -179,50 +138,6 @@ class EmailController extends GetxController {
     if (loaded != null && folder == MailFolder.inbox) {
       Get.find<InboxController>().markAsRead(loaded.id);
     }
-  }
-
-  Future<void> loadSenderMetadata(Email loadedEmail) async {
-    try {
-      final meta = await Get.find<MetadataService>().load(
-        loadedEmail.senderPubkey,
-      );
-      if (meta != null) {
-        senderMetadata = meta;
-        update();
-      }
-    } catch (_) {}
-  }
-
-  Future<void> loadRecipientMetadata(Email loadedEmail) async {
-    try {
-      final meta = await Get.find<MetadataService>().load(
-        loadedEmail.recipientPubkey,
-      );
-      if (meta != null) {
-        recipientMetadata = meta;
-        update();
-      }
-    } catch (_) {}
-  }
-
-  Future<void> loadAllRecipientsMetadata(Email loadedEmail) async {
-    final addresses = [
-      ...?loadedEmail.mime.to,
-      ...?loadedEmail.mime.cc,
-      ...?loadedEmail.mime.bcc,
-    ];
-
-    final pubkeys = <String>{};
-    for (final a in addresses) {
-      final pk = extractPubkeyFromAddress(a.email);
-      if (pk != null) pubkeys.add(pk);
-    }
-    if (pubkeys.isEmpty) return;
-
-    recipientsMetadata.addAll(
-      await Get.find<MetadataService>().loadMany(pubkeys.toList()),
-    );
-    update();
   }
 
   Future<void> deleteEmail(BuildContext context) async {

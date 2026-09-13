@@ -2,13 +2,13 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/email_person.dart';
-import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/widgets/email_avatar.dart';
 import 'package:nmail_core/widgets/nostr_avatar.dart';
 
 import '../email_controller.dart';
 import 'person_anchor.dart';
+import 'person_name.dart';
 
 class RecipientsListView extends StatelessWidget {
   const RecipientsListView({super.key});
@@ -90,25 +90,19 @@ class RecipientsListView extends StatelessWidget {
   Widget _buildNostrChip(BuildContext context, MailAddress recipient) {
     final colorScheme = Theme.of(context).colorScheme;
     final pubkey = extractPubkeyFromAddress(recipient.email);
-    final metadata = pubkey != null
-        ? EmailController.to.recipientsMetadata[pubkey]
-        : null;
-
-    final label = metadata != null
-        ? metadata.getBestName()
-        : (pubkey != null ? getAnonName(pubkey) : recipient.email);
+    final person = pubkey != null
+        ? EmailPerson.nostr(pubkey)
+        : EmailPerson.email(recipient);
 
     return PersonAnchor(
-      person: pubkey != null
-          ? EmailPerson.nostr(pubkey)
-          : EmailPerson.email(recipient),
+      person: person,
       builder: (context, open) => ActionChip(
         shape: const StadiumBorder(),
         backgroundColor: colorScheme.primaryContainer,
         side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
         avatar: _buildAvatar(recipient, pubkey),
-        label: Text(
-          label,
+        label: PersonName(
+          person: person,
           style: TextStyle(
             color: colorScheme.primary,
             fontWeight: FontWeight.w500,
@@ -121,14 +115,15 @@ class RecipientsListView extends StatelessWidget {
 
   Widget _buildLegacyChip(BuildContext context, MailAddress recipient) {
     final colorScheme = Theme.of(context).colorScheme;
+    final person = EmailPerson.email(recipient);
     return PersonAnchor(
-      person: EmailPerson.email(recipient),
+      person: person,
       builder: (context, open) => ActionChip(
         shape: const StadiumBorder(),
         backgroundColor: colorScheme.surfaceContainerHighest,
         side: BorderSide(color: colorScheme.outlineVariant),
-        label: Text(
-          recipient.personalName ?? recipient.email,
+        label: PersonName(
+          person: person,
           style: TextStyle(color: colorScheme.onSurfaceVariant),
         ),
         onPressed: open,

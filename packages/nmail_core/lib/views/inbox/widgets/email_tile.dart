@@ -10,7 +10,9 @@ import 'package:nmail_core/views/inbox/widgets/unread_indicator.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/services/metadata_service.dart';
+import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
@@ -129,19 +131,13 @@ class EmailTile extends StatelessWidget {
       return _displayAddresses.map(_displayNameForAddress).join(', ');
     }
 
-    // Other side is a nostr identity: prefer the nostr profile name,
-    // resolved reactively from the in-RAM cache. Read inside the Obx that
-    // wraps the tile, so the name updates in place once metadata loads.
-    if (_otherSidePubkey.isNotEmpty) {
-      final metadata = Get.find<MetadataService>().of(_otherSidePubkey).value;
-      if (metadata != null) return metadata.getBestName();
-    }
-    // Legacy contact (or nostr metadata not yet loaded): rely on the
-    // email headers, which carry the actual contact.
-    if (_displayAddress.hasPersonalName) {
-      return _displayAddress.personalName!;
-    }
-    return _displayAddress.email;
+    // Read inside the Obx that wraps the tile, so the name updates in place
+    // once metadata loads.
+    return emailPersonName(
+      _otherSidePubkey.isNotEmpty
+          ? EmailPerson.nostr(_otherSidePubkey)
+          : EmailPerson.email(_displayAddress),
+    );
   }
 
   Widget _buildDisplayNameText(TextStyle style) {
