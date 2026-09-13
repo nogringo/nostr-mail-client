@@ -9,6 +9,7 @@ import '../../controllers/auth_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_mode.dart';
+import 'package:nmail_core/utils/mail_folder_extensions.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
@@ -17,6 +18,7 @@ import '../../widgets/nostr_avatar.dart';
 import '../shared/account_switcher_section.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
+import 'widgets/inbox_desktop_app_bar.dart';
 import 'widgets/old_emails_banner.dart';
 import 'widgets/search_field.dart';
 import 'widgets/selection_actions_bar.dart';
@@ -29,15 +31,6 @@ class InboxView extends GetView<InboxController> {
   final MailFolder folder;
 
   const InboxView({super.key, required this.folder});
-
-  String _folderTitle(AppLocalizations l, MailFolder folder) {
-    return switch (folder) {
-      MailFolder.inbox => l.folderInbox,
-      MailFolder.sent => l.folderSent,
-      MailFolder.trash => l.folderTrash,
-      MailFolder.archive => l.folderArchive,
-    };
-  }
 
   Widget _buildAccountHeader(BuildContext context) {
     final authController = Get.find<AuthController>();
@@ -80,100 +73,6 @@ class InboxView extends GetView<InboxController> {
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildToolbar(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      height: 56,
-      padding: const EdgeInsets.only(left: 16, right: 8),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        border: Border(
-          bottom: BorderSide(
-            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Obx(() {
-            if (controller.hasSelection) {
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    tooltip: l.inboxClearSelection,
-                    onPressed: controller.clearSelection,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    l.inboxSelectedCount(controller.selectedIds.length),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
-              );
-            }
-
-            if (controller.isSearchMode.value) {
-              // No leading icon for search mode anymore, it's on the right
-              return const SizedBox.shrink();
-            }
-
-            return Text(
-              _folderTitle(l, controller.currentFolder.value),
-              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-            );
-          }),
-          Obx(() {
-            if (controller.isSearchMode.value) {
-              return Expanded(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 600),
-                  child: SearchField(),
-                ),
-              );
-            }
-            return const Spacer();
-          }),
-          Obx(() {
-            if (controller.hasSelection) {
-              return const SelectionActionsBar();
-            }
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (!controller.isSearchMode.value)
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    tooltip: l.inboxSearch,
-                    onPressed: controller.enterSearchMode,
-                  ),
-                IconButton(
-                  icon: controller.isSyncing.value
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.sync),
-                  tooltip: l.inboxSync,
-                  onPressed: controller.isSyncing.value
-                      ? null
-                      : controller.sync,
-                ),
-              ],
-            );
-          }),
         ],
       ),
     );
@@ -268,7 +167,7 @@ class InboxView extends GetView<InboxController> {
       // Desktop: 3-column layout (DesktopShell is provided by AuthShell)
       return Column(
         children: [
-          _buildToolbar(context),
+          const InboxDesktopAppBar(),
           Expanded(child: _buildEmailList(context)),
         ],
       );
@@ -294,7 +193,7 @@ class InboxView extends GetView<InboxController> {
                 if (controller.isSearchMode.value) {
                   return SearchField();
                 }
-                return Text(_folderTitle(l, controller.currentFolder.value));
+                return Text(controller.currentFolder.value.title(l));
               },
             ),
             leading: () {
