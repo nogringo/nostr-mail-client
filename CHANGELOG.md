@@ -13,7 +13,7 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
-## [Unreleased]
+## [0.15.0]
 
 ### Added
 
@@ -31,6 +31,9 @@ Releases prior to 0.13.0 are listed on the
 - Tap the sender or a recipient of an email to open their card: write to them,
   open or add their contact, or copy their address. It replaces the add to
   contacts button in the email header.
+- Find your relay list after sign-in when it is missing: look it up on a relay,
+  a Nostr address, or an nprofile, or create a new one.
+- Turn notifications on or off for each account.
 
 ### Changed
 
@@ -44,6 +47,10 @@ Releases prior to 0.13.0 are listed on the
   since nothing reads them before your relay list has been found.
 - Reconnect to your relays as soon as the device regains a network, and when the
   app returns to the foreground, instead of waiting out the retry delay.
+- Show an email's source from the email actions, instead of a setting.
+- Open mailboxes faster, and keep the inbox responsive while new messages sync.
+- Remove the settings button from the mobile app bar. Settings stay in the
+  drawer.
 
 ### Fixed
 
@@ -63,6 +70,11 @@ Releases prior to 0.13.0 are listed on the
   published every time.
 - Show a readable name for a Nostr sender without a profile, instead of their
   full `npub@nostr` address, in the email header and the inbox.
+- Show the name and picture of people whose profile is only on their own relays.
+- Read each list row as one item, and announce buttons as buttons, with a screen
+  reader.
+- Stop clipping recipient chips in compose at large text sizes.
+- Keep attachment filenames on one line.
 
 ## [0.14.2]
 
