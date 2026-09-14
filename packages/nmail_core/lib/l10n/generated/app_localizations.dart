@@ -1207,12 +1207,6 @@ abstract class AppLocalizations {
   /// **'{count} selected'**
   String inboxSelectedCount(int count);
 
-  /// Account menu entry that opens the profile editor
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get inboxProfile;
-
   /// Account menu entry/Semantics label to copy the user's npub to the clipboard
   ///
   /// In en, this message translates to:
@@ -1255,7 +1249,7 @@ abstract class AppLocalizations {
   /// **'Unknown'**
   String get inboxUnknown;
 
-  /// Semantics label on the avatar in the drawer that opens the profile editor
+  /// Semantics label on the drawer avatar and tooltip on the account menu header pencil, both open the profile editor
   ///
   /// In en, this message translates to:
   /// **'Edit profile'**

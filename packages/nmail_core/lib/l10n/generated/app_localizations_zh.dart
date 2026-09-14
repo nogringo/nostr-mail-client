@@ -573,9 +573,6 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get inboxProfile => '个人资料';
-
-  @override
   String get inboxCopyNpub => '复制 npub';
 
   @override

@@ -593,9 +593,6 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
-  String get inboxProfile => 'Profiili';
-
-  @override
   String get inboxCopyNpub => 'Kopioi npub';
 
   @override

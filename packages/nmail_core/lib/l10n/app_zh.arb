@@ -230,7 +230,6 @@
       "count": { "type": "int" }
     }
   },
-  "inboxProfile": "个人资料",
   "inboxCopyNpub": "复制 npub",
   "inboxAddAccount": "添加账户",
   "inboxLogout": "退出登录",

@@ -412,8 +412,6 @@
       "count": { "type": "int" }
     }
   },
-  "inboxProfile": "Profile",
-  "@inboxProfile": { "description": "Account menu entry that opens the profile editor" },
   "inboxCopyNpub": "Copy npub",
   "@inboxCopyNpub": { "description": "Account menu entry/Semantics label to copy the user's npub to the clipboard" },
   "inboxAddAccount": "Add account",
@@ -429,7 +427,7 @@
   "inboxUnknown": "Unknown",
   "@inboxUnknown": { "description": "Fallback display when the user's npub is unavailable" },
   "inboxEditProfile": "Edit profile",
-  "@inboxEditProfile": { "description": "Semantics label on the avatar in the drawer that opens the profile editor" },
+  "@inboxEditProfile": { "description": "Semantics label on the drawer avatar and account menu header button, both open the profile editor" },
   "inboxSettings": "Settings",
   "@inboxSettings": { "description": "Tooltip/drawer entry that opens the settings screen" },
   "inboxDeleteOldEmailsTitle": "Delete old emails",

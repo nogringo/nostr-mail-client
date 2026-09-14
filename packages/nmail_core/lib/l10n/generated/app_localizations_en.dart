@@ -593,9 +593,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get inboxProfile => 'Profile';
-
-  @override
   String get inboxCopyNpub => 'Copy npub';
 
   @override

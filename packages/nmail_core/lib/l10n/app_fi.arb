@@ -230,7 +230,6 @@
       "count": { "type": "int" }
     }
   },
-  "inboxProfile": "Profiili",
   "inboxCopyNpub": "Kopioi npub",
   "inboxAddAccount": "Lisää tili",
   "inboxLogout": "Kirjaudu ulos",

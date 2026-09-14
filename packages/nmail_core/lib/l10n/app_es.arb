@@ -230,7 +230,6 @@
       "count": { "type": "int" }
     }
   },
-  "inboxProfile": "Perfil",
   "inboxCopyNpub": "Copiar npub",
   "inboxAddAccount": "Añadir cuenta",
   "inboxLogout": "Cerrar sesión",

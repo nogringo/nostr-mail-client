@@ -13,6 +13,7 @@ import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../../widgets/nostr_avatar.dart';
 import '../shared/account_menu.dart';
+import '../shared/layout_constants.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
@@ -183,7 +184,10 @@ class InboxView extends GetView<InboxController> {
                     ),
                     const SizedBox(width: 8),
                     AccountMenu(
-                      alignmentOffset: const Offset(-204, 8),
+                      alignmentOffset: const Offset(
+                        -(LayoutConstants.accountMenuWidth - 36),
+                        8,
+                      ),
                       builder: (context, menuController, child) {
                         return Semantics(
                           label: l.inboxAccount,

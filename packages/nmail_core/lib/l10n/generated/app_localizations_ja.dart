@@ -575,9 +575,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get inboxProfile => 'プロフィール';
-
-  @override
   String get inboxCopyNpub => 'npub をコピー';
 
   @override

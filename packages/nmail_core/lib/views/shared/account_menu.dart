@@ -47,11 +47,6 @@ class AccountMenu extends StatelessWidget {
         ),
         const Divider(height: 1),
         MenuItemButton(
-          leadingIcon: const Icon(Icons.person_outline),
-          onPressed: () => context.go(AppRoutes.profile),
-          child: Text(l.inboxProfile),
-        ),
-        MenuItemButton(
           leadingIcon: const Icon(Icons.copy),
           onPressed: () {
             final npub = auth.currentNpub;

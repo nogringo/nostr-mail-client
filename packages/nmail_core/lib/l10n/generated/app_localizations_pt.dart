@@ -595,9 +595,6 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get inboxProfile => 'Perfil';
-
-  @override
   String get inboxCopyNpub => 'Copiar npub';
 
   @override
@@ -2171,9 +2168,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String inboxSelectedCount(int count) {
     return '$count selecionado(s)';
   }
-
-  @override
-  String get inboxProfile => 'Perfil';
 
   @override
   String get inboxCopyNpub => 'Copiar npub';
