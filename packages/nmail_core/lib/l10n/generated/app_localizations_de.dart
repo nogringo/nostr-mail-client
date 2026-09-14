@@ -638,25 +638,50 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Alte E-Mails konnten nicht gelöscht werden: $error';
+    return 'E-Mails konnten nicht gelöscht werden: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count alte E-Mails zu löschen',
-      one: '$count alte E-Mail zu löschen',
+      other: '$count E-Mails im Papierkorb',
+      one: '$count E-Mail im Papierkorb',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Jetzt löschen';
+  String get inboxDeleteOlderThan30Days => 'Älter als 30 Tage löschen';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Alte E-Mails löschen';
+  String get inboxEmptyTrashAction => 'Papierkorb leeren';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Papierkorb leeren?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'alle $count E-Mails',
+      one: '$count E-Mail',
+    );
+    return 'Dies löscht dauerhaft $_temp0 im Papierkorb.\n\nDiese Aktion kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count E-Mails',
+      one: '$count E-Mail',
+    );
+    return 'Dies löscht dauerhaft $_temp0.\n\nDiese Aktion kann nicht rückgängig gemacht werden.';
+  }
 
   @override
   String get inboxSearchHint => 'Alle E-Mails durchsuchen...';

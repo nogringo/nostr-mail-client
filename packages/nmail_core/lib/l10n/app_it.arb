@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "Eliminazione non riuscita",
-  "inboxDeleteFailedDescription": "Impossibile eliminare le email vecchie: {error}",
+  "inboxDeleteFailedDescription": "Impossibile eliminare le email: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} email vecchia da eliminare} other{{count} email vecchie da eliminare}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} email nel cestino} other{{count} email nel cestino}}",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Elimina ora",
-  "inboxDeleteOldEmailsTooltip": "Elimina email vecchie",
+  "inboxDeleteOlderThan30Days": "Elimina quelle più vecchie di 30 giorni",
+  "inboxEmptyTrashAction": "Svuota cestino",
+  "inboxEmptyTrashTitle": "Svuotare il cestino?",
+  "inboxEmptyTrashMessage": "Verranno eliminate definitivamente {count, plural, one{{count} email} other{tutte le {count} email}} nel cestino.\n\nQuesta azione non può essere annullata.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Verranno eliminate definitivamente {count, plural, one{{count} email} other{{count} email}}.\n\nQuesta azione non può essere annullata.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Cerca in tutte le email...",
   "inboxCloseSearch": "Chiudi ricerca",
   "inboxSelectAll": "Seleziona tutto",

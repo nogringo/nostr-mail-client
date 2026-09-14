@@ -637,25 +637,50 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Falha ao eliminar emails antigos: $error';
+    return 'Falha ao eliminar emails: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count emails antigos para eliminar',
-      one: '$count email antigo para eliminar',
+      other: '$count emails no lixo',
+      one: '$count email no lixo',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Eliminar agora';
+  String get inboxDeleteOlderThan30Days => 'Eliminar os com mais de 30 dias';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Eliminar emails antigos';
+  String get inboxEmptyTrashAction => 'Esvaziar lixo';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Esvaziar lixo?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'todos os $count emails',
+      one: '$count email',
+    );
+    return 'Isto eliminará permanentemente $_temp0 do lixo.\n\nEsta ação não pode ser anulada.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails',
+      one: '$count email',
+    );
+    return 'Isto eliminará permanentemente $_temp0.\n\nEsta ação não pode ser anulada.';
+  }
 
   @override
   String get inboxSearchHint => 'Pesquisar em todos os emails...';
@@ -2209,25 +2234,50 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Falha ao excluir e-mails antigos: $error';
+    return 'Falha ao excluir e-mails: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count e-mails antigos a excluir',
-      one: '$count e-mail antigo a excluir',
+      other: '$count e-mails na lixeira',
+      one: '$count e-mail na lixeira',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Excluir agora';
+  String get inboxDeleteOlderThan30Days => 'Excluir os com mais de 30 dias';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Excluir e-mails antigos';
+  String get inboxEmptyTrashAction => 'Esvaziar lixeira';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Esvaziar lixeira?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'todos os $count e-mails',
+      one: '$count e-mail',
+    );
+    return 'Isso excluirá permanentemente $_temp0 da lixeira.\n\nEsta ação não pode ser desfeita.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count e-mails',
+      one: '$count e-mail',
+    );
+    return 'Isso excluirá permanentemente $_temp0.\n\nEsta ação não pode ser desfeita.';
+  }
 
   @override
   String get inboxSearchHint => 'Pesquisar em todos os e-mails...';

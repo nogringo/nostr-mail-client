@@ -639,25 +639,51 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Impossibile eliminare le email vecchie: $error';
+    return 'Impossibile eliminare le email: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count email vecchie da eliminare',
-      one: '$count email vecchia da eliminare',
+      other: '$count email nel cestino',
+      one: '$count email nel cestino',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Elimina ora';
+  String get inboxDeleteOlderThan30Days =>
+      'Elimina quelle più vecchie di 30 giorni';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Elimina email vecchie';
+  String get inboxEmptyTrashAction => 'Svuota cestino';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Svuotare il cestino?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'tutte le $count email',
+      one: '$count email',
+    );
+    return 'Verranno eliminate definitivamente $_temp0 nel cestino.\n\nQuesta azione non può essere annullata.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count email',
+      one: '$count email',
+    );
+    return 'Verranno eliminate definitivamente $_temp0.\n\nQuesta azione non può essere annullata.';
+  }
 
   @override
   String get inboxSearchHint => 'Cerca in tutte le email...';

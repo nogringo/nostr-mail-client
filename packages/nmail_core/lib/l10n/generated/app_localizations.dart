@@ -1267,7 +1267,7 @@ abstract class AppLocalizations {
   /// **'This will permanently delete {count, plural, one{{count} email} other{{count} emails}} older than 30 days.\n\nThis action cannot be undone.'**
   String inboxDeleteOldEmailsMessage(int count);
 
-  /// Toast title shown when bulk deletion of old emails fails
+  /// Toast title shown when permanently deleting emails from trash fails
   ///
   /// In en, this message translates to:
   /// **'Delete failed'**
@@ -1276,26 +1276,44 @@ abstract class AppLocalizations {
   /// Toast description appended to the delete-failed toast, includes the error message
   ///
   /// In en, this message translates to:
-  /// **'Failed to delete old emails: {error}'**
+  /// **'Failed to delete emails: {error}'**
   String inboxDeleteFailedDescription(String error);
 
-  /// Banner text shown in trash folder when old emails are eligible for cleanup. Plural-aware.
+  /// Banner text at the top of the trash folder. Plural-aware.
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, one{{count} old email to delete} other{{count} old emails to delete}}'**
-  String inboxOldEmailsCount(int count);
+  /// **'{count, plural, one{{count} email in trash} other{{count} emails in trash}}'**
+  String inboxTrashCount(int count);
 
-  /// Button label on the old-emails banner (desktop layout)
+  /// Trash banner action that permanently deletes emails trashed more than 30 days ago
   ///
   /// In en, this message translates to:
-  /// **'Delete now'**
-  String get inboxDeleteNow;
+  /// **'Delete older than 30 days'**
+  String get inboxDeleteOlderThan30Days;
 
-  /// Tooltip on the trash icon in the old-emails banner (compact layout)
+  /// Trash banner action and confirm button that permanently deletes every email in the trash
   ///
   /// In en, this message translates to:
-  /// **'Delete old emails'**
-  String get inboxDeleteOldEmailsTooltip;
+  /// **'Empty trash'**
+  String get inboxEmptyTrashAction;
+
+  /// Confirmation dialog title for emptying the trash
+  ///
+  /// In en, this message translates to:
+  /// **'Empty trash?'**
+  String get inboxEmptyTrashTitle;
+
+  /// Confirmation message for emptying the trash. Plural-aware on `count`.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete {count, plural, one{{count} email} other{all {count} emails}} in the trash.\n\nThis action cannot be undone.'**
+  String inboxEmptyTrashMessage(int count);
+
+  /// Confirmation message when permanently deleting the selected emails from trash. Plural-aware on `count`.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete {count, plural, one{{count} email} other{{count} emails}}.\n\nThis action cannot be undone.'**
+  String inboxDeleteSelectedMessage(int count);
 
   /// Placeholder text in the inbox search field
   ///

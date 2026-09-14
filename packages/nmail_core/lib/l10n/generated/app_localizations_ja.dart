@@ -611,19 +611,32 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return '古いメールの削除に失敗しました: $error';
+    return 'メールの削除に失敗しました: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
-    return '削除予定の古いメール $count 件';
+  String inboxTrashCount(int count) {
+    return 'ゴミ箱のメール $count 件';
   }
 
   @override
-  String get inboxDeleteNow => '今すぐ削除';
+  String get inboxDeleteOlderThan30Days => '30 日以上前のメールを削除';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => '古いメールを削除';
+  String get inboxEmptyTrashAction => 'ゴミ箱を空にする';
+
+  @override
+  String get inboxEmptyTrashTitle => 'ゴミ箱を空にしますか?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    return 'ゴミ箱のメール $count 件をすべて完全に削除します。\n\nこの操作は元に戻せません。';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    return 'メール $count 件を完全に削除します。\n\nこの操作は元に戻せません。';
+  }
 
   @override
   String get inboxSearchHint => 'すべてのメールを検索...';

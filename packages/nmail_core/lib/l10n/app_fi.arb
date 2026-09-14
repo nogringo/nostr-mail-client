@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "Poisto epäonnistui",
-  "inboxDeleteFailedDescription": "Vanhan postin poisto epäonnistui: {error}",
+  "inboxDeleteFailedDescription": "Viestien poisto epäonnistui: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} vanha viesti voidaan poistaa} other{{count} vanhaa viestiä voidaan poistaa}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} viesti roskakorissa} other{{count} viestiä roskakorissa}}",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Poista nyt",
-  "inboxDeleteOldEmailsTooltip": "Poista vanha posti",
+  "inboxDeleteOlderThan30Days": "Poista yli 30 päivää vanhat",
+  "inboxEmptyTrashAction": "Tyhjennä roskakori",
+  "inboxEmptyTrashTitle": "Tyhjennetäänkö roskakori?",
+  "inboxEmptyTrashMessage": "Poistetaan pysyvästi {count, plural, one{{count} viesti} other{kaikki {count} viestiä}} roskakorista.\n\nToimintoa ei voi kumota.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Poistetaan pysyvästi {count, plural, one{{count} viesti} other{{count} viestiä}}.\n\nToimintoa ei voi kumota.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Hae kaikista viesteistä...",
   "inboxCloseSearch": "Sulje haku",
   "inboxSelectAll": "Valitse kaikki",

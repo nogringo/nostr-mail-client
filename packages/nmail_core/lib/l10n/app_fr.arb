@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "Échec de la suppression",
-  "inboxDeleteFailedDescription": "Échec de la suppression des anciens e-mails : {error}",
+  "inboxDeleteFailedDescription": "Échec de la suppression des e-mails : {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} ancien e-mail à supprimer} other{{count} anciens e-mails à supprimer}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} e-mail dans la corbeille} other{{count} e-mails dans la corbeille}}",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Supprimer maintenant",
-  "inboxDeleteOldEmailsTooltip": "Supprimer les anciens e-mails",
+  "inboxDeleteOlderThan30Days": "Supprimer ceux de plus de 30 jours",
+  "inboxEmptyTrashAction": "Vider la corbeille",
+  "inboxEmptyTrashTitle": "Vider la corbeille ?",
+  "inboxEmptyTrashMessage": "Cela supprimera définitivement {count, plural, one{{count} e-mail} other{les {count} e-mails}} de la corbeille.\n\nCette action est irréversible.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Cela supprimera définitivement {count, plural, one{{count} e-mail} other{{count} e-mails}}.\n\nCette action est irréversible.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Rechercher dans tous les e-mails...",
   "inboxCloseSearch": "Fermer la recherche",
   "inboxSelectAll": "Tout sélectionner",

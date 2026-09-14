@@ -635,25 +635,50 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Failed to delete old emails: $error';
+    return 'Failed to delete emails: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count old emails to delete',
-      one: '$count old email to delete',
+      other: '$count emails in trash',
+      one: '$count email in trash',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Delete now';
+  String get inboxDeleteOlderThan30Days => 'Delete older than 30 days';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Delete old emails';
+  String get inboxEmptyTrashAction => 'Empty trash';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Empty trash?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'all $count emails',
+      one: '$count email',
+    );
+    return 'This will permanently delete $_temp0 in the trash.\n\nThis action cannot be undone.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails',
+      one: '$count email',
+    );
+    return 'This will permanently delete $_temp0.\n\nThis action cannot be undone.';
+  }
 
   @override
   String get inboxSearchHint => 'Search all emails...';

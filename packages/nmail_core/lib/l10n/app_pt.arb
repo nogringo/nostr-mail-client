@@ -236,7 +236,7 @@
     }
   },
   "inboxDeleteFailed": "Falha ao eliminar",
-  "inboxDeleteFailedDescription": "Falha ao eliminar emails antigos: {error}",
+  "inboxDeleteFailedDescription": "Falha ao eliminar emails: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": {
@@ -244,16 +244,27 @@
       }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} email antigo para eliminar} other{{count} emails antigos para eliminar}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} email no lixo} other{{count} emails no lixo}}",
+  "@inboxTrashCount": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Eliminar agora",
-  "inboxDeleteOldEmailsTooltip": "Eliminar emails antigos",
+  "inboxDeleteOlderThan30Days": "Eliminar os com mais de 30 dias",
+  "inboxEmptyTrashAction": "Esvaziar lixo",
+  "inboxEmptyTrashTitle": "Esvaziar lixo?",
+  "inboxEmptyTrashMessage": "Isto eliminará permanentemente {count, plural, one{{count} email} other{todos os {count} emails}} do lixo.\n\nEsta ação não pode ser anulada.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Isto eliminará permanentemente {count, plural, one{{count} email} other{{count} emails}}.\n\nEsta ação não pode ser anulada.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Pesquisar em todos os emails...",
   "inboxCloseSearch": "Fechar pesquisa",
   "inboxSelectAll": "Selecionar tudo",

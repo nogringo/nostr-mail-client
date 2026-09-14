@@ -15,6 +15,15 @@ Releases prior to 0.13.0 are listed on the
 
 ## [Unreleased]
 
+### Added
+
+- Empty the trash in one tap from the banner at the top of the trash, which
+  also shows how many emails it holds.
+
+### Changed
+
+- Confirm before permanently deleting the selected emails from the trash.
+
 ### Fixed
 
 - Show the body of an email in the inbox and scheduled lists as it reads,

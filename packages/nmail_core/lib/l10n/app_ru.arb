@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "Ошибка удаления",
-  "inboxDeleteFailedDescription": "Не удалось удалить старые письма: {error}",
+  "inboxDeleteFailedDescription": "Не удалось удалить письма: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} старое письмо к удалению} few{{count} старых письма к удалению} many{{count} старых писем к удалению} other{{count} старых писем к удалению}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} письмо в корзине} few{{count} письма в корзине} many{{count} писем в корзине} other{{count} письма в корзине}}",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Удалить сейчас",
-  "inboxDeleteOldEmailsTooltip": "Удалить старые письма",
+  "inboxDeleteOlderThan30Days": "Удалить старше 30 дней",
+  "inboxEmptyTrashAction": "Очистить корзину",
+  "inboxEmptyTrashTitle": "Очистить корзину?",
+  "inboxEmptyTrashMessage": "Это навсегда удалит {count, plural, one{{count} письмо} few{все {count} письма} many{все {count} писем} other{все {count} письма}} из корзины.\n\nЭто действие нельзя отменить.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Это навсегда удалит {count, plural, one{{count} письмо} few{{count} письма} many{{count} писем} other{{count} письма}}.\n\nЭто действие нельзя отменить.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Поиск по всем письмам...",
   "inboxCloseSearch": "Закрыть поиск",
   "inboxSelectAll": "Выделить всё",

@@ -276,12 +276,12 @@ class EmailTile extends StatelessWidget {
     // Long-press (mobile) → bottom sheet
     if (position != null) {
       // Desktop: popup menu
-      final menuChildren = <Widget>[
+      List<Widget> menuChildren(BuildContext menuContext) => [
         if (!isInTrash) ...[
           MenuItemButton(
             leadingIcon: const Icon(Icons.reply),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(menuContext).pop();
               onReply?.call();
             },
             child: Text(l.emailReply),
@@ -289,7 +289,7 @@ class EmailTile extends StatelessWidget {
           MenuItemButton(
             leadingIcon: const Icon(Icons.forward),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(menuContext).pop();
               onForward?.call();
             },
             child: Text(l.emailForward),
@@ -299,7 +299,7 @@ class EmailTile extends StatelessWidget {
             MenuItemButton(
               leadingIcon: const Icon(Icons.archive),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(menuContext).pop();
                 onArchive?.call();
               },
               child: Text(l.emailArchive),
@@ -308,7 +308,7 @@ class EmailTile extends StatelessWidget {
             MenuItemButton(
               leadingIcon: const Icon(Icons.unarchive),
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.of(menuContext).pop();
                 onRestore?.call();
               },
               child: Text(l.emailUnarchive),
@@ -319,7 +319,7 @@ class EmailTile extends StatelessWidget {
               MenuItemButton(
                 leadingIcon: const Icon(Icons.mark_email_read),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(menuContext).pop();
                   final inboxController = Get.find<InboxController>();
                   inboxController.markAsRead(email.id);
                 },
@@ -329,7 +329,7 @@ class EmailTile extends StatelessWidget {
               MenuItemButton(
                 leadingIcon: const Icon(Icons.mark_email_unread),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(menuContext).pop();
                   final inboxController = Get.find<InboxController>();
                   inboxController.markAsUnread(email.id);
                 },
@@ -339,7 +339,7 @@ class EmailTile extends StatelessWidget {
           MenuItemButton(
             leadingIcon: const Icon(Icons.delete_outline),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(menuContext).pop();
               onDelete?.call();
             },
             child: Text(l.emailMoveToTrash),
@@ -348,7 +348,7 @@ class EmailTile extends StatelessWidget {
           MenuItemButton(
             leadingIcon: const Icon(Icons.restore_from_trash),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(menuContext).pop();
               onRestore?.call();
             },
             child: Text(l.emailRestore),
@@ -356,7 +356,7 @@ class EmailTile extends StatelessWidget {
           MenuItemButton(
             leadingIcon: Icon(Icons.delete_forever, color: colorScheme.error),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(menuContext).pop();
               onDelete?.call();
             },
             child: Text(
@@ -387,7 +387,7 @@ class EmailTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisSize: MainAxisSize.min,
-                    children: menuChildren,
+                    children: menuChildren(context),
                   ),
                 ),
               ),

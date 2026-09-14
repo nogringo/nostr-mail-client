@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'delete_permanently_dialog.dart';
 
 /// Adaptive widget that manages selection actions intelligently
 /// Shows actions directly if possible, otherwise puts them in a "more_vert" menu
@@ -11,6 +12,7 @@ class SelectionActionsBar extends StatelessWidget {
 
   /// Determines available actions based on current folder
   List<_ActionItem> _getActions(
+    BuildContext context,
     AppLocalizations l,
     InboxController controller,
   ) {
@@ -64,7 +66,9 @@ class SelectionActionsBar extends StatelessWidget {
       _ActionItem(
         icon: const Icon(Icons.delete_outline),
         label: l.actionDelete,
-        onPressed: controller.deleteSelected,
+        onPressed: controller.currentFolder.value == MailFolder.trash
+            ? () => _confirmDeleteSelected(context, l, controller)
+            : controller.deleteSelected,
         isPrimary: true,
       ),
     ]);
@@ -72,11 +76,25 @@ class SelectionActionsBar extends StatelessWidget {
     return actions;
   }
 
+  Future<void> _confirmDeleteSelected(
+    BuildContext context,
+    AppLocalizations l,
+    InboxController controller,
+  ) {
+    return DeletePermanentlyDialog.confirmAndDelete(
+      context,
+      title: l.emailDeletePermanentlyTitle,
+      message: l.inboxDeleteSelectedMessage(controller.selectedIds.length),
+      confirmLabel: l.actionDelete,
+      delete: controller.deleteSelected,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final controller = Get.find<InboxController>();
-    final actions = _getActions(l, controller);
+    final actions = _getActions(context, l, controller);
 
     return LayoutBuilder(
       builder: (context, constraints) {

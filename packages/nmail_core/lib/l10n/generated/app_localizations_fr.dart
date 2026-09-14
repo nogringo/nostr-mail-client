@@ -641,25 +641,50 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Échec de la suppression des anciens e-mails : $error';
+    return 'Échec de la suppression des e-mails : $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count anciens e-mails à supprimer',
-      one: '$count ancien e-mail à supprimer',
+      other: '$count e-mails dans la corbeille',
+      one: '$count e-mail dans la corbeille',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Supprimer maintenant';
+  String get inboxDeleteOlderThan30Days => 'Supprimer ceux de plus de 30 jours';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Supprimer les anciens e-mails';
+  String get inboxEmptyTrashAction => 'Vider la corbeille';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Vider la corbeille ?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'les $count e-mails',
+      one: '$count e-mail',
+    );
+    return 'Cela supprimera définitivement $_temp0 de la corbeille.\n\nCette action est irréversible.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count e-mails',
+      one: '$count e-mail',
+    );
+    return 'Cela supprimera définitivement $_temp0.\n\nCette action est irréversible.';
+  }
 
   @override
   String get inboxSearchHint => 'Rechercher dans tous les e-mails...';

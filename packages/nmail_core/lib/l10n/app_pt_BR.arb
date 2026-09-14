@@ -236,7 +236,7 @@
     }
   },
   "inboxDeleteFailed": "Falha na exclusão",
-  "inboxDeleteFailedDescription": "Falha ao excluir e-mails antigos: {error}",
+  "inboxDeleteFailedDescription": "Falha ao excluir e-mails: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": {
@@ -244,16 +244,27 @@
       }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} e-mail antigo a excluir} other{{count} e-mails antigos a excluir}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} e-mail na lixeira} other{{count} e-mails na lixeira}}",
+  "@inboxTrashCount": {
     "placeholders": {
-      "count": {
-        "type": "int"
-      }
+      "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Excluir agora",
-  "inboxDeleteOldEmailsTooltip": "Excluir e-mails antigos",
+  "inboxDeleteOlderThan30Days": "Excluir os com mais de 30 dias",
+  "inboxEmptyTrashAction": "Esvaziar lixeira",
+  "inboxEmptyTrashTitle": "Esvaziar lixeira?",
+  "inboxEmptyTrashMessage": "Isso excluirá permanentemente {count, plural, one{{count} e-mail} other{todos os {count} e-mails}} da lixeira.\n\nEsta ação não pode ser desfeita.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Isso excluirá permanentemente {count, plural, one{{count} e-mail} other{{count} e-mails}}.\n\nEsta ação não pode ser desfeita.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Pesquisar em todos os e-mails...",
   "inboxCloseSearch": "Fechar pesquisa",
   "inboxSelectAll": "Selecionar tudo",

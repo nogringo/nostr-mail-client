@@ -635,25 +635,50 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Vanhan postin poisto epäonnistui: $error';
+    return 'Viestien poisto epäonnistui: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count vanhaa viestiä voidaan poistaa',
-      one: '$count vanha viesti voidaan poistaa',
+      other: '$count viestiä roskakorissa',
+      one: '$count viesti roskakorissa',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Poista nyt';
+  String get inboxDeleteOlderThan30Days => 'Poista yli 30 päivää vanhat';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Poista vanha posti';
+  String get inboxEmptyTrashAction => 'Tyhjennä roskakori';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Tyhjennetäänkö roskakori?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'kaikki $count viestiä',
+      one: '$count viesti',
+    );
+    return 'Poistetaan pysyvästi $_temp0 roskakorista.\n\nToimintoa ei voi kumota.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viestiä',
+      one: '$count viesti',
+    );
+    return 'Poistetaan pysyvästi $_temp0.\n\nToimintoa ei voi kumota.';
+  }
 
   @override
   String get inboxSearchHint => 'Hae kaikista viesteistä...';

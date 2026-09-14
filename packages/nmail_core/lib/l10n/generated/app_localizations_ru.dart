@@ -640,27 +640,56 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return 'Не удалось удалить старые письма: $error';
+    return 'Не удалось удалить письма: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
+  String inboxTrashCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count старых писем к удалению',
-      many: '$count старых писем к удалению',
-      few: '$count старых письма к удалению',
-      one: '$count старое письмо к удалению',
+      other: '$count письма в корзине',
+      many: '$count писем в корзине',
+      few: '$count письма в корзине',
+      one: '$count письмо в корзине',
     );
     return '$_temp0';
   }
 
   @override
-  String get inboxDeleteNow => 'Удалить сейчас';
+  String get inboxDeleteOlderThan30Days => 'Удалить старше 30 дней';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => 'Удалить старые письма';
+  String get inboxEmptyTrashAction => 'Очистить корзину';
+
+  @override
+  String get inboxEmptyTrashTitle => 'Очистить корзину?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'все $count письма',
+      many: 'все $count писем',
+      few: 'все $count письма',
+      one: '$count письмо',
+    );
+    return 'Это навсегда удалит $_temp0 из корзины.\n\nЭто действие нельзя отменить.';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count письма',
+      many: '$count писем',
+      few: '$count письма',
+      one: '$count письмо',
+    );
+    return 'Это навсегда удалит $_temp0.\n\nЭто действие нельзя отменить.';
+  }
 
   @override
   String get inboxSearchHint => 'Поиск по всем письмам...';

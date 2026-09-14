@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "删除失败",
-  "inboxDeleteFailedDescription": "无法删除旧邮件: {error}",
+  "inboxDeleteFailedDescription": "无法删除邮件: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count} 封待删除的旧邮件",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "回收站中有 {count} 封邮件",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "立即删除",
-  "inboxDeleteOldEmailsTooltip": "删除旧邮件",
+  "inboxDeleteOlderThan30Days": "删除超过 30 天的邮件",
+  "inboxEmptyTrashAction": "清空回收站",
+  "inboxEmptyTrashTitle": "清空回收站?",
+  "inboxEmptyTrashMessage": "这将永久删除回收站中的全部 {count} 封邮件。\n\n此操作无法撤销。",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "这将永久删除 {count} 封邮件。\n\n此操作无法撤销。",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "搜索所有邮件...",
   "inboxCloseSearch": "关闭搜索",
   "inboxSelectAll": "全选",

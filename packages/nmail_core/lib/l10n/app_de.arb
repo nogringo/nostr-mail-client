@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "Löschen fehlgeschlagen",
-  "inboxDeleteFailedDescription": "Alte E-Mails konnten nicht gelöscht werden: {error}",
+  "inboxDeleteFailedDescription": "E-Mails konnten nicht gelöscht werden: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} alte E-Mail zu löschen} other{{count} alte E-Mails zu löschen}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} E-Mail im Papierkorb} other{{count} E-Mails im Papierkorb}}",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Jetzt löschen",
-  "inboxDeleteOldEmailsTooltip": "Alte E-Mails löschen",
+  "inboxDeleteOlderThan30Days": "Älter als 30 Tage löschen",
+  "inboxEmptyTrashAction": "Papierkorb leeren",
+  "inboxEmptyTrashTitle": "Papierkorb leeren?",
+  "inboxEmptyTrashMessage": "Dies löscht dauerhaft {count, plural, one{{count} E-Mail} other{alle {count} E-Mails}} im Papierkorb.\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Dies löscht dauerhaft {count, plural, one{{count} E-Mail} other{{count} E-Mails}}.\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Alle E-Mails durchsuchen...",
   "inboxCloseSearch": "Suche schließen",
   "inboxSelectAll": "Alle auswählen",

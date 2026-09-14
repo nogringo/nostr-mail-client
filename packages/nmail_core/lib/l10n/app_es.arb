@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "Error al eliminar",
-  "inboxDeleteFailedDescription": "Error al eliminar correos antiguos: {error}",
+  "inboxDeleteFailedDescription": "Error al eliminar correos: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} correo antiguo por eliminar} other{{count} correos antiguos por eliminar}}",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "{count, plural, one{{count} correo en la papelera} other{{count} correos en la papelera}}",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Eliminar ahora",
-  "inboxDeleteOldEmailsTooltip": "Eliminar correos antiguos",
+  "inboxDeleteOlderThan30Days": "Eliminar los de más de 30 días",
+  "inboxEmptyTrashAction": "Vaciar papelera",
+  "inboxEmptyTrashTitle": "¿Vaciar papelera?",
+  "inboxEmptyTrashMessage": "Esto eliminará permanentemente {count, plural, one{{count} correo} other{los {count} correos}} de la papelera.\n\nEsta acción no se puede deshacer.",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "Esto eliminará permanentemente {count, plural, one{{count} correo} other{{count} correos}}.\n\nEsta acción no se puede deshacer.",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Buscar en todos los correos...",
   "inboxCloseSearch": "Cerrar búsqueda",
   "inboxSelectAll": "Seleccionar todo",

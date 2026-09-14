@@ -609,19 +609,32 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String inboxDeleteFailedDescription(String error) {
-    return '无法删除旧邮件: $error';
+    return '无法删除邮件: $error';
   }
 
   @override
-  String inboxOldEmailsCount(int count) {
-    return '$count 封待删除的旧邮件';
+  String inboxTrashCount(int count) {
+    return '回收站中有 $count 封邮件';
   }
 
   @override
-  String get inboxDeleteNow => '立即删除';
+  String get inboxDeleteOlderThan30Days => '删除超过 30 天的邮件';
 
   @override
-  String get inboxDeleteOldEmailsTooltip => '删除旧邮件';
+  String get inboxEmptyTrashAction => '清空回收站';
+
+  @override
+  String get inboxEmptyTrashTitle => '清空回收站?';
+
+  @override
+  String inboxEmptyTrashMessage(int count) {
+    return '这将永久删除回收站中的全部 $count 封邮件。\n\n此操作无法撤销。';
+  }
+
+  @override
+  String inboxDeleteSelectedMessage(int count) {
+    return '这将永久删除 $count 封邮件。\n\n此操作无法撤销。';
+  }
 
   @override
   String get inboxSearchHint => '搜索所有邮件...';

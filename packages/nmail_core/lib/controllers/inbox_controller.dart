@@ -21,7 +21,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final searchQuery = ''.obs;
   final isSearchMode = false.obs;
   final isSyncing = false.obs;
-  final isDeletingOldEmails = false.obs;
+  final isDeletingFromTrash = false.obs;
   final currentFolder = MailFolder.inbox.obs;
   final oldEmailsCount = 0.obs;
   final selectedIds = <String>{}.obs;
@@ -211,7 +211,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     selectedIds.clear();
     oldEmailsCount.value = 0;
     isSyncing.value = false;
-    isDeletingOldEmails.value = false;
+    isDeletingFromTrash.value = false;
     isSearchMode.value = false;
     searchQuery.value = '';
     _backgroundTime.value = null;
@@ -408,7 +408,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   Future<void> deleteOldEmails() async {
     if (currentFolder.value != MailFolder.trash) return;
 
-    isDeletingOldEmails.value = true;
+    isDeletingFromTrash.value = true;
     try {
       final client = _nostrMailService.client;
       final thirtyDaysAgo = const Duration(days: 30);
@@ -424,7 +424,24 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       oldEmailsCount.value = await getOldEmailsCount();
       await _loadEmails();
     } finally {
-      isDeletingOldEmails.value = false;
+      isDeletingFromTrash.value = false;
+    }
+  }
+
+  Future<void> emptyTrash() async {
+    if (currentFolder.value != MailFolder.trash) return;
+
+    isDeletingFromTrash.value = true;
+    try {
+      final client = _nostrMailService.client;
+      final trashed = await client.getSummaries(folder: 'trash');
+      await client.delete(trashed.items.map((email) => email.id));
+
+      selectedIds.clear();
+      oldEmailsCount.value = 0;
+      await _loadEmails();
+    } finally {
+      isDeletingFromTrash.value = false;
     }
   }
 }

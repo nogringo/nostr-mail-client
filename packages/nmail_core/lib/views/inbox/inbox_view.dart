@@ -17,9 +17,9 @@ import '../shared/layout_constants.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
-import 'widgets/old_emails_banner.dart';
 import 'widgets/search_field.dart';
 import 'widgets/selection_actions_bar.dart';
+import 'widgets/trash_banner.dart';
 
 class InboxView extends GetView<InboxController> {
   /// Folder this route represents (driven by the URL: /inbox, /sent, ...).
@@ -66,7 +66,7 @@ class InboxView extends GetView<InboxController> {
 
       return Column(
         children: [
-          OldEmailsBanner(onDelete: () => _confirmDeleteOldEmails(context)),
+          const TrashBanner(),
           Expanded(
             child: RefreshIndicator(
               onRefresh: controller.sync,
@@ -278,45 +278,5 @@ class InboxView extends GetView<InboxController> {
     } else {
       controller.restoreFromTrash(email.id);
     }
-  }
-
-  void _confirmDeleteOldEmails(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final oldCount = controller.oldEmailsCount.value;
-
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(l.inboxDeleteOldEmailsTitle),
-        content: Text(l.inboxDeleteOldEmailsMessage(oldCount)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text(l.actionCancel),
-          ),
-          TextButton(
-            onPressed: () async {
-              Navigator.pop(dialogContext);
-
-              try {
-                await controller.deleteOldEmails();
-              } catch (e) {
-                if (context.mounted) {
-                  ToastHelper.error(
-                    context,
-                    l.inboxDeleteFailed,
-                    description: l.inboxDeleteFailedDescription(e.toString()),
-                  );
-                }
-              }
-            },
-            child: Text(
-              l.actionDelete,
-              style: TextStyle(color: Theme.of(context).colorScheme.error),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

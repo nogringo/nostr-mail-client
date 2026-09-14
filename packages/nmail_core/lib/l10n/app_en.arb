@@ -438,25 +438,41 @@
     }
   },
   "inboxDeleteFailed": "Delete failed",
-  "@inboxDeleteFailed": { "description": "Toast title shown when bulk deletion of old emails fails" },
-  "inboxDeleteFailedDescription": "Failed to delete old emails: {error}",
+  "@inboxDeleteFailed": { "description": "Toast title shown when permanently deleting emails from trash fails" },
+  "inboxDeleteFailedDescription": "Failed to delete emails: {error}",
   "@inboxDeleteFailedDescription": {
     "description": "Toast description appended to the delete-failed toast, includes the error message",
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "{count, plural, one{{count} old email to delete} other{{count} old emails to delete}}",
-  "@inboxOldEmailsCount": {
-    "description": "Banner text shown in trash folder when old emails are eligible for cleanup. Plural-aware.",
+  "inboxTrashCount": "{count, plural, one{{count} email in trash} other{{count} emails in trash}}",
+  "@inboxTrashCount": {
+    "description": "Banner text at the top of the trash folder. Plural-aware.",
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "Delete now",
-  "@inboxDeleteNow": { "description": "Button label on the old-emails banner (desktop layout)" },
-  "inboxDeleteOldEmailsTooltip": "Delete old emails",
-  "@inboxDeleteOldEmailsTooltip": { "description": "Tooltip on the trash icon in the old-emails banner (compact layout)" },
+  "inboxDeleteOlderThan30Days": "Delete older than 30 days",
+  "@inboxDeleteOlderThan30Days": { "description": "Trash banner action that permanently deletes emails trashed more than 30 days ago" },
+  "inboxEmptyTrashAction": "Empty trash",
+  "@inboxEmptyTrashAction": { "description": "Trash banner action and confirm button that permanently deletes every email in the trash" },
+  "inboxEmptyTrashTitle": "Empty trash?",
+  "@inboxEmptyTrashTitle": { "description": "Confirmation dialog title for emptying the trash" },
+  "inboxEmptyTrashMessage": "This will permanently delete {count, plural, one{{count} email} other{all {count} emails}} in the trash.\n\nThis action cannot be undone.",
+  "@inboxEmptyTrashMessage": {
+    "description": "Confirmation message for emptying the trash. Plural-aware on `count`.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "This will permanently delete {count, plural, one{{count} email} other{{count} emails}}.\n\nThis action cannot be undone.",
+  "@inboxDeleteSelectedMessage": {
+    "description": "Confirmation message when permanently deleting the selected emails from trash. Plural-aware on `count`.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "Search all emails...",
   "@inboxSearchHint": { "description": "Placeholder text in the inbox search field" },
   "inboxCloseSearch": "Close search",

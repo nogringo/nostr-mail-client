@@ -246,20 +246,33 @@
     }
   },
   "inboxDeleteFailed": "削除に失敗しました",
-  "inboxDeleteFailedDescription": "古いメールの削除に失敗しました: {error}",
+  "inboxDeleteFailedDescription": "メールの削除に失敗しました: {error}",
   "@inboxDeleteFailedDescription": {
     "placeholders": {
       "error": { "type": "String" }
     }
   },
-  "inboxOldEmailsCount": "削除予定の古いメール {count} 件",
-  "@inboxOldEmailsCount": {
+  "inboxTrashCount": "ゴミ箱のメール {count} 件",
+  "@inboxTrashCount": {
     "placeholders": {
       "count": { "type": "int" }
     }
   },
-  "inboxDeleteNow": "今すぐ削除",
-  "inboxDeleteOldEmailsTooltip": "古いメールを削除",
+  "inboxDeleteOlderThan30Days": "30 日以上前のメールを削除",
+  "inboxEmptyTrashAction": "ゴミ箱を空にする",
+  "inboxEmptyTrashTitle": "ゴミ箱を空にしますか?",
+  "inboxEmptyTrashMessage": "ゴミ箱のメール {count} 件をすべて完全に削除します。\n\nこの操作は元に戻せません。",
+  "@inboxEmptyTrashMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "inboxDeleteSelectedMessage": "メール {count} 件を完全に削除します。\n\nこの操作は元に戻せません。",
+  "@inboxDeleteSelectedMessage": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "inboxSearchHint": "すべてのメールを検索...",
   "inboxCloseSearch": "検索を閉じる",
   "inboxSelectAll": "すべて選択",
