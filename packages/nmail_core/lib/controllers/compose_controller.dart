@@ -4,7 +4,6 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -28,6 +27,7 @@ import 'package:nmail_core/models/send_mode.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
 import 'settings_controller.dart';
@@ -784,15 +784,9 @@ class ComposeController extends GetxController {
       case ComposeMode.replyAll:
         final header =
             '$signatureBlock\n\nOn ${dateFormat.format(email.date)}, $senderDisplay wrote:\n';
-        final delta = Delta()..insert(header);
-        final quotePrefix = RegExp(r'^(>+ ?)+');
-        for (final rawLine in email.body.split('\n')) {
-          final line = rawLine.replaceFirst(quotePrefix, '');
-          if (line.isNotEmpty) delta.insert(line);
-          delta.insert('\n', {Attribute.blockQuote.key: true});
-        }
-        delta.insert('\n');
-        quillController.document = Document.fromDelta(delta);
+        quillController.document = Document.fromDelta(
+          replyQuoteDelta(header: header, body: email.body),
+        );
         quillController.updateSelection(
           const TextSelection.collapsed(offset: 0),
           ChangeSource.local,
@@ -907,7 +901,7 @@ class ComposeController extends GetxController {
   }
 
   void setQuillContent(String text) {
-    final doc = Document()..insert(0, text);
+    final doc = Document()..insert(0, normalizeLineBreaks(text));
     quillController.document = doc;
     quillController.updateSelection(
       const TextSelection.collapsed(offset: 0),
