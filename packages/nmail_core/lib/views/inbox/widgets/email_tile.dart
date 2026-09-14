@@ -561,23 +561,27 @@ class EmailTile extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '—',
-                          style: TextStyle(color: colorScheme.onSurfaceVariant),
-                        ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          flex: 3,
-                          child: Text(
-                            email.preview,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                        if (email.preview.isNotEmpty) ...[
+                          const SizedBox(width: 8),
+                          Text(
+                            '—',
                             style: TextStyle(
                               color: colorScheme.onSurfaceVariant,
                             ),
                           ),
-                        ),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            flex: 3,
+                            child: Text(
+                              email.preview,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                     if (attachments.isNotEmpty) ...[

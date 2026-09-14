@@ -13,6 +13,15 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [Unreleased]
+
+### Fixed
+
+- Show the body of an email in the inbox and scheduled lists as it reads,
+  instead of its formatting marks, without the quoted reply or the signature.
+- Send the plain-text version of an email as readable text, for the apps that
+  show that version, instead of formatting marks.
+
 ## [0.15.0]
 
 ### Added

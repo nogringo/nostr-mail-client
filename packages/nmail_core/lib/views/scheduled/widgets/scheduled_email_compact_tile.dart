@@ -83,28 +83,33 @@ class ScheduledEmailCompactTile extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '—',
-                      style: TextStyle(color: colorScheme.onSurfaceVariant),
-                    ),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      flex: 3,
-                      child: email.hasVisibleStatus
-                          ? Align(
-                              alignment: Alignment.centerLeft,
-                              child: ScheduledStatusChip(status: email.status),
-                            )
-                          : Text(
-                              email.bodyPreview,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: colorScheme.onSurfaceVariant,
+                    if (email.hasVisibleStatus ||
+                        email.bodyPreview.isNotEmpty) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        '—',
+                        style: TextStyle(color: colorScheme.onSurfaceVariant),
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        flex: 3,
+                        child: email.hasVisibleStatus
+                            ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: ScheduledStatusChip(
+                                  status: email.status,
+                                ),
+                              )
+                            : Text(
+                                email.bodyPreview,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: colorScheme.onSurfaceVariant,
+                                ),
                               ),
-                            ),
-                    ),
+                      ),
+                    ],
                   ],
                 ),
               ),

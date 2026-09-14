@@ -901,14 +901,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.3.1"
-  markdown_quill:
-    dependency: transitive
-    description:
-      name: markdown_quill
-      sha256: b378c3f268f488f1146bf8e2abdc0d45133a914e2efaa4f601cc9e6118af2fbe
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.3.0"
   matcher:
     dependency: transitive
     description:
@@ -1017,10 +1009,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: f1a056539c00f2dd52514758aa6c954d50def31d311dea980e6197cfb6f764be
+      sha256: "61781c7205e8ca092a32118c33a4bf0f92c52234e3442c0dd9da0892dd4a293c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.1"
+    version: "3.1.2"
   objective_c:
     dependency: transitive
     description:

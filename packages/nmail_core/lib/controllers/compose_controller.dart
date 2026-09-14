@@ -5,11 +5,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
+import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'package:markdown/markdown.dart' as md;
-import 'package:markdown_quill/markdown_quill.dart';
 import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
@@ -472,7 +471,7 @@ class ComposeController extends GetxController {
     );
     final htmlBody = converter.convert();
 
-    final plainText = DeltaToMarkdown().convert(document.toDelta());
+    final plainText = htmlToText(htmlBody);
 
     // With attachments, the root must be multipart/mixed; the text/html
     // alternative pair goes in a nested multipart/alternative part.
@@ -863,24 +862,19 @@ class ComposeController extends GetxController {
     }
   }
 
-  /// The text/plain part is markdown (produced by [DeltaToMarkdown] at compose
-  /// time), so round-trip it back into the Quill document.
+  /// The HTML part is the source of truth, as in other rich-text clients.
   void _setBodyFromMime(MimeMessage mime) {
-    final markdown = mime.decodeTextPlainPart() ?? '';
-    if (markdown.trim().isEmpty) return;
-    try {
-      final delta = MarkdownToDelta(
-        markdownDocument: md.Document(encodeHtml: false),
-        softLineBreak: true,
-      ).convert(markdown);
-      quillController.document = Document.fromDelta(delta);
-      quillController.updateSelection(
-        const TextSelection.collapsed(offset: 0),
-        ChangeSource.local,
-      );
-    } catch (_) {
-      setQuillContent(markdown);
+    final html = mime.decodeTextHtmlPart() ?? '';
+    if (html.trim().isEmpty) {
+      final text = mime.decodeTextPlainPart() ?? '';
+      if (text.trim().isNotEmpty) setQuillContent(text);
+      return;
     }
+    quillController.document = Document.fromDelta(HtmlToDelta().convert(html));
+    quillController.updateSelection(
+      const TextSelection.collapsed(offset: 0),
+      ChangeSource.local,
+    );
   }
 
   void _loadAttachmentsFromMime(MimeMessage mime) {
