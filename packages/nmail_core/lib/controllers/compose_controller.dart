@@ -785,7 +785,7 @@ class ComposeController extends GetxController {
         final header =
             '$signatureBlock\n\nOn ${dateFormat.format(email.date)}, $senderDisplay wrote:\n';
         quillController.document = Document.fromDelta(
-          replyQuoteDelta(header: header, body: email.body),
+          replyQuoteDelta(header: header, body: quotableText(email)),
         );
         quillController.updateSelection(
           const TextSelection.collapsed(offset: 0),
@@ -797,7 +797,7 @@ class ComposeController extends GetxController {
             'From: $senderDisplay\n'
             'Date: ${dateFormat.format(email.date)}\n'
             'Subject: ${email.subject}\n\n'
-            '${email.body}';
+            '${quotableText(email)}';
         setQuillContent(bodyText);
     }
   }
