@@ -1,7 +1,10 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:nmail_core/models/recipient.dart';
+import 'package:nmail_core/services/metadata_service.dart';
+import 'package:nmail_core/utils/metadata_extensions.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 
@@ -42,13 +45,19 @@ class RecipientChip extends StatelessWidget {
       backgroundColor: colorScheme.primaryContainer,
       side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
       avatar: _buildAvatar(context),
-      label: Text(
-        recipient.label,
-        style: TextStyle(
-          color: colorScheme.primary,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+      label: Obx(() {
+        final pubkey = recipient.pubkey;
+        final metadata = pubkey == null
+            ? null
+            : Get.find<MetadataService>().of(pubkey).value;
+        return Text(
+          metadata?.realName ?? recipient.label,
+          style: TextStyle(
+            color: colorScheme.primary,
+            fontWeight: FontWeight.w500,
+          ),
+        );
+      }),
       deleteIcon: Icon(
         Icons.close,
         size: 18,

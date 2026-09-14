@@ -18,7 +18,6 @@ import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 import '../app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_attachment.dart';
-import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/models/from_option.dart';
@@ -26,13 +25,13 @@ import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/models/send_mode.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
-import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
 import 'settings_controller.dart';
 
 const String _defaultBridgeDomain = 'uid.ovh';
+const Duration _nip05Timeout = Duration(seconds: 5);
 
 class ComposeController extends GetxController {
   static ComposeController get to => Get.find();
@@ -134,30 +133,62 @@ class ComposeController extends GetxController {
   Future<bool> _addRecipientToList(String input, RxList<Recipient> list) async {
     final trimmed = input.trim();
     if (trimmed.isEmpty) return false;
-
-    // Check if already added (by input)
     if (list.any((r) => r.input == trimmed)) return false;
 
-    // Resolve recipient first to get pubkey
-    final resolved = await _resolveRecipient(trimmed);
-
-    // Check if invalid format
-    if (resolved == null) return false;
-
-    // Check if already added (by pubkey for nostr recipients)
-    if (resolved.type == RecipientType.nostr && resolved.pubkey != null) {
-      if (list.any((r) => r.pubkey == resolved.pubkey)) return false;
+    final parsed = _parseRecipient(trimmed);
+    if (parsed == null) {
+      if (!trimmed.contains('@')) return false;
+      final pubkey = await _resolveNip05(trimmed);
+      if (pubkey == null) return false;
+      return _addUnique(
+        Recipient(input: trimmed, pubkey: pubkey, type: RecipientType.nostr),
+        list,
+      );
     }
 
-    // Add recipient
-    list.add(resolved);
+    if (!_addUnique(parsed, list)) return false;
 
-    // Auto-select bridge if this is a legacy recipient
-    if (resolved.isLegacy) {
+    if (parsed.isLegacy) {
+      _trackResolution(_upgradeToNostr(parsed, list));
       await _autoSelectBridgeForLegacy();
     }
 
     return true;
+  }
+
+  bool _addUnique(Recipient recipient, RxList<Recipient> list) {
+    final pubkey = recipient.pubkey;
+    if (pubkey != null && list.any((r) => r.pubkey == pubkey)) return false;
+    list.add(recipient);
+    return true;
+  }
+
+  /// NIP-05 lookups still running, awaited before sending because they decide
+  /// whether a recipient goes through Nostr or SMTP.
+  final _pendingResolutions = <Future<void>>{};
+
+  void _trackResolution(Future<void> resolution) {
+    _pendingResolutions.add(resolution);
+    resolution.whenComplete(() => _pendingResolutions.remove(resolution));
+  }
+
+  Future<void> _upgradeToNostr(Recipient legacy, RxList<Recipient> list) async {
+    final pubkey = await _resolveNip05(legacy.input);
+    if (pubkey == null) return;
+
+    final index = list.indexOf(legacy);
+    if (index == -1) return;
+
+    if (list.any((r) => r.pubkey == pubkey)) {
+      list.removeAt(index);
+    } else {
+      list[index] = Recipient(
+        input: legacy.input,
+        pubkey: pubkey,
+        type: RecipientType.nostr,
+      );
+    }
+    _revertBridgeIfNoLegacy();
   }
 
   void removeRecipient(int index) =>
@@ -168,32 +199,30 @@ class ComposeController extends GetxController {
       _removeRecipientFromList(index, bccRecipients);
 
   void _removeRecipientFromList(int index, RxList<Recipient> list) {
-    if (index >= 0 && index < list.length) {
-      final removed = list.removeAt(index);
+    if (index < 0 || index >= list.length) return;
+    if (list.removeAt(index).isLegacy) _revertBridgeIfNoLegacy();
+  }
 
-      // Re-evaluate: if no more legacy recipients, revert to npub@nostr
-      if (removed.isLegacy) {
-        final hasLegacyRecipients =
-            recipients.any((r) => r.isLegacy) ||
-            ccRecipients.any((r) => r.isLegacy) ||
-            bccRecipients.any((r) => r.isLegacy);
+  /// The bridge picked by [_autoSelectBridgeForLegacy], reverted once no
+  /// legacy recipient needs it. A From chosen by the user is never reverted.
+  FromOption? _autoSelectedBridge;
 
-        if (!hasLegacyRecipients) {
-          // Revert to npub@nostr if we switched to bridge due to legacy recipients
-          // Only if current selection is a bridge
-          final currentFrom = selectedFrom.value;
-          if (currentFrom != null &&
-              (currentFrom.source == FromSource.npubBridge ||
-                  currentFrom.source == FromSource.nip05Bridge)) {
-            final nostrOption = fromOptions.firstWhereOrNull(
-              (o) => o.source == FromSource.npubNostr,
-            );
-            if (nostrOption != null) {
-              selectedFrom.value = nostrOption;
-            }
-          }
-        }
-      }
+  void _revertBridgeIfNoLegacy() {
+    final hasLegacyRecipients =
+        recipients.any((r) => r.isLegacy) ||
+        ccRecipients.any((r) => r.isLegacy) ||
+        bccRecipients.any((r) => r.isLegacy);
+    if (hasLegacyRecipients) return;
+
+    final bridge = _autoSelectedBridge;
+    if (bridge == null || selectedFrom.value != bridge) return;
+    _autoSelectedBridge = null;
+
+    final nostrOption = fromOptions.firstWhereOrNull(
+      (o) => o.source == FromSource.npubNostr,
+    );
+    if (nostrOption != null) {
+      selectedFrom.value = nostrOption;
     }
   }
 
@@ -287,66 +316,38 @@ class ComposeController extends GetxController {
     return lookupMimeType(filePath) ?? 'application/octet-stream';
   }
 
-  Future<Recipient?> _resolveRecipient(String input) async {
+  /// Recognizes [input] without any network access. Profiles are read by the
+  /// chips, and a legacy address may later be upgraded through NIP-05.
+  Recipient? _parseRecipient(String input) {
     try {
-      String? pubkey;
-
-      // Extract bech32 part (before @ if present) and decode
       final bech32Part = input.split('@').first;
-
+      final String? pubkey;
       if (input.startsWith('npub1')) {
         pubkey = Nip19.decode(bech32Part);
       } else if (input.startsWith('nprofile1')) {
         pubkey = Nip19.decodeNprofile(bech32Part).pubkey;
       } else if (input.startsWith('naddr1')) {
         pubkey = Nip19.decodeNaddr(bech32Part).pubkey;
+      } else {
+        pubkey = null;
       }
-
       if (pubkey != null) {
-        final metadata = await _fetchMetadata(pubkey);
         return Recipient(
           input: input,
           pubkey: pubkey,
-          displayName: metadata?.getBestName(),
-          picture: metadata?.picture,
           type: RecipientType.nostr,
         );
       }
     } catch (_) {}
 
-    // Check if hex pubkey
     if (RegExp(r'^[0-9a-fA-F]{64}$').hasMatch(input)) {
-      try {
-        final pubkey = input.toLowerCase();
-        final metadata = await _fetchMetadata(pubkey);
-        return Recipient(
-          input: input,
-          pubkey: pubkey,
-          displayName: metadata?.getBestName(),
-          picture: metadata?.picture,
-          type: RecipientType.nostr,
-        );
-      } catch (_) {}
+      return Recipient(
+        input: input,
+        pubkey: input.toLowerCase(),
+        type: RecipientType.nostr,
+      );
     }
 
-    // Check if NIP-05
-    if (input.contains('@')) {
-      try {
-        final pubkey = await _resolveNip05(input);
-        if (pubkey != null) {
-          final metadata = await _fetchMetadata(pubkey);
-          return Recipient(
-            input: input,
-            pubkey: pubkey,
-            displayName: metadata?.getBestName(),
-            picture: metadata?.picture,
-            type: RecipientType.nostr,
-          );
-        }
-      } catch (_) {}
-    }
-
-    // Validate legacy email format
     if (GetUtils.isEmail(input)) {
       return Recipient(
         input: input,
@@ -355,7 +356,6 @@ class ComposeController extends GetxController {
       );
     }
 
-    // Invalid format
     return null;
   }
 
@@ -368,7 +368,7 @@ class ComposeController extends GetxController {
     final url = Uri.https(domain, '/.well-known/nostr.json', {'name': name});
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(url).timeout(_nip05Timeout);
       if (response.statusCode != 200) return null;
 
       final json = jsonDecode(response.body) as Map<String, dynamic>;
@@ -376,14 +376,6 @@ class ComposeController extends GetxController {
       if (names == null || !names.containsKey(name)) return null;
 
       return names[name] as String;
-    } catch (_) {
-      return null;
-    }
-  }
-
-  Future<Metadata?> _fetchMetadata(String pubkey) async {
-    try {
-      return await Get.find<MetadataService>().load(pubkey);
     } catch (_) {
       return null;
     }
@@ -625,25 +617,6 @@ class ComposeController extends GetxController {
       );
     }
 
-    // 3. Check if user's NIP-05 domain is a bridge
-    final nip05 = metadata?.nip05;
-    if (nip05 != null && nip05.contains('@')) {
-      final domain = nip05.split('@').last;
-      // Don't add if it's already in bridges list
-      if (!bridges.contains(domain)) {
-        final isBridge = await _isDomainBridge(domain);
-        if (isBridge) {
-          options.add(
-            FromOption(
-              mailAddress: MailAddress(senderName, nip05),
-              picture: metadata?.picture,
-              source: FromSource.nip05Bridge,
-            ),
-          );
-        }
-      }
-    }
-
     fromOptions.value = options;
 
     // Set default selection
@@ -652,6 +625,24 @@ class ComposeController extends GetxController {
     }
 
     await _autoSelectBridgeForLegacy();
+
+    // 4. Check if user's NIP-05 domain is a bridge
+    final nip05 = metadata?.nip05;
+    if (nip05 != null && nip05.contains('@')) {
+      final domain = nip05.split('@').last;
+      if (!bridges.contains(domain) && await _isDomainBridge(domain)) {
+        final option = FromOption(
+          mailAddress: MailAddress(senderName, nip05),
+          picture: metadata?.picture,
+          source: FromSource.nip05Bridge,
+        );
+        fromOptions.add(option);
+        if (selectedFrom.value == options.first &&
+            option.address == await getDefaultFrom()) {
+          selectedFrom.value = option;
+        }
+      }
+    }
   }
 
   Future<void> _selectDefaultFrom(List<FromOption> options) async {
@@ -694,6 +685,7 @@ class ComposeController extends GetxController {
 
     if (bridgeOption != null) {
       selectedFrom.value = bridgeOption;
+      _autoSelectedBridge = bridgeOption;
     }
   }
 
@@ -702,7 +694,7 @@ class ComposeController extends GetxController {
     final url = Uri.https(domain, '/.well-known/nostr.json', {'name': '_smtp'});
 
     try {
-      final response = await http.get(url);
+      final response = await http.get(url).timeout(_nip05Timeout);
       if (response.statusCode != 200) return false;
 
       final json = jsonDecode(response.body) as Map<String, dynamic>;
@@ -717,9 +709,10 @@ class ComposeController extends GetxController {
 
   void selectFrom(FromOption option) {
     selectedFrom.value = option;
+    _autoSelectedBridge = null;
   }
 
-  Future<void> initFromEmail(Email email, ComposeMode mode) async {
+  void initFromEmail(Email email, ComposeMode mode) {
     final myPubkey = _nostrMailService.getPublicKey()!;
     final signature = Get.find<SettingsController>().emailSignature.value;
     final signatureBlock = signature.isEmpty ? '' : '\n\n$signature';
@@ -760,18 +753,6 @@ class ComposeController extends GetxController {
         );
     }
 
-    // Extract and add recipients from builder
-    if (builder.to != null) {
-      for (final address in builder.to!) {
-        await addRecipient(address.email);
-      }
-    }
-    if (builder.cc != null) {
-      for (final address in builder.cc!) {
-        await addCcRecipient(address.email);
-      }
-    }
-
     // Set subject from builder
     subjectController.text = builder.subject ?? '';
 
@@ -800,6 +781,13 @@ class ComposeController extends GetxController {
             '${quotableText(email)}';
         setQuillContent(bodyText);
     }
+
+    for (final address in builder.to ?? const <MailAddress>[]) {
+      addRecipient(address.email);
+    }
+    for (final address in builder.cc ?? const <MailAddress>[]) {
+      addCcRecipient(address.email);
+    }
   }
 
   /// Pre-fill the composer from an already-scheduled email so the user can
@@ -820,13 +808,13 @@ class ComposeController extends GetxController {
     final bcc = mime?.bcc?.map((a) => a.email) ?? scheduled.bcc;
 
     for (final address in to) {
-      await addRecipient(address);
+      addRecipient(address);
     }
     for (final address in cc) {
-      await addCcRecipient(address);
+      addCcRecipient(address);
     }
     for (final address in bcc) {
-      await addBccRecipient(address);
+      addBccRecipient(address);
     }
     if (cc.isNotEmpty || bcc.isNotEmpty) showExpandedFields.value = true;
 
@@ -846,7 +834,9 @@ class ComposeController extends GetxController {
     if (address == null) return;
     void apply(List<FromOption> options) {
       final match = options.firstWhereOrNull((o) => o.address == address);
-      if (match != null) selectedFrom.value = match;
+      if (match == null) return;
+      selectedFrom.value = match;
+      _autoSelectedBridge = null;
     }
 
     if (fromOptions.isNotEmpty) {
@@ -1025,6 +1015,12 @@ class ComposeController extends GetxController {
     if (bccController.text.trim().isNotEmpty) {
       await handleBccSubmit(bccController.text);
       if (bccController.text.trim().isNotEmpty) return false;
+    }
+
+    if (_pendingResolutions.isNotEmpty) {
+      isSending.value = true;
+      await Future.wait(_pendingResolutions.toList());
+      isSending.value = false;
     }
 
     final l = AppLocalizations.of(Get.context!);
