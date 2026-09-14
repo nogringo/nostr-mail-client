@@ -231,12 +231,11 @@
     }
   },
   "inboxCopyNpub": "npub kopieren",
+  "inboxCopyEmail": "E-Mail-Adresse kopieren",
   "inboxAddAccount": "Konto hinzufügen",
   "inboxLogout": "Abmelden",
   "inboxAccount": "Konto",
   "inboxCompose": "Verfassen",
-  "inboxNpubCopied": "npub kopiert",
-  "inboxUnknown": "Unbekannt",
   "inboxEditProfile": "Profil bearbeiten",
   "inboxSettings": "Einstellungen",
   "inboxDeleteOldEmailsTitle": "Alte E-Mails löschen",

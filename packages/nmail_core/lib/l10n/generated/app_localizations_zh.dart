@@ -576,6 +576,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inboxCopyNpub => '复制 npub';
 
   @override
+  String get inboxCopyEmail => '复制邮箱地址';
+
+  @override
   String get inboxAddAccount => '添加账户';
 
   @override
@@ -586,12 +589,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get inboxCompose => '撰写';
-
-  @override
-  String get inboxNpubCopied => '已复制 npub';
-
-  @override
-  String get inboxUnknown => '未知';
 
   @override
   String get inboxEditProfile => '编辑个人资料';

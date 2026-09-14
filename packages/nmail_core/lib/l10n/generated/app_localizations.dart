@@ -1213,6 +1213,12 @@ abstract class AppLocalizations {
   /// **'Copy npub'**
   String get inboxCopyNpub;
 
+  /// Account menu entry/Semantics label to copy the user's own email address to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy email address'**
+  String get inboxCopyEmail;
+
   /// Account menu entry that opens the login flow to add another account
   ///
   /// In en, this message translates to:
@@ -1237,19 +1243,7 @@ abstract class AppLocalizations {
   /// **'Compose'**
   String get inboxCompose;
 
-  /// Toast confirmation shown after the user's npub is copied
-  ///
-  /// In en, this message translates to:
-  /// **'npub copied'**
-  String get inboxNpubCopied;
-
-  /// Fallback display when the user's npub is unavailable
-  ///
-  /// In en, this message translates to:
-  /// **'Unknown'**
-  String get inboxUnknown;
-
-  /// Semantics label on the drawer avatar and tooltip on the account menu header pencil, both open the profile editor
+  /// Semantics label on the drawer avatar and account menu header button, both open the profile editor
   ///
   /// In en, this message translates to:
   /// **'Edit profile'**

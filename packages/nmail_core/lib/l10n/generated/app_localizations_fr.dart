@@ -602,6 +602,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get inboxCopyNpub => 'Copier le npub';
 
   @override
+  String get inboxCopyEmail => 'Copier l\'adresse e-mail';
+
+  @override
   String get inboxAddAccount => 'Ajouter un compte';
 
   @override
@@ -612,12 +615,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get inboxCompose => 'Composer';
-
-  @override
-  String get inboxNpubCopied => 'npub copié';
-
-  @override
-  String get inboxUnknown => 'Inconnu';
 
   @override
   String get inboxEditProfile => 'Modifier le profil';

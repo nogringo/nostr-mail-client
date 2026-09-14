@@ -231,12 +231,11 @@
     }
   },
   "inboxCopyNpub": "Copia npub",
+  "inboxCopyEmail": "Copia indirizzo email",
   "inboxAddAccount": "Aggiungi account",
   "inboxLogout": "Esci",
   "inboxAccount": "Account",
   "inboxCompose": "Componi",
-  "inboxNpubCopied": "npub copiato",
-  "inboxUnknown": "Sconosciuto",
   "inboxEditProfile": "Modifica profilo",
   "inboxSettings": "Impostazioni",
   "inboxDeleteOldEmailsTitle": "Elimina email vecchie",

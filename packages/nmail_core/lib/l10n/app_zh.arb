@@ -231,12 +231,11 @@
     }
   },
   "inboxCopyNpub": "复制 npub",
+  "inboxCopyEmail": "复制邮箱地址",
   "inboxAddAccount": "添加账户",
   "inboxLogout": "退出登录",
   "inboxAccount": "账户",
   "inboxCompose": "撰写",
-  "inboxNpubCopied": "已复制 npub",
-  "inboxUnknown": "未知",
   "inboxEditProfile": "编辑个人资料",
   "inboxSettings": "设置",
   "inboxDeleteOldEmailsTitle": "删除旧邮件",

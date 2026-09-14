@@ -231,12 +231,11 @@
     }
   },
   "inboxCopyNpub": "Kopioi npub",
+  "inboxCopyEmail": "Kopioi sähköpostiosoite",
   "inboxAddAccount": "Lisää tili",
   "inboxLogout": "Kirjaudu ulos",
   "inboxAccount": "Tili",
   "inboxCompose": "Luo sähköposti",
-  "inboxNpubCopied": "npub kopioitu",
-  "inboxUnknown": "Tuntematon",
   "inboxEditProfile": "Muokkaa profiilia",
   "inboxSettings": "Asetukset",
   "inboxDeleteOldEmailsTitle": "Poista vanha posti",

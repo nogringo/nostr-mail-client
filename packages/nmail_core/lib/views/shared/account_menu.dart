@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,6 +7,7 @@ import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'account_menu_header.dart';
 import 'account_switcher_section.dart';
+import 'copy_menu_item.dart';
 import 'layout_constants.dart';
 
 class AccountMenu extends StatelessWidget {
@@ -46,16 +46,8 @@ class AccountMenu extends StatelessWidget {
           child: Text(l.inboxAddAccount),
         ),
         const Divider(height: 1),
-        MenuItemButton(
-          leadingIcon: const Icon(Icons.copy),
-          onPressed: () {
-            final npub = auth.currentNpub;
-            if (npub != null) {
-              Clipboard.setData(ClipboardData(text: npub));
-            }
-          },
-          child: Text(l.inboxCopyNpub),
-        ),
+        CopyMenuItem(label: l.inboxCopyEmail, value: () => auth.primaryEmail),
+        CopyMenuItem(label: l.inboxCopyNpub, value: () => auth.currentNpub),
         MenuItemButton(
           leadingIcon: Icon(Icons.logout, color: colorScheme.error),
           onPressed: auth.logout,

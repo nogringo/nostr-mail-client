@@ -231,12 +231,11 @@
     }
   },
   "inboxCopyNpub": "Скопировать npub",
+  "inboxCopyEmail": "Скопировать адрес почты",
   "inboxAddAccount": "Добавить аккаунт",
   "inboxLogout": "Выйти",
   "inboxAccount": "Аккаунт",
   "inboxCompose": "Написать",
-  "inboxNpubCopied": "npub скопирован",
-  "inboxUnknown": "Неизвестно",
   "inboxEditProfile": "Редактировать профиль",
   "inboxSettings": "Настройки",
   "inboxDeleteOldEmailsTitle": "Удалить старые письма",

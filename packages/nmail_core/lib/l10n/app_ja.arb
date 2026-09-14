@@ -231,12 +231,11 @@
     }
   },
   "inboxCopyNpub": "npub をコピー",
+  "inboxCopyEmail": "メールアドレスをコピー",
   "inboxAddAccount": "アカウントを追加",
   "inboxLogout": "ログアウト",
   "inboxAccount": "アカウント",
   "inboxCompose": "作成",
-  "inboxNpubCopied": "npub をコピーしました",
-  "inboxUnknown": "不明",
   "inboxEditProfile": "プロフィールを編集",
   "inboxSettings": "設定",
   "inboxDeleteOldEmailsTitle": "古いメールを削除",

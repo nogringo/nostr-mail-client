@@ -578,6 +578,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inboxCopyNpub => 'npub をコピー';
 
   @override
+  String get inboxCopyEmail => 'メールアドレスをコピー';
+
+  @override
   String get inboxAddAccount => 'アカウントを追加';
 
   @override
@@ -588,12 +591,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inboxCompose => '作成';
-
-  @override
-  String get inboxNpubCopied => 'npub をコピーしました';
-
-  @override
-  String get inboxUnknown => '不明';
 
   @override
   String get inboxEditProfile => 'プロフィールを編集';

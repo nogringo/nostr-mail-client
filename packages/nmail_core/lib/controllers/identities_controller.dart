@@ -2,8 +2,8 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart' show PrivateSettings;
 
-import 'package:nmail_core/models/local_part_format.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/key_address.dart';
 import 'auth_controller.dart';
 
 class IdentitiesController extends GetxController {
@@ -16,9 +16,7 @@ class IdentitiesController extends GetxController {
   final RxBool isRefreshing = false.obs;
   final RxBool isSaving = false.obs;
 
-  String? _myNpub;
   String? _myHex;
-  String? _myBase36;
 
   List<MailAddress> _original = const [];
   bool _hasLoadedData = false;
@@ -41,10 +39,6 @@ class IdentitiesController extends GetxController {
   void _bindCurrentAccount() {
     final hex = _auth.publicKey;
     _myHex = hex;
-    _myNpub = _auth.npub;
-    _myBase36 = hex == null
-        ? null
-        : BigInt.parse(hex, radix: 16).toRadixString(36);
     if (hex == null || !_nostrMailService.hasAccount) {
       isLoading.value = false;
       return;
@@ -64,24 +58,10 @@ class IdentitiesController extends GetxController {
     _bindCurrentAccount();
   }
 
-  ({LocalPartFormat format, String localPart, String domain})? matchedKeyFormat(
-    MailAddress identity,
-  ) {
-    final email = identity.email;
-    final atIndex = email.indexOf('@');
-    if (atIndex < 0) return null;
-    final local = email.substring(0, atIndex);
-    final domain = email.substring(atIndex + 1);
-    if (_myNpub != null && local == _myNpub) {
-      return (format: LocalPartFormat.npub, localPart: local, domain: domain);
-    }
-    if (_myHex != null && local == _myHex) {
-      return (format: LocalPartFormat.hex, localPart: local, domain: domain);
-    }
-    if (_myBase36 != null && local == _myBase36) {
-      return (format: LocalPartFormat.base36, localPart: local, domain: domain);
-    }
-    return null;
+  KeyAddressMatch? matchedKeyFormat(MailAddress identity) {
+    final hex = _myHex;
+    if (hex == null) return null;
+    return matchKeyAddress(identity.email, hex);
   }
 
   bool get hasChanges {

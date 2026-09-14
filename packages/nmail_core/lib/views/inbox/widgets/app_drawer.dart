@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
-import 'package:nmail_core/utils/nostr_utils.dart';
 import '../../../widgets/nostr_avatar.dart';
+import 'account_email_copy_button.dart';
 
 const _folderPaths = [
   AppRoutes.inbox,
@@ -22,26 +20,6 @@ const _folderPaths = [
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
-
-  String _shortNpub(AppLocalizations l) {
-    final npub = Get.find<AuthController>().currentNpub;
-    if (npub == null || npub.length < 20) return l.inboxUnknown;
-    return shortenNpub(npub);
-  }
-
-  void _copyNpub(BuildContext context) {
-    final l = AppLocalizations.of(context);
-    final npub = Get.find<AuthController>().currentNpub;
-    if (npub == null) return;
-    Clipboard.setData(ClipboardData(text: npub));
-    toastification.show(
-      context: context,
-      type: ToastificationType.success,
-      title: Text(l.inboxNpubCopied),
-      autoCloseDuration: const Duration(seconds: 2),
-      alignment: Alignment.bottomRight,
-    );
-  }
 
   Widget _buildAvatar(BuildContext context) {
     final authController = Get.find<AuthController>();
@@ -138,36 +116,7 @@ class AppDrawer extends StatelessWidget {
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 4),
-                            Semantics(
-                              label: l.inboxCopyNpub,
-                              button: true,
-                              child: InkWell(
-                                onTap: () => _copyNpub(context),
-                                borderRadius: BorderRadius.circular(4),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        _shortNpub(l),
-                                        style: TextStyle(
-                                          color: colorScheme.onSurfaceVariant,
-                                          fontSize: 12,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Icon(
-                                      Icons.copy,
-                                      size: 12,
-                                      color: colorScheme.onSurfaceVariant,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            AccountEmailCopyButton(),
                           ],
                         ),
                       ),

@@ -7,6 +7,7 @@ import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/widgets/nostr_avatar.dart';
+import 'account_email_text.dart';
 import 'layout_constants.dart';
 
 class AccountMenuHeader extends StatelessWidget {
@@ -36,6 +37,7 @@ class AccountMenuHeader extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
+            const AccountEmailText(),
             const SizedBox(height: 12),
             FilledButton.tonalIcon(
               onPressed: () {

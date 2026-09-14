@@ -219,12 +219,11 @@
     }
   },
   "inboxCopyNpub": "Copiar npub",
+  "inboxCopyEmail": "Copiar endereço de e-mail",
   "inboxAddAccount": "Adicionar conta",
   "inboxLogout": "Sair",
   "inboxAccount": "Conta",
   "inboxCompose": "Compor",
-  "inboxNpubCopied": "npub copiado",
-  "inboxUnknown": "Desconhecido",
   "inboxEditProfile": "Editar perfil",
   "inboxSettings": "Configurações",
   "inboxDeleteOldEmailsTitle": "Excluir e-mails antigos",

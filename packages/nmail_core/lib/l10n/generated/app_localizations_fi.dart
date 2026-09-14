@@ -596,6 +596,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get inboxCopyNpub => 'Kopioi npub';
 
   @override
+  String get inboxCopyEmail => 'Kopioi sähköpostiosoite';
+
+  @override
   String get inboxAddAccount => 'Lisää tili';
 
   @override
@@ -606,12 +609,6 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get inboxCompose => 'Luo sähköposti';
-
-  @override
-  String get inboxNpubCopied => 'npub kopioitu';
-
-  @override
-  String get inboxUnknown => 'Tuntematon';
 
   @override
   String get inboxEditProfile => 'Muokkaa profiilia';

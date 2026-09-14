@@ -17,6 +17,7 @@ import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/push_subscription_service.dart';
+import 'package:nmail_core/utils/primary_email.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:flutter/material.dart';
 import 'inbox_controller.dart';
@@ -548,6 +549,15 @@ class AuthController extends GetxController {
   String? get currentPubkey => activePubkey.value;
 
   String? get currentNpub => activeNpub.value;
+
+  String? get primaryEmail {
+    final npub = activeNpub.value;
+    if (npub == null || !_nostrMailService.hasAccount) return null;
+    return primaryEmailAddress(
+      npub: npub,
+      settings: _nostrMailService.client.cachedPrivateSettings,
+    );
+  }
 
   bool get hasMultipleAccounts => accountPubkeys.length > 1;
 

@@ -598,6 +598,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get inboxCopyNpub => 'Copiar npub';
 
   @override
+  String get inboxCopyEmail => 'Copiar endereço de email';
+
+  @override
   String get inboxAddAccount => 'Adicionar conta';
 
   @override
@@ -608,12 +611,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get inboxCompose => 'Compor';
-
-  @override
-  String get inboxNpubCopied => 'npub copiado';
-
-  @override
-  String get inboxUnknown => 'Desconhecido';
 
   @override
   String get inboxEditProfile => 'Editar perfil';
@@ -2173,6 +2170,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get inboxCopyNpub => 'Copiar npub';
 
   @override
+  String get inboxCopyEmail => 'Copiar endereço de e-mail';
+
+  @override
   String get inboxAddAccount => 'Adicionar conta';
 
   @override
@@ -2183,12 +2183,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get inboxCompose => 'Compor';
-
-  @override
-  String get inboxNpubCopied => 'npub copiado';
-
-  @override
-  String get inboxUnknown => 'Desconhecido';
 
   @override
   String get inboxEditProfile => 'Editar perfil';
