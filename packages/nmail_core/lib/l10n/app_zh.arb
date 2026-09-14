@@ -188,7 +188,6 @@
   "identitiesCreate": "创建身份",
 
   "accountsTitle": "账户",
-  "accountsManage": "管理账户",
   "accountsRemove": "移除账户",
   "accountsRemoveTitle": "移除此账户？",
   "accountsRemoveMessage": "{name} 将从此设备移除，其本地数据也会被清除：邮件、联系人和设置。中继上的数据不会被删除。",

@@ -490,9 +490,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get accountsTitle => 'Contas';
 
   @override
-  String get accountsManage => 'Gerir contas';
-
-  @override
   String get accountsRemove => 'Remover conta';
 
   @override
@@ -2069,9 +2066,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get accountsTitle => 'Contas';
-
-  @override
-  String get accountsManage => 'Gerenciar contas';
 
   @override
   String get accountsRemove => 'Remover conta';

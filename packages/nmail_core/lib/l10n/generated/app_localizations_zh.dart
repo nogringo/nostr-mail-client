@@ -471,9 +471,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get accountsTitle => '账户';
 
   @override
-  String get accountsManage => '管理账户';
-
-  @override
   String get accountsRemove => '移除账户';
 
   @override

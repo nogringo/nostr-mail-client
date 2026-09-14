@@ -489,9 +489,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get accountsTitle => 'Cuentas';
 
   @override
-  String get accountsManage => 'Gestionar cuentas';
-
-  @override
   String get accountsRemove => 'Eliminar cuenta';
 
   @override

@@ -176,7 +176,6 @@
   "identitiesCreate": "Criar identidade",
 
   "accountsTitle": "Contas",
-  "accountsManage": "Gerenciar contas",
   "accountsRemove": "Remover conta",
   "accountsRemoveTitle": "Remover esta conta?",
   "accountsRemoveMessage": "{name} será removida deste dispositivo e seus dados locais serão apagados: e-mails, contatos e configurações. Nada é excluído dos relays.",

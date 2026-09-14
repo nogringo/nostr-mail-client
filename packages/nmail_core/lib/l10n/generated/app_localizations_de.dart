@@ -491,9 +491,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get accountsTitle => 'Konten';
 
   @override
-  String get accountsManage => 'Konten verwalten';
-
-  @override
   String get accountsRemove => 'Konto entfernen';
 
   @override

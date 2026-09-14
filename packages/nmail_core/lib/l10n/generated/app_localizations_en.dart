@@ -488,9 +488,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get accountsTitle => 'Accounts';
 
   @override
-  String get accountsManage => 'Manage accounts';
-
-  @override
   String get accountsRemove => 'Remove account';
 
   @override

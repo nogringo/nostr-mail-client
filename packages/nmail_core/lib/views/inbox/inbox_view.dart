@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -11,11 +10,9 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/utils/mail_folder_extensions.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
-import 'package:nmail_core/utils/metadata_extensions.dart';
-import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../../widgets/nostr_avatar.dart';
-import '../shared/account_switcher_section.dart';
+import '../shared/account_menu.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
@@ -31,52 +28,6 @@ class InboxView extends GetView<InboxController> {
   final MailFolder folder;
 
   const InboxView({super.key, required this.folder});
-
-  Widget _buildAccountHeader(BuildContext context) {
-    final authController = Get.find<AuthController>();
-    final metadata = authController.userMetadata.value;
-    final pubkey = authController.currentPubkey!;
-    final shortNpub = shortenNpub(authController.currentNpub ?? '');
-    final colorScheme = Theme.of(context).colorScheme;
-
-    final displayName = metadata?.getBestName() ?? getAnonName(pubkey);
-
-    return Container(
-      width: 240,
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          NostrAvatar(pubkey: pubkey, metadata: metadata, radius: 18),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  displayName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  shortNpub,
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontSize: 12,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildEmailList(BuildContext context) {
     final l = AppLocalizations.of(context);
@@ -231,96 +182,32 @@ class InboxView extends GetView<InboxController> {
                       onPressed: () => controller.enterSearchMode(),
                     ),
                     const SizedBox(width: 8),
-                    Builder(
-                      builder: (context) => MenuAnchor(
-                        // TODO: Refactor account popup into a reusable widget to avoid duplication with left_rail.dart
-                        alignmentOffset: const Offset(-204, 8),
-                        style: MenuStyle(
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              side: BorderSide(
-                                width: 2,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.outlineVariant,
-                              ),
-                            ),
-                          ),
-                        ),
-                        menuChildren: [
-                          Obx(() => _buildAccountHeader(context)),
-                          const Divider(height: 1),
-                          const AccountSwitcherMenuSection(),
-                          MenuItemButton(
-                            leadingIcon: const Icon(Icons.person_add_outlined),
-                            onPressed: () => context.go(AppRoutes.addAccount),
-                            child: Text(l.inboxAddAccount),
-                          ),
-                          MenuItemButton(
-                            leadingIcon: const Icon(
-                              Icons.manage_accounts_outlined,
-                            ),
-                            onPressed: () => context.go(AppRoutes.accounts),
-                            child: Text(l.accountsManage),
-                          ),
-                          const Divider(height: 1),
-                          MenuItemButton(
-                            leadingIcon: const Icon(Icons.person_outline),
-                            onPressed: () => context.go(AppRoutes.profile),
-                            child: Text(l.inboxProfile),
-                          ),
-                          MenuItemButton(
-                            leadingIcon: const Icon(Icons.copy),
-                            onPressed: () {
-                              final npub =
-                                  Get.find<AuthController>().currentNpub;
-                              if (npub != null) {
-                                Clipboard.setData(ClipboardData(text: npub));
+                    AccountMenu(
+                      alignmentOffset: const Offset(-204, 8),
+                      builder: (context, menuController, child) {
+                        return Semantics(
+                          label: l.inboxAccount,
+                          button: true,
+                          child: GestureDetector(
+                            onTap: () {
+                              if (menuController.isOpen) {
+                                menuController.close();
+                              } else {
+                                menuController.open();
                               }
                             },
-                            child: Text(l.inboxCopyNpub),
+                            child: Obx(() {
+                              final authController = Get.find<AuthController>();
+                              final pubkey = authController.currentPubkey!;
+                              return NostrAvatar(
+                                pubkey: pubkey,
+                                metadata: authController.userMetadata.value,
+                                radius: 18,
+                              );
+                            }),
                           ),
-                          MenuItemButton(
-                            leadingIcon: Icon(
-                              Icons.logout,
-                              color: colorScheme.error,
-                            ),
-                            onPressed: () {
-                              Get.find<AuthController>().logout();
-                            },
-                            child: Text(
-                              l.inboxLogout,
-                              style: TextStyle(color: colorScheme.error),
-                            ),
-                          ),
-                        ],
-                        builder: (context, menuController, child) {
-                          return Semantics(
-                            label: l.inboxAccount,
-                            button: true,
-                            child: GestureDetector(
-                              onTap: () {
-                                if (menuController.isOpen) {
-                                  menuController.close();
-                                } else {
-                                  menuController.open();
-                                }
-                              },
-                              child: Obx(() {
-                                final authController =
-                                    Get.find<AuthController>();
-                                final pubkey = authController.currentPubkey!;
-                                return NostrAvatar(
-                                  pubkey: pubkey,
-                                  metadata: authController.userMetadata.value,
-                                  radius: 18,
-                                );
-                              }),
-                            ),
-                          );
-                        },
-                      ),
+                        );
+                      },
                     ),
                   ],
                 ),

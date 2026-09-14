@@ -338,8 +338,6 @@
 
   "accountsTitle": "Accounts",
   "@accountsTitle": { "description": "AppBar title of the accounts management screen" },
-  "accountsManage": "Manage accounts",
-  "@accountsManage": { "description": "Menu entry and settings tile that opens the accounts management screen" },
   "accountsRemove": "Remove account",
   "@accountsRemove": { "description": "Tooltip of the button that removes an account from the device" },
   "accountsRemoveTitle": "Remove this account?",

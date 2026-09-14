@@ -188,7 +188,6 @@
   "identitiesCreate": "Identität erstellen",
 
   "accountsTitle": "Konten",
-  "accountsManage": "Konten verwalten",
   "accountsRemove": "Konto entfernen",
   "accountsRemoveTitle": "Dieses Konto entfernen?",
   "accountsRemoveMessage": "{name} wird von diesem Gerät entfernt und die lokalen Daten werden gelöscht: E-Mails, Kontakte und Einstellungen. Auf den Relays wird nichts gelöscht.",

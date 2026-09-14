@@ -472,9 +472,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get accountsTitle => 'アカウント';
 
   @override
-  String get accountsManage => 'アカウントを管理';
-
-  @override
   String get accountsRemove => 'アカウントを削除';
 
   @override

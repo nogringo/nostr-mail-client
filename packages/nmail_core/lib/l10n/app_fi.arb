@@ -188,7 +188,6 @@
   "identitiesCreate": "Luo henkilöllisyys",
 
   "accountsTitle": "Tilit",
-  "accountsManage": "Hallitse tilejä",
   "accountsRemove": "Poista tili",
   "accountsRemoveTitle": "Poistetaanko tämä tili?",
   "accountsRemoveMessage": "{name} poistetaan tältä laitteelta ja sen paikalliset tiedot pyyhitään: sähköpostit, kontaktit ja asetukset. Palvelimilta ei poisteta mitään.",

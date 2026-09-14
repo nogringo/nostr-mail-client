@@ -1015,12 +1015,6 @@ abstract class AppLocalizations {
   /// **'Accounts'**
   String get accountsTitle;
 
-  /// Menu entry and settings tile that opens the accounts management screen
-  ///
-  /// In en, this message translates to:
-  /// **'Manage accounts'**
-  String get accountsManage;
-
   /// Tooltip of the button that removes an account from the device
   ///
   /// In en, this message translates to:

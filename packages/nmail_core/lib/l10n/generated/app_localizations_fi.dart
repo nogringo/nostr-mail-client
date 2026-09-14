@@ -489,9 +489,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get accountsTitle => 'Tilit';
 
   @override
-  String get accountsManage => 'Hallitse tilejä';
-
-  @override
   String get accountsRemove => 'Poista tili';
 
   @override

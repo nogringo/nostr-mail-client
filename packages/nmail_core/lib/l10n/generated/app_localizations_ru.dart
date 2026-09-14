@@ -491,9 +491,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get accountsTitle => 'Аккаунты';
 
   @override
-  String get accountsManage => 'Управление аккаунтами';
-
-  @override
   String get accountsRemove => 'Удалить аккаунт';
 
   @override

@@ -188,7 +188,6 @@
   "identitiesCreate": "アイデンティティを作成",
 
   "accountsTitle": "アカウント",
-  "accountsManage": "アカウントを管理",
   "accountsRemove": "アカウントを削除",
   "accountsRemoveTitle": "このアカウントを削除しますか？",
   "accountsRemoveMessage": "{name} をこのデバイスから削除し、メール、連絡先、設定などのローカルデータを消去します。リレー上のデータは削除されません。",
