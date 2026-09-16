@@ -4,16 +4,13 @@ import 'package:go_router/go_router.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../app/routes/app_routes.dart';
-import '../../controllers/auth_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/utils/mail_folder_extensions.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
-import '../../widgets/nostr_avatar.dart';
-import '../shared/account_menu.dart';
-import '../shared/layout_constants.dart';
+import '../shared/app_bar_account_avatar.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
@@ -183,36 +180,7 @@ class InboxView extends GetView<InboxController> {
                       onPressed: () => controller.enterSearchMode(),
                     ),
                     const SizedBox(width: 8),
-                    AccountMenu(
-                      alignmentOffset: const Offset(
-                        -(LayoutConstants.accountMenuWidth - 36),
-                        8,
-                      ),
-                      builder: (context, menuController, child) {
-                        return Semantics(
-                          label: l.inboxAccount,
-                          button: true,
-                          child: GestureDetector(
-                            onTap: () {
-                              if (menuController.isOpen) {
-                                menuController.close();
-                              } else {
-                                menuController.open();
-                              }
-                            },
-                            child: Obx(() {
-                              final authController = Get.find<AuthController>();
-                              final pubkey = authController.currentPubkey!;
-                              return NostrAvatar(
-                                pubkey: pubkey,
-                                metadata: authController.userMetadata.value,
-                                radius: 18,
-                              );
-                            }),
-                          ),
-                        );
-                      },
-                    ),
+                    const AppBarAccountAvatar(),
                   ],
                 ),
             ],

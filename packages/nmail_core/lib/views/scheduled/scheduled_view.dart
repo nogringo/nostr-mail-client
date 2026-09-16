@@ -5,6 +5,7 @@ import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
+import '../shared/app_bar_account_avatar.dart';
 import 'widgets/scheduled_list.dart';
 import 'widgets/scheduled_selection_actions_bar.dart';
 
@@ -111,7 +112,7 @@ class ScheduledView extends GetView<ScheduledController> {
           Obx(
             () => controller.hasSelection
                 ? const ScheduledSelectionActionsBar()
-                : const SizedBox.shrink(),
+                : const AppBarAccountAvatar(),
           ),
         ],
       ),
