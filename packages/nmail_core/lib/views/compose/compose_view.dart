@@ -20,7 +20,7 @@ class ComposeView extends StatelessWidget {
     Widget content = Scaffold(
       appBar: AppBar(
         title: Text(l.composeTitle),
-        actionsPadding: const EdgeInsets.only(right: 8),
+        actionsPadding: .only(right: 8),
         actions: [
           if (!isWide) ...[
             const ScheduleSendButton(),

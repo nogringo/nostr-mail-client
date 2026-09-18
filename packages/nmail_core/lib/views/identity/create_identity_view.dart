@@ -26,7 +26,7 @@ class CreateIdentityView extends StatelessWidget {
           key: _scaffoldKey,
           appBar: AppBar(
             title: Text(l.createIdentityTitle),
-            actionsPadding: const EdgeInsets.only(right: 8),
+            actionsPadding: .only(right: 8),
             actions: [
               FilledButton(
                 onPressed:

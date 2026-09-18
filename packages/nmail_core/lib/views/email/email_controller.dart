@@ -18,6 +18,7 @@ import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
+import 'package:nmail_core/views/shared/window_caption_inset.dart';
 import 'package:path/path.dart' as p;
 import 'package:pdfrx/pdfrx.dart';
 import 'package:nmail_core/services/android_file_saver.dart';
@@ -435,34 +436,46 @@ class EmailController extends GetxController {
     if (imageData != null) {
       Navigator.of(Get.context!).push(
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => Scaffold(
-            backgroundColor: Colors.black,
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              leading: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              title: Text(
-                filename,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(color: Colors.white),
-              ),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.download, color: Colors.white),
-                  onPressed: () => downloadAttachment(ref: ref),
-                  tooltip: l.emailDownload,
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              WindowCaptionInset(
+                child: Scaffold(
+                  backgroundColor: Colors.black,
+                  appBar: AppBar(
+                    backgroundColor: Colors.black,
+                    leading: IconButton(
+                      icon: const Icon(Icons.close, color: Colors.white),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    title: Text(
+                      filename,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    actionsPadding: .only(right: 8),
+                    actions: [
+                      IconButton(
+                        icon: const Icon(Icons.download, color: Colors.white),
+                        onPressed: () => downloadAttachment(ref: ref),
+                        tooltip: l.emailDownload,
+                      ),
+                    ],
+                  ),
+                  body: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => Navigator.of(context).pop(),
+                    child: Center(
+                      // Swallows taps on the image so only the backdrop closes.
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: InteractiveViewer(
+                          child: Image.memory(imageData, fit: BoxFit.contain),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            ),
-            body: Center(
-              child: InteractiveViewer(
-                child: Image.memory(imageData, fit: BoxFit.contain),
               ),
-            ),
-          ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -485,28 +498,32 @@ class EmailController extends GetxController {
     if (pdfData != null) {
       Navigator.of(Get.context!).push(
         PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) => Scaffold(
-            backgroundColor: Colors.white,
-            appBar: AppBar(
-              title: Text(
-                filename,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              leading: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.download),
-                  onPressed: () => downloadAttachment(ref: ref),
-                  tooltip: l.emailDownload,
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              WindowCaptionInset(
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    title: Text(
+                      filename,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    leading: IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    actionsPadding: .only(right: 8),
+                    actions: [
+                      IconButton(
+                        icon: const Icon(Icons.download),
+                        onPressed: () => downloadAttachment(ref: ref),
+                        tooltip: l.emailDownload,
+                      ),
+                    ],
+                  ),
+                  body: PdfViewer.data(pdfData, sourceName: filename),
                 ),
-              ],
-            ),
-            body: PdfViewer.data(pdfData, sourceName: filename),
-          ),
+              ),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },

@@ -19,7 +19,7 @@ class MobileContactDetailPage extends StatelessWidget {
       );
       return Scaffold(
         appBar: AppBar(
-          actionsPadding: const EdgeInsets.only(right: 8),
+          actionsPadding: .only(right: 8),
           actions: [
             if (contact != null)
               ContactActions(

@@ -164,7 +164,7 @@ class InboxView extends GetView<InboxController> {
                 ),
               );
             }(),
-            actionsPadding: const EdgeInsets.only(right: 8),
+            actionsPadding: .only(right: 8),
             actions: [
               if (controller.isSearchMode.value)
                 const SizedBox.shrink()

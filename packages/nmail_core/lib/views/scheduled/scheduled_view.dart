@@ -107,7 +107,7 @@ class ScheduledView extends GetView<ScheduledController> {
                 : l.folderScheduled,
           ),
         ),
-        actionsPadding: const EdgeInsets.only(right: 8),
+        actionsPadding: .only(right: 8),
         actions: [
           Obx(
             () => controller.hasSelection

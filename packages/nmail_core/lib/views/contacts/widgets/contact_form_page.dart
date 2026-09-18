@@ -28,7 +28,7 @@ class ContactFormPage extends StatelessWidget {
                   ? l.contactsEditTitle
                   : l.contactsCreateTitle,
             ),
-            actionsPadding: const EdgeInsets.only(right: 8),
+            actionsPadding: .only(right: 8),
             actions: [
               Obx(
                 () => FilledButton(

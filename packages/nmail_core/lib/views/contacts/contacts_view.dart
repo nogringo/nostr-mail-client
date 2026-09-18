@@ -26,7 +26,7 @@ class ContactsView extends StatelessWidget {
       drawer: isWide ? null : const AppDrawer(),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        actionsPadding: const EdgeInsets.only(right: 8),
+        actionsPadding: .only(right: 8),
         leading: isWide
             ? null
             : Builder(

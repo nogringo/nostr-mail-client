@@ -36,7 +36,7 @@ class InboxDesktopAppBar extends GetView<InboxController> {
                 child: const SearchField(),
               )
             : Text(controller.currentFolder.value.title(l)),
-        actionsPadding: const EdgeInsets.only(right: 8),
+        actionsPadding: .only(right: 8),
         actions: [
           if (hasSelection)
             const SelectionActionsBar()

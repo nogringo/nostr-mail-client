@@ -31,7 +31,7 @@ class ProfileView extends GetView<ProfileController> {
               context.canPop() ? context.pop() : context.go(AppRoutes.inbox),
         ),
         title: Text(l.profileEditTitle),
-        actionsPadding: const EdgeInsets.only(right: 8),
+        actionsPadding: .only(right: 8),
         actions: [
           GetBuilder<ProfileController>(
             builder: (controller) {
