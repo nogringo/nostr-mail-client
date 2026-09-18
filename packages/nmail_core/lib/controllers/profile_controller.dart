@@ -10,6 +10,7 @@ import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'auth_controller.dart';
 
@@ -109,7 +110,7 @@ class ProfileController extends GetxController {
           : NostrConfig.recommendedBlossomServers;
 
       final uploadResults = await ndk.blossom.uploadBlob(
-        data: file.bytes!,
+        data: stripMediaMetadata(file.bytes!),
         contentType: file.extension != null ? 'image/${file.extension}' : null,
         serverUrls: serverUrls,
       );

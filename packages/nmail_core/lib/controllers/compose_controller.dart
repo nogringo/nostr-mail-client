@@ -25,6 +25,7 @@ import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/models/send_mode.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
@@ -290,7 +291,7 @@ class ComposeController extends GetxController {
             attachments.add(
               ComposeAttachment(
                 filename: filename,
-                data: file.bytes!,
+                data: stripMediaMetadata(file.bytes!),
                 mimeType: mimeType,
               ),
             );

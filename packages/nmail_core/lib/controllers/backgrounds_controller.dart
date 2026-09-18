@@ -13,6 +13,7 @@ import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
@@ -180,7 +181,7 @@ class BackgroundsController extends GetxController {
       final userServers = await Get.find<NostrMailService>()
           .getBlossomServers();
       final results = await Get.find<Ndk>().blossom.uploadBlob(
-        data: bytes,
+        data: stripMediaMetadata(bytes),
         contentType: picked.extension != null
             ? 'image/${picked.extension}'
             : null,

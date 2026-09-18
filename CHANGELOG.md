@@ -31,6 +31,9 @@ Releases prior to 0.13.0 are listed on the
 - Keep at least one relay in your relay list in the hosting settings.
 - Show the date of an email on the sender's line in the inbox on mobile, which
   leaves the full width to the subject, the preview, and the attachments.
+- Remove the location, capture date, and device details from photos and videos
+  before they leave the app, whether attached to an email, set as your profile
+  picture, or uploaded as a background on web. Their quality is unchanged.
 
 ### Fixed
 
