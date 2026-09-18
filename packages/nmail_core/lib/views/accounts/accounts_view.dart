@@ -28,7 +28,9 @@ class AccountsView extends StatelessWidget {
         ),
         body: const SafeArea(
           top: false,
-          child: ResponsiveCenter(maxWidth: 600, child: AccountsList()),
+          child: SingleChildScrollView(
+            child: ResponsiveCenter(maxWidth: 600, child: AccountsList()),
+          ),
         ),
       ),
     );

@@ -19,19 +19,22 @@ class AccountsList extends StatelessWidget {
         ...auth.accountPubkeys.where((pubkey) => pubkey != active),
       ];
 
-      return ListView(
+      return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        children: [
-          for (final (index, pubkey) in pubkeys.indexed)
-            AccountTile(
-              key: ValueKey(pubkey),
-              pubkey: pubkey,
-              index: index,
-              count: pubkeys.length,
-            ),
-          const SizedBox(height: 12),
-          const AddAccountTile(),
-        ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final (index, pubkey) in pubkeys.indexed)
+              AccountTile(
+                key: ValueKey(pubkey),
+                pubkey: pubkey,
+                index: index,
+                count: pubkeys.length,
+              ),
+            const SizedBox(height: 12),
+            const AddAccountTile(),
+          ],
+        ),
       );
     });
   }

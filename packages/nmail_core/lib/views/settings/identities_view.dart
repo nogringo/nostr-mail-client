@@ -60,12 +60,12 @@ class IdentitiesView extends StatelessWidget {
                     : null,
               ),
               Expanded(
-                child: ResponsiveCenter(
-                  maxWidth: 600,
-                  child: controller.identities.isEmpty
-                      ? const IdentitiesEmptyState()
-                      : const IdentitiesList(),
-                ),
+                child: controller.identities.isEmpty
+                    ? const ResponsiveCenter(
+                        maxWidth: 600,
+                        child: IdentitiesEmptyState(),
+                      )
+                    : const IdentitiesList(maxWidth: 600),
               ),
             ],
           );
