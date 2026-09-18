@@ -51,7 +51,14 @@ class Nip65RelaysController extends GetxController {
     addRelay(relay, ReadWriteMarker.readWrite);
   }
 
+  bool canToggleDeletion(String relayUrl) {
+    if (markedForDeletion.contains(relayUrl)) return true;
+    final kept = relays?.keys.where((r) => !markedForDeletion.contains(r));
+    return (kept?.length ?? 0) > 1;
+  }
+
   void toggleRelayDeletion(String relayUrl) {
+    if (!canToggleDeletion(relayUrl)) return;
     if (markedForDeletion.contains(relayUrl)) {
       markedForDeletion.remove(relayUrl);
     } else {

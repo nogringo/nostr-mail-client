@@ -352,6 +352,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relayRemoveTooltip => '移除中继';
 
   @override
+  String get relayKeepOneTooltip => '中继列表至少需要一个中继';
+
+  @override
   String get relayInboxOutboxEmpty => '未配置收件箱/发件箱中继';
 
   @override
@@ -1501,10 +1504,4 @@ class AppLocalizationsZh extends AppLocalizations {
   String relaySetupCreateDescription(String relays) {
     return '将发布包含以下中继的列表：$relays';
   }
-
-  @override
-  String get relaySetupContinueWithout => '不使用列表继续';
-
-  @override
-  String get relaySetupContinueAnyway => '仍然继续';
 }

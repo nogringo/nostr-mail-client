@@ -365,6 +365,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get relayRemoveTooltip => 'Remover relay';
 
   @override
+  String get relayKeepOneTooltip =>
+      'A sua lista de relés precisa de pelo menos um relé';
+
+  @override
   String get relayInboxOutboxEmpty =>
       'Nenhum relay de entrada/saída configurado';
 
@@ -1599,12 +1603,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String relaySetupCreateDescription(String relays) {
     return 'Publica uma lista com: $relays';
   }
-
-  @override
-  String get relaySetupContinueWithout => 'Continuar sem lista';
-
-  @override
-  String get relaySetupContinueAnyway => 'Continuar mesmo assim';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -1966,6 +1964,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get relayRemoveTooltip => 'Remover relay';
+
+  @override
+  String get relayKeepOneTooltip =>
+      'Sua lista de relays precisa de pelo menos um relay';
 
   @override
   String get relayInboxOutboxEmpty =>
@@ -3202,10 +3204,4 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String relaySetupCreateDescription(String relays) {
     return 'Publica uma lista com: $relays';
   }
-
-  @override
-  String get relaySetupContinueWithout => 'Continuar sem lista';
-
-  @override
-  String get relaySetupContinueAnyway => 'Continuar mesmo assim';
 }

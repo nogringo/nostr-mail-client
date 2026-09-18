@@ -9,7 +9,7 @@ import 'widgets/relay_setup_unreachable.dart';
 
 /// Post-login step for an account whose NIP-65 relay list is nowhere to be
 /// found. Without it we don't know which relays to read, so the login stays
-/// parked here until the list turns up or the user decides to move on.
+/// parked here until the list turns up or the user logs out.
 class RelaySetupView extends StatelessWidget {
   const RelaySetupView({super.key});
 

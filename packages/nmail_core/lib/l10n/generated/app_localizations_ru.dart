@@ -367,6 +367,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get relayRemoveTooltip => 'Удалить реле';
 
   @override
+  String get relayKeepOneTooltip =>
+      'В списке реле должно быть хотя бы одно реле';
+
+  @override
   String get relayInboxOutboxEmpty => 'Реле входящих/исходящих не настроены';
 
   @override
@@ -1618,10 +1622,4 @@ class AppLocalizationsRu extends AppLocalizations {
   String relaySetupCreateDescription(String relays) {
     return 'Опубликует список: $relays';
   }
-
-  @override
-  String get relaySetupContinueWithout => 'Продолжить без списка';
-
-  @override
-  String get relaySetupContinueAnyway => 'Всё равно продолжить';
 }

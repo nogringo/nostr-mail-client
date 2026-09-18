@@ -781,6 +781,12 @@ abstract class AppLocalizations {
   /// **'Remove relay'**
   String get relayRemoveTooltip;
 
+  /// Tooltip on the disabled remove button of the last relay in the NIP-65 list
+  ///
+  /// In en, this message translates to:
+  /// **'Your relay list needs at least one relay'**
+  String get relayKeepOneTooltip;
+
   /// Empty-state message shown when no NIP-65 relays are configured
   ///
   /// In en, this message translates to:
@@ -2934,18 +2940,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Publishes a list with: {relays}'**
   String relaySetupCreateDescription(String relays);
-
-  /// Button that skips the screen, publishing nothing, and opens the inbox anyway
-  ///
-  /// In en, this message translates to:
-  /// **'Continue without a list'**
-  String get relaySetupContinueWithout;
-
-  /// Button on the unreachable state that opens the inbox without knowing whether a relay list exists
-  ///
-  /// In en, this message translates to:
-  /// **'Continue anyway'**
-  String get relaySetupContinueAnyway;
 }
 
 class _AppLocalizationsDelegate

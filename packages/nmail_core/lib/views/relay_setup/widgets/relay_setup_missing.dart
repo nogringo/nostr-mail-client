@@ -79,19 +79,6 @@ class RelaySetupMissing extends StatelessWidget {
             color: theme.colorScheme.onSurfaceVariant,
           ),
         ),
-        const SizedBox(height: 24),
-        TextButton(
-          onPressed: controller.isLeaving
-              ? null
-              : controller.continueWithoutList,
-          child: controller.runningAction == RelaySetupAction.continueWithout
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Text(l.relaySetupContinueWithout),
-        ),
       ],
     );
   }

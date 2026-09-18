@@ -247,6 +247,8 @@
   "@relayAdd": { "description": "Label of the row that opens the add-relay dialog" },
   "relayRemoveTooltip": "Remove relay",
   "@relayRemoveTooltip": { "description": "Tooltip on the X icon used to mark a relay for deletion" },
+  "relayKeepOneTooltip": "Your relay list needs at least one relay",
+  "@relayKeepOneTooltip": { "description": "Tooltip on the disabled remove button of the last relay in the NIP-65 list" },
   "relayInboxOutboxEmpty": "No Inbox/Outbox relays configured",
   "@relayInboxOutboxEmpty": { "description": "Empty-state message shown when no NIP-65 relays are configured" },
 
@@ -1139,9 +1141,5 @@
     "placeholders": {
       "relays": { "type": "String" }
     }
-  },
-  "relaySetupContinueWithout": "Continue without a list",
-  "@relaySetupContinueWithout": { "description": "Button that skips the screen, publishing nothing, and opens the inbox anyway" },
-  "relaySetupContinueAnyway": "Continue anyway",
-  "@relaySetupContinueAnyway": { "description": "Button on the unreachable state that opens the inbox without knowing whether a relay list exists" }
+  }
 }

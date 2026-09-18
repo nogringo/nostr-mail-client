@@ -28,10 +28,10 @@ enum RelaySetupStage {
 
 enum HintOutcome { notFound, unreachable, nip05NotFound, nip05Unreachable }
 
-/// The way out of this screen the user picked. Every one of them ends in
-/// [AuthController.completeLogin], which is slow offline, so the button that
-/// started it carries the spinner and the others stay disabled meanwhile.
-enum RelaySetupAction { useFound, create, continueWithout }
+/// The way out of this screen the user picked. Each one is slow offline, so the
+/// button that started it carries the spinner and the others stay disabled
+/// meanwhile.
+enum RelaySetupAction { useFound, create, logOut }
 
 class RelaySetupController extends GetxController {
   final hintController = TextEditingController();
@@ -285,12 +285,12 @@ class RelaySetupController extends GetxController {
     }
   }
 
-  Future<void> continueWithoutList() async {
+  Future<void> logOut() async {
     if (isLeaving) return;
-    runningAction = RelaySetupAction.continueWithout;
+    runningAction = RelaySetupAction.logOut;
     update();
     try {
-      await _continueToInbox();
+      await Get.find<AuthController>().logout();
     } finally {
       if (!isClosed) {
         runningAction = null;

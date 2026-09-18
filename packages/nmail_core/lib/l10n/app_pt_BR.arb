@@ -130,6 +130,7 @@
   "relayInboxOutboxDescription": "Relays onde sua conta publica e lê.",
   "relayAdd": "Adicionar relay",
   "relayRemoveTooltip": "Remover relay",
+  "relayKeepOneTooltip": "Sua lista de relays precisa de pelo menos um relay",
   "relayInboxOutboxEmpty": "Nenhum relay de entrada/saída configurado",
   "dmRelayAddTitle": "Adicionar relay DM",
   "dmRelaySectionTitle": "Relays DM",
@@ -632,7 +633,5 @@
     "placeholders": {
       "relays": { "type": "String" }
     }
-  },
-  "relaySetupContinueWithout": "Continuar sem lista",
-  "relaySetupContinueAnyway": "Continuar mesmo assim"
+  }
 }

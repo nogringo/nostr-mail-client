@@ -136,6 +136,7 @@
   "relayInboxOutboxDescription": "Relais sur lesquels votre compte publie et lit.",
   "relayAdd": "Ajouter un relais",
   "relayRemoveTooltip": "Retirer le relais",
+  "relayKeepOneTooltip": "Votre liste de relais doit contenir au moins un relais",
   "relayInboxOutboxEmpty": "Aucun relais de réception/envoi configuré",
 
   "dmRelayAddTitle": "Ajouter un relais DM",
@@ -628,7 +629,5 @@
     "placeholders": {
       "relays": { "type": "String" }
     }
-  },
-  "relaySetupContinueWithout": "Continuer sans liste",
-  "relaySetupContinueAnyway": "Continuer quand même"
+  }
 }

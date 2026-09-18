@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/controllers/relay_setup_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
-/// No relay answered, so the missing list proves nothing. Offers a retry and
-/// nothing else: creating a list here could overwrite one that already exists.
+/// No relay answered, so the missing list proves nothing. Offers a retry or a
+/// log out: creating a list here could overwrite one that already exists.
 class RelaySetupUnreachable extends StatelessWidget {
   const RelaySetupUnreachable({super.key, required this.controller});
 
@@ -48,16 +48,14 @@ class RelaySetupUnreachable extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextButton(
-          onPressed: controller.isLeaving
-              ? null
-              : controller.continueWithoutList,
-          child: controller.runningAction == RelaySetupAction.continueWithout
+          onPressed: controller.isLeaving ? null : controller.logOut,
+          child: controller.runningAction == RelaySetupAction.logOut
               ? const SizedBox(
                   width: 20,
                   height: 20,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : Text(l.relaySetupContinueAnyway),
+              : Text(l.settingsLogOut),
         ),
       ],
     );
