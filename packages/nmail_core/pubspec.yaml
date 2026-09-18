@@ -47,6 +47,7 @@ dependencies:
   nostr_address_book: ^0.4.0
   nostr_mail: ^3.1.2
   package_info_plus: ^9.0.1
+  pasteboard: ^0.5.0
   path: ^1.9.1
   path_provider: ^2.1.6
   pdfrx: ^2.4.7

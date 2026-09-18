@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:file_saver/file_saver.dart';
+import 'package:flutter/gestures.dart' show kSecondaryMouseButton;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -18,7 +19,9 @@ import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
+import 'package:nmail_core/views/shared/show_context_menu.dart';
 import 'package:nmail_core/views/shared/window_caption_inset.dart';
+import 'package:pasteboard/pasteboard.dart';
 import 'package:path/path.dart' as p;
 import 'package:pdfrx/pdfrx.dart';
 import 'package:nmail_core/services/android_file_saver.dart';
@@ -468,8 +471,21 @@ class EmailController extends GetxController {
                       // Swallows taps on the image so only the backdrop closes.
                       child: GestureDetector(
                         onTap: () {},
-                        child: InteractiveViewer(
-                          child: Image.memory(imageData, fit: BoxFit.contain),
+                        // onSecondaryTap misses macOS trackpad right-clicks here.
+                        child: Listener(
+                          onPointerDown: (event) {
+                            if (event.buttons & kSecondaryMouseButton == 0) {
+                              return;
+                            }
+                            _showImageMenu(
+                              context,
+                              position: event.position,
+                              imageData: imageData,
+                            );
+                          },
+                          child: InteractiveViewer(
+                            child: Image.memory(imageData, fit: BoxFit.contain),
+                          ),
                         ),
                       ),
                     ),
@@ -484,6 +500,33 @@ class EmailController extends GetxController {
     } else {
       ToastHelper.error(Get.context!, l.emailImageLoadFailed);
     }
+  }
+
+  Future<void> _showImageMenu(
+    BuildContext context, {
+    required Offset position,
+    required Uint8List imageData,
+  }) {
+    final l = AppLocalizations.of(context);
+    return showContextMenu(
+      context,
+      position: position,
+      children: (menuContext) => [
+        MenuItemButton(
+          onPressed: () async {
+            Navigator.of(menuContext).pop();
+            try {
+              await Pasteboard.writeImage(imageData);
+            } catch (_) {
+              if (context.mounted) {
+                ToastHelper.error(context, l.emailCopyImageFailed);
+              }
+            }
+          },
+          child: Text(l.emailCopyImage),
+        ),
+      ],
+    );
   }
 
   Future<void> showPdfViewer({required AttachmentRef ref}) async {

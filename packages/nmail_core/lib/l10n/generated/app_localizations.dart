@@ -1537,6 +1537,18 @@ abstract class AppLocalizations {
   /// **'Failed to load image'**
   String get emailImageLoadFailed;
 
+  /// Right-click menu item in the image viewer that copies the image to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy image'**
+  String get emailCopyImage;
+
+  /// Error toast when the image viewer can't copy the image to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to copy image'**
+  String get emailCopyImageFailed;
+
   /// Error toast when a PDF attachment can't be displayed
   ///
   /// In en, this message translates to:

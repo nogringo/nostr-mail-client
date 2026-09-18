@@ -353,6 +353,8 @@
   },
   "emailDownload": "Скачать",
   "emailImageLoadFailed": "Не удалось загрузить изображение",
+  "emailCopyImage": "Копировать изображение",
+  "emailCopyImageFailed": "Не удалось скопировать изображение",
   "emailPdfLoadFailed": "Не удалось загрузить PDF",
   "emailActionReply": "Ответить",
   "emailActionReplyAll": "Ответить всем",

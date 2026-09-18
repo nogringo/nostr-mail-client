@@ -353,6 +353,8 @@
   },
   "emailDownload": "ダウンロード",
   "emailImageLoadFailed": "画像の読み込みに失敗しました",
+  "emailCopyImage": "画像をコピー",
+  "emailCopyImageFailed": "画像をコピーできませんでした",
   "emailPdfLoadFailed": "PDF の読み込みに失敗しました",
   "emailActionReply": "返信",
   "emailActionReplyAll": "全員に返信",

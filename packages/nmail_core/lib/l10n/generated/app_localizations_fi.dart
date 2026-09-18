@@ -837,6 +837,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailImageLoadFailed => 'Kuvan lataus epäonnistui';
 
   @override
+  String get emailCopyImage => 'Kopioi kuva';
+
+  @override
+  String get emailCopyImageFailed => 'Kuvan kopiointi epäonnistui';
+
+  @override
   String get emailPdfLoadFailed => 'PDF:n lataus epäonnistui';
 
   @override

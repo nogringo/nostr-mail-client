@@ -857,6 +857,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailImageLoadFailed => 'Не удалось загрузить изображение';
 
   @override
+  String get emailCopyImage => 'Копировать изображение';
+
+  @override
+  String get emailCopyImageFailed => 'Не удалось скопировать изображение';
+
+  @override
   String get emailPdfLoadFailed => 'Не удалось загрузить PDF';
 
   @override

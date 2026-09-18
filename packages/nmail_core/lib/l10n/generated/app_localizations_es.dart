@@ -841,6 +841,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get emailImageLoadFailed => 'Error al cargar la imagen';
 
   @override
+  String get emailCopyImage => 'Copiar imagen';
+
+  @override
+  String get emailCopyImageFailed => 'Error al copiar la imagen';
+
+  @override
   String get emailPdfLoadFailed => 'Error al cargar el PDF';
 
   @override

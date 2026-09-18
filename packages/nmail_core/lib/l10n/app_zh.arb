@@ -353,6 +353,8 @@
   },
   "emailDownload": "下载",
   "emailImageLoadFailed": "加载图片失败",
+  "emailCopyImage": "复制图片",
+  "emailCopyImageFailed": "复制图片失败",
   "emailPdfLoadFailed": "加载 PDF 失败",
   "emailActionReply": "回复",
   "emailActionReplyAll": "全部回复",

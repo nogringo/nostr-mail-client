@@ -358,6 +358,8 @@
   },
   "emailDownload": "Lataa",
   "emailImageLoadFailed": "Kuvan lataus epäonnistui",
+  "emailCopyImage": "Kopioi kuva",
+  "emailCopyImageFailed": "Kuvan kopiointi epäonnistui",
   "emailPdfLoadFailed": "PDF:n lataus epäonnistui",
   "emailActionReply": "Vastaa",
   "emailActionReplyAll": "Vastaa kaikille",

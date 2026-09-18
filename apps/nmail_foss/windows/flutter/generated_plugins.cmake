@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   file_saver
   file_selector_windows
   flutter_secure_storage_windows
+  pasteboard
   screen_retriever_windows
   system_theme
   url_launcher_windows

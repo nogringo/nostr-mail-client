@@ -361,6 +361,8 @@
   },
   "emailDownload": "Transferir",
   "emailImageLoadFailed": "Falha ao carregar a imagem",
+  "emailCopyImage": "Copiar imagem",
+  "emailCopyImageFailed": "Falha ao copiar a imagem",
   "emailPdfLoadFailed": "Falha ao carregar o PDF",
   "emailActionReply": "Responder",
   "emailActionReplyAll": "Responder a todos",

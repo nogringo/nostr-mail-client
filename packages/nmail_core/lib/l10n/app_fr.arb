@@ -353,6 +353,8 @@
   },
   "emailDownload": "Télécharger",
   "emailImageLoadFailed": "Échec du chargement de l'image",
+  "emailCopyImage": "Copier l'image",
+  "emailCopyImageFailed": "Échec de la copie de l'image",
   "emailPdfLoadFailed": "Échec du chargement du PDF",
   "emailActionReply": "Répondre",
   "emailActionReplyAll": "Répondre à tous",

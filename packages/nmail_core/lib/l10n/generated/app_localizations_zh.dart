@@ -773,6 +773,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailImageLoadFailed => '加载图片失败';
 
   @override
+  String get emailCopyImage => '复制图片';
+
+  @override
+  String get emailCopyImageFailed => '复制图片失败';
+
+  @override
   String get emailPdfLoadFailed => '加载 PDF 失败';
 
   @override

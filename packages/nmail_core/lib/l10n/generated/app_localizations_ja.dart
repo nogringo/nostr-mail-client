@@ -775,6 +775,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailImageLoadFailed => '画像の読み込みに失敗しました';
 
   @override
+  String get emailCopyImage => '画像をコピー';
+
+  @override
+  String get emailCopyImageFailed => '画像をコピーできませんでした';
+
+  @override
   String get emailPdfLoadFailed => 'PDF の読み込みに失敗しました';
 
   @override

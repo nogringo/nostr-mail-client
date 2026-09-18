@@ -839,6 +839,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emailImageLoadFailed => 'Falha ao carregar a imagem';
 
   @override
+  String get emailCopyImage => 'Copiar imagem';
+
+  @override
+  String get emailCopyImageFailed => 'Falha ao copiar a imagem';
+
+  @override
   String get emailPdfLoadFailed => 'Falha ao carregar o PDF';
 
   @override
@@ -2435,6 +2441,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get emailImageLoadFailed => 'Falha ao carregar a imagem';
+
+  @override
+  String get emailCopyImage => 'Copiar imagem';
+
+  @override
+  String get emailCopyImageFailed => 'Falha ao copiar a imagem';
 
   @override
   String get emailPdfLoadFailed => 'Falha ao carregar o PDF';

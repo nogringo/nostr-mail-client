@@ -353,6 +353,8 @@
   },
   "emailDownload": "Herunterladen",
   "emailImageLoadFailed": "Bild konnte nicht geladen werden",
+  "emailCopyImage": "Bild kopieren",
+  "emailCopyImageFailed": "Bild konnte nicht kopiert werden",
   "emailPdfLoadFailed": "PDF konnte nicht geladen werden",
   "emailActionReply": "Antworten",
   "emailActionReplyAll": "Allen antworten",

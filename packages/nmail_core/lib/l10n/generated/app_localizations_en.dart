@@ -836,6 +836,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailImageLoadFailed => 'Failed to load image';
 
   @override
+  String get emailCopyImage => 'Copy image';
+
+  @override
+  String get emailCopyImageFailed => 'Failed to copy image';
+
+  @override
   String get emailPdfLoadFailed => 'Failed to load PDF';
 
   @override
