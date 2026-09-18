@@ -17,7 +17,7 @@ class PersonCardHeader extends StatelessWidget {
     final identifier = emailPersonIdentifier(person);
     final bridgePubkey = person.bridgePubkey;
     final showIdentifier =
-        person.pubkey != null || emailPersonName(person) != identifier;
+        person.pubkey == null && emailPersonName(person) != identifier;
 
     return ListTile(
       leading: PersonAvatar(person: person, radius: 24),
@@ -27,14 +27,7 @@ class PersonCardHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (showIdentifier)
-                  person.pubkey == null
-                      ? Text(identifier)
-                      : Text(
-                          identifier,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                if (showIdentifier) Text(identifier),
                 if (bridgePubkey != null) ...[
                   const SizedBox(height: 4),
                   PersonBridgeLabel(bridgePubkey: bridgePubkey),
