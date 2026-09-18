@@ -40,13 +40,7 @@ class ProfileView extends GetView<ProfileController> {
                 onPressed: (controller.isSaving.value || !controller.hasChanges)
                     ? null
                     : controller.saveProfile,
-                child: controller.isSaving.value
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l.actionSave),
+                child: Text(l.actionSave),
               );
             },
           ),

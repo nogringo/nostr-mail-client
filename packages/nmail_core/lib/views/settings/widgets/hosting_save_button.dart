@@ -40,22 +40,17 @@ class HostingSaveButton extends StatelessWidget {
                   dmRelays.isSaving ||
                   blossomServers.isSaving ||
                   bridges.isSaving;
+              if (pending.isEmpty && !isSaving) return const SizedBox.shrink();
 
               return FilledButton(
-                onPressed: pending.isEmpty || isSaving
+                onPressed: isSaving
                     ? null
                     : () async {
                         for (final save in pending) {
                           await save();
                         }
                       },
-                child: isSaving
-                    ? const SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(l.actionSave),
+                child: Text(l.actionSave),
               );
             },
           ),

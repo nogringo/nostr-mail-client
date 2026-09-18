@@ -28,8 +28,8 @@ class IdentitiesView extends StatelessWidget {
               onPressed: canSave ? controller.saveChanges : null,
               child: controller.isSaving.value
                   ? const SizedBox(
-                      width: 16,
-                      height: 16,
+                      width: 18,
+                      height: 18,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : Text(l.actionSave),

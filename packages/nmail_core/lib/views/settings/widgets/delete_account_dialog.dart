@@ -106,8 +106,8 @@ class DeleteAccountDialog extends StatelessWidget {
                     : null,
                 child: isDeleting
                     ? const SizedBox(
-                        width: 16,
-                        height: 16,
+                        width: 18,
+                        height: 18,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
                     : Text(l.actionDelete),
