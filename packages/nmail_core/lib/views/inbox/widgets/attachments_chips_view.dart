@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
@@ -13,40 +15,22 @@ class AttachmentsChipsView extends StatelessWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
       child: Row(
+        spacing: 6,
         children: [
-          Expanded(
-            flex: 1,
-            child: Visibility(
-              visible: attachments.isNotEmpty,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: AttachmentChipView(
-                attachment: attachments.isNotEmpty ? attachments[0] : null,
-              ),
-            ),
-          ),
-          const SizedBox(width: 6),
-          Expanded(
-            flex: 1,
-            child: Visibility(
-              visible: attachments.length >= 2,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: AttachmentChipView(
-                attachment: attachments.length > 1 ? attachments[1] : null,
-              ),
-            ),
-          ),
+          for (final attachment in attachments.take(2))
+            Flexible(child: AttachmentChipView(attachment: attachment)),
+          // Reserved even when hidden, so file chips keep the same width on
+          // every row.
           Visibility(
             visible: attachments.length > 2,
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
             child: Chip(
-              label: Text('+${attachments.length - 2}'),
-              shape: CircleBorder(),
+              label: Text('+${max(attachments.length - 2, 1)}'),
+              shape: const CircleBorder(),
+              labelPadding: EdgeInsets.zero,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
         ],

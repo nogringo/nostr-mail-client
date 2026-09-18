@@ -29,6 +29,8 @@ Releases prior to 0.13.0 are listed on the
   relay setup screen until the list is found or created, and can switch
   accounts, add one, or log out from the account menu there.
 - Keep at least one relay in your relay list in the hosting settings.
+- Show the date of an email on the sender's line in the inbox on mobile, which
+  leaves the full width to the subject, the preview, and the attachments.
 
 ### Fixed
 
@@ -42,6 +44,11 @@ Releases prior to 0.13.0 are listed on the
 - Keep the close button of the image and PDF viewers clear of the window
   buttons on macOS, and the download button off the edge of the screen.
 - Zoom an image across the whole viewer instead of inside its original frame.
+- Line up the attachments of an email in the inbox under its subject, with the
+  same width on every row, and highlight them with the rest of the row on
+  hover.
+- Remove the empty line under the subject of an email without a preview in the
+  inbox on mobile.
 
 ## [0.15.0]
 

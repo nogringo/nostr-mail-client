@@ -614,79 +614,77 @@ class EmailTile extends StatelessWidget {
       final controller = Get.find<InboxController>();
       final isSelectionMode = controller.hasSelection;
       final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
+      final hasPreview = email.preview.isNotEmpty;
 
-      return Column(
-        children: [
-          ListTile(
-            onTap: () {
-              if (isSelectionMode) {
-                // In selection mode, toggle selection instead of opening email
-                onToggleSelect?.call();
-              } else {
-                // Normal mode, open email
-                onTap();
-              }
-            },
-            onLongPress: () {
-              // Long press to enter selection mode
-              onToggleSelect?.call();
-            },
-            leading: _buildAvatarWithSelection(context),
-            title: Row(
-              children: [
-                if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
-                Expanded(
-                  child: _buildDisplayNameText(
-                    TextStyle(
-                      color: colorScheme.onSurfaceVariant,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+      return ListTile(
+        onTap: () {
+          if (isSelectionMode) {
+            // In selection mode, toggle selection instead of opening email
+            onToggleSelect?.call();
+          } else {
+            // Normal mode, open email
+            onTap();
+          }
+        },
+        onLongPress: () {
+          // Long press to enter selection mode
+          onToggleSelect?.call();
+        },
+        leading: _buildAvatarWithSelection(context),
+        title: Row(
+          children: [
+            if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
+            Expanded(
+              child: _buildDisplayNameText(
+                TextStyle(
+                  color: colorScheme.onSurfaceVariant,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
                 ),
-              ],
+              ),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  subject,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: colorScheme.onSurface,
-                    fontSize: 13,
-                    fontWeight: isUnread ? FontWeight.w600 : FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  email.preview,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
-            ),
-            trailing: Text(
+            const SizedBox(width: 8),
+            Text(
               formatDate(context, email.date),
               style: TextStyle(
                 color: colorScheme.onSurfaceVariant,
                 fontSize: 11,
               ),
             ),
-            isThreeLine: true,
-          ),
-          if (attachments.isNotEmpty) ...[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: AttachmentsChipsView(attachments: attachments),
-            ),
           ],
-        ],
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              subject,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: colorScheme.onSurface,
+                fontSize: 13,
+                fontWeight: isUnread ? FontWeight.w600 : FontWeight.w500,
+              ),
+            ),
+            if (hasPreview) ...[
+              const SizedBox(height: 2),
+              Text(
+                email.preview,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: colorScheme.onSurfaceVariant,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+            if (attachments.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              AttachmentsChipsView(attachments: attachments),
+            ],
+          ],
+        ),
+        isThreeLine: hasPreview || attachments.isNotEmpty,
       );
     });
   }
