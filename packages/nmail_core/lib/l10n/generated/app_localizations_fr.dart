@@ -135,6 +135,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Saisissez votre signature...';
 
   @override
+  String get settingsDohServer => 'Serveur DNS-over-HTTPS';
+
+  @override
+  String get settingsDohServerHelper =>
+      'Vérifie si une adresse Nostr reçoit aussi des emails. Laissez vide pour le serveur par défaut.';
+
+  @override
+  String get settingsDohServerInvalid => 'Saisissez une adresse https://';
+
+  @override
   String get settingsHosting => 'Hébergement';
 
   @override
@@ -1041,7 +1051,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get composeBcc => 'Cci';
 
   @override
-  String get composeRecipientSendViaSmtp => 'Envoyer via SMTP';
+  String composeRecipientSendViaSmtp(String address) {
+    return 'Envoyer via SMTP à $address';
+  }
 
   @override
   String get composeRecipientSendViaNostr => 'Envoyer via Nostr';

@@ -22,7 +22,7 @@ class AlwaysLoadImagesTile extends StatelessWidget {
       child: Obx(
         () => SwitchListTile(
           tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: 1, count: 2),
+          shape: segmentedListShape(index: 1, count: 3),
           minTileHeight: 72,
           secondary: const Icon(Icons.image_outlined),
           title: Text(l.settingsAlwaysLoadImages),

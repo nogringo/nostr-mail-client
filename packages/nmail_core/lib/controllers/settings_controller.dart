@@ -25,6 +25,8 @@ class SettingsController extends GetxController {
   StreamSubscription? _authSubscription;
 
   static const _alwaysLoadImagesKey = 'always_load_images';
+  static const _dohServerKey = 'doh_server';
+  static const defaultDohServer = 'https://cloudflare-dns.com/dns-query';
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
@@ -32,6 +34,7 @@ class SettingsController extends GetxController {
   static const _defaultSignature = '--\nSent with Nmail\nhttps://nostrmail.org';
 
   final alwaysLoadImages = false.obs;
+  final dohServer = defaultDohServer.obs;
   final notificationsEnabled = false.obs;
 
   /// Notification setting of every account on this device, keyed by pubkey.
@@ -95,6 +98,7 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyLight),
       _storageService.getSetting<String>(ThemeService.colorSchemeKeyDark),
       _storageService.getSetting<String>(localeKey),
+      _storageService.getSetting<String>(_dohServerKey),
     ]);
 
     alwaysLoadImages.value = (results[0] as bool?) ?? false;
@@ -116,6 +120,7 @@ class SettingsController extends GetxController {
 
     final savedLocale = results[6] as String?;
     locale.value = _localeFromStorage(savedLocale);
+    dohServer.value = (results[7] as String?) ?? defaultDohServer;
 
     await _loadNotificationSettings();
 
@@ -185,6 +190,18 @@ class SettingsController extends GetxController {
   Future<void> setAlwaysLoadImages(bool value) async {
     alwaysLoadImages.value = value;
     await _storageService.saveSetting(_alwaysLoadImagesKey, value);
+  }
+
+  /// An empty [value] restores [defaultDohServer].
+  Future<void> setDohServer(String value) async {
+    final server = value.trim();
+    if (server.isEmpty) {
+      dohServer.value = defaultDohServer;
+      await _storageService.deleteSetting(_dohServerKey);
+      return;
+    }
+    dohServer.value = server;
+    await _storageService.saveSetting(_dohServerKey, server);
   }
 
   Future<void> setNotificationsEnabled(bool value) async {
@@ -472,6 +489,7 @@ class SettingsController extends GetxController {
 
     // Reset in-memory state
     alwaysLoadImages.value = false;
+    dohServer.value = defaultDohServer;
     notificationsEnabled.value = false;
     notificationsByAccount.clear();
     emailSignature.value = _defaultSignature;

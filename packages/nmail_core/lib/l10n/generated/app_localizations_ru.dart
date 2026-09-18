@@ -135,6 +135,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Введите вашу подпись...';
 
   @override
+  String get settingsDohServer => 'Сервер DNS-over-HTTPS';
+
+  @override
+  String get settingsDohServerHelper =>
+      'Проверяет, принимает ли адрес Nostr также электронную почту. Оставьте пустым для сервера по умолчанию.';
+
+  @override
+  String get settingsDohServerInvalid => 'Введите адрес https://';
+
+  @override
   String get settingsHosting => 'Хостинг';
 
   @override
@@ -1051,7 +1061,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeBcc => 'Скрытая копия';
 
   @override
-  String get composeRecipientSendViaSmtp => 'Отправить через SMTP';
+  String composeRecipientSendViaSmtp(String address) {
+    return 'Отправить через SMTP на $address';
+  }
 
   @override
   String get composeRecipientSendViaNostr => 'Отправить через Nostr';

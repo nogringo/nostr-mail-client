@@ -83,6 +83,12 @@
   "@settingsEmailSignatureEmpty": { "description": "Subtitle shown when no email signature is configured" },
   "settingsEmailSignatureHint": "Enter your signature...",
   "@settingsEmailSignatureHint": { "description": "Placeholder text in the email signature input" },
+  "settingsDohServer": "DNS-over-HTTPS server",
+  "@settingsDohServer": { "description": "Title of the setting holding the DNS-over-HTTPS server URL" },
+  "settingsDohServerHelper": "Checks whether a Nostr address also receives email. Leave empty for the default server.",
+  "@settingsDohServerHelper": { "description": "Helper text under the DNS-over-HTTPS server field, saying what it is used for" },
+  "settingsDohServerInvalid": "Enter an https:// address",
+  "@settingsDohServerInvalid": { "description": "Error under the DNS-over-HTTPS server field when the value is not an https URL" },
   "settingsHosting": "Hosting",
   "@settingsHosting": { "description": "Settings tile and screen title for relays/blossom/bridges" },
   "settingsDebugTools": "Debug Tools",
@@ -733,8 +739,13 @@
   "@composeCc": { "description": "Placeholder for the Cc recipients field" },
   "composeBcc": "Bcc",
   "@composeBcc": { "description": "Placeholder for the Bcc recipients field" },
-  "composeRecipientSendViaSmtp": "Send via SMTP",
-  "@composeRecipientSendViaSmtp": { "description": "Action on a compose recipient chip that sends to this recipient's email address through SMTP instead of Nostr" },
+  "composeRecipientSendViaSmtp": "Send via SMTP to {address}",
+  "@composeRecipientSendViaSmtp": {
+    "description": "Action on a compose recipient chip that sends to this recipient's email address through SMTP instead of Nostr",
+    "placeholders": {
+      "address": { "type": "String", "example": "support@example.com" }
+    }
+  },
   "composeRecipientSendViaNostr": "Send via Nostr",
   "@composeRecipientSendViaNostr": { "description": "Action on a compose recipient chip that looks up the address's Nostr key (NIP-05) and sends through Nostr instead of SMTP" },
   "composeRecipientMoveTo": "Move to {field}",

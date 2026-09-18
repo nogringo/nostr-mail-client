@@ -10,7 +10,10 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/models/recipient.dart';
+import 'package:nmail_core/services/mail_domain_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
+import 'package:nmail_core/utils/nip05_mail_address.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/person_card_actions.dart';
 
@@ -26,6 +29,22 @@ EmailPerson recipientPerson(Recipient recipient) {
   );
 }
 
+/// The address typed for this recipient, else its NIP-05 once its domain is
+/// known to receive mail. Reads reactive stores: call it inside an `Obx`.
+String? recipientSmtpAddress(Recipient recipient) {
+  final known = recipient.smtpAddress;
+  final pubkey = recipient.pubkey;
+  if (known != null || pubkey == null) return known;
+
+  final address = nip05MailAddress(
+    Get.find<MetadataService>().of(pubkey).value?.nip05,
+  );
+  if (address == null) return null;
+  final domain = address.split('@').last;
+  final acceptsMail = Get.find<MailDomainService>().acceptsMail(domain).value;
+  return acceptsMail == true ? address : null;
+}
+
 /// [context] must outlive the card: the actions run after it closes.
 List<PersonCardAction> buildRecipientChipActions(
   BuildContext context,
@@ -36,7 +55,7 @@ List<PersonCardAction> buildRecipientChipActions(
   final l = AppLocalizations.of(context);
   final controller = ComposeController.to;
   final pubkey = recipient.pubkey;
-  final smtpAddress = recipient.smtpAddress;
+  final smtpAddress = recipientSmtpAddress(recipient);
   final fieldLabels = {
     RecipientField.to: l.composeTo,
     RecipientField.cc: l.composeCc,
@@ -47,8 +66,8 @@ List<PersonCardAction> buildRecipientChipActions(
     if (recipient.isNostr && smtpAddress != null)
       PersonCardAction(
         icon: Icons.swap_horiz,
-        label: l.composeRecipientSendViaSmtp,
-        onPressed: () => controller.sendViaSmtp(field, recipient),
+        label: l.composeRecipientSendViaSmtp(smtpAddress),
+        onPressed: () => controller.sendViaSmtp(field, recipient, smtpAddress),
       ),
     if (recipient.isLegacy)
       PersonCardAction(
@@ -74,7 +93,9 @@ List<PersonCardAction> buildRecipientChipActions(
       contact,
       () => AddressBookContactForm(
         displayName: emailPersonName(recipientPerson(recipient)),
-        emails: smtpAddress == null ? const [] : [smtpAddress],
+        emails: recipient.smtpAddress == null
+            ? const []
+            : [recipient.smtpAddress!],
         nostrPubkeys: pubkey == null ? const [] : [pubkey],
       ),
     ),

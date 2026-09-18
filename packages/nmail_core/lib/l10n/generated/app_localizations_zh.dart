@@ -130,6 +130,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsEmailSignatureHint => '输入您的签名...';
 
   @override
+  String get settingsDohServer => 'DNS-over-HTTPS 服务器';
+
+  @override
+  String get settingsDohServerHelper => '检查 Nostr 地址是否也能接收电子邮件。留空则使用默认服务器。';
+
+  @override
+  String get settingsDohServerInvalid => '请输入 https:// 地址';
+
+  @override
   String get settingsHosting => '托管';
 
   @override
@@ -961,7 +970,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeBcc => '密送';
 
   @override
-  String get composeRecipientSendViaSmtp => '通过 SMTP 发送';
+  String composeRecipientSendViaSmtp(String address) {
+    return '通过 SMTP 发送至 $address';
+  }
 
   @override
   String get composeRecipientSendViaNostr => '通过 Nostr 发送';

@@ -355,6 +355,24 @@ abstract class AppLocalizations {
   /// **'Enter your signature...'**
   String get settingsEmailSignatureHint;
 
+  /// Title of the setting holding the DNS-over-HTTPS server URL
+  ///
+  /// In en, this message translates to:
+  /// **'DNS-over-HTTPS server'**
+  String get settingsDohServer;
+
+  /// Helper text under the DNS-over-HTTPS server field, saying what it is used for
+  ///
+  /// In en, this message translates to:
+  /// **'Checks whether a Nostr address also receives email. Leave empty for the default server.'**
+  String get settingsDohServerHelper;
+
+  /// Error under the DNS-over-HTTPS server field when the value is not an https URL
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an https:// address'**
+  String get settingsDohServerInvalid;
+
   /// Settings tile and screen title for relays/blossom/bridges
   ///
   /// In en, this message translates to:
@@ -1912,8 +1930,8 @@ abstract class AppLocalizations {
   /// Action on a compose recipient chip that sends to this recipient's email address through SMTP instead of Nostr
   ///
   /// In en, this message translates to:
-  /// **'Send via SMTP'**
-  String get composeRecipientSendViaSmtp;
+  /// **'Send via SMTP to {address}'**
+  String composeRecipientSendViaSmtp(String address);
 
   /// Action on a compose recipient chip that looks up the address's Nostr key (NIP-05) and sends through Nostr instead of SMTP
   ///

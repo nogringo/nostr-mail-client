@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/always_load_images_tile.dart';
+import 'widgets/doh_server_tile.dart';
 import 'widgets/email_signature_tile.dart';
 
 class MessagesSettingsView extends StatelessWidget {
@@ -25,6 +26,7 @@ class MessagesSettingsView extends StatelessWidget {
                 const SizedBox(height: 8),
                 const EmailSignatureTile(),
                 const AlwaysLoadImagesTile(),
+                const DohServerTile(),
                 const SizedBox(height: 24),
               ],
             ),

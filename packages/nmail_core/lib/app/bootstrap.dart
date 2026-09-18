@@ -31,6 +31,7 @@ import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     as blossom_cache_factory;
 import 'package:nmail_core/services/device_connectivity_service.dart';
 import 'package:nmail_core/services/mail_database.dart';
+import 'package:nmail_core/services/mail_domain_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/ndk_cache_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -103,6 +104,12 @@ Future<void> runNmailApp({
 
   // Reactive in-RAM metadata cache so avatars/names resolve without flashing.
   Get.put(MetadataService(), permanent: true);
+  Get.put(
+    MailDomainService(
+      dohServer: () => Get.find<SettingsController>().dohServer.value,
+    ),
+    permanent: true,
+  );
 
   // Initialize Blossom cache and offline queues as app-level singletons.
   // These persist across login/logout — they hold pending work in storageService.db.

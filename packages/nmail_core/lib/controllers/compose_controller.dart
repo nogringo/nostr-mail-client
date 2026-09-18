@@ -251,15 +251,16 @@ class ComposeController extends GetxController {
     );
   }
 
-  void sendViaSmtp(RecipientField field, Recipient recipient) {
-    final address = recipient.smtpAddress;
+  void sendViaSmtp(RecipientField field, Recipient recipient, String address) {
     final list = recipientsOf(field);
     final index = list.indexOf(recipient);
-    if (address == null || index == -1) return;
+    if (index == -1) return;
 
     list[index] = Recipient(
       input: address,
-      mailAddress: recipient.mailAddress ?? MailAddress(null, address),
+      mailAddress: recipient.smtpAddress == address
+          ? recipient.mailAddress
+          : MailAddress(null, address),
       type: RecipientType.legacy,
     );
     _autoSelectBridgeForLegacy();

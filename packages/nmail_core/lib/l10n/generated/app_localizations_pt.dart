@@ -135,6 +135,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Introduza a sua assinatura...';
 
   @override
+  String get settingsDohServer => 'Servidor DNS-over-HTTPS';
+
+  @override
+  String get settingsDohServerHelper =>
+      'Verifica se um endereço Nostr também recebe emails. Deixe em branco para usar o servidor predefinido.';
+
+  @override
+  String get settingsDohServerInvalid => 'Introduza um endereço https://';
+
+  @override
   String get settingsHosting => 'Hospedagem';
 
   @override
@@ -1035,7 +1045,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeBcc => 'Cco';
 
   @override
-  String get composeRecipientSendViaSmtp => 'Enviar por SMTP';
+  String composeRecipientSendViaSmtp(String address) {
+    return 'Enviar por SMTP para $address';
+  }
 
   @override
   String get composeRecipientSendViaNostr => 'Enviar por Nostr';
@@ -1757,6 +1769,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsEmailSignatureHint => 'Digite sua assinatura...';
+
+  @override
+  String get settingsDohServer => 'Servidor DNS-over-HTTPS';
+
+  @override
+  String get settingsDohServerHelper =>
+      'Verifica se um endereço Nostr também recebe e-mails. Deixe em branco para usar o servidor padrão.';
+
+  @override
+  String get settingsDohServerInvalid => 'Digite um endereço https://';
 
   @override
   String get settingsHosting => 'Hospedagem';
@@ -2659,7 +2681,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get composeBcc => 'Cco';
 
   @override
-  String get composeRecipientSendViaSmtp => 'Enviar por SMTP';
+  String composeRecipientSendViaSmtp(String address) {
+    return 'Enviar por SMTP para $address';
+  }
 
   @override
   String get composeRecipientSendViaNostr => 'Enviar por Nostr';

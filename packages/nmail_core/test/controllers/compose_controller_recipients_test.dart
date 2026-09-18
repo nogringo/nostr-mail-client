@@ -94,7 +94,11 @@ void main() {
       final promoted = _promoted('support@opensats.org');
       controller.recipients.addAll([promoted, other]);
 
-      controller.sendViaSmtp(RecipientField.to, promoted);
+      controller.sendViaSmtp(
+        RecipientField.to,
+        promoted,
+        'support@opensats.org',
+      );
 
       final switched = controller.recipients.first;
       expect(switched.isLegacy, isTrue);
@@ -103,7 +107,7 @@ void main() {
       expect(controller.recipients.last, same(other));
     });
 
-    test('sendViaSmtp leaves a recipient without an SMTP address alone', () {
+    test('sendViaSmtp switches a key-only recipient to its NIP-05', () {
       final keyOnly = Recipient(
         input: Nip19.encodePubKey(_pubkey),
         pubkey: _pubkey,
@@ -111,9 +115,11 @@ void main() {
       );
       controller.recipients.add(keyOnly);
 
-      controller.sendViaSmtp(RecipientField.to, keyOnly);
+      controller.sendViaSmtp(RecipientField.to, keyOnly, 'hello@opensats.org');
 
-      expect(controller.recipients.single, same(keyOnly));
+      final switched = controller.recipients.single;
+      expect(switched.isLegacy, isTrue);
+      expect(switched.smtpAddress, 'hello@opensats.org');
     });
 
     test('moveRecipient moves a recipient to Cc and shows the Cc field', () {
