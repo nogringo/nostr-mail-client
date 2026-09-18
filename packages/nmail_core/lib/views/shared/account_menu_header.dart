@@ -38,15 +38,18 @@ class AccountMenuHeader extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
             const AccountEmailText(),
-            const SizedBox(height: 12),
-            FilledButton.tonalIcon(
-              onPressed: () {
-                MenuController.maybeOf(context)?.close();
-                context.go(AppRoutes.profile);
-              },
-              icon: const Icon(Icons.edit_outlined),
-              label: Text(l.inboxEditProfile),
-            ),
+            // Publishing a profile needs the relay list this account lacks.
+            if (!auth.needsRelayListSetup.value) ...[
+              const SizedBox(height: 12),
+              FilledButton.tonalIcon(
+                onPressed: () {
+                  MenuController.maybeOf(context)?.close();
+                  context.go(AppRoutes.profile);
+                },
+                icon: const Icon(Icons.edit_outlined),
+                label: Text(l.inboxEditProfile),
+              ),
+            ],
           ],
         ),
       );

@@ -421,10 +421,15 @@ class AppRouter {
       return AppRoutes.login;
     }
 
-    // 4. The app is unusable without a NIP-65 relay list, and the setup screen
-    // must not offer to overwrite one that exists.
+    // 4. The app is unusable without a NIP-65 relay list, bar account
+    // management, and the setup screen must not offer to overwrite one that
+    // exists.
     final needsSetup = auth.needsRelayListSetup.value;
-    if (needsSetup && loc != AppRoutes.relaySetup) return AppRoutes.relaySetup;
+    if (needsSetup &&
+        loc != AppRoutes.relaySetup &&
+        !loc.startsWith(AppRoutes.accounts)) {
+      return AppRoutes.relaySetup;
+    }
     if (!needsSetup && loc == AppRoutes.relaySetup) return AppRoutes.inbox;
 
     return null;
