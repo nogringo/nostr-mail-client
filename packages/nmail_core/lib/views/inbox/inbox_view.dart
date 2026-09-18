@@ -11,6 +11,7 @@ import 'package:nmail_core/utils/mail_folder_extensions.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../shared/app_bar_account_avatar.dart';
+import '../shared/layout_constants.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
@@ -27,7 +28,7 @@ class InboxView extends GetView<InboxController> {
 
   const InboxView({super.key, required this.folder});
 
-  Widget _buildEmailList(BuildContext context) {
+  Widget _buildEmailList(BuildContext context, {double bottomPadding = 0}) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     return Obx(() {
@@ -69,6 +70,7 @@ class InboxView extends GetView<InboxController> {
               onRefresh: controller.sync,
               child: GetBuilder<InboxController>(
                 builder: (controller) => ListView.builder(
+                  padding: EdgeInsets.only(bottom: bottomPadding),
                   itemCount: controller.emails.length,
                   itemBuilder: (context, index) {
                     final email = controller.emails[index];
@@ -203,7 +205,12 @@ class InboxView extends GetView<InboxController> {
                   : const SizedBox.shrink(),
             ),
           ),
-          Expanded(child: _buildEmailList(context)),
+          Expanded(
+            child: _buildEmailList(
+              context,
+              bottomPadding: LayoutConstants.fabClearance,
+            ),
+          ),
         ],
       ),
     );

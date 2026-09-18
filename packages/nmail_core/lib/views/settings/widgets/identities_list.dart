@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/identities_controller.dart';
+import '../../shared/layout_constants.dart';
 import 'identity_tile.dart';
 
 class IdentitiesList extends StatelessWidget {
@@ -22,7 +23,12 @@ class IdentitiesList extends StatelessWidget {
         return Obx(() {
           return ReorderableListView.builder(
             buildDefaultDragHandles: false,
-            padding: EdgeInsets.fromLTRB(gutter, 0, gutter, 88),
+            padding: EdgeInsets.fromLTRB(
+              gutter,
+              0,
+              gutter,
+              LayoutConstants.fabClearance,
+            ),
             itemCount: controller.identities.length,
             onReorderItem: controller.reorder,
             itemBuilder: (context, index) {
