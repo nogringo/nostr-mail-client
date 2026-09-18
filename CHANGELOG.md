@@ -32,6 +32,7 @@ Releases prior to 0.13.0 are listed on the
   show that version, instead of formatting marks.
 - Give each sender their own avatar color when a service sends everyone's
   emails from a single address, such as GitHub notifications.
+- Select and copy the subject of an open email.
 
 ## [0.15.0]
 

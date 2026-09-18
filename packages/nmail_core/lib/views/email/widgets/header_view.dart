@@ -21,7 +21,7 @@ class HeaderView extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
+          child: SelectableText(
             (email.subject?.isEmpty ?? true)
                 ? l.emailNoSubject
                 : email.subject!,
