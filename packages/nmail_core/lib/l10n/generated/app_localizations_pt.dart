@@ -1600,9 +1600,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get relaySetupCreate => 'Criar uma nova lista de relés';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Publica uma lista com: $relays';
-  }
+  String get relaySetupCreateDescription =>
+      'Pode alterá-la a qualquer momento nas definições.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -3201,7 +3200,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get relaySetupCreate => 'Criar uma nova lista de relays';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Publica uma lista com: $relays';
-  }
+  String get relaySetupCreateDescription =>
+      'Você pode alterá-la a qualquer momento nas configurações.';
 }

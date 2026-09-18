@@ -624,10 +624,5 @@
   "relaySetupSearchAgain": "换个地方查找",
   "relaySetupOr": "或",
   "relaySetupCreate": "创建新的中继列表",
-  "relaySetupCreateDescription": "将发布包含以下中继的列表：{relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  }
+  "relaySetupCreateDescription": "你可以随时在设置中修改。"
 }

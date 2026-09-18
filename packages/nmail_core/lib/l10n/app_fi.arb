@@ -629,10 +629,5 @@
   "relaySetupSearchAgain": "Etsi muualta",
   "relaySetupOr": "tai",
   "relaySetupCreate": "Luo uusi releluettelo",
-  "relaySetupCreateDescription": "Julkaisee luettelon: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  }
+  "relaySetupCreateDescription": "Voit muuttaa sitä milloin tahansa asetuksissa."
 }

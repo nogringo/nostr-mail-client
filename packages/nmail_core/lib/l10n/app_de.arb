@@ -624,10 +624,5 @@
   "relaySetupSearchAgain": "Woanders suchen",
   "relaySetupOr": "oder",
   "relaySetupCreate": "Neue Relay-Liste anlegen",
-  "relaySetupCreateDescription": "Veröffentlicht eine Liste mit: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  }
+  "relaySetupCreateDescription": "Du kannst sie jederzeit in den Einstellungen ändern."
 }

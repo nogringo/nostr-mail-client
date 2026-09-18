@@ -1501,7 +1501,5 @@ class AppLocalizationsZh extends AppLocalizations {
   String get relaySetupCreate => '创建新的中继列表';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return '将发布包含以下中继的列表：$relays';
-  }
+  String get relaySetupCreateDescription => '你可以随时在设置中修改。';
 }

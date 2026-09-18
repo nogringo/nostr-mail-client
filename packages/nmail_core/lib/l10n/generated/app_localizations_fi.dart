@@ -1596,7 +1596,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get relaySetupCreate => 'Luo uusi releluettelo';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Julkaisee luettelon: $relays';
-  }
+  String get relaySetupCreateDescription =>
+      'Voit muuttaa sitä milloin tahansa asetuksissa.';
 }

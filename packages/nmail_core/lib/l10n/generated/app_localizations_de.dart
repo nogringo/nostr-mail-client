@@ -1603,7 +1603,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get relaySetupCreate => 'Neue Relay-Liste anlegen';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Veröffentlicht eine Liste mit: $relays';
-  }
+  String get relaySetupCreateDescription =>
+      'Du kannst sie jederzeit in den Einstellungen ändern.';
 }

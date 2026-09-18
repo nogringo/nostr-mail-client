@@ -1135,11 +1135,6 @@
   "@relaySetupOr": { "description": "Separator between searching for an existing relay list and creating a new one" },
   "relaySetupCreate": "Create a new relay list",
   "@relaySetupCreate": { "description": "Button that publishes a fresh NIP-65 list built from the recommended relays" },
-  "relaySetupCreateDescription": "Publishes a list with: {relays}",
-  "@relaySetupCreateDescription": {
-    "description": "Names the relays that will be published, so the user knows what the create button does before pressing it",
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  }
+  "relaySetupCreateDescription": "You can change it anytime in Settings.",
+  "@relaySetupCreateDescription": { "description": "Caption under the create button, reassuring that the new relay list can be edited later" }
 }

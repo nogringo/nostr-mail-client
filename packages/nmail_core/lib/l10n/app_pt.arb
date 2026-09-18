@@ -628,10 +628,5 @@
   "relaySetupSearchAgain": "Procurar noutro sítio",
   "relaySetupOr": "ou",
   "relaySetupCreate": "Criar uma nova lista de relés",
-  "relaySetupCreateDescription": "Publica uma lista com: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  }
+  "relaySetupCreateDescription": "Pode alterá-la a qualquer momento nas definições."
 }

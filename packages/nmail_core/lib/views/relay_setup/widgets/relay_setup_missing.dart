@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/controllers/relay_setup_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/utils/relay_utils.dart';
 import 'relay_hint_form.dart';
 import 'relay_setup_found_preview.dart';
 
@@ -69,11 +67,7 @@ class RelaySetupMissing extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          l.relaySetupCreateDescription(
-            NostrConfig.recommendedInboxOutboxRelays
-                .map(formatRelayUrl)
-                .join(', '),
-          ),
+          l.relaySetupCreateDescription,
           textAlign: TextAlign.center,
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,

@@ -1619,7 +1619,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get relaySetupCreate => 'Создать новый список реле';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Опубликует список: $relays';
-  }
+  String get relaySetupCreateDescription =>
+      'Вы сможете изменить его в любой момент в настройках.';
 }

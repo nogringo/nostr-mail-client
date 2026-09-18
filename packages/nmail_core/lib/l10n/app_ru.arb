@@ -624,10 +624,5 @@
   "relaySetupSearchAgain": "Искать в другом месте",
   "relaySetupOr": "или",
   "relaySetupCreate": "Создать новый список реле",
-  "relaySetupCreateDescription": "Опубликует список: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  }
+  "relaySetupCreateDescription": "Вы сможете изменить его в любой момент в настройках."
 }

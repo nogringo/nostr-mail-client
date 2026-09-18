@@ -2935,11 +2935,11 @@ abstract class AppLocalizations {
   /// **'Create a new relay list'**
   String get relaySetupCreate;
 
-  /// Names the relays that will be published, so the user knows what the create button does before pressing it
+  /// Caption under the create button, reassuring that the new relay list can be edited later
   ///
   /// In en, this message translates to:
-  /// **'Publishes a list with: {relays}'**
-  String relaySetupCreateDescription(String relays);
+  /// **'You can change it anytime in Settings.'**
+  String get relaySetupCreateDescription;
 }
 
 class _AppLocalizationsDelegate

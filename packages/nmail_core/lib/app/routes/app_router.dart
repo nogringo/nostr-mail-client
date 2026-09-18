@@ -441,10 +441,7 @@ class _AuthRefreshNotifier extends ChangeNotifier {
   _AuthRefreshNotifier() {
     final auth = Get.find<AuthController>();
     _loginWorker = ever(auth.isLoggedIn, (_) => notifyListeners());
-    _relayListWorker = ever(
-      auth.needsRelayListSetup,
-      (_) => notifyListeners(),
-    );
+    _relayListWorker = ever(auth.needsRelayListSetup, (_) => notifyListeners());
   }
 
   @override

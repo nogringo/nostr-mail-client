@@ -1514,7 +1514,5 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relaySetupCreate => '新しいリレーリストを作成';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return '次のリストを公開します: $relays';
-  }
+  String get relaySetupCreateDescription => '設定からいつでも変更できます。';
 }

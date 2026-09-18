@@ -624,10 +624,5 @@
   "relaySetupSearchAgain": "別の場所を探す",
   "relaySetupOr": "または",
   "relaySetupCreate": "新しいリレーリストを作成",
-  "relaySetupCreateDescription": "次のリストを公開します: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  }
+  "relaySetupCreateDescription": "設定からいつでも変更できます。"
 }
