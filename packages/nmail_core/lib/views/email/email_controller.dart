@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:file_saver/file_saver.dart';
-import 'package:flutter/gestures.dart' show kSecondaryMouseButton;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -18,8 +17,8 @@ import 'package:nmail_core/utils/get_mime_type.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
+import 'package:nmail_core/views/email/widgets/image_viewer_page.dart';
 import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
-import 'package:nmail_core/views/shared/show_context_menu.dart';
 import 'package:nmail_core/views/shared/window_caption_inset.dart';
 import 'package:pasteboard/pasteboard.dart';
 import 'package:path/path.dart' as p;
@@ -427,106 +426,29 @@ class EmailController extends GetxController {
     }
   }
 
-  Future<void> showImageViewer({required AttachmentRef ref}) async {
-    final l = AppLocalizations.of(Get.context!);
+  void showImageViewer({required AttachmentRef ref}) {
     if (email == null) return;
-    final filename = ref.filename ?? 'image';
-    final nostrMailService = Get.find<NostrMailService>();
-    final imageData = await nostrMailService.client.getAttachmentBytes(
-      email!,
-      ref,
+    showImageViewerPage(
+      Get.context!,
+      filename: ref.filename ?? 'image',
+      imageData: Get.find<NostrMailService>().client.getAttachmentBytes(
+        email!,
+        ref,
+      ),
+      onDownload: () => downloadAttachment(ref: ref),
+      onCopy: copyImage,
     );
-    if (imageData != null) {
-      Navigator.of(Get.context!).push(
-        PageRouteBuilder(
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              WindowCaptionInset(
-                child: Scaffold(
-                  backgroundColor: Colors.black,
-                  appBar: AppBar(
-                    backgroundColor: Colors.black,
-                    leading: IconButton(
-                      icon: const Icon(Icons.close, color: Colors.white),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                    title: Text(
-                      filename,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    actionsPadding: .only(right: 8),
-                    actions: [
-                      IconButton(
-                        icon: const Icon(Icons.download, color: Colors.white),
-                        onPressed: () => downloadAttachment(ref: ref),
-                        tooltip: l.emailDownload,
-                      ),
-                    ],
-                  ),
-                  body: GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Center(
-                      // Swallows taps on the image so only the backdrop closes.
-                      child: GestureDetector(
-                        onTap: () {},
-                        // onSecondaryTap misses macOS trackpad right-clicks here.
-                        child: Listener(
-                          onPointerDown: (event) {
-                            if (event.buttons & kSecondaryMouseButton == 0) {
-                              return;
-                            }
-                            _showImageMenu(
-                              context,
-                              position: event.position,
-                              imageData: imageData,
-                            );
-                          },
-                          child: InteractiveViewer(
-                            child: Image.memory(imageData, fit: BoxFit.contain),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            return FadeTransition(opacity: animation, child: child);
-          },
-        ),
-      );
-    } else {
-      ToastHelper.error(Get.context!, l.emailImageLoadFailed);
-    }
   }
 
-  Future<void> _showImageMenu(
-    BuildContext context, {
-    required Offset position,
-    required Uint8List imageData,
-  }) {
-    final l = AppLocalizations.of(context);
-    return showContextMenu(
-      context,
-      position: position,
-      children: (menuContext) => [
-        MenuItemButton(
-          onPressed: () async {
-            Navigator.of(menuContext).pop();
-            try {
-              await Pasteboard.writeImage(imageData);
-            } catch (_) {
-              if (context.mounted) {
-                ToastHelper.error(context, l.emailCopyImageFailed);
-              }
-            }
-          },
-          child: Text(l.emailCopyImage),
-        ),
-      ],
-    );
+  Future<void> copyImage(Uint8List imageData) async {
+    try {
+      await Pasteboard.writeImage(imageData);
+    } catch (_) {
+      ToastHelper.error(
+        Get.context!,
+        AppLocalizations.of(Get.context!).emailCopyImageFailed,
+      );
+    }
   }
 
   Future<void> showPdfViewer({required AttachmentRef ref}) async {
@@ -551,10 +473,7 @@ class EmailController extends GetxController {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    leading: IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
+                    leading: const CloseButton(),
                     actionsPadding: .only(right: 8),
                     actions: [
                       IconButton(

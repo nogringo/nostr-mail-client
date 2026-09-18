@@ -1531,7 +1531,7 @@ abstract class AppLocalizations {
   /// **'Download'**
   String get emailDownload;
 
-  /// Error toast when an image attachment can't be displayed
+  /// Message shown in the image viewer when an image attachment can't be loaded
   ///
   /// In en, this message translates to:
   /// **'Failed to load image'**

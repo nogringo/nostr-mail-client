@@ -19,6 +19,8 @@ Releases prior to 0.13.0 are listed on the
 
 - Empty the trash in one tap from the banner at the top of the trash, which
   also shows how many emails it holds.
+- Copy an image attachment from the image viewer with a right-click.
+- Close the image viewer with Escape or by clicking outside the image.
 
 ### Changed
 
@@ -33,6 +35,9 @@ Releases prior to 0.13.0 are listed on the
 - Give each sender their own avatar color when a service sends everyone's
   emails from a single address, such as GitHub notifications.
 - Select and copy the subject of an open email.
+- Keep the close button of the image and PDF viewers clear of the window
+  buttons on macOS, and the download button off the edge of the screen.
+- Zoom an image across the whole viewer instead of inside its original frame.
 
 ## [0.15.0]
 

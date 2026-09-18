@@ -601,7 +601,7 @@
   "emailDownload": "Download",
   "@emailDownload": { "description": "Tooltip on the download icon in the image/PDF viewer" },
   "emailImageLoadFailed": "Failed to load image",
-  "@emailImageLoadFailed": { "description": "Error toast when an image attachment can't be displayed" },
+  "@emailImageLoadFailed": { "description": "Message shown in the image viewer when an image attachment can't be loaded" },
   "emailCopyImage": "Copy image",
   "@emailCopyImage": { "description": "Right-click menu item in the image viewer that copies the image to the clipboard" },
   "emailCopyImageFailed": "Failed to copy image",
