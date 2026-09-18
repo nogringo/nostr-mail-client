@@ -353,6 +353,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relayRemoveTooltip => 'リレーを削除';
 
   @override
+  String get relayKeepOneTooltip => 'リレーリストには少なくとも1つのリレーが必要です';
+
+  @override
   String get relayInboxOutboxEmpty => '受信/送信リレーが設定されていません';
 
   @override
@@ -1511,13 +1514,5 @@ class AppLocalizationsJa extends AppLocalizations {
   String get relaySetupCreate => '新しいリレーリストを作成';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return '次のリストを公開します: $relays';
-  }
-
-  @override
-  String get relaySetupContinueWithout => 'リストなしで続ける';
-
-  @override
-  String get relaySetupContinueAnyway => 'このまま続ける';
+  String get relaySetupCreateDescription => '設定からいつでも変更できます。';
 }

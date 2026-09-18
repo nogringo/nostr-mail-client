@@ -26,7 +26,7 @@ class HostingResourceTile extends StatelessWidget {
   final int count;
   final bool isMarkedForDeletion;
   final String removeTooltip;
-  final VoidCallback onToggleDeletion;
+  final VoidCallback? onToggleDeletion;
   final String? subtitle;
   final VoidCallback? onTap;
 

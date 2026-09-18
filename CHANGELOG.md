@@ -25,6 +25,10 @@ Releases prior to 0.13.0 are listed on the
 ### Changed
 
 - Confirm before permanently deleting the selected emails from the trash.
+- Require a relay list to use the app. An account without one stays on the
+  relay setup screen until the list is found or created, and can switch
+  accounts, add one, or log out from the account menu there.
+- Keep at least one relay in your relay list in the hosting settings.
 
 ### Fixed
 

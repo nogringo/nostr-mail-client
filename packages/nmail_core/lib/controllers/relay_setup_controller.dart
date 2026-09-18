@@ -28,10 +28,10 @@ enum RelaySetupStage {
 
 enum HintOutcome { notFound, unreachable, nip05NotFound, nip05Unreachable }
 
-/// The way out of this screen the user picked. Every one of them ends in
-/// [AuthController.completeLogin], which is slow offline, so the button that
-/// started it carries the spinner and the others stay disabled meanwhile.
-enum RelaySetupAction { useFound, create, continueWithout }
+/// The way out of this screen the user picked. Each one is slow offline, so the
+/// button that started it carries the spinner and the others stay disabled
+/// meanwhile.
+enum RelaySetupAction { useFound, create }
 
 class RelaySetupController extends GetxController {
   final hintController = TextEditingController();
@@ -156,6 +156,8 @@ class RelaySetupController extends GetxController {
 
   Future<void> _continueToInbox() async {
     await Get.find<AuthController>().completeLogin();
+    // The router already left this screen, and the user may have moved on.
+    if (isClosed) return;
     AppRouter.router.go(AppRoutes.inbox);
   }
 
@@ -276,20 +278,6 @@ class RelaySetupController extends GetxController {
         pubkey: account.pubkey,
       );
       if (isClosed) return;
-      await _continueToInbox();
-    } finally {
-      if (!isClosed) {
-        runningAction = null;
-        update();
-      }
-    }
-  }
-
-  Future<void> continueWithoutList() async {
-    if (isLeaving) return;
-    runningAction = RelaySetupAction.continueWithout;
-    update();
-    try {
       await _continueToInbox();
     } finally {
       if (!isClosed) {

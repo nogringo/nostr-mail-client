@@ -136,6 +136,7 @@
   "relayInboxOutboxDescription": "アカウントが公開と読み込みに使うリレーです。",
   "relayAdd": "リレーを追加",
   "relayRemoveTooltip": "リレーを削除",
+  "relayKeepOneTooltip": "リレーリストには少なくとも1つのリレーが必要です",
   "relayInboxOutboxEmpty": "受信/送信リレーが設定されていません",
 
   "dmRelayAddTitle": "DM リレーを追加",
@@ -623,12 +624,5 @@
   "relaySetupSearchAgain": "別の場所を探す",
   "relaySetupOr": "または",
   "relaySetupCreate": "新しいリレーリストを作成",
-  "relaySetupCreateDescription": "次のリストを公開します: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  },
-  "relaySetupContinueWithout": "リストなしで続ける",
-  "relaySetupContinueAnyway": "このまま続ける"
+  "relaySetupCreateDescription": "設定からいつでも変更できます。"
 }

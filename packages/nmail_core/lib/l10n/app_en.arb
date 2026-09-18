@@ -247,6 +247,8 @@
   "@relayAdd": { "description": "Label of the row that opens the add-relay dialog" },
   "relayRemoveTooltip": "Remove relay",
   "@relayRemoveTooltip": { "description": "Tooltip on the X icon used to mark a relay for deletion" },
+  "relayKeepOneTooltip": "Your relay list needs at least one relay",
+  "@relayKeepOneTooltip": { "description": "Tooltip on the disabled remove button of the last relay in the NIP-65 list" },
   "relayInboxOutboxEmpty": "No Inbox/Outbox relays configured",
   "@relayInboxOutboxEmpty": { "description": "Empty-state message shown when no NIP-65 relays are configured" },
 
@@ -1133,15 +1135,6 @@
   "@relaySetupOr": { "description": "Separator between searching for an existing relay list and creating a new one" },
   "relaySetupCreate": "Create a new relay list",
   "@relaySetupCreate": { "description": "Button that publishes a fresh NIP-65 list built from the recommended relays" },
-  "relaySetupCreateDescription": "Publishes a list with: {relays}",
-  "@relaySetupCreateDescription": {
-    "description": "Names the relays that will be published, so the user knows what the create button does before pressing it",
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  },
-  "relaySetupContinueWithout": "Continue without a list",
-  "@relaySetupContinueWithout": { "description": "Button that skips the screen, publishing nothing, and opens the inbox anyway" },
-  "relaySetupContinueAnyway": "Continue anyway",
-  "@relaySetupContinueAnyway": { "description": "Button on the unreachable state that opens the inbox without knowing whether a relay list exists" }
+  "relaySetupCreateDescription": "You can change it anytime in Settings.",
+  "@relaySetupCreateDescription": { "description": "Caption under the create button, reassuring that the new relay list can be edited later" }
 }

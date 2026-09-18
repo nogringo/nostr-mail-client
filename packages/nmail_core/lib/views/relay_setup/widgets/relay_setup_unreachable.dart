@@ -46,19 +46,6 @@ class RelaySetupUnreachable extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16),
           ),
         ),
-        const SizedBox(height: 8),
-        TextButton(
-          onPressed: controller.isLeaving
-              ? null
-              : controller.continueWithoutList,
-          child: controller.runningAction == RelaySetupAction.continueWithout
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : Text(l.relaySetupContinueAnyway),
-        ),
       ],
     );
   }

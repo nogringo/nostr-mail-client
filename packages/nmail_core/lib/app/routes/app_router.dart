@@ -409,7 +409,9 @@ class AppRouter {
       if (auth.isLoggedIn.value &&
           loc == AppRoutes.login &&
           !auth.showSyncCodeExplanation.value) {
-        return AppRoutes.inbox;
+        return auth.needsRelayListSetup.value
+            ? AppRoutes.relaySetup
+            : AppRoutes.inbox;
       }
       return null;
     }
@@ -419,26 +421,38 @@ class AppRouter {
       return AppRoutes.login;
     }
 
+    // 4. The app is unusable without a NIP-65 relay list, bar account
+    // management, and the setup screen must not offer to overwrite one that
+    // exists.
+    final needsSetup = auth.needsRelayListSetup.value;
+    if (needsSetup &&
+        loc != AppRoutes.relaySetup &&
+        !loc.startsWith(AppRoutes.accounts)) {
+      return AppRoutes.relaySetup;
+    }
+    if (!needsSetup && loc == AppRoutes.relaySetup) return AppRoutes.inbox;
+
     return null;
   }
 }
 
 /// Bridges GetX's `Rx` reactivity to go_router's `refreshListenable`.
-/// When `isLoggedIn` flips, the router re-evaluates its redirect so
-/// auth-protected routes immediately bounce.
+/// When `isLoggedIn` or `needsRelayListSetup` flips, the router re-evaluates
+/// its redirect so gated routes immediately bounce.
 class _AuthRefreshNotifier extends ChangeNotifier {
   late final Worker _loginWorker;
+  late final Worker _relayListWorker;
 
   _AuthRefreshNotifier() {
-    _loginWorker = ever(
-      Get.find<AuthController>().isLoggedIn,
-      (_) => notifyListeners(),
-    );
+    final auth = Get.find<AuthController>();
+    _loginWorker = ever(auth.isLoggedIn, (_) => notifyListeners());
+    _relayListWorker = ever(auth.needsRelayListSetup, (_) => notifyListeners());
   }
 
   @override
   void dispose() {
     _loginWorker.dispose();
+    _relayListWorker.dispose();
     super.dispose();
   }
 }

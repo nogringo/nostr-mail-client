@@ -781,6 +781,12 @@ abstract class AppLocalizations {
   /// **'Remove relay'**
   String get relayRemoveTooltip;
 
+  /// Tooltip on the disabled remove button of the last relay in the NIP-65 list
+  ///
+  /// In en, this message translates to:
+  /// **'Your relay list needs at least one relay'**
+  String get relayKeepOneTooltip;
+
   /// Empty-state message shown when no NIP-65 relays are configured
   ///
   /// In en, this message translates to:
@@ -2929,23 +2935,11 @@ abstract class AppLocalizations {
   /// **'Create a new relay list'**
   String get relaySetupCreate;
 
-  /// Names the relays that will be published, so the user knows what the create button does before pressing it
+  /// Caption under the create button, reassuring that the new relay list can be edited later
   ///
   /// In en, this message translates to:
-  /// **'Publishes a list with: {relays}'**
-  String relaySetupCreateDescription(String relays);
-
-  /// Button that skips the screen, publishing nothing, and opens the inbox anyway
-  ///
-  /// In en, this message translates to:
-  /// **'Continue without a list'**
-  String get relaySetupContinueWithout;
-
-  /// Button on the unreachable state that opens the inbox without knowing whether a relay list exists
-  ///
-  /// In en, this message translates to:
-  /// **'Continue anyway'**
-  String get relaySetupContinueAnyway;
+  /// **'You can change it anytime in Settings.'**
+  String get relaySetupCreateDescription;
 }
 
 class _AppLocalizationsDelegate

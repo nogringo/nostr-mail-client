@@ -367,6 +367,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get relayRemoveTooltip => 'Relay entfernen';
 
   @override
+  String get relayKeepOneTooltip =>
+      'Deine Relay-Liste braucht mindestens ein Relay';
+
+  @override
   String get relayInboxOutboxEmpty => 'Keine Inbox/Outbox-Relays konfiguriert';
 
   @override
@@ -1599,13 +1603,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get relaySetupCreate => 'Neue Relay-Liste anlegen';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Veröffentlicht eine Liste mit: $relays';
-  }
-
-  @override
-  String get relaySetupContinueWithout => 'Ohne Liste fortfahren';
-
-  @override
-  String get relaySetupContinueAnyway => 'Trotzdem fortfahren';
+  String get relaySetupCreateDescription =>
+      'Du kannst sie jederzeit in den Einstellungen ändern.';
 }

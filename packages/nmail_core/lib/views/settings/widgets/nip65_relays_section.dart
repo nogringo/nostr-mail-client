@@ -165,19 +165,27 @@ class Nip65RelaysSection extends StatelessWidget {
                     )
                   else
                     for (final entry in relays.entries)
-                      (index, count) => HostingResourceTile(
-                        icon: Icons.dns_outlined,
-                        label: formatRelayUrl(entry.key),
-                        subtitle: _markerLabel(l, entry.value),
-                        index: index,
-                        count: count,
-                        isMarkedForDeletion: controller.markedForDeletion
-                            .contains(entry.key),
-                        removeTooltip: l.relayRemoveTooltip,
-                        onToggleDeletion: () =>
-                            controller.toggleRelayDeletion(entry.key),
-                        onTap: () => controller.cycleMarker(entry.key),
-                      ),
+                      (index, count) {
+                        final canRemove = controller.canToggleDeletion(
+                          entry.key,
+                        );
+                        return HostingResourceTile(
+                          icon: Icons.dns_outlined,
+                          label: formatRelayUrl(entry.key),
+                          subtitle: _markerLabel(l, entry.value),
+                          index: index,
+                          count: count,
+                          isMarkedForDeletion: controller.markedForDeletion
+                              .contains(entry.key),
+                          removeTooltip: canRemove
+                              ? l.relayRemoveTooltip
+                              : l.relayKeepOneTooltip,
+                          onToggleDeletion: canRemove
+                              ? () => controller.toggleRelayDeletion(entry.key)
+                              : null,
+                          onTap: () => controller.cycleMarker(entry.key),
+                        );
+                      },
                   (index, count) => HostingAddTile(
                     label: l.relayAdd,
                     index: index,

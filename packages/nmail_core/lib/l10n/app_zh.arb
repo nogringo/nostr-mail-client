@@ -136,6 +136,7 @@
   "relayInboxOutboxDescription": "您的账号用于发布和读取的中继。",
   "relayAdd": "添加中继",
   "relayRemoveTooltip": "移除中继",
+  "relayKeepOneTooltip": "中继列表至少需要一个中继",
   "relayInboxOutboxEmpty": "未配置收件箱/发件箱中继",
 
   "dmRelayAddTitle": "添加 DM 中继",
@@ -623,12 +624,5 @@
   "relaySetupSearchAgain": "换个地方查找",
   "relaySetupOr": "或",
   "relaySetupCreate": "创建新的中继列表",
-  "relaySetupCreateDescription": "将发布包含以下中继的列表：{relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  },
-  "relaySetupContinueWithout": "不使用列表继续",
-  "relaySetupContinueAnyway": "仍然继续"
+  "relaySetupCreateDescription": "你可以随时在设置中修改。"
 }

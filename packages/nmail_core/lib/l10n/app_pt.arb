@@ -130,6 +130,7 @@
   "relayInboxOutboxDescription": "Relays onde a sua conta publica e lê.",
   "relayAdd": "Adicionar relay",
   "relayRemoveTooltip": "Remover relay",
+  "relayKeepOneTooltip": "A sua lista de relés precisa de pelo menos um relé",
   "relayInboxOutboxEmpty": "Nenhum relay de entrada/saída configurado",
   "dmRelayAddTitle": "Adicionar relay DM",
   "dmRelaySectionTitle": "Relays DM",
@@ -627,12 +628,5 @@
   "relaySetupSearchAgain": "Procurar noutro sítio",
   "relaySetupOr": "ou",
   "relaySetupCreate": "Criar uma nova lista de relés",
-  "relaySetupCreateDescription": "Publica uma lista com: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  },
-  "relaySetupContinueWithout": "Continuar sem lista",
-  "relaySetupContinueAnyway": "Continuar mesmo assim"
+  "relaySetupCreateDescription": "Pode alterá-la a qualquer momento nas definições."
 }

@@ -364,6 +364,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get relayRemoveTooltip => 'Poista palvelin';
 
   @override
+  String get relayKeepOneTooltip =>
+      'Releluettelossasi on oltava vähintään yksi rele';
+
+  @override
   String get relayInboxOutboxEmpty =>
       'Saapuvien/lähtevien palvelimia ei ole asetettu';
 
@@ -1592,13 +1596,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get relaySetupCreate => 'Luo uusi releluettelo';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Julkaisee luettelon: $relays';
-  }
-
-  @override
-  String get relaySetupContinueWithout => 'Jatka ilman luetteloa';
-
-  @override
-  String get relaySetupContinueAnyway => 'Jatka silti';
+  String get relaySetupCreateDescription =>
+      'Voit muuttaa sitä milloin tahansa asetuksissa.';
 }

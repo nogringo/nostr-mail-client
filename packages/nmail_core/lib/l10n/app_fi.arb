@@ -136,6 +136,7 @@
   "relayInboxOutboxDescription": "Palvelimet, joille tilisi julkaisee ja joilta se lukee.",
   "relayAdd": "Lisää palvelin",
   "relayRemoveTooltip": "Poista palvelin",
+  "relayKeepOneTooltip": "Releluettelossasi on oltava vähintään yksi rele",
   "relayInboxOutboxEmpty": "Saapuvien/lähtevien palvelimia ei ole asetettu",
 
   "dmRelayAddTitle": "Lisää yksityisviestien palvelin",
@@ -628,12 +629,5 @@
   "relaySetupSearchAgain": "Etsi muualta",
   "relaySetupOr": "tai",
   "relaySetupCreate": "Luo uusi releluettelo",
-  "relaySetupCreateDescription": "Julkaisee luettelon: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  },
-  "relaySetupContinueWithout": "Jatka ilman luetteloa",
-  "relaySetupContinueAnyway": "Jatka silti"
+  "relaySetupCreateDescription": "Voit muuttaa sitä milloin tahansa asetuksissa."
 }

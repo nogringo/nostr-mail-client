@@ -365,6 +365,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get relayRemoveTooltip => 'Quitar relay';
 
   @override
+  String get relayKeepOneTooltip =>
+      'Tu lista de relés necesita al menos un relé';
+
+  @override
   String get relayInboxOutboxEmpty =>
       'No hay relays de entrada/salida configurados';
 
@@ -1597,13 +1601,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get relaySetupCreate => 'Crear una nueva lista de relés';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Publica una lista con: $relays';
-  }
-
-  @override
-  String get relaySetupContinueWithout => 'Continuar sin lista';
-
-  @override
-  String get relaySetupContinueAnyway => 'Continuar de todos modos';
+  String get relaySetupCreateDescription =>
+      'Puedes cambiarla en cualquier momento en Ajustes.';
 }

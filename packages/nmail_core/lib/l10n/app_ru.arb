@@ -136,6 +136,7 @@
   "relayInboxOutboxDescription": "Реле, куда ваш аккаунт публикует и откуда читает.",
   "relayAdd": "Добавить реле",
   "relayRemoveTooltip": "Удалить реле",
+  "relayKeepOneTooltip": "В списке реле должно быть хотя бы одно реле",
   "relayInboxOutboxEmpty": "Реле входящих/исходящих не настроены",
 
   "dmRelayAddTitle": "Добавить DM-реле",
@@ -623,12 +624,5 @@
   "relaySetupSearchAgain": "Искать в другом месте",
   "relaySetupOr": "или",
   "relaySetupCreate": "Создать новый список реле",
-  "relaySetupCreateDescription": "Опубликует список: {relays}",
-  "@relaySetupCreateDescription": {
-    "placeholders": {
-      "relays": { "type": "String" }
-    }
-  },
-  "relaySetupContinueWithout": "Продолжить без списка",
-  "relaySetupContinueAnyway": "Всё равно продолжить"
+  "relaySetupCreateDescription": "Вы сможете изменить его в любой момент в настройках."
 }

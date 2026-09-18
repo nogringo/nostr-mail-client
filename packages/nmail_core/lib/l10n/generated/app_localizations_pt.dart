@@ -365,6 +365,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get relayRemoveTooltip => 'Remover relay';
 
   @override
+  String get relayKeepOneTooltip =>
+      'A sua lista de relés precisa de pelo menos um relé';
+
+  @override
   String get relayInboxOutboxEmpty =>
       'Nenhum relay de entrada/saída configurado';
 
@@ -1596,15 +1600,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get relaySetupCreate => 'Criar uma nova lista de relés';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Publica uma lista com: $relays';
-  }
-
-  @override
-  String get relaySetupContinueWithout => 'Continuar sem lista';
-
-  @override
-  String get relaySetupContinueAnyway => 'Continuar mesmo assim';
+  String get relaySetupCreateDescription =>
+      'Pode alterá-la a qualquer momento nas definições.';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -1966,6 +1963,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get relayRemoveTooltip => 'Remover relay';
+
+  @override
+  String get relayKeepOneTooltip =>
+      'Sua lista de relays precisa de pelo menos um relay';
 
   @override
   String get relayInboxOutboxEmpty =>
@@ -3199,13 +3200,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get relaySetupCreate => 'Criar uma nova lista de relays';
 
   @override
-  String relaySetupCreateDescription(String relays) {
-    return 'Publica uma lista com: $relays';
-  }
-
-  @override
-  String get relaySetupContinueWithout => 'Continuar sem lista';
-
-  @override
-  String get relaySetupContinueAnyway => 'Continuar mesmo assim';
+  String get relaySetupCreateDescription =>
+      'Você pode alterá-la a qualquer momento nas configurações.';
 }
