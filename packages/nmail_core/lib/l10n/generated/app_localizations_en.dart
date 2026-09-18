@@ -1027,6 +1027,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get composeBcc => 'Bcc';
 
   @override
+  String get composeRecipientSendViaSmtp => 'Send via SMTP';
+
+  @override
+  String get composeRecipientSendViaNostr => 'Send via Nostr';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Move to $field';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Edit';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'No Nostr key found for $address';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain did not respond';
+  }
+
+  @override
   String get composeSubject => 'Subject';
 
   @override

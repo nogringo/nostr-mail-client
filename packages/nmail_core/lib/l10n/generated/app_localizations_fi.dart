@@ -1031,6 +1031,30 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeBcc => 'Piilokopio';
 
   @override
+  String get composeRecipientSendViaSmtp => 'Lähetä SMTP:n kautta';
+
+  @override
+  String get composeRecipientSendViaNostr => 'Lähetä Nostrin kautta';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Siirrä kenttään $field';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Muokkaa';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'Osoitteelle $address ei löytynyt Nostr-avainta';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain ei vastannut';
+  }
+
+  @override
   String get composeSubject => 'Aihe';
 
   @override

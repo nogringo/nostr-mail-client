@@ -961,6 +961,30 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeBcc => '密送';
 
   @override
+  String get composeRecipientSendViaSmtp => '通过 SMTP 发送';
+
+  @override
+  String get composeRecipientSendViaNostr => '通过 Nostr 发送';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return '移至$field';
+  }
+
+  @override
+  String get composeRecipientEdit => '编辑';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return '未找到 $address 的 Nostr 密钥';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain 没有响应';
+  }
+
+  @override
   String get composeSubject => '主题';
 
   @override

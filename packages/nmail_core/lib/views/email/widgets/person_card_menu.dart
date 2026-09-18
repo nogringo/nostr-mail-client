@@ -11,11 +11,13 @@ import 'person_card_menu_header.dart';
 class PersonCardMenu extends StatelessWidget {
   final EmailPerson person;
   final BuildContext actionContext;
+  final PersonCardActionsBuilder actions;
 
   const PersonCardMenu({
     super.key,
     required this.person,
     required this.actionContext,
+    required this.actions,
   });
 
   @override
@@ -31,11 +33,7 @@ class PersonCardMenu extends StatelessWidget {
         children: [
           PersonCardMenuHeader(person: person),
           const Divider(height: 1),
-          for (final action in buildPersonCardActions(
-            actionContext,
-            person,
-            contact,
-          ))
+          for (final action in actions(actionContext, contact))
             MenuItemButton(
               leadingIcon: Icon(action.icon),
               onPressed: action.onPressed,

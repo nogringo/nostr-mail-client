@@ -1051,6 +1051,30 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeBcc => 'Скрытая копия';
 
   @override
+  String get composeRecipientSendViaSmtp => 'Отправить через SMTP';
+
+  @override
+  String get composeRecipientSendViaNostr => 'Отправить через Nostr';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Переместить в «$field»';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Изменить';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'Ключ Nostr для $address не найден';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain не отвечает';
+  }
+
+  @override
   String get composeSubject => 'Тема';
 
   @override

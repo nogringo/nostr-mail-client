@@ -965,6 +965,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeBcc => 'Bcc';
 
   @override
+  String get composeRecipientSendViaSmtp => 'SMTP で送信';
+
+  @override
+  String get composeRecipientSendViaNostr => 'Nostr で送信';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return '$field に移動';
+  }
+
+  @override
+  String get composeRecipientEdit => '編集';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return '$address の Nostr キーが見つかりません';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain から応答がありません';
+  }
+
+  @override
   String get composeSubject => '件名';
 
   @override

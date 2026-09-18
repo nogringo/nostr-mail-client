@@ -1035,6 +1035,30 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeBcc => 'Cco';
 
   @override
+  String get composeRecipientSendViaSmtp => 'Enviar por SMTP';
+
+  @override
+  String get composeRecipientSendViaNostr => 'Enviar por Nostr';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Mover para $field';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Editar';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'Nenhuma chave Nostr encontrada para $address';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain não respondeu';
+  }
+
+  @override
   String get composeSubject => 'Assunto';
 
   @override
@@ -2633,6 +2657,30 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeBcc => 'Cco';
+
+  @override
+  String get composeRecipientSendViaSmtp => 'Enviar por SMTP';
+
+  @override
+  String get composeRecipientSendViaNostr => 'Enviar por Nostr';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Mover para $field';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Editar';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'Nenhuma chave Nostr encontrada para $address';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain não respondeu';
+  }
 
   @override
   String get composeSubject => 'Assunto';

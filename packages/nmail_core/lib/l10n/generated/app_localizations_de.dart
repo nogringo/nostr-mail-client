@@ -1038,6 +1038,30 @@ class AppLocalizationsDe extends AppLocalizations {
   String get composeBcc => 'Bcc';
 
   @override
+  String get composeRecipientSendViaSmtp => 'Über SMTP senden';
+
+  @override
+  String get composeRecipientSendViaNostr => 'Über Nostr senden';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Nach $field verschieben';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Bearbeiten';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'Kein Nostr-Schlüssel für $address gefunden';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain hat nicht geantwortet';
+  }
+
+  @override
   String get composeSubject => 'Betreff';
 
   @override

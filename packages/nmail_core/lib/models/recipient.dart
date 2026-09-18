@@ -4,6 +4,8 @@ import '../utils/metadata_extensions.dart';
 
 enum RecipientType { nostr, legacy }
 
+enum RecipientField { to, cc, bcc }
+
 class Recipient {
   final String input;
   final String? pubkey;
@@ -59,6 +61,15 @@ class Recipient {
       return mailAddress!.email;
     }
     return input;
+  }
+
+  /// The address this recipient can be reached at through SMTP, if any. A
+  /// `npub...@domain` address is left out: it leads back to the same key.
+  String? get smtpAddress {
+    final email = mailAddress?.email ?? (isLegacy ? input : null);
+    if (email == null || !email.contains('@')) return null;
+    if (email.split('@').first.startsWith('npub1')) return null;
+    return email;
   }
 
   bool get isNostr => type == RecipientType.nostr;

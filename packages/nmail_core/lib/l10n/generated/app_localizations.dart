@@ -1909,6 +1909,42 @@ abstract class AppLocalizations {
   /// **'Bcc'**
   String get composeBcc;
 
+  /// Action on a compose recipient chip that sends to this recipient's email address through SMTP instead of Nostr
+  ///
+  /// In en, this message translates to:
+  /// **'Send via SMTP'**
+  String get composeRecipientSendViaSmtp;
+
+  /// Action on a compose recipient chip that looks up the address's Nostr key (NIP-05) and sends through Nostr instead of SMTP
+  ///
+  /// In en, this message translates to:
+  /// **'Send via Nostr'**
+  String get composeRecipientSendViaNostr;
+
+  /// Action on a compose recipient chip that moves it to another field (To, Cc or Bcc)
+  ///
+  /// In en, this message translates to:
+  /// **'Move to {field}'**
+  String composeRecipientMoveTo(String field);
+
+  /// Action on a compose recipient chip that turns it back into editable text
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get composeRecipientEdit;
+
+  /// Error toast when the address's domain answers but publishes no Nostr key for it
+  ///
+  /// In en, this message translates to:
+  /// **'No Nostr key found for {address}'**
+  String composeRecipientNostrNotFound(String address);
+
+  /// Error toast when the address's domain could not be reached to look up its Nostr key
+  ///
+  /// In en, this message translates to:
+  /// **'{domain} did not respond'**
+  String composeRecipientNostrUnreachable(String domain);
+
   /// Placeholder for the subject field
   ///
   /// In en, this message translates to:
