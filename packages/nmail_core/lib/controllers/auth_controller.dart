@@ -33,8 +33,8 @@ class AuthController extends GetxController {
   final isRegistering = false.obs;
   final showSyncCodeExplanation = false.obs;
 
-  /// The account logged in without a NIP-65 relay list, so the login is parked
-  /// on RelaySetupView until it is found or the user opts out.
+  /// The active account has no NIP-65 relay list, so the router keeps it on
+  /// RelaySetupView until one is found or created.
   final needsRelayListSetup = false.obs;
   final username = ''.obs;
   final usernameController = TextEditingController();
@@ -59,8 +59,12 @@ class AuthController extends GetxController {
       await ndkFlutter.restoreAccountsState();
       _refreshAccountsState();
 
-      if (ndk.accounts.getPublicKey() != null) {
-        await _nostrMailService.activateForCurrentAccount();
+      final pubkey = ndk.accounts.getPublicKey();
+      if (pubkey != null) {
+        needsRelayListSetup.value = !await _hasRelayList(pubkey);
+        if (!needsRelayListSetup.value) {
+          await _nostrMailService.activateForCurrentAccount();
+        }
         isLoggedIn.value = true;
         // Non-blocking metadata load
         loadUserMetadata();
@@ -120,8 +124,7 @@ class AuthController extends GetxController {
 
     final pubkey = ndk.accounts.getPublicKey();
     if (pubkey != null) {
-      final cached = await ndk.config.cache.loadUserRelayList(pubkey);
-      if (cached == null || cached.relays.isEmpty) {
+      if (!await _hasRelayList(pubkey)) {
         // Without a NIP-65 list we don't know which relays to watch, so the
         // subscriptions below must wait until RelaySetupView resolves it.
         // Must be set BEFORE isLoggedIn flips, otherwise the router's
@@ -135,6 +138,11 @@ class AuthController extends GetxController {
     await completeLogin();
   }
 
+  Future<bool> _hasRelayList(String pubkey) async {
+    final cached = await ndk.config.cache.loadUserRelayList(pubkey);
+    return cached != null && cached.relays.isNotEmpty;
+  }
+
   /// Second half of [onLoggedIn], deferred while the relay list is missing.
   ///
   /// TODO: the two awaits at the end are best-effort refreshes that nothing on
@@ -143,7 +151,6 @@ class AuthController extends GetxController {
   /// timeout). Mirror `switchAccount`, which navigates first and fires both
   /// with `unawaited`.
   Future<void> completeLogin() async {
-    needsRelayListSetup.value = false;
     await _nostrMailService.activateForCurrentAccount();
     if (Get.isRegistered<InboxController>()) {
       await Get.find<InboxController>().activateForCurrentAccount(
@@ -154,6 +161,8 @@ class AuthController extends GetxController {
       await Get.delete<ScheduledController>();
     }
     isLoggedIn.value = true;
+    // After the activation above: the router leaves RelaySetupView on this flip.
+    needsRelayListSetup.value = false;
     loadUserMetadata();
     // authStateChanges fires before the client is attached to the new account,
     // so SettingsController's listener can't read the synced signature yet.
@@ -322,6 +331,14 @@ class AuthController extends GetxController {
       userMetadata.value = null;
       unawaited(ndkFlutter.saveAccountsState());
       unawaited(loadUserMetadata());
+
+      final hasRelayList = await _hasRelayList(pubkey);
+      if (generation != _accountSwitchGeneration) return;
+      needsRelayListSetup.value = !hasRelayList;
+      if (!hasRelayList) {
+        AppRouter.router.go(AppRoutes.relaySetup);
+        return;
+      }
       AppRouter.router.go(AppRoutes.inbox);
 
       await _nostrMailService.activateForCurrentAccount();
@@ -468,8 +485,12 @@ class AuthController extends GetxController {
         );
       }
       await _nostrMailService.logout();
+      var fallbackHasRelayList = false;
       if (fallbackPubkey != null) {
         ndk.accounts.switchAccount(pubkey: fallbackPubkey);
+        fallbackHasRelayList = await _hasRelayList(fallbackPubkey);
+      }
+      if (fallbackPubkey != null && fallbackHasRelayList) {
         await _nostrMailService.activateForCurrentAccount();
         unawaited(Get.find<SettingsController>().reloadSyncedSettings());
         if (Get.isRegistered<PushSubscriptionService>()) {
@@ -480,6 +501,9 @@ class AuthController extends GetxController {
       }
       await ndkFlutter.saveAccountsState();
       _refreshAccountsState();
+      // Only after the refresh: RelaySetupView reads `publicKey`.
+      needsRelayListSetup.value =
+          fallbackPubkey != null && !fallbackHasRelayList;
       userMetadata.value = null;
 
       isRegistering.value = false;
@@ -494,6 +518,10 @@ class AuthController extends GetxController {
       }
 
       unawaited(loadUserMetadata());
+      if (needsRelayListSetup.value) {
+        AppRouter.router.go(AppRoutes.relaySetup);
+        return;
+      }
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().activateForCurrentAccount(
           folder: MailFolder.inbox,

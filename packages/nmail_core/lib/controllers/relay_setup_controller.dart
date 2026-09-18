@@ -156,6 +156,8 @@ class RelaySetupController extends GetxController {
 
   Future<void> _continueToInbox() async {
     await Get.find<AuthController>().completeLogin();
+    // The router already left this screen, and the user may have moved on.
+    if (isClosed) return;
     AppRouter.router.go(AppRoutes.inbox);
   }
 
