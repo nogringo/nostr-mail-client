@@ -30,6 +30,8 @@ Releases prior to 0.13.0 are listed on the
   instead of its formatting marks, without the quoted reply or the signature.
 - Send the plain-text version of an email as readable text, for the apps that
   show that version, instead of formatting marks.
+- Give each sender their own avatar color when a service sends everyone's
+  emails from a single address, such as GitHub notifications.
 
 ## [0.15.0]
 

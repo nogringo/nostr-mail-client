@@ -14,7 +14,11 @@ class EmailAvatar extends StatelessWidget {
       return Theme.of(context).colorScheme.surfaceContainerHighest;
     }
 
-    return getStringColor(mailAddress.email);
+    // Notification senders (GitHub, Linear...) share one address per service.
+    final name = mailAddress.personalName?.trim() ?? '';
+    return getStringColor(
+      name.isEmpty ? mailAddress.email : '$name <${mailAddress.email}>',
+    );
   }
 
   String _getInitial() {
