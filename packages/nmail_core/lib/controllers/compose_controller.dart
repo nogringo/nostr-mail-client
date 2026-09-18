@@ -882,12 +882,63 @@ class ComposeController extends GetxController {
         setQuillContent(bodyText);
     }
 
-    for (final address in builder.to ?? const <MailAddress>[]) {
-      addRecipient(address.email);
+    addReplyRecipients(
+      email,
+      to: builder.to ?? const [],
+      cc: builder.cc ?? const [],
+    );
+  }
+
+  @visibleForTesting
+  void addReplyRecipients(
+    Email email, {
+    required List<MailAddress> to,
+    required List<MailAddress> cc,
+  }) {
+    final isFromNostr =
+        !email.isBridged &&
+        email.senderPubkey != _nostrMailService.getPublicKey();
+    final nostrSenderAddresses = isFromNostr
+        ? {
+            for (final address in [...?email.mime.from, ?email.sender])
+              address.email.toLowerCase(),
+          }
+        : const <String>{};
+    for (final address in to) {
+      _addReplyRecipient(address, recipients, email, nostrSenderAddresses);
     }
-    for (final address in builder.cc ?? const <MailAddress>[]) {
-      addCcRecipient(address.email);
+    for (final address in cc) {
+      _addReplyRecipient(address, ccRecipients, email, nostrSenderAddresses);
     }
+    _autoSelectBridgeForLegacy();
+  }
+
+  /// Keeps the transport of the original email: a plain address stays SMTP,
+  /// and the sender of an email that came through Nostr stays its pubkey.
+  void _addReplyRecipient(
+    MailAddress address,
+    RxList<Recipient> list,
+    Email email,
+    Set<String> nostrSenderAddresses,
+  ) {
+    final input = address.email.trim();
+    if (list.any((r) => r.input == input)) return;
+
+    if (nostrSenderAddresses.contains(input.toLowerCase())) {
+      _addUnique(
+        Recipient(
+          input: input,
+          pubkey: email.senderPubkey,
+          mailAddress: MailAddress(null, input),
+          type: RecipientType.nostr,
+        ),
+        list,
+      );
+      return;
+    }
+
+    final parsed = _parseRecipient(input);
+    if (parsed != null) _addUnique(parsed, list);
   }
 
   /// Pre-fill the composer from an already-scheduled email so the user can
