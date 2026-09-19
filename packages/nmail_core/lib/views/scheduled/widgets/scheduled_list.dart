@@ -10,7 +10,9 @@ import 'package:nmail_core/utils/toast_helper.dart';
 import 'scheduled_email_tile.dart';
 
 class ScheduledList extends GetView<ScheduledController> {
-  const ScheduledList({super.key});
+  final double bottomPadding;
+
+  const ScheduledList({super.key, this.bottomPadding = 0});
 
   Future<void> _cancel(BuildContext context, ScheduledEmail email) async {
     try {
@@ -70,6 +72,7 @@ class ScheduledList extends GetView<ScheduledController> {
               )
             : ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.only(bottom: bottomPadding),
                 itemCount: controller.scheduled.length,
                 itemBuilder: (context, index) {
                   final email = controller.scheduled[index];

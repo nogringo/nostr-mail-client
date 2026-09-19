@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../app/routes/app_routes.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../inbox/widgets/app_drawer.dart';
 import '../shared/app_bar_account_avatar.dart';
+import '../shared/layout_constants.dart';
 import 'widgets/scheduled_list.dart';
 import 'widgets/scheduled_selection_actions_bar.dart';
 
@@ -117,7 +120,12 @@ class ScheduledView extends GetView<ScheduledController> {
         ],
       ),
       drawer: const AppDrawer(),
-      body: const ScheduledList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.push(AppRoutes.compose),
+        tooltip: l.inboxCompose,
+        child: const Icon(Icons.edit),
+      ),
+      body: const ScheduledList(bottomPadding: LayoutConstants.fabClearance),
     );
   }
 }
