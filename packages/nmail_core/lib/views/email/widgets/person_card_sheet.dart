@@ -8,22 +8,32 @@ import 'package:nmail_core/utils/email_person_utils.dart';
 import 'person_card_actions.dart';
 import 'person_card_header.dart';
 
-Future<void> showPersonCardSheet(BuildContext context, EmailPerson person) {
+Future<void> showPersonCardSheet(
+  BuildContext context,
+  EmailPerson person,
+  PersonCardActionsBuilder actions,
+) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
-    builder: (_) => PersonCardSheet(person: person, actionContext: context),
+    builder: (_) => PersonCardSheet(
+      person: person,
+      actionContext: context,
+      actions: actions,
+    ),
   );
 }
 
 class PersonCardSheet extends StatelessWidget {
   final EmailPerson person;
   final BuildContext actionContext;
+  final PersonCardActionsBuilder actions;
 
   const PersonCardSheet({
     super.key,
     required this.person,
     required this.actionContext,
+    required this.actions,
   });
 
   @override
@@ -39,11 +49,7 @@ class PersonCardSheet extends StatelessWidget {
           children: [
             PersonCardHeader(person: person),
             const Divider(),
-            for (final action in buildPersonCardActions(
-              actionContext,
-              person,
-              contact,
-            ))
+            for (final action in actions(actionContext, contact))
               ListTile(
                 leading: Icon(action.icon),
                 title: Text(action.label),

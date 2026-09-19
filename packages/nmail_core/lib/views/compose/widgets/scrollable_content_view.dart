@@ -3,6 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/views/compose/widgets/from_selector_view.dart';
 import 'package:nmail_core/views/compose/widgets/recipient_chips_row.dart';
@@ -31,6 +32,7 @@ class ScrollableContentView extends StatelessWidget {
             children: [
               if (controller.recipients.isNotEmpty)
                 RecipientChipsRow(
+                  field: RecipientField.to,
                   recipients: controller.recipients,
                   onDelete: controller.removeRecipient,
                 ),
@@ -84,6 +86,7 @@ class ScrollableContentView extends StatelessWidget {
                 const Divider(height: 1),
                 if (controller.ccRecipients.isNotEmpty)
                   RecipientChipsRow(
+                    field: RecipientField.cc,
                     recipients: controller.ccRecipients,
                     onDelete: controller.removeCcRecipient,
                   ),
@@ -101,6 +104,7 @@ class ScrollableContentView extends StatelessWidget {
                 const Divider(height: 1),
                 if (controller.bccRecipients.isNotEmpty)
                   RecipientChipsRow(
+                    field: RecipientField.bcc,
                     recipients: controller.bccRecipients,
                     onDelete: controller.removeBccRecipient,
                   ),

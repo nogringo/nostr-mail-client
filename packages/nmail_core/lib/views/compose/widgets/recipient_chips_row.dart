@@ -12,10 +12,12 @@ import 'recipient_chip.dart';
 class RecipientChipsRow extends StatelessWidget {
   const RecipientChipsRow({
     super.key,
+    required this.field,
     required this.recipients,
     required this.onDelete,
   });
 
+  final RecipientField field;
   final List<Recipient> recipients;
   final void Function(int index) onDelete;
 
@@ -29,6 +31,7 @@ class RecipientChipsRow extends StatelessWidget {
         children: [
           for (final (index, recipient) in recipients.indexed)
             RecipientChip(
+              field: field,
               recipient: recipient,
               onDelete: () => onDelete(index),
             ),

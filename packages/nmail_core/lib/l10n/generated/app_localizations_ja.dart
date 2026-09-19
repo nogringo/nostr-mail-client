@@ -130,6 +130,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsEmailSignatureHint => '署名を入力...';
 
   @override
+  String get settingsDohServer => 'DNS-over-HTTPS サーバー';
+
+  @override
+  String get settingsDohServerHelper =>
+      'Nostr アドレスがメールも受信できるかを確認します。空欄にするとデフォルトのサーバーを使用します。';
+
+  @override
+  String get settingsDohServerInvalid => 'https:// のアドレスを入力してください';
+
+  @override
   String get settingsHosting => 'ホスティング';
 
   @override
@@ -963,6 +973,32 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get composeBcc => 'Bcc';
+
+  @override
+  String composeRecipientSendViaSmtp(String address) {
+    return 'SMTP で $address に送信';
+  }
+
+  @override
+  String get composeRecipientSendViaNostr => 'Nostr で送信';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return '$field に移動';
+  }
+
+  @override
+  String get composeRecipientEdit => '編集';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return '$address の Nostr キーが見つかりません';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain から応答がありません';
+  }
 
   @override
   String get composeSubject => '件名';

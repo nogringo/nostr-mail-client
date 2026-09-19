@@ -28,6 +28,12 @@ class PersonCardAction {
   });
 }
 
+typedef PersonCardActionsBuilder =
+    List<PersonCardAction> Function(
+      BuildContext actionContext,
+      AddressBookContact? contact,
+    );
+
 /// [context] must outlive the card: the actions run after it closes.
 List<PersonCardAction> buildPersonCardActions(
   BuildContext context,
@@ -41,24 +47,48 @@ List<PersonCardAction> buildPersonCardActions(
       label: l.personCardCompose,
       onPressed: () => _compose(context, person),
     ),
-    if (contact != null)
-      PersonCardAction(
-        icon: Icons.person_outline,
-        label: l.personCardViewContact,
-        onPressed: () => _openContact(context, contact),
-      )
-    else
-      PersonCardAction(
-        icon: Icons.person_add_alt_1_outlined,
-        label: l.contactsAddToContacts,
-        onPressed: () => _addContact(context, person),
-      ),
-    PersonCardAction(
-      icon: Icons.copy_outlined,
+    buildContactAction(context, contact, () => _contactForm(person)),
+    buildCopyAction(
+      context,
       label: person.pubkey != null ? l.inboxCopyNpub : l.personCardCopyEmail,
-      onPressed: () => _copyIdentifier(context, person),
+      text: emailPersonIdentifier(person),
     ),
   ];
+}
+
+PersonCardAction buildContactAction(
+  BuildContext context,
+  AddressBookContact? contact,
+  AddressBookContactForm Function() newContactForm,
+) {
+  final l = AppLocalizations.of(context);
+  if (contact != null) {
+    return PersonCardAction(
+      icon: Icons.person_outline,
+      label: l.personCardViewContact,
+      onPressed: () => _openContact(context, contact),
+    );
+  }
+  return PersonCardAction(
+    icon: Icons.person_add_alt_1_outlined,
+    label: l.contactsAddToContacts,
+    onPressed: () => showContactForm(context, initialForm: newContactForm()),
+  );
+}
+
+PersonCardAction buildCopyAction(
+  BuildContext context, {
+  required String label,
+  required String text,
+}) {
+  return PersonCardAction(
+    icon: Icons.copy_outlined,
+    label: label,
+    onPressed: () {
+      Clipboard.setData(ClipboardData(text: text));
+      showContactCopyFeedback(context, AppLocalizations.of(context).authCopied);
+    },
+  );
 }
 
 void _compose(BuildContext context, EmailPerson person) {
@@ -91,20 +121,12 @@ void _openContact(BuildContext context, AddressBookContact contact) {
   );
 }
 
-void _addContact(BuildContext context, EmailPerson person) {
+AddressBookContactForm _contactForm(EmailPerson person) {
   final pubkey = person.pubkey;
   final email = person.address?.email;
-  showContactForm(
-    context,
-    initialForm: AddressBookContactForm(
-      displayName: emailPersonName(person),
-      emails: email == null || email.isEmpty ? const [] : [email],
-      nostrPubkeys: pubkey == null ? const [] : [pubkey],
-    ),
+  return AddressBookContactForm(
+    displayName: emailPersonName(person),
+    emails: email == null || email.isEmpty ? const [] : [email],
+    nostrPubkeys: pubkey == null ? const [] : [pubkey],
   );
-}
-
-void _copyIdentifier(BuildContext context, EmailPerson person) {
-  Clipboard.setData(ClipboardData(text: emailPersonIdentifier(person)));
-  showContactCopyFeedback(context, AppLocalizations.of(context).authCopied);
 }

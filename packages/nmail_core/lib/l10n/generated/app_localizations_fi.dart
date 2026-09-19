@@ -134,6 +134,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Luo allekirjoitus...';
 
   @override
+  String get settingsDohServer => 'DNS-over-HTTPS-palvelin';
+
+  @override
+  String get settingsDohServerHelper =>
+      'Tarkistaa, vastaanottaako Nostr-osoite myös sähköpostia. Jätä tyhjäksi käyttääksesi oletuspalvelinta.';
+
+  @override
+  String get settingsDohServerInvalid => 'Anna https://-osoite';
+
+  @override
   String get settingsHosting => 'Palvelimet';
 
   @override
@@ -1029,6 +1039,32 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get composeBcc => 'Piilokopio';
+
+  @override
+  String composeRecipientSendViaSmtp(String address) {
+    return 'Lähetä SMTP:n kautta osoitteeseen $address';
+  }
+
+  @override
+  String get composeRecipientSendViaNostr => 'Lähetä Nostrin kautta';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Siirrä kenttään $field';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Muokkaa';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'Osoitteelle $address ei löytynyt Nostr-avainta';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain ei vastannut';
+  }
 
   @override
   String get composeSubject => 'Aihe';

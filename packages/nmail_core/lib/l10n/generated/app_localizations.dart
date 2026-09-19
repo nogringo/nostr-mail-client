@@ -355,6 +355,24 @@ abstract class AppLocalizations {
   /// **'Enter your signature...'**
   String get settingsEmailSignatureHint;
 
+  /// Title of the setting holding the DNS-over-HTTPS server URL
+  ///
+  /// In en, this message translates to:
+  /// **'DNS-over-HTTPS server'**
+  String get settingsDohServer;
+
+  /// Helper text under the DNS-over-HTTPS server field, saying what it is used for
+  ///
+  /// In en, this message translates to:
+  /// **'Checks whether a Nostr address also receives email. Leave empty for the default server.'**
+  String get settingsDohServerHelper;
+
+  /// Error under the DNS-over-HTTPS server field when the value is not an https URL
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an https:// address'**
+  String get settingsDohServerInvalid;
+
   /// Settings tile and screen title for relays/blossom/bridges
   ///
   /// In en, this message translates to:
@@ -1908,6 +1926,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Bcc'**
   String get composeBcc;
+
+  /// Action on a compose recipient chip that sends to this recipient's email address through SMTP instead of Nostr
+  ///
+  /// In en, this message translates to:
+  /// **'Send via SMTP to {address}'**
+  String composeRecipientSendViaSmtp(String address);
+
+  /// Action on a compose recipient chip that looks up the address's Nostr key (NIP-05) and sends through Nostr instead of SMTP
+  ///
+  /// In en, this message translates to:
+  /// **'Send via Nostr'**
+  String get composeRecipientSendViaNostr;
+
+  /// Action on a compose recipient chip that moves it to another field (To, Cc or Bcc)
+  ///
+  /// In en, this message translates to:
+  /// **'Move to {field}'**
+  String composeRecipientMoveTo(String field);
+
+  /// Action on a compose recipient chip that turns it back into editable text
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get composeRecipientEdit;
+
+  /// Error toast when the address's domain answers but publishes no Nostr key for it
+  ///
+  /// In en, this message translates to:
+  /// **'No Nostr key found for {address}'**
+  String composeRecipientNostrNotFound(String address);
+
+  /// Error toast when the address's domain could not be reached to look up its Nostr key
+  ///
+  /// In en, this message translates to:
+  /// **'{domain} did not respond'**
+  String composeRecipientNostrUnreachable(String domain);
 
   /// Placeholder for the subject field
   ///

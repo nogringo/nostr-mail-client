@@ -5,15 +5,19 @@ import 'package:get/get.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
+import 'package:nmail_core/views/email/widgets/person_anchor.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
+import 'recipient_chip_actions.dart';
 
 class RecipientChip extends StatelessWidget {
+  final RecipientField field;
   final Recipient recipient;
   final VoidCallback onDelete;
 
   const RecipientChip({
     super.key,
+    required this.field,
     required this.recipient,
     required this.onDelete,
   });
@@ -31,16 +35,24 @@ class RecipientChip extends StatelessWidget {
       );
     }
 
-    if (recipient.isNostr) {
-      return _buildNostrChip(context);
-    }
-
-    return _buildLegacyChip(context);
+    return PersonAnchor(
+      person: recipientPerson(recipient),
+      actions: (actionContext, contact) => buildRecipientChipActions(
+        actionContext,
+        contact,
+        field: field,
+        recipient: recipient,
+      ),
+      builder: (context, open) => recipient.isNostr
+          ? _buildNostrChip(context, open)
+          : _buildLegacyChip(context, open),
+    );
   }
 
-  Widget _buildNostrChip(BuildContext context) {
+  Widget _buildNostrChip(BuildContext context, VoidCallback onPressed) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Chip(
+    return InputChip(
+      onPressed: onPressed,
       shape: const StadiumBorder(),
       backgroundColor: colorScheme.primaryContainer,
       side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
@@ -50,6 +62,8 @@ class RecipientChip extends StatelessWidget {
         final metadata = pubkey == null
             ? null
             : Get.find<MetadataService>().of(pubkey).value;
+        // Warms the MX lookup so the card has the SMTP action on open.
+        recipientSmtpAddress(recipient);
         return Text(
           metadata?.realName ?? recipient.label,
           style: TextStyle(
@@ -80,9 +94,10 @@ class RecipientChip extends StatelessWidget {
     return NostrAvatar(pubkey: pubkey, radius: 12);
   }
 
-  Widget _buildLegacyChip(BuildContext context) {
+  Widget _buildLegacyChip(BuildContext context, VoidCallback onPressed) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Chip(
+    return InputChip(
+      onPressed: onPressed,
       shape: const StadiumBorder(),
       backgroundColor: colorScheme.surfaceContainerHighest,
       side: BorderSide(color: colorScheme.outlineVariant),

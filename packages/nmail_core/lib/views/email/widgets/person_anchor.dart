@@ -4,6 +4,7 @@ import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/views/shared/layout_constants.dart';
 
+import 'person_card_actions.dart';
 import 'person_card_menu.dart';
 import 'person_card_sheet.dart';
 
@@ -13,14 +14,30 @@ class PersonAnchor extends StatelessWidget {
   final EmailPerson person;
   final Widget Function(BuildContext context, VoidCallback open) builder;
 
-  const PersonAnchor({super.key, required this.person, required this.builder});
+  /// Defaults to [buildPersonCardActions].
+  final PersonCardActionsBuilder? actions;
+
+  const PersonAnchor({
+    super.key,
+    required this.person,
+    required this.builder,
+    this.actions,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final actions =
+        this.actions ??
+        (actionContext, contact) =>
+            buildPersonCardActions(actionContext, person, contact);
     if (!ResponsiveHelper.isNotMobile(context)) {
-      return builder(context, () => showPersonCardSheet(context, person));
+      return builder(
+        context,
+        () => showPersonCardSheet(context, person, actions),
+      );
     }
     return MenuAnchor(
+      alignmentOffset: const Offset(0, 4),
       style: MenuStyle(
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
@@ -32,7 +49,13 @@ class PersonAnchor extends StatelessWidget {
           ),
         ),
       ),
-      menuChildren: [PersonCardMenu(person: person, actionContext: context)],
+      menuChildren: [
+        PersonCardMenu(
+          person: person,
+          actionContext: context,
+          actions: actions,
+        ),
+      ],
       builder: (context, controller, _) => builder(
         context,
         () => controller.isOpen ? controller.close() : controller.open(),

@@ -24,8 +24,10 @@ class RecipientAutocomplete extends StatelessWidget {
     required this.onSubmitted,
   });
 
-  String get _controllerTag =>
+  static String tagFor(TextEditingController textController) =>
       'recipient-autocomplete-${identityHashCode(textController)}';
+
+  String get _controllerTag => tagFor(textController);
 
   @override
   Widget build(BuildContext context) {

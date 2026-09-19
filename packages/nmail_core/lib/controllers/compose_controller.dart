@@ -34,6 +34,8 @@ import 'settings_controller.dart';
 const String _defaultBridgeDomain = 'uid.ovh';
 const Duration _nip05Timeout = Duration(seconds: 5);
 
+enum NostrLookupResult { found, notFound, unreachable }
+
 class ComposeController extends GetxController {
   static ComposeController get to => Get.find();
 
@@ -176,7 +178,15 @@ class ComposeController extends GetxController {
   Future<void> _upgradeToNostr(Recipient legacy, RxList<Recipient> list) async {
     final pubkey = await _resolveNip05(legacy.input);
     if (pubkey == null) return;
+    _promoteToNostr(list, legacy, pubkey);
+  }
 
+  /// Keeps the legacy address so the user can switch back to SMTP.
+  void _promoteToNostr(
+    RxList<Recipient> list,
+    Recipient legacy,
+    String pubkey,
+  ) {
     final index = list.indexOf(legacy);
     if (index == -1) return;
 
@@ -186,10 +196,90 @@ class ComposeController extends GetxController {
       list[index] = Recipient(
         input: legacy.input,
         pubkey: pubkey,
+        mailAddress: legacy.mailAddress,
         type: RecipientType.nostr,
       );
     }
     _revertBridgeIfNoLegacy();
+  }
+
+  RxList<Recipient> recipientsOf(RecipientField field) => switch (field) {
+    RecipientField.to => recipients,
+    RecipientField.cc => ccRecipients,
+    RecipientField.bcc => bccRecipients,
+  };
+
+  TextEditingController textControllerOf(RecipientField field) =>
+      switch (field) {
+        RecipientField.to => toController,
+        RecipientField.cc => ccController,
+        RecipientField.bcc => bccController,
+      };
+
+  void removeRecipientFrom(RecipientField field, Recipient recipient) {
+    final list = recipientsOf(field);
+    _removeRecipientFromList(list.indexOf(recipient), list);
+  }
+
+  void moveRecipient(
+    Recipient recipient,
+    RecipientField from,
+    RecipientField to,
+  ) {
+    if (!recipientsOf(from).remove(recipient)) return;
+    final target = recipientsOf(to);
+    final pubkey = recipient.pubkey;
+    final alreadyThere = target.any(
+      (r) =>
+          r.input.toLowerCase() == recipient.input.toLowerCase() ||
+          (pubkey != null && r.pubkey == pubkey),
+    );
+    if (alreadyThere) {
+      if (recipient.isLegacy) _revertBridgeIfNoLegacy();
+    } else {
+      target.add(recipient);
+    }
+    if (to != RecipientField.to) showExpandedFields.value = true;
+  }
+
+  /// Turns the chip back into the text the user typed.
+  void editRecipient(RecipientField field, Recipient recipient) {
+    removeRecipientFrom(field, recipient);
+    textControllerOf(field).value = TextEditingValue(
+      text: recipient.input,
+      selection: TextSelection.collapsed(offset: recipient.input.length),
+    );
+  }
+
+  void sendViaSmtp(RecipientField field, Recipient recipient, String address) {
+    final list = recipientsOf(field);
+    final index = list.indexOf(recipient);
+    if (index == -1) return;
+
+    list[index] = Recipient(
+      input: address,
+      mailAddress: recipient.smtpAddress == address
+          ? recipient.mailAddress
+          : MailAddress(null, address),
+      type: RecipientType.legacy,
+    );
+    _autoSelectBridgeForLegacy();
+  }
+
+  Future<NostrLookupResult> sendViaNostr(
+    RecipientField field,
+    Recipient recipient,
+  ) async {
+    final String? pubkey;
+    try {
+      pubkey = await _lookupNip05(recipient.input);
+    } catch (_) {
+      return NostrLookupResult.unreachable;
+    }
+    if (pubkey == null) return NostrLookupResult.notFound;
+
+    _promoteToNostr(recipientsOf(field), recipient, pubkey);
+    return NostrLookupResult.found;
   }
 
   void removeRecipient(int index) =>
@@ -361,6 +451,16 @@ class ComposeController extends GetxController {
   }
 
   Future<String?> _resolveNip05(String identifier) async {
+    try {
+      return await _lookupNip05(identifier);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /// Null when the domain answers without this name. Throws when the domain
+  /// cannot be reached or answers something that is not a NIP-05 document.
+  Future<String?> _lookupNip05(String identifier) async {
     final parts = identifier.split('@');
     if (parts.length != 2) return null;
 
@@ -368,18 +468,17 @@ class ComposeController extends GetxController {
     final domain = parts[1];
     final url = Uri.https(domain, '/.well-known/nostr.json', {'name': name});
 
-    try {
-      final response = await http.get(url).timeout(_nip05Timeout);
-      if (response.statusCode != 200) return null;
-
-      final json = jsonDecode(response.body) as Map<String, dynamic>;
-      final names = json['names'] as Map<String, dynamic>?;
-      if (names == null || !names.containsKey(name)) return null;
-
-      return names[name] as String;
-    } catch (_) {
-      return null;
+    final response = await http.get(url).timeout(_nip05Timeout);
+    if (response.statusCode == 404) return null;
+    if (response.statusCode != 200) {
+      throw http.ClientException('HTTP ${response.statusCode}', url);
     }
+
+    final json = jsonDecode(response.body) as Map<String, dynamic>;
+    final names = json['names'] as Map<String, dynamic>?;
+    if (names == null || !names.containsKey(name)) return null;
+
+    return names[name] as String;
   }
 
   Future<bool> send({
@@ -783,12 +882,63 @@ class ComposeController extends GetxController {
         setQuillContent(bodyText);
     }
 
-    for (final address in builder.to ?? const <MailAddress>[]) {
-      addRecipient(address.email);
+    addReplyRecipients(
+      email,
+      to: builder.to ?? const [],
+      cc: builder.cc ?? const [],
+    );
+  }
+
+  @visibleForTesting
+  void addReplyRecipients(
+    Email email, {
+    required List<MailAddress> to,
+    required List<MailAddress> cc,
+  }) {
+    final isFromNostr =
+        !email.isBridged &&
+        email.senderPubkey != _nostrMailService.getPublicKey();
+    final nostrSenderAddresses = isFromNostr
+        ? {
+            for (final address in [...?email.mime.from, ?email.sender])
+              address.email.toLowerCase(),
+          }
+        : const <String>{};
+    for (final address in to) {
+      _addReplyRecipient(address, recipients, email, nostrSenderAddresses);
     }
-    for (final address in builder.cc ?? const <MailAddress>[]) {
-      addCcRecipient(address.email);
+    for (final address in cc) {
+      _addReplyRecipient(address, ccRecipients, email, nostrSenderAddresses);
     }
+    _autoSelectBridgeForLegacy();
+  }
+
+  /// Keeps the transport of the original email: a plain address stays SMTP,
+  /// and the sender of an email that came through Nostr stays its pubkey.
+  void _addReplyRecipient(
+    MailAddress address,
+    RxList<Recipient> list,
+    Email email,
+    Set<String> nostrSenderAddresses,
+  ) {
+    final input = address.email.trim();
+    if (list.any((r) => r.input == input)) return;
+
+    if (nostrSenderAddresses.contains(input.toLowerCase())) {
+      _addUnique(
+        Recipient(
+          input: input,
+          pubkey: email.senderPubkey,
+          mailAddress: MailAddress(null, input),
+          type: RecipientType.nostr,
+        ),
+        list,
+      );
+      return;
+    }
+
+    final parsed = _parseRecipient(input);
+    if (parsed != null) _addUnique(parsed, list);
   }
 
   /// Pre-fill the composer from an already-scheduled email so the user can

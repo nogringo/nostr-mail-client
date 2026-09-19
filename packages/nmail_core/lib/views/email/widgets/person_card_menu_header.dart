@@ -19,7 +19,7 @@ class PersonCardMenuHeader extends StatelessWidget {
     final identifier = emailPersonIdentifier(person);
     final bridgePubkey = person.bridgePubkey;
     final showIdentifier =
-        person.pubkey != null || emailPersonName(person) != identifier;
+        person.pubkey == null && emailPersonName(person) != identifier;
     final nameStyle = textTheme.titleSmall;
     final name = person.pubkey == null
         ? Text(emailPersonName(person), style: nameStyle)
@@ -50,9 +50,7 @@ class PersonCardMenuHeader extends StatelessWidget {
                   name,
                   if (showIdentifier) ...[
                     const SizedBox(height: 2),
-                    person.pubkey == null
-                        ? Text(identifier)
-                        : Text(identifier, overflow: TextOverflow.ellipsis),
+                    Text(identifier),
                   ],
                   if (bridgePubkey != null) ...[
                     const SizedBox(height: 4),

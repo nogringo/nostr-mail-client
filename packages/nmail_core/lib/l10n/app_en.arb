@@ -83,6 +83,12 @@
   "@settingsEmailSignatureEmpty": { "description": "Subtitle shown when no email signature is configured" },
   "settingsEmailSignatureHint": "Enter your signature...",
   "@settingsEmailSignatureHint": { "description": "Placeholder text in the email signature input" },
+  "settingsDohServer": "DNS-over-HTTPS server",
+  "@settingsDohServer": { "description": "Title of the setting holding the DNS-over-HTTPS server URL" },
+  "settingsDohServerHelper": "Checks whether a Nostr address also receives email. Leave empty for the default server.",
+  "@settingsDohServerHelper": { "description": "Helper text under the DNS-over-HTTPS server field, saying what it is used for" },
+  "settingsDohServerInvalid": "Enter an https:// address",
+  "@settingsDohServerInvalid": { "description": "Error under the DNS-over-HTTPS server field when the value is not an https URL" },
   "settingsHosting": "Hosting",
   "@settingsHosting": { "description": "Settings tile and screen title for relays/blossom/bridges" },
   "settingsDebugTools": "Debug Tools",
@@ -733,6 +739,38 @@
   "@composeCc": { "description": "Placeholder for the Cc recipients field" },
   "composeBcc": "Bcc",
   "@composeBcc": { "description": "Placeholder for the Bcc recipients field" },
+  "composeRecipientSendViaSmtp": "Send via SMTP to {address}",
+  "@composeRecipientSendViaSmtp": {
+    "description": "Action on a compose recipient chip that sends to this recipient's email address through SMTP instead of Nostr",
+    "placeholders": {
+      "address": { "type": "String", "example": "support@example.com" }
+    }
+  },
+  "composeRecipientSendViaNostr": "Send via Nostr",
+  "@composeRecipientSendViaNostr": { "description": "Action on a compose recipient chip that looks up the address's Nostr key (NIP-05) and sends through Nostr instead of SMTP" },
+  "composeRecipientMoveTo": "Move to {field}",
+  "@composeRecipientMoveTo": {
+    "description": "Action on a compose recipient chip that moves it to another field (To, Cc or Bcc)",
+    "placeholders": {
+      "field": { "type": "String", "example": "Cc" }
+    }
+  },
+  "composeRecipientEdit": "Edit",
+  "@composeRecipientEdit": { "description": "Action on a compose recipient chip that turns it back into editable text" },
+  "composeRecipientNostrNotFound": "No Nostr key found for {address}",
+  "@composeRecipientNostrNotFound": {
+    "description": "Error toast when the address's domain answers but publishes no Nostr key for it",
+    "placeholders": {
+      "address": { "type": "String", "example": "support@example.com" }
+    }
+  },
+  "composeRecipientNostrUnreachable": "{domain} did not respond",
+  "@composeRecipientNostrUnreachable": {
+    "description": "Error toast when the address's domain could not be reached to look up its Nostr key",
+    "placeholders": {
+      "domain": { "type": "String", "example": "example.com" }
+    }
+  },
   "composeSubject": "Subject",
   "@composeSubject": { "description": "Placeholder for the subject field" },
   "composeAttachFile": "Attach file",

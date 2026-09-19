@@ -135,6 +135,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Signatur eingeben...';
 
   @override
+  String get settingsDohServer => 'DNS-over-HTTPS-Server';
+
+  @override
+  String get settingsDohServerHelper =>
+      'Prüft, ob eine Nostr-Adresse auch E-Mails empfängt. Leer lassen für den Standardserver.';
+
+  @override
+  String get settingsDohServerInvalid => 'Gib eine https://-Adresse ein';
+
+  @override
   String get settingsHosting => 'Hosting';
 
   @override
@@ -1036,6 +1046,32 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get composeBcc => 'Bcc';
+
+  @override
+  String composeRecipientSendViaSmtp(String address) {
+    return 'Über SMTP an $address senden';
+  }
+
+  @override
+  String get composeRecipientSendViaNostr => 'Über Nostr senden';
+
+  @override
+  String composeRecipientMoveTo(String field) {
+    return 'Nach $field verschieben';
+  }
+
+  @override
+  String get composeRecipientEdit => 'Bearbeiten';
+
+  @override
+  String composeRecipientNostrNotFound(String address) {
+    return 'Kein Nostr-Schlüssel für $address gefunden';
+  }
+
+  @override
+  String composeRecipientNostrUnreachable(String domain) {
+    return '$domain hat nicht geantwortet';
+  }
 
   @override
   String get composeSubject => 'Betreff';

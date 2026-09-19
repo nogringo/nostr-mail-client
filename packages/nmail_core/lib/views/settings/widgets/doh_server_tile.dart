@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
-import 'email_signature_dialog.dart';
+import 'doh_server_dialog.dart';
 
-class EmailSignatureTile extends StatelessWidget {
-  const EmailSignatureTile({super.key});
+class DohServerTile extends StatelessWidget {
+  const DohServerTile({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,33 +20,31 @@ class EmailSignatureTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(() {
-        final signature = settings.emailSignature.value;
-        return ListTile(
+      child: Obx(
+        () => ListTile(
           tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: 0, count: 3),
+          shape: segmentedListShape(index: 2, count: 3),
           minTileHeight: 72,
-          leading: const Icon(Icons.edit_note),
-          title: Text(l.settingsEmailSignature),
-          subtitle: Text(
-            signature.isEmpty ? l.settingsEmailSignatureEmpty : signature,
-          ),
+          leading: const Icon(Icons.dns_outlined),
+          title: Text(l.settingsDohServer),
+          subtitle: Text(settings.dohServer.value),
           trailing: const Icon(Icons.edit_outlined),
           onTap: () => _edit(context, settings),
-        );
-      }),
+        ),
+      ),
     );
   }
 
   Future<void> _edit(BuildContext context, SettingsController settings) async {
+    final current = settings.dohServer.value;
     final controller = TextEditingController(
-      text: settings.emailSignature.value,
+      text: current == SettingsController.defaultDohServer ? '' : current,
     );
-    final signature = await showDialog<String>(
+    final server = await showDialog<String>(
       context: context,
-      builder: (_) => EmailSignatureDialog(controller: controller),
+      builder: (_) => DohServerDialog(controller: controller),
     );
     controller.dispose();
-    if (signature != null) await settings.setEmailSignature(signature);
+    if (server != null) await settings.setDohServer(server);
   }
 }
