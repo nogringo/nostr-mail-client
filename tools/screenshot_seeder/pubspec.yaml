@@ -7,15 +7,15 @@ environment:
 dependencies:
   args: ^2.7.0
   blossom_cache: ^0.4.0
-  broadcast_queue_shim_for_ndk: ^0.5.0
+  broadcast_queue_shim_for_ndk: ^0.6.0
   drift: ^2.34.4
   enough_mail_plus: ^2.2.4
-  ndk: ^0.9.2
-  nostr_address_book: ^0.3.0
+  ndk: ^0.10.0-dev.1
+  nostr_address_book: ^0.5.0
   nostr_mail: ^3.0.0
   path: ^1.9.1
   sembast: ^3.8.9+1
-  sync_engine_shim_for_ndk: ^0.4.0
+  sync_engine_shim_for_ndk: ^0.7.0
 
 dev_dependencies:
   lints: ^6.1.0

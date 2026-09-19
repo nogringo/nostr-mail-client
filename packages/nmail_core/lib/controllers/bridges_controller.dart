@@ -28,7 +28,7 @@ class BridgesController extends GetxController {
   Future<void> loadData() async {
     try {
       final nostrMailService = Get.find<NostrMailService>();
-      final settings = await nostrMailService.client.getPrivateSettings();
+      final settings = await nostrMailService.client.getLocalPrivateSettings();
       final loadedBridges = settings?.bridges ?? [];
       if (isClosed) return;
 

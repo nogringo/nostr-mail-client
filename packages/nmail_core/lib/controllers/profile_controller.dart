@@ -2,7 +2,7 @@ import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ndk/ndk.dart';
+import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
@@ -182,14 +182,17 @@ class ProfileController extends GetxController {
       final signed = await account.signer.sign(metadata.toEvent());
       await ndk.config.cache.saveEvent(signed);
       // Signaling event: broadcast widely (popular + indexers + outbox).
-      final outbox = await Get.find<NostrMailService>().getOutboxRelays();
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
-        relays: {
-          ...NostrConfig.popularRelays,
-          ...NostrConfig.discoveryRelays,
-          ...outbox,
-        }.toList(),
+        relaySet: RelaySet.union([
+          RelaySet.explicit(
+            {
+              ...NostrConfig.popularRelays,
+              ...NostrConfig.discoveryRelays,
+            }.toList(),
+          ),
+          RelaySet.outbox(account.pubkey),
+        ]),
         pubkey: account.pubkey,
       );
 

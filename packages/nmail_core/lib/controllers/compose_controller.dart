@@ -686,7 +686,7 @@ class ComposeController extends GetxController {
     );
 
     // 2. Add user-created identities
-    final settings = await _nostrMailService.client.getPrivateSettings();
+    final settings = await _nostrMailService.client.getLocalPrivateSettings();
     final identities = settings?.identities ?? [];
 
     for (final identity in identities) {

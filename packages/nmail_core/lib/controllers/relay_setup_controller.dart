@@ -1,10 +1,11 @@
 import 'dart:async';
 
-import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
+import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart'
+    hide RelayListFound;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ndk/entities.dart';
-import 'package:ndk/ndk.dart';
+import 'package:ndk/entities.dart' hide RelaySet;
+import 'package:ndk/ndk.dart' hide RelaySet;
 
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
@@ -270,11 +271,15 @@ class RelaySetupController extends GetxController {
       await _ndk.config.cache.saveUserRelayList(userRelayList);
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
-        relays: {
-          ...NostrConfig.popularRelays,
-          ...NostrConfig.discoveryRelays,
-          ...userRelayList.writeUrls,
-        }.toList(),
+        relaySet: RelaySet.union([
+          RelaySet.explicit(
+            {
+              ...NostrConfig.popularRelays,
+              ...NostrConfig.discoveryRelays,
+            }.toList(),
+          ),
+          RelaySet.outbox(account.pubkey),
+        ]),
         pubkey: account.pubkey,
       );
       if (isClosed) return;

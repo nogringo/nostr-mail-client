@@ -1,7 +1,7 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
-import 'package:ndk/entities.dart';
-import 'package:ndk/ndk.dart';
+import 'package:ndk/entities.dart' hide RelaySet;
+import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -117,11 +117,15 @@ class Nip65RelaysController extends GetxController {
       // migration of its own.
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
-        relays: {
-          ...NostrConfig.popularRelays,
-          ...NostrConfig.discoveryRelays,
-          ...userRelayList.writeUrls,
-        }.toList(),
+        relaySet: RelaySet.union([
+          RelaySet.explicit(
+            {
+              ...NostrConfig.popularRelays,
+              ...NostrConfig.discoveryRelays,
+            }.toList(),
+          ),
+          RelaySet.outbox(account.pubkey),
+        ]),
         pubkey: account.pubkey,
       );
       if (isClosed) return;

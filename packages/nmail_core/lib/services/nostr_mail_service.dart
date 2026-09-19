@@ -77,7 +77,7 @@ class NostrMailService extends GetxService {
   /// synchronously right after an account becomes active.
   Future<void> activateForCurrentAccount() async {
     if (!hasAccount) return;
-    await client.getPrivateSettings();
+    await client.getLocalPrivateSettings();
   }
 
   String? getPublicKey() {

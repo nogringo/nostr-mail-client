@@ -117,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: broadcast_queue_shim_for_ndk
-      sha256: fd7cdb572eb1993de4d0282eff6080522d83fa7114d70d47f28d496273cafa56
+      sha256: "363638b1196d3b68a6a439ce2aec75b43c42e939faeeb16517bbbbe57332dad9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.6.0"
   bs58check:
     dependency: transitive
     description:
@@ -993,18 +993,18 @@ packages:
     dependency: transitive
     description:
       name: nostr_address_book
-      sha256: e6d157e8b76704b003fb54eecf3b1adea877c88ca6f570885353eaa25cc8e10b
+      sha256: "47ed260636333290ef69d2414892fd7148bdbbb6fa990000e28c2e1d474a259d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.0"
   nostr_event_scheduler:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: e992d3a66872f2da79ad619793c65e7bb11f779e4f13742d312566b33206b59b
+      sha256: c24d98165bc64a328ac84c9466f8e34775c37b49dccb02d751a5ee4a9abf9a63
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.1"
+    version: "0.5.0"
   nostr_mail:
     dependency: transitive
     description:

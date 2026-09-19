@@ -159,7 +159,7 @@ class SettingsController extends GetxController {
   /// default.
   String get _cachedSignature {
     if (!_nostrMailService.hasAccount) return _defaultSignature;
-    final sig = _nostrMailService.client.cachedPrivateSettings?.signature;
+    final sig = _nostrMailService.client.cachedPrivateSettings()?.signature;
     return (sig != null && sig.isNotEmpty) ? sig : _defaultSignature;
   }
 

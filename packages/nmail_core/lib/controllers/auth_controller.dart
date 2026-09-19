@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
 import 'package:ndk/data_layer/repositories/signers/nip46_event_signer.dart';
-import 'package:ndk/entities.dart';
-import 'package:ndk/ndk.dart';
+import 'package:ndk/entities.dart' hide RelaySet;
+import 'package:ndk/ndk.dart' hide RelaySet;
 import 'package:ndk/shared/nips/nip01/bip340.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
 
@@ -225,21 +225,26 @@ class AuthController extends GetxController {
     );
     // Kinds 0 and 10002 are what every other app bootstraps from, so they go
     // wide: popular + indexers + outbox.
-    final signalingTargets = {
-      ...NostrConfig.popularRelays,
-      ...NostrConfig.discoveryRelays,
-      ...userRelayList.writeUrls,
-    }.toList();
+    final signalingTargets = RelaySet.union([
+      RelaySet.explicit(
+        {...NostrConfig.popularRelays, ...NostrConfig.discoveryRelays}.toList(),
+      ),
+      RelaySet.outbox(account.pubkey),
+    ]);
     // Kinds 10050 and 10063 are only ever read once the 10002 above has been
     // found, so the outbox relays it names are enough.
-    final outboxTargets = userRelayList.writeUrls.toList();
+    final outboxTargets = RelaySet.outbox(account.pubkey);
+
+    // The queue resolves the outbox sets from the cache, so the list must be
+    // there before the first broadcast.
+    await ndk.config.cache.saveUserRelayList(userRelayList);
 
     // Metadata (kind 0)
     final signedMetadata = await account.signer.sign(metadata.toEvent());
     await ndk.config.cache.saveEvent(signedMetadata);
     await broadcastQueue.broadcast(
       signedMetadata,
-      relays: signalingTargets,
+      relaySet: signalingTargets,
       pubkey: account.pubkey,
     );
 
@@ -247,10 +252,9 @@ class AuthController extends GetxController {
     final signedNip65 = await account.signer.sign(
       userRelayList.toNip65().toEvent(),
     );
-    await ndk.config.cache.saveUserRelayList(userRelayList);
     await broadcastQueue.broadcast(
       signedNip65,
-      relays: signalingTargets,
+      relaySet: signalingTargets,
       pubkey: account.pubkey,
     );
 
@@ -266,7 +270,7 @@ class AuthController extends GetxController {
     await ndk.config.cache.saveEvent(signedDm);
     await broadcastQueue.broadcast(
       signedDm,
-      relays: outboxTargets,
+      relaySet: outboxTargets,
       pubkey: account.pubkey,
     );
 
@@ -284,7 +288,7 @@ class AuthController extends GetxController {
     await ndk.config.cache.saveEvent(signedBlossom);
     await broadcastQueue.broadcast(
       signedBlossom,
-      relays: outboxTargets,
+      relaySet: outboxTargets,
       pubkey: account.pubkey,
     );
 
@@ -392,12 +396,14 @@ class AuthController extends GetxController {
     final dmRelays = await _nostrMailService.getDmRelays();
     // A relay only honours a request it receives, so aim at every relay this
     // account could have reached: read and write alike, not just the outbox.
-    final targets = {
-      ...NostrConfig.popularRelays,
-      ...NostrConfig.bootstrapRelays,
-      ...?userRelayList?.relays.keys,
-      ...dmRelays,
-    }.toList();
+    final targets = RelaySet.explicit(
+      {
+        ...NostrConfig.popularRelays,
+        ...NostrConfig.bootstrapRelays,
+        ...?userRelayList?.relays.keys,
+        ...dmRelays,
+      }.toList(),
+    );
 
     final unsignedVanish = Nip01Event(
       pubKey: pubkey,
@@ -410,7 +416,7 @@ class AuthController extends GetxController {
     final signedVanish = await account.signer.sign(unsignedVanish);
     final queued = await Get.find<OfflineBroadcast>().broadcast(
       signedVanish,
-      relays: targets,
+      relaySet: targets,
     );
 
     await removeAccount(pubkey);
@@ -583,7 +589,7 @@ class AuthController extends GetxController {
     if (npub == null || !_nostrMailService.hasAccount) return null;
     return primaryEmailAddress(
       npub: npub,
-      settings: _nostrMailService.client.cachedPrivateSettings,
+      settings: _nostrMailService.client.cachedPrivateSettings(),
     );
   }
 

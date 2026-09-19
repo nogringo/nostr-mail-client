@@ -77,7 +77,7 @@ class IdentitiesController extends GetxController {
   }
 
   void _loadCachedData() {
-    final settings = _nostrMailService.client.cachedPrivateSettings;
+    final settings = _nostrMailService.client.cachedPrivateSettings();
     if (settings == null) return;
 
     _applySettings(settings);
@@ -106,7 +106,7 @@ class IdentitiesController extends GetxController {
     try {
       final settings = fetchFromRelays
           ? await _nostrMailService.client.fetchPrivateSettings()
-          : await _nostrMailService.client.getPrivateSettings();
+          : await _nostrMailService.client.getLocalPrivateSettings();
       if (generation != _accountGeneration) return;
       if (!preserveLocalChanges || !hasChanges) {
         _applySettings(settings);

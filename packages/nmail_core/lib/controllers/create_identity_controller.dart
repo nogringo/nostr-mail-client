@@ -55,7 +55,7 @@ class CreateIdentityController extends GetxController {
 
   Future<void> _loadBridges() async {
     try {
-      final settings = await _nostrMailService.client.getPrivateSettings();
+      final settings = await _nostrMailService.client.getLocalPrivateSettings();
       final bridges = settings?.bridges ?? [];
 
       availableBridges = bridges;
@@ -165,7 +165,7 @@ class CreateIdentityController extends GetxController {
     update();
 
     try {
-      final settings = await _nostrMailService.client.getPrivateSettings();
+      final settings = await _nostrMailService.client.getLocalPrivateSettings();
       final existingIdentities = settings?.identities ?? [];
       this.existingIdentities = existingIdentities;
       if (_identityExists(existingIdentities, newIdentity)) {

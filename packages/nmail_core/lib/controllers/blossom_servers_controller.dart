@@ -1,6 +1,6 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
-import 'package:ndk/ndk.dart';
+import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
@@ -83,10 +83,9 @@ class BlossomServersController extends GetxController {
       await ndk.config.cache.saveEvent(signed);
       // Only read once the NIP-65 list has been found, so the outbox relays it
       // names are enough.
-      final outbox = await Get.find<NostrMailService>().getOutboxRelays();
       await Get.find<OfflineBroadcast>().broadcast(
         signed,
-        relays: outbox,
+        relaySet: RelaySet.outbox(account.pubkey),
         pubkey: account.pubkey,
       );
       if (isClosed) return;

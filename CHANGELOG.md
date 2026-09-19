@@ -21,6 +21,13 @@ Releases prior to 0.13.0 are listed on the
   also shows how many emails it holds.
 - Copy an image attachment from the image viewer with a right-click.
 - Close the image viewer with Escape or by clicking outside the image.
+- Choose how each recipient receives your email: tap a recipient while
+  writing to send through SMTP or Nostr, move them to To, Cc or Bcc, or edit
+  the address.
+- Send through SMTP to a Nostr recipient whose Nostr address also receives
+  email. The option names the address the email goes to.
+- Copy the email address of your account from the drawer or the account menu.
+- Show the account avatar in the scheduled emails on mobile, as in the inbox.
 
 ### Changed
 
@@ -34,6 +41,10 @@ Releases prior to 0.13.0 are listed on the
 - Remove the location, capture date, and device details from photos and videos
   before they leave the app, whether attached to an email, set as your profile
   picture, or uploaded as a background on web. Their quality is unchanged.
+- Edit your profile from the button under your name in the account menu. The
+  accounts screen is reached from the settings.
+- Show only the name of a Nostr person on their card, without their npub,
+  which stays one tap away with Copy npub.
 
 ### Fixed
 
@@ -52,6 +63,15 @@ Releases prior to 0.13.0 are listed on the
   hover.
 - Remove the empty line under the subject of an email without a preview in the
   inbox on mobile.
+- Reply the way the email arrived: an email received through SMTP gets its
+  reply through SMTP instead of Nostr, where the sender would never see it.
+- Open a reply instantly, instead of waiting several seconds for its
+  recipients to be looked up.
+- Quote the replied email without escape characters, doubled or stray line
+  breaks, or blank lines at its start and end.
+- Keep the last email in the inbox clear of the compose button on mobile.
+- Put the scrollbar of the accounts and identities lists at the edge of the
+  screen.
 
 ## [0.15.0]
 
