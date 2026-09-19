@@ -42,20 +42,36 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
       leading: isSelected
           ? const CircleAvatar(child: Icon(Icons.check))
           : ScheduledRecipientAvatar(email: email),
-      title: Text(
-        subject,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: const TextStyle(fontWeight: FontWeight.w600),
+      title: Row(
+        children: [
+          Expanded(
+            child: Text(
+              recipientName,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: colorScheme.onSurfaceVariant,
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          ScheduledSendTime(sendTime: sendTime, fontSize: 11),
+        ],
       ),
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            recipientName,
+            subject,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: colorScheme.onSurfaceVariant, fontSize: 12),
+            style: TextStyle(
+              color: colorScheme.onSurface,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(height: 2),
           if (email.hasVisibleStatus)
@@ -72,7 +88,6 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
             ),
         ],
       ),
-      trailing: ScheduledSendTime(sendTime: sendTime, fontSize: 11),
     );
   }
 }
