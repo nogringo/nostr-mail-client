@@ -579,7 +579,9 @@
   "scheduledSendsAt": "Envoi {time}",
   "scheduledCancel": "Annuler l'envoi",
   "scheduledCancelFailed": "Échec de l'annulation de l'e-mail programmé",
-  "scheduledStatusSent": "Envoyés",
+  "scheduledStatusPending": "En attente de confirmation",
+  "scheduledStatusScheduled": "Programmé",
+  "scheduledStatusOverdue": "En retard",
   "scheduledStatusFailed": "Échec",
   "scheduledStatusError": "Rejeté",
 

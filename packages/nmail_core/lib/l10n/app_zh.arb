@@ -579,7 +579,9 @@
   "scheduledSendsAt": "将于 {time} 发送",
   "scheduledCancel": "取消发送",
   "scheduledCancelFailed": "取消定时邮件失败",
-  "scheduledStatusSent": "已发送",
+  "scheduledStatusPending": "等待确认",
+  "scheduledStatusScheduled": "已计划",
+  "scheduledStatusOverdue": "已逾期",
   "scheduledStatusFailed": "失败",
   "scheduledStatusError": "已拒绝",
 

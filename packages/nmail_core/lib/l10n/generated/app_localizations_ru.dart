@@ -1513,7 +1513,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось отменить запланированное письмо';
 
   @override
-  String get scheduledStatusSent => 'Отправленные';
+  String get scheduledStatusPending => 'Ожидает подтверждения';
+
+  @override
+  String get scheduledStatusScheduled => 'Запланировано';
+
+  @override
+  String get scheduledStatusOverdue => 'Просрочено';
 
   @override
   String get scheduledStatusFailed => 'Не удалось';

@@ -579,7 +579,9 @@
   "scheduledSendsAt": "Invio {time}",
   "scheduledCancel": "Annulla invio",
   "scheduledCancelFailed": "Impossibile annullare l'email programmata",
-  "scheduledStatusSent": "Inviate",
+  "scheduledStatusPending": "In attesa di conferma",
+  "scheduledStatusScheduled": "Programmata",
+  "scheduledStatusOverdue": "In ritardo",
   "scheduledStatusFailed": "Non riuscito",
   "scheduledStatusError": "Rifiutato",
 

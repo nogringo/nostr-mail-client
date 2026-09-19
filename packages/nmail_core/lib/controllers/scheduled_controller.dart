@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/scheduled_email_extensions.dart';
 
 class ScheduledController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();
@@ -13,7 +14,11 @@ class ScheduledController extends GetxController {
   final isSyncing = false.obs;
   final selectedIds = <String>{}.obs;
 
+  /// Ticks so an email turns overdue on screen without waiting for feedback.
+  final now = DateTime.now().obs;
+
   StreamSubscription<List<ScheduledEmail>>? _watchSubscription;
+  Timer? _clock;
 
   bool get hasSelection => selectedIds.isNotEmpty;
   bool get allSelected =>
@@ -23,6 +28,10 @@ class ScheduledController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _clock = Timer.periodic(
+      const Duration(minutes: 1),
+      (_) => now.value = DateTime.now(),
+    );
     if (_nostrMailService.hasAccount) {
       _activate();
     }
@@ -31,6 +40,7 @@ class ScheduledController extends GetxController {
   @override
   void onClose() {
     _watchSubscription?.cancel();
+    _clock?.cancel();
     super.onClose();
   }
 
@@ -38,7 +48,7 @@ class ScheduledController extends GetxController {
     final client = _nostrMailService.client;
     isLoading.value = true;
     try {
-      scheduled.assignAll(await client.getScheduledEmails());
+      _onScheduled(await client.getScheduledEmails());
     } finally {
       isLoading.value = false;
     }
@@ -51,8 +61,8 @@ class ScheduledController extends GetxController {
   }
 
   void _onScheduled(List<ScheduledEmail> list) {
-    scheduled.assignAll(list);
-    final ids = list.map((e) => e.packageId).toSet();
+    scheduled.assignAll(list.where((e) => !e.isFinished));
+    final ids = scheduled.map((e) => e.packageId).toSet();
     selectedIds.removeWhere((id) => !ids.contains(id));
   }
 

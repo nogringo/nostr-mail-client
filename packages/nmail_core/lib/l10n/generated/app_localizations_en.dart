@@ -1488,7 +1488,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scheduledCancelFailed => 'Failed to cancel scheduled email';
 
   @override
-  String get scheduledStatusSent => 'Sent';
+  String get scheduledStatusPending => 'Awaiting confirmation';
+
+  @override
+  String get scheduledStatusScheduled => 'Scheduled';
+
+  @override
+  String get scheduledStatusOverdue => 'Overdue';
 
   @override
   String get scheduledStatusFailed => 'Failed';

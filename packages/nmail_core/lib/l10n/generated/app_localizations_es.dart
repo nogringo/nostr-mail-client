@@ -1498,7 +1498,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scheduledCancelFailed => 'Error al cancelar el correo programado';
 
   @override
-  String get scheduledStatusSent => 'Enviados';
+  String get scheduledStatusPending => 'Pendiente de confirmación';
+
+  @override
+  String get scheduledStatusScheduled => 'Programado';
+
+  @override
+  String get scheduledStatusOverdue => 'Con retraso';
 
   @override
   String get scheduledStatusFailed => 'Fallido';

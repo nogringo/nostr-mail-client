@@ -579,7 +579,9 @@
   "scheduledSendsAt": "Wird gesendet {time}",
   "scheduledCancel": "Senden abbrechen",
   "scheduledCancelFailed": "Geplante E-Mail konnte nicht abgebrochen werden",
-  "scheduledStatusSent": "Gesendet",
+  "scheduledStatusPending": "Wartet auf Bestätigung",
+  "scheduledStatusScheduled": "Geplant",
+  "scheduledStatusOverdue": "Überfällig",
   "scheduledStatusFailed": "Fehlgeschlagen",
   "scheduledStatusError": "Abgelehnt",
 

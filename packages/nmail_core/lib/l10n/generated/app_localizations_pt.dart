@@ -1496,7 +1496,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get scheduledCancelFailed => 'Falha ao cancelar o email agendado';
 
   @override
-  String get scheduledStatusSent => 'Enviados';
+  String get scheduledStatusPending => 'A aguardar confirmação';
+
+  @override
+  String get scheduledStatusScheduled => 'Agendado';
+
+  @override
+  String get scheduledStatusOverdue => 'Atrasado';
 
   @override
   String get scheduledStatusFailed => 'Falhou';
@@ -3132,7 +3138,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get scheduledCancelFailed => 'Falha ao cancelar o e-mail agendado';
 
   @override
-  String get scheduledStatusSent => 'Enviados';
+  String get scheduledStatusPending => 'Aguardando confirmação';
+
+  @override
+  String get scheduledStatusScheduled => 'Agendado';
+
+  @override
+  String get scheduledStatusOverdue => 'Atrasado';
 
   @override
   String get scheduledStatusFailed => 'Falhou';

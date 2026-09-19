@@ -1500,7 +1500,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Geplante E-Mail konnte nicht abgebrochen werden';
 
   @override
-  String get scheduledStatusSent => 'Gesendet';
+  String get scheduledStatusPending => 'Wartet auf Bestätigung';
+
+  @override
+  String get scheduledStatusScheduled => 'Geplant';
+
+  @override
+  String get scheduledStatusOverdue => 'Überfällig';
 
   @override
   String get scheduledStatusFailed => 'Fehlgeschlagen';

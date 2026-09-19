@@ -1409,7 +1409,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get scheduledCancelFailed => '取消定时邮件失败';
 
   @override
-  String get scheduledStatusSent => '已发送';
+  String get scheduledStatusPending => '等待确认';
+
+  @override
+  String get scheduledStatusScheduled => '已计划';
+
+  @override
+  String get scheduledStatusOverdue => '已逾期';
 
   @override
   String get scheduledStatusFailed => '失败';

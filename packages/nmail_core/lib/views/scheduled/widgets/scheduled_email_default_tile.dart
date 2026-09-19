@@ -14,6 +14,7 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
   final String subject;
   final String recipientName;
   final String sendTime;
+  final ScheduledDisplayStatus? status;
   final bool isSelected;
   final bool selectionMode;
   final VoidCallback onToggleSelect;
@@ -25,6 +26,7 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
     required this.subject,
     required this.recipientName,
     required this.sendTime,
+    required this.status,
     required this.isSelected,
     required this.selectionMode,
     required this.onToggleSelect,
@@ -74,18 +76,25 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
-          if (email.hasVisibleStatus)
-            ScheduledStatusChip(status: email.status)
-          else
-            Text(
-              email.bodyPreview,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: colorScheme.onSurfaceVariant,
-                fontSize: 13,
+          Row(
+            children: [
+              if (status != null) ...[
+                ScheduledStatusChip(status: status!),
+                const SizedBox(width: 8),
+              ],
+              Expanded(
+                child: Text(
+                  email.bodyPreview,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: colorScheme.onSurfaceVariant,
+                    fontSize: 13,
+                  ),
+                ),
               ),
-            ),
+            ],
+          ),
         ],
       ),
     );

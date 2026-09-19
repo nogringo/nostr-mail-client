@@ -13,6 +13,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
   final String subject;
   final String recipientName;
   final String sendTime;
+  final ScheduledDisplayStatus? status;
   final bool isSelected;
   final bool selectionMode;
   final VoidCallback onToggleSelect;
@@ -24,6 +25,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
     required this.subject,
     required this.recipientName,
     required this.sendTime,
+    required this.status,
     required this.isSelected,
     required this.selectionMode,
     required this.onToggleSelect,
@@ -83,8 +85,11 @@ class ScheduledEmailCompactTile extends StatelessWidget {
                         style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                     ),
-                    if (email.hasVisibleStatus ||
-                        email.bodyPreview.isNotEmpty) ...[
+                    if (status != null) ...[
+                      const SizedBox(width: 8),
+                      ScheduledStatusChip(status: status!),
+                    ],
+                    if (email.bodyPreview.isNotEmpty) ...[
                       const SizedBox(width: 8),
                       Text(
                         '—',
@@ -93,21 +98,12 @@ class ScheduledEmailCompactTile extends StatelessWidget {
                       const SizedBox(width: 8),
                       Flexible(
                         flex: 3,
-                        child: email.hasVisibleStatus
-                            ? Align(
-                                alignment: Alignment.centerLeft,
-                                child: ScheduledStatusChip(
-                                  status: email.status,
-                                ),
-                              )
-                            : Text(
-                                email.bodyPreview,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: colorScheme.onSurfaceVariant,
-                                ),
-                              ),
+                        child: Text(
+                          email.bodyPreview,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: colorScheme.onSurfaceVariant),
+                        ),
                       ),
                     ],
                   ],

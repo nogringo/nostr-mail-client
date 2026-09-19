@@ -18,6 +18,7 @@ import 'scheduled_email_default_tile.dart';
 /// and cancellation working the same way as the Sent list.
 class ScheduledEmailTile extends StatelessWidget {
   final ScheduledEmail email;
+  final DateTime now;
   final bool isSelected;
   final bool selectionMode;
   final VoidCallback onToggleSelect;
@@ -27,6 +28,7 @@ class ScheduledEmailTile extends StatelessWidget {
   const ScheduledEmailTile({
     super.key,
     required this.email,
+    required this.now,
     required this.isSelected,
     required this.selectionMode,
     required this.onToggleSelect,
@@ -34,9 +36,7 @@ class ScheduledEmailTile extends StatelessWidget {
     required this.onOpen,
   });
 
-  bool get _canCancel =>
-      email.status != ScheduledEmailStatus.published &&
-      email.status != ScheduledEmailStatus.cancelled;
+  bool get _canCancel => !email.isFinished;
 
   /// A schedule that can still be cancelled can also be re-opened for editing.
   bool get _canEdit => _canCancel;
@@ -60,6 +60,7 @@ class ScheduledEmailTile extends StatelessWidget {
         : email.subject;
     final recipientName = _recipientName(context);
     final sendTime = formatAbsoluteDateTime(context, email.scheduleAt);
+    final status = email.displayStatus(now);
 
     final onOpen = _canEdit ? this.onOpen : null;
     final tile = ResponsiveHelper.isDesktop(context)
@@ -68,6 +69,7 @@ class ScheduledEmailTile extends StatelessWidget {
             subject: subject,
             recipientName: recipientName,
             sendTime: sendTime,
+            status: status,
             isSelected: isSelected,
             selectionMode: selectionMode,
             onToggleSelect: onToggleSelect,
@@ -78,6 +80,7 @@ class ScheduledEmailTile extends StatelessWidget {
             subject: subject,
             recipientName: recipientName,
             sendTime: sendTime,
+            status: status,
             isSelected: isSelected,
             selectionMode: selectionMode,
             onToggleSelect: onToggleSelect,

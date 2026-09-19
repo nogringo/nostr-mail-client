@@ -1503,7 +1503,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Échec de l\'annulation de l\'e-mail programmé';
 
   @override
-  String get scheduledStatusSent => 'Envoyés';
+  String get scheduledStatusPending => 'En attente de confirmation';
+
+  @override
+  String get scheduledStatusScheduled => 'Programmé';
+
+  @override
+  String get scheduledStatusOverdue => 'En retard';
 
   @override
   String get scheduledStatusFailed => 'Échec';

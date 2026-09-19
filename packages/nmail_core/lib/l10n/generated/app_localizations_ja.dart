@@ -1420,7 +1420,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scheduledCancelFailed => '予約済みメールのキャンセルに失敗しました';
 
   @override
-  String get scheduledStatusSent => '送信済み';
+  String get scheduledStatusPending => '確認待ち';
+
+  @override
+  String get scheduledStatusScheduled => '予約済み';
+
+  @override
+  String get scheduledStatusOverdue => '遅延';
 
   @override
   String get scheduledStatusFailed => '失敗';

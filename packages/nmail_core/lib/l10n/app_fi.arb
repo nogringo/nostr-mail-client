@@ -584,7 +584,9 @@
   "scheduledSendsAt": "Lähetetään {time}",
   "scheduledCancel": "Peruuta lähetys",
   "scheduledCancelFailed": "Ajastetun viestin peruutus epäonnistui",
-  "scheduledStatusSent": "Lähetetyt",
+  "scheduledStatusPending": "Odottaa vahvistusta",
+  "scheduledStatusScheduled": "Ajastettu",
+  "scheduledStatusOverdue": "Myöhässä",
   "scheduledStatusFailed": "Epäonnistui",
   "scheduledStatusError": "Hylätty",
 

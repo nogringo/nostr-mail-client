@@ -2749,11 +2749,23 @@ abstract class AppLocalizations {
   /// **'Failed to cancel scheduled email'**
   String get scheduledCancelFailed;
 
-  /// Status chip on a scheduled email that the DVM has already published
+  /// Status chip on a scheduled email the scheduling service has not acknowledged yet
   ///
   /// In en, this message translates to:
-  /// **'Sent'**
-  String get scheduledStatusSent;
+  /// **'Awaiting confirmation'**
+  String get scheduledStatusPending;
+
+  /// Status chip on a scheduled email the scheduling service has accepted and queued
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get scheduledStatusScheduled;
+
+  /// Status chip on a scheduled email whose send time has passed without it being sent
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get scheduledStatusOverdue;
 
   /// Status chip on a scheduled email whose delivery failed
   ///

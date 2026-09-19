@@ -80,6 +80,7 @@ class ScheduledList extends GetView<ScheduledController> {
                     () => ScheduledEmailTile(
                       key: ValueKey(email.packageId),
                       email: email,
+                      now: controller.now.value,
                       isSelected: controller.isSelected(email.packageId),
                       selectionMode: controller.hasSelection,
                       onToggleSelect: () =>

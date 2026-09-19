@@ -579,7 +579,9 @@
   "scheduledSendsAt": "Se enviará {time}",
   "scheduledCancel": "Cancelar envío",
   "scheduledCancelFailed": "Error al cancelar el correo programado",
-  "scheduledStatusSent": "Enviados",
+  "scheduledStatusPending": "Pendiente de confirmación",
+  "scheduledStatusScheduled": "Programado",
+  "scheduledStatusOverdue": "Con retraso",
   "scheduledStatusFailed": "Fallido",
   "scheduledStatusError": "Rechazado",
 

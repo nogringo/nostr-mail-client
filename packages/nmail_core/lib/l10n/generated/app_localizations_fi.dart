@@ -1494,7 +1494,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get scheduledCancelFailed => 'Ajastetun viestin peruutus epäonnistui';
 
   @override
-  String get scheduledStatusSent => 'Lähetetyt';
+  String get scheduledStatusPending => 'Odottaa vahvistusta';
+
+  @override
+  String get scheduledStatusScheduled => 'Ajastettu';
+
+  @override
+  String get scheduledStatusOverdue => 'Myöhässä';
 
   @override
   String get scheduledStatusFailed => 'Epäonnistui';

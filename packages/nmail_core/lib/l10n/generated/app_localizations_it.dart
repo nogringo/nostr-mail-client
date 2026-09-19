@@ -1501,7 +1501,13 @@ class AppLocalizationsIt extends AppLocalizations {
       'Impossibile annullare l\'email programmata';
 
   @override
-  String get scheduledStatusSent => 'Inviate';
+  String get scheduledStatusPending => 'In attesa di conferma';
+
+  @override
+  String get scheduledStatusScheduled => 'Programmata';
+
+  @override
+  String get scheduledStatusOverdue => 'In ritardo';
 
   @override
   String get scheduledStatusFailed => 'Non riuscito';
