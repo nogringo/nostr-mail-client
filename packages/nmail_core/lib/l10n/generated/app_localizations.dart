@@ -2761,6 +2761,12 @@ abstract class AppLocalizations {
   /// **'Scheduled'**
   String get scheduledStatusScheduled;
 
+  /// Status chip on a scheduled email already delivered to some recipients but not all yet
+  ///
+  /// In en, this message translates to:
+  /// **'Sending'**
+  String get scheduledStatusSending;
+
   /// Status chip on a scheduled email whose send time has passed without it being sent
   ///
   /// In en, this message translates to:

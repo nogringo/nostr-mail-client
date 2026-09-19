@@ -1415,6 +1415,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get scheduledStatusScheduled => '已计划';
 
   @override
+  String get scheduledStatusSending => '发送中';
+
+  @override
   String get scheduledStatusOverdue => '已逾期';
 
   @override

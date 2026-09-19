@@ -1500,6 +1500,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get scheduledStatusScheduled => 'Ajastettu';
 
   @override
+  String get scheduledStatusSending => 'Lähetetään';
+
+  @override
   String get scheduledStatusOverdue => 'Myöhässä';
 
   @override

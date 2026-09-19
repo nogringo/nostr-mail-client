@@ -1426,6 +1426,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scheduledStatusScheduled => '予約済み';
 
   @override
+  String get scheduledStatusSending => '送信中';
+
+  @override
   String get scheduledStatusOverdue => '遅延';
 
   @override

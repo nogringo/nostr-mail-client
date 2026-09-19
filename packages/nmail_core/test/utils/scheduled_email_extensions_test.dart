@@ -50,10 +50,11 @@ void main() {
         );
       });
 
-      test('turns pending and scheduled overdue after the grace period', () {
+      test('turns an unfinished send overdue after the grace period', () {
         for (final status in [
           ScheduledEmailStatus.pending,
           ScheduledEmailStatus.scheduled,
+          ScheduledEmailStatus.sending,
         ]) {
           expect(
             _scheduled(status: status).displayStatus(withinGrace),
@@ -91,6 +92,53 @@ void main() {
           isNull,
         );
       });
+
+      test('maps a partial send to sending', () {
+        expect(
+          _scheduled(
+            status: ScheduledEmailStatus.sending,
+          ).displayStatus(before),
+          ScheduledDisplayStatus.sending,
+        );
+      });
+    });
+
+    test('canEdit excludes finished and partially sent emails', () {
+      final editable = ScheduledEmailStatus.values
+          .where((s) => _scheduled(status: s).canEdit)
+          .toSet();
+      expect(editable, {
+        ScheduledEmailStatus.pending,
+        ScheduledEmailStatus.scheduled,
+        ScheduledEmailStatus.failed,
+        ScheduledEmailStatus.error,
+      });
+    });
+
+    group('detail', () {
+      test('shows the DVM message for a failure', () {
+        expect(
+          _scheduled(
+            status: ScheduledEmailStatus.failed,
+            statusMessage: 'relays unreachable',
+          ).detail,
+          'relays unreachable',
+        );
+      });
+
+      test('falls back to the body preview', () {
+        expect(
+          _scheduled(status: ScheduledEmailStatus.error).detail,
+          'Preview',
+        );
+        expect(
+          _scheduled(
+            status: ScheduledEmailStatus.scheduled,
+            statusMessage: 'queued',
+          ).detail,
+          'Preview',
+        );
+      });
     });
   });
 }
@@ -102,6 +150,7 @@ ScheduledEmail _scheduled({
   List<String> cc = const [],
   List<String> bcc = const [],
   ScheduledEmailStatus status = ScheduledEmailStatus.pending,
+  String? statusMessage,
 }) {
   return ScheduledEmail(
     packageId: 'package-id',
@@ -115,6 +164,7 @@ ScheduledEmail _scheduled({
     isPublic: false,
     attachmentNames: const [],
     status: status,
+    statusMessage: statusMessage,
     createdAt: DateTime.utc(2026),
   );
 }

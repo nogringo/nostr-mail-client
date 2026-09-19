@@ -1082,6 +1082,8 @@
   "@scheduledStatusPending": { "description": "Status chip on a scheduled email the scheduling service has not acknowledged yet" },
   "scheduledStatusScheduled": "Scheduled",
   "@scheduledStatusScheduled": { "description": "Status chip on a scheduled email the scheduling service has accepted and queued" },
+  "scheduledStatusSending": "Sending",
+  "@scheduledStatusSending": { "description": "Status chip on a scheduled email already delivered to some recipients but not all yet" },
   "scheduledStatusOverdue": "Overdue",
   "@scheduledStatusOverdue": { "description": "Status chip on a scheduled email whose send time has passed without it being sent" },
   "scheduledStatusFailed": "Failed",

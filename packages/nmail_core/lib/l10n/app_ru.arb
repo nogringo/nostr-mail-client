@@ -581,6 +581,7 @@
   "scheduledCancelFailed": "Не удалось отменить запланированное письмо",
   "scheduledStatusPending": "Ожидает подтверждения",
   "scheduledStatusScheduled": "Запланировано",
+  "scheduledStatusSending": "Отправляется",
   "scheduledStatusOverdue": "Просрочено",
   "scheduledStatusFailed": "Не удалось",
   "scheduledStatusError": "Отклонено",

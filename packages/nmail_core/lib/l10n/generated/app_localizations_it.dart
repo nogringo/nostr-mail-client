@@ -1507,6 +1507,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get scheduledStatusScheduled => 'Programmata';
 
   @override
+  String get scheduledStatusSending => 'Invio in corso';
+
+  @override
   String get scheduledStatusOverdue => 'In ritardo';
 
   @override

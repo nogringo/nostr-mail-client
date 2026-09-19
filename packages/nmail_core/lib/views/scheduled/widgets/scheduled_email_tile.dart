@@ -36,10 +36,9 @@ class ScheduledEmailTile extends StatelessWidget {
     required this.onOpen,
   });
 
-  bool get _canCancel => !email.isFinished;
+  bool get _canCancel => email.canEdit;
 
-  /// A schedule that can still be cancelled can also be re-opened for editing.
-  bool get _canEdit => _canCancel;
+  bool get _canEdit => email.canEdit;
 
   String _recipientName(BuildContext context) {
     final pubkey = extractPubkeyFromAddress(email.firstRecipient) ?? '';

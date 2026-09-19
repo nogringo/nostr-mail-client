@@ -89,7 +89,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
                       const SizedBox(width: 8),
                       ScheduledStatusChip(status: status!),
                     ],
-                    if (email.bodyPreview.isNotEmpty) ...[
+                    if (email.detail.isNotEmpty) ...[
                       const SizedBox(width: 8),
                       Text(
                         '—',
@@ -99,7 +99,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
                       Flexible(
                         flex: 3,
                         child: Text(
-                          email.bodyPreview,
+                          email.detail,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(color: colorScheme.onSurfaceVariant),

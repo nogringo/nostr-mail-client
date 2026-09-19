@@ -1519,6 +1519,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get scheduledStatusScheduled => 'Запланировано';
 
   @override
+  String get scheduledStatusSending => 'Отправляется';
+
+  @override
   String get scheduledStatusOverdue => 'Просрочено';
 
   @override

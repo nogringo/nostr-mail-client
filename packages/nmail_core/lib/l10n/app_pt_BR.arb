@@ -586,6 +586,7 @@
   "scheduledCancelFailed": "Falha ao cancelar o e-mail agendado",
   "scheduledStatusPending": "Aguardando confirmação",
   "scheduledStatusScheduled": "Agendado",
+  "scheduledStatusSending": "Enviando",
   "scheduledStatusOverdue": "Atrasado",
   "scheduledStatusFailed": "Falhou",
   "scheduledStatusError": "Rejeitado",

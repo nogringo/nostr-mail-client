@@ -1001,10 +1001,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: c24d98165bc64a328ac84c9466f8e34775c37b49dccb02d751a5ee4a9abf9a63
+      sha256: "457dd373103b4c399abacb9a77481f8abde043d3a18b65252a48ea82cb72c37a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.1"
   nostr_mail:
     dependency: transitive
     description:

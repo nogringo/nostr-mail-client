@@ -581,6 +581,7 @@
   "scheduledCancelFailed": "取消定时邮件失败",
   "scheduledStatusPending": "等待确认",
   "scheduledStatusScheduled": "已计划",
+  "scheduledStatusSending": "发送中",
   "scheduledStatusOverdue": "已逾期",
   "scheduledStatusFailed": "失败",
   "scheduledStatusError": "已拒绝",

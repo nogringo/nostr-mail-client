@@ -84,7 +84,7 @@ class ScheduledEmailDefaultTile extends StatelessWidget {
               ],
               Expanded(
                 child: Text(
-                  email.bodyPreview,
+                  email.detail,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

@@ -1502,6 +1502,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get scheduledStatusScheduled => 'Agendado';
 
   @override
+  String get scheduledStatusSending => 'A enviar';
+
+  @override
   String get scheduledStatusOverdue => 'Atrasado';
 
   @override
@@ -3142,6 +3145,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get scheduledStatusScheduled => 'Agendado';
+
+  @override
+  String get scheduledStatusSending => 'Enviando';
 
   @override
   String get scheduledStatusOverdue => 'Atrasado';

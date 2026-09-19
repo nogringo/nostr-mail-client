@@ -23,6 +23,10 @@ class ScheduledStatusChip extends StatelessWidget {
         l.scheduledStatusScheduled,
         colorScheme.primary,
       ),
+      ScheduledDisplayStatus.sending => (
+        l.scheduledStatusSending,
+        colorScheme.primary,
+      ),
       ScheduledDisplayStatus.overdue => (
         l.scheduledStatusOverdue,
         colorScheme.error,

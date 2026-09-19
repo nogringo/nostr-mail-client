@@ -581,6 +581,7 @@
   "scheduledCancelFailed": "Impossibile annullare l'email programmata",
   "scheduledStatusPending": "In attesa di conferma",
   "scheduledStatusScheduled": "Programmata",
+  "scheduledStatusSending": "Invio in corso",
   "scheduledStatusOverdue": "In ritardo",
   "scheduledStatusFailed": "Non riuscito",
   "scheduledStatusError": "Rifiutato",

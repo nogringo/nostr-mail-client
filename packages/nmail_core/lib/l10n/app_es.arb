@@ -581,6 +581,7 @@
   "scheduledCancelFailed": "Error al cancelar el correo programado",
   "scheduledStatusPending": "Pendiente de confirmación",
   "scheduledStatusScheduled": "Programado",
+  "scheduledStatusSending": "Enviando",
   "scheduledStatusOverdue": "Con retraso",
   "scheduledStatusFailed": "Fallido",
   "scheduledStatusError": "Rechazado",

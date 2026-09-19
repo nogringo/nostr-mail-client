@@ -586,6 +586,7 @@
   "scheduledCancelFailed": "Ajastetun viestin peruutus epäonnistui",
   "scheduledStatusPending": "Odottaa vahvistusta",
   "scheduledStatusScheduled": "Ajastettu",
+  "scheduledStatusSending": "Lähetetään",
   "scheduledStatusOverdue": "Myöhässä",
   "scheduledStatusFailed": "Epäonnistui",
   "scheduledStatusError": "Hylätty",

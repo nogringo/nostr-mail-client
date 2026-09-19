@@ -581,6 +581,7 @@
   "scheduledCancelFailed": "予約済みメールのキャンセルに失敗しました",
   "scheduledStatusPending": "確認待ち",
   "scheduledStatusScheduled": "予約済み",
+  "scheduledStatusSending": "送信中",
   "scheduledStatusOverdue": "遅延",
   "scheduledStatusFailed": "失敗",
   "scheduledStatusError": "拒否",
