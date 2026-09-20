@@ -127,9 +127,11 @@ class ScreenshotSeeder {
       account,
     ).sign(relayList.toNip65().toEvent());
     await runtime.ndk.config.cache.saveUserRelayList(relayList);
-    await runtime.broadcastQueue.broadcast(
+    await _broadcast(
+      runtime,
       signed,
       relays: [config.bootstrapRelay],
+      label: 'kind:10002 for ${Nip19.encodePubKey(account.pubkey)}',
     );
   }
 
@@ -137,6 +139,30 @@ class ScreenshotSeeder {
     privateKey: account.privateKey,
     publicKey: account.pubkey,
   );
+
+  /// The seeder is one-shot, so nothing would ever retry a queued broadcast:
+  /// it waits for every relay's OK instead and reports what was refused.
+  Future<void> _broadcast(
+    SeederRuntime runtime,
+    Nip01Event event, {
+    required List<String> relays,
+    required String label,
+  }) async {
+    final responses = await runtime.ndk.broadcast
+        .broadcast(
+          nostrEvent: event,
+          specificRelays: relays,
+          considerDonePercent: 1.0,
+        )
+        .broadcastDoneFuture;
+    for (final response in responses) {
+      if (response.broadcastSuccessful) continue;
+      final reason = response.msg.isEmpty ? 'no response' : response.msg;
+      stdout.writeln(
+        'Warning: $label refused by ${response.relayUrl}: $reason',
+      );
+    }
+  }
 
   Future<void> _publishPrimaryData(SeederRuntime runtime) async {
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -150,9 +176,11 @@ class ScreenshotSeeder {
     );
     final signedMetadata = await runtime.sign(metadata.toEvent());
     await runtime.ndk.config.cache.saveEvent(signedMetadata);
-    await runtime.broadcastQueue.broadcast(
+    await _broadcast(
+      runtime,
       signedMetadata,
       relays: [config.dataRelay],
+      label: 'kind:0',
     );
     await _publishBridgeMetadata(runtime);
     await _publishContactProfiles(runtime);
@@ -178,6 +206,7 @@ class ScreenshotSeeder {
       ndk: runtime.ndk,
       database: runtime.db,
       broadcastQueue: runtime.broadcastQueue,
+      syncEngine: runtime.syncEngine,
     );
     for (final contact in seed.contacts) {
       final vCard = _buildVCard(contact);
@@ -202,7 +231,12 @@ class ScreenshotSeeder {
     );
     final signed = await _signerFor(bridge).sign(metadata.toEvent());
     await runtime.ndk.config.cache.saveEvent(signed);
-    await runtime.broadcastQueue.broadcast(signed, relays: [config.dataRelay]);
+    await _broadcast(
+      runtime,
+      signed,
+      relays: [config.dataRelay],
+      label: 'bridge kind:0',
+    );
     await _publishBootstrapRelayList(runtime, bridge);
     stdout.writeln('Published bridge profile to ${config.dataRelay}');
   }
@@ -224,9 +258,11 @@ class ScreenshotSeeder {
       );
       final signed = await _signerFor(account).sign(metadata.toEvent());
       await runtime.ndk.config.cache.saveEvent(signed);
-      await runtime.broadcastQueue.broadcast(
+      await _broadcast(
+        runtime,
         signed,
         relays: [config.dataRelay],
+        label: 'kind:0 for ${contact.displayName}',
       );
       await _publishBootstrapRelayList(runtime, account);
       published++;
@@ -252,7 +288,7 @@ class ScreenshotSeeder {
     );
     final signed = await runtime.sign(event);
     await runtime.ndk.config.cache.saveEvent(signed);
-    await runtime.broadcastQueue.broadcast(signed, relays: [config.dataRelay]);
+    await _broadcast(runtime, signed, relays: [config.dataRelay], label: label);
     stdout.writeln('Published $label to ${config.dataRelay}');
   }
 
@@ -335,8 +371,6 @@ class ScreenshotSeeder {
       }
     }
 
-    await primary.broadcastQueue.retryNow();
-
     final emails = await primary.client.getInboxEmails();
     final foundSubjects = _currentRunReadEmails(
       emails: emails,
@@ -383,7 +417,12 @@ class ScreenshotSeeder {
       createdAt: now,
     );
     final signed = await runtime.sign(event);
-    await runtime.broadcastQueue.broadcast(signed, relays: [config.dataRelay]);
+    await _broadcast(
+      runtime,
+      signed,
+      relays: [config.dataRelay],
+      label: 'read label for $emailId',
+    );
   }
 
   ScreenshotAccount? _senderKeyFor(SeedEmail email) =>

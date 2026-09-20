@@ -44,7 +44,6 @@ class SeederRuntime {
         cache: cache,
         eventVerifier: Bip340EventVerifier(),
         bootstrapRelays: bootstrapRelays,
-        defaultBroadcastConsiderDonePercent: 0.0,
         logLevel: LogLevel.warning,
       ),
     );

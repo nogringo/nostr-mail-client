@@ -17,14 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.7.0"
-  ascii_qr:
-    dependency: transitive
-    description:
-      name: ascii_qr
-      sha256: "2046e400a0fa4ea0de5df44c87b992cdd1f76403bb15e64513b89263598750ae"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   asn1lib:
     dependency: transitive
     description:
@@ -93,18 +85,18 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: "3dcd9720ba5cc4b9489dc529f64cfda03c37e640aff1c6c9ecd05eeac2653545"
+      sha256: e297158955e5f6b0860b0540dedff6c8cde266674a51b296ad60ef12950d64ff
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   broadcast_queue_shim_for_ndk:
     dependency: "direct main"
     description:
       name: broadcast_queue_shim_for_ndk
-      sha256: "8408fe0b418624b62ddbca841d3333f4808ff347ac1fc7899e1acc33d9082adb"
+      sha256: "363638b1196d3b68a6a439ce2aec75b43c42e939faeeb16517bbbbe57332dad9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.6.0"
   bs58check:
     dependency: transitive
     description:
@@ -373,34 +365,34 @@ packages:
     dependency: "direct main"
     description:
       name: ndk
-      sha256: fbd74c455d2002d0f711b7c37099d010384b8b828487f454aed4dbf031d52018
+      sha256: "83b50ce9bc2663e676be72ba617c956c2479d3aa6c6d049cd5558d1e59bb510f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3"
+    version: "0.10.0-dev.5"
   nostr_address_book:
     dependency: "direct main"
     description:
       name: nostr_address_book
-      sha256: a1819d57301b1eeb79d0666af8079c801283569b3092bf1446ca3d82a6574b9e
+      sha256: "47ed260636333290ef69d2414892fd7148bdbbb6fa990000e28c2e1d474a259d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.5.0"
   nostr_event_scheduler:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: ff40190e8e7a74ef0c8e25738f7273417d75e56e578fee7d1005e6140bfd0b0a
+      sha256: "58a4acc5100d4a3f7cef3f1180b5b31aa097e33c9be1419c1c5ce84a5e57aa49"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.3"
   nostr_mail:
     dependency: "direct main"
     description:
       name: nostr_mail
-      sha256: "6e0c7ebcdaa85b52a57a37896513a9f2c5a3a254b9dca01178cbba1d312fd29a"
+      sha256: d26edb798d14f22f2fb521f03e79bfbdce68819410d50cb8bd9461ddef54d094
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.2.1"
   path:
     dependency: "direct main"
     description:
@@ -441,14 +433,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
-  qr:
-    dependency: transitive
-    description:
-      name: qr
-      sha256: "5a1d2586170e172b8a8c8470bbbffd5eb0cd38a66c0d77155ea138d3af3a4445"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.2"
   record_use:
     dependency: transitive
     description:
@@ -525,10 +509,10 @@ packages:
     dependency: "direct main"
     description:
       name: sync_engine_shim_for_ndk
-      sha256: "4b10c71a6ec59d053552e1fb577489afaff439d2f7723c6c110c9414f30232ad"
+      sha256: "2b556a4a6989d916d2134de47f350da879e7895bed8473d96b191d328ee699f4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.7.0"
   synchronized:
     dependency: transitive
     description:
@@ -609,14 +593,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
-  web_socket_client:
-    dependency: transitive
-    description:
-      name: web_socket_client
-      sha256: "394789177aa3bc1b7b071622a1dbf52a4631d7ce23c555c39bb2523e92316b07"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   xml:
     dependency: transitive
     description:

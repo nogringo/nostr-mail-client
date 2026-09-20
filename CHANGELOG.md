@@ -28,6 +28,8 @@ Releases prior to 0.13.0 are listed on the
   email. The option names the address the email goes to.
 - Copy the email address of your account from the drawer or the account menu.
 - Show the account avatar in the scheduled emails on mobile, as in the inbox.
+- Write a new email from the scheduled list on mobile, with the compose
+  button of the inbox.
 
 ### Changed
 
@@ -45,6 +47,16 @@ Releases prior to 0.13.0 are listed on the
   accounts screen is reached from the settings.
 - Show only the name of a Nostr person on their card, without their npub,
   which stays one tap away with Copy npub.
+- Show where a scheduled email stands: awaiting confirmation while the
+  scheduling service has not answered, scheduled once it accepts, sending
+  once part of the recipients have it, and overdue when the send time has
+  passed without a send.
+- Explain a scheduled email that failed with the message from the scheduling
+  service, in place of the preview of its body.
+- Keep an email that is being sent from being edited, as the recipients
+  already served would receive it a second time.
+- Order a scheduled email on mobile like the inbox: the recipient and the
+  send time on the first line, the subject under it.
 
 ### Fixed
 
@@ -72,6 +84,8 @@ Releases prior to 0.13.0 are listed on the
 - Keep the last email in the inbox clear of the compose button on mobile.
 - Put the scrollbar of the accounts and identities lists at the edge of the
   screen.
+- Remove a scheduled email from the list once it is sent or cancelled. A sent
+  email is in Sent, a cancelled one is gone.
 
 ## [0.15.0]
 

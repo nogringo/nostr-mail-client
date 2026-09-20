@@ -1001,18 +1001,18 @@ packages:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: "457dd373103b4c399abacb9a77481f8abde043d3a18b65252a48ea82cb72c37a"
+      sha256: "58a4acc5100d4a3f7cef3f1180b5b31aa097e33c9be1419c1c5ce84a5e57aa49"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1"
+    version: "0.5.3"
   nostr_mail:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: "61781c7205e8ca092a32118c33a4bf0f92c52234e3442c0dd9da0892dd4a293c"
+      sha256: d26edb798d14f22f2fb521f03e79bfbdce68819410d50cb8bd9461ddef54d094
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.2"
+    version: "3.2.1"
   objective_c:
     dependency: transitive
     description:
