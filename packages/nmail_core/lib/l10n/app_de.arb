@@ -604,6 +604,12 @@
 
   "notFoundTitle": "Seite nicht gefunden",
   "notFoundBackToInbox": "Zurück zum Posteingang",
+  "startupErrorTitle": "Nmail konnte nicht starten",
+  "startupErrorBody": "Die lokalen Daten konnten nicht geladen werden. Kopiere die Details unten und melde sie auf GitHub, damit das Problem behoben werden kann.",
+  "startupErrorWebHint": "Meist liegt es an blockiertem Website-Speicher, einem privaten Fenster oder einer Browser-Erweiterung. Lade die Seite neu oder erlaube dieser Website, Daten zu speichern.",
+  "startupErrorDetails": "Fehlerdetails",
+  "startupErrorCopyDetails": "Details kopieren",
+  "startupErrorReport": "Auf GitHub melden",
   "backgroundPresetAnimatedWaves": "Animierte Wellen",
   "backgroundPresetSoftGradient": "Sanfter Verlauf",
   "backgroundPresetBloomImage": "Blüte",

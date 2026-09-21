@@ -604,6 +604,12 @@
 
   "notFoundTitle": "Pagina non trovata",
   "notFoundBackToInbox": "Torna alla posta in arrivo",
+  "startupErrorTitle": "Nmail non è riuscito ad avviarsi",
+  "startupErrorBody": "Il caricamento dei dati locali non è riuscito. Copia i dettagli qui sotto e segnalali su GitHub per far correggere il problema.",
+  "startupErrorWebHint": "Le cause più comuni sono l'archiviazione del sito bloccata, una finestra privata o un'estensione del browser. Prova a ricaricare la pagina oppure consenti a questo sito di memorizzare dati.",
+  "startupErrorDetails": "Dettagli dell'errore",
+  "startupErrorCopyDetails": "Copia i dettagli",
+  "startupErrorReport": "Segnala su GitHub",
   "backgroundPresetAnimatedWaves": "Onde animate",
   "backgroundPresetSoftGradient": "Gradiente morbido",
   "backgroundPresetBloomImage": "Fioritura",

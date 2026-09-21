@@ -604,6 +604,12 @@
 
   "notFoundTitle": "Страница не найдена",
   "notFoundBackToInbox": "Вернуться во входящие",
+  "startupErrorTitle": "Не удалось запустить Nmail",
+  "startupErrorBody": "Не удалось загрузить локальные данные. Скопируйте подробности ниже и сообщите о них на GitHub, чтобы проблему исправили.",
+  "startupErrorWebHint": "Обычные причины: заблокированное хранилище сайта, приватное окно или расширение браузера. Попробуйте перезагрузить страницу или разрешите сайту хранить данные.",
+  "startupErrorDetails": "Подробности ошибки",
+  "startupErrorCopyDetails": "Скопировать подробности",
+  "startupErrorReport": "Сообщить на GitHub",
   "backgroundPresetAnimatedWaves": "Анимированные волны",
   "backgroundPresetSoftGradient": "Мягкий градиент",
   "backgroundPresetBloomImage": "Цветение",

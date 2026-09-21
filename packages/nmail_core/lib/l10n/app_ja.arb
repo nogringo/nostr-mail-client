@@ -604,6 +604,12 @@
 
   "notFoundTitle": "ページが見つかりません",
   "notFoundBackToInbox": "受信トレイに戻る",
+  "startupErrorTitle": "Nmail を起動できませんでした",
+  "startupErrorBody": "ローカルデータの読み込みに失敗しました。下の詳細をコピーして GitHub で報告してください。問題の修正に役立ちます。",
+  "startupErrorWebHint": "サイトのストレージのブロック、プライベートウィンドウ、ブラウザ拡張機能が主な原因です。ページを再読み込みするか、このサイトにデータの保存を許可してください。",
+  "startupErrorDetails": "エラーの詳細",
+  "startupErrorCopyDetails": "詳細をコピー",
+  "startupErrorReport": "GitHub で報告",
   "backgroundPresetAnimatedWaves": "動く波",
   "backgroundPresetSoftGradient": "柔らかなグラデーション",
   "backgroundPresetBloomImage": "花のイメージ",

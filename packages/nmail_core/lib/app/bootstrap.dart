@@ -41,6 +41,7 @@ import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
+import 'package:nmail_core/views/startup_error/startup_error_app.dart';
 
 Future<void> runNmailApp({
   Future<void> Function()? onReady,
@@ -51,6 +52,28 @@ Future<void> runNmailApp({
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
+  try {
+    await _initApp(
+      onReady: onReady,
+      privacyPolicyUrl: privacyPolicyUrl,
+      hasUnifiedPushDistributor: hasUnifiedPushDistributor,
+      unifiedPushDistributorInstallUrl: unifiedPushDistributorInstallUrl,
+    );
+  } catch (error, stack) {
+    debugPrint('Nmail could not start: $error\n$stack');
+    runApp(StartupErrorApp(error: error, stackTrace: stack));
+    return;
+  }
+
+  runApp(const MainApp());
+}
+
+Future<void> _initApp({
+  Future<void> Function()? onReady,
+  String? privacyPolicyUrl,
+  UnifiedPushDistributorChecker? hasUnifiedPushDistributor,
+  String? unifiedPushDistributorInstallUrl,
+}) async {
   // Navigation is go_router's, so GetX never sees a route change and its
   // route-linked disposal would delete controllers at the wrong time.
   // onlyBuilder disables it.
@@ -168,9 +191,13 @@ Future<void> runNmailApp({
   InitialBinding().dependencies();
 
   // Flavor-specific setup (e.g. FCM on nmail_standard), kept out of core.
-  await onReady?.call();
-
-  runApp(const MainApp());
+  // A push transport that cannot set itself up, because the browser blocks
+  // Firebase or no distributor answers, must not keep the app from starting.
+  try {
+    await onReady?.call();
+  } catch (error, stack) {
+    debugPrint('Nmail push setup failed: $error\n$stack');
+  }
 }
 
 class MainApp extends StatelessWidget {

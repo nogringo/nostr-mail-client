@@ -604,6 +604,12 @@
 
   "notFoundTitle": "页面未找到",
   "notFoundBackToInbox": "返回收件箱",
+  "startupErrorTitle": "Nmail 无法启动",
+  "startupErrorBody": "加载本地数据失败。请复制下面的详细信息并在 GitHub 上反馈，以便修复该问题。",
+  "startupErrorWebHint": "常见原因是网站存储被阻止、使用了隐私窗口或浏览器扩展程序。请尝试重新加载页面，或允许该网站存储数据。",
+  "startupErrorDetails": "错误详情",
+  "startupErrorCopyDetails": "复制详情",
+  "startupErrorReport": "在 GitHub 上反馈",
   "backgroundPresetAnimatedWaves": "动态波纹",
   "backgroundPresetSoftGradient": "柔和渐变",
   "backgroundPresetBloomImage": "花影图像",

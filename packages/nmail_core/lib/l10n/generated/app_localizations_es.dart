@@ -1551,6 +1551,26 @@ class AppLocalizationsEs extends AppLocalizations {
   String get notFoundBackToInbox => 'Volver a la bandeja de entrada';
 
   @override
+  String get startupErrorTitle => 'Nmail no pudo iniciarse';
+
+  @override
+  String get startupErrorBody =>
+      'No se pudieron cargar los datos locales. Copia los detalles de abajo y comunícalos en GitHub para que el problema pueda corregirse.';
+
+  @override
+  String get startupErrorWebHint =>
+      'Las causas habituales son el almacenamiento del sitio bloqueado, una ventana privada o una extensión del navegador. Prueba a recargar la página o permite que este sitio almacene datos.';
+
+  @override
+  String get startupErrorDetails => 'Detalles del error';
+
+  @override
+  String get startupErrorCopyDetails => 'Copiar detalles';
+
+  @override
+  String get startupErrorReport => 'Informar en GitHub';
+
+  @override
   String get backgroundPresetAnimatedWaves => 'Ondas animadas';
 
   @override

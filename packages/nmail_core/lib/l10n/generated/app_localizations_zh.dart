@@ -1462,6 +1462,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String get notFoundBackToInbox => '返回收件箱';
 
   @override
+  String get startupErrorTitle => 'Nmail 无法启动';
+
+  @override
+  String get startupErrorBody => '加载本地数据失败。请复制下面的详细信息并在 GitHub 上反馈，以便修复该问题。';
+
+  @override
+  String get startupErrorWebHint =>
+      '常见原因是网站存储被阻止、使用了隐私窗口或浏览器扩展程序。请尝试重新加载页面，或允许该网站存储数据。';
+
+  @override
+  String get startupErrorDetails => '错误详情';
+
+  @override
+  String get startupErrorCopyDetails => '复制详情';
+
+  @override
+  String get startupErrorReport => '在 GitHub 上反馈';
+
+  @override
   String get backgroundPresetAnimatedWaves => '动态波纹';
 
   @override

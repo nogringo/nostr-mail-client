@@ -609,6 +609,12 @@
 
   "notFoundTitle": "Sivua ei löydy",
   "notFoundBackToInbox": "Palaa saapuneisiin",
+  "startupErrorTitle": "Nmail ei käynnistynyt",
+  "startupErrorBody": "Paikallisten tietojen lataaminen epäonnistui. Kopioi alla olevat tiedot ja ilmoita ne GitHubissa, jotta ongelma voidaan korjata.",
+  "startupErrorWebHint": "Yleisimmät syyt ovat estetty sivuston tallennustila, yksityinen ikkuna tai selainlaajennus. Kokeile ladata sivu uudelleen tai salli sivustolle tietojen tallentaminen.",
+  "startupErrorDetails": "Virheen tiedot",
+  "startupErrorCopyDetails": "Kopioi tiedot",
+  "startupErrorReport": "Ilmoita GitHubissa",
   "backgroundPresetAnimatedWaves": "Animoidut aallot",
   "backgroundPresetSoftGradient": "Pehmeä liukuväri",
   "backgroundPresetBloomImage": "Kukinta",

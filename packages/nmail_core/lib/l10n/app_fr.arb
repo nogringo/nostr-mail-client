@@ -604,6 +604,12 @@
 
   "notFoundTitle": "Page introuvable",
   "notFoundBackToInbox": "Retour à la boîte de réception",
+  "startupErrorTitle": "Nmail n'a pas pu démarrer",
+  "startupErrorBody": "Le chargement des données locales a échoué. Copiez les détails ci-dessous et signalez-les sur GitHub pour que le problème soit corrigé.",
+  "startupErrorWebHint": "Les causes habituelles sont un stockage du site bloqué, une fenêtre de navigation privée ou une extension du navigateur. Essayez de recharger la page, ou autorisez ce site à stocker des données.",
+  "startupErrorDetails": "Détails de l'erreur",
+  "startupErrorCopyDetails": "Copier les détails",
+  "startupErrorReport": "Signaler sur GitHub",
   "backgroundPresetAnimatedWaves": "Ondes animées",
   "backgroundPresetSoftGradient": "Dégradé doux",
   "backgroundPresetBloomImage": "Floraison",

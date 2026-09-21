@@ -2851,6 +2851,42 @@ abstract class AppLocalizations {
   /// **'Back to inbox'**
   String get notFoundBackToInbox;
 
+  /// Heading of the screen shown when the app bootstrap throws before the first frame
+  ///
+  /// In en, this message translates to:
+  /// **'Nmail couldn\'t start'**
+  String get startupErrorTitle;
+
+  /// Body of the startup error screen, asking the user to send the error details
+  ///
+  /// In en, this message translates to:
+  /// **'Loading the local data failed. Copy the details below and report them on GitHub so the problem can be fixed.'**
+  String get startupErrorBody;
+
+  /// Extra line on the startup error screen, web only, listing what usually blocks local storage in a browser
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked site storage, a private window, or a browser extension are the usual causes. Try reloading the page, or allow this site to store data.'**
+  String get startupErrorWebHint;
+
+  /// Label above the box holding the startup error message and its stack trace
+  ///
+  /// In en, this message translates to:
+  /// **'Error details'**
+  String get startupErrorDetails;
+
+  /// Button on the startup error screen that copies the error and stack trace to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy details'**
+  String get startupErrorCopyDetails;
+
+  /// Button on the startup error screen that opens a prefilled GitHub issue
+  ///
+  /// In en, this message translates to:
+  /// **'Report on GitHub'**
+  String get startupErrorReport;
+
   /// Name of the bundled animated background preset with light and dark variants
   ///
   /// In en, this message translates to:

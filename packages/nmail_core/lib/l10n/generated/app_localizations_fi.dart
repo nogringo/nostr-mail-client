@@ -1548,6 +1548,26 @@ class AppLocalizationsFi extends AppLocalizations {
   String get notFoundBackToInbox => 'Palaa saapuneisiin';
 
   @override
+  String get startupErrorTitle => 'Nmail ei käynnistynyt';
+
+  @override
+  String get startupErrorBody =>
+      'Paikallisten tietojen lataaminen epäonnistui. Kopioi alla olevat tiedot ja ilmoita ne GitHubissa, jotta ongelma voidaan korjata.';
+
+  @override
+  String get startupErrorWebHint =>
+      'Yleisimmät syyt ovat estetty sivuston tallennustila, yksityinen ikkuna tai selainlaajennus. Kokeile ladata sivu uudelleen tai salli sivustolle tietojen tallentaminen.';
+
+  @override
+  String get startupErrorDetails => 'Virheen tiedot';
+
+  @override
+  String get startupErrorCopyDetails => 'Kopioi tiedot';
+
+  @override
+  String get startupErrorReport => 'Ilmoita GitHubissa';
+
+  @override
   String get backgroundPresetAnimatedWaves => 'Animoidut aallot';
 
   @override

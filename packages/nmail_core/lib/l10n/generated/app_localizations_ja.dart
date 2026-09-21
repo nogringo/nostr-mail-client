@@ -1473,6 +1473,26 @@ class AppLocalizationsJa extends AppLocalizations {
   String get notFoundBackToInbox => '受信トレイに戻る';
 
   @override
+  String get startupErrorTitle => 'Nmail を起動できませんでした';
+
+  @override
+  String get startupErrorBody =>
+      'ローカルデータの読み込みに失敗しました。下の詳細をコピーして GitHub で報告してください。問題の修正に役立ちます。';
+
+  @override
+  String get startupErrorWebHint =>
+      'サイトのストレージのブロック、プライベートウィンドウ、ブラウザ拡張機能が主な原因です。ページを再読み込みするか、このサイトにデータの保存を許可してください。';
+
+  @override
+  String get startupErrorDetails => 'エラーの詳細';
+
+  @override
+  String get startupErrorCopyDetails => '詳細をコピー';
+
+  @override
+  String get startupErrorReport => 'GitHub で報告';
+
+  @override
   String get backgroundPresetAnimatedWaves => '動く波';
 
   @override

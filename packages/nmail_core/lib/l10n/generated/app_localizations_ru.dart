@@ -1566,6 +1566,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get notFoundBackToInbox => 'Вернуться во входящие';
 
   @override
+  String get startupErrorTitle => 'Не удалось запустить Nmail';
+
+  @override
+  String get startupErrorBody =>
+      'Не удалось загрузить локальные данные. Скопируйте подробности ниже и сообщите о них на GitHub, чтобы проблему исправили.';
+
+  @override
+  String get startupErrorWebHint =>
+      'Обычные причины: заблокированное хранилище сайта, приватное окно или расширение браузера. Попробуйте перезагрузить страницу или разрешите сайту хранить данные.';
+
+  @override
+  String get startupErrorDetails => 'Подробности ошибки';
+
+  @override
+  String get startupErrorCopyDetails => 'Скопировать подробности';
+
+  @override
+  String get startupErrorReport => 'Сообщить на GitHub';
+
+  @override
   String get backgroundPresetAnimatedWaves => 'Анимированные волны';
 
   @override

@@ -1549,6 +1549,26 @@ class AppLocalizationsPt extends AppLocalizations {
   String get notFoundBackToInbox => 'Voltar à caixa de entrada';
 
   @override
+  String get startupErrorTitle => 'O Nmail não conseguiu iniciar';
+
+  @override
+  String get startupErrorBody =>
+      'Falhou o carregamento dos dados locais. Copie os detalhes abaixo e comunique-os no GitHub para que o problema possa ser corrigido.';
+
+  @override
+  String get startupErrorWebHint =>
+      'As causas habituais são o armazenamento do site bloqueado, uma janela privada ou uma extensão do navegador. Tente recarregar a página ou permita que este site guarde dados.';
+
+  @override
+  String get startupErrorDetails => 'Detalhes do erro';
+
+  @override
+  String get startupErrorCopyDetails => 'Copiar detalhes';
+
+  @override
+  String get startupErrorReport => 'Comunicar no GitHub';
+
+  @override
   String get backgroundPresetAnimatedWaves => 'Ondas animadas';
 
   @override
@@ -3192,6 +3212,26 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get notFoundBackToInbox => 'Voltar para a caixa de entrada';
+
+  @override
+  String get startupErrorTitle => 'O Nmail não conseguiu iniciar';
+
+  @override
+  String get startupErrorBody =>
+      'Não foi possível carregar os dados locais. Copie os detalhes abaixo e relate no GitHub para que o problema possa ser corrigido.';
+
+  @override
+  String get startupErrorWebHint =>
+      'As causas mais comuns são o armazenamento do site bloqueado, uma janela anônima ou uma extensão do navegador. Tente recarregar a página ou permita que este site armazene dados.';
+
+  @override
+  String get startupErrorDetails => 'Detalhes do erro';
+
+  @override
+  String get startupErrorCopyDetails => 'Copiar detalhes';
+
+  @override
+  String get startupErrorReport => 'Relatar no GitHub';
 
   @override
   String get backgroundPresetAnimatedWaves => 'Ondas animadas';
