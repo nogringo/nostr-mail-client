@@ -10,6 +10,7 @@ import 'settings_controller.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
+import 'package:nmail_core/utils/selection_range.dart';
 
 enum MailFolder { inbox, sent, trash, archive }
 
@@ -27,6 +28,11 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final selectedIds = <String>{}.obs;
   final Rx<DateTime?> _backgroundTime = Rx<DateTime?>(null);
   final RxSet<String> readEmailIds = <String>{}.obs;
+
+  /// Row a shift-click extends the selection from: the last one toggled on
+  /// its own, and whether that toggle checked or unchecked it.
+  String? _selectionAnchorId;
+  bool _selectionAnchorChecked = false;
 
   StreamSubscription? _notifySubscription;
   StreamSubscription? _reloadSubscription;
@@ -107,14 +113,36 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     } else {
       selectedIds.add(id);
     }
+    _selectionAnchorId = id;
+    _selectionAnchorChecked = selectedIds.contains(id);
+  }
+
+  /// Applies the anchor's own state to every row between it and [id], so a
+  /// shift-click picks a whole run at once, and undoes one just as fast.
+  void extendSelectionTo(String id) {
+    final anchor = _selectionAnchorId;
+    final range = anchor == null
+        ? const <String>[]
+        : idsInRange(emails.map((e) => e.id).toList(), anchor, id);
+    if (range.isEmpty) {
+      toggleSelection(id);
+      return;
+    }
+    if (_selectionAnchorChecked) {
+      selectedIds.addAll(range);
+    } else {
+      selectedIds.removeAll(range);
+    }
   }
 
   void selectAll() {
     selectedIds.assignAll(emails.map((e) => e.id));
+    _selectionAnchorId = null;
   }
 
   void clearSelection() {
     selectedIds.clear();
+    _selectionAnchorId = null;
   }
 
   Future<void> deleteSelected() async {
@@ -126,7 +154,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
         ids.map((id) => _nostrMailService.client.moveToTrash(id)),
       );
     }
-    selectedIds.clear();
+    clearSelection();
     await _loadEmails();
   }
 
@@ -135,7 +163,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     await Future.wait(
       ids.map((id) => _nostrMailService.client.moveToArchive(id)),
     );
-    selectedIds.clear();
+    clearSelection();
     await _loadEmails();
   }
 
@@ -150,7 +178,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
         ids.map((id) => _nostrMailService.client.restoreFromArchive(id)),
       );
     }
-    selectedIds.clear();
+    clearSelection();
     await _loadEmails();
   }
 
@@ -208,7 +236,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
     emails.clear();
     readEmailIds.clear();
-    selectedIds.clear();
+    clearSelection();
     oldEmailsCount.value = 0;
     isSyncing.value = false;
     isDeletingFromTrash.value = false;
@@ -290,7 +318,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   void setFolder(MailFolder folder) {
     if (currentFolder.value != folder) {
       currentFolder.value = folder;
-      selectedIds.clear();
+      clearSelection();
       isSearchMode.value = false;
       searchQuery.value = ''; // Clear search when switching folders
       _loadEmails();
@@ -437,7 +465,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       final trashed = await client.getSummaries(folder: 'trash');
       await client.delete(trashed.items.map((email) => email.id));
 
-      selectedIds.clear();
+      clearSelection();
       oldEmailsCount.value = 0;
       await _loadEmails();
     } finally {

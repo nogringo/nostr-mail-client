@@ -1,6 +1,7 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/utils/format_date.dart';
@@ -24,6 +25,10 @@ class EmailTile extends StatelessWidget {
   final VoidCallback onTap;
   final bool isSelected;
   final VoidCallback? onToggleSelect;
+
+  /// Selects everything between the last toggled row and this one. Wired to
+  /// shift-click on wide layouts.
+  final VoidCallback? onExtendSelect;
   final VoidCallback? onReply;
   final VoidCallback? onForward;
   final VoidCallback? onDelete;
@@ -36,12 +41,16 @@ class EmailTile extends StatelessWidget {
     required this.onTap,
     this.isSelected = false,
     this.onToggleSelect,
+    this.onExtendSelect,
     this.onReply,
     this.onForward,
     this.onDelete,
     this.onArchive,
     this.onRestore,
   });
+
+  bool get _extendRequested =>
+      onExtendSelect != null && HardwareKeyboard.instance.isShiftPressed;
 
   /// Check if I am the sender of this email
   bool get _isSentByMe {
@@ -506,7 +515,13 @@ class EmailTile extends StatelessWidget {
       final attachments = email.attachmentRefs;
 
       return InkWell(
-        onTap: onTap,
+        onTap: () {
+          if (_extendRequested) {
+            onExtendSelect!();
+            return;
+          }
+          onTap();
+        },
         child: Container(
           color: isSelected
               ? colorScheme.primaryContainer.withValues(alpha: 0.3)
@@ -519,7 +534,9 @@ class EmailTile extends StatelessWidget {
                 child: Checkbox(
                   value: isSelected,
                   onChanged: onToggleSelect != null
-                      ? (_) => onToggleSelect!()
+                      ? (_) => _extendRequested
+                            ? onExtendSelect!()
+                            : onToggleSelect!()
                       : null,
                 ),
               ),

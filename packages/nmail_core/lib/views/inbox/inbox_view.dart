@@ -83,6 +83,8 @@ class InboxView extends GetView<InboxController> {
                         isSelected: controller.isSelected(email.id),
                         onToggleSelect: () =>
                             controller.toggleSelection(email.id),
+                        onExtendSelect: () =>
+                            controller.extendSelectionTo(email.id),
                         onReply: () => _replyTo(context, email),
                         onForward: () => _forward(context, email),
                         onDelete: () => _deleteEmail(context, email),
