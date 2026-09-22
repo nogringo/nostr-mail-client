@@ -1009,10 +1009,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: d26edb798d14f22f2fb521f03e79bfbdce68819410d50cb8bd9461ddef54d094
+      sha256: a5599e7f09987d628bc3230416ea1e908365b6d0a5ca7ade7642ab89aac1ed78
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.2.2"
   objective_c:
     dependency: transitive
     description:

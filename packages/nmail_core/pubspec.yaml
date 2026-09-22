@@ -47,7 +47,7 @@ dependencies:
   ndk_drift: ^0.1.1-dev.15
   ndk_flutter: ^0.9.0-dev.7
   nostr_address_book: ^0.5.0
-  nostr_mail: ^3.2.1
+  nostr_mail: ^3.2.2
   package_info_plus: ^9.0.1
   pasteboard: ^0.5.0
   path: ^1.9.1
