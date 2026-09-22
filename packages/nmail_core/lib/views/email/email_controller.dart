@@ -15,6 +15,7 @@ import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/get_mime_type.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
+import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/image_viewer_page.dart';
@@ -46,13 +47,32 @@ class EmailController extends GetxController {
   Email? email;
   bool isLoading = true;
   bool showRecipients = false;
-  late bool showImages;
   String? rawContent;
   bool isLoadingRawContent = false;
+  EmailHtml? emailHtml;
+
+  late bool _showImages;
 
   EmailController({required this.eventReference, this.folder}) {
-    showImages = Get.find<SettingsController>().alwaysLoadImages.value;
+    _showImages = Get.find<SettingsController>().alwaysLoadImages.value;
     loadEmail();
+  }
+
+  bool get showImages => _showImages;
+
+  set showImages(bool value) {
+    if (_showImages == value) return;
+    _showImages = value;
+    _buildEmailHtml();
+  }
+
+  /// Resolving the stylesheet is too costly to repeat on every rebuild, and it
+  /// depends on [showImages] because blocked images also cover CSS backgrounds.
+  void _buildEmailHtml() {
+    final html = email?.htmlBody;
+    emailHtml = html == null || html.isEmpty
+        ? null
+        : prepareEmailHtml(html, allowRemoteImages: _showImages);
   }
 
   EmailPerson get senderPerson {
@@ -133,6 +153,7 @@ class EmailController extends GetxController {
           );
 
     email = loaded;
+    _buildEmailHtml();
     isLoading = false;
     update();
 

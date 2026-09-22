@@ -40,6 +40,7 @@ import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
+import 'package:nmail_core/utils/app_color_schemes.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/views/startup_error/startup_error_app.dart';
 
@@ -205,21 +206,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeService = Get.find<ThemeService>();
     final settingsController = Get.find<SettingsController>();
 
     return Obx(() {
-      final systemAccent = SystemTheme.accentColor.accent;
-
-      final lightScheme =
-          themeService.lightColorScheme.value ??
-          ColorScheme.fromSeed(seedColor: systemAccent);
-      final darkScheme =
-          themeService.darkColorScheme.value ??
-          ColorScheme.fromSeed(
-            seedColor: systemAccent,
-            brightness: Brightness.dark,
-          );
+      final lightScheme = appLightColorScheme();
+      final darkScheme = appDarkColorScheme();
 
       final sharedInputDecorationTheme = InputDecorationTheme(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),

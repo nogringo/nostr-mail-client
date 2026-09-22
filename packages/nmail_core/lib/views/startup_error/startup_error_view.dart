@@ -15,9 +15,8 @@ class StartupErrorView extends StatelessWidget {
 
   /// What the screen shows, copies and files as an issue. Redacted here rather
   /// than at the report button, so the box holds exactly what leaves the app.
-  String get _details => redactHomePaths(
-    stackTrace == null ? '$error' : '$error\n\n$stackTrace',
-  );
+  String get _details =>
+      redactHomePaths(stackTrace == null ? '$error' : '$error\n\n$stackTrace');
 
   @override
   Widget build(BuildContext context) {

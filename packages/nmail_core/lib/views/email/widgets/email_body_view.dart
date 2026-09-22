@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
+import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/views/email/widgets/html_body_view.dart';
 
 import 'attachments_section_view.dart';
@@ -11,7 +12,7 @@ class EmailBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final htmlBody = email.htmlBody;
+    final emailHtml = EmailController.to.emailHtml;
     final attachments = email.attachmentRefs;
 
     return Column(
@@ -23,8 +24,8 @@ class EmailBodyView extends StatelessWidget {
           const Divider(height: 32),
         ],
         // Email body
-        if (htmlBody != null && htmlBody.isNotEmpty)
-          HtmlBodyView(htmlBody: htmlBody)
+        if (emailHtml != null)
+          HtmlBodyView(emailHtml: emailHtml)
         else
           SelectableText(
             email.body,

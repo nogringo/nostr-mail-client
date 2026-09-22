@@ -1,3 +1,6 @@
-bool htmlHasImages(String html) {
-  return RegExp(r'<img[\s>/]', caseSensitive: false).hasMatch(html);
-}
+final _imageMarkup = RegExp(
+  '<img[\\s>/]|background(-image)?\\s*:[^;"\']*url\\(',
+  caseSensitive: false,
+);
+
+bool htmlHasImages(String html) => _imageMarkup.hasMatch(html);
