@@ -635,7 +635,9 @@ class EmailTile extends StatelessWidget {
 
       return ListTile(
         onTap: () {
-          if (isSelectionMode) {
+          if (_extendRequested) {
+            onExtendSelect!();
+          } else if (isSelectionMode) {
             // In selection mode, toggle selection instead of opening email
             onToggleSelect?.call();
           } else {
