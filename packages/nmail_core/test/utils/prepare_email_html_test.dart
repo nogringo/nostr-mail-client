@@ -294,28 +294,60 @@ void main() {
     });
   });
 
-  group('prepareEmailHtml hasImages', () {
-    bool hasImages(String html, {bool allowRemoteImages = true}) =>
-        prepareEmailHtml(html, allowRemoteImages: allowRemoteImages).hasImages;
+  group('prepareEmailHtml hasRemoteImages', () {
+    bool hasRemoteImages(String html, {bool allowRemoteImages = true}) =>
+        prepareEmailHtml(
+          html,
+          allowRemoteImages: allowRemoteImages,
+        ).hasRemoteImages;
 
     test('is false for plain markup', () {
-      expect(hasImages('<p>bonjour</p>'), isFalse);
+      expect(hasRemoteImages('<p>bonjour</p>'), isFalse);
     });
 
     test('is true for an img tag', () {
-      expect(hasImages('<img src="https://e.test/p.gif">'), isTrue);
+      expect(hasRemoteImages('<img src="https://e.test/p.gif">'), isTrue);
     });
 
     test('stays true for a blocked background coming from a style block', () {
       const html =
           '<style>.hero{background-image:url(https://e.test/p.gif)}</style>'
           '<div class="hero">x</div>';
-      expect(hasImages(html, allowRemoteImages: false), isTrue);
+      expect(hasRemoteImages(html, allowRemoteImages: false), isTrue);
     });
 
     test('stays true for a blocked background on an inline attribute', () {
       const html = '<div style="background:#fff url(p.gif) no-repeat">x</div>';
-      expect(hasImages(html, allowRemoteImages: false), isTrue);
+      expect(hasRemoteImages(html, allowRemoteImages: false), isTrue);
+    });
+
+    test('is false when the only image comes with the message', () {
+      const html = '<p>bonjour</p><img src="cid:logo@nmail">';
+      expect(hasRemoteImages(html, allowRemoteImages: false), isFalse);
+    });
+  });
+
+  group('prepareEmailHtml inlineImageCids', () {
+    Set<String> cidsOf(String html) =>
+        prepareEmailHtml(html, allowRemoteImages: true).inlineImageCids;
+
+    test('collects the content ids the body references', () {
+      const html =
+          '<style>.a{color:red}</style>'
+          '<img class="a" src="cid:logo@nmail">';
+      expect(cidsOf(html), {'logo@nmail'});
+    });
+
+    test('is empty when no image comes with the message', () {
+      expect(cidsOf('<img src="https://e.test/p.gif">'), isEmpty);
+    });
+
+    test('leaves the cid src in place for the renderer to resolve', () {
+      const html = '<style>.a{color:red}</style><img src="cid:logo@nmail">';
+      expect(
+        prepareEmailHtml(html, allowRemoteImages: false).html,
+        contains('src="cid:logo@nmail"'),
+      );
     });
   });
 

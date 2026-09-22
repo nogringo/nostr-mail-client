@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -14,6 +15,7 @@ import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/get_mime_type.dart';
+import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
@@ -53,6 +55,12 @@ class EmailController extends GetxController {
 
   late bool _showImages;
 
+  /// Inline images keyed by Content-ID. A null value marks one that cannot be
+  /// resolved, so it is not looked up again.
+  final Map<String, Uint8List?> _inlineImages = {};
+  final Map<String, Future<Uint8List?>> _inlineImageLoads = {};
+  Future<void> _inlineImageQueue = Future.value();
+
   EmailController({required this.eventReference, this.folder}) {
     _showImages = Get.find<SettingsController>().alwaysLoadImages.value;
     loadEmail();
@@ -73,6 +81,62 @@ class EmailController extends GetxController {
     emailHtml = html == null || html.isEmpty
         ? null
         : prepareEmailHtml(html, allowRemoteImages: _showImages);
+  }
+
+  /// Bytes of an inline image, once resolved. Feeding these back as a
+  /// `FutureBuilder` initial value keeps a rebuilt image on screen instead of
+  /// blanking it for a frame.
+  Uint8List? resolvedInlineImage(String contentId) => _inlineImages[contentId];
+
+  Future<Uint8List?> inlineImageBytes(String contentId) {
+    if (_inlineImages.containsKey(contentId)) {
+      return Future.value(_inlineImages[contentId]);
+    }
+
+    final email = this.email;
+    if (email == null) return Future.value();
+
+    // A part the extractor left alone still carries its payload, so it needs
+    // no download and paints on the first frame.
+    final embedded = inlineImageFromMime(email.mime, contentId);
+    if (embedded != null) {
+      _inlineImages[contentId] = embedded;
+      return Future.value(embedded);
+    }
+
+    return _inlineImageLoads.putIfAbsent(
+      contentId,
+      () => _loadInlineImage(email, contentId),
+    );
+  }
+
+  /// Runs one download at a time: on a cache miss `getAttachmentBytes`
+  /// downloads and decrypts the whole message blob, and nothing dedupes that
+  /// work, so a signature with five logos would fetch it five times over.
+  Future<Uint8List?> _loadInlineImage(Email email, String contentId) async {
+    final ref = inlineImageRef(email.attachmentRefs, contentId);
+    if (ref == null) {
+      _inlineImages[contentId] = null;
+      return null;
+    }
+
+    final previous = _inlineImageQueue;
+    final done = Completer<void>();
+    _inlineImageQueue = done.future;
+    await previous;
+
+    try {
+      final bytes = await Get.find<NostrMailService>().client
+          .getAttachmentBytes(email, ref);
+      _inlineImages[contentId] = bytes;
+      return bytes;
+    } catch (_) {
+      _inlineImages[contentId] = null;
+      return null;
+    } finally {
+      _inlineImageLoads.remove(contentId);
+      done.complete();
+    }
   }
 
   EmailPerson get senderPerson {

@@ -3,7 +3,7 @@ import 'package:csslib/visitor.dart' as ast;
 import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as html_parser;
 
-import 'package:nmail_core/utils/html_has_images.dart';
+import 'package:nmail_core/utils/html_image_scan.dart';
 
 const _maxHtmlLength = 2 * 1024 * 1024;
 const _maxCssLength = 512 * 1024;
@@ -70,9 +70,14 @@ class EmailHtml {
   /// expects to be read on a light surface.
   final bool declaresColors;
 
-  /// Whether the source carried any image, read before blocked CSS
-  /// backgrounds were dropped so the reader can still offer to load them.
-  final bool hasImages;
+  /// Whether the source carried an image the app has to fetch over the
+  /// network, read before blocked CSS backgrounds were dropped so the reader
+  /// can still offer to load them.
+  final bool hasRemoteImages;
+
+  /// The Content-IDs the body references with `<img src="cid:...">`, which the
+  /// message carries itself.
+  final Set<String> inlineImageCids;
 
   /// Whether the email carries its own page background, which makes it
   /// readable on any theme and means it needs no surface of ours.
@@ -81,7 +86,8 @@ class EmailHtml {
   const EmailHtml({
     required this.html,
     required this.declaresColors,
-    required this.hasImages,
+    required this.hasRemoteImages,
+    required this.inlineImageCids,
     this.paintsOwnBackground = false,
   });
 }
@@ -92,10 +98,16 @@ class EmailHtml {
 /// elements, so the cascade has to be applied before it sees the markup.
 EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
   // Read on the source: blocked CSS backgrounds are gone from the output.
-  final hasImages = htmlHasImages(html);
+  final hasRemoteImages = htmlHasRemoteImages(html);
+  final inlineImageCids = htmlInlineImageCids(html);
 
   if (html.length > _maxHtmlLength) {
-    return EmailHtml(html: html, declaresColors: false, hasImages: hasImages);
+    return EmailHtml(
+      html: html,
+      declaresColors: false,
+      hasRemoteImages: hasRemoteImages,
+      inlineImageCids: inlineImageCids,
+    );
   }
 
   try {
@@ -122,13 +134,19 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
     return EmailHtml(
       html: rewritten ? fragment.outerHtml : html,
       declaresColors: declaresColors,
-      hasImages: hasImages,
+      hasRemoteImages: hasRemoteImages,
+      inlineImageCids: inlineImageCids,
       paintsOwnBackground: pageDeclarations.any(
         (d) => _backgroundProperties.contains(d.property),
       ),
     );
   } catch (_) {
-    return EmailHtml(html: html, declaresColors: false, hasImages: hasImages);
+    return EmailHtml(
+      html: html,
+      declaresColors: false,
+      hasRemoteImages: hasRemoteImages,
+      inlineImageCids: inlineImageCids,
+    );
   }
 }
 
@@ -295,8 +313,9 @@ void _wrapInPageElement(
 
   final merged = <String, String>{};
   for (final declaration in declarations) {
-    if (!declaration.important)
+    if (!declaration.important) {
       merged[declaration.property] = declaration.value;
+    }
   }
   for (final declaration in declarations) {
     if (declaration.important) merged[declaration.property] = declaration.value;

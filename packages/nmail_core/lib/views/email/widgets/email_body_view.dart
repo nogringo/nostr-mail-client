@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
+import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/views/email/widgets/html_body_view.dart';
 
@@ -13,7 +14,13 @@ class EmailBodyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final emailHtml = EmailController.to.emailHtml;
-    final attachments = email.attachmentRefs;
+
+    // An image the body displays inline is part of the message, not something
+    // to offer for download alongside it.
+    final inlineCids = emailHtml?.inlineImageCids ?? const <String>{};
+    final attachments = email.attachmentRefs
+        .where((ref) => !inlineCids.contains(normalizeContentId(ref.contentId)))
+        .toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

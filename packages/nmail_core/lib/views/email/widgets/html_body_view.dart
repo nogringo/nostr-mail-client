@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/confirm_open_link.dart';
+import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/views/email/widgets/email_html_surface.dart';
+import 'package:nmail_core/views/email/widgets/email_widget_factory.dart';
 
 class HtmlBodyView extends StatelessWidget {
   final EmailHtml emailHtml;
@@ -17,7 +19,7 @@ class HtmlBodyView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (emailHtml.hasImages && !EmailController.to.showImages)
+        if (emailHtml.hasRemoteImages && !EmailController.to.showImages)
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -59,10 +61,14 @@ class HtmlBodyView extends StatelessWidget {
             child: HtmlWidget(
               emailHtml.html,
               key: ValueKey(EmailController.to.showImages),
+              factoryBuilder: EmailWidgetFactory.new,
+              // An image the message carries needs no request, so blocking it
+              // would protect nothing. Returning null hands it to the factory.
               customWidgetBuilder: EmailController.to.showImages
                   ? null
                   : (element) {
-                      if (element.localName == 'img') {
+                      if (element.localName == 'img' &&
+                          !isEmbeddedImageUrl(element.attributes['src'])) {
                         return const SizedBox.shrink();
                       }
                       return null;
