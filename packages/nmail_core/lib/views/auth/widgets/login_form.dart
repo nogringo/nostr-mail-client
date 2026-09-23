@@ -6,6 +6,7 @@ import 'package:ndk_flutter/ndk_flutter.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/auth_controller.dart';
+import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
@@ -88,10 +89,7 @@ class LoginForm extends GetView<AuthController> {
                   enablePubkeyLogin: false,
                   enableAccountCreation: false,
                   nostrConnect: NostrConnect(
-                    relays: [
-                      "wss://relay.camelus.app",
-                      "wss://nostr-01.yakihonne.com",
-                    ],
+                    relays: NostrConfig.nostrConnectRelays,
                     perms: [
                       "get_public_key",
                       "nip44_encrypt",

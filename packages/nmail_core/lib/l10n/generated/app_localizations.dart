@@ -1441,7 +1441,7 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{{count} attachment} other{{count} attachments}}'**
   String emailAttachmentCount(int count);
 
-  /// Name of the custom accessibility action on a mailbox row that adds it to the selection, the screen-reader equivalent of the checkbox and of long-pressing the row
+  /// Name of the custom accessibility action on a mailbox row that adds it to the selection, the screen-reader equivalent of tapping the avatar and of long-pressing the row
   ///
   /// In en, this message translates to:
   /// **'Select'**

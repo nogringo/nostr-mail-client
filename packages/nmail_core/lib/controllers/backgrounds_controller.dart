@@ -53,14 +53,8 @@ class BackgroundsController extends GetxController {
 
   Future<void> select(String? path) => _settings.setBackgroundImage(path);
 
-  Future<PlatformFile?> pickImage() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-      withData: !PlatformHelper.isNative,
-    );
-    return result?.files.single;
-  }
+  Future<PlatformFile?> pickImage() =>
+      FilePicker.pickFile(type: FileType.image);
 
   Future<void> addPickedImage(BuildContext context, PlatformFile picked) {
     return PlatformHelper.isNative
@@ -171,9 +165,6 @@ class BackgroundsController extends GetxController {
     BuildContext context,
     PlatformFile picked,
   ) async {
-    final bytes = picked.bytes;
-    if (bytes == null) return;
-
     final l = AppLocalizations.of(context);
     isBusy.value = true;
 
@@ -181,7 +172,7 @@ class BackgroundsController extends GetxController {
       final userServers = await Get.find<NostrMailService>()
           .getBlossomServers();
       final results = await Get.find<Ndk>().blossom.uploadBlob(
-        data: stripMediaMetadata(bytes),
+        data: stripMediaMetadata(await picked.readAsBytes()),
         contentType: picked.extension != null
             ? 'image/${picked.extension}'
             : null,

@@ -3,7 +3,6 @@ class NostrConfig {
     'wss://relay.nmail.li',
     'wss://nostr-01.yakihonne.com',
     'wss://nos.lol',
-    'wss://relay.damus.io',
     'wss://relay.primal.net',
   ];
 
@@ -14,7 +13,6 @@ class NostrConfig {
     'wss://nostr-01.yakihonne.com',
     'wss://nos.lol',
     'wss://purplepag.es',
-    'wss://relay.damus.io',
     'wss://relay.primal.net',
   ];
 
@@ -25,20 +23,27 @@ class NostrConfig {
     'wss://user.kindpag.es',
   ];
 
+  /// NIP-46 relays for QR code logins. Each session keeps the list it logged
+  /// in with, so a change only reaches new logins.
+  static const nostrConnectRelays = [
+    'wss://relay.nmail.li',
+    'wss://relay.primal.net',
+  ];
+
   static const recommendedInboxOutboxRelays = [
     'wss://relay.nmail.li',
     'wss://nostr-01.yakihonne.com',
-    'wss://relay.damus.io',
     'wss://relay.primal.net',
   ];
 
   static const recommendedDmRelays = [
-    'wss://auth.nostr1.com',
     'wss://relay.nmail.li',
+    'wss://auth.nostr1.com',
   ];
 
   static const recommendedBlossomServers = [
     'https://blossom.nmail.li',
+    'https://blossom.ditto.pub',
     'https://blossom.yakihonne.com',
     'https://blossom.primal.net',
   ];

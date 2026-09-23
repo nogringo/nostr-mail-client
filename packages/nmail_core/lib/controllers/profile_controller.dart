@@ -86,16 +86,12 @@ class ProfileController extends GetxController {
 
   Future<void> pickAndUploadPicture(BuildContext context) async {
     final l = AppLocalizations.of(context);
-    final result = await FilePicker.pickFiles(
+    final file = await FilePicker.pickFile(
       dialogTitle: l.profileSelectPicture,
       type: FileType.image,
-      allowMultiple: false,
-      withData: true,
     );
+    if (file == null) return;
 
-    if (result == null || result.files.single.bytes == null) return;
-
-    final file = result.files.single;
     isUploadingPicture.value = true;
     update();
 
@@ -110,7 +106,7 @@ class ProfileController extends GetxController {
           : NostrConfig.recommendedBlossomServers;
 
       final uploadResults = await ndk.blossom.uploadBlob(
-        data: stripMediaMetadata(file.bytes!),
+        data: stripMediaMetadata(await file.readAsBytes()),
         contentType: file.extension != null ? 'image/${file.extension}' : null,
         serverUrls: serverUrls,
       );

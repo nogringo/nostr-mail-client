@@ -135,17 +135,15 @@ class ContactsController extends GetxController {
   Future<void> importContacts(BuildContext context) async {
     final l = AppLocalizations.of(context);
     try {
-      final result = await FilePicker.pickFiles(
+      final file = await FilePicker.pickFile(
         dialogTitle: l.contactsImport,
         type: FileType.custom,
         allowedExtensions: ['vcf'],
-        withData: true,
       );
-      final bytes = result?.files.singleOrNull?.bytes;
-      if (bytes == null) return;
+      if (file == null) return;
 
       final forms = AddressBookVCardMapper.formsFromVCardText(
-        utf8.decode(bytes),
+        utf8.decode(await file.readAsBytes()),
       );
       if (forms.isEmpty) {
         if (!context.mounted) return;

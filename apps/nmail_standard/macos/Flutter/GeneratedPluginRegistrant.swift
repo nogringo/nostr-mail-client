@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import connectivity_plus
-import file_picker
+import file_picker_darwin
 import file_saver
 import firebase_core
 import firebase_messaging
@@ -17,6 +17,7 @@ import pasteboard
 import pdfium_flutter
 import quill_native_bridge_macos
 import screen_retriever_macos
+import shared_preferences_foundation
 import sqflite_darwin
 import system_theme
 import url_launcher_macos
@@ -35,6 +36,7 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   PDFiumFlutterPlugin.register(with: registry.registrar(forPlugin: "PDFiumFlutterPlugin"))
   QuillNativeBridgePlugin.register(with: registry.registrar(forPlugin: "QuillNativeBridgePlugin"))
   ScreenRetrieverMacosPlugin.register(with: registry.registrar(forPlugin: "ScreenRetrieverMacosPlugin"))
+  SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
   SystemThemePlugin.register(with: registry.registrar(forPlugin: "SystemThemePlugin"))
   UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))

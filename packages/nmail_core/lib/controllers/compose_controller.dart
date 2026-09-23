@@ -366,27 +366,18 @@ class ComposeController extends GetxController {
     final l = AppLocalizations.of(Get.context!);
     try {
       // TODO: limit file size
-      final result = await FilePicker.pickFiles(
+      final files = await FilePicker.pickFiles(
         dialogTitle: l.composeSelectAttachments,
-        allowMultiple: true,
-        withData: true, // TODO: do not use, will be deprecated
       );
 
-      if (result != null && result.files.isNotEmpty) {
-        for (final file in result.files) {
-          if (file.path != null && file.bytes != null) {
-            final filename = file.name;
-            final mimeType = _getMimeType(file.path!);
-
-            attachments.add(
-              ComposeAttachment(
-                filename: filename,
-                data: stripMediaMetadata(file.bytes!),
-                mimeType: mimeType,
-              ),
-            );
-          }
-        }
+      for (final file in files) {
+        attachments.add(
+          ComposeAttachment(
+            filename: file.name,
+            data: stripMediaMetadata(await file.readAsBytes()),
+            mimeType: _getMimeType(file.name),
+          ),
+        );
       }
     } catch (e) {
       if (Get.context != null) {
