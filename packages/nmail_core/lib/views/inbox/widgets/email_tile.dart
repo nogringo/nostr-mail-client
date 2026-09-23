@@ -19,6 +19,7 @@ import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
+import '../../../widgets/selectable_avatar.dart';
 
 class EmailTile extends StatelessWidget {
   final EmailSummary email;
@@ -51,6 +52,11 @@ class EmailTile extends StatelessWidget {
 
   bool get _extendRequested =>
       onExtendSelect != null && HardwareKeyboard.instance.isShiftPressed;
+
+  VoidCallback? get _onSelectTap {
+    if (onToggleSelect == null) return null;
+    return () => _extendRequested ? onExtendSelect!() : onToggleSelect!();
+  }
 
   /// Check if I am the sender of this email
   bool get _isSentByMe {
@@ -178,9 +184,10 @@ class EmailTile extends StatelessWidget {
     ].where((part) => part.isNotEmpty).join(', ');
   }
 
-  /// Screen-reader equivalents of the swipe gestures and the checkbox, which
-  /// [Semantics.excludeSemantics] would otherwise leave unreachable. Mirrors
-  /// the directions [Dismissible] accepts for the current folder.
+  /// Screen-reader equivalents of the swipe gestures and of the avatar's
+  /// selection tap, which [Semantics.excludeSemantics] would otherwise leave
+  /// unreachable. Mirrors the directions [Dismissible] accepts for the current
+  /// folder.
   Map<CustomSemanticsAction, VoidCallback> _semanticsActions(
     AppLocalizations l, {
     required bool isInTrash,
@@ -210,67 +217,62 @@ class EmailTile extends StatelessWidget {
     final isInArchive = currentFolder == MailFolder.archive;
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Column(
-      children: [
-        Obx(
-          () => Semantics(
-            label: _semanticsLabel(context),
-            button: true,
-            selected: isSelected,
-            excludeSemantics: true,
-            onTap: onTap,
-            onLongPress: onToggleSelect,
-            customSemanticsActions: _semanticsActions(
-              l,
-              isInTrash: isInTrash,
-              isInArchive: isInArchive,
-            ),
-            child: Dismissible(
-              key: ValueKey(email.id),
-              direction: isInTrash
-                  ? DismissDirection.endToStart
-                  : DismissDirection.horizontal,
-              background: Container(
-                color: isInArchive ? Colors.blue : Colors.green,
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(left: 16),
-                child: Icon(
-                  isInArchive ? Icons.inbox : Icons.archive,
-                  color: Colors.white,
-                ),
-              ),
-              secondaryBackground: Container(
-                color: colorScheme.error,
-                alignment: Alignment.centerRight,
-                padding: const EdgeInsets.only(right: 16),
-                child: Icon(Icons.delete, color: colorScheme.onError),
-              ),
-              onDismissed: (direction) {
-                if (direction == DismissDirection.startToEnd) {
-                  // Swipe right - archive (or restore from archive)
-                  if (isInArchive) {
-                    onRestore?.call();
-                  } else {
-                    onArchive?.call();
-                  }
-                } else if (direction == DismissDirection.endToStart) {
-                  // Swipe left - delete
-                  onDelete?.call();
-                }
-              },
-              child: GestureDetector(
-                onSecondaryTapUp: (details) =>
-                    _showContextMenu(context, position: details.globalPosition),
-                onLongPress: () => _showContextMenu(context),
-                child: isWide
-                    ? _buildCompactTile(context, colorScheme)
-                    : _buildDefaultTile(context),
-              ),
+    return Obx(
+      () => Semantics(
+        label: _semanticsLabel(context),
+        button: true,
+        selected: isSelected,
+        excludeSemantics: true,
+        onTap: onTap,
+        onLongPress: onToggleSelect,
+        customSemanticsActions: _semanticsActions(
+          l,
+          isInTrash: isInTrash,
+          isInArchive: isInArchive,
+        ),
+        child: Dismissible(
+          key: ValueKey(email.id),
+          direction: isInTrash
+              ? DismissDirection.endToStart
+              : DismissDirection.horizontal,
+          background: Container(
+            color: isInArchive ? Colors.blue : Colors.green,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(left: 16),
+            child: Icon(
+              isInArchive ? Icons.inbox : Icons.archive,
+              color: Colors.white,
             ),
           ),
+          secondaryBackground: Container(
+            color: colorScheme.error,
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 16),
+            child: Icon(Icons.delete, color: colorScheme.onError),
+          ),
+          onDismissed: (direction) {
+            if (direction == DismissDirection.startToEnd) {
+              // Swipe right - archive (or restore from archive)
+              if (isInArchive) {
+                onRestore?.call();
+              } else {
+                onArchive?.call();
+              }
+            } else if (direction == DismissDirection.endToStart) {
+              // Swipe left - delete
+              onDelete?.call();
+            }
+          },
+          child: GestureDetector(
+            onSecondaryTapUp: (details) =>
+                _showContextMenu(context, position: details.globalPosition),
+            onLongPress: () => _showContextMenu(context),
+            child: isWide
+                ? _buildCompactTile(context, colorScheme)
+                : _buildDefaultTile(context),
+          ),
         ),
-        const Divider(height: 1),
-      ],
+      ),
     );
   }
 
@@ -515,6 +517,10 @@ class EmailTile extends StatelessWidget {
       final attachments = email.attachmentRefs;
 
       return InkWell(
+        // InkWell defaults to adaptiveClickable, an arrow off the web, while
+        // ListTile always resolves to the hand: without this the cursor would
+        // change with the layout.
+        mouseCursor: WidgetStateMouseCursor.clickable,
         onTap: () {
           if (_extendRequested) {
             onExtendSelect!();
@@ -526,25 +532,29 @@ class EmailTile extends StatelessWidget {
           color: isSelected
               ? colorScheme.primaryContainer.withValues(alpha: 0.3)
               : null,
+          // The separator belongs to the row: as its own widget it left a strip
+          // the row's cursor and taps never reached. Painted in the foreground
+          // so it costs no height.
+          foregroundDecoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: colorScheme.outlineVariant),
+            ),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Row(
             children: [
               SizedBox(
-                width: 40,
-                child: Checkbox(
-                  value: isSelected,
-                  onChanged: onToggleSelect != null
-                      ? (_) => _extendRequested
-                            ? onExtendSelect!()
-                            : onToggleSelect!()
-                      : null,
-                ),
-              ),
-              SizedBox(
-                width: 160,
+                width: 200,
                 child: Row(
                   children: [
-                    _buildAvatar(context, compact: true),
+                    SelectableAvatar(
+                      id: email.id,
+                      hoveredId: Get.find<InboxController>().hoveredEmailId,
+                      avatar: _buildAvatar(context, compact: true),
+                      radius: 14,
+                      isSelected: isSelected,
+                      onToggle: _onSelectTap,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: _buildDisplayNameText(
@@ -633,77 +643,95 @@ class EmailTile extends StatelessWidget {
       final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
       final hasPreview = email.preview.isNotEmpty;
 
-      return ListTile(
-        onTap: () {
-          if (_extendRequested) {
-            onExtendSelect!();
-          } else if (isSelectionMode) {
-            // In selection mode, toggle selection instead of opening email
+      return Container(
+        // See the compact tile: the separator is painted over the row's own
+        // bottom edge so it leaves no strip outside it.
+        foregroundDecoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: colorScheme.outlineVariant)),
+        ),
+        child: ListTile(
+          selected: isSelected,
+          selectedColor: colorScheme.onSurface,
+          selectedTileColor: colorScheme.primaryContainer.withValues(
+            alpha: 0.3,
+          ),
+          onTap: () {
+            if (_extendRequested) {
+              onExtendSelect!();
+            } else if (isSelectionMode) {
+              // In selection mode, toggle selection instead of opening email
+              onToggleSelect?.call();
+            } else {
+              // Normal mode, open email
+              onTap();
+            }
+          },
+          onLongPress: () {
+            // Long press to enter selection mode
             onToggleSelect?.call();
-          } else {
-            // Normal mode, open email
-            onTap();
-          }
-        },
-        onLongPress: () {
-          // Long press to enter selection mode
-          onToggleSelect?.call();
-        },
-        leading: _buildAvatarWithSelection(context),
-        title: Row(
-          children: [
-            if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
-            Expanded(
-              child: _buildDisplayNameText(
-                TextStyle(
-                  color: colorScheme.onSurfaceVariant,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
+          },
+          leading: SelectableAvatar(
+            id: email.id,
+            hoveredId: controller.hoveredEmailId,
+            avatar: _buildAvatar(context),
+            isSelected: isSelected,
+            onToggle: _onSelectTap,
+          ),
+          title: Row(
+            children: [
+              if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
+              Expanded(
+                child: _buildDisplayNameText(
+                  TextStyle(
+                    color: colorScheme.onSurfaceVariant,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              formatDate(context, email.date),
-              style: TextStyle(
-                color: colorScheme.onSurfaceVariant,
-                fontSize: 11,
-              ),
-            ),
-          ],
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              subject,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: colorScheme.onSurface,
-                fontSize: 13,
-                fontWeight: isUnread ? FontWeight.w600 : FontWeight.w500,
-              ),
-            ),
-            if (hasPreview) ...[
-              const SizedBox(height: 2),
+              const SizedBox(width: 8),
               Text(
-                email.preview,
+                formatDate(context, email.date),
+                style: TextStyle(
+                  color: colorScheme.onSurfaceVariant,
+                  fontSize: 11,
+                ),
+              ),
+            ],
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                subject,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: colorScheme.onSurfaceVariant,
+                  color: colorScheme.onSurface,
                   fontSize: 13,
+                  fontWeight: isUnread ? FontWeight.w600 : FontWeight.w500,
                 ),
               ),
+              if (hasPreview) ...[
+                const SizedBox(height: 2),
+                Text(
+                  email.preview,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: colorScheme.onSurfaceVariant,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+              if (attachments.isNotEmpty) ...[
+                const SizedBox(height: 8),
+                AttachmentsChipsView(attachments: attachments),
+              ],
             ],
-            if (attachments.isNotEmpty) ...[
-              const SizedBox(height: 8),
-              AttachmentsChipsView(attachments: attachments),
-            ],
-          ],
+          ),
+          isThreeLine: hasPreview || attachments.isNotEmpty,
         ),
-        isThreeLine: hasPreview || attachments.isNotEmpty,
       );
     });
   }
@@ -758,15 +786,5 @@ class EmailTile extends StatelessWidget {
         child: baseAvatar,
       ),
     );
-  }
-
-  Widget _buildAvatarWithSelection(BuildContext context) {
-    final mainAvatar = _buildAvatar(context);
-
-    if (!isSelected) {
-      return mainAvatar;
-    }
-
-    return CircleAvatar(child: Icon(Icons.check));
   }
 }

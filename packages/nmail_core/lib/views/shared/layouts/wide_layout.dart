@@ -20,17 +20,19 @@ class WideLayout extends StatelessWidget {
     return Row(
       children: [
         const LeftRail(),
-        Container(
+        SizedBox(
           width: LayoutConstants.sidebarWidth,
-          decoration: BoxDecoration(
+          // Material, not a coloured Container: an opaque box here would hide
+          // the ink its subtree paints (ripples, ListTile selection).
+          child: Material(
             color: colorScheme.surface.withValues(alpha: 0.72),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(LayoutConstants.borderRadius),
               bottomLeft: Radius.circular(LayoutConstants.borderRadius),
             ),
+            clipBehavior: Clip.antiAlias,
+            child: isContacts ? const ContactsSidebar() : const AppSidebar(),
           ),
-          clipBehavior: Clip.antiAlias,
-          child: isContacts ? const ContactsSidebar() : const AppSidebar(),
         ),
         VerticalDivider(
           width: 1,
@@ -38,13 +40,11 @@ class WideLayout extends StatelessWidget {
           color: colorScheme.outlineVariant,
         ),
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(LayoutConstants.borderRadius),
-                bottomRight: Radius.circular(LayoutConstants.borderRadius),
-              ),
+          child: Material(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(LayoutConstants.borderRadius),
+              bottomRight: Radius.circular(LayoutConstants.borderRadius),
             ),
             clipBehavior: Clip.antiAlias,
             child: Theme(

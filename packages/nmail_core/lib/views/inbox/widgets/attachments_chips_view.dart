@@ -31,6 +31,7 @@ class AttachmentsChipsView extends StatelessWidget {
               shape: const CircleBorder(),
               labelPadding: EdgeInsets.zero,
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              mouseCursor: MouseCursor.defer,
             ),
           ),
         ],

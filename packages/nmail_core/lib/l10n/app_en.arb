@@ -527,7 +527,7 @@
     }
   },
   "emailSelectRow": "Select",
-  "@emailSelectRow": { "description": "Name of the custom accessibility action on a mailbox row that adds it to the selection, the screen-reader equivalent of the checkbox and of long-pressing the row" },
+  "@emailSelectRow": { "description": "Name of the custom accessibility action on a mailbox row that adds it to the selection, the screen-reader equivalent of tapping the avatar and of long-pressing the row" },
 
   "emailNotFound": "Email not found",
   "@emailNotFound": { "description": "Error shown on the email screen when the email id does not resolve" },

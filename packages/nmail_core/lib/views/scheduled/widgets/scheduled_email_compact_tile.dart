@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nmail_core/controllers/scheduled_controller.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/scheduled_email_extensions.dart';
+import 'package:nmail_core/widgets/selectable_avatar.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'scheduled_recipient_avatar.dart';
@@ -35,31 +39,44 @@ class ScheduledEmailCompactTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l = AppLocalizations.of(context);
 
     return Semantics(
       button: true,
       selected: isSelected,
       child: InkWell(
+        // Matches ListTile's hand, which InkWell only uses on the web.
+        mouseCursor: WidgetStateMouseCursor.clickable,
         onTap: selectionMode ? onToggleSelect : onOpen,
         child: Container(
           color: isSelected
               ? colorScheme.primaryContainer.withValues(alpha: 0.3)
               : null,
+          // The row paints its own separator, so no strip falls outside it.
+          foregroundDecoration: BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: colorScheme.outlineVariant),
+            ),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Row(
             children: [
               SizedBox(
-                width: 40,
-                child: Checkbox(
-                  value: isSelected,
-                  onChanged: (_) => onToggleSelect(),
-                ),
-              ),
-              SizedBox(
-                width: 160,
+                width: 200,
                 child: Row(
                   children: [
-                    ScheduledRecipientAvatar(email: email, radius: 14),
+                    SelectableAvatar(
+                      id: email.packageId,
+                      hoveredId: Get.find<ScheduledController>().hoveredId,
+                      avatar: ScheduledRecipientAvatar(
+                        email: email,
+                        radius: 14,
+                      ),
+                      radius: 14,
+                      isSelected: isSelected,
+                      onToggle: onToggleSelect,
+                      semanticsLabel: l.emailSelectRow,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(

@@ -16,6 +16,9 @@ class AttachmentChipView extends StatelessWidget {
       avatar: Icon(icon),
       label: Text(filename, maxLines: 1, overflow: TextOverflow.ellipsis),
       shape: const StadiumBorder(),
+      // A chip with no callback reports itself disabled and would show the
+      // arrow over a clickable row; defer to whatever holds it instead.
+      mouseCursor: MouseCursor.defer,
     );
   }
 }

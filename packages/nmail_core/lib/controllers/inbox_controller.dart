@@ -28,6 +28,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final selectedIds = <String>{}.obs;
   final Rx<DateTime?> _backgroundTime = Rx<DateTime?>(null);
   final RxSet<String> readEmailIds = <String>{}.obs;
+  final hoveredEmailId = RxnString();
 
   /// Row a shift-click extends the selection from: the last one toggled on
   /// its own, and whether that toggle checked or unchecked it.

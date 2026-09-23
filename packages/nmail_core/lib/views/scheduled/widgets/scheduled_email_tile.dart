@@ -14,8 +14,8 @@ import 'scheduled_email_default_tile.dart';
 
 /// A scheduled email rendered like a Sent email row: it is, after all, an
 /// email that has not gone out yet. Mirrors [EmailTile]: a dense compact row
-/// with a selection checkbox on desktop, a taller ListTile elsewhere, selection
-/// and cancellation working the same way as the Sent list.
+/// on desktop, a taller ListTile elsewhere, selection and cancellation working
+/// the same way as the Sent list.
 class ScheduledEmailTile extends StatelessWidget {
   final ScheduledEmail email;
   final DateTime now;
@@ -86,28 +86,23 @@ class ScheduledEmailTile extends StatelessWidget {
             onOpen: onOpen,
           );
 
-    return Column(
-      children: [
-        Dismissible(
-          key: ValueKey(email.packageId),
-          direction: _canCancel
-              ? DismissDirection.endToStart
-              : DismissDirection.none,
-          background: Container(
-            color: colorScheme.error,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 16),
-            child: Icon(Icons.cancel_schedule_send, color: colorScheme.onError),
-          ),
-          onDismissed: (_) => onCancel(),
-          child: GestureDetector(
-            onSecondaryTapUp: (details) =>
-                _showContextMenu(context, details.globalPosition),
-            child: tile,
-          ),
-        ),
-        const Divider(height: 1),
-      ],
+    return Dismissible(
+      key: ValueKey(email.packageId),
+      direction: _canCancel
+          ? DismissDirection.endToStart
+          : DismissDirection.none,
+      background: Container(
+        color: colorScheme.error,
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 16),
+        child: Icon(Icons.cancel_schedule_send, color: colorScheme.onError),
+      ),
+      onDismissed: (_) => onCancel(),
+      child: GestureDetector(
+        onSecondaryTapUp: (details) =>
+            _showContextMenu(context, details.globalPosition),
+        child: tile,
+      ),
     );
   }
 

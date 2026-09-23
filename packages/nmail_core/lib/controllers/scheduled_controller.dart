@@ -13,6 +13,7 @@ class ScheduledController extends GetxController {
   final isLoading = false.obs;
   final isSyncing = false.obs;
   final selectedIds = <String>{}.obs;
+  final hoveredId = RxnString();
 
   /// Ticks so an email turns overdue on screen without waiting for feedback.
   final now = DateTime.now().obs;
