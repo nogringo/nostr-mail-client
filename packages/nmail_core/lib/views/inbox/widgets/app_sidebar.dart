@@ -22,7 +22,7 @@ class AppSidebar extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             child: SizedBox(
               width: double.infinity,
               child: FilledButton.icon(

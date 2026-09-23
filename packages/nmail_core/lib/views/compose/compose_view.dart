@@ -24,6 +24,7 @@ class ComposeView extends StatelessWidget {
         actions: [
           if (!isWide) ...[
             const ScheduleSendButton(),
+            const SizedBox(width: 4),
             const SendButtonMenu(isMobile: true),
           ],
         ],

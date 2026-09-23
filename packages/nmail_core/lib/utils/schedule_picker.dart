@@ -19,7 +19,7 @@ Future<void> pickScheduleTime(BuildContext context) async {
     context: context,
     initialDate: suggested,
     firstDate: now,
-    lastDate: now.add(const Duration(days: 365)),
+    lastDate: DateTime(now.year + 5, now.month, now.day),
   );
   if (date == null || !context.mounted) return;
 

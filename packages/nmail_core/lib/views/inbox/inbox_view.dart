@@ -160,11 +160,15 @@ class InboxView extends GetView<InboxController> {
                   onPressed: controller.clearSelection,
                 );
               }
+              // AppBar only centers a leading that is itself an IconButton,
+              // so a wrapped one needs its own Center or it fills the 56px slot.
               return Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(Icons.menu),
-                  tooltip: l.inboxMenu,
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+                builder: (context) => Center(
+                  child: IconButton(
+                    icon: const Icon(Icons.menu),
+                    tooltip: l.inboxMenu,
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  ),
                 ),
               );
             }(),

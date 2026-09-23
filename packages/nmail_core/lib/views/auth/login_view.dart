@@ -23,11 +23,15 @@ class LoginView extends GetView<AuthController> {
       appBar: isAddingAccount
           ? AppBar(
               title: Text(AppLocalizations.of(context).inboxAddAccount),
+              // AppBar only centers a leading that is itself an IconButton,
+              // so a wrapped one needs its own Center or it fills the 56px slot.
               leading: Obx(
                 // No shortcut past the sync code backup of a fresh account.
                 () => controller.showSyncCodeExplanation.value
                     ? const SizedBox.shrink()
-                    : BackButton(onPressed: AppRouter.popOrGoInbox),
+                    : Center(
+                        child: BackButton(onPressed: AppRouter.popOrGoInbox),
+                      ),
               ),
             )
           : null,

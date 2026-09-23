@@ -56,9 +56,7 @@ class WideLayout extends StatelessWidget {
                   backgroundColor: colorScheme.surface,
                   scrolledUnderElevation: 0,
                   shape: Border(
-                    bottom: BorderSide(
-                      color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-                    ),
+                    bottom: BorderSide(color: colorScheme.outlineVariant),
                   ),
                 ),
               ),

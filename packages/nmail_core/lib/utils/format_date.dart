@@ -24,5 +24,8 @@ String formatDate(BuildContext context, DateTime date) {
 /// where a relative "yesterday/today" label would be misleading.
 String formatAbsoluteDateTime(BuildContext context, DateTime date) {
   final locale = Localizations.localeOf(context).toString();
-  return DateFormat.MMMd(locale).add_jm().format(date);
+  final format = date.year == DateTime.now().year
+      ? DateFormat.MMMd(locale)
+      : DateFormat.yMMMd(locale);
+  return format.add_jm().format(date);
 }

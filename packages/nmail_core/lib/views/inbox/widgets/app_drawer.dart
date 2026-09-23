@@ -60,7 +60,7 @@ class AppDrawer extends StatelessWidget {
         SafeArea(
           bottom: false,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -140,7 +140,7 @@ class AppDrawer extends StatelessWidget {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: 12),
           child: Divider(),
         ),
         NavigationDrawerDestination(
@@ -174,7 +174,7 @@ class AppDrawer extends StatelessWidget {
           label: Text(l.contactsTitle),
         ),
         const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: 12),
           child: Divider(),
         ),
         Padding(

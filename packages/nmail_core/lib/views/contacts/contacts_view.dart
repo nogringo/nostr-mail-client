@@ -29,11 +29,15 @@ class ContactsView extends StatelessWidget {
         actionsPadding: .only(right: 8),
         leading: isWide
             ? null
+            // AppBar only centers a leading that is itself an IconButton,
+            // so a wrapped one needs its own Center or it fills the 56px slot.
             : Builder(
-                builder: (context) => IconButton(
-                  icon: const Icon(Icons.menu),
-                  tooltip: l.inboxMenu,
-                  onPressed: () => Scaffold.of(context).openDrawer(),
+                builder: (context) => Center(
+                  child: IconButton(
+                    icon: const Icon(Icons.menu),
+                    tooltip: l.inboxMenu,
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  ),
                 ),
               ),
         title: Text(l.contactsTitle),

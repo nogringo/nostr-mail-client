@@ -29,9 +29,7 @@ class ScheduledView extends GetView<ScheduledController> {
             decoration: BoxDecoration(
               color: colorScheme.surface,
               border: Border(
-                bottom: BorderSide(
-                  color: colorScheme.outlineVariant.withValues(alpha: 0.5),
-                ),
+                bottom: BorderSide(color: colorScheme.outlineVariant),
               ),
             ),
             child: Obx(() {
@@ -87,19 +85,25 @@ class ScheduledView extends GetView<ScheduledController> {
         backgroundColor: colorScheme.surface,
         scrolledUnderElevation: 0,
         automaticallyImplyLeading: false,
+        // AppBar only centers a leading that is itself an IconButton, so these
+        // wrapped ones need their own Center or they fill the 56px slot.
         leading: Obx(() {
           if (controller.hasSelection) {
-            return IconButton(
-              icon: const Icon(Icons.close),
-              tooltip: l.inboxClearSelection,
-              onPressed: controller.clearSelection,
+            return Center(
+              child: IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: l.inboxClearSelection,
+                onPressed: controller.clearSelection,
+              ),
             );
           }
           return Builder(
-            builder: (context) => IconButton(
-              icon: const Icon(Icons.menu),
-              tooltip: l.inboxMenu,
-              onPressed: () => Scaffold.of(context).openDrawer(),
+            builder: (context) => Center(
+              child: IconButton(
+                icon: const Icon(Icons.menu),
+                tooltip: l.inboxMenu,
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              ),
             ),
           );
         }),
