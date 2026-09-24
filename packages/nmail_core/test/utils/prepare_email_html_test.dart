@@ -96,7 +96,8 @@ void main() {
     test('supports descendant selectors', () {
       const html =
           '<style>.wrap td{padding:4px}</style>'
-          '<div class="wrap"><table><tr><td>x</td></tr></table></div>';
+          '<div class="wrap"><table width="100%"><tr><td>x</td></tr></table>'
+          '</div>';
       expect(styleOf(inlined(html), 'td'), 'padding:4px');
     });
 
@@ -430,6 +431,111 @@ void main() {
           '<style>body{background-color:#111}div{border:1px solid red}</style>'
           '<p>x</p>';
       expect(prepared(html).html, isNot(contains('border')));
+    });
+  });
+
+  group('prepareEmailHtml bgcolor', () {
+    String cell(String attributes) =>
+        '<table width="100%"><tr><td $attributes>x</td></tr></table>';
+
+    test('turns a cell bgcolor into a background color', () {
+      final html = cell('bgcolor="#5865f2"');
+      expect(styleOf(inlined(html), 'td'), 'background-color:#5865f2');
+    });
+
+    test('lets the authored inline style beat the bgcolor', () {
+      final html = cell('bgcolor="#fff" style="background-color:#000"');
+      expect(
+        styleOf(inlined(html), 'td'),
+        'background-color:#fff;background-color:#000',
+      );
+    });
+
+    test('lets a style block rule beat the bgcolor', () {
+      final html =
+          '<style>td{background-color:#000}</style>${cell('bgcolor="#fff"')}';
+      expect(
+        styleOf(inlined(html), 'td'),
+        'background-color:#fff;background-color:#000',
+      );
+    });
+
+    test('ignores a bgcolor that is not a plain color', () {
+      final html = cell('bgcolor="red;display:none"');
+      expect(styleOf(inlined(html), 'td'), '');
+    });
+
+    test('converts a bgcolor only once', () {
+      final once = inlined(cell('bgcolor="#5865f2"'));
+      expect(inlined(once), once);
+    });
+  });
+
+  group('prepareEmailHtml table layout', () {
+    test('fits a table with no width and its cells to their content', () {
+      final out = inlined('<table><tr><td>x</td></tr></table>');
+      expect(styleOf(out, 'table'), 'width:auto');
+      expect(styleOf(out, 'td'), 'width:auto');
+    });
+
+    test('leaves a table with a width attribute alone', () {
+      final out = inlined('<table width="100%"><tr><td>x</td></tr></table>');
+      expect(styleOf(out, 'table'), '');
+      expect(styleOf(out, 'td'), '');
+    });
+
+    test('leaves a table with a declared width alone', () {
+      const html = '<table style="width:100%"><tr><td>x</td></tr></table>';
+      expect(styleOf(inlined(html), 'td'), '');
+    });
+
+    test('keeps the width a cell declares', () {
+      const html = '<table><tr><td style="width:50px">x</td></tr></table>';
+      expect(styleOf(inlined(html), 'td'), 'width:50px');
+    });
+
+    test('centers the text of a centered cell without a Center', () {
+      const html = '<table><tr><td align="center">x</td></tr></table>';
+      expect(styleOf(inlined(html), 'td'), 'width:auto;text-align:center');
+    });
+
+    test('keeps the text-align a centered cell declares', () {
+      const html =
+          '<table><tr><td align="center" style="text-align:left">x</td></tr>'
+          '</table>';
+      expect(styleOf(inlined(html), 'td'), 'width:auto;text-align:left');
+    });
+
+    test('leaves the cells of a nested table to that table', () {
+      const html =
+          '<table><tr><td>'
+          '<table width="100%"><tr><td class="inner">x</td></tr></table>'
+          '</td></tr></table>';
+      expect(styleOf(inlined(html), '.inner'), '');
+    });
+
+    test('centers a table aligned to the center', () {
+      const html = '<table align="center"><tr><td>x</td></tr></table>';
+      expect(
+        styleOf(inlined(html), 'table'),
+        'width:auto;margin-left:auto;margin-right:auto',
+      );
+    });
+
+    test('right-aligns a table aligned to the right', () {
+      const html = '<table align="right"><tr><td>x</td></tr></table>';
+      expect(styleOf(inlined(html), 'table'), 'width:auto;margin-left:auto');
+    });
+
+    test('keeps the margin a table declares over its align', () {
+      const html =
+          '<table align="center" style="margin:0"><tr><td>x</td></tr></table>';
+      expect(styleOf(inlined(html), 'table'), 'width:auto;margin:0');
+    });
+
+    test('applies the table hints only once', () {
+      final once = inlined('<table align="center"><tr><td>x</td></tr></table>');
+      expect(inlined(once), once);
     });
   });
 

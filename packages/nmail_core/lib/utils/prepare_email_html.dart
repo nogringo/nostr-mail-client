@@ -45,6 +45,13 @@ const _supportedPrefixes = [
 
 const _backgroundProperties = {'background', 'background-color'};
 
+const _bgcolorTags = {'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th'};
+
+final _bgcolorValue = RegExp(
+  r'^(#[0-9a-f]{3,8}|[a-z]+)$',
+  caseSensitive: false,
+);
+
 final _bodyBgcolor = RegExp(
   '''<body[^>]*\\sbgcolor\\s*=\\s*["']?([^"'\\s>]+)''',
   caseSensitive: false,
@@ -52,6 +59,18 @@ final _bodyBgcolor = RegExp(
 
 final _colorDeclaration = RegExp(
   r'(^|;)\s*(background(-color)?|color)\s*:',
+  caseSensitive: false,
+);
+
+final _widthDeclaration = RegExp(r'(^|;)\s*width\s*:', caseSensitive: false);
+
+final _textAlignDeclaration = RegExp(
+  r'(^|;)\s*text-align\s*:',
+  caseSensitive: false,
+);
+
+final _horizontalMarginDeclaration = RegExp(
+  r'(^|;)\s*margin(-left|-right)?\s*:',
   caseSensitive: false,
 );
 
@@ -122,6 +141,9 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
     if (sheet != null) {
       _applyRules(fragment, elements, sheet, allowRemoteImages);
     }
+    final bgcolorApplied = _applyBgcolor(elements);
+    final tableAlignApplied = _applyTableAlign(elements);
+    final tableWidthApplied = _applyTableWidth(elements);
     final declaresColors = _declaresColors(elements);
 
     // Applied last so the wrapper stays invisible to the selectors above.
@@ -130,7 +152,12 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
       _wrapInPageElement(fragment, pageDeclarations);
     }
 
-    final rewritten = styleElements.isNotEmpty || pageDeclarations.isNotEmpty;
+    final rewritten =
+        styleElements.isNotEmpty ||
+        pageDeclarations.isNotEmpty ||
+        bgcolorApplied ||
+        tableAlignApplied ||
+        tableWidthApplied;
     return EmailHtml(
       html: rewritten ? fragment.outerHtml : html,
       declaresColors: declaresColors,
@@ -258,6 +285,87 @@ void _applyRules(
       _serialize(important),
     ].where((part) => part.isNotEmpty).join(';');
   });
+}
+
+/// `HtmlWidget` ignores `bgcolor`. Written as the first declaration, it loses
+/// to any authored style, as a presentational hint does in a browser.
+bool _applyBgcolor(List<dom.Element> elements) {
+  var applied = false;
+  for (final element in elements) {
+    if (!_bgcolorTags.contains(element.localName)) continue;
+    final color = element.attributes['bgcolor']?.trim();
+    if (color == null || !_bgcolorValue.hasMatch(color)) continue;
+
+    element.attributes.remove('bgcolor');
+    _prependStyle(element, 'background-color:$color');
+    applied = true;
+  }
+  return applied;
+}
+
+/// `HtmlWidget` does not position a table by its `align`, so it becomes the
+/// auto margins that center or right-align the table.
+bool _applyTableAlign(List<dom.Element> elements) {
+  var applied = false;
+  for (final element in elements) {
+    if (element.localName != 'table') continue;
+    final margins = switch (element.attributes['align']?.trim().toLowerCase()) {
+      'center' => 'margin-left:auto;margin-right:auto',
+      'right' => 'margin-left:auto',
+      _ => null,
+    };
+    if (margins == null || _declares(element, _horizontalMarginDeclaration)) {
+      continue;
+    }
+
+    _prependStyle(element, margins);
+    applied = true;
+  }
+  return applied;
+}
+
+/// A browser fits a table with no width to its content. `HtmlWidget` measures
+/// each cell as a 100% wide block and treats `align="center"` like `<center>`:
+/// a 100% width, and a `Center` that fills the width it is measured against.
+bool _applyTableWidth(List<dom.Element> elements) {
+  var applied = false;
+  for (final table in elements) {
+    if (table.localName != 'table' || _hasWidth(table)) continue;
+
+    _prependStyle(table, 'width:auto');
+    for (final cell in table.querySelectorAll('td, th')) {
+      if (_closestTable(cell) != table) continue;
+      if (cell.attributes['align']?.trim().toLowerCase() == 'center' &&
+          !_declares(cell, _textAlignDeclaration)) {
+        _prependStyle(cell, 'text-align:center');
+      }
+      if (!_hasWidth(cell)) _prependStyle(cell, 'width:auto');
+    }
+    applied = true;
+  }
+  return applied;
+}
+
+dom.Element? _closestTable(dom.Element element) {
+  var parent = element.parent;
+  while (parent != null && parent.localName != 'table') {
+    parent = parent.parent;
+  }
+  return parent;
+}
+
+bool _hasWidth(dom.Element element) =>
+    element.attributes.containsKey('width') ||
+    _declares(element, _widthDeclaration);
+
+bool _declares(dom.Element element, RegExp declaration) =>
+    declaration.hasMatch(element.attributes['style'] ?? '');
+
+void _prependStyle(dom.Element element, String declarations) {
+  final style = element.attributes['style']?.trim() ?? '';
+  element.attributes['style'] = style.isEmpty
+      ? declarations
+      : '$declarations;$style';
 }
 
 /// Collects the `body` and `html` rules, which a fragment parse drops along
