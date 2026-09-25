@@ -1379,6 +1379,39 @@ class AppLocalizationsEs extends AppLocalizations {
       'Usa tu cuenta para enviar correos, seguir perfiles o usar otras aplicaciones. Una identidad permanente que funciona en muchas aplicaciones distintas.';
 
   @override
+  String get onboardingAppUsageEmail => 'Correo';
+
+  @override
+  String get onboardingAppUsageSocial => 'Red social';
+
+  @override
+  String get onboardingAppUsageArticles => 'Artículos';
+
+  @override
+  String get onboardingAppUsageShortVideos => 'Vídeos cortos';
+
+  @override
+  String get onboardingAppUsageMusic => 'Música';
+
+  @override
+  String get onboardingAppUsageMessaging => 'Mensajería';
+
+  @override
+  String get onboardingAppUsageVideoCalls => 'Videollamadas';
+
+  @override
+  String get onboardingAppUsageAppStore => 'Tienda de apps';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => 'Directos';
+
+  @override
+  String get onboardingAppUsageCommunities => 'Comunidades';
+
+  @override
+  String get onboardingAppUsagePayments => 'Pagos';
+
+  @override
   String get onboardingPage5Title => 'Diseñado para el futuro';
 
   @override

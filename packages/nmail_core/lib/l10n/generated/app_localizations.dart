@@ -2533,6 +2533,72 @@ abstract class AppLocalizations {
   /// **'Use your account to send emails, follow profiles, or use other apps. It\'s one permanent identity that works across many different applications.'**
   String get onboardingPage4Body;
 
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get onboardingAppUsageEmail;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Social network'**
+  String get onboardingAppUsageSocial;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Articles'**
+  String get onboardingAppUsageArticles;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Short videos'**
+  String get onboardingAppUsageShortVideos;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Music'**
+  String get onboardingAppUsageMusic;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Messaging'**
+  String get onboardingAppUsageMessaging;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Video calls'**
+  String get onboardingAppUsageVideoCalls;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'App store'**
+  String get onboardingAppUsageAppStore;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Live streaming'**
+  String get onboardingAppUsageLiveStreaming;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Communities'**
+  String get onboardingAppUsageCommunities;
+
+  /// Onboarding page 4: what a showcased Nostr app is used for, shown under its name
+  ///
+  /// In en, this message translates to:
+  /// **'Payments'**
+  String get onboardingAppUsagePayments;
+
   /// Onboarding page 5 title (future-proof pitch)
   ///
   /// In en, this message translates to:

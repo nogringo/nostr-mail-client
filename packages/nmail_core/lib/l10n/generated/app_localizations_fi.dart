@@ -1375,6 +1375,39 @@ class AppLocalizationsFi extends AppLocalizations {
       'Käytä tiliäsi sähköpostissa, sosiaalisessa mediassa tai muissa sovelluksissa. Yksi pysyvä identiteetti toimii erilaisissa sovelluksissa.';
 
   @override
+  String get onboardingAppUsageEmail => 'Sähköposti';
+
+  @override
+  String get onboardingAppUsageSocial => 'Sosiaalinen media';
+
+  @override
+  String get onboardingAppUsageArticles => 'Artikkelit';
+
+  @override
+  String get onboardingAppUsageShortVideos => 'Lyhytvideot';
+
+  @override
+  String get onboardingAppUsageMusic => 'Musiikki';
+
+  @override
+  String get onboardingAppUsageMessaging => 'Pikaviestit';
+
+  @override
+  String get onboardingAppUsageVideoCalls => 'Videopuhelut';
+
+  @override
+  String get onboardingAppUsageAppStore => 'Sovelluskauppa';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => 'Suoratoisto';
+
+  @override
+  String get onboardingAppUsageCommunities => 'Yhteisöt';
+
+  @override
+  String get onboardingAppUsagePayments => 'Maksut';
+
+  @override
   String get onboardingPage5Title => 'Rakennettu tulevaisuutta varten';
 
   @override

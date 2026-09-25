@@ -1304,6 +1304,39 @@ class AppLocalizationsJa extends AppLocalizations {
       'メール送信、プロフィールのフォロー、他のアプリの利用にあなたのアカウントを使用。多くのアプリで動作する、永続的なアイデンティティです。';
 
   @override
+  String get onboardingAppUsageEmail => 'メール';
+
+  @override
+  String get onboardingAppUsageSocial => 'SNS';
+
+  @override
+  String get onboardingAppUsageArticles => '記事';
+
+  @override
+  String get onboardingAppUsageShortVideos => 'ショート動画';
+
+  @override
+  String get onboardingAppUsageMusic => '音楽';
+
+  @override
+  String get onboardingAppUsageMessaging => 'メッセージ';
+
+  @override
+  String get onboardingAppUsageVideoCalls => 'ビデオ通話';
+
+  @override
+  String get onboardingAppUsageAppStore => 'アプリストア';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => 'ライブ配信';
+
+  @override
+  String get onboardingAppUsageCommunities => 'コミュニティ';
+
+  @override
+  String get onboardingAppUsagePayments => '決済';
+
+  @override
   String get onboardingPage5Title => '未来のために設計';
 
   @override

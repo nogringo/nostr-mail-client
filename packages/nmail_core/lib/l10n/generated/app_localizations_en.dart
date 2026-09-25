@@ -1369,6 +1369,39 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use your account to send emails, follow profiles, or use other apps. It\'s one permanent identity that works across many different applications.';
 
   @override
+  String get onboardingAppUsageEmail => 'Email';
+
+  @override
+  String get onboardingAppUsageSocial => 'Social network';
+
+  @override
+  String get onboardingAppUsageArticles => 'Articles';
+
+  @override
+  String get onboardingAppUsageShortVideos => 'Short videos';
+
+  @override
+  String get onboardingAppUsageMusic => 'Music';
+
+  @override
+  String get onboardingAppUsageMessaging => 'Messaging';
+
+  @override
+  String get onboardingAppUsageVideoCalls => 'Video calls';
+
+  @override
+  String get onboardingAppUsageAppStore => 'App store';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => 'Live streaming';
+
+  @override
+  String get onboardingAppUsageCommunities => 'Communities';
+
+  @override
+  String get onboardingAppUsagePayments => 'Payments';
+
+  @override
   String get onboardingPage5Title => 'Built for the Future';
 
   @override

@@ -1393,6 +1393,39 @@ class AppLocalizationsRu extends AppLocalizations {
       'Используйте свой аккаунт для писем, подписок на профили или других приложений. Постоянная идентичность работает во многих приложениях.';
 
   @override
+  String get onboardingAppUsageEmail => 'Почта';
+
+  @override
+  String get onboardingAppUsageSocial => 'Соцсеть';
+
+  @override
+  String get onboardingAppUsageArticles => 'Статьи';
+
+  @override
+  String get onboardingAppUsageShortVideos => 'Короткие видео';
+
+  @override
+  String get onboardingAppUsageMusic => 'Музыка';
+
+  @override
+  String get onboardingAppUsageMessaging => 'Мессенджер';
+
+  @override
+  String get onboardingAppUsageVideoCalls => 'Видеозвонки';
+
+  @override
+  String get onboardingAppUsageAppStore => 'Магазин приложений';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => 'Прямые эфиры';
+
+  @override
+  String get onboardingAppUsageCommunities => 'Сообщества';
+
+  @override
+  String get onboardingAppUsagePayments => 'Платежи';
+
+  @override
   String get onboardingPage5Title => 'Построено для будущего';
 
   @override

@@ -7,6 +7,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import '../../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/storage_service.dart';
+import 'widgets/onboarding_nostr_apps.dart';
 
 class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});
@@ -83,13 +84,7 @@ class OnboardingView extends StatelessWidget {
             PageViewModel(
               title: l.onboardingPage4Title,
               body: l.onboardingPage4Body,
-              image: Center(
-                child: Icon(
-                  Icons.apps_rounded,
-                  size: 100,
-                  color: colorScheme.primary,
-                ),
-              ),
+              image: const Center(child: OnboardingNostrApps()),
               decoration: _getPageDecoration(context),
             ),
             PageViewModel(

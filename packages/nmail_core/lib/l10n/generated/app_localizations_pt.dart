@@ -1377,6 +1377,39 @@ class AppLocalizationsPt extends AppLocalizations {
       'Use a sua conta para enviar emails, seguir perfis ou usar outras aplicações. Uma identidade permanente que funciona em muitas aplicações diferentes.';
 
   @override
+  String get onboardingAppUsageEmail => 'Email';
+
+  @override
+  String get onboardingAppUsageSocial => 'Rede social';
+
+  @override
+  String get onboardingAppUsageArticles => 'Artigos';
+
+  @override
+  String get onboardingAppUsageShortVideos => 'Vídeos curtos';
+
+  @override
+  String get onboardingAppUsageMusic => 'Música';
+
+  @override
+  String get onboardingAppUsageMessaging => 'Mensagens';
+
+  @override
+  String get onboardingAppUsageVideoCalls => 'Videochamadas';
+
+  @override
+  String get onboardingAppUsageAppStore => 'Loja de apps';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => 'Diretos';
+
+  @override
+  String get onboardingAppUsageCommunities => 'Comunidades';
+
+  @override
+  String get onboardingAppUsagePayments => 'Pagamentos';
+
+  @override
   String get onboardingPage5Title => 'Feito para o futuro';
 
   @override
@@ -3198,6 +3231,39 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get onboardingPage4Body =>
       'Use sua conta para enviar e-mails, seguir perfis ou usar outros aplicativos. Uma identidade permanente que funciona em muitos aplicativos diferentes.';
+
+  @override
+  String get onboardingAppUsageEmail => 'E-mail';
+
+  @override
+  String get onboardingAppUsageSocial => 'Rede social';
+
+  @override
+  String get onboardingAppUsageArticles => 'Artigos';
+
+  @override
+  String get onboardingAppUsageShortVideos => 'Vídeos curtos';
+
+  @override
+  String get onboardingAppUsageMusic => 'Música';
+
+  @override
+  String get onboardingAppUsageMessaging => 'Mensagens';
+
+  @override
+  String get onboardingAppUsageVideoCalls => 'Videochamadas';
+
+  @override
+  String get onboardingAppUsageAppStore => 'Loja de apps';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => 'Transmissões ao vivo';
+
+  @override
+  String get onboardingAppUsageCommunities => 'Comunidades';
+
+  @override
+  String get onboardingAppUsagePayments => 'Pagamentos';
 
   @override
   String get onboardingPage5Title => 'Feito para o futuro';

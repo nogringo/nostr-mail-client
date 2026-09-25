@@ -1294,6 +1294,39 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPage4Body => '用您的账户发邮件、关注资料或使用其他应用。在众多应用中通用的永久身份。';
 
   @override
+  String get onboardingAppUsageEmail => '邮件';
+
+  @override
+  String get onboardingAppUsageSocial => '社交网络';
+
+  @override
+  String get onboardingAppUsageArticles => '长文';
+
+  @override
+  String get onboardingAppUsageShortVideos => '短视频';
+
+  @override
+  String get onboardingAppUsageMusic => '音乐';
+
+  @override
+  String get onboardingAppUsageMessaging => '即时通讯';
+
+  @override
+  String get onboardingAppUsageVideoCalls => '视频通话';
+
+  @override
+  String get onboardingAppUsageAppStore => '应用商店';
+
+  @override
+  String get onboardingAppUsageLiveStreaming => '直播';
+
+  @override
+  String get onboardingAppUsageCommunities => '社区';
+
+  @override
+  String get onboardingAppUsagePayments => '支付';
+
+  @override
   String get onboardingPage5Title => '为未来而设计';
 
   @override
