@@ -523,7 +523,7 @@
   "onboardingPage1Title": "Benvenuto su Nmail",
   "onboardingPage1Body": "Scopri un'esperienza email decentralizzata che mette te al comando. Un nuovo modo di comunicare, centrato su di te.",
   "onboardingPage2Title": "Una rete che non appartiene a nessuno",
-  "onboardingPage2Body": "I tuoi messaggi viaggiano attraverso una rete globale di server indipendenti. Nessuna singola azienda possiede la tua casella di posta.",
+  "onboardingPage2Body": "I tuoi messaggi viaggiano attraverso Nostr, una rete globale di server indipendenti. Nessuna singola azienda possiede la tua casella di posta.",
   "onboardingPage3Title": "Libertà di scelta",
   "onboardingPage3Body": "Non sei mai legato a un singolo provider. Cambia bridge o relay in qualsiasi momento senza perdere la tua identità o i tuoi contatti.",
   "onboardingPage4Title": "Un'identità per tutto",

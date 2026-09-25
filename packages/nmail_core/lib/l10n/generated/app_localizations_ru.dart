@@ -1376,7 +1376,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Ваши сообщения проходят через глобальную сеть независимых серверов. Ни одна компания не владеет вашей почтой.';
+      'Ваши сообщения проходят через Nostr, глобальную сеть независимых серверов. Ни одна компания не владеет вашей почтой.';
 
   @override
   String get onboardingPage3Title => 'Свобода выбора';

@@ -1363,7 +1363,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Deine Nachrichten laufen über ein globales Netzwerk unabhängiger Server. Kein einzelnes Unternehmen besitzt deinen Posteingang.';
+      'Deine Nachrichten laufen über Nostr, ein globales Netzwerk unabhängiger Server. Kein einzelnes Unternehmen besitzt deinen Posteingang.';
 
   @override
   String get onboardingPage3Title => 'Freie Wahl';

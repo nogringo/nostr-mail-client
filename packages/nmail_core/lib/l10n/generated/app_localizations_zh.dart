@@ -1278,7 +1278,8 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPage2Title => '不属于任何人的网络';
 
   @override
-  String get onboardingPage2Body => '您的消息通过全球独立服务器网络传输。没有任何一家公司拥有您的收件箱。';
+  String get onboardingPage2Body =>
+      '您的消息通过 Nostr（一个由独立服务器组成的全球网络）传输。没有任何一家公司拥有您的收件箱。';
 
   @override
   String get onboardingPage3Title => '选择的自由';

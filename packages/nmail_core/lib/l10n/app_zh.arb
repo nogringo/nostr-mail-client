@@ -523,7 +523,7 @@
   "onboardingPage1Title": "欢迎使用 Nmail",
   "onboardingPage1Body": "发现一种由您掌控的去中心化邮件体验。一种围绕您构建的全新沟通方式。",
   "onboardingPage2Title": "不属于任何人的网络",
-  "onboardingPage2Body": "您的消息通过全球独立服务器网络传输。没有任何一家公司拥有您的收件箱。",
+  "onboardingPage2Body": "您的消息通过 Nostr（一个由独立服务器组成的全球网络）传输。没有任何一家公司拥有您的收件箱。",
   "onboardingPage3Title": "选择的自由",
   "onboardingPage3Body": "您永远不会被锁定在单一提供商。随时切换桥接或中继,不会丢失身份或联系人。",
   "onboardingPage4Title": "一个身份打通一切",

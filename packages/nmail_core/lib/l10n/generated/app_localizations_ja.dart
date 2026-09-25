@@ -1287,7 +1287,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'メッセージは独立したサーバーのグローバルネットワークを通じて流れます。あなたの受信トレイを所有する企業はありません。';
+      'メッセージは、独立したサーバーによるグローバルネットワーク「Nostr」を通じて流れます。あなたの受信トレイを所有する企業はありません。';
 
   @override
   String get onboardingPage3Title => '選択の自由';

@@ -1366,7 +1366,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Vos messages transitent par un réseau mondial de serveurs indépendants. Aucune entreprise unique ne possède votre boîte de réception.';
+      'Vos messages transitent par Nostr, un réseau mondial de serveurs indépendants. Aucune entreprise unique ne possède votre boîte de réception.';
 
   @override
   String get onboardingPage3Title => 'Liberté de choix';

@@ -1360,7 +1360,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'As suas mensagens passam por uma rede global de servidores independentes. Nenhuma empresa é dona da sua caixa de entrada.';
+      'As suas mensagens passam pelo Nostr, uma rede global de servidores independentes. Nenhuma empresa é dona da sua caixa de entrada.';
 
   @override
   String get onboardingPage3Title => 'Liberdade de escolha';
@@ -3183,7 +3183,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get onboardingPage2Body =>
-      'Suas mensagens passam por uma rede global de servidores independentes. Nenhuma empresa é dona da sua caixa de entrada.';
+      'Suas mensagens passam pelo Nostr, uma rede global de servidores independentes. Nenhuma empresa é dona da sua caixa de entrada.';
 
   @override
   String get onboardingPage3Title => 'Liberdade de escolha';

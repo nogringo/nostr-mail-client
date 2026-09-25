@@ -2506,7 +2506,7 @@ abstract class AppLocalizations {
   /// Onboarding page 2 body
   ///
   /// In en, this message translates to:
-  /// **'Your messages flow through a global network of independent servers. No single company owns your inbox.'**
+  /// **'Your messages flow through Nostr, a global network of independent servers. No single company owns your inbox.'**
   String get onboardingPage2Body;
 
   /// Onboarding page 3 title (provider freedom)

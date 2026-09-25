@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -55,10 +56,14 @@ class OnboardingView extends StatelessWidget {
               title: l.onboardingPage2Title,
               body: l.onboardingPage2Body,
               image: Center(
-                child: Icon(
-                  Icons.hub_outlined,
-                  size: 100,
-                  color: colorScheme.primary,
+                child: SvgPicture.asset(
+                  'icons/nostr.svg',
+                  width: 100,
+                  height: 100,
+                  colorFilter: ColorFilter.mode(
+                    colorScheme.primary,
+                    BlendMode.srcIn,
+                  ),
                 ),
               ),
               decoration: _getPageDecoration(context),

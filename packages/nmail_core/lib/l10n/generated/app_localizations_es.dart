@@ -1362,7 +1362,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Tus mensajes circulan por una red global de servidores independientes. Ninguna empresa es dueña de tu bandeja de entrada.';
+      'Tus mensajes circulan por Nostr, una red global de servidores independientes. Ninguna empresa es dueña de tu bandeja de entrada.';
 
   @override
   String get onboardingPage3Title => 'Libertad de elección';

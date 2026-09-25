@@ -975,7 +975,7 @@
   "@onboardingPage1Body": { "description": "Onboarding page 1 body" },
   "onboardingPage2Title": "A Network Without Masters",
   "@onboardingPage2Title": { "description": "Onboarding page 2 title (decentralization pitch)" },
-  "onboardingPage2Body": "Your messages flow through a global network of independent servers. No single company owns your inbox.",
+  "onboardingPage2Body": "Your messages flow through Nostr, a global network of independent servers. No single company owns your inbox.",
   "@onboardingPage2Body": { "description": "Onboarding page 2 body" },
   "onboardingPage3Title": "Freedom of Choice",
   "@onboardingPage3Title": { "description": "Onboarding page 3 title (provider freedom)" },

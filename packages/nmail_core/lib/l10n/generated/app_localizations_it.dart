@@ -1364,7 +1364,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'I tuoi messaggi viaggiano attraverso una rete globale di server indipendenti. Nessuna singola azienda possiede la tua casella di posta.';
+      'I tuoi messaggi viaggiano attraverso Nostr, una rete globale di server indipendenti. Nessuna singola azienda possiede la tua casella di posta.';
 
   @override
   String get onboardingPage3Title => 'Libertà di scelta';

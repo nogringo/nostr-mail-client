@@ -1358,7 +1358,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Viestisi liikkuvat maailmanlaajuisen itsenäisten palvelinten verkon läpi. Mikään yksittäinen yritys ei omista viestejäsi.';
+      'Viestisi liikkuvat Nostrin, maailmanlaajuisen itsenäisten palvelinten verkon, läpi. Mikään yksittäinen yritys ei omista viestejäsi.';
 
   @override
   String get onboardingPage3Title => 'Valinnanvapaus';

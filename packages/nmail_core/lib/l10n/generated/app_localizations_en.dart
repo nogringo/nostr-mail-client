@@ -1352,7 +1352,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingPage2Body =>
-      'Your messages flow through a global network of independent servers. No single company owns your inbox.';
+      'Your messages flow through Nostr, a global network of independent servers. No single company owns your inbox.';
 
   @override
   String get onboardingPage3Title => 'Freedom of Choice';
