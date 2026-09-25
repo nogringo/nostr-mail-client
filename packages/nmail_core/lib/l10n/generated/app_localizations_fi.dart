@@ -1354,7 +1354,7 @@ class AppLocalizationsFi extends AppLocalizations {
       'Hajautettu sähköposti, jossa sinä omistat omat viestisi. Uusi henkilökohtainen tapa viestiä.';
 
   @override
-  String get onboardingPage2Title => 'Verkko ilman hallitsijaa.';
+  String get onboardingPage2Title => 'Verkko, jota kukaan ei omista';
 
   @override
   String get onboardingPage2Body =>

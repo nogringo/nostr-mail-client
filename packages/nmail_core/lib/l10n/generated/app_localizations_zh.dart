@@ -1275,7 +1275,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get onboardingPage1Body => '发现一种由您掌控的去中心化邮件体验。一种围绕您构建的全新沟通方式。';
 
   @override
-  String get onboardingPage2Title => '没有主宰的网络';
+  String get onboardingPage2Title => '不属于任何人的网络';
 
   @override
   String get onboardingPage2Body => '您的消息通过全球独立服务器网络传输。没有任何一家公司拥有您的收件箱。';

@@ -1283,7 +1283,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'あなたが主導権を握る分散型メール体験を発見しましょう。あなたを中心にした、新しいコミュニケーションの形です。';
 
   @override
-  String get onboardingPage2Title => '支配者のいないネットワーク';
+  String get onboardingPage2Title => '誰のものでもないネットワーク';
 
   @override
   String get onboardingPage2Body =>

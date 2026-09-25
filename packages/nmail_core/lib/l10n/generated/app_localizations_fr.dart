@@ -1362,7 +1362,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Découvrez une expérience d\'e-mail décentralisée qui vous met aux commandes. Une nouvelle façon de communiquer, centrée sur vous.';
 
   @override
-  String get onboardingPage2Title => 'Un réseau sans maîtres';
+  String get onboardingPage2Title => 'Un réseau qui n\'appartient à personne';
 
   @override
   String get onboardingPage2Body =>

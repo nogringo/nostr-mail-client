@@ -1359,7 +1359,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Entdecke eine dezentrale E-Mail-Erfahrung, bei der du die Kontrolle hast. Eine neue Art zu kommunizieren – ganz auf dich ausgerichtet.';
 
   @override
-  String get onboardingPage2Title => 'Ein Netzwerk ohne Herrscher';
+  String get onboardingPage2Title => 'Ein Netzwerk, das niemandem gehört';
 
   @override
   String get onboardingPage2Body =>

@@ -1358,7 +1358,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Descubre una experiencia de correo descentralizada que te pone al mando. Una nueva forma de comunicar, centrada en ti.';
 
   @override
-  String get onboardingPage2Title => 'Una red sin amos';
+  String get onboardingPage2Title => 'Una red sin dueños';
 
   @override
   String get onboardingPage2Body =>
