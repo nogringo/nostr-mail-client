@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import '../../mailboxes/widgets/show_move_to_picker.dart';
+import '../../mailboxes/widgets/show_tags_picker.dart';
 import 'delete_permanently_dialog.dart';
 
 /// Adaptive widget that manages selection actions intelligently
@@ -25,8 +27,10 @@ class SelectionActionsBar extends StatelessWidget {
       ),
     ];
 
-    // Add mark as read/unread actions only for inbox folder
-    if (controller.currentFolder.value == MailFolder.inbox) {
+    final mailbox = controller.currentMailbox.value;
+    final canRestore = mailbox.isTrash || mailbox.isArchive;
+
+    if (mailbox.showsUnread) {
       actions.addAll([
         _ActionItem(
           icon: const Icon(Icons.mark_email_read),
@@ -45,28 +49,31 @@ class SelectionActionsBar extends StatelessWidget {
 
     actions.addAll([
       _ActionItem(
-        icon: Icon(
-          controller.currentFolder.value == MailFolder.trash ||
-                  controller.currentFolder.value == MailFolder.archive
-              ? Icons.restore_from_trash
-              : Icons.archive,
-        ),
-        label:
-            controller.currentFolder.value == MailFolder.trash ||
-                controller.currentFolder.value == MailFolder.archive
-            ? l.emailRestore
-            : l.emailArchive,
-        onPressed:
-            controller.currentFolder.value == MailFolder.trash ||
-                controller.currentFolder.value == MailFolder.archive
+        icon: Icon(canRestore ? Icons.restore_from_trash : Icons.archive),
+        label: canRestore ? l.emailRestore : l.emailArchive,
+        onPressed: canRestore
             ? controller.restoreSelected
             : controller.archiveSelected,
         isPrimary: true,
       ),
+      if (!mailbox.isTrash) ...[
+        _ActionItem(
+          icon: const Icon(Icons.drive_file_move_outlined),
+          label: l.mailboxMoveTo,
+          onPressed: () => _moveSelected(context, controller),
+          isPrimary: true,
+        ),
+        _ActionItem(
+          icon: const Icon(Icons.label_outline),
+          label: l.mailboxTags,
+          onPressed: () => _tagSelected(context, controller),
+          isPrimary: true,
+        ),
+      ],
       _ActionItem(
         icon: const Icon(Icons.delete_outline),
         label: l.actionDelete,
-        onPressed: controller.currentFolder.value == MailFolder.trash
+        onPressed: mailbox.isTrash
             ? () => _confirmDeleteSelected(context, l, controller)
             : controller.deleteSelected,
         isPrimary: true,
@@ -74,6 +81,31 @@ class SelectionActionsBar extends StatelessWidget {
     ]);
 
     return actions;
+  }
+
+  Future<void> _moveSelected(
+    BuildContext context,
+    InboxController controller,
+  ) async {
+    final folder = await showMoveToPicker(
+      context,
+      current: controller.currentMailbox.value,
+    );
+    if (folder != null) await controller.moveSelectedTo(folder);
+  }
+
+  Future<void> _tagSelected(
+    BuildContext context,
+    InboxController controller,
+  ) async {
+    final emails = controller.selectedEmails;
+    final changes = await showTagsPicker(context, emails: emails);
+    if (changes == null) return;
+    await controller.applyTags(
+      emails,
+      add: changes.add,
+      remove: changes.remove,
+    );
   }
 
   Future<void> _confirmDeleteSelected(

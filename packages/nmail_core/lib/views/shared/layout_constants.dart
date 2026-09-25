@@ -11,4 +11,8 @@ abstract class LayoutConstants {
   /// Space below a scrolling list so its last item clears the FAB. 56 is the
   /// standard FAB height, the second margin a gap above it.
   static const double fabClearance = 56 + 2 * kFloatingActionButtonMargin;
+
+  /// Inset of the navigation rows from the sidebar and drawer edges, wide
+  /// enough for the desktop scrollbar to run beside them, not over them.
+  static const double navigationInset = 12;
 }

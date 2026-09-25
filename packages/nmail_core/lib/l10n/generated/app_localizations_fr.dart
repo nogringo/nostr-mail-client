@@ -1674,4 +1674,163 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get relaySetupCreateDescription =>
       'Vous pourrez la modifier à tout moment dans les paramètres.';
+
+  @override
+  String get mailboxFolders => 'Dossiers';
+
+  @override
+  String get mailboxTags => 'Étiquettes';
+
+  @override
+  String get mailboxNewFolder => 'Nouveau dossier';
+
+  @override
+  String get mailboxNewTag => 'Nouvelle étiquette';
+
+  @override
+  String get mailboxEditFolder => 'Modifier le dossier';
+
+  @override
+  String get mailboxEditTag => 'Modifier l\'étiquette';
+
+  @override
+  String get mailboxEdit => 'Modifier';
+
+  @override
+  String get mailboxName => 'Nom';
+
+  @override
+  String get mailboxNameTaken => 'Ce nom est déjà utilisé';
+
+  @override
+  String get mailboxColor => 'Couleur';
+
+  @override
+  String get mailboxColorAuto => 'Couleur automatique';
+
+  @override
+  String mailboxColorOption(int number) {
+    return 'Couleur $number';
+  }
+
+  @override
+  String get mailboxRules => 'Règles';
+
+  @override
+  String get mailboxRulesFolderHelp =>
+      'Les e-mails qui remplissent toutes les conditions renseignées arrivent dans ce dossier.';
+
+  @override
+  String get mailboxRulesTagHelp =>
+      'Les e-mails qui remplissent toutes les conditions renseignées reçoivent cette étiquette.';
+
+  @override
+  String get mailboxRuleFrom => 'De';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper =>
+      'Séparez plusieurs valeurs par des virgules';
+
+  @override
+  String get mailboxRuleSubject => 'Le sujet contient';
+
+  @override
+  String get mailboxRuleAttachment => 'Pièces jointes';
+
+  @override
+  String get mailboxRuleAnyAttachment => 'Peu importe';
+
+  @override
+  String get mailboxRuleWithAttachment => 'Avec';
+
+  @override
+  String get mailboxRuleWithoutAttachment => 'Sans';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return 'De $values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return 'Le sujet contient $values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => 'Avec pièces jointes';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => 'Sans pièce jointe';
+
+  @override
+  String get mailboxSaveFailed => 'Enregistrement impossible. Réessayez.';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return 'Supprimer « $name » ?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ses $count e-mails retournent dans la boîte de réception ou les envoyés.',
+      one: 'Son e-mail retourne dans la boîte de réception ou les envoyés.',
+      zero: 'Le dossier est vide.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'L\'étiquette est retirée de $count e-mails.',
+      one: 'L\'étiquette est retirée d\'1 e-mail.',
+      zero: 'Aucun e-mail n\'a cette étiquette.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => 'Déplacer vers';
+
+  @override
+  String get mailboxApply => 'Appliquer';
+
+  @override
+  String get mailboxAppliedByRule => 'Appliquée par une règle';
+
+  @override
+  String get mailboxNoFolders =>
+      'Créez un dossier pour classer vos e-mails à la main ou avec une règle.';
+
+  @override
+  String get mailboxNoTags =>
+      'Créez une étiquette pour marquer vos e-mails à la main ou avec une règle.';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return 'Retirer $name';
+  }
+
+  @override
+  String get mailboxEmptyFolder => 'Ce dossier est vide';
+
+  @override
+  String get mailboxEmptyTag => 'Aucun e-mail n\'a cette étiquette';
+
+  @override
+  String get mailboxSettingsTitle => 'Dossiers et étiquettes';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return '$count non lus';
+  }
 }

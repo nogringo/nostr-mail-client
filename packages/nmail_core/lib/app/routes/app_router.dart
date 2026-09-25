@@ -11,6 +11,7 @@ import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
+import '../../models/mailbox.dart';
 import '../../controllers/profile_controller.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
@@ -40,6 +41,7 @@ import '../../views/settings/confirm_discard_identity_changes.dart';
 import '../../views/settings/debug_tools_view.dart';
 import '../../views/settings/hosting_settings_view.dart';
 import '../../views/settings/identities_view.dart';
+import '../../views/settings/mailboxes_settings_view.dart';
 import '../../views/settings/messages_settings_view.dart';
 import '../../views/settings/notifications_settings_view.dart';
 import '../../views/settings/settings_view.dart';
@@ -142,14 +144,22 @@ class AppRouter {
           // Root path inside shell: send to inbox
           GoRoute(path: '/', redirect: (_, _) => AppRoutes.inbox),
 
-          // Folder routes (URL drives InboxController.currentFolder).
-          // Each folder nests `email/:id` so opening a message via
-          // `context.go('/<folder>/email/<id>')` updates the URL AND
-          // preserves a real back-stack to the folder.
-          _folderRoute(AppRoutes.inbox, MailFolder.inbox),
-          _folderRoute(AppRoutes.sent, MailFolder.sent),
-          _folderRoute(AppRoutes.archive, MailFolder.archive),
-          _folderRoute(AppRoutes.trash, MailFolder.trash),
+          // Mailbox routes (URL drives InboxController.currentMailbox).
+          // Each one nests `email/:id` so opening a message via
+          // `context.go('/<mailbox>/email/<id>')` updates the URL AND
+          // preserves a real back-stack to the mailbox.
+          _mailboxRoute(AppRoutes.inbox, (_) => Mailbox.inbox),
+          _mailboxRoute(AppRoutes.sent, (_) => Mailbox.sent),
+          _mailboxRoute(AppRoutes.archive, (_) => Mailbox.archive),
+          _mailboxRoute(AppRoutes.trash, (_) => Mailbox.trash),
+          _mailboxRoute(
+            AppRoutes.userFolder,
+            (state) => FolderMailbox(state.pathParameters['folderId']!),
+          ),
+          _mailboxRoute(
+            AppRoutes.label,
+            (state) => TagMailbox(state.pathParameters['labelId']!),
+          ),
 
           GoRoute(
             path: AppRoutes.contacts,
@@ -257,6 +267,10 @@ class AppRouter {
                 ],
               ),
               GoRoute(
+                path: 'folders',
+                builder: (_, _) => const MailboxesSettingsView(),
+              ),
+              GoRoute(
                 path: 'messages',
                 builder: (_, _) => const MessagesSettingsView(),
               ),
@@ -306,26 +320,29 @@ class AppRouter {
     ],
   );
 
-  /// Folder route + nested `email/:id` child. The nested child means
-  /// `context.go('/<folder>/email/<id>')` updates the URL and pushes
-  /// EmailView on top of the folder in the navigator stack, so `pop()`
-  /// returns to the folder naturally.
-  static GoRoute _folderRoute(String path, MailFolder folder) {
+  /// Mailbox route + nested `email/:id` child. The nested child means
+  /// `context.go('/<mailbox>/email/<id>')` updates the URL and pushes
+  /// EmailView on top of the mailbox in the navigator stack, so `pop()`
+  /// returns to the mailbox naturally.
+  static GoRoute _mailboxRoute(
+    String path,
+    Mailbox Function(GoRouterState state) mailboxOf,
+  ) {
     return GoRoute(
       path: path,
-      // Folders are lateral peers (tab-like), not a hierarchy. Skip the
-      // default slide so switching between Inbox/Sent/Archive/Trash is
-      // instant. The nested email child keeps the default transition.
+      // Mailboxes are lateral peers (tab-like), not a hierarchy. Skip the
+      // default slide so switching between them is instant. The nested
+      // email child keeps the default transition.
       pageBuilder: (_, state) => NoTransitionPage(
         key: state.pageKey,
-        child: InboxView(folder: folder),
+        child: InboxView(mailbox: mailboxOf(state)),
       ),
       routes: [
         GoRoute(
           path: AppRoutes.emailSegment,
           builder: (_, state) {
             final id = state.pathParameters['id']!;
-            _ensureEmailController(id, folder);
+            _ensureEmailController(id, mailboxOf(state));
             return const EmailView();
           },
         ),
@@ -357,20 +374,17 @@ class AppRouter {
 
   /// (Re)register EmailController for `eventReference` only when needed.
   /// Builders can fire on rebuilds (refreshListenable, theme changes);
-  /// we must not nuke an in-flight controller for the same event/folder.
-  static void _ensureEmailController(
-    String eventReference,
-    MailFolder? folder,
-  ) {
+  /// we must not nuke an in-flight controller for the same event/mailbox.
+  static void _ensureEmailController(String eventReference, Mailbox? mailbox) {
     if (Get.isRegistered<EmailController>()) {
       final existing = Get.find<EmailController>();
       if (existing.eventReference == eventReference &&
-          existing.folder == folder) {
+          existing.mailbox == mailbox) {
         return;
       }
       Get.delete<EmailController>();
     }
-    Get.put(EmailController(eventReference: eventReference, folder: folder));
+    Get.put(EmailController(eventReference: eventReference, mailbox: mailbox));
   }
 
   static Widget _dispatchNostrId(String id) {
@@ -382,7 +396,7 @@ class AppRouter {
       return const NotFoundView();
     }
 
-    // Share-link entry point: folder context is unknown.
+    // Share-link entry point: mailbox context is unknown.
     _ensureEmailController(id, null);
     return const EmailView();
   }

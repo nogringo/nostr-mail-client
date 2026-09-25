@@ -1674,4 +1674,161 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get relaySetupCreateDescription =>
       'Puoi modificarlo in qualsiasi momento nelle impostazioni.';
+
+  @override
+  String get mailboxFolders => 'Cartelle';
+
+  @override
+  String get mailboxTags => 'Etichette';
+
+  @override
+  String get mailboxNewFolder => 'Nuova cartella';
+
+  @override
+  String get mailboxNewTag => 'Nuova etichetta';
+
+  @override
+  String get mailboxEditFolder => 'Modifica cartella';
+
+  @override
+  String get mailboxEditTag => 'Modifica etichetta';
+
+  @override
+  String get mailboxEdit => 'Modifica';
+
+  @override
+  String get mailboxName => 'Nome';
+
+  @override
+  String get mailboxNameTaken => 'Questo nome è già in uso';
+
+  @override
+  String get mailboxColor => 'Colore';
+
+  @override
+  String get mailboxColorAuto => 'Colore automatico';
+
+  @override
+  String mailboxColorOption(int number) {
+    return 'Colore $number';
+  }
+
+  @override
+  String get mailboxRules => 'Regole';
+
+  @override
+  String get mailboxRulesFolderHelp =>
+      'Le email che soddisfano tutte le condizioni compilate finiscono in questa cartella.';
+
+  @override
+  String get mailboxRulesTagHelp =>
+      'Le email che soddisfano tutte le condizioni compilate ricevono questa etichetta.';
+
+  @override
+  String get mailboxRuleFrom => 'Da';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper => 'Separa più valori con virgole';
+
+  @override
+  String get mailboxRuleSubject => 'L\'oggetto contiene';
+
+  @override
+  String get mailboxRuleAttachment => 'Allegati';
+
+  @override
+  String get mailboxRuleAnyAttachment => 'Qualsiasi';
+
+  @override
+  String get mailboxRuleWithAttachment => 'Con';
+
+  @override
+  String get mailboxRuleWithoutAttachment => 'Senza';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return 'Da $values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return 'L\'oggetto contiene $values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => 'Con allegati';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => 'Senza allegati';
+
+  @override
+  String get mailboxSaveFailed => 'Salvataggio non riuscito. Riprova.';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return 'Eliminare \"$name\"?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Le sue $count email tornano in Posta in arrivo o in Inviate.',
+      one: 'La sua email torna in Posta in arrivo o in Inviate.',
+      zero: 'La cartella è vuota.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'L\'etichetta viene tolta da $count email.',
+      one: 'L\'etichetta viene tolta da 1 email.',
+      zero: 'Nessuna email ha questa etichetta.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => 'Sposta in';
+
+  @override
+  String get mailboxApply => 'Applica';
+
+  @override
+  String get mailboxAppliedByRule => 'Applicata da una regola';
+
+  @override
+  String get mailboxNoFolders =>
+      'Crea una cartella per archiviare le email a mano o con una regola.';
+
+  @override
+  String get mailboxNoTags =>
+      'Crea un\'etichetta per contrassegnare le email a mano o con una regola.';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return 'Rimuovi $name';
+  }
+
+  @override
+  String get mailboxEmptyFolder => 'Questa cartella è vuota';
+
+  @override
+  String get mailboxEmptyTag => 'Nessuna email ha questa etichetta';
+
+  @override
+  String get mailboxSettingsTitle => 'Cartelle ed etichette';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return '$count da leggere';
+  }
 }

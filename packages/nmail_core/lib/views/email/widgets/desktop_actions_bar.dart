@@ -16,7 +16,7 @@ class DesktopActionsBar extends StatelessWidget {
       context,
       l,
       emailController,
-      emailController.folder,
+      emailController.mailbox,
     );
 
     return LayoutBuilder(

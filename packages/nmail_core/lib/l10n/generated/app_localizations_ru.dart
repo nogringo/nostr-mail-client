@@ -1686,4 +1686,165 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get relaySetupCreateDescription =>
       'Вы сможете изменить его в любой момент в настройках.';
+
+  @override
+  String get mailboxFolders => 'Папки';
+
+  @override
+  String get mailboxTags => 'Метки';
+
+  @override
+  String get mailboxNewFolder => 'Новая папка';
+
+  @override
+  String get mailboxNewTag => 'Новая метка';
+
+  @override
+  String get mailboxEditFolder => 'Изменить папку';
+
+  @override
+  String get mailboxEditTag => 'Изменить метку';
+
+  @override
+  String get mailboxEdit => 'Изменить';
+
+  @override
+  String get mailboxName => 'Название';
+
+  @override
+  String get mailboxNameTaken => 'Это название уже занято';
+
+  @override
+  String get mailboxColor => 'Цвет';
+
+  @override
+  String get mailboxColorAuto => 'Автоматический цвет';
+
+  @override
+  String mailboxColorOption(int number) {
+    return 'Цвет $number';
+  }
+
+  @override
+  String get mailboxRules => 'Правила';
+
+  @override
+  String get mailboxRulesFolderHelp =>
+      'Письма, которые отвечают всем заполненным условиям, попадают в эту папку.';
+
+  @override
+  String get mailboxRulesTagHelp =>
+      'Письма, которые отвечают всем заполненным условиям, получают эту метку.';
+
+  @override
+  String get mailboxRuleFrom => 'От';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper => 'Разделяйте несколько значений запятыми';
+
+  @override
+  String get mailboxRuleSubject => 'Тема содержит';
+
+  @override
+  String get mailboxRuleAttachment => 'Вложения';
+
+  @override
+  String get mailboxRuleAnyAttachment => 'Любые';
+
+  @override
+  String get mailboxRuleWithAttachment => 'С вложениями';
+
+  @override
+  String get mailboxRuleWithoutAttachment => 'Без вложений';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return 'От $values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return 'Тема содержит $values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => 'С вложениями';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => 'Без вложений';
+
+  @override
+  String get mailboxSaveFailed => 'Не удалось сохранить. Попробуйте ещё раз.';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return 'Удалить «$name»?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Её $count письма вернутся во «Входящие» или «Отправленные».',
+      many: 'Её $count писем вернутся во «Входящие» или «Отправленные».',
+      few: 'Её $count письма вернутся во «Входящие» или «Отправленные».',
+      one: 'Её $count письмо вернётся во «Входящие» или «Отправленные».',
+      zero: 'Папка пуста.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Метка будет снята с $count письма.',
+      many: 'Метка будет снята с $count писем.',
+      few: 'Метка будет снята с $count писем.',
+      one: 'Метка будет снята с $count письма.',
+      zero: 'Ни у одного письма нет этой метки.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => 'Переместить в';
+
+  @override
+  String get mailboxApply => 'Применить';
+
+  @override
+  String get mailboxAppliedByRule => 'Добавлена правилом';
+
+  @override
+  String get mailboxNoFolders =>
+      'Создайте папку, чтобы раскладывать письма вручную или по правилу.';
+
+  @override
+  String get mailboxNoTags =>
+      'Создайте метку, чтобы отмечать письма вручную или по правилу.';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return 'Снять метку $name';
+  }
+
+  @override
+  String get mailboxEmptyFolder => 'Эта папка пуста';
+
+  @override
+  String get mailboxEmptyTag => 'Ни у одного письма нет этой метки';
+
+  @override
+  String get mailboxSettingsTitle => 'Папки и метки';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return 'Непрочитанных: $count';
+  }
 }

@@ -1656,4 +1656,161 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get relaySetupCreateDescription =>
       'You can change it anytime in Settings.';
+
+  @override
+  String get mailboxFolders => 'Folders';
+
+  @override
+  String get mailboxTags => 'Labels';
+
+  @override
+  String get mailboxNewFolder => 'New folder';
+
+  @override
+  String get mailboxNewTag => 'New label';
+
+  @override
+  String get mailboxEditFolder => 'Edit folder';
+
+  @override
+  String get mailboxEditTag => 'Edit label';
+
+  @override
+  String get mailboxEdit => 'Edit';
+
+  @override
+  String get mailboxName => 'Name';
+
+  @override
+  String get mailboxNameTaken => 'This name is already taken';
+
+  @override
+  String get mailboxColor => 'Color';
+
+  @override
+  String get mailboxColorAuto => 'Automatic color';
+
+  @override
+  String mailboxColorOption(int number) {
+    return 'Color $number';
+  }
+
+  @override
+  String get mailboxRules => 'Rules';
+
+  @override
+  String get mailboxRulesFolderHelp =>
+      'Emails that meet every filled-in condition land in this folder.';
+
+  @override
+  String get mailboxRulesTagHelp =>
+      'Emails that meet every filled-in condition get this label.';
+
+  @override
+  String get mailboxRuleFrom => 'From';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper => 'Separate several values with commas';
+
+  @override
+  String get mailboxRuleSubject => 'Subject contains';
+
+  @override
+  String get mailboxRuleAttachment => 'Attachments';
+
+  @override
+  String get mailboxRuleAnyAttachment => 'Any';
+
+  @override
+  String get mailboxRuleWithAttachment => 'With';
+
+  @override
+  String get mailboxRuleWithoutAttachment => 'Without';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return 'From $values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return 'Subject contains $values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => 'With attachments';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => 'Without attachments';
+
+  @override
+  String get mailboxSaveFailed => 'Could not save. Try again.';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return 'Delete \"$name\"?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Its $count emails go back to Inbox or Sent.',
+      one: 'Its email goes back to Inbox or Sent.',
+      zero: 'The folder is empty.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'The label comes off $count emails.',
+      one: 'The label comes off 1 email.',
+      zero: 'No email has this label.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => 'Move to';
+
+  @override
+  String get mailboxApply => 'Apply';
+
+  @override
+  String get mailboxAppliedByRule => 'Applied by a rule';
+
+  @override
+  String get mailboxNoFolders =>
+      'Create a folder to file emails by hand or with a rule.';
+
+  @override
+  String get mailboxNoTags =>
+      'Create a label to mark emails by hand or with a rule.';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return 'Remove $name';
+  }
+
+  @override
+  String get mailboxEmptyFolder => 'This folder is empty';
+
+  @override
+  String get mailboxEmptyTag => 'No email has this label';
+
+  @override
+  String get mailboxSettingsTitle => 'Folders and labels';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return '$count unread';
+  }
 }

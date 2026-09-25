@@ -13,6 +13,7 @@ import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/account_signer_kind.dart';
+import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -154,7 +155,7 @@ class AuthController extends GetxController {
     await _nostrMailService.activateForCurrentAccount();
     if (Get.isRegistered<InboxController>()) {
       await Get.find<InboxController>().activateForCurrentAccount(
-        folder: MailFolder.inbox,
+        mailbox: Mailbox.inbox,
       );
     }
     if (Get.isRegistered<ScheduledController>()) {
@@ -360,7 +361,7 @@ class AuthController extends GetxController {
 
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().activateForCurrentAccount(
-          folder: MailFolder.inbox,
+          mailbox: Mailbox.inbox,
         );
         if (generation != _accountSwitchGeneration) return;
       }
@@ -530,7 +531,7 @@ class AuthController extends GetxController {
       }
       if (Get.isRegistered<InboxController>()) {
         await Get.find<InboxController>().activateForCurrentAccount(
-          folder: MailFolder.inbox,
+          mailbox: Mailbox.inbox,
         );
       }
       AppRouter.router.go(AppRoutes.inbox);

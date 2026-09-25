@@ -6,13 +6,13 @@ import 'package:nostr_mail/nostr_mail.dart';
 import 'package:rxdart/rxdart.dart' hide Rx;
 
 import '../app/config/app_config.dart';
+import 'mailboxes_controller.dart';
 import 'settings_controller.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/utils/selection_range.dart';
-
-enum MailFolder { inbox, sent, trash, archive }
 
 class InboxController extends GetxController with WidgetsBindingObserver {
   final _nostrMailService = Get.find<NostrMailService>();
@@ -23,7 +23,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final isSearchMode = false.obs;
   final isSyncing = false.obs;
   final isDeletingFromTrash = false.obs;
-  final currentFolder = MailFolder.inbox.obs;
+  final Rx<Mailbox> currentMailbox = Rx<Mailbox>(Mailbox.inbox);
   final oldEmailsCount = 0.obs;
   final selectedIds = <String>{}.obs;
   final Rx<DateTime?> _backgroundTime = Rx<DateTime?>(null);
@@ -37,6 +37,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   StreamSubscription? _notifySubscription;
   StreamSubscription? _reloadSubscription;
+  Worker? _mailboxesWorker;
   int _accountGeneration = 0;
   AppLifecycleState _lifecycleState = AppLifecycleState.resumed;
   DateTime? _watchStartedAt;
@@ -148,7 +149,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   Future<void> deleteSelected() async {
     final ids = selectedIds.toList();
-    if (currentFolder.value == MailFolder.trash) {
+    if (currentMailbox.value.isTrash) {
       await _nostrMailService.client.delete(ids);
     } else {
       await Future.wait(
@@ -170,7 +171,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   Future<void> restoreSelected() async {
     final ids = selectedIds.toList();
-    if (currentFolder.value == MailFolder.trash) {
+    if (currentMailbox.value.isTrash) {
       await Future.wait(
         ids.map((id) => _nostrMailService.client.restoreFromTrash(id)),
       );
@@ -183,10 +184,54 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     await _loadEmails();
   }
 
+  /// Moves [ids] to a reserved folder (`inbox`, `archive`...) or to a user
+  /// folder id.
+  Future<void> moveTo(Iterable<String> ids, String folder) async {
+    final client = _nostrMailService.client;
+    await Future.wait(ids.map((id) => client.moveToFolder(id, folder)));
+    await _loadEmails();
+  }
+
+  Future<void> moveSelectedTo(String folder) async {
+    final ids = selectedIds.toList();
+    clearSelection();
+    await moveTo(ids, folder);
+  }
+
+  /// Labels [emails] with the tags of [add] and takes the labels of [remove]
+  /// off, skipping the emails already in that state. A tag its match
+  /// condition holds needs no label.
+  Future<void> applyTags(
+    Iterable<EmailSummary> emails, {
+    Set<String> add = const {},
+    Set<String> remove = const {},
+  }) async {
+    final client = _nostrMailService.client;
+    await Future.wait([
+      for (final email in emails) ...[
+        for (final tag in add)
+          if (!email.tags.contains(tag)) client.addTag(email.id, tag),
+        for (final tag in remove)
+          if (email.labels.contains('tag:$tag'))
+            client.removeTag(email.id, tag),
+      ],
+    ]);
+    await _loadEmails();
+  }
+
+  List<EmailSummary> get selectedEmails =>
+      emails.where((e) => selectedIds.contains(e.id)).toList();
+
   @override
   void onInit() {
     super.onInit();
     WidgetsBinding.instance.addObserver(this);
+    // A changed match condition moves emails without any label event.
+    final mailboxes = Get.find<MailboxesController>();
+    _mailboxesWorker = everAll([
+      mailboxes.folders,
+      mailboxes.tags,
+    ], (_) => _loadEmails());
     if (_nostrMailService.hasAccount) {
       activateForCurrentAccount();
     }
@@ -195,6 +240,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   @override
   void onClose() {
     WidgetsBinding.instance.removeObserver(this);
+    _mailboxesWorker?.dispose();
     _notifySubscription?.cancel();
     _reloadSubscription?.cancel();
     super.onClose();
@@ -228,7 +274,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     }
   }
 
-  Future<void> resetForAccountChange({MailFolder? folder}) async {
+  Future<void> resetForAccountChange({Mailbox? mailbox}) async {
     _accountGeneration++;
     await _notifySubscription?.cancel();
     await _reloadSubscription?.cancel();
@@ -244,11 +290,11 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     isSearchMode.value = false;
     searchQuery.value = '';
     _backgroundTime.value = null;
-    if (folder != null) currentFolder.value = folder;
+    if (mailbox != null) currentMailbox.value = mailbox;
   }
 
-  Future<void> activateForCurrentAccount({MailFolder? folder}) async {
-    await resetForAccountChange(folder: folder);
+  Future<void> activateForCurrentAccount({Mailbox? mailbox}) async {
+    await resetForAccountChange(mailbox: mailbox);
     if (!_nostrMailService.hasAccount) return;
 
     await _loadEmails();
@@ -287,19 +333,16 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       return;
     }
 
+    final mailbox = currentMailbox.value;
     final loaded = await client.getSummaries(
-      folder: switch (currentFolder.value) {
-        MailFolder.inbox => 'inbox',
-        MailFolder.sent => 'sent',
-        MailFolder.trash => 'trash',
-        MailFolder.archive => 'archive',
-      },
+      folder: mailbox.folderParam,
+      tag: mailbox.tagParam,
     );
     if (generation != _accountGeneration) return;
     _applyLoaded(loaded.items);
 
     // Update old emails count if in trash folder
-    if (currentFolder.value == MailFolder.trash) {
+    if (mailbox.isTrash) {
       final count = await getOldEmailsCount();
       if (generation != _accountGeneration) return;
       oldEmailsCount.value = count;
@@ -316,12 +359,12 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     ]);
   }
 
-  void setFolder(MailFolder folder) {
-    if (currentFolder.value != folder) {
-      currentFolder.value = folder;
+  void setMailbox(Mailbox mailbox) {
+    if (currentMailbox.value != mailbox) {
+      currentMailbox.value = mailbox;
       clearSelection();
       isSearchMode.value = false;
-      searchQuery.value = ''; // Clear search when switching folders
+      searchQuery.value = ''; // Clear search when switching mailboxes
       _loadEmails();
     }
   }
@@ -403,7 +446,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> deleteEmail(String id) async {
-    if (currentFolder.value == MailFolder.trash) {
+    if (currentMailbox.value.isTrash) {
       // Permanent delete
       await _nostrMailService.client.delete([id]);
     } else {
@@ -425,7 +468,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   /// Get count of emails in trash older than 30 days
   Future<int> getOldEmailsCount() async {
-    if (currentFolder.value != MailFolder.trash) return 0;
+    if (!currentMailbox.value.isTrash) return 0;
 
     final client = _nostrMailService.client;
     final thirtyDaysAgo = const Duration(days: 30);
@@ -435,7 +478,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   /// Delete all emails in trash older than 30 days
   Future<void> deleteOldEmails() async {
-    if (currentFolder.value != MailFolder.trash) return;
+    if (!currentMailbox.value.isTrash) return;
 
     isDeletingFromTrash.value = true;
     try {
@@ -458,7 +501,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> emptyTrash() async {
-    if (currentFolder.value != MailFolder.trash) return;
+    if (!currentMailbox.value.isTrash) return;
 
     isDeletingFromTrash.value = true;
     try {

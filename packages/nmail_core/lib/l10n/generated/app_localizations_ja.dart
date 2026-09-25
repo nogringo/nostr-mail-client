@@ -1580,4 +1580,155 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get relaySetupCreateDescription => '設定からいつでも変更できます。';
+
+  @override
+  String get mailboxFolders => 'フォルダ';
+
+  @override
+  String get mailboxTags => 'タグ';
+
+  @override
+  String get mailboxNewFolder => '新しいフォルダ';
+
+  @override
+  String get mailboxNewTag => '新しいタグ';
+
+  @override
+  String get mailboxEditFolder => 'フォルダを編集';
+
+  @override
+  String get mailboxEditTag => 'タグを編集';
+
+  @override
+  String get mailboxEdit => '編集';
+
+  @override
+  String get mailboxName => '名前';
+
+  @override
+  String get mailboxNameTaken => 'この名前はすでに使われています';
+
+  @override
+  String get mailboxColor => '色';
+
+  @override
+  String get mailboxColorAuto => '自動の色';
+
+  @override
+  String mailboxColorOption(int number) {
+    return '色 $number';
+  }
+
+  @override
+  String get mailboxRules => 'ルール';
+
+  @override
+  String get mailboxRulesFolderHelp => '入力したすべての条件を満たすメールがこのフォルダに入ります。';
+
+  @override
+  String get mailboxRulesTagHelp => '入力したすべての条件を満たすメールにこのタグが付きます。';
+
+  @override
+  String get mailboxRuleFrom => '差出人';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper => '複数の値はカンマで区切ります';
+
+  @override
+  String get mailboxRuleSubject => '件名に含む';
+
+  @override
+  String get mailboxRuleAttachment => '添付ファイル';
+
+  @override
+  String get mailboxRuleAnyAttachment => '指定なし';
+
+  @override
+  String get mailboxRuleWithAttachment => 'あり';
+
+  @override
+  String get mailboxRuleWithoutAttachment => 'なし';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return '差出人: $values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return '件名に含む: $values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => '添付ファイルあり';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => '添付ファイルなし';
+
+  @override
+  String get mailboxSaveFailed => '保存できませんでした。もう一度お試しください。';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return '「$name」を削除しますか?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のメールは受信トレイか送信済みに戻ります。',
+      zero: 'このフォルダは空です。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 件のメールからタグが外れます。',
+      zero: 'このタグが付いたメールはありません。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => '移動先';
+
+  @override
+  String get mailboxApply => '適用';
+
+  @override
+  String get mailboxAppliedByRule => 'ルールで付与';
+
+  @override
+  String get mailboxNoFolders => 'フォルダを作ると、メールを手動またはルールで整理できます。';
+
+  @override
+  String get mailboxNoTags => 'タグを作ると、メールを手動またはルールで分類できます。';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return '$name を外す';
+  }
+
+  @override
+  String get mailboxEmptyFolder => 'このフォルダは空です';
+
+  @override
+  String get mailboxEmptyTag => 'このタグが付いたメールはありません';
+
+  @override
+  String get mailboxSettingsTitle => 'フォルダとタグ';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return '未読 $count 件';
+  }
 }

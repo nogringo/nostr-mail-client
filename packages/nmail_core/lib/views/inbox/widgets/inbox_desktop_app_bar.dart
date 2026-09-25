@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/utils/mail_folder_extensions.dart';
+import 'package:nmail_core/utils/mailbox_title.dart';
 import 'search_field.dart';
 import 'selection_actions_bar.dart';
 
@@ -35,7 +35,7 @@ class InboxDesktopAppBar extends GetView<InboxController> {
                 constraints: const BoxConstraints(maxWidth: 600),
                 child: const SearchField(),
               )
-            : Text(controller.currentFolder.value.title(l)),
+            : Text(controller.currentMailbox.value.title(l)),
         actionsPadding: .only(right: 8),
         actions: [
           if (hasSelection)

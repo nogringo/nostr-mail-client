@@ -3048,6 +3048,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You can change it anytime in Settings.'**
   String get relaySetupCreateDescription;
+
+  /// Sidebar section heading and settings tab listing the user's own folders
+  ///
+  /// In en, this message translates to:
+  /// **'Folders'**
+  String get mailboxFolders;
+
+  /// Sidebar section heading, settings tab, and action that opens the tag picker for emails
+  ///
+  /// In en, this message translates to:
+  /// **'Labels'**
+  String get mailboxTags;
+
+  /// Button and dialog title to create a user folder
+  ///
+  /// In en, this message translates to:
+  /// **'New folder'**
+  String get mailboxNewFolder;
+
+  /// Button and dialog title to create a user tag
+  ///
+  /// In en, this message translates to:
+  /// **'New label'**
+  String get mailboxNewTag;
+
+  /// Dialog title when editing a user folder
+  ///
+  /// In en, this message translates to:
+  /// **'Edit folder'**
+  String get mailboxEditFolder;
+
+  /// Dialog title when editing a user tag
+  ///
+  /// In en, this message translates to:
+  /// **'Edit label'**
+  String get mailboxEditTag;
+
+  /// Menu entry to edit a user folder or tag
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get mailboxEdit;
+
+  /// Label of the name field of a folder or tag
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get mailboxName;
+
+  /// Error under the name field when another folder or tag has that name
+  ///
+  /// In en, this message translates to:
+  /// **'This name is already taken'**
+  String get mailboxNameTaken;
+
+  /// Heading of the color choices of a folder or tag
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get mailboxColor;
+
+  /// The color choice derived from the folder or tag itself
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic color'**
+  String get mailboxColorAuto;
+
+  /// Screen reader label of one preset color swatch
+  ///
+  /// In en, this message translates to:
+  /// **'Color {number}'**
+  String mailboxColorOption(int number);
+
+  /// Heading of the conditions that file emails into a folder or tag automatically
+  ///
+  /// In en, this message translates to:
+  /// **'Rules'**
+  String get mailboxRules;
+
+  /// Explains that folder conditions combine with AND
+  ///
+  /// In en, this message translates to:
+  /// **'Emails that meet every filled-in condition land in this folder.'**
+  String get mailboxRulesFolderHelp;
+
+  /// Explains that tag conditions combine with AND
+  ///
+  /// In en, this message translates to:
+  /// **'Emails that meet every filled-in condition get this label.'**
+  String get mailboxRulesTagHelp;
+
+  /// Label of the sender condition field
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get mailboxRuleFrom;
+
+  /// Example values in the sender condition field
+  ///
+  /// In en, this message translates to:
+  /// **'github.com, alice@example.com'**
+  String get mailboxRuleFromHint;
+
+  /// Helper under a condition field that takes several values
+  ///
+  /// In en, this message translates to:
+  /// **'Separate several values with commas'**
+  String get mailboxRuleListHelper;
+
+  /// Label of the subject condition field
+  ///
+  /// In en, this message translates to:
+  /// **'Subject contains'**
+  String get mailboxRuleSubject;
+
+  /// Label of the attachment condition
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get mailboxRuleAttachment;
+
+  /// Attachment condition: no constraint
+  ///
+  /// In en, this message translates to:
+  /// **'Any'**
+  String get mailboxRuleAnyAttachment;
+
+  /// Attachment condition: must have attachments
+  ///
+  /// In en, this message translates to:
+  /// **'With'**
+  String get mailboxRuleWithAttachment;
+
+  /// Attachment condition: must have none
+  ///
+  /// In en, this message translates to:
+  /// **'Without'**
+  String get mailboxRuleWithoutAttachment;
+
+  /// Summary of a sender condition, values joined with commas
+  ///
+  /// In en, this message translates to:
+  /// **'From {values}'**
+  String mailboxRuleSummaryFrom(String values);
+
+  /// Summary of a subject condition, values joined with commas
+  ///
+  /// In en, this message translates to:
+  /// **'Subject contains {values}'**
+  String mailboxRuleSummarySubject(String values);
+
+  /// Summary of the with-attachments condition
+  ///
+  /// In en, this message translates to:
+  /// **'With attachments'**
+  String get mailboxRuleSummaryWithAttachment;
+
+  /// Summary of the without-attachments condition
+  ///
+  /// In en, this message translates to:
+  /// **'Without attachments'**
+  String get mailboxRuleSummaryWithoutAttachment;
+
+  /// Error when a folder or tag could not be saved
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save. Try again.'**
+  String get mailboxSaveFailed;
+
+  /// Title of the dialog confirming the deletion of a folder or tag
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"?'**
+  String mailboxDeleteTitle(String name);
+
+  /// What deleting a folder does to the emails it holds
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{The folder is empty.} one{Its email goes back to Inbox or Sent.} other{Its {count} emails go back to Inbox or Sent.}}'**
+  String mailboxDeleteFolderMessage(int count);
+
+  /// What deleting a tag does to the emails it holds
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No email has this label.} one{The label comes off 1 email.} other{The label comes off {count} emails.}}'**
+  String mailboxDeleteTagMessage(int count);
+
+  /// Action and dialog title to move emails to another folder
+  ///
+  /// In en, this message translates to:
+  /// **'Move to'**
+  String get mailboxMoveTo;
+
+  /// Button that applies the tag changes
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get mailboxApply;
+
+  /// Under a tag the email holds through a rule, which cannot be taken off by hand
+  ///
+  /// In en, this message translates to:
+  /// **'Applied by a rule'**
+  String get mailboxAppliedByRule;
+
+  /// Empty state of the folders settings tab
+  ///
+  /// In en, this message translates to:
+  /// **'Create a folder to file emails by hand or with a rule.'**
+  String get mailboxNoFolders;
+
+  /// Empty state of the tags settings tab and of the tag picker
+  ///
+  /// In en, this message translates to:
+  /// **'Create a label to mark emails by hand or with a rule.'**
+  String get mailboxNoTags;
+
+  /// Tooltip of the button that takes a tag off an email
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}'**
+  String mailboxRemoveTag(String name);
+
+  /// Empty state of a user folder
+  ///
+  /// In en, this message translates to:
+  /// **'This folder is empty'**
+  String get mailboxEmptyFolder;
+
+  /// Empty state of a user tag listing
+  ///
+  /// In en, this message translates to:
+  /// **'No email has this label'**
+  String get mailboxEmptyTag;
+
+  /// Settings page and entry to manage folders and tags
+  ///
+  /// In en, this message translates to:
+  /// **'Folders and labels'**
+  String get mailboxSettingsTitle;
+
+  /// Screen reader label of a sidebar unread count
+  ///
+  /// In en, this message translates to:
+  /// **'{count} unread'**
+  String mailboxUnreadCount(int count);
 }
 
 class _AppLocalizationsDelegate

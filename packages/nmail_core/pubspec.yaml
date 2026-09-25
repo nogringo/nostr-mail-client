@@ -12,7 +12,7 @@ resolution: workspace
 
 dependencies:
   blossom_cache: ^0.4.0
-  blossom_upload_queue_shim_for_ndk: ^0.7.1
+  blossom_upload_queue_shim_for_ndk: ^0.8.0
   broadcast_queue_shim_for_ndk: ^0.6.0
   collection: ^1.19.1
   connectivity_plus: ^7.3.1
@@ -43,11 +43,11 @@ dependencies:
   intl: ^0.20.2
   introduction_screen: ^4.0.0
   mime: ^2.0.0
-  ndk: ^0.10.0-dev.6
+  ndk: ^0.10.0-dev.7
   ndk_drift: ^0.1.1-dev.18
   ndk_flutter: ^0.10.0-dev.7
   nostr_address_book: ^0.5.0
-  nostr_mail: ^3.2.3
+  nostr_mail: ^4.0.0
   package_info_plus: ^10.2.1
   pasteboard: ^0.5.0
   path: ^1.9.1

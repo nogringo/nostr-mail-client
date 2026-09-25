@@ -35,18 +35,29 @@ Future<void> showContactForm(
     ContactFormController(contact: contact, initialForm: initialForm),
     tag: tag,
   );
+  ModalRoute<Object?>? route;
   try {
     return await showDialog<void>(
       context: context,
-      builder: (_) => Dialog(
-        clipBehavior: Clip.antiAlias,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 560),
-          child: ContactFormSheet(controller: controller),
-        ),
-      ),
+      builder: (dialogContext) {
+        route = ModalRoute.of(dialogContext);
+        return Dialog(
+          clipBehavior: Clip.antiAlias,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 560),
+            child: ContactFormSheet(controller: controller),
+          ),
+        );
+      },
     );
   } finally {
-    Get.delete<ContactFormController>(tag: tag);
+    // The fields keep building through the exit animation, so their text
+    // controllers are disposed once the route is gone, not on pop.
+    final shown = route;
+    if (shown == null) {
+      Get.delete<ContactFormController>(tag: tag);
+    } else {
+      shown.completed.then((_) => Get.delete<ContactFormController>(tag: tag));
+    }
   }
 }

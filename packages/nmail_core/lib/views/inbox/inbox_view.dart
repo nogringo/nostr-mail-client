@@ -7,10 +7,13 @@ import '../../app/routes/app_routes.dart';
 import '../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_mode.dart';
-import 'package:nmail_core/utils/mail_folder_extensions.dart';
+import 'package:nmail_core/models/mailbox.dart';
+import 'package:nmail_core/utils/mailbox_title.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../shared/app_bar_account_avatar.dart';
+import '../mailboxes/widgets/show_move_to_picker.dart';
+import '../mailboxes/widgets/show_tags_picker.dart';
 import '../shared/layout_constants.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
@@ -20,24 +23,38 @@ import 'widgets/selection_actions_bar.dart';
 import 'widgets/trash_banner.dart';
 
 class InboxView extends GetView<InboxController> {
-  /// Folder this route represents (driven by the URL: /inbox, /sent, ...).
-  /// Synced to `InboxController.currentFolder` on build so the rest of the
-  /// view (toolbar title, email list source, action behaviors) stays
-  /// driven by the controller.
-  final MailFolder folder;
+  /// Mailbox this route represents (driven by the URL: `/inbox`, `/sent`,
+  /// `/folder/<id>`, ...). Synced to `InboxController.currentMailbox` on build
+  /// so the rest of the view (toolbar title, email list source, action
+  /// behaviors) stays driven by the controller.
+  final Mailbox mailbox;
 
-  const InboxView({super.key, required this.folder});
+  const InboxView({super.key, required this.mailbox});
 
   Widget _buildEmailList(BuildContext context, {double bottomPadding = 0}) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     return Obx(() {
       if (controller.emails.isEmpty) {
-        final (icon, message) = switch (controller.currentFolder.value) {
-          MailFolder.inbox => (Icons.inbox, l.inboxEmptyInbox),
-          MailFolder.sent => (Icons.send, l.inboxEmptySent),
-          MailFolder.trash => (Icons.delete_outline, l.inboxEmptyTrash),
-          MailFolder.archive => (Icons.archive_outlined, l.inboxEmptyArchive),
+        final (icon, message) = switch (controller.currentMailbox.value) {
+          SystemMailbox(folder: MailFolder.inbox) => (
+            Icons.inbox,
+            l.inboxEmptyInbox,
+          ),
+          SystemMailbox(folder: MailFolder.sent) => (
+            Icons.send,
+            l.inboxEmptySent,
+          ),
+          SystemMailbox(folder: MailFolder.trash) => (
+            Icons.delete_outline,
+            l.inboxEmptyTrash,
+          ),
+          SystemMailbox(folder: MailFolder.archive) => (
+            Icons.archive_outlined,
+            l.inboxEmptyArchive,
+          ),
+          FolderMailbox() => (Icons.folder_outlined, l.mailboxEmptyFolder),
+          TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),
         };
         return Center(
           child: Column(
@@ -79,7 +96,7 @@ class InboxView extends GetView<InboxController> {
                         key: ValueKey(email.id),
                         email: email,
                         onTap: () =>
-                            context.go(AppRoutes.emailPath(folder, email.id)),
+                            context.go(AppRoutes.emailPath(mailbox, email.id)),
                         isSelected: controller.isSelected(email.id),
                         onToggleSelect: () =>
                             controller.toggleSelection(email.id),
@@ -90,6 +107,8 @@ class InboxView extends GetView<InboxController> {
                         onDelete: () => _deleteEmail(context, email),
                         onArchive: () => _archiveEmail(context, email),
                         onRestore: () => _restoreEmail(context, email),
+                        onMoveTo: () => _moveEmail(context, email),
+                        onTag: () => _tagEmail(context, email),
                       ),
                     );
                   },
@@ -108,11 +127,11 @@ class InboxView extends GetView<InboxController> {
     final isWide = ResponsiveHelper.isNotMobile(context);
     final colorScheme = Theme.of(context).colorScheme;
 
-    // Sync URL-driven folder to the shared controller after build settles.
+    // Sync URL-driven mailbox to the shared controller after build settles.
     // Skipping when already aligned avoids redundant notifications.
-    if (controller.currentFolder.value != folder) {
+    if (controller.currentMailbox.value != mailbox) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.setFolder(folder);
+        controller.setMailbox(mailbox);
       });
     }
 
@@ -146,7 +165,7 @@ class InboxView extends GetView<InboxController> {
                 if (controller.isSearchMode.value) {
                   return SearchField();
                 }
-                return Text(controller.currentFolder.value.title(l));
+                return Text(controller.currentMailbox.value.title(l));
               },
             ),
             leading: () {
@@ -253,8 +272,26 @@ class InboxView extends GetView<InboxController> {
     controller.moveToArchive(email.id);
   }
 
+  Future<void> _moveEmail(BuildContext context, EmailSummary email) async {
+    final folder = await showMoveToPicker(
+      context,
+      current: controller.currentMailbox.value,
+    );
+    if (folder != null) await controller.moveTo([email.id], folder);
+  }
+
+  Future<void> _tagEmail(BuildContext context, EmailSummary email) async {
+    final changes = await showTagsPicker(context, emails: [email]);
+    if (changes == null) return;
+    await controller.applyTags(
+      [email],
+      add: changes.add,
+      remove: changes.remove,
+    );
+  }
+
   void _restoreEmail(BuildContext context, EmailSummary email) {
-    if (controller.currentFolder.value == MailFolder.archive) {
+    if (controller.currentMailbox.value.isArchive) {
       controller.restoreFromArchive(email.id);
     } else {
       controller.restoreFromTrash(email.id);

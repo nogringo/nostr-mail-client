@@ -1565,4 +1565,155 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get relaySetupCreateDescription => '你可以随时在设置中修改。';
+
+  @override
+  String get mailboxFolders => '文件夹';
+
+  @override
+  String get mailboxTags => '标签';
+
+  @override
+  String get mailboxNewFolder => '新建文件夹';
+
+  @override
+  String get mailboxNewTag => '新建标签';
+
+  @override
+  String get mailboxEditFolder => '编辑文件夹';
+
+  @override
+  String get mailboxEditTag => '编辑标签';
+
+  @override
+  String get mailboxEdit => '编辑';
+
+  @override
+  String get mailboxName => '名称';
+
+  @override
+  String get mailboxNameTaken => '该名称已被使用';
+
+  @override
+  String get mailboxColor => '颜色';
+
+  @override
+  String get mailboxColorAuto => '自动颜色';
+
+  @override
+  String mailboxColorOption(int number) {
+    return '颜色 $number';
+  }
+
+  @override
+  String get mailboxRules => '规则';
+
+  @override
+  String get mailboxRulesFolderHelp => '满足所有已填条件的邮件会进入此文件夹。';
+
+  @override
+  String get mailboxRulesTagHelp => '满足所有已填条件的邮件会加上此标签。';
+
+  @override
+  String get mailboxRuleFrom => '发件人';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper => '多个值用逗号分隔';
+
+  @override
+  String get mailboxRuleSubject => '主题包含';
+
+  @override
+  String get mailboxRuleAttachment => '附件';
+
+  @override
+  String get mailboxRuleAnyAttachment => '不限';
+
+  @override
+  String get mailboxRuleWithAttachment => '有';
+
+  @override
+  String get mailboxRuleWithoutAttachment => '无';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return '发件人:$values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return '主题包含:$values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => '有附件';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => '无附件';
+
+  @override
+  String get mailboxSaveFailed => '无法保存,请重试。';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return '删除“$name”?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '其中 $count 封邮件将回到收件箱或已发送。',
+      zero: '此文件夹为空。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '将从 $count 封邮件上移除此标签。',
+      zero: '没有邮件带有此标签。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => '移动到';
+
+  @override
+  String get mailboxApply => '应用';
+
+  @override
+  String get mailboxAppliedByRule => '由规则添加';
+
+  @override
+  String get mailboxNoFolders => '创建文件夹,手动或按规则归类邮件。';
+
+  @override
+  String get mailboxNoTags => '创建标签,手动或按规则标记邮件。';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return '移除 $name';
+  }
+
+  @override
+  String get mailboxEmptyFolder => '此文件夹为空';
+
+  @override
+  String get mailboxEmptyTag => '没有邮件带有此标签';
+
+  @override
+  String get mailboxSettingsTitle => '文件夹和标签';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return '$count 封未读';
+  }
 }

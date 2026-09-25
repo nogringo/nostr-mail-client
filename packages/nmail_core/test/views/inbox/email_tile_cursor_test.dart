@@ -9,6 +9,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
+import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -103,6 +104,7 @@ void main() {
     Get.put(NotificationService());
     Get.put(NostrMailService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
+    Get.put(MailboxesController());
     Get.put(InboxController());
   });
 

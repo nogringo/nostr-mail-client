@@ -1663,4 +1663,161 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get relaySetupCreateDescription =>
       'Voit muuttaa sitä milloin tahansa asetuksissa.';
+
+  @override
+  String get mailboxFolders => 'Kansiot';
+
+  @override
+  String get mailboxTags => 'Tunnisteet';
+
+  @override
+  String get mailboxNewFolder => 'Uusi kansio';
+
+  @override
+  String get mailboxNewTag => 'Uusi tunniste';
+
+  @override
+  String get mailboxEditFolder => 'Muokkaa kansiota';
+
+  @override
+  String get mailboxEditTag => 'Muokkaa tunnistetta';
+
+  @override
+  String get mailboxEdit => 'Muokkaa';
+
+  @override
+  String get mailboxName => 'Nimi';
+
+  @override
+  String get mailboxNameTaken => 'Tämä nimi on jo käytössä';
+
+  @override
+  String get mailboxColor => 'Väri';
+
+  @override
+  String get mailboxColorAuto => 'Automaattinen väri';
+
+  @override
+  String mailboxColorOption(int number) {
+    return 'Väri $number';
+  }
+
+  @override
+  String get mailboxRules => 'Säännöt';
+
+  @override
+  String get mailboxRulesFolderHelp =>
+      'Sähköpostit, jotka täyttävät kaikki täytetyt ehdot, päätyvät tähän kansioon.';
+
+  @override
+  String get mailboxRulesTagHelp =>
+      'Sähköpostit, jotka täyttävät kaikki täytetyt ehdot, saavat tämän tunnisteen.';
+
+  @override
+  String get mailboxRuleFrom => 'Lähettäjä';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper => 'Erota useat arvot pilkuilla';
+
+  @override
+  String get mailboxRuleSubject => 'Aihe sisältää';
+
+  @override
+  String get mailboxRuleAttachment => 'Liitteet';
+
+  @override
+  String get mailboxRuleAnyAttachment => 'Mikä tahansa';
+
+  @override
+  String get mailboxRuleWithAttachment => 'Kanssa';
+
+  @override
+  String get mailboxRuleWithoutAttachment => 'Ilman';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return 'Lähettäjä $values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return 'Aihe sisältää $values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => 'Liitteiden kanssa';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => 'Ilman liitteitä';
+
+  @override
+  String get mailboxSaveFailed => 'Tallennus epäonnistui. Yritä uudelleen.';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return 'Poistetaanko \"$name\"?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Sen $count sähköpostia palaa Saapuneisiin tai Lähetettyihin.',
+      one: 'Sen sähköposti palaa Saapuneisiin tai Lähetettyihin.',
+      zero: 'Kansio on tyhjä.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Tunniste poistetaan $count sähköpostista.',
+      one: 'Tunniste poistetaan 1 sähköpostista.',
+      zero: 'Millään sähköpostilla ei ole tätä tunnistetta.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => 'Siirrä kansioon';
+
+  @override
+  String get mailboxApply => 'Käytä';
+
+  @override
+  String get mailboxAppliedByRule => 'Säännön lisäämä';
+
+  @override
+  String get mailboxNoFolders =>
+      'Luo kansio, jotta voit lajitella sähköpostit käsin tai säännöllä.';
+
+  @override
+  String get mailboxNoTags =>
+      'Luo tunniste, jotta voit merkitä sähköpostit käsin tai säännöllä.';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return 'Poista $name';
+  }
+
+  @override
+  String get mailboxEmptyFolder => 'Tämä kansio on tyhjä';
+
+  @override
+  String get mailboxEmptyTag => 'Millään sähköpostilla ei ole tätä tunnistetta';
+
+  @override
+  String get mailboxSettingsTitle => 'Kansiot ja tunnisteet';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return '$count lukematonta';
+  }
 }

@@ -1,11 +1,11 @@
-import '../../controllers/inbox_controller.dart';
+import '../../models/mailbox.dart';
 
 /// Path constants for all app routes.
 ///
-/// Folder routes (`/inbox`, `/sent`, `/archive`, `/trash`) drive the
-/// inbox view's current folder via the URL itself - the sidebar uses
-/// `context.go` to switch folders, and the route builder syncs
-/// `InboxController.currentFolder` from the URL.
+/// Mailbox routes (`/inbox`, `/sent`, `/archive`, `/trash`, `/folder/<id>`,
+/// `/label/<id>`) drive the inbox view's current mailbox via the URL itself -
+/// the sidebar uses `context.go` to switch, and the route builder syncs
+/// `InboxController.currentMailbox` from the URL.
 ///
 /// Email detail is nested under each folder (`/<folder>/email/:id`) so
 /// in-app navigation via `context.go` updates the URL and preserves a
@@ -28,12 +28,18 @@ class AppRoutes {
   /// but outside the shell: nothing else can be loaded until it resolves.
   static const relaySetup = '/relay-setup';
 
-  // Folders (drive InboxController.currentFolder from URL)
+  // Folders (drive InboxController.currentMailbox from URL)
   static const inbox = '/inbox';
   static const sent = '/sent';
   static const archive = '/archive';
   static const trash = '/trash';
   static const scheduled = '/scheduled';
+
+  // User folders and tags, by the id their private-settings entry carries.
+  // The UI calls tags labels, and so does the URL.
+  static const userFolder = '/folder/:folderId';
+  static const label = '/label/:labelId';
+
   static const contacts = '/contacts';
 
   // Path segment for the nested email detail route under each folder.
@@ -56,6 +62,7 @@ class AppRoutes {
   static const settingsHosting = '/settings/hosting';
   static const settingsDebugTools = '/settings/debug-tools';
   static const settingsAbout = '/settings/about';
+  static const settingsFolders = '/settings/folders';
 
   // Backward compat: legacy in-app links keep working.
   // `/email/:id` redirects to `/:hex` which the nostr dispatcher resolves.
@@ -64,16 +71,18 @@ class AppRoutes {
   // Root-level NIP-19 dispatcher (handles nevent, note, npub, nprofile)
   static const nostrIdParam = 'nostrId';
 
-  static String folderPath(MailFolder folder) => switch (folder) {
-    MailFolder.inbox => inbox,
-    MailFolder.sent => sent,
-    MailFolder.archive => archive,
-    MailFolder.trash => trash,
+  static String mailboxPath(Mailbox mailbox) => switch (mailbox) {
+    SystemMailbox(folder: MailFolder.inbox) => inbox,
+    SystemMailbox(folder: MailFolder.sent) => sent,
+    SystemMailbox(folder: MailFolder.archive) => archive,
+    SystemMailbox(folder: MailFolder.trash) => trash,
+    FolderMailbox(:final id) => '/folder/$id',
+    TagMailbox(:final id) => '/label/$id',
   };
 
-  /// In-app deep-linkable email URL: `/<folder>/email/<hex>`.
-  static String emailPath(MailFolder folder, String id) =>
-      '${folderPath(folder)}/email/$id';
+  /// In-app deep-linkable email URL: `/<mailbox>/email/<hex>`.
+  static String emailPath(Mailbox mailbox, String id) =>
+      '${mailboxPath(mailbox)}/email/$id';
 
   /// The request id travels in the URL rather than in `extra` so a reload on
   /// web keeps the report on screen.

@@ -1670,4 +1670,163 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get relaySetupCreateDescription =>
       'Du kannst sie jederzeit in den Einstellungen ändern.';
+
+  @override
+  String get mailboxFolders => 'Ordner';
+
+  @override
+  String get mailboxTags => 'Labels';
+
+  @override
+  String get mailboxNewFolder => 'Neuer Ordner';
+
+  @override
+  String get mailboxNewTag => 'Neues Label';
+
+  @override
+  String get mailboxEditFolder => 'Ordner bearbeiten';
+
+  @override
+  String get mailboxEditTag => 'Label bearbeiten';
+
+  @override
+  String get mailboxEdit => 'Bearbeiten';
+
+  @override
+  String get mailboxName => 'Name';
+
+  @override
+  String get mailboxNameTaken => 'Dieser Name ist bereits vergeben';
+
+  @override
+  String get mailboxColor => 'Farbe';
+
+  @override
+  String get mailboxColorAuto => 'Automatische Farbe';
+
+  @override
+  String mailboxColorOption(int number) {
+    return 'Farbe $number';
+  }
+
+  @override
+  String get mailboxRules => 'Regeln';
+
+  @override
+  String get mailboxRulesFolderHelp =>
+      'E-Mails, die alle ausgefüllten Bedingungen erfüllen, landen in diesem Ordner.';
+
+  @override
+  String get mailboxRulesTagHelp =>
+      'E-Mails, die alle ausgefüllten Bedingungen erfüllen, erhalten dieses Label.';
+
+  @override
+  String get mailboxRuleFrom => 'Von';
+
+  @override
+  String get mailboxRuleFromHint => 'github.com, alice@example.com';
+
+  @override
+  String get mailboxRuleListHelper => 'Mehrere Werte durch Kommas trennen';
+
+  @override
+  String get mailboxRuleSubject => 'Betreff enthält';
+
+  @override
+  String get mailboxRuleAttachment => 'Anhänge';
+
+  @override
+  String get mailboxRuleAnyAttachment => 'Egal';
+
+  @override
+  String get mailboxRuleWithAttachment => 'Mit';
+
+  @override
+  String get mailboxRuleWithoutAttachment => 'Ohne';
+
+  @override
+  String mailboxRuleSummaryFrom(String values) {
+    return 'Von $values';
+  }
+
+  @override
+  String mailboxRuleSummarySubject(String values) {
+    return 'Betreff enthält $values';
+  }
+
+  @override
+  String get mailboxRuleSummaryWithAttachment => 'Mit Anhängen';
+
+  @override
+  String get mailboxRuleSummaryWithoutAttachment => 'Ohne Anhänge';
+
+  @override
+  String get mailboxSaveFailed =>
+      'Speichern fehlgeschlagen. Versuch es noch einmal.';
+
+  @override
+  String mailboxDeleteTitle(String name) {
+    return '\"$name\" löschen?';
+  }
+
+  @override
+  String mailboxDeleteFolderMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Seine $count E-Mails kehren in den Posteingang oder zu Gesendet zurück.',
+      one: 'Seine E-Mail kehrt in den Posteingang oder zu Gesendet zurück.',
+      zero: 'Der Ordner ist leer.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String mailboxDeleteTagMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Das Label wird von $count E-Mails entfernt.',
+      one: 'Das Label wird von 1 E-Mail entfernt.',
+      zero: 'Keine E-Mail hat dieses Label.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mailboxMoveTo => 'Verschieben nach';
+
+  @override
+  String get mailboxApply => 'Anwenden';
+
+  @override
+  String get mailboxAppliedByRule => 'Durch eine Regel vergeben';
+
+  @override
+  String get mailboxNoFolders =>
+      'Erstelle einen Ordner, um E-Mails von Hand oder per Regel abzulegen.';
+
+  @override
+  String get mailboxNoTags =>
+      'Erstelle ein Label, um E-Mails von Hand oder per Regel zu markieren.';
+
+  @override
+  String mailboxRemoveTag(String name) {
+    return '$name entfernen';
+  }
+
+  @override
+  String get mailboxEmptyFolder => 'Dieser Ordner ist leer';
+
+  @override
+  String get mailboxEmptyTag => 'Keine E-Mail hat dieses Label';
+
+  @override
+  String get mailboxSettingsTitle => 'Ordner und Labels';
+
+  @override
+  String mailboxUnreadCount(int count) {
+    return '$count ungelesen';
+  }
 }

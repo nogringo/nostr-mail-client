@@ -12,6 +12,7 @@ import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/email_person.dart';
+import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/get_mime_type.dart';
@@ -22,6 +23,8 @@ import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/image_viewer_page.dart';
 import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
+import 'package:nmail_core/views/mailboxes/widgets/show_move_to_picker.dart';
+import 'package:nmail_core/views/mailboxes/widgets/show_tags_picker.dart';
 import 'package:nmail_core/views/shared/window_caption_inset.dart';
 import 'package:pasteboard/pasteboard.dart';
 import 'package:path/path.dart' as p;
@@ -40,13 +43,16 @@ class EmailController extends GetxController {
   /// relay hints from push notifications and share links.
   final String eventReference;
 
-  /// Folder the email is being viewed from. Null when reached via the
-  /// `/:nostrId` share-link dispatcher (no folder context). Source of
-  /// truth for folder-dependent UI (restore button, mark-as-read on
+  /// Mailbox the email is being viewed from. Null when reached via the
+  /// `/:nostrId` share-link dispatcher (no mailbox context). Source of
+  /// truth for mailbox-dependent UI (restore button, mark-as-read on
   /// open, destructive vs trash semantics).
-  final MailFolder? folder;
+  final Mailbox? mailbox;
 
   Email? email;
+
+  /// The row of [email], for the folder and tags the full message lacks.
+  EmailSummary? summary;
   bool isLoading = true;
   bool showRecipients = false;
   String? rawContent;
@@ -61,7 +67,7 @@ class EmailController extends GetxController {
   final Map<String, Future<Uint8List?>> _inlineImageLoads = {};
   Future<void> _inlineImageQueue = Future.value();
 
-  EmailController({required this.eventReference, this.folder}) {
+  EmailController({required this.eventReference, this.mailbox}) {
     _showImages = Get.find<SettingsController>().alwaysLoadImages.value;
     loadEmail();
   }
@@ -220,12 +226,50 @@ class EmailController extends GetxController {
     _buildEmailHtml();
     isLoading = false;
     update();
+    if (loaded == null) return;
 
-    // Auto-mark as read for inbox emails only (non-blocking).
-    // Cold-start via share link (folder == null) does not auto-mark.
-    if (loaded != null && folder == MailFolder.inbox) {
+    // Auto-mark as read where unread shows (non-blocking).
+    // Cold-start via share link (mailbox == null) does not auto-mark.
+    if (mailbox?.showsUnread ?? false) {
       Get.find<InboxController>().markAsRead(loaded.id);
     }
+    await _loadSummary();
+  }
+
+  Future<void> _loadSummary() async {
+    final id = email?.id;
+    if (id == null) return;
+    summary = await Get.find<NostrMailService>().client.getSummary(id);
+    update();
+  }
+
+  Future<void> moveTo(BuildContext context) async {
+    final id = email?.id;
+    if (id == null) return;
+    final folder = await showMoveToPicker(context, current: mailbox);
+    if (folder == null) return;
+    await Get.find<InboxController>().moveTo([id], folder);
+    AppRouter.popOrGoInbox();
+  }
+
+  Future<void> editTags(BuildContext context) async {
+    final summary = this.summary;
+    if (summary == null) return;
+    final changes = await showTagsPicker(context, emails: [summary]);
+    if (changes == null) return;
+    await Get.find<InboxController>().applyTags(
+      [summary],
+      add: changes.add,
+      remove: changes.remove,
+    );
+    await _loadSummary();
+  }
+
+  Future<void> removeTag(String tagId) async {
+    final summary = this.summary;
+    if (summary == null) return;
+    await Get.find<InboxController>().applyTags([summary], remove: {tagId});
+    await _loadSummary();
   }
 
   Future<void> deleteEmail(BuildContext context) async {
@@ -233,7 +277,7 @@ class EmailController extends GetxController {
 
     final l = AppLocalizations.of(context);
     final inboxController = Get.find<InboxController>();
-    final isInTrash = folder == MailFolder.trash;
+    final isInTrash = mailbox?.isTrash ?? false;
 
     if (isInTrash) {
       final confirmed = await showDialog<bool>(

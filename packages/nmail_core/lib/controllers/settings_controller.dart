@@ -8,6 +8,7 @@ import 'package:ndk/ndk.dart';
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
+import 'mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/background_preset.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -184,7 +185,9 @@ class SettingsController extends GetxController {
   /// account, since `authStateChanges` fires before that.
   Future<void> reloadSyncedSettings() async {
     emailSignature.value = _cachedSignature;
+    final mailboxes = Get.find<MailboxesController>()..applyCached();
     await _refreshSignatureFromRelays();
+    mailboxes.applyCached();
   }
 
   Future<void> setAlwaysLoadImages(bool value) async {

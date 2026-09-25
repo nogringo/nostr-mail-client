@@ -109,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: e297158955e5f6b0860b0540dedff6c8cde266674a51b296ad60ef12950d64ff
+      sha256: "19f96bbc9e357a3213ce27ea7e3ba10d94b3c390a58fd34e931f84ea30888a00"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1"
+    version: "0.8.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -1009,10 +1009,10 @@ packages:
     dependency: transitive
     description:
       name: ndk
-      sha256: a0167e01bd8caf8a56e459c8cbdf11ec16c938192f0a5750ca25f1d6715403e4
+      sha256: "58ffe956b06dd83069000fb0ee7b64dbc52a1d72efdacd98afdb031b8b9ac1f0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.0-dev.6"
+    version: "0.10.0-dev.7"
   ndk_drift:
     dependency: transitive
     description:
@@ -1057,10 +1057,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: d4793ff4b662c8b59ba1c0b22e36f9f510ee572f49ddd88a472adce4b89f11d0
+      sha256: d6d196650709ff375eca2ea29f076dff067738ff422f2246b352f61168408339
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.3"
+    version: "4.0.0"
   objective_c:
     dependency: transitive
     description:

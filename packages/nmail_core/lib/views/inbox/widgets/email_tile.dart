@@ -12,6 +12,7 @@ import '../../../controllers/auth_controller.dart';
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/email_person.dart';
+import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
@@ -20,6 +21,7 @@ import 'package:nmail_core/utils/responsive_helper.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 import '../../../widgets/selectable_avatar.dart';
+import '../../../widgets/tag_chips.dart';
 
 class EmailTile extends StatelessWidget {
   final EmailSummary email;
@@ -35,6 +37,8 @@ class EmailTile extends StatelessWidget {
   final VoidCallback? onDelete;
   final VoidCallback? onArchive;
   final VoidCallback? onRestore;
+  final VoidCallback? onMoveTo;
+  final VoidCallback? onTag;
 
   const EmailTile({
     super.key,
@@ -48,6 +52,8 @@ class EmailTile extends StatelessWidget {
     this.onDelete,
     this.onArchive,
     this.onRestore,
+    this.onMoveTo,
+    this.onTag,
   });
 
   bool get _extendRequested =>
@@ -117,14 +123,27 @@ class EmailTile extends StatelessWidget {
     return total > 1 ? total - 1 : 0;
   }
 
-  /// Check if this email is unread (only applies to inbox folder)
+  /// Unread only shows where it means something: not in sent, trash or
+  /// archive.
   bool get isUnread {
     final controller = Get.find<InboxController>();
-    // Only show unread indicators for inbox folder
-    if (controller.currentFolder.value != MailFolder.inbox) {
-      return false;
-    }
+    if (!controller.currentMailbox.value.showsUnread) return false;
     return !controller.isEmailRead(email.id);
+  }
+
+  /// The tag being browsed goes without saying on its own rows.
+  String? get _browsedTagId =>
+      switch (Get.find<InboxController>().currentMailbox.value) {
+        TagMailbox(:final id) => id,
+        _ => null,
+      };
+
+  List<String> get _visibleTagIds {
+    final browsed = _browsedTagId;
+    return [
+      for (final id in email.tags)
+        if (id != browsed) id,
+    ];
   }
 
   String _displayNameForAddress(MailAddress address) {
@@ -212,9 +231,9 @@ class EmailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final isWide = ResponsiveHelper.isDesktop(context);
-    final currentFolder = Get.find<InboxController>().currentFolder.value;
-    final isInTrash = currentFolder == MailFolder.trash;
-    final isInArchive = currentFolder == MailFolder.archive;
+    final mailbox = Get.find<InboxController>().currentMailbox.value;
+    final isInTrash = mailbox.isTrash;
+    final isInArchive = mailbox.isArchive;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Obx(
@@ -278,9 +297,9 @@ class EmailTile extends StatelessWidget {
 
   void _showContextMenu(BuildContext context, {Offset? position}) {
     final l = AppLocalizations.of(context);
-    final currentFolder = Get.find<InboxController>().currentFolder.value;
-    final isInTrash = currentFolder == MailFolder.trash;
-    final isInArchive = currentFolder == MailFolder.archive;
+    final mailbox = Get.find<InboxController>().currentMailbox.value;
+    final isInTrash = mailbox.isTrash;
+    final isInArchive = mailbox.isArchive;
     final colorScheme = Theme.of(context).colorScheme;
 
     // Right-click (desktop) → popup menu at cursor position
@@ -324,7 +343,25 @@ class EmailTile extends StatelessWidget {
               },
               child: Text(l.emailUnarchive),
             ),
-          if (currentFolder == MailFolder.inbox) ...[
+          MenuItemButton(
+            leadingIcon: const Icon(Icons.drive_file_move_outlined),
+            onPressed: () {
+              Navigator.of(menuContext).pop();
+              onMoveTo?.call();
+            },
+            child: Text(l.mailboxMoveTo),
+          ),
+          // TODO: open the labels as a hover submenu of checkboxes that apply
+          // on click, which needs this menu to become a MenuAnchor.
+          MenuItemButton(
+            leadingIcon: const Icon(Icons.label_outline),
+            onPressed: () {
+              Navigator.of(menuContext).pop();
+              onTag?.call();
+            },
+            child: Text(l.mailboxTags),
+          ),
+          if (mailbox.showsUnread) ...[
             const Divider(height: 1),
             if (isUnread)
               MenuItemButton(
@@ -450,7 +487,23 @@ class EmailTile extends StatelessWidget {
                       onRestore?.call();
                     },
                   ),
-                if (currentFolder == MailFolder.inbox) ...[
+                ListTile(
+                  leading: const Icon(Icons.drive_file_move_outlined),
+                  title: Text(l.mailboxMoveTo),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onMoveTo?.call();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.label_outline),
+                  title: Text(l.mailboxTags),
+                  onTap: () {
+                    Navigator.pop(context);
+                    onTag?.call();
+                  },
+                ),
+                if (mailbox.showsUnread) ...[
                   const Divider(height: 1),
                   if (isUnread)
                     ListTile(
@@ -515,6 +568,7 @@ class EmailTile extends StatelessWidget {
       final isUnread = this.isUnread;
       final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
       final attachments = email.attachmentRefs;
+      final tagIds = _visibleTagIds;
 
       return InkWell(
         // InkWell defaults to adaptiveClickable, an arrow off the web, while
@@ -573,6 +627,10 @@ class EmailTile extends StatelessWidget {
                       children: [
                         if (isUnread) ...[
                           UnreadIndicator(),
+                          const SizedBox(width: 8),
+                        ],
+                        if (tagIds.isNotEmpty) ...[
+                          TagChips(tagIds: tagIds, maxVisible: 2),
                           const SizedBox(width: 8),
                         ],
                         Flexible(
@@ -642,6 +700,7 @@ class EmailTile extends StatelessWidget {
       final isSelectionMode = controller.hasSelection;
       final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
       final hasPreview = email.preview.isNotEmpty;
+      final tagIds = _visibleTagIds;
 
       return Container(
         // See the compact tile: the separator is painted over the row's own
@@ -724,13 +783,18 @@ class EmailTile extends StatelessWidget {
                   ),
                 ),
               ],
+              if (tagIds.isNotEmpty) ...[
+                const SizedBox(height: 6),
+                TagChips(tagIds: tagIds, maxVisible: 3),
+              ],
               if (attachments.isNotEmpty) ...[
                 const SizedBox(height: 8),
                 AttachmentsChipsView(attachments: attachments),
               ],
             ],
           ),
-          isThreeLine: hasPreview || attachments.isNotEmpty,
+          isThreeLine:
+              hasPreview || attachments.isNotEmpty || tagIds.isNotEmpty,
         ),
       );
     });

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 /// Shows a desktop right-click menu at [position], kept inside the screen.
-Future<void> showContextMenu(
+/// Completes with what an item pops the menu with.
+Future<T?> showContextMenu<T>(
   BuildContext context, {
   required Offset position,
   required List<Widget> Function(BuildContext menuContext) children,
 }) {
   final colorScheme = Theme.of(context).colorScheme;
 
-  return showDialog(
+  return showDialog<T>(
     context: context,
     barrierColor: Colors.transparent,
     builder: (menuContext) => Stack(

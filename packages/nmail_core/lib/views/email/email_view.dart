@@ -5,7 +5,6 @@ import 'package:nmail_core/views/email/email_controller.dart';
 
 import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
-import '../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/desktop_actions_bar.dart';
@@ -25,8 +24,9 @@ class EmailView extends StatelessWidget {
       context.pop();
       return;
     }
-    if (controller.folder != null) {
-      context.go(AppRoutes.folderPath(controller.folder!));
+    final mailbox = controller.mailbox;
+    if (mailbox != null) {
+      context.go(AppRoutes.mailboxPath(mailbox));
       return;
     }
     final myPubkey = Get.find<AuthController>().publicKey;
@@ -62,7 +62,7 @@ class EmailView extends StatelessWidget {
             leading: BackButton(onPressed: () => _goBack(context, controller)),
             actionsPadding: .only(right: 8),
             actions: [
-              if (controller.folder == MailFolder.trash)
+              if (controller.mailbox?.isTrash ?? false)
                 IconButton(
                   icon: const Icon(Icons.restore_from_trash_outlined),
                   tooltip: l.emailRestore,

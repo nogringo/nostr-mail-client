@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../controllers/inbox_controller.dart';
+import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../email_controller.dart';
 
@@ -23,19 +23,20 @@ class EmailActions {
   const EmailActions({required this.primary, required this.delete});
 }
 
-/// `folder` is null for share-link entry (`/:nostrId`): no known folder
-/// context, so folder-specific actions (mark-read, archive/unarchive)
+/// `mailbox` is null for share-link entry (`/:nostrId`): no known mailbox
+/// context, so mailbox-specific actions (mark-read, archive/unarchive)
 /// are conservatively hidden.
 EmailActions buildEmailActions(
   BuildContext context,
   AppLocalizations l,
   EmailController controller,
-  MailFolder? folder,
+  Mailbox? mailbox,
 ) {
-  final isInbox = folder == MailFolder.inbox;
-  final isInArchive = folder == MailFolder.archive;
-  final isInTrash = folder == MailFolder.trash;
-  final isUnknown = folder == null;
+  final showsUnread = mailbox?.showsUnread ?? false;
+  final isInArchive = mailbox?.isArchive ?? false;
+  final isInTrash = mailbox?.isTrash ?? false;
+  final isUnknown = mailbox == null;
+  final canFile = !isInTrash && controller.summary != null;
 
   return EmailActions(
     primary: [
@@ -67,7 +68,19 @@ EmailActions buildEmailActions(
           label: l.emailActionArchive,
           onPressed: controller.archiveEmail,
         ),
-      if (isInbox)
+      if (canFile) ...[
+        EmailAction(
+          icon: Icons.drive_file_move_outlined,
+          label: l.mailboxMoveTo,
+          onPressed: () => controller.moveTo(context),
+        ),
+        EmailAction(
+          icon: Icons.label_outline,
+          label: l.mailboxTags,
+          onPressed: () => controller.editTags(context),
+        ),
+      ],
+      if (showsUnread)
         EmailAction(
           icon: controller.isEmailRead
               ? Icons.mark_email_unread

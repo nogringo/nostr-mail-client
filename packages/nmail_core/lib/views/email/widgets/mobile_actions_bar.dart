@@ -16,7 +16,7 @@ class MobileActionsBar extends StatelessWidget {
       context,
       l,
       emailController,
-      emailController.folder,
+      emailController.mailbox,
     );
 
     const buttonWidth = 68.0;

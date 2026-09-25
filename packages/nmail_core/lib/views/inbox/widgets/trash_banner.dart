@@ -14,7 +14,7 @@ class TrashBanner extends GetView<InboxController> {
     final l = AppLocalizations.of(context);
 
     return Obx(() {
-      if (controller.currentFolder.value != MailFolder.trash ||
+      if (!controller.currentMailbox.value.isTrash ||
           controller.isSearching ||
           controller.emails.isEmpty) {
         return const SizedBox.shrink();
