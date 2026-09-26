@@ -37,10 +37,13 @@ class MailEntryTile extends StatelessWidget {
               color: colorScheme.onSurfaceVariant,
             ),
           ),
-          Icon(switch (kind) {
-            MailEntryKind.folder => Icons.folder,
-            MailEntryKind.tag => Icons.label,
-          }, color: MailboxesController.colorOf(entry)),
+          Icon(
+            switch (kind) {
+              MailEntryKind.folder => Icons.folder,
+              MailEntryKind.tag => Icons.label,
+            },
+            color: MailboxesController.colorOf(entry, on: colorScheme.surface),
+          ),
         ],
       ),
       title: Text(entry.name, overflow: TextOverflow.ellipsis),

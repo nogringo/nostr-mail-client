@@ -21,9 +21,10 @@ class TagChip extends StatelessWidget {
     final theme = Theme.of(context);
     final tag = this.tag;
     final name = tag?.name ?? id;
+    final surface = theme.colorScheme.surface;
     final color = tag == null
         ? getStringColor(id)
-        : MailboxesController.colorOf(tag);
+        : MailboxesController.colorOf(tag, on: surface);
 
     return Chip(
       label: ConstrainedBox(
@@ -31,10 +32,7 @@ class TagChip extends StatelessWidget {
         child: Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
       ),
       labelStyle: theme.textTheme.labelSmall,
-      backgroundColor: Color.alphaBlend(
-        color.withValues(alpha: 0.22),
-        theme.colorScheme.surface,
-      ),
+      backgroundColor: Color.alphaBlend(color.withValues(alpha: 0.22), surface),
       side: BorderSide.none,
       shape: const StadiumBorder(),
       visualDensity: const VisualDensity(horizontal: -4, vertical: -4),

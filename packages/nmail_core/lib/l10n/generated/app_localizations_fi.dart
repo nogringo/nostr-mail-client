@@ -1736,6 +1736,15 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String get mailboxColorCustom => 'Oma väri';
+
+  @override
+  String get mailboxColorHue => 'Sävy';
+
+  @override
+  String get mailboxColorHex => 'Heksakoodi';
+
+  @override
   String get mailboxRules => 'Säännöt';
 
   @override

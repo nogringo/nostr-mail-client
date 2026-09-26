@@ -7,6 +7,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/color_contrast.dart';
 import 'package:nmail_core/utils/string_color.dart';
 import 'auth_controller.dart';
 
@@ -74,15 +75,26 @@ class MailboxesController extends GetxController {
   MailEntry? tagById(String id) =>
       tags.firstWhereOrNull((entry) => entry.id == id);
 
-  /// The entry's own color, else the one the spec derives from its id.
-  static Color colorOf(MailEntry entry) =>
-      parseEntryColor(entry.color) ?? getStringColor(entry.id);
+  /// Just under the palette's faintest, its yellow on a dialog: only a color
+  /// that would all but vanish is moved.
+  static const _minContrast = 1.3;
+
+  /// The entry's own color, else the one the spec derives from its id, kept
+  /// visible [on] the given background.
+  static Color colorOf(MailEntry entry, {required Color on}) => ensureContrast(
+    parseEntryColor(entry.color) ?? getStringColor(entry.id),
+    on,
+    minRatio: _minContrast,
+  );
 
   static Color? parseEntryColor(String? hex) {
     if (hex == null || hex.length != 7) return null;
     final value = int.tryParse(hex.substring(1), radix: 16);
     return value == null ? null : Color(0xFF000000 | value);
   }
+
+  static String formatEntryColor(Color color) =>
+      '#${(color.toARGB32() & 0xFFFFFF).toRadixString(16).padLeft(6, '0').toUpperCase()}';
 
   Future<MailEntry> create(
     MailEntryKind kind,

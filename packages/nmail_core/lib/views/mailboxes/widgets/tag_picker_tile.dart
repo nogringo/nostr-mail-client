@@ -22,7 +22,13 @@ class TagPickerTile extends StatelessWidget {
         value: controller.stateOf(tag.id),
         onChanged: heldByRule ? null : (_) => controller.toggle(tag.id),
         controlAffinity: ListTileControlAffinity.leading,
-        secondary: Icon(Icons.label, color: MailboxesController.colorOf(tag)),
+        secondary: Icon(
+          Icons.label,
+          color: MailboxesController.colorOf(
+            tag,
+            on: Theme.of(context).colorScheme.surfaceContainerHigh,
+          ),
+        ),
         title: Text(tag.name),
         subtitle: heldByRule ? Text(l.mailboxAppliedByRule) : null,
       ),

@@ -39,7 +39,10 @@ class MoveToDialog extends StatelessWidget {
             ListTile(
               leading: Icon(
                 Icons.folder,
-                color: MailboxesController.colorOf(folder),
+                color: MailboxesController.colorOf(
+                  folder,
+                  on: Theme.of(context).colorScheme.surfaceContainerHigh,
+                ),
               ),
               title: Text(folder.name),
               onTap: () => Navigator.pop(context, folder.id),

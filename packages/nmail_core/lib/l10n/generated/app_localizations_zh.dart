@@ -1639,6 +1639,15 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get mailboxColorCustom => '自定义颜色';
+
+  @override
+  String get mailboxColorHue => '色相';
+
+  @override
+  String get mailboxColorHex => '十六进制代码';
+
+  @override
   String get mailboxRules => '规则';
 
   @override

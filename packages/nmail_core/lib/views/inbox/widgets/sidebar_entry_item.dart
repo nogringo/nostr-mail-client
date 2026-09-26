@@ -38,7 +38,10 @@ class SidebarEntryItem extends StatelessWidget {
           MailEntryKind.folder => Icons.folder,
           MailEntryKind.tag => Icons.label,
         },
-        iconColor: MailboxesController.colorOf(entry),
+        iconColor: MailboxesController.colorOf(
+          entry,
+          on: Theme.of(context).colorScheme.surface,
+        ),
         label: entry.name,
         path: AppRoutes.mailboxPath(mailbox),
         currentLocation: currentLocation,

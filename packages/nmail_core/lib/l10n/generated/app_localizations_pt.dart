@@ -1740,6 +1740,15 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get mailboxColorCustom => 'Cor personalizada';
+
+  @override
+  String get mailboxColorHue => 'Matiz';
+
+  @override
+  String get mailboxColorHex => 'Código hexadecimal';
+
+  @override
   String get mailboxRules => 'Regras';
 
   @override
@@ -3594,6 +3603,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String mailboxColorOption(int number) {
     return 'Cor $number';
   }
+
+  @override
+  String get mailboxColorCustom => 'Cor personalizada';
+
+  @override
+  String get mailboxColorHue => 'Matiz';
+
+  @override
+  String get mailboxColorHex => 'Código hexadecimal';
 
   @override
   String get mailboxRules => 'Regras';

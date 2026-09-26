@@ -4,6 +4,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/utils/mail_match_format.dart';
+import 'package:nmail_core/utils/string_color.dart';
 import 'mailboxes_controller.dart';
 
 enum MailEntryFormError { nameTaken, saveFailed }
@@ -40,6 +41,9 @@ class MailEntryFormController extends GetxController {
 
   /// `#RRGGBB`, or null for the color the spec derives from the id.
   final color = RxnString();
+
+  /// A color from outside [palette], kept while another one is selected.
+  final customColor = RxnString();
   final hasAttachment = Rxn<bool>();
   final rulesExpanded = false.obs;
   final isSaving = false.obs;
@@ -60,6 +64,7 @@ class MailEntryFormController extends GetxController {
       text: formatMatchList(match?.subject),
     );
     color.value = entry?.color;
+    if (_isCustom(entry?.color)) customColor.value = entry?.color;
     hasAttachment.value = match?.hasAttachment;
     rulesExpanded.value = match != null;
     nameController.addListener(_onNameChanged);
@@ -72,6 +77,24 @@ class MailEntryFormController extends GetxController {
     fromController.dispose();
     subjectController.dispose();
     super.onClose();
+  }
+
+  static bool _isCustom(String? hex) =>
+      MailboxesController.parseEntryColor(hex) != null &&
+      !palette.contains(hex!.toUpperCase());
+
+  /// Where the custom color dialog opens.
+  Color get customColorSeed =>
+      MailboxesController.parseEntryColor(customColor.value) ??
+      MailboxesController.parseEntryColor(color.value) ??
+      switch (entry) {
+        final entry? => getStringColor(entry.id),
+        null => MailboxesController.parseEntryColor(palette.first)!,
+      };
+
+  void pickCustomColor(String hex) {
+    color.value = hex;
+    if (_isCustom(hex)) customColor.value = hex;
   }
 
   void _onNameChanged() {

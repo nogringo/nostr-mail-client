@@ -1729,6 +1729,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get mailboxColorCustom => 'Custom color';
+
+  @override
+  String get mailboxColorHue => 'Hue';
+
+  @override
+  String get mailboxColorHex => 'Hex code';
+
+  @override
   String get mailboxRules => 'Rules';
 
   @override

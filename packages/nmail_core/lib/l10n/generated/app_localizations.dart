@@ -3187,6 +3187,24 @@ abstract class AppLocalizations {
   /// **'Color {number}'**
   String mailboxColorOption(int number);
 
+  /// Opens the dialog to pick any color for a folder or tag, its title, and the screen reader label of the swatch holding that color
+  ///
+  /// In en, this message translates to:
+  /// **'Custom color'**
+  String get mailboxColorCustom;
+
+  /// Screen reader label of the slider that picks the hue of a custom color
+  ///
+  /// In en, this message translates to:
+  /// **'Hue'**
+  String get mailboxColorHue;
+
+  /// Label of the field that takes a custom color as six hexadecimal digits
+  ///
+  /// In en, this message translates to:
+  /// **'Hex code'**
+  String get mailboxColorHex;
+
   /// Heading of the conditions that file emails into a folder or tag automatically
   ///
   /// In en, this message translates to:

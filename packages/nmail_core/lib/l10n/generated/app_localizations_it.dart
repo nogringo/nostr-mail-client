@@ -1747,6 +1747,15 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get mailboxColorCustom => 'Colore personalizzato';
+
+  @override
+  String get mailboxColorHue => 'Tonalità';
+
+  @override
+  String get mailboxColorHex => 'Codice esadecimale';
+
+  @override
   String get mailboxRules => 'Regole';
 
   @override

@@ -1743,6 +1743,15 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get mailboxColorCustom => 'Eigene Farbe';
+
+  @override
+  String get mailboxColorHue => 'Farbton';
+
+  @override
+  String get mailboxColorHex => 'Hex-Code';
+
+  @override
   String get mailboxRules => 'Regeln';
 
   @override
