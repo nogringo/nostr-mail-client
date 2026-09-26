@@ -33,9 +33,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionOpen => 'Avaa';
 
   @override
-  String get actionUpload => 'Tallenna palvelimelle';
-
-  @override
   String get actionReset => 'Nollaa';
 
   @override
@@ -302,13 +299,6 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get settingsBackgroundDownloadFailed => 'Kuvan lataaminen epäonnistui';
-
-  @override
-  String get settingsBackgroundUploadTitle => 'Tallenna kuva palvelimelle';
-
-  @override
-  String get settingsBackgroundUploadWarning =>
-      'Kuva tallennetaan Blossom-palvelimille. Palvelimen hallinnoijat ja linkin hallussapitäjät voivat nähdä kuvan.';
 
   @override
   String get hostingRecommended => 'Suositeltu:';

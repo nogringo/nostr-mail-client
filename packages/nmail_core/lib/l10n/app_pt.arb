@@ -8,7 +8,6 @@
   "actionContinue": "Continuar",
   "actionCopy": "Copiar",
   "actionOpen": "Abrir",
-  "actionUpload": "Enviar",
   "actionReset": "Repor",
   "actionUndo": "Desfazer",
   "actionRemove": "Remover",
@@ -104,8 +103,6 @@
   "settingsBackgroundCopyFailed": "Falha ao copiar a imagem",
   "settingsBackgroundUrlError": "Imagem inacessível (erro de CORS ou rede)",
   "settingsBackgroundDownloadFailed": "Falha ao transferir a imagem",
-  "settingsBackgroundUploadTitle": "Enviar imagem",
-  "settingsBackgroundUploadWarning": "Esta imagem será enviada para servidores Blossom. Os operadores dos servidores e qualquer pessoa com o link poderão vê-la.",
   "hostingRecommended": "Recomendados:",
   "hostingWillBeAddedAs": "Será adicionado como: {url}",
   "@hostingWillBeAddedAs": {

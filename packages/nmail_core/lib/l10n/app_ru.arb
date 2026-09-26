@@ -9,7 +9,6 @@
   "actionContinue": "Продолжить",
   "actionCopy": "Копировать",
   "actionOpen": "Открыть",
-  "actionUpload": "Загрузить",
   "actionReset": "Сбросить",
   "actionUndo": "Отменить",
   "actionRemove": "Удалить",
@@ -110,8 +109,6 @@
   "settingsBackgroundCopyFailed": "Не удалось скопировать изображение",
   "settingsBackgroundUrlError": "Изображение недоступно (ошибка CORS или сети)",
   "settingsBackgroundDownloadFailed": "Не удалось скачать изображение",
-  "settingsBackgroundUploadTitle": "Загрузить изображение",
-  "settingsBackgroundUploadWarning": "Это изображение будет загружено на серверы Blossom. Операторы серверов и все, у кого есть ссылка, смогут его видеть.",
 
   "hostingRecommended": "Рекомендуемые:",
   "hostingWillBeAddedAs": "Будет добавлено как: {url}",

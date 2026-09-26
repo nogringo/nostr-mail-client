@@ -29,11 +29,6 @@ class BackgroundAddButton extends StatelessWidget {
     final picked = await controller.pickImage();
     if (picked == null || !context.mounted) return;
 
-    if (!PlatformHelper.isNative) {
-      final confirmed = await _confirmUpload(context);
-      if (!confirmed || !context.mounted) return;
-    }
-
     await controller.addPickedImage(context, picked);
   }
 
@@ -79,7 +74,8 @@ class BackgroundAddButton extends StatelessWidget {
     final inputController = TextEditingController(
       text:
           PlatformHelper.isNative ||
-              !BackgroundPreset.isCustomImageValue(currentValue)
+              !BackgroundPreset.isCustomImageValue(currentValue) ||
+              BackgroundPreset.cachedImageSha256(currentValue) != null
           ? ''
           : currentValue,
     );
@@ -115,30 +111,6 @@ class BackgroundAddButton extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Future<bool> _confirmUpload(BuildContext context) async {
-    final l = AppLocalizations.of(context);
-
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l.settingsBackgroundUploadTitle),
-        content: Text(l.settingsBackgroundUploadWarning),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(l.actionCancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(l.actionUpload),
-          ),
-        ],
-      ),
-    );
-
-    return confirmed ?? false;
   }
 
   @override

@@ -1,24 +1,23 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:blossom_cache/blossom_cache.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:ndk/ndk.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/services/nostr_mail_service.dart';
-import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
+import 'package:nmail_core/models/background_preset.dart';
+import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
-/// Native builds keep a gallery of background files on disk. Web has nowhere
-/// to put them, so it holds a single URL, pasted or uploaded to Blossom.
+/// Native builds keep a gallery of background files on disk. Web holds a
+/// single image: a picked file kept in the Blossom cache, or a pasted URL.
 class BackgroundsController extends GetxController {
   final savedImages = <File>[].obs;
   final isBusy = false.obs;
@@ -51,7 +50,15 @@ class BackgroundsController extends GetxController {
     }
   }
 
-  Future<void> select(String? path) => _settings.setBackgroundImage(path);
+  Future<void> select(String? value) async {
+    final previous = _settings.backgroundImage.value;
+    await _settings.setBackgroundImage(value);
+    if (previous != value) {
+      await Get.find<AccountLocalDataService>().releaseCachedBackground(
+        previous,
+      );
+    }
+  }
 
   Future<PlatformFile?> pickImage() =>
       FilePicker.pickFile(type: FileType.image);
@@ -59,7 +66,7 @@ class BackgroundsController extends GetxController {
   Future<void> addPickedImage(BuildContext context, PlatformFile picked) {
     return PlatformHelper.isNative
         ? _copyToGallery(context, picked)
-        : _uploadToBlossom(context, picked);
+        : _copyToCache(context, picked);
   }
 
   Future<void> addFromUrl(BuildContext context, String url) async {
@@ -142,13 +149,10 @@ class BackgroundsController extends GetxController {
     try {
       final completer = Completer<void>();
       final stream = NetworkImage(url).resolve(const ImageConfiguration());
-      final listener = ImageStreamListener(
-        (image, _) {
-          image.dispose();
-          completer.complete();
-        },
-        onError: (error, _) => completer.completeError(error),
-      );
+      final listener = ImageStreamListener((image, _) {
+        image.dispose();
+        completer.complete();
+      }, onError: (error, _) => completer.completeError(error));
       stream.addListener(listener);
       try {
         await completer.future.timeout(const Duration(seconds: 10));
@@ -166,42 +170,21 @@ class BackgroundsController extends GetxController {
     }
   }
 
-  // TODO: encrypt the image before upload, decrypt on display
-  Future<void> _uploadToBlossom(
-    BuildContext context,
-    PlatformFile picked,
-  ) async {
+  Future<void> _copyToCache(BuildContext context, PlatformFile picked) async {
     final l = AppLocalizations.of(context);
     isBusy.value = true;
 
     try {
-      final userServers = await Get.find<NostrMailService>()
-          .getBlossomServers();
-      final results = await Get.find<Ndk>().blossom.uploadBlob(
-        data: stripMediaMetadata(await picked.readAsBytes()),
-        contentType: picked.extension != null
-            ? 'image/${picked.extension}'
-            : null,
-        serverUrls: userServers.isNotEmpty
-            ? userServers
-            : NostrConfig.recommendedBlossomServers,
+      final blob = await Get.find<BlossomCache>().put(
+        await picked.readAsBytes(),
+        type: picked.extension != null ? 'image/${picked.extension}' : null,
+        pinned: true,
       );
-
-      final uploaded = results
-          .where((result) => result.success && result.descriptor != null)
-          .toList();
-
-      if (uploaded.isEmpty) {
-        if (context.mounted) {
-          final error = results.isEmpty ? null : results.first.error;
-          ToastHelper.error(context, error ?? l.profileUploadFailed);
-        }
-        return;
+      await select(BackgroundPreset.cachedImageValue(blob.sha256));
+    } catch (_) {
+      if (context.mounted) {
+        ToastHelper.error(context, l.settingsBackgroundCopyFailed);
       }
-
-      await select(uploaded.first.descriptor!.url);
-    } catch (e) {
-      if (context.mounted) ToastHelper.error(context, e.toString());
     } finally {
       if (!isClosed) isBusy.value = false;
     }

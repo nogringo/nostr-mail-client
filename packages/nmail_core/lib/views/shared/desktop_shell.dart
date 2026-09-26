@@ -43,9 +43,8 @@ class DesktopShell extends StatelessWidget {
             );
           }
         } else {
-          // Web: URL
-          return Image.network(
-            image!,
+          return Image(
+            image: BackgroundPreset.webImage(image!),
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,

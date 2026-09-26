@@ -9,7 +9,6 @@
   "actionContinue": "Jatka",
   "actionCopy": "Kopioi",
   "actionOpen": "Avaa",
-  "actionUpload": "Tallenna palvelimelle",
   "actionReset": "Nollaa",
   "actionUndo": "Kumoa",
   "actionRemove": "Poista",
@@ -110,8 +109,6 @@
   "settingsBackgroundCopyFailed": "Kuvan kopiointi epäonnistui",
   "settingsBackgroundUrlError": "Kuva ei saatavilla (CORS tai verkko-ongelma)",
   "settingsBackgroundDownloadFailed": "Kuvan lataaminen epäonnistui",
-  "settingsBackgroundUploadTitle": "Tallenna kuva palvelimelle",
-  "settingsBackgroundUploadWarning": "Kuva tallennetaan Blossom-palvelimille. Palvelimen hallinnoijat ja linkin hallussapitäjät voivat nähdä kuvan.",
 
   "hostingRecommended": "Suositeltu:",
   "hostingWillBeAddedAs": "Lisätään: {url}",

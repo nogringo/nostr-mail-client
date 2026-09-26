@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nmail_core/models/background_preset.dart';
+import 'package:nmail_core/utils/blossom_cache_image.dart';
 
 void main() {
   test('BackgroundPreset exposes three bundled presets', () {
@@ -58,6 +59,19 @@ void main() {
       );
     },
   );
+
+  test('BackgroundPreset tells a cached web image from a pasted URL', () {
+    const sha256 =
+        'b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553';
+    const url = 'https://example.com/background.jpg';
+    final cached = BackgroundPreset.cachedImageValue(sha256);
+
+    expect(BackgroundPreset.isCustomImageValue(cached), isTrue);
+    expect(BackgroundPreset.cachedImageSha256(cached), sha256);
+    expect(BackgroundPreset.cachedImageSha256(url), isNull);
+    expect(BackgroundPreset.webImage(cached), const BlossomCacheImage(sha256));
+    expect(BackgroundPreset.webImage(url), const NetworkImage(url));
+  });
 
   test('BackgroundPreset variants carry colors and assets', () {
     final animated = BackgroundPreset.fromStorageValue(

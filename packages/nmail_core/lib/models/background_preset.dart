@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/utils/blossom_cache_image.dart';
 
 class BackgroundPresetVariant {
   const BackgroundPresetVariant({
@@ -25,6 +26,7 @@ class BackgroundPreset {
 
   static const packageName = 'nmail_core';
   static const storagePrefix = 'preset:';
+  static const cachedImagePrefix = 'blossom:';
   static const systemColorStorageValue = 'system:color';
   static const defaultId = 'animated_waves';
 
@@ -113,6 +115,19 @@ class BackgroundPreset {
         !isSystemColorValue(value) &&
         !value.startsWith(storagePrefix) &&
         fromStorageValue(value) == null;
+  }
+
+  static String cachedImageValue(String sha256) => '$cachedImagePrefix$sha256';
+
+  static String? cachedImageSha256(String? value) {
+    if (value == null || !value.startsWith(cachedImagePrefix)) return null;
+    return value.substring(cachedImagePrefix.length);
+  }
+
+  /// Web backgrounds are a picked file kept in the Blossom cache or a URL.
+  static ImageProvider webImage(String value) {
+    final sha256 = cachedImageSha256(value);
+    return sha256 == null ? NetworkImage(value) : BlossomCacheImage(sha256);
   }
 
   String localizedName(AppLocalizations l) => switch (id) {

@@ -9,7 +9,6 @@
   "actionContinue": "继续",
   "actionCopy": "复制",
   "actionOpen": "打开",
-  "actionUpload": "上传",
   "actionReset": "重置",
   "actionUndo": "撤销",
   "actionRemove": "移除",
@@ -110,8 +109,6 @@
   "settingsBackgroundCopyFailed": "复制图片失败",
   "settingsBackgroundUrlError": "图片无法访问(CORS 或网络错误)",
   "settingsBackgroundDownloadFailed": "下载图片失败",
-  "settingsBackgroundUploadTitle": "上传图片",
-  "settingsBackgroundUploadWarning": "此图片将被上传到 Blossom 服务器。服务器运营者和拥有链接的任何人都可以查看。",
 
   "hostingRecommended": "推荐:",
   "hostingWillBeAddedAs": "将以以下方式添加: {url}",

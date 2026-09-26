@@ -33,9 +33,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionOpen => 'Open';
 
   @override
-  String get actionUpload => 'Upload';
-
-  @override
   String get actionReset => 'Reset';
 
   @override
@@ -302,13 +299,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsBackgroundDownloadFailed => 'Failed to download image';
-
-  @override
-  String get settingsBackgroundUploadTitle => 'Upload image';
-
-  @override
-  String get settingsBackgroundUploadWarning =>
-      'This image will be uploaded to Blossom servers. Server operators and anyone with the link can view it.';
 
   @override
   String get hostingRecommended => 'Recommended:';

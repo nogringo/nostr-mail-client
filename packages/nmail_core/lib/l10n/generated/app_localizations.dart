@@ -163,12 +163,6 @@ abstract class AppLocalizations {
   /// **'Open'**
   String get actionOpen;
 
-  /// Generic Upload button label used to confirm an upload action
-  ///
-  /// In en, this message translates to:
-  /// **'Upload'**
-  String get actionUpload;
-
   /// Reset button label used in destructive reset dialogs
   ///
   /// In en, this message translates to:
@@ -666,18 +660,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to download image'**
   String get settingsBackgroundDownloadFailed;
-
-  /// Dialog title warning before uploading a background image to Blossom servers
-  ///
-  /// In en, this message translates to:
-  /// **'Upload image'**
-  String get settingsBackgroundUploadTitle;
-
-  /// Warning text shown before uploading a background image to public Blossom servers
-  ///
-  /// In en, this message translates to:
-  /// **'This image will be uploaded to Blossom servers. Server operators and anyone with the link can view it.'**
-  String get settingsBackgroundUploadWarning;
 
   /// Title above recommendation chips in relay/bridge/blossom sections
   ///

@@ -33,9 +33,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionOpen => 'Abrir';
 
   @override
-  String get actionUpload => 'Enviar';
-
-  @override
   String get actionReset => 'Repor';
 
   @override
@@ -303,13 +300,6 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settingsBackgroundDownloadFailed => 'Falha ao transferir a imagem';
-
-  @override
-  String get settingsBackgroundUploadTitle => 'Enviar imagem';
-
-  @override
-  String get settingsBackgroundUploadWarning =>
-      'Esta imagem será enviada para servidores Blossom. Os operadores dos servidores e qualquer pessoa com o link poderão vê-la.';
 
   @override
   String get hostingRecommended => 'Recomendados:';
@@ -1898,9 +1888,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get actionOpen => 'Abrir';
 
   @override
-  String get actionUpload => 'Enviar';
-
-  @override
   String get actionReset => 'Redefinir';
 
   @override
@@ -2168,13 +2155,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsBackgroundDownloadFailed => 'Falha ao baixar a imagem';
-
-  @override
-  String get settingsBackgroundUploadTitle => 'Enviar imagem';
-
-  @override
-  String get settingsBackgroundUploadWarning =>
-      'Esta imagem será enviada para servidores Blossom. Os operadores dos servidores e qualquer pessoa com o link poderão vê-la.';
 
   @override
   String get hostingRecommended => 'Recomendados:';

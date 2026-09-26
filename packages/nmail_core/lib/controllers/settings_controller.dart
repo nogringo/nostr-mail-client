@@ -392,7 +392,7 @@ class SettingsController extends GetxController {
       if (PlatformHelper.isNative) {
         provider = FileImage(File(imagePath));
       } else {
-        provider = NetworkImage(imagePath);
+        provider = BackgroundPreset.webImage(imagePath);
       }
 
       // Extract both light and dark schemes in parallel

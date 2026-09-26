@@ -9,7 +9,6 @@
   "actionContinue": "Weiter",
   "actionCopy": "Kopieren",
   "actionOpen": "Öffnen",
-  "actionUpload": "Hochladen",
   "actionReset": "Zurücksetzen",
   "actionUndo": "Rückgängig",
   "actionRemove": "Entfernen",
@@ -110,8 +109,6 @@
   "settingsBackgroundCopyFailed": "Bild konnte nicht kopiert werden",
   "settingsBackgroundUrlError": "Bild nicht erreichbar (CORS- oder Netzwerkfehler)",
   "settingsBackgroundDownloadFailed": "Bild konnte nicht heruntergeladen werden",
-  "settingsBackgroundUploadTitle": "Bild hochladen",
-  "settingsBackgroundUploadWarning": "Dieses Bild wird auf Blossom-Server hochgeladen. Serverbetreiber und jeder mit dem Link können es sehen.",
 
   "hostingRecommended": "Empfohlen:",
   "hostingWillBeAddedAs": "Wird hinzugefügt als: {url}",

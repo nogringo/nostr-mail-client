@@ -3,14 +3,15 @@ import 'package:get/get.dart';
 
 import '../../../controllers/backgrounds_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/background_preset.dart';
 import 'background_remove_badge.dart';
 import 'background_thumbnail.dart';
 
-/// The single remote background web builds can hold, always the selected one.
-class BackgroundUrlThumbnail extends StatelessWidget {
-  const BackgroundUrlThumbnail({super.key, required this.url});
+/// The single custom background web builds can hold, always the selected one.
+class BackgroundWebThumbnail extends StatelessWidget {
+  const BackgroundWebThumbnail({super.key, required this.value});
 
-  final String url;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,8 @@ class BackgroundUrlThumbnail extends StatelessWidget {
         label: l.settingsBackgroundRemoveLabel,
         onTap: () => controller.select(null),
       ),
-      child: Image.network(
-        url,
+      child: Image(
+        image: BackgroundPreset.webImage(value),
         fit: BoxFit.cover,
         errorBuilder: (_, _, _) => ColoredBox(
           color: colorScheme.errorContainer,

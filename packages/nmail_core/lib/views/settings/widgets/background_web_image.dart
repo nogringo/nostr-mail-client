@@ -7,7 +7,7 @@ import 'background_add_button.dart';
 import 'background_default_swatch.dart';
 import 'background_grid.dart';
 import 'background_preset_thumbnail.dart';
-import 'background_url_thumbnail.dart';
+import 'background_web_thumbnail.dart';
 
 // TODO: keep a history of pasted URLs so web gets a gallery too
 class BackgroundWebImage extends StatelessWidget {
@@ -19,7 +19,7 @@ class BackgroundWebImage extends StatelessWidget {
 
     return Obx(() {
       final value = settings.backgroundImage.value;
-      final hasUrl = BackgroundPreset.isCustomImageValue(value);
+      final hasCustomImage = BackgroundPreset.isCustomImageValue(value);
       const presets = BackgroundPreset.all;
 
       return BackgroundGrid(
@@ -27,7 +27,7 @@ class BackgroundWebImage extends StatelessWidget {
           for (final preset in presets)
             BackgroundPresetThumbnail(preset: preset),
           const BackgroundDefaultSwatch(),
-          if (hasUrl) BackgroundUrlThumbnail(url: value!),
+          if (hasCustomImage) BackgroundWebThumbnail(value: value!),
           const BackgroundAddButton(),
         ],
       );

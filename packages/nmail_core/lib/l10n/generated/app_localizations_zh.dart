@@ -33,9 +33,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionOpen => '打开';
 
   @override
-  String get actionUpload => '上传';
-
-  @override
   String get actionReset => '重置';
 
   @override
@@ -290,13 +287,6 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get settingsBackgroundDownloadFailed => '下载图片失败';
-
-  @override
-  String get settingsBackgroundUploadTitle => '上传图片';
-
-  @override
-  String get settingsBackgroundUploadWarning =>
-      '此图片将被上传到 Blossom 服务器。服务器运营者和拥有链接的任何人都可以查看。';
 
   @override
   String get hostingRecommended => '推荐:';

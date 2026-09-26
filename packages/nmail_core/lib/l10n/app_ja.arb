@@ -9,7 +9,6 @@
   "actionContinue": "続ける",
   "actionCopy": "コピー",
   "actionOpen": "開く",
-  "actionUpload": "アップロード",
   "actionReset": "リセット",
   "actionUndo": "元に戻す",
   "actionRemove": "削除",
@@ -110,8 +109,6 @@
   "settingsBackgroundCopyFailed": "画像のコピーに失敗しました",
   "settingsBackgroundUrlError": "画像にアクセスできません (CORS またはネットワークエラー)",
   "settingsBackgroundDownloadFailed": "画像のダウンロードに失敗しました",
-  "settingsBackgroundUploadTitle": "画像をアップロード",
-  "settingsBackgroundUploadWarning": "この画像は Blossom サーバーにアップロードされます。サーバー運営者やリンクを知る誰でも閲覧できます。",
 
   "hostingRecommended": "おすすめ:",
   "hostingWillBeAddedAs": "次のように追加されます: {url}",

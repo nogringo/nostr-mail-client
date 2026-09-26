@@ -8,6 +8,7 @@ import 'package:ndk/ndk.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../models/background_preset.dart';
 import 'address_book_service.dart';
 import 'metadata_service.dart';
 import 'nostr_mail_service.dart';
@@ -85,13 +86,27 @@ class AccountLocalDataService extends GetxService {
     await _deleteBackgroundsDirectory();
   }
 
+  /// Deletes a background from the Blossom cache once no account on this
+  /// device shows it anymore.
+  Future<void> releaseCachedBackground(String? value) async {
+    final sha256 = BackgroundPreset.cachedImageSha256(value);
+    if (sha256 == null || !Get.isRegistered<BlossomCache>()) return;
+
+    for (final pubkey in Get.find<Ndk>().accounts.accounts.keys) {
+      final background = await _storageService.getSetting<String>(
+        '${_backgroundImageKey}_$pubkey',
+      );
+      if (background == value) return;
+    }
+    await Get.find<BlossomCache>().delete(sha256);
+  }
+
   Future<void> _clearAccountSettings(String pubkey) async {
     final backgroundKey = '${_backgroundImageKey}_$pubkey';
-    final backgroundPath = await _storageService.getSetting<String>(
-      backgroundKey,
-    );
+    final background = await _storageService.getSetting<String>(backgroundKey);
     await _storageService.deleteSetting(backgroundKey);
-    await _deleteBackgroundFile(backgroundPath);
+    await _deleteBackgroundFile(background);
+    await releaseCachedBackground(background);
 
     await _storageService.deleteSetting(
       PushSubscriptionService.enabledKey(pubkey),
