@@ -39,10 +39,7 @@ class BridgesSection extends StatelessWidget {
             autofocus: true,
             keyboardType: TextInputType.url,
             inputFormatters: [
-              FilteringTextInputFormatter.deny(
-                RegExp(r'\s'),
-                replacementString: '',
-              ),
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.-]')),
             ],
             onChanged: (value) {
               setDialogState(() => errorText = null);

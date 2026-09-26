@@ -28,7 +28,7 @@ class LocalPartSection extends StatelessWidget {
           controller: controller.localPartController,
           decoration: InputDecoration(hintText: l.createIdentityCustomUsername),
           inputFormatters: [
-            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9_.@-]')),
+            FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9_.-]')),
           ],
           onChanged: (_) => controller.checkLocalPartFormat(),
         ),
@@ -73,7 +73,7 @@ class LocalPartSection extends StatelessWidget {
   }) {
     final isSelected = controller.selectedFormat == format;
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: isSelected ? 0 : 1),
+      padding: EdgeInsets.all(isSelected ? 0 : 1),
       child: ActionChip(
         label: Text(label),
         onPressed: () {

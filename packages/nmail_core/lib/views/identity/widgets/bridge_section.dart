@@ -57,7 +57,7 @@ class BridgeSection extends StatelessWidget {
         ...allBridges.map((bridge) {
           final isSelected = controller.selectedBridge == bridge;
           return Padding(
-            padding: EdgeInsets.symmetric(horizontal: isSelected ? 0 : 1),
+            padding: EdgeInsets.all(isSelected ? 0 : 1),
             child: ActionChip(
               label: Text(bridge),
               onPressed: () => controller.selectBridge(bridge),
@@ -86,7 +86,7 @@ class BridgeSection extends StatelessWidget {
       decoration: InputDecoration(hintText: l.createIdentityBridgeHint),
       keyboardType: TextInputType.url,
       inputFormatters: [
-        FilteringTextInputFormatter.deny(RegExp(r'\s'), replacementString: ''),
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.-]')),
       ],
       onChanged: (_) => controller.checkBridgeFormat(),
     );
