@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:enough_mail_plus/enough_mail.dart';
+import 'package:flutter_quill/flutter_quill.dart' show Document;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -8,11 +9,14 @@ import 'package:http/testing.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart' show Email;
 import 'package:nmail_core/controllers/compose_controller.dart';
+import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
+
+import '../helpers/fake_metadata_service.dart';
 
 const _pubkey =
     '3bf0c63fcb93463407af97a5e5ee64fa883d107ef9e558472c4eb9aaaefa459d';
@@ -100,6 +104,7 @@ void main() {
 
   group('ComposeController recipient actions', () {
     late Ndk ndk;
+    late FakeMetadataService metadataService;
     late ComposeController controller;
 
     setUp(() {
@@ -115,7 +120,8 @@ void main() {
       Get.put<Ndk>(ndk);
       Get.put(StorageService());
       Get.put(NostrMailService());
-      Get.put(MetadataService());
+      metadataService = FakeMetadataService();
+      Get.put<MetadataService>(metadataService);
       Get.put(ContactsService());
       controller = ComposeController();
     });
@@ -242,6 +248,50 @@ void main() {
         final recipient = controller.ccRecipients.single;
         expect(recipient.isNostr, isTrue);
         expect(recipient.pubkey, _otherPubkey);
+      });
+    });
+
+    group('buildMimeMessage', () {
+      test('names a Nostr recipient after their profile', () {
+        metadataService.resolve(Metadata(pubKey: _pubkey, name: 'Alice'));
+        controller.recipients.add(
+          Contact(
+            pubkey: _pubkey,
+            displayName: 'Grumpy neighbour',
+            source: ContactSource.addressBook,
+          ).toRecipient(),
+        );
+
+        final mime = controller.buildMimeMessage(
+          subject: 'Hi',
+          document: Document(),
+        );
+
+        expect(mime.to!.single.personalName, 'Alice');
+      });
+
+      test('leaves the names given to contacts out of the email', () {
+        controller.recipients.add(
+          Contact(
+            pubkey: _pubkey,
+            displayName: 'Grumpy neighbour',
+            source: ContactSource.addressBook,
+          ).toRecipient(),
+        );
+        controller.ccRecipients.add(
+          Contact(
+            displayName: 'Tax man',
+            mailAddress: MailAddress('Tax man', 'bob@example.com'),
+            source: ContactSource.addressBook,
+          ).toRecipient(),
+        );
+
+        final email = controller
+            .buildMimeMessage(subject: 'Hi', document: Document())
+            .renderMessage();
+
+        expect(email, isNot(contains('Grumpy neighbour')));
+        expect(email, isNot(contains('Tax man')));
       });
     });
   });

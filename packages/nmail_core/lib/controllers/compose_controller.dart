@@ -24,8 +24,10 @@ import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/models/send_mode.dart';
 import 'package:nmail_core/services/contacts_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
+import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
@@ -63,6 +65,7 @@ class ComposeController extends GetxController {
 
   final _nostrMailService = Get.find<NostrMailService>();
   final _contactsService = Get.find<ContactsService>();
+  final _metadataService = Get.find<MetadataService>();
 
   final isSending = false.obs;
   final recipients = <Recipient>[].obs;
@@ -482,7 +485,7 @@ class ComposeController extends GetxController {
 
     isSending.value = true;
     try {
-      final message = _buildMimeMessage(
+      final message = buildMimeMessage(
         from: from,
         subject: subject,
         document: document,
@@ -518,7 +521,7 @@ class ComposeController extends GetxController {
 
     isSending.value = true;
     try {
-      final message = _buildMimeMessage(
+      final message = buildMimeMessage(
         from: from,
         subject: subject,
         document: document,
@@ -543,7 +546,8 @@ class ComposeController extends GetxController {
     }
   }
 
-  MimeMessage _buildMimeMessage({
+  @visibleForTesting
+  MimeMessage buildMimeMessage({
     String? from,
     required String subject,
     required Document document,
@@ -610,12 +614,15 @@ class ComposeController extends GetxController {
   }
 
   /// nostr recipients become `npub@nostr`; legacy ones keep their email input.
+  /// The name comes from the profile: [Recipient.displayName] can be private.
   MailAddress _toMailAddress(Recipient r) {
-    if (r.isNostr && r.pubkey != null) {
-      final npub = Nip19.encodePubKey(r.pubkey!);
-      return MailAddress(r.displayName, '$npub@nostr');
+    final pubkey = r.pubkey;
+    if (r.isNostr && pubkey != null) {
+      final npub = Nip19.encodePubKey(pubkey);
+      final name = _metadataService.of(pubkey).value?.realName;
+      return MailAddress(name, '$npub@nostr');
     }
-    return MailAddress(r.displayName, r.input);
+    return MailAddress(null, r.input);
   }
 
   bool get _hasLegacyRecipient =>
