@@ -142,13 +142,19 @@ class BackgroundsController extends GetxController {
     try {
       final completer = Completer<void>();
       final stream = NetworkImage(url).resolve(const ImageConfiguration());
-      stream.addListener(
-        ImageStreamListener(
-          (_, _) => completer.complete(),
-          onError: (error, _) => completer.completeError(error),
-        ),
+      final listener = ImageStreamListener(
+        (image, _) {
+          image.dispose();
+          completer.complete();
+        },
+        onError: (error, _) => completer.completeError(error),
       );
-      await completer.future.timeout(const Duration(seconds: 10));
+      stream.addListener(listener);
+      try {
+        await completer.future.timeout(const Duration(seconds: 10));
+      } finally {
+        stream.removeListener(listener);
+      }
 
       await select(url);
     } catch (_) {
