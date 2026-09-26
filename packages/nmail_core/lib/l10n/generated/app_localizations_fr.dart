@@ -580,13 +580,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get inboxEmptyArchive => 'Les archives sont vides';
 
   @override
-  String get inboxSyncFromRelays => 'Synchroniser depuis les relais';
+  String get inboxSyncFromRelays => 'Actualiser';
 
   @override
   String get inboxSearch => 'Rechercher';
 
   @override
-  String get inboxSync => 'Synchroniser';
+  String get inboxSync => 'Actualiser';
 
   @override
   String get inboxMenu => 'Menu';

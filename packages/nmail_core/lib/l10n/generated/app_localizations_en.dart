@@ -573,13 +573,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get inboxEmptyArchive => 'Archive is empty';
 
   @override
-  String get inboxSyncFromRelays => 'Sync from relays';
+  String get inboxSyncFromRelays => 'Refresh';
 
   @override
   String get inboxSearch => 'Search';
 
   @override
-  String get inboxSync => 'Sync';
+  String get inboxSync => 'Refresh';
 
   @override
   String get inboxMenu => 'Menu';

@@ -578,13 +578,13 @@ class AppLocalizationsIt extends AppLocalizations {
   String get inboxEmptyArchive => 'L\'archivio è vuoto';
 
   @override
-  String get inboxSyncFromRelays => 'Sincronizza dai relay';
+  String get inboxSyncFromRelays => 'Aggiorna';
 
   @override
   String get inboxSearch => 'Cerca';
 
   @override
-  String get inboxSync => 'Sincronizza';
+  String get inboxSync => 'Aggiorna';
 
   @override
   String get inboxMenu => 'Menu';

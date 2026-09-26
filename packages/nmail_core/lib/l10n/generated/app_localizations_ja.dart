@@ -555,13 +555,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inboxEmptyArchive => 'アーカイブは空です';
 
   @override
-  String get inboxSyncFromRelays => 'リレーから同期';
+  String get inboxSyncFromRelays => '更新';
 
   @override
   String get inboxSearch => '検索';
 
   @override
-  String get inboxSync => '同期';
+  String get inboxSync => '更新';
 
   @override
   String get inboxMenu => 'メニュー';

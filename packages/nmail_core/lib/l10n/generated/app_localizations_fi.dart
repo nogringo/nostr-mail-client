@@ -574,13 +574,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get inboxEmptyArchive => 'Arkisto on tyhjä';
 
   @override
-  String get inboxSyncFromRelays => 'Synkronoi palvelimilta';
+  String get inboxSyncFromRelays => 'Päivitä';
 
   @override
   String get inboxSearch => 'Hae';
 
   @override
-  String get inboxSync => 'Synkronoi';
+  String get inboxSync => 'Päivitä';
 
   @override
   String get inboxMenu => 'Valikko';

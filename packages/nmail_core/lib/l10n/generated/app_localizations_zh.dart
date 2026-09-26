@@ -552,13 +552,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inboxEmptyArchive => '归档为空';
 
   @override
-  String get inboxSyncFromRelays => '从中继同步';
+  String get inboxSyncFromRelays => '刷新';
 
   @override
   String get inboxSearch => '搜索';
 
   @override
-  String get inboxSync => '同步';
+  String get inboxSync => '刷新';
 
   @override
   String get inboxMenu => '菜单';

@@ -1171,10 +1171,10 @@ abstract class AppLocalizations {
   /// **'Archive is empty'**
   String get inboxEmptyArchive;
 
-  /// Button shown below empty-state to trigger a sync
+  /// Button shown below empty-state to refresh the mailbox
   ///
   /// In en, this message translates to:
-  /// **'Sync from relays'**
+  /// **'Refresh'**
   String get inboxSyncFromRelays;
 
   /// Tooltip on the search icon in the inbox toolbar
@@ -1183,10 +1183,10 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get inboxSearch;
 
-  /// Tooltip on the sync icon in the inbox toolbar
+  /// Tooltip on the refresh icon in the inbox toolbar
   ///
   /// In en, this message translates to:
-  /// **'Sync'**
+  /// **'Refresh'**
   String get inboxSync;
 
   /// Tooltip on the hamburger menu in the inbox (mobile)

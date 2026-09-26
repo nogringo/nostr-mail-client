@@ -577,13 +577,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get inboxEmptyArchive => 'Архив пуст';
 
   @override
-  String get inboxSyncFromRelays => 'Синхронизировать с реле';
+  String get inboxSyncFromRelays => 'Обновить';
 
   @override
   String get inboxSearch => 'Поиск';
 
   @override
-  String get inboxSync => 'Синхронизация';
+  String get inboxSync => 'Обновить';
 
   @override
   String get inboxMenu => 'Меню';

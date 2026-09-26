@@ -16,6 +16,7 @@ import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
+// TODO: store native backgrounds in the Blossom cache too, like web.
 /// The gallery of saved backgrounds: files on disk on native builds, images in
 /// the Blossom cache on web.
 class BackgroundsController extends GetxController {

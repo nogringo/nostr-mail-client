@@ -576,13 +576,13 @@ class AppLocalizationsPt extends AppLocalizations {
   String get inboxEmptyArchive => 'O arquivo está vazio';
 
   @override
-  String get inboxSyncFromRelays => 'Sincronizar dos relays';
+  String get inboxSyncFromRelays => 'Atualizar';
 
   @override
   String get inboxSearch => 'Pesquisar';
 
   @override
-  String get inboxSync => 'Sincronizar';
+  String get inboxSync => 'Atualizar';
 
   @override
   String get inboxMenu => 'Menu';
@@ -2428,13 +2428,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get inboxEmptyArchive => 'O arquivo está vazio';
 
   @override
-  String get inboxSyncFromRelays => 'Sincronizar dos relays';
+  String get inboxSyncFromRelays => 'Atualizar';
 
   @override
   String get inboxSearch => 'Pesquisar';
 
   @override
-  String get inboxSync => 'Sincronizar';
+  String get inboxSync => 'Atualizar';
 
   @override
   String get inboxMenu => 'Menu';

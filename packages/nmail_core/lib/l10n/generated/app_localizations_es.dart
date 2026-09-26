@@ -576,13 +576,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get inboxEmptyArchive => 'No hay correos archivados';
 
   @override
-  String get inboxSyncFromRelays => 'Sincronizar desde los relays';
+  String get inboxSyncFromRelays => 'Actualizar';
 
   @override
   String get inboxSearch => 'Buscar';
 
   @override
-  String get inboxSync => 'Sincronizar';
+  String get inboxSync => 'Actualizar';
 
   @override
   String get inboxMenu => 'Menú';

@@ -65,7 +65,7 @@ class ScheduledView extends GetView<ScheduledController> {
                             height: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Icon(Icons.sync),
+                        : const Icon(Icons.refresh),
                     tooltip: l.inboxSync,
                     onPressed: controller.isSyncing.value
                         ? null
