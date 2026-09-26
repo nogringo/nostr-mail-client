@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/services/metadata_service.dart';
+import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/format_date.dart';
-import 'package:nmail_core/utils/metadata_extensions.dart';
-import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/scheduled_email_extensions.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'scheduled_email_compact_tile.dart';
@@ -40,14 +37,8 @@ class ScheduledEmailTile extends StatelessWidget {
 
   bool get _canEdit => email.canEdit;
 
-  String _recipientName(BuildContext context) {
-    final pubkey = extractPubkeyFromAddress(email.firstRecipient) ?? '';
-    if (pubkey.isNotEmpty) {
-      final metadata = Get.find<MetadataService>().of(pubkey).value;
-      if (metadata != null) return metadata.getBestName();
-    }
-    return email.firstRecipient;
-  }
+  String _recipientName(BuildContext context) =>
+      emailPersonName(email.firstRecipientPerson);
 
   @override
   Widget build(BuildContext context) {

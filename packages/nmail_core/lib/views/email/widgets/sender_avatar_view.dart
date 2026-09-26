@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/views/email/widgets/sender_bridge_badge_view.dart';
 
-import 'main_sender_avatar_view.dart';
+import 'person_avatar.dart';
 
 class SenderAvatarView extends StatelessWidget {
   const SenderAvatarView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final email = EmailController.to.email!;
-    final mainAvatar = MainSenderAvatarView(email: email);
+    final controller = EmailController.to;
+    final email = controller.email!;
+    final mainAvatar = PersonAvatar(
+      person: controller.senderPerson,
+      radius: 24,
+    );
 
     if (!email.isBridged) {
       return mainAvatar;

@@ -20,7 +20,11 @@ class ContactAvatar extends StatelessWidget {
         .whereType<String>()
         .firstOrNull;
     if (pubkey != null) {
-      return NostrAvatar(pubkey: pubkey, radius: radius);
+      return NostrAvatar(
+        pubkey: pubkey,
+        name: contact.index.formattedName,
+        radius: radius,
+      );
     }
 
     final email = contact.index.emails.firstOrNull;

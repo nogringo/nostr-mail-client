@@ -3,12 +3,17 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import 'package:nmail_core/models/email_person.dart';
+import 'package:nmail_core/services/address_book_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 
-/// Reads the metadata store, so a call inside `Obx` follows profile updates.
+/// The name the user gave the contact wins over the one the person gives
+/// themselves. A call inside `Obx` follows contact edits and profile updates.
 String emailPersonName(EmailPerson person) {
+  final contactName = emailPersonContact(person)?.index.formattedName.trim();
+  if (contactName != null && contactName.isNotEmpty) return contactName;
+
   final pubkey = person.pubkey;
   if (pubkey != null) {
     final metadata = Get.find<MetadataService>().of(pubkey).value;
@@ -26,6 +31,11 @@ String emailPersonIdentifier(EmailPerson person) {
   final pubkey = person.pubkey;
   return pubkey != null ? Nip19.encodePubKey(pubkey) : person.address!.email;
 }
+
+/// Always reads the address book, so a call inside `Obx` follows contact
+/// edits.
+AddressBookContact? emailPersonContact(EmailPerson person) =>
+    findEmailPersonContact(Get.find<AddressBookService>().contacts(), person);
 
 AddressBookContact? findEmailPersonContact(
   Iterable<AddressBookContact> contacts,

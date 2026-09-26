@@ -13,12 +13,10 @@ import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/models/mailbox.dart';
-import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
-import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
-import '../../../widgets/email_avatar.dart';
+import 'package:nmail_core/views/email/widgets/person_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
 import '../../../widgets/selectable_avatar.dart';
 import '../../../widgets/tag_chips.dart';
@@ -106,6 +104,10 @@ class EmailTile extends StatelessWidget {
     return extractPubkeyFromAddress(to.email) ?? '';
   }
 
+  EmailPerson get _otherSidePerson => _otherSidePubkey.isNotEmpty
+      ? EmailPerson.nostr(_otherSidePubkey)
+      : EmailPerson.email(_displayAddress);
+
   /// Pubkey of the bridge that relayed this email, when known. Only
   /// available for received bridged emails (gift-wrap sender = bridge).
   /// Outgoing bridged emails don't persist the bridge locally.
@@ -148,16 +150,9 @@ class EmailTile extends StatelessWidget {
 
   String _displayNameForAddress(MailAddress address) {
     final pubkey = extractPubkeyFromAddress(address.email);
-    if (pubkey != null) {
-      final metadata = Get.find<MetadataService>().of(pubkey).value;
-      if (metadata != null) return metadata.getBestName();
-      if (address.hasPersonalName) return address.personalName!;
-      return getAnonName(pubkey);
-    }
-    if (address.hasPersonalName) {
-      return address.personalName!;
-    }
-    return address.email;
+    return emailPersonName(
+      pubkey != null ? EmailPerson.nostr(pubkey) : EmailPerson.email(address),
+    );
   }
 
   String get _displayName {
@@ -166,12 +161,8 @@ class EmailTile extends StatelessWidget {
     }
 
     // Read inside the Obx that wraps the tile, so the name updates in place
-    // once metadata loads.
-    return emailPersonName(
-      _otherSidePubkey.isNotEmpty
-          ? EmailPerson.nostr(_otherSidePubkey)
-          : EmailPerson.email(_displayAddress),
-    );
+    // once metadata loads or the contact changes.
+    return emailPersonName(_otherSidePerson);
   }
 
   Widget _buildDisplayNameText(TextStyle style) {
@@ -807,9 +798,7 @@ class EmailTile extends StatelessWidget {
 
     // Main avatar: nostr identity if the contact is one, else the
     // legacy MIME address. Decided per-address, not from isBridged.
-    final mainAvatar = _otherSidePubkey.isEmpty
-        ? EmailAvatar(mailAddress: _displayAddress, radius: radius)
-        : NostrAvatar(pubkey: _otherSidePubkey, radius: radius);
+    final mainAvatar = PersonAvatar(person: _otherSidePerson, radius: radius);
 
     // Bridge badge: provenance marker, only when the bridge pubkey is
     // known (received bridged emails).

@@ -1,4 +1,8 @@
+import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:nostr_mail/nostr_mail.dart';
+
+import 'package:nmail_core/models/email_person.dart';
+import 'package:nmail_core/utils/nostr_utils.dart';
 
 /// What a row in the Scheduled list tells the user about its email.
 enum ScheduledDisplayStatus {
@@ -21,6 +25,14 @@ extension ScheduledEmailX on ScheduledEmail {
     if (cc.isNotEmpty) return cc.first;
     if (bcc.isNotEmpty) return bcc.first;
     return '';
+  }
+
+  EmailPerson get firstRecipientPerson {
+    final address = firstRecipient;
+    final pubkey = extractPubkeyFromAddress(address);
+    return pubkey != null
+        ? EmailPerson.nostr(pubkey)
+        : EmailPerson.email(MailAddress(null, address));
   }
 
   /// A published email lives in Sent, a cancelled one is gone: neither stays in

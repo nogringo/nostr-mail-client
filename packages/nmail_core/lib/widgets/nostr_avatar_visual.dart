@@ -13,11 +13,16 @@ class NostrAvatarVisual extends StatelessWidget {
   final Metadata? metadata;
   final double radius;
 
+  /// Takes the place of the profile name for the initial: the name the user
+  /// gave a contact.
+  final String? name;
+
   const NostrAvatarVisual({
     super.key,
     required this.pubkey,
     this.metadata,
     this.radius = 20,
+    this.name,
   });
 
   @override
@@ -33,11 +38,14 @@ class NostrAvatarVisual extends StatelessWidget {
         onBackgroundImageError: (e, s) {},
       );
     }
+    final givenName = name?.trim() ?? '';
     return CircleAvatar(
       radius: radius,
       backgroundColor: avatarColor.background,
       child: Text(
-        getInitialFromMetadata(pubkey, metadata),
+        givenName.isNotEmpty
+            ? givenName[0].toUpperCase()
+            : getInitialFromMetadata(pubkey, metadata),
         style: TextStyle(
           color: avatarColor.text,
           fontWeight: FontWeight.bold,

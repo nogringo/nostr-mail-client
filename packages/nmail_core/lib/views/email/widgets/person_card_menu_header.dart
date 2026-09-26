@@ -21,15 +21,13 @@ class PersonCardMenuHeader extends StatelessWidget {
     final showIdentifier =
         person.pubkey == null && emailPersonName(person) != identifier;
     final nameStyle = textTheme.titleSmall;
-    final name = person.pubkey == null
-        ? Text(emailPersonName(person), style: nameStyle)
-        : Obx(
-            () => Text(
-              emailPersonName(person),
-              style: nameStyle,
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
+    final name = Obx(
+      () => Text(
+        emailPersonName(person),
+        style: nameStyle,
+        overflow: person.pubkey == null ? null : TextOverflow.ellipsis,
+      ),
+    );
 
     return Container(
       constraints: const BoxConstraints(minWidth: 280, maxWidth: 400),

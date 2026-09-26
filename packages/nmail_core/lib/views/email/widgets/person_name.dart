@@ -12,9 +12,6 @@ class PersonName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (person.pubkey == null) {
-      return Text(emailPersonName(person), style: style);
-    }
     return Obx(() => Text(emailPersonName(person), style: style));
   }
 }

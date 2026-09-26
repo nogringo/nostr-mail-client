@@ -17,11 +17,15 @@ class NostrAvatar extends StatelessWidget {
   final Metadata? metadata;
   final double radius;
 
+  /// See [NostrAvatarVisual.name].
+  final String? name;
+
   const NostrAvatar({
     super.key,
     required this.pubkey,
     this.metadata,
     this.radius = 20,
+    this.name,
   });
 
   @override
@@ -32,6 +36,7 @@ class NostrAvatar extends StatelessWidget {
         pubkey: pubkey,
         metadata: metadata,
         radius: radius,
+        name: name,
       );
     }
     final store = Get.find<MetadataService>();
@@ -40,6 +45,7 @@ class NostrAvatar extends StatelessWidget {
         pubkey: pubkey,
         metadata: store.of(pubkey).value,
         radius: radius,
+        name: name,
       ),
     );
   }

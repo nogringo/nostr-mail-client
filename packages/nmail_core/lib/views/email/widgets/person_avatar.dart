@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:nmail_core/models/email_person.dart';
+import 'package:nmail_core/utils/email_person_utils.dart';
+import 'package:nmail_core/views/contacts/widgets/contact_avatar.dart';
 import 'package:nmail_core/widgets/email_avatar.dart';
 import 'package:nmail_core/widgets/nostr_avatar.dart';
 
@@ -12,8 +15,14 @@ class PersonAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pubkey = person.pubkey;
-    if (pubkey != null) return NostrAvatar(pubkey: pubkey, radius: radius);
-    return EmailAvatar(mailAddress: person.address!, radius: radius);
+    return Obx(() {
+      final contact = emailPersonContact(person);
+      if (contact != null) {
+        return ContactAvatar(contact: contact, radius: radius);
+      }
+      final pubkey = person.pubkey;
+      if (pubkey != null) return NostrAvatar(pubkey: pubkey, radius: radius);
+      return EmailAvatar(mailAddress: person.address!, radius: radius);
+    });
   }
 }

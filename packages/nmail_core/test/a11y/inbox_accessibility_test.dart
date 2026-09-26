@@ -10,10 +10,13 @@ import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/services/address_book_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/views/inbox/widgets/email_tile.dart';
+
+import '../helpers/empty_address_book_service.dart';
 
 const _mobileWidth = 400.0;
 const _desktopWidth = 1200.0;
@@ -116,6 +119,7 @@ void main() {
     Get.put(StorageService());
     Get.put(NotificationService());
     Get.put(NostrMailService());
+    Get.put<AddressBookService>(EmptyAddressBookService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
     Get.put(MailboxesController());
     Get.put(InboxController());

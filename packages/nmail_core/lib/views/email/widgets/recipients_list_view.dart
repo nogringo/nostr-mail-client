@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
-import 'package:nmail_core/widgets/email_avatar.dart';
-import 'package:nmail_core/widgets/nostr_avatar.dart';
 
 import '../email_controller.dart';
 import 'person_anchor.dart';
+import 'person_avatar.dart';
 import 'person_name.dart';
 
 class RecipientsListView extends StatelessWidget {
@@ -100,7 +99,7 @@ class RecipientsListView extends StatelessWidget {
         shape: const StadiumBorder(),
         backgroundColor: colorScheme.primaryContainer,
         side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
-        avatar: _buildAvatar(recipient, pubkey),
+        avatar: PersonAvatar(person: person, radius: 12),
         label: PersonName(
           person: person,
           style: TextStyle(
@@ -129,13 +128,5 @@ class RecipientsListView extends StatelessWidget {
         onPressed: open,
       ),
     );
-  }
-
-  Widget _buildAvatar(MailAddress recipient, String? pubkey) {
-    if (pubkey == null) {
-      return EmailAvatar(mailAddress: recipient, radius: 12);
-    }
-
-    return NostrAvatar(pubkey: pubkey, radius: 12);
   }
 }
