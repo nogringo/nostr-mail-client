@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:blossom_cache/blossom_cache.dart';
@@ -17,7 +16,7 @@ import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
 /// Native builds keep a gallery of background files on disk. Web holds a
-/// single image: a picked file kept in the Blossom cache, or a pasted URL.
+/// single image, kept in the Blossom cache.
 class BackgroundsController extends GetxController {
   final savedImages = <File>[].obs;
   final isBusy = false.obs;
@@ -77,7 +76,7 @@ class BackgroundsController extends GetxController {
 
     await (PlatformHelper.isNative
         ? _downloadToGallery(context, url)
-        : _selectRemoteUrl(context, url));
+        : _downloadToCache(context, url));
   }
 
   Future<void> deleteImage(BuildContext context, File file) async {
@@ -142,25 +141,25 @@ class BackgroundsController extends GetxController {
     }
   }
 
-  Future<void> _selectRemoteUrl(BuildContext context, String url) async {
+  Future<void> _downloadToCache(BuildContext context, String url) async {
     final l = AppLocalizations.of(context);
     isBusy.value = true;
 
     try {
-      final completer = Completer<void>();
-      final stream = NetworkImage(url).resolve(const ImageConfiguration());
-      final listener = ImageStreamListener((image, _) {
-        image.dispose();
-        completer.complete();
-      }, onError: (error, _) => completer.completeError(error));
-      stream.addListener(listener);
-      try {
-        await completer.future.timeout(const Duration(seconds: 10));
-      } finally {
-        stream.removeListener(listener);
+      final response = await http
+          .get(Uri.parse(url))
+          .timeout(const Duration(seconds: 10));
+      if (response.statusCode != 200) {
+        throw Exception('Failed to download image');
       }
+      (await decodeImageFromList(response.bodyBytes)).dispose();
 
-      await select(url);
+      final blob = await Get.find<BlossomCache>().put(
+        response.bodyBytes,
+        type: response.headers['content-type'],
+        pinned: true,
+      );
+      await select(BackgroundPreset.cachedImageValue(blob.sha256));
     } catch (_) {
       if (context.mounted) {
         ToastHelper.error(context, l.settingsBackgroundUrlError);

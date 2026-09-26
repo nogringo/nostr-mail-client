@@ -124,7 +124,7 @@ class BackgroundPreset {
     return value.substring(cachedImagePrefix.length);
   }
 
-  /// Web backgrounds are a picked file kept in the Blossom cache or a URL.
+  /// Web keeps backgrounds in the Blossom cache. URLs come from older versions.
   static ImageProvider webImage(String value) {
     final sha256 = cachedImageSha256(value);
     return sha256 == null ? NetworkImage(value) : BlossomCacheImage(sha256);

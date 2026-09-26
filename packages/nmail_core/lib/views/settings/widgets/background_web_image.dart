@@ -9,7 +9,7 @@ import 'background_grid.dart';
 import 'background_preset_thumbnail.dart';
 import 'background_web_thumbnail.dart';
 
-// TODO: keep a history of pasted URLs so web gets a gallery too
+// TODO: keep past backgrounds in the Blossom cache so web gets a gallery too
 class BackgroundWebImage extends StatelessWidget {
   const BackgroundWebImage({super.key});
 
