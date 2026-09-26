@@ -48,6 +48,7 @@ class BackgroundImageThumbnail extends StatelessWidget {
     return Obx(
       () => BackgroundThumbnail(
         label: l.settingsBackgroundSelectLabel,
+        showLabel: false,
         isSelected: settings.backgroundImage.value == value,
         onTap: () => Get.find<BackgroundsController>().select(value),
         onLongPress: () => _confirmDelete(context),

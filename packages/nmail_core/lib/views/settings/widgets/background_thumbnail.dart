@@ -7,6 +7,7 @@ class BackgroundThumbnail extends StatelessWidget {
     super.key,
     required this.label,
     required this.child,
+    this.showLabel = true,
     this.isSelected,
     this.badge,
     this.onTap,
@@ -15,6 +16,10 @@ class BackgroundThumbnail extends StatelessWidget {
 
   final String label;
   final Widget child;
+
+  /// A hidden label still reaches screen readers and keeps its height, so the
+  /// thumbnails of a row stay aligned.
+  final bool showLabel;
 
   /// Null for tiles that are not backgrounds themselves, like the add button.
   final bool? isSelected;
@@ -60,18 +65,24 @@ class BackgroundThumbnail extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: isSelected ?? false
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontWeight: isSelected ?? false
-                        ? FontWeight.w700
-                        : FontWeight.w500,
+                Visibility(
+                  visible: showLabel,
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  child: Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: isSelected ?? false
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontWeight: isSelected ?? false
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                    ),
                   ),
                 ),
               ],
