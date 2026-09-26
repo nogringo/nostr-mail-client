@@ -96,7 +96,6 @@
   "settingsBackgroundDefaultLabel": "系统颜色",
   "settingsBackgroundSelectLabel": "选择背景图片",
   "settingsBackgroundDeleteLabel": "删除背景图片",
-  "settingsBackgroundRemoveLabel": "移除背景图片",
   "settingsBackgroundAddLabel": "添加背景图片",
   "settingsBackgroundDeleteTitle": "删除背景",
   "settingsBackgroundDeleteMessage": "从已保存的背景中移除此图片?",

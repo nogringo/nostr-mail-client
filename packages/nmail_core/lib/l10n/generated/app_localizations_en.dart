@@ -260,9 +260,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsBackgroundDeleteLabel => 'Delete background image';
 
   @override
-  String get settingsBackgroundRemoveLabel => 'Remove background image';
-
-  @override
   String get settingsBackgroundAddLabel => 'Add background image';
 
   @override

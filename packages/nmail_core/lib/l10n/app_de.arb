@@ -96,7 +96,6 @@
   "settingsBackgroundDefaultLabel": "Systemfarbe",
   "settingsBackgroundSelectLabel": "Hintergrundbild auswählen",
   "settingsBackgroundDeleteLabel": "Hintergrundbild löschen",
-  "settingsBackgroundRemoveLabel": "Hintergrundbild entfernen",
   "settingsBackgroundAddLabel": "Hintergrundbild hinzufügen",
   "settingsBackgroundDeleteTitle": "Hintergrund löschen",
   "settingsBackgroundDeleteMessage": "Dieses Bild aus deinen gespeicherten Hintergründen entfernen?",

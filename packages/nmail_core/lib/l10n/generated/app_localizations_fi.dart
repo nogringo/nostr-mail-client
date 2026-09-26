@@ -260,9 +260,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsBackgroundDeleteLabel => 'Poista taustakuva';
 
   @override
-  String get settingsBackgroundRemoveLabel => 'Irrota taustakuva';
-
-  @override
   String get settingsBackgroundAddLabel => 'Lisää taustakuva';
 
   @override

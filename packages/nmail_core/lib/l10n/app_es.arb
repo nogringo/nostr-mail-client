@@ -96,7 +96,6 @@
   "settingsBackgroundDefaultLabel": "Color del sistema",
   "settingsBackgroundSelectLabel": "Seleccionar imagen de fondo",
   "settingsBackgroundDeleteLabel": "Eliminar imagen de fondo",
-  "settingsBackgroundRemoveLabel": "Quitar imagen de fondo",
   "settingsBackgroundAddLabel": "Añadir imagen de fondo",
   "settingsBackgroundDeleteTitle": "Eliminar fondo",
   "settingsBackgroundDeleteMessage": "¿Quitar esta imagen de tus fondos guardados?",

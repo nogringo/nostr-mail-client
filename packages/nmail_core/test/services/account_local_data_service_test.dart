@@ -54,33 +54,23 @@ void main() {
     Get.reset();
   });
 
-  test('keeps a cached background another account still shows', () async {
-    storage.values['background_image_$alice'] = 'preset:soft_gradient';
+  test('removing an account keeps a background another one shows', () async {
+    storage.values['background_image_$alice'] = background;
     storage.values['background_image_$bob'] = background;
 
-    await service.releaseCachedBackground(background);
+    await service.clearLocalAccountData(pubkey: alice);
 
     expect(await cache.head(sha256), isNotNull);
   });
 
-  test('deletes a cached background no account shows anymore', () async {
-    storage.values['background_image_$alice'] = 'preset:soft_gradient';
-
-    await service.releaseCachedBackground(background);
-
-    expect(await cache.head(sha256), isNull);
-  });
-
   test(
-    'removing the last account that shows it deletes the background',
+    'removing the last account that shows a background deletes it',
     () async {
       storage.values['background_image_$alice'] = background;
-      storage.values['background_image_$bob'] = background;
+      storage.values['background_image_$bob'] = 'preset:soft_gradient';
 
       await service.clearLocalAccountData(pubkey: alice);
-      expect(await cache.head(sha256), isNotNull);
 
-      await service.clearLocalAccountData(pubkey: bob);
       expect(await cache.head(sha256), isNull);
     },
   );

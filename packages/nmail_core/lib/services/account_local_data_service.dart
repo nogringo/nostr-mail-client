@@ -88,7 +88,7 @@ class AccountLocalDataService extends GetxService {
 
   /// Deletes a background from the Blossom cache once no account on this
   /// device shows it anymore.
-  Future<void> releaseCachedBackground(String? value) async {
+  Future<void> _releaseCachedBackground(String? value) async {
     final sha256 = BackgroundPreset.cachedImageSha256(value);
     if (sha256 == null || !Get.isRegistered<BlossomCache>()) return;
 
@@ -106,7 +106,7 @@ class AccountLocalDataService extends GetxService {
     final background = await _storageService.getSetting<String>(backgroundKey);
     await _storageService.deleteSetting(backgroundKey);
     await _deleteBackgroundFile(background);
-    await releaseCachedBackground(background);
+    await _releaseCachedBackground(background);
 
     await _storageService.deleteSetting(
       PushSubscriptionService.enabledKey(pubkey),

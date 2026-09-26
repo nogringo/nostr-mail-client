@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +17,6 @@ import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/color_scheme_serializer.dart';
-import 'package:nmail_core/utils/platform_helper.dart';
 
 class SettingsController extends GetxController {
   final _storageService = Get.find<StorageService>();
@@ -388,12 +386,7 @@ class SettingsController extends GetxController {
         return;
       }
 
-      final ImageProvider provider;
-      if (PlatformHelper.isNative) {
-        provider = FileImage(File(imagePath));
-      } else {
-        provider = BackgroundPreset.webImage(imagePath);
-      }
+      final provider = BackgroundPreset.customImage(imagePath);
 
       // Extract both light and dark schemes in parallel
       final [light, dark] = await Future.wait([

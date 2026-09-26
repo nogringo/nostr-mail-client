@@ -252,9 +252,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsBackgroundDeleteLabel => '背景画像を削除';
 
   @override
-  String get settingsBackgroundRemoveLabel => '背景画像を取り除く';
-
-  @override
   String get settingsBackgroundAddLabel => '背景画像を追加';
 
   @override

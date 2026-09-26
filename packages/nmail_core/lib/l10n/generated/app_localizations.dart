@@ -583,12 +583,6 @@ abstract class AppLocalizations {
   /// **'Delete background image'**
   String get settingsBackgroundDeleteLabel;
 
-  /// Accessibility label for the currently selected web background image (clears it)
-  ///
-  /// In en, this message translates to:
-  /// **'Remove background image'**
-  String get settingsBackgroundRemoveLabel;
-
   /// Accessibility label for the + button that adds a new background image
   ///
   /// In en, this message translates to:

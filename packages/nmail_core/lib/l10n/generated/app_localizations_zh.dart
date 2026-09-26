@@ -250,9 +250,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsBackgroundDeleteLabel => '删除背景图片';
 
   @override
-  String get settingsBackgroundRemoveLabel => '移除背景图片';
-
-  @override
   String get settingsBackgroundAddLabel => '添加背景图片';
 
   @override

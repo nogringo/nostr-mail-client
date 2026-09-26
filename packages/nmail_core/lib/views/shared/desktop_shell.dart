@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,28 +29,14 @@ class DesktopShell extends StatelessWidget {
       }
 
       if (BackgroundPreset.isCustomImageValue(image)) {
-        // Native: local file path
-        if (PlatformHelper.isNative) {
-          final file = File(image!);
-          if (file.existsSync()) {
-            return Image.file(
-              file,
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            );
-          }
-        } else {
-          return Image(
-            image: BackgroundPreset.webImage(image!),
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-            errorBuilder: (_, _, _) => Container(
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
-          );
-        }
+        return Image(
+          image: BackgroundPreset.customImage(image!),
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+          errorBuilder: (_, _, _) =>
+              Container(color: Theme.of(context).colorScheme.primaryContainer),
+        );
       }
 
       return Container(color: Theme.of(context).colorScheme.primaryContainer);

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:file_picker/file_picker.dart';
@@ -11,14 +12,18 @@ import 'package:path_provider/path_provider.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/background_preset.dart';
-import 'package:nmail_core/services/account_local_data_service.dart';
+import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
-/// Native builds keep a gallery of background files on disk. Web holds a
-/// single image, kept in the Blossom cache.
+/// The gallery of saved backgrounds: files on disk on native builds, images in
+/// the Blossom cache on web.
 class BackgroundsController extends GetxController {
-  final savedImages = <File>[].obs;
+  static const _cachedGalleryKey = 'background_gallery';
+
+  /// Newest first, as background values: file paths on native, cached images
+  /// on web.
+  final savedImages = <String>[].obs;
   final isBusy = false.obs;
 
   SettingsController get _settings => Get.find<SettingsController>();
@@ -30,34 +35,18 @@ class BackgroundsController extends GetxController {
   }
 
   Future<void> loadSavedImages() async {
-    if (!PlatformHelper.isNative) return;
-
     try {
-      final dir = await _backgroundsDir();
-      final files = await dir
-          .list()
-          .where((entity) => entity is File)
-          .cast<File>()
-          .toList();
-      files.sort(
-        (a, b) => b.statSync().modified.compareTo(a.statSync().modified),
-      );
+      final images = PlatformHelper.isNative
+          ? await _listGalleryFiles()
+          : await _listCachedGallery();
       if (isClosed) return;
-      savedImages.value = files;
+      savedImages.value = images;
     } catch (_) {
       if (!isClosed) savedImages.clear();
     }
   }
 
-  Future<void> select(String? value) async {
-    final previous = _settings.backgroundImage.value;
-    await _settings.setBackgroundImage(value);
-    if (previous != value) {
-      await Get.find<AccountLocalDataService>().releaseCachedBackground(
-        previous,
-      );
-    }
-  }
+  Future<void> select(String? value) => _settings.setBackgroundImage(value);
 
   Future<PlatformFile?> pickImage() =>
       FilePicker.pickFile(type: FileType.image);
@@ -79,17 +68,31 @@ class BackgroundsController extends GetxController {
         : _downloadToCache(context, url));
   }
 
-  Future<void> deleteImage(BuildContext context, File file) async {
+  Future<void> deleteImage(BuildContext context, String value) async {
     final l = AppLocalizations.of(context);
     try {
-      await file.delete();
-      savedImages.removeWhere((saved) => saved.path == file.path);
-      if (_settings.backgroundImage.value == file.path) await select(null);
+      await (PlatformHelper.isNative
+          ? _deleteFile(value)
+          : _deleteCachedImage(value));
+      if (_settings.backgroundImage.value == value) await select(null);
     } catch (_) {
       if (context.mounted) {
         ToastHelper.error(context, l.settingsBackgroundDeleteFailed);
       }
     }
+  }
+
+  Future<List<String>> _listGalleryFiles() async {
+    final dir = await _backgroundsDir();
+    final files = await dir
+        .list()
+        .where((entity) => entity is File)
+        .cast<File>()
+        .toList();
+    files.sort(
+      (a, b) => b.statSync().modified.compareTo(a.statSync().modified),
+    );
+    return [for (final file in files) file.path];
   }
 
   Future<void> _copyToGallery(BuildContext context, PlatformFile picked) async {
@@ -100,8 +103,8 @@ class BackgroundsController extends GetxController {
     try {
       final dir = await _backgroundsDir();
       final saved = await File(sourcePath).copy(p.join(dir.path, picked.name));
-      savedImages.removeWhere((image) => image.path == saved.path);
-      savedImages.insert(0, saved);
+      savedImages.remove(saved.path);
+      savedImages.insert(0, saved.path);
       await select(saved.path);
     } catch (_) {
       if (context.mounted) {
@@ -130,7 +133,7 @@ class BackgroundsController extends GetxController {
       final saved = File(p.join(dir.path, name));
       await saved.writeAsBytes(response.bodyBytes);
 
-      savedImages.insert(0, saved);
+      savedImages.insert(0, saved.path);
       await select(saved.path);
     } catch (_) {
       if (context.mounted) {
@@ -139,6 +142,30 @@ class BackgroundsController extends GetxController {
     } finally {
       if (!isClosed) isBusy.value = false;
     }
+  }
+
+  Future<void> _deleteFile(String path) async {
+    final file = File(path);
+    if (await file.exists()) await file.delete();
+    savedImages.remove(path);
+  }
+
+  Future<List<String>> _listCachedGallery() async {
+    final cache = Get.find<BlossomCache>();
+    final stored =
+        await Get.find<StorageService>().getSetting<List>(_cachedGalleryKey) ??
+        const [];
+
+    // Removing an account deletes its background from the cache, not from
+    // this list.
+    final images = <String>[];
+    for (final value in stored.cast<String>()) {
+      final sha256 = BackgroundPreset.cachedImageSha256(value);
+      if (sha256 != null && await cache.head(sha256) != null) {
+        images.add(value);
+      }
+    }
+    return images;
   }
 
   Future<void> _downloadToCache(BuildContext context, String url) async {
@@ -154,12 +181,10 @@ class BackgroundsController extends GetxController {
       }
       (await decodeImageFromList(response.bodyBytes)).dispose();
 
-      final blob = await Get.find<BlossomCache>().put(
+      await _addToCachedGallery(
         response.bodyBytes,
-        type: response.headers['content-type'],
-        pinned: true,
+        response.headers['content-type'],
       );
-      await select(BackgroundPreset.cachedImageValue(blob.sha256));
     } catch (_) {
       if (context.mounted) {
         ToastHelper.error(context, l.settingsBackgroundUrlError);
@@ -174,12 +199,10 @@ class BackgroundsController extends GetxController {
     isBusy.value = true;
 
     try {
-      final blob = await Get.find<BlossomCache>().put(
+      await _addToCachedGallery(
         await picked.readAsBytes(),
-        type: picked.extension != null ? 'image/${picked.extension}' : null,
-        pinned: true,
+        picked.extension != null ? 'image/${picked.extension}' : null,
       );
-      await select(BackgroundPreset.cachedImageValue(blob.sha256));
     } catch (_) {
       if (context.mounted) {
         ToastHelper.error(context, l.settingsBackgroundCopyFailed);
@@ -187,6 +210,33 @@ class BackgroundsController extends GetxController {
     } finally {
       if (!isClosed) isBusy.value = false;
     }
+  }
+
+  Future<void> _addToCachedGallery(Uint8List bytes, String? type) async {
+    final blob = await Get.find<BlossomCache>().put(
+      bytes,
+      type: type,
+      pinned: true,
+    );
+    final value = BackgroundPreset.cachedImageValue(blob.sha256);
+    savedImages.remove(value);
+    savedImages.insert(0, value);
+    await _saveCachedGallery();
+    await select(value);
+  }
+
+  Future<void> _deleteCachedImage(String value) async {
+    final sha256 = BackgroundPreset.cachedImageSha256(value);
+    if (sha256 != null) await Get.find<BlossomCache>().delete(sha256);
+    savedImages.remove(value);
+    await _saveCachedGallery();
+  }
+
+  Future<void> _saveCachedGallery() {
+    return Get.find<StorageService>().saveSetting(
+      _cachedGalleryKey,
+      savedImages.toList(),
+    );
   }
 
   Future<Directory> _backgroundsDir() async {

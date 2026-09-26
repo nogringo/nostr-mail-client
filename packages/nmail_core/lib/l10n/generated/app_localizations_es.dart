@@ -261,9 +261,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsBackgroundDeleteLabel => 'Eliminar imagen de fondo';
 
   @override
-  String get settingsBackgroundRemoveLabel => 'Quitar imagen de fondo';
-
-  @override
   String get settingsBackgroundAddLabel => 'Añadir imagen de fondo';
 
   @override

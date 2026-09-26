@@ -96,7 +96,6 @@
   "settingsBackgroundDefaultLabel": "Järjestelmän väri",
   "settingsBackgroundSelectLabel": "Valitse taustakuva",
   "settingsBackgroundDeleteLabel": "Poista taustakuva",
-  "settingsBackgroundRemoveLabel": "Irrota taustakuva",
   "settingsBackgroundAddLabel": "Lisää taustakuva",
   "settingsBackgroundDeleteTitle": "Poista taustakuva",
   "settingsBackgroundDeleteMessage": "Poista kuvan tallennus taustakuvista?",

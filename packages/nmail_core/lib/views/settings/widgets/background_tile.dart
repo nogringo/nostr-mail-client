@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
 import 'background_gallery.dart';
-import 'background_web_image.dart';
 import 'settings_tile_label.dart';
 
 /// Segmented row whose control is a gallery, so it stands taller than a
@@ -42,10 +40,7 @@ class BackgroundTile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              if (PlatformHelper.isNative)
-                const BackgroundGallery()
-              else
-                const BackgroundWebImage(),
+              const BackgroundGallery(),
             ],
           ),
         ),

@@ -174,8 +174,6 @@
   "@settingsBackgroundSelectLabel": { "description": "Accessibility label for tapping a saved background image to select it" },
   "settingsBackgroundDeleteLabel": "Delete background image",
   "@settingsBackgroundDeleteLabel": { "description": "Accessibility label for the small delete button on a saved background thumbnail" },
-  "settingsBackgroundRemoveLabel": "Remove background image",
-  "@settingsBackgroundRemoveLabel": { "description": "Accessibility label for the currently selected web background image (clears it)" },
   "settingsBackgroundAddLabel": "Add background image",
   "@settingsBackgroundAddLabel": { "description": "Accessibility label for the + button that adds a new background image" },
   "settingsBackgroundDeleteTitle": "Delete background",

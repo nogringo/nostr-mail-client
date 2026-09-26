@@ -96,7 +96,6 @@
   "settingsBackgroundDefaultLabel": "Цвет системы",
   "settingsBackgroundSelectLabel": "Выбрать фоновое изображение",
   "settingsBackgroundDeleteLabel": "Удалить фоновое изображение",
-  "settingsBackgroundRemoveLabel": "Убрать фоновое изображение",
   "settingsBackgroundAddLabel": "Добавить фоновое изображение",
   "settingsBackgroundDeleteTitle": "Удалить фон",
   "settingsBackgroundDeleteMessage": "Убрать это изображение из сохранённых фонов?",

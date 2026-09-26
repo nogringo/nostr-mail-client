@@ -261,9 +261,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsBackgroundDeleteLabel => 'Удалить фоновое изображение';
 
   @override
-  String get settingsBackgroundRemoveLabel => 'Убрать фоновое изображение';
-
-  @override
   String get settingsBackgroundAddLabel => 'Добавить фоновое изображение';
 
   @override

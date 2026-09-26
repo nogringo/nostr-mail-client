@@ -1,18 +1,17 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/backgrounds_controller.dart';
 import '../../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/background_preset.dart';
 import 'background_remove_badge.dart';
 import 'background_thumbnail.dart';
 
-class BackgroundFileThumbnail extends StatelessWidget {
-  const BackgroundFileThumbnail({super.key, required this.file});
+class BackgroundImageThumbnail extends StatelessWidget {
+  const BackgroundImageThumbnail({super.key, required this.value});
 
-  final File file;
+  final String value;
 
   Future<void> _confirmDelete(BuildContext context) async {
     final l = AppLocalizations.of(context);
@@ -37,25 +36,36 @@ class BackgroundFileThumbnail extends StatelessWidget {
     );
 
     if (confirmed != true || !context.mounted) return;
-    await controller.deleteImage(context, file);
+    await controller.deleteImage(context, value);
   }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     final settings = Get.find<SettingsController>();
 
     return Obx(
       () => BackgroundThumbnail(
         label: l.settingsBackgroundSelectLabel,
-        isSelected: settings.backgroundImage.value == file.path,
-        onTap: () => Get.find<BackgroundsController>().select(file.path),
+        isSelected: settings.backgroundImage.value == value,
+        onTap: () => Get.find<BackgroundsController>().select(value),
         onLongPress: () => _confirmDelete(context),
         badge: BackgroundRemoveBadge(
           label: l.settingsBackgroundDeleteLabel,
           onTap: () => _confirmDelete(context),
         ),
-        child: Image.file(file, fit: BoxFit.cover),
+        child: Image(
+          image: BackgroundPreset.customImage(value),
+          fit: BoxFit.cover,
+          errorBuilder: (_, _, _) => ColoredBox(
+            color: colorScheme.errorContainer,
+            child: Icon(
+              Icons.broken_image,
+              color: colorScheme.onErrorContainer,
+            ),
+          ),
+        ),
       ),
     );
   }
