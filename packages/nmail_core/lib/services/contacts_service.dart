@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
@@ -23,45 +24,111 @@ class ContactsService extends GetxService {
   final contacts = <Contact>[].obs;
   final isLoading = false.obs;
 
+  /// Every profile resolved while the app runs, such as a NIP-05 lookup's.
+  final _resolvedProfiles = <String, Contact>{};
+  StreamSubscription<Metadata>? _resolvedSubscription;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _resolvedSubscription = Get.find<MetadataService>().resolved.listen(
+      _onProfileResolved,
+    );
+  }
+
+  @override
+  void onClose() {
+    _resolvedSubscription?.cancel();
+    super.onClose();
+  }
+
   /// Load contacts from email history, Nostr follows, and NDK cache
   Future<void> loadContacts() async {
     if (isLoading.value) return;
     isLoading.value = true;
 
     try {
-      final allContacts = <String, Contact>{};
-      final myPubkey = _nostrMailService.getPublicKey();
-
-      // Load saved address-book contacts first (highest priority)
       await _addressBookService?.load(sync: false);
-      for (final contact in _addressBookService?.suggestionContacts() ?? []) {
-        allContacts[contact.id] = contact;
-      }
-
-      // Load from email history next
-      final historyContacts = await _loadEmailHistoryContacts();
-      for (final contact in historyContacts) {
-        _putIfNoDuplicate(allContacts, contact);
-      }
-
-      // Load from Nostr follows (second priority)
-      final followContacts = await _loadNostrFollows();
-      for (final contact in followContacts) {
-        _putIfNoDuplicate(allContacts, contact);
-      }
-
-      // Load from NDK cache (lowest priority, but broad coverage)
-      final cachedContacts = await _loadCachedProfiles();
-      for (final contact in cachedContacts) {
-        // Skip own pubkey
-        if (contact.pubkey == myPubkey) continue;
-        _putIfNoDuplicate(allContacts, contact);
-      }
-
-      contacts.value = allContacts.values.toList();
+      // The cache alone first, so suggestions never wait on relays.
+      contacts.value = _withResolvedProfiles(
+        await _collectContacts(fromRelays: false),
+      );
+      contacts.value = _withResolvedProfiles(
+        await _collectContacts(fromRelays: true),
+      );
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void _onProfileResolved(Metadata metadata) {
+    final contact = _cachedProfileContact(metadata);
+    if (contact == null) return;
+    _resolvedProfiles[metadata.pubKey] = contact;
+    if (metadata.pubKey == _nostrMailService.getPublicKey() ||
+        contacts.any((existing) => existing.pubkey == metadata.pubKey)) {
+      return;
+    }
+    contacts.add(contact);
+  }
+
+  /// A load may have read the cache before a profile landed in it.
+  List<Contact> _withResolvedProfiles(List<Contact> loaded) {
+    final myPubkey = _nostrMailService.getPublicKey();
+    final loadedPubkeys = {for (final contact in loaded) contact.pubkey};
+    return [
+      ...loaded,
+      for (final contact in _resolvedProfiles.values)
+        if (contact.pubkey != myPubkey &&
+            !loadedPubkeys.contains(contact.pubkey))
+          contact,
+    ];
+  }
+
+  Future<List<Contact>> _collectContacts({required bool fromRelays}) async {
+    final allContacts = <String, Contact>{};
+    final myPubkey = _nostrMailService.getPublicKey();
+
+    // Load saved address-book contacts first (highest priority)
+    for (final contact in _addressBookService?.suggestionContacts() ?? []) {
+      allContacts[contact.id] = contact;
+    }
+
+    // Load from email history next
+    final historyContacts = await _loadEmailHistoryContacts(
+      fromRelays: fromRelays,
+    );
+    for (final contact in historyContacts) {
+      _putIfNoDuplicate(allContacts, contact);
+    }
+
+    // Load from Nostr follows (second priority)
+    final followContacts = await _loadNostrFollows(fromRelays: fromRelays);
+    for (final contact in followContacts) {
+      _putIfNoDuplicate(allContacts, contact);
+    }
+
+    // Load from NDK cache (lowest priority, but broad coverage)
+    final cachedContacts = await _loadCachedProfiles();
+    for (final contact in cachedContacts) {
+      // Skip own pubkey
+      if (contact.pubkey == myPubkey) continue;
+      _putIfNoDuplicate(allContacts, contact);
+    }
+
+    return allContacts.values.toList();
+  }
+
+  Future<Map<String, Metadata>> _loadMetadata(
+    Iterable<String> pubkeys, {
+    required bool fromRelays,
+  }) async {
+    if (pubkeys.isEmpty) return const <String, Metadata>{};
+    if (fromRelays) {
+      return Get.find<MetadataService>().loadMany(pubkeys.toList());
+    }
+    final cached = await _ndk.config.cache.loadMetadatas(pubkeys.toList());
+    return {for (final metadata in cached.nonNulls) metadata.pubKey: metadata};
   }
 
   void _putIfNoDuplicate(Map<String, Contact> contacts, Contact contact) {
@@ -80,7 +147,9 @@ class ContactsService extends GetxService {
   }
 
   /// Load contacts from email history (both Nostr and legacy)
-  Future<List<Contact>> _loadEmailHistoryContacts() async {
+  Future<List<Contact>> _loadEmailHistoryContacts({
+    required bool fromRelays,
+  }) async {
     final List<Contact> result = [];
 
     try {
@@ -159,9 +228,10 @@ class ContactsService extends GetxService {
       }
 
       // Batch load all metadata at once
-      final metadataMap = allPubkeys.isEmpty
-          ? const <String, Metadata>{}
-          : await Get.find<MetadataService>().loadMany(allPubkeys.toList());
+      final metadataMap = await _loadMetadata(
+        allPubkeys,
+        fromRelays: fromRelays,
+      );
 
       // Add Nostr contacts from pubkeyDates
       for (final entry in pubkeyDates.entries) {
@@ -234,23 +304,26 @@ class ContactsService extends GetxService {
   }
 
   /// Load contacts from Nostr follows (kind 3)
-  Future<List<Contact>> _loadNostrFollows() async {
+  Future<List<Contact>> _loadNostrFollows({required bool fromRelays}) async {
     final List<Contact> result = [];
 
     try {
       final myPubkey = _nostrMailService.getPublicKey();
       if (myPubkey == null) return result;
 
-      // Load contact list (kind 3) from cache
-      final contactList = await _ndk.follows.getContactList(myPubkey);
+      // Load contact list (kind 3), from relays only when the cache has none
+      final contactList = fromRelays
+          ? await _ndk.follows.getContactList(myPubkey)
+          : await _ndk.config.cache.loadContactList(myPubkey);
       if (contactList == null) return result;
 
       final followPubkeys = contactList.contacts;
       if (followPubkeys.isEmpty) return result;
 
       // Batch load all metadata at once
-      final metadataMap = await Get.find<MetadataService>().loadMany(
-        followPubkeys.toList(),
+      final metadataMap = await _loadMetadata(
+        followPubkeys,
+        fromRelays: fromRelays,
       );
 
       // Create contacts with loaded metadata
@@ -283,25 +356,28 @@ class ContactsService extends GetxService {
 
       for (final event in events) {
         try {
-          final metadata = Metadata.fromEvent(event);
-          // Only add if has a displayable name or nip05
-          if ((metadata.name != null && metadata.name!.isNotEmpty) ||
-              (metadata.nip05 != null && metadata.nip05!.isNotEmpty)) {
-            result.add(
-              Contact(
-                pubkey: metadata.pubKey,
-                displayName: metadata.name,
-                picture: metadata.picture,
-                nip05: metadata.nip05,
-                source: ContactSource.cachedProfile,
-              ),
-            );
-          }
+          final contact = _cachedProfileContact(Metadata.fromEvent(event));
+          if (contact != null) result.add(contact);
         } catch (_) {}
       }
     } catch (_) {}
 
     return result;
+  }
+
+  Contact? _cachedProfileContact(Metadata metadata) {
+    // Only add if has a displayable name or nip05
+    if ((metadata.name == null || metadata.name!.isEmpty) &&
+        (metadata.nip05 == null || metadata.nip05!.isEmpty)) {
+      return null;
+    }
+    return Contact(
+      pubkey: metadata.pubKey,
+      displayName: metadata.name,
+      picture: metadata.picture,
+      nip05: metadata.nip05,
+      source: ContactSource.cachedProfile,
+    );
   }
 
   /// Search contacts by query (sync, local only)
@@ -341,38 +417,8 @@ class ContactsService extends GetxService {
     return filtered.take(10).toList();
   }
 
-  /// Search contacts with NIP-05 resolution
-  Future<List<Contact>> searchAsync(
-    String query, {
-    Set<String>? excludeIds,
-  }) async {
-    if (query.isEmpty) return [];
-
-    final q = query.trim();
-    if (q.length < 2) return [];
-
-    // Start with local results
-    final results = search(query, excludeIds: excludeIds);
-
-    // If query looks like a NIP-05, try to resolve it
-    if (q.contains('@')) {
-      final nip05Contact = await _resolveNip05(q);
-      if (nip05Contact != null) {
-        // Check if not already in results or excluded
-        final isDuplicate = results.any((c) => c.pubkey == nip05Contact.pubkey);
-        final isExcluded = excludeIds?.contains(nip05Contact.pubkey) ?? false;
-        if (!isDuplicate && !isExcluded) {
-          // Insert at the beginning
-          results.insert(0, nip05Contact);
-        }
-      }
-    }
-
-    return results;
-  }
-
   /// Resolve a NIP-05 identifier to a Contact
-  Future<Contact?> _resolveNip05(String identifier) async {
+  Future<Contact?> resolveNip05(String identifier) async {
     try {
       final parts = identifier.split('@');
       if (parts.length != 2) return null;
@@ -393,10 +439,10 @@ class ContactsService extends GetxService {
       final pubkey = names[name] as String;
       if (pubkey.isEmpty) return null;
 
-      // Fetch metadata for this pubkey
+      // The cached profile only: relays would hold the suggestion for seconds
       Metadata? metadata;
       try {
-        metadata = await Get.find<MetadataService>().load(pubkey);
+        metadata = await _ndk.config.cache.loadMetadata(pubkey);
       } catch (_) {}
 
       return Contact(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
@@ -27,6 +29,11 @@ class MetadataService extends GetxService {
 
   /// One reactive slot per pubkey, kept for the app's lifetime.
   final Map<String, Rx<Metadata?>> _cache = {};
+
+  final _resolved = StreamController<Metadata>.broadcast();
+
+  /// Each profile [of] resolves, as it arrives: from the cache, then relays.
+  Stream<Metadata> get resolved => _resolved.stream;
 
   /// Reactive accessor. Returns immediately with whatever is known (possibly
   /// null) and triggers a background load on the first miss. Read `.value`
@@ -81,6 +88,7 @@ class MetadataService extends GetxService {
 
   @override
   void onClose() {
+    _resolved.close();
     _discovery.dispose();
     super.onClose();
   }
@@ -89,7 +97,10 @@ class MetadataService extends GetxService {
     try {
       await for (final value in _reader.read(pubkey).stream) {
         final metadata = value.value;
-        if (metadata != null) _cache[pubkey]?.value = metadata;
+        if (metadata != null) {
+          _cache[pubkey]?.value = metadata;
+          _resolved.add(metadata);
+        }
       }
     } catch (_) {
       // Absence could not be concluded: keep showing whatever is known.

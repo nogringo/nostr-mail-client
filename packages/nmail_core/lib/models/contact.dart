@@ -23,7 +23,7 @@ class Contact {
   final String? addressBookUid;
   final String? contactMethodId;
 
-  const Contact({
+  Contact({
     this.pubkey,
     this.displayName,
     this.picture,
@@ -37,7 +37,10 @@ class Contact {
 
   bool get isLegacy => pubkey == null || pubkey!.isEmpty;
 
-  String? get npub {
+  /// Encoded once: [matchScore] reads it for every contact on every keystroke.
+  late final String? npub = _encodeNpub();
+
+  String? _encodeNpub() {
     if (pubkey == null || pubkey!.isEmpty) return null;
     try {
       return Nip19.encodePubKey(pubkey!);
@@ -55,6 +58,10 @@ class Contact {
     }
     if (mailAddress?.email.isNotEmpty == true) {
       return mailAddress!.email;
+    }
+    if (nip05 != null && nip05!.contains('@') && !_hasNpubLocalPart(nip05!)) {
+      final localPart = nip05!.split('@').first;
+      if (localPart.isNotEmpty) return localPart;
     }
     if (pubkey != null && pubkey!.isNotEmpty) {
       return getAnonName(pubkey!);

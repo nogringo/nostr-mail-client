@@ -5,6 +5,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/contact.dart';
 import '../../../widgets/email_avatar.dart';
 import '../../../widgets/nostr_avatar.dart';
+import 'contact_suggestion_name.dart';
 
 class ContactSuggestionTile extends StatelessWidget {
   final Contact contact;
@@ -42,14 +43,13 @@ class ContactSuggestionTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        contact.label,
+                      ContactSuggestionName(
+                        contact: contact,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
                           color: colorScheme.onSurface,
                         ),
-                        overflow: TextOverflow.ellipsis,
                       ),
                       if (contact.subtitle != null) ...[
                         const SizedBox(height: 2),

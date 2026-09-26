@@ -10,6 +10,7 @@ import 'package:nostr_mail/nostr_mail.dart' show Email;
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/contacts_service.dart';
+import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 
@@ -114,6 +115,7 @@ void main() {
       Get.put<Ndk>(ndk);
       Get.put(StorageService());
       Get.put(NostrMailService());
+      Get.put(MetadataService());
       Get.put(ContactsService());
       controller = ComposeController();
     });

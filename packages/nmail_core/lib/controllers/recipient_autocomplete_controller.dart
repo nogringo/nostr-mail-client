@@ -24,7 +24,8 @@ class RecipientAutocompleteController extends GetxController {
   final tapRegionGroup = Object();
   final textFieldKey = GlobalKey();
 
-  Timer? _debounceTimer;
+  Timer? _nip05Timer;
+  Worker? _contactsWorker;
   OverlayEntry? _overlayEntry;
   BuildContext? _overlayContext;
   WidgetBuilder? _overlayBuilder;
@@ -32,7 +33,9 @@ class RecipientAutocompleteController extends GetxController {
   void Function(Contact contact) _onContactSelected;
   Future<bool> Function(String input) _onManualInput;
   bool _isCommittingInput = false;
-  String _lastQuery = '';
+  bool _isDismissed = false;
+  String _query = '';
+  Contact? _nip05Contact;
 
   List<Contact> suggestions = [];
   int highlightedIndex = -1;
@@ -45,11 +48,16 @@ class RecipientAutocompleteController extends GetxController {
     super.onInit();
     focusNode.addListener(_onFocusChanged);
     textController.addListener(_onTextChanged);
+    _contactsWorker = ever(
+      _contactsService.contacts,
+      (_) => _refreshSuggestions(),
+    );
   }
 
   @override
   void onClose() {
-    _debounceTimer?.cancel();
+    _nip05Timer?.cancel();
+    _contactsWorker?.dispose();
     hideOverlay();
     textController.removeListener(_onTextChanged);
     focusNode.removeListener(_onFocusChanged);
@@ -73,7 +81,7 @@ class RecipientAutocompleteController extends GetxController {
   }
 
   void onTapOutside(PointerDownEvent event) {
-    hideOverlay();
+    _dismiss();
     if (!PlatformHelper.isDesktop && event.kind == PointerDeviceKind.touch) {
       return;
     }
@@ -111,7 +119,7 @@ class RecipientAutocompleteController extends GetxController {
     }
 
     if (event.logicalKey == LogicalKeyboardKey.escape) {
-      hideOverlay();
+      _dismiss();
       return KeyEventResult.handled;
     }
 
@@ -166,6 +174,11 @@ class RecipientAutocompleteController extends GetxController {
   void hideOverlay() {
     _overlayEntry?.remove();
     _overlayEntry = null;
+  }
+
+  void _dismiss() {
+    _isDismissed = true;
+    hideOverlay();
   }
 
   void updateOverlay() {
@@ -233,60 +246,66 @@ class RecipientAutocompleteController extends GetxController {
       }
     }
 
-    _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
-      search(trimmedText);
-    });
+    search(trimmedText);
   }
 
-  Future<void> search(String query) async {
-    if (query.length < 2) {
-      hideOverlay();
-      suggestions = [];
-      highlightedIndex = -1;
-      isSearching = false;
-      update();
-      return;
+  void search(String query) {
+    _isDismissed = false;
+    if (query != _query) {
+      _query = query;
+      _nip05Contact = null;
+      _nip05Timer?.cancel();
+      isSearching = query.length >= 2 && query.contains('@');
+      if (isSearching) {
+        _nip05Timer = Timer(
+          const Duration(milliseconds: 300),
+          () => _resolveNip05(query),
+        );
+      }
     }
+    _showSuggestions(keepHighlight: false);
+  }
 
-    _lastQuery = query;
+  Future<void> _resolveNip05(String query) async {
+    final contact = await _contactsService.resolveNip05(query);
+    if (isClosed || query != _query) return;
+    _nip05Contact = contact;
+    isSearching = false;
+    _refreshSuggestions();
+  }
 
-    final localResults = _contactsService.search(
-      query,
-      excludeIds: _excludeIds,
-    );
+  void _refreshSuggestions() {
+    if (_isDismissed || !focusNode.hasFocus) return;
+    _showSuggestions(keepHighlight: true);
+  }
 
-    suggestions = localResults;
-    highlightedIndex = -1;
-    isSearching = query.contains('@');
+  void _showSuggestions({required bool keepHighlight}) {
+    final highlighted = keepHighlight && highlightedIndex >= 0
+        ? suggestions[highlightedIndex]
+        : null;
+    suggestions = _currentSuggestions();
+    highlightedIndex = highlighted == null
+        ? -1
+        : suggestions.indexOf(highlighted);
     update();
 
-    if (localResults.isNotEmpty || query.contains('@')) {
+    if (suggestions.isNotEmpty || isSearching) {
       _showOverlay();
       updateOverlay();
     } else {
       hideOverlay();
     }
+  }
 
-    if (query.contains('@')) {
-      final asyncResults = await _contactsService.searchAsync(
-        query,
-        excludeIds: _excludeIds,
-      );
-
-      if (_lastQuery == query && !isClosed) {
-        suggestions = asyncResults;
-        highlightedIndex = -1;
-        isSearching = false;
-        update();
-
-        if (asyncResults.isNotEmpty) {
-          _showOverlay();
-          updateOverlay();
-        } else {
-          hideOverlay();
-        }
-      }
+  List<Contact> _currentSuggestions() {
+    if (_query.length < 2) return [];
+    final local = _contactsService.search(_query, excludeIds: _excludeIds);
+    final nip05 = _nip05Contact;
+    if (nip05 == null ||
+        _excludeIds.contains(nip05.pubkey) ||
+        local.any((contact) => contact.pubkey == nip05.pubkey)) {
+      return local;
     }
+    return [nip05, ...local];
   }
 }
