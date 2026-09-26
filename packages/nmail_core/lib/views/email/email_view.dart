@@ -60,15 +60,6 @@ class EmailView extends StatelessWidget {
         Widget content = Scaffold(
           appBar: AppBar(
             leading: BackButton(onPressed: () => _goBack(context, controller)),
-            actionsPadding: .only(right: 8),
-            actions: [
-              if (controller.mailbox?.isTrash ?? false)
-                IconButton(
-                  icon: const Icon(Icons.restore_from_trash_outlined),
-                  tooltip: l.emailRestore,
-                  onPressed: controller.restoreEmail,
-                ),
-            ],
           ),
           bottomNavigationBar: !isWide ? const MobileActionsBar() : null,
           body: SafeArea(

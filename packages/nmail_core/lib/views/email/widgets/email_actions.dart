@@ -40,6 +40,18 @@ EmailActions buildEmailActions(
 
   return EmailActions(
     primary: [
+      if (isInTrash)
+        EmailAction(
+          icon: Icons.restore_from_trash,
+          label: l.emailRestore,
+          onPressed: controller.restoreEmail,
+        )
+      else if (isInArchive)
+        EmailAction(
+          icon: Icons.unarchive,
+          label: l.emailActionUnarchive,
+          onPressed: controller.unarchiveEmail,
+        ),
       EmailAction(
         icon: Icons.reply,
         label: l.emailActionReply,
@@ -56,13 +68,7 @@ EmailActions buildEmailActions(
         label: l.emailActionForward,
         onPressed: controller.forwardEmail,
       ),
-      if (isInArchive)
-        EmailAction(
-          icon: Icons.unarchive,
-          label: l.emailActionUnarchive,
-          onPressed: controller.unarchiveEmail,
-        )
-      else if (!isInTrash && !isUnknown)
+      if (!isInTrash && !isInArchive && !isUnknown)
         EmailAction(
           icon: Icons.archive,
           label: l.emailActionArchive,
