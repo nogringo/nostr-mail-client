@@ -5,6 +5,7 @@ import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/views/email/widgets/html_body_view.dart';
 
 import 'attachments_section_view.dart';
+import 'plain_text_body_view.dart';
 
 class EmailBodyView extends StatelessWidget {
   final Email email;
@@ -34,12 +35,7 @@ class EmailBodyView extends StatelessWidget {
         if (emailHtml != null)
           HtmlBodyView(emailHtml: emailHtml)
         else
-          SelectableText(
-            // On web, the browser drops each \r from the text Cmd+C copies,
-            // which shifts the selection by one character per line.
-            email.body.replaceAll('\r\n', '\n'),
-            style: const TextStyle(fontSize: 16, height: 1.5),
-          ),
+          PlainTextBodyView(email: email),
       ],
     );
   }

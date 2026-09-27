@@ -8,6 +8,18 @@ import 'person_card_actions.dart';
 import 'person_card_menu.dart';
 import 'person_card_sheet.dart';
 
+MenuStyle personCardMenuStyle(BuildContext context) => MenuStyle(
+  shape: WidgetStatePropertyAll(
+    RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(LayoutConstants.borderRadius),
+      side: BorderSide(
+        width: 2,
+        color: Theme.of(context).colorScheme.outlineVariant,
+      ),
+    ),
+  ),
+);
+
 /// Opens the person card from whatever [builder] renders: a bottom sheet on
 /// mobile, a menu anchored to the widget on wider screens.
 class PersonAnchor extends StatelessWidget {
@@ -38,17 +50,7 @@ class PersonAnchor extends StatelessWidget {
     }
     return MenuAnchor(
       alignmentOffset: const Offset(0, 4),
-      style: MenuStyle(
-        shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(LayoutConstants.borderRadius),
-            side: BorderSide(
-              width: 2,
-              color: Theme.of(context).colorScheme.outlineVariant,
-            ),
-          ),
-        ),
-      ),
+      style: personCardMenuStyle(context),
       menuChildren: [
         PersonCardMenu(
           person: person,

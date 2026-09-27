@@ -48,11 +48,18 @@ List<PersonCardAction> buildPersonCardActions(
       onPressed: () => _compose(context, person),
     ),
     buildContactAction(context, contact, () => _contactForm(person)),
-    buildCopyAction(
-      context,
-      label: person.pubkey != null ? l.inboxCopyNpub : l.personCardCopyEmail,
-      text: emailPersonIdentifier(person),
-    ),
+    if (person.address case final address?)
+      buildCopyAction(
+        context,
+        label: l.personCardCopyEmail,
+        text: address.email,
+      ),
+    if (person.pubkey != null)
+      buildCopyAction(
+        context,
+        label: l.inboxCopyNpub,
+        text: emailPersonIdentifier(person),
+      ),
   ];
 }
 

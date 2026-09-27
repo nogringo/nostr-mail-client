@@ -47,10 +47,7 @@ class EmailSourceContent extends StatelessWidget {
               ),
               const Divider(height: 24),
               // Same web Cmd+C selection shift as the plain text body.
-              SelectableText(
-                source.replaceAll('\r\n', '\n'),
-                style: monospace,
-              ),
+              SelectableText(source.replaceAll('\r\n', '\n'), style: monospace),
             ],
           ),
         );
