@@ -1,84 +1,111 @@
 import 'package:enough_mail_plus/enough_mail.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nostr_mail/nostr_mail.dart' show Email;
-import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
+
+Email _email(MimeMessage mime) => Email(
+  id: 'id',
+  senderPubkey: 'sender',
+  recipientPubkey: 'recipient',
+  lightMimeText: '',
+  attachmentRefs: const [],
+  createdAt: DateTime(2026),
+  isBridged: false,
+  mimeMessage: mime,
+);
+
+Email _htmlEmail(String html, {String text = ''}) => _email(
+  (MessageBuilder.prepareMultipartAlternativeMessage()
+        ..addTextPlain(text)
+        ..addTextHtml(html))
+      .buildMimeMessage(),
+);
 
 void main() {
   test('normalizeLineBreaks turns CRLF and CR into LF', () {
     expect(normalizeLineBreaks('a\r\nb\rc\nd'), 'a\nb\nc\nd');
   });
 
-  group('quotableText', () {
-    Email email(MimeMessage mime) => Email(
-      id: 'id',
-      senderPubkey: 'sender',
-      recipientPubkey: 'recipient',
-      lightMimeText: '',
-      attachmentRefs: const [],
-      createdAt: DateTime(2026),
-      isBridged: false,
-      mimeMessage: mime,
-    );
+  group('quoteHtml', () {
+    test('puts the escaped header above the body', () {
+      final html = quoteHtml(
+        _htmlEmail('<p>Hello</p>'),
+        header: ['From: Alice <alice@example.com>'],
+      );
 
-    test('reads the HTML part over a Markdown text/plain part', () {
-      final document = Document()
-        ..insert(0, '\n\n--\nSent with Nmail\nhttps://nostrmail.org');
-      final html = QuillDeltaToHtmlConverter(
-        document.toDelta().toJson().cast<Map<String, dynamic>>(),
-        ConverterOptions.forEmail(),
-      ).convert();
-      final builder = MessageBuilder.prepareMultipartAlternativeMessage()
-        ..addTextPlain(
-          r'\-\-'
-          '\n\nSent with Nmail\n\n'
-          r'[https://nostrmail\.org](https://nostrmail.org)',
-        )
-        ..addTextHtml(html);
+      expect(html, contains('From: Alice &lt;alice@example.com&gt;'));
+      expect(html.indexOf('From:'), lessThan(html.indexOf('<p>Hello</p>')));
+    });
 
-      final quote = Document.fromDelta(
-        replyQuoteDelta(
-          header: '',
-          body: quotableText(email(builder.buildMimeMessage())),
-        ),
+    test('quotes the HTML part over a Markdown text/plain part', () {
+      final html = quoteHtml(
+        _htmlEmail('<p>Sent with Nmail</p>', text: 'Sent with **Nmail**'),
+        header: const [],
+      );
+
+      expect(html, contains('<p>Sent with Nmail</p>'));
+      expect(html, isNot(contains('**')));
+    });
+
+    test('keeps the line breaks of a plain text body', () {
+      final message = MessageBuilder()..text = 'one\r\ntwo <3';
+
+      expect(
+        quoteHtml(_email(message.buildMimeMessage()), header: const []),
+        contains('one<br>two &lt;3'),
+      );
+    });
+
+    test('sets the body of a reply off in a blockquote', () {
+      final html = quoteHtml(
+        _htmlEmail('<p>Hello</p>'),
+        header: const ['On x, y wrote:'],
+        asReply: true,
       );
 
       expect(
-        quote.toPlainText(),
-        '-- \nSent with Nmail\nhttps://nostrmail.org\n\n',
+        html,
+        matches(
+          RegExp(r'wrote:</div><blockquote[^>]*><p>Hello</p></blockquote>'),
+        ),
       );
-    });
-
-    test('falls back to the text/plain part', () {
-      final builder = MessageBuilder()..text = 'plain body';
-
-      expect(quotableText(email(builder.buildMimeMessage())), 'plain body');
     });
   });
 
-  group('replyQuoteDelta', () {
-    Document build(String body) => Document.fromDelta(
-      replyQuoteDelta(header: 'On x, y wrote:\n', body: body),
-    );
+  group('splitQuote', () {
+    test('takes apart what appendQuote joined', () {
+      final quote = quoteHtml(
+        _htmlEmail('<p>Hello</p>'),
+        header: const ['Forwarded'],
+      );
 
-    test('keeps no carriage return from a CRLF body', () {
-      final doc = build('Hi, seems to be\r\ngetting rejected.\r\n\r\n');
+      final split = splitQuote(appendQuote('<p>FYI</p>', quote));
 
-      expect(doc.toPlainText(), isNot(contains('\r')));
+      expect(split.body, '<p>FYI</p>');
+      expect(split.quote, contains('<p>Hello</p>'));
+      expect(split.quoteIsReply, isFalse);
     });
 
-    test('quotes each line and drops surrounding blank lines', () {
-      final doc = build('\r\n \r\nfirst\r\n> second\r\n\r\n\r\n');
+    test('tells the quote of a reply apart', () {
+      final quote = quoteHtml(
+        _htmlEmail('<p>Hello</p>'),
+        header: const ['On x, y wrote:'],
+        asReply: true,
+      );
 
-      expect(doc.toPlainText(), 'On x, y wrote:\nfirst\nsecond\n\n');
-      final quoted = doc.root.children
-          .expand((node) => node is Block ? node.children : [node])
-          .whereType<Line>()
-          .where((line) => line.style.containsKey(Attribute.blockQuote.key))
-          .map((line) => line.toPlainText())
-          .toList();
-      expect(quoted, ['first\n', 'second\n']);
+      expect(
+        splitQuote(appendQuote('<p>Thanks</p>', quote)).quoteIsReply,
+        isTrue,
+      );
+    });
+
+    test('leaves HTML without a quote as it is', () {
+      const html = '<p>Hi</p><br><blockquote>older quote</blockquote>';
+
+      final split = splitQuote(html);
+
+      expect(split.body, html);
+      expect(split.quote, isNull);
     });
   });
 }

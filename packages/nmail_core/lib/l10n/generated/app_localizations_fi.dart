@@ -1505,6 +1505,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composePasteFailed => 'Leikepöydän lukeminen epäonnistui';
 
   @override
+  String get composeForwardPartsFailed =>
+      'Joitakin kuvia tai liitteitä ei voitu ladata';
+
+  @override
+  String get composeOriginalMessage => 'Alkuperäinen viesti';
+
+  @override
+  String get composeRemoveQuote => 'Poista';
+
+  @override
   String get composeInvalidRecipient => 'Vastaanottajan osoite ei kelpaa';
 
   @override

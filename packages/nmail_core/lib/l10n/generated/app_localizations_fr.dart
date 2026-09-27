@@ -1513,6 +1513,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get composePasteFailed => 'Impossible de lire le presse-papiers';
 
   @override
+  String get composeForwardPartsFailed =>
+      'Certaines images ou pièces jointes n\'ont pas pu être chargées';
+
+  @override
+  String get composeOriginalMessage => 'Message d\'origine';
+
+  @override
+  String get composeRemoveQuote => 'Retirer';
+
+  @override
   String get composeInvalidRecipient => 'Format de destinataire invalide';
 
   @override

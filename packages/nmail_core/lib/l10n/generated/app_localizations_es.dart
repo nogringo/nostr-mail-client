@@ -1509,6 +1509,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get composePasteFailed => 'No se pudo leer el portapapeles';
 
   @override
+  String get composeForwardPartsFailed =>
+      'No se pudieron cargar algunas imágenes o archivos adjuntos';
+
+  @override
+  String get composeOriginalMessage => 'Mensaje original';
+
+  @override
+  String get composeRemoveQuote => 'Quitar';
+
+  @override
   String get composeInvalidRecipient => 'Formato de destinatario no válido';
 
   @override

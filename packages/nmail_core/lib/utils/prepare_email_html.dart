@@ -4,6 +4,7 @@ import 'package:html/dom.dart' as dom;
 import 'package:html/parser.dart' as html_parser;
 
 import 'package:nmail_core/utils/html_image_scan.dart';
+import 'package:nmail_core/utils/inline_image_source.dart';
 
 const _maxHtmlLength = 2 * 1024 * 1024;
 const _maxCssLength = 512 * 1024;
@@ -177,6 +178,48 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
   }
 }
 
+/// Makes [html] fit to quote inside another email: its `<style>` rules become
+/// `style` attributes, which cannot restyle the email around the quote, and its
+/// `cid:` URLs take the normalized form the Content-ID headers are written in.
+String prepareQuotedHtml(String html) {
+  if (html.length > _maxHtmlLength) return html;
+
+  try {
+    final fragment = html_parser.parseFragment(html);
+    final cssText = _collectCss(fragment.querySelectorAll('style'));
+    final sheet = cssText.isEmpty || cssText.length > _maxCssLength
+        ? null
+        : css.parse(cssText, errors: <css.Message>[]);
+    if (sheet != null) {
+      _applyRules(
+        fragment,
+        fragment.querySelectorAll('*'),
+        sheet,
+        true,
+        supportedOnly: false,
+      );
+    }
+
+    for (final image in fragment.querySelectorAll('img')) {
+      final contentId = contentIdFromUrl(image.attributes['src']);
+      if (contentId != null) image.attributes['src'] = 'cid:$contentId';
+    }
+
+    final pageDeclarations = _pageDeclarations(
+      sheet,
+      html,
+      true,
+      supportedOnly: false,
+    );
+    if (pageDeclarations.isNotEmpty) {
+      _wrapInPageElement(fragment, pageDeclarations);
+    }
+    return fragment.outerHtml;
+  } catch (_) {
+    return html;
+  }
+}
+
 String _collectCss(List<dom.Element> styleElements) {
   final buffer = StringBuffer();
   for (final element in styleElements) {
@@ -206,8 +249,9 @@ void _applyRules(
   dom.DocumentFragment fragment,
   List<dom.Element> elements,
   ast.StyleSheet sheet,
-  bool allowRemoteImages,
-) {
+  bool allowRemoteImages, {
+  bool supportedOnly = true,
+}) {
   final ids = <String>{};
   final classes = <String>{};
   final tags = <String>{};
@@ -232,6 +276,7 @@ void _applyRules(
     final declarations = _declarations(
       topLevel.declarationGroup,
       allowRemoteImages,
+      supportedOnly: supportedOnly,
     );
     if (declarations.isEmpty) continue;
 
@@ -373,8 +418,9 @@ void _prependStyle(dom.Element element, String declarations) {
 List<_Declaration> _pageDeclarations(
   ast.StyleSheet? sheet,
   String sourceHtml,
-  bool allowRemoteImages,
-) {
+  bool allowRemoteImages, {
+  bool supportedOnly = true,
+}) {
   final result = <_Declaration>[];
   for (final topLevel in sheet?.topLevels ?? const <ast.TreeNode>[]) {
     if (topLevel is! ast.RuleSet) continue;
@@ -385,7 +431,13 @@ List<_Declaration> _pageDeclarations(
       return text == 'body' || text == 'html';
     });
     if (!targetsPage) continue;
-    result.addAll(_declarations(topLevel.declarationGroup, allowRemoteImages));
+    result.addAll(
+      _declarations(
+        topLevel.declarationGroup,
+        allowRemoteImages,
+        supportedOnly: supportedOnly,
+      ),
+    );
   }
 
   var hasBackground = result.any(
@@ -436,8 +488,9 @@ String _serialize(Map<String, String> declarations) =>
 
 List<_Declaration> _declarations(
   ast.DeclarationGroup group,
-  bool allowRemoteImages,
-) {
+  bool allowRemoteImages, {
+  bool supportedOnly = true,
+}) {
   final result = <_Declaration>[];
   for (final node in group.declarations) {
     if (node is! ast.Declaration) continue;
@@ -446,7 +499,7 @@ List<_Declaration> _declarations(
     if (node.expression == null) continue;
 
     final property = node.property.toLowerCase();
-    if (!_isSupported(property)) continue;
+    if (supportedOnly && !_isSupported(property)) continue;
 
     // An expression span covers only its first term, so read the value back
     // off the whole declaration instead.

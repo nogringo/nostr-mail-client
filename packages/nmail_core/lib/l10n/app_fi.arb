@@ -584,6 +584,9 @@
     }
   },
   "composePasteFailed": "Leikepöydän lukeminen epäonnistui",
+  "composeForwardPartsFailed": "Joitakin kuvia tai liitteitä ei voitu ladata",
+  "composeOriginalMessage": "Alkuperäinen viesti",
+  "composeRemoveQuote": "Poista",
   "composeInvalidRecipient": "Vastaanottajan osoite ei kelpaa",
   "composeAddRecipient": "Lisää vähintään yksi vastaanottaja",
   "composeSendFailed": "Viestin lähetys epäonnistui",

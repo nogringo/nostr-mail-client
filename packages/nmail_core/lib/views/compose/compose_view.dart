@@ -15,8 +15,6 @@ class ComposeView extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final isWide = ResponsiveHelper.isNotMobile(context);
 
-    final child = SingleChildScrollView(child: ScrollableContentView());
-
     Widget content = Scaffold(
       appBar: AppBar(
         title: Text(l.composeTitle),
@@ -29,16 +27,17 @@ class ComposeView extends StatelessWidget {
           ],
         ],
       ),
+      // One tree at any width: a remount disposes the recipients' focus nodes.
       body: SafeArea(
         top: false,
-        child: isWide
-            ? Column(
-                children: [
-                  Expanded(child: child),
-                  BottomToolbarView(),
-                ],
-              )
-            : child,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(child: ScrollableContentView()),
+            ),
+            if (isWide) BottomToolbarView(),
+          ],
+        ),
       ),
     );
 

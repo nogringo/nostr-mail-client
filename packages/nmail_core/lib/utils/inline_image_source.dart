@@ -6,6 +6,16 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 const _cidScheme = 'cid:';
 
+/// Resolves the images a message carries, which its HTML names by `cid:` URL.
+abstract interface class InlineImageSource {
+  /// Null when the message lacks the image or its bytes cannot be loaded.
+  Future<Uint8List?> inlineImageBytes(String contentId);
+
+  /// Bytes already resolved. Feeding these back as a `FutureBuilder` initial
+  /// value keeps a rebuilt image on screen instead of blanking it for a frame.
+  Uint8List? resolvedInlineImage(String contentId);
+}
+
 /// Whether [url] carries its image with the message rather than pointing at
 /// something the app would have to fetch.
 bool isEmbeddedImageUrl(String? url) {

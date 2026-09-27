@@ -1421,6 +1421,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composePasteFailed => '无法读取剪贴板';
 
   @override
+  String get composeForwardPartsFailed => '部分图片或附件无法加载';
+
+  @override
+  String get composeOriginalMessage => '原始邮件';
+
+  @override
+  String get composeRemoveQuote => '移除';
+
+  @override
   String get composeInvalidRecipient => '收件人格式无效';
 
   @override

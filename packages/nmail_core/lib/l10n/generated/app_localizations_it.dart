@@ -1511,6 +1511,16 @@ class AppLocalizationsIt extends AppLocalizations {
   String get composePasteFailed => 'Impossibile leggere gli appunti';
 
   @override
+  String get composeForwardPartsFailed =>
+      'Impossibile caricare alcune immagini o allegati';
+
+  @override
+  String get composeOriginalMessage => 'Messaggio originale';
+
+  @override
+  String get composeRemoveQuote => 'Rimuovi';
+
+  @override
   String get composeInvalidRecipient => 'Formato destinatario non valido';
 
   @override

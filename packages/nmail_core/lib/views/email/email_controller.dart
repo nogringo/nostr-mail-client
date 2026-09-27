@@ -34,7 +34,7 @@ import 'package:nmail_core/utils/platform_helper.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
-class EmailController extends GetxController {
+class EmailController extends GetxController implements InlineImageSource {
   static EmailController get to => Get.find();
 
   /// Nostr event reference this controller renders.
@@ -80,6 +80,11 @@ class EmailController extends GetxController {
     _buildEmailHtml();
   }
 
+  void loadImages() {
+    showImages = true;
+    update();
+  }
+
   /// Resolving the stylesheet is too costly to repeat on every rebuild, and it
   /// depends on [showImages] because blocked images also cover CSS backgrounds.
   void _buildEmailHtml() {
@@ -89,11 +94,10 @@ class EmailController extends GetxController {
         : prepareEmailHtml(html, allowRemoteImages: _showImages);
   }
 
-  /// Bytes of an inline image, once resolved. Feeding these back as a
-  /// `FutureBuilder` initial value keeps a rebuilt image on screen instead of
-  /// blanking it for a frame.
+  @override
   Uint8List? resolvedInlineImage(String contentId) => _inlineImages[contentId];
 
+  @override
   Future<Uint8List?> inlineImageBytes(String contentId) {
     if (_inlineImages.containsKey(contentId)) {
       return Future.value(_inlineImages[contentId]);

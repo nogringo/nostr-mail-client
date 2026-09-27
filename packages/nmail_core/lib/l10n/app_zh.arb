@@ -579,6 +579,9 @@
     }
   },
   "composePasteFailed": "无法读取剪贴板",
+  "composeForwardPartsFailed": "部分图片或附件无法加载",
+  "composeOriginalMessage": "原始邮件",
+  "composeRemoveQuote": "移除",
   "composeInvalidRecipient": "收件人格式无效",
   "composeAddRecipient": "请至少添加一位收件人",
   "composeSendFailed": "发送邮件失败",

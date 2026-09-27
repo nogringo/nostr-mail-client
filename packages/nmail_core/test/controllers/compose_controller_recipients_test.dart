@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter_quill/flutter_quill.dart' show BlockEmbed, Document;
@@ -8,7 +9,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:ndk/ndk.dart';
-import 'package:nostr_mail/nostr_mail.dart' show Email;
+import 'package:nostr_mail/nostr_mail.dart'
+    show AttachmentRef, Email, NostrMailClient;
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/models/recipient.dart';
@@ -19,6 +21,90 @@ import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
 
 import '../helpers/fake_metadata_service.dart';
+
+/// Serves attachment bytes from [blobs], keyed by sha256.
+class _FakeMailClient implements NostrMailClient {
+  final blobs = <String, Uint8List>{};
+
+  @override
+  Future<Uint8List?> getAttachmentBytes(Email email, AttachmentRef ref) async =>
+      blobs[ref.sha256];
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
+class _FakeNostrMailService extends NostrMailService {
+  _FakeNostrMailService(this._client);
+
+  final NostrMailClient _client;
+
+  @override
+  NostrMailClient get client => _client;
+}
+
+final _logo = Uint8List.fromList([1, 2, 3]);
+final _photo = Uint8List.fromList([4, 5, 6]);
+final _pdf = Uint8List.fromList([7, 8, 9]);
+
+/// As stored after sync: the photo and the PDF went to the blob cache, the
+/// logo has no filename so it kept its bytes.
+Email _quotedEmail() => Email(
+  id: 'forwarded',
+  senderPubkey: _pubkey,
+  recipientPubkey: '',
+  lightMimeText: [
+    'From: =?utf-8?Q?Andr=C3=A9?= <andre@example.com>',
+    'To: me@uid.ovh',
+    'Subject: Photos',
+    'MIME-Version: 1.0',
+    'Content-Type: multipart/mixed; boundary="mixed"',
+    '',
+    '--mixed',
+    'Content-Type: multipart/related; boundary="related"',
+    '',
+    '--related',
+    'Content-Type: text/html; charset=utf-8',
+    '',
+    '<p><img src="cid:Logo@X"></p><p><img src="cid:photo@x"></p>',
+    '--related',
+    'Content-Type: image/png',
+    'Content-ID: <Logo@X>',
+    'Content-Transfer-Encoding: base64',
+    '',
+    base64Encode(_logo),
+    '--related',
+    'Content-Type: image/png; name="photo.png"',
+    'Content-Disposition: inline; filename="photo.png"',
+    'Content-ID: <photo@x>',
+    '',
+    '',
+    '--related--',
+    '--mixed',
+    'Content-Type: application/pdf; name="doc.pdf"',
+    'Content-Disposition: attachment; filename="doc.pdf"',
+    '',
+    '',
+    '--mixed--',
+  ].join('\r\n'),
+  attachmentRefs: const [
+    AttachmentRef(
+      filename: 'photo.png',
+      contentType: 'image/png',
+      size: 3,
+      sha256: 'photo',
+      contentId: 'photo@x',
+    ),
+    AttachmentRef(
+      filename: 'doc.pdf',
+      contentType: 'application/pdf',
+      size: 3,
+      sha256: 'pdf',
+    ),
+  ],
+  createdAt: DateTime(2026, 9, 27),
+  isBridged: true,
+);
 
 const _pubkey =
     '3bf0c63fcb93463407af97a5e5ee64fa883d107ef9e558472c4eb9aaaefa459d';
@@ -107,6 +193,7 @@ void main() {
   group('ComposeController recipient actions', () {
     late Ndk ndk;
     late FakeMetadataService metadataService;
+    late _FakeMailClient mailClient;
     late ComposeController controller;
 
     setUp(() {
@@ -121,7 +208,8 @@ void main() {
       );
       Get.put<Ndk>(ndk);
       Get.put(StorageService());
-      Get.put(NostrMailService());
+      mailClient = _FakeMailClient();
+      Get.put<NostrMailService>(_FakeNostrMailService(mailClient));
       metadataService = FakeMetadataService();
       Get.put<MetadataService>(metadataService);
       Get.put(ContactsService());
@@ -340,6 +428,104 @@ void main() {
           mime.allPartsFlat.where((part) => part.mediaType.isImage),
           isEmpty,
         );
+      });
+    });
+
+    group('quote', () {
+      setUp(() => mailClient.blobs.addAll({'photo': _photo, 'pdf': _pdf}));
+
+      MimeMessage send(String body) => MimeMessage.parseFromText(
+        controller
+            .buildMimeMessage(
+              subject: 'Photos',
+              document: Document()..insert(0, body),
+            )
+            .renderMessage(),
+      );
+
+      test(
+        'a forward loads the images it shows, then the attachments',
+        () async {
+          await controller.quoteForward(_quotedEmail());
+
+          expect(await controller.inlineImageBytes('logo@x'), _logo);
+          expect(await controller.inlineImageBytes('photo@x'), _photo);
+          final attachment = controller.attachments.single;
+          expect(attachment.filename, 'doc.pdf');
+          expect(attachment.mimeType, 'application/pdf');
+          expect(attachment.data, _pdf);
+        },
+      );
+
+      test(
+        'a forward sends the quote below the body, with its images',
+        () async {
+          await controller.quoteForward(_quotedEmail());
+
+          final sent = send('FYI');
+
+          final html = sent.decodeTextHtmlPart()!;
+          expect(
+            html.indexOf('FYI'),
+            lessThan(html.indexOf('Forwarded message')),
+          );
+          expect(html, contains('From: André &lt;andre@example.com&gt;'));
+          expect(html, contains('To: me@uid.ovh'));
+          expect(sent.decodeTextPlainPart(), contains('Forwarded message'));
+          for (final (contentId, bytes) in [
+            ('logo@x', _logo),
+            ('photo@x', _photo),
+          ]) {
+            expect(html, contains('src="cid:$contentId"'));
+            final image = sent.allPartsFlat.singleWhere(
+              (part) => part.getHeaderValue('content-id') == '<$contentId>',
+            );
+            expect(image.decodeContentBinary(), bytes);
+          }
+          expect(sent.findContentInfo().single.fileName, 'doc.pdf');
+        },
+      );
+
+      test('a reply sends the images it quotes, not the attachments', () async {
+        await controller.quoteReply(_quotedEmail());
+
+        final sent = send('Thanks');
+
+        final html = sent.decodeTextHtmlPart()!;
+        expect(html, contains('André &lt;andre@example.com&gt; wrote:'));
+        expect(html, contains('<blockquote'));
+        expect(
+          sent.allPartsFlat.where(
+            (part) => part.getHeaderValue('content-id') == '<photo@x>',
+          ),
+          hasLength(1),
+        );
+        expect(controller.attachments, isEmpty);
+        expect(sent.findContentInfo(), isEmpty);
+      });
+
+      test('a reply quote starts folded and can be left out', () async {
+        await controller.quoteReply(_quotedEmail());
+        expect(controller.quoteIsReply, isTrue);
+        expect(controller.quoteExpanded.value, isFalse);
+
+        controller.removeQuote();
+        final sent = send('Thanks');
+
+        expect(controller.quotedEmailHtml.value, isNull);
+        expect(sent.decodeTextHtmlPart(), isNot(contains('wrote:')));
+        expect(
+          sent.allPartsFlat.where(
+            (part) => part.getHeaderValue('content-id') != null,
+          ),
+          isEmpty,
+        );
+      });
+
+      test('a forward quote cannot be folded away', () async {
+        await controller.quoteForward(_quotedEmail());
+
+        expect(controller.quoteIsReply, isFalse);
       });
     });
   });

@@ -572,4 +572,32 @@ void main() {
       );
     });
   });
+
+  group('prepareQuotedHtml', () {
+    test('writes every style rule into the elements it matches', () {
+      final out = prepareQuotedHtml(
+        '<style>.a{float:left;color:red}</style><p class="a">x</p>',
+      );
+
+      expect(out, isNot(contains('<style')));
+      expect(out, contains('float:left'));
+      expect(out, contains('color:red'));
+    });
+
+    test('keeps remote backgrounds for the recipient to load', () {
+      final out = prepareQuotedHtml(
+        '<style>.a{background-image:url(https://e.test/p.gif)}</style>'
+        '<p class="a">x</p>',
+      );
+
+      expect(out, contains('url(https://e.test/p.gif)'));
+    });
+
+    test('writes a cid URL the way its Content-ID header is written', () {
+      expect(
+        prepareQuotedHtml('<img src="cid:Logo@X">'),
+        contains('src="cid:logo@x"'),
+      );
+    });
+  });
 }

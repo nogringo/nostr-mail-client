@@ -12,6 +12,7 @@ import 'attachment_chip.dart';
 import 'editor_context_menu.dart';
 import 'inline_image_embed_builder.dart';
 import 'quill_toolbar_view.dart';
+import 'quoted_email_view.dart';
 import 'recipient_autocomplete.dart';
 import 'schedule_banner.dart';
 
@@ -193,6 +194,7 @@ class ScrollableContentView extends StatelessWidget {
             ],
           );
         }),
+        const QuotedEmailView(),
       ],
     );
   }

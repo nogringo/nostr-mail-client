@@ -1511,6 +1511,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Die Zwischenablage konnte nicht gelesen werden';
 
   @override
+  String get composeForwardPartsFailed =>
+      'Einige Bilder oder Anhänge konnten nicht geladen werden';
+
+  @override
+  String get composeOriginalMessage => 'Ursprüngliche Nachricht';
+
+  @override
+  String get composeRemoveQuote => 'Entfernen';
+
+  @override
   String get composeInvalidRecipient => 'Ungültiges Empfängerformat';
 
   @override

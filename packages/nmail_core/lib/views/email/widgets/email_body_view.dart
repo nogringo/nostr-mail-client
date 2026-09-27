@@ -14,7 +14,8 @@ class EmailBodyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final emailHtml = EmailController.to.emailHtml;
+    final controller = EmailController.to;
+    final emailHtml = controller.emailHtml;
 
     // An image the body displays inline is part of the message, not something
     // to offer for download alongside it.
@@ -33,7 +34,12 @@ class EmailBodyView extends StatelessWidget {
         ],
         // Email body
         if (emailHtml != null)
-          HtmlBodyView(emailHtml: emailHtml)
+          HtmlBodyView(
+            emailHtml: emailHtml,
+            images: controller,
+            showImages: controller.showImages,
+            onShowImages: controller.loadImages,
+          )
         else
           PlainTextBodyView(email: email),
       ],

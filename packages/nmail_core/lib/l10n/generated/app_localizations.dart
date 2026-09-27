@@ -2749,6 +2749,24 @@ abstract class AppLocalizations {
   /// **'Couldn\'t read the clipboard'**
   String get composePasteFailed;
 
+  /// Error toast in the compose screen when some inline images or attachments of the email being forwarded cannot be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'Some images or attachments couldn\'t be loaded'**
+  String get composeForwardPartsFailed;
+
+  /// Button label next to a chevron that unfolds or folds the original message a reply quotes below the compose editor
+  ///
+  /// In en, this message translates to:
+  /// **'Original message'**
+  String get composeOriginalMessage;
+
+  /// Button next to the original message label that removes the quoted original message from a reply
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get composeRemoveQuote;
+
   /// Error toast when a submitted recipient string can't be parsed
   ///
   /// In en, this message translates to:

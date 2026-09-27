@@ -1523,6 +1523,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composePasteFailed => 'Не удалось прочитать буфер обмена';
 
   @override
+  String get composeForwardPartsFailed =>
+      'Не удалось загрузить некоторые изображения или вложения';
+
+  @override
+  String get composeOriginalMessage => 'Исходное сообщение';
+
+  @override
+  String get composeRemoveQuote => 'Убрать';
+
+  @override
   String get composeInvalidRecipient => 'Неверный формат получателя';
 
   @override

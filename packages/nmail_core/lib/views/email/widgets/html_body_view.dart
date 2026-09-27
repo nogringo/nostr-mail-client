@@ -4,14 +4,24 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/confirm_open_link.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
-import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/views/email/widgets/email_html_surface.dart';
 import 'package:nmail_core/views/email/widgets/email_widget_factory.dart';
 
 class HtmlBodyView extends StatelessWidget {
   final EmailHtml emailHtml;
+  final InlineImageSource images;
 
-  const HtmlBodyView({super.key, required this.emailHtml});
+  /// Whether images fetched over the network are shown.
+  final bool showImages;
+  final VoidCallback onShowImages;
+
+  const HtmlBodyView({
+    super.key,
+    required this.emailHtml,
+    required this.images,
+    required this.showImages,
+    required this.onShowImages,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +29,7 @@ class HtmlBodyView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (emailHtml.hasRemoteImages && !EmailController.to.showImages)
+        if (emailHtml.hasRemoteImages && !showImages)
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -46,10 +56,7 @@ class HtmlBodyView extends StatelessWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    EmailController.to.showImages = true;
-                    EmailController.to.update();
-                  },
+                  onPressed: onShowImages,
                   child: Text(l.emailLoadImages),
                 ),
               ],
@@ -60,11 +67,12 @@ class HtmlBodyView extends StatelessWidget {
           child: SelectionArea(
             child: HtmlWidget(
               emailHtml.html,
-              key: ValueKey(EmailController.to.showImages),
-              factoryBuilder: EmailWidgetFactory.new,
+              key: ValueKey(showImages),
+              factoryBuilder: () =>
+                  EmailWidgetFactory(images, showImages: showImages),
               // An image the message carries needs no request, so blocking it
               // would protect nothing. Returning null hands it to the factory.
-              customWidgetBuilder: EmailController.to.showImages
+              customWidgetBuilder: showImages
                   ? null
                   : (element) {
                       if (element.localName == 'img' &&

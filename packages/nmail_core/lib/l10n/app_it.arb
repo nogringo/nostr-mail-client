@@ -579,6 +579,9 @@
     }
   },
   "composePasteFailed": "Impossibile leggere gli appunti",
+  "composeForwardPartsFailed": "Impossibile caricare alcune immagini o allegati",
+  "composeOriginalMessage": "Messaggio originale",
+  "composeRemoveQuote": "Rimuovi",
   "composeInvalidRecipient": "Formato destinatario non valido",
   "composeAddRecipient": "Aggiungi almeno un destinatario",
   "composeSendFailed": "Impossibile inviare l'email",

@@ -1508,6 +1508,16 @@ class AppLocalizationsPt extends AppLocalizations {
       'Não foi possível ler a área de transferência';
 
   @override
+  String get composeForwardPartsFailed =>
+      'Não foi possível carregar algumas imagens ou anexos';
+
+  @override
+  String get composeOriginalMessage => 'Mensagem original';
+
+  @override
+  String get composeRemoveQuote => 'Remover';
+
+  @override
   String get composeInvalidRecipient => 'Formato de destinatário inválido';
 
   @override
@@ -3400,6 +3410,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get composePasteFailed =>
       'Não foi possível ler a área de transferência';
+
+  @override
+  String get composeForwardPartsFailed =>
+      'Não foi possível carregar algumas imagens ou anexos';
+
+  @override
+  String get composeOriginalMessage => 'Mensagem original';
+
+  @override
+  String get composeRemoveQuote => 'Remover';
 
   @override
   String get composeInvalidRecipient => 'Formato de destinatário inválido';

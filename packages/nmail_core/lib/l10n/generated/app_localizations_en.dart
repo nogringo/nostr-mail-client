@@ -1499,6 +1499,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get composePasteFailed => 'Couldn\'t read the clipboard';
 
   @override
+  String get composeForwardPartsFailed =>
+      'Some images or attachments couldn\'t be loaded';
+
+  @override
+  String get composeOriginalMessage => 'Original message';
+
+  @override
+  String get composeRemoveQuote => 'Remove';
+
+  @override
   String get composeInvalidRecipient => 'Invalid recipient format';
 
   @override

@@ -1431,6 +1431,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composePasteFailed => 'クリップボードを読み取れませんでした';
 
   @override
+  String get composeForwardPartsFailed => '一部の画像または添付ファイルを読み込めませんでした';
+
+  @override
+  String get composeOriginalMessage => '元のメッセージ';
+
+  @override
+  String get composeRemoveQuote => '削除';
+
+  @override
   String get composeInvalidRecipient => '宛先の形式が無効です';
 
   @override

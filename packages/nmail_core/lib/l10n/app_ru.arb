@@ -579,6 +579,9 @@
     }
   },
   "composePasteFailed": "Не удалось прочитать буфер обмена",
+  "composeForwardPartsFailed": "Не удалось загрузить некоторые изображения или вложения",
+  "composeOriginalMessage": "Исходное сообщение",
+  "composeRemoveQuote": "Убрать",
   "composeInvalidRecipient": "Неверный формат получателя",
   "composeAddRecipient": "Добавьте хотя бы одного получателя",
   "composeSendFailed": "Не удалось отправить письмо",

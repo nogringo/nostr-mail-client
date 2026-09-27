@@ -584,6 +584,9 @@
     }
   },
   "composePasteFailed": "Não foi possível ler a área de transferência",
+  "composeForwardPartsFailed": "Não foi possível carregar algumas imagens ou anexos",
+  "composeOriginalMessage": "Mensagem original",
+  "composeRemoveQuote": "Remover",
   "composeInvalidRecipient": "Formato de destinatário inválido",
   "composeAddRecipient": "Adicione pelo menos um destinatário",
   "composeSendFailed": "Falha ao enviar o e-mail",

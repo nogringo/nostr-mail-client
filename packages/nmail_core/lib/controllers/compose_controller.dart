@@ -31,9 +31,11 @@ import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/browser_image_paste/browser_image_paste.dart';
+import 'package:nmail_core/utils/html_image_scan.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
+import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
@@ -42,9 +44,21 @@ import 'settings_controller.dart';
 const String _defaultBridgeDomain = 'uid.ovh';
 const Duration _nip05Timeout = Duration(seconds: 5);
 
+final _quoteDateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
+
+/// As a reader writes them: [MailAddress.encode] MIME-encodes a non-ASCII name.
+String _readableAddresses(Iterable<MailAddress> addresses) => addresses
+    .map((address) {
+      final name = address.personalName?.trim();
+      return name == null || name.isEmpty
+          ? address.email
+          : '$name <${address.email}>';
+    })
+    .join(', ');
+
 enum NostrLookupResult { found, notFound, unreachable }
 
-class ComposeController extends GetxController {
+class ComposeController extends GetxController implements InlineImageSource {
   static ComposeController get to => Get.find();
 
   /// Optional source email + mode for reply/forward flows.
@@ -79,8 +93,27 @@ class ComposeController extends GetxController {
   final fromOptions = <FromOption>[].obs;
   final attachments = <ComposeAttachment>[].obs;
 
-  /// Images shown in the body, keyed by the Content-ID their `cid:` URL names.
+  /// Images of the body and of the quote, keyed by the Content-ID their `cid:`
+  /// URL names.
   final inlineImages = <String, ComposeAttachment>{};
+
+  /// The email a reply or forward quotes, appended below the editor's HTML
+  /// when sending.
+  String? _quotedHtml;
+
+  /// A reply's quote starts folded and can be removed. A forward's stays open:
+  /// it is the message being sent.
+  bool get quoteIsReply => _quoteIsReply;
+  bool _quoteIsReply = false;
+
+  final quoteExpanded = false.obs;
+
+  /// [_quotedHtml] ready to display, kept because resolving its styles on
+  /// every rebuild would cost too much.
+  final quotedEmailHtml = Rxn<EmailHtml>();
+
+  /// Whether the quote shows the images it would fetch over the network.
+  final showQuotedImages = false.obs;
   final sendMode = SendMode.normal.obs;
 
   final showExpandedFields = false.obs;
@@ -100,7 +133,9 @@ class ComposeController extends GetxController {
     super.onInit();
     _contactsService.loadContacts();
 
-    final signature = Get.find<SettingsController>().emailSignature.value;
+    final settings = Get.find<SettingsController>();
+    final signature = settings.emailSignature.value;
+    showQuotedImages.value = settings.alwaysLoadImages.value;
 
     toController = TextEditingController();
     ccController = TextEditingController();
@@ -620,7 +655,7 @@ class ComposeController extends GetxController {
       delta.toJson().cast<Map<String, dynamic>>(),
       converterOptions,
     );
-    final htmlBody = converter.convert();
+    final htmlBody = appendQuote(converter.convert(), _quotedHtml);
 
     final plainText = htmlToText(htmlBody);
 
@@ -699,6 +734,7 @@ class ComposeController extends GetxController {
     final contentIds = {
       for (final op in delta.toList())
         if (op.data case {'image': final String url}) contentIdFromUrl(url),
+      if (_quotedHtml case final quote?) ...htmlInlineImageCids(quote),
     };
     return inlineImages.entries
         .where((entry) => contentIds.contains(entry.key))
@@ -901,8 +937,6 @@ class ComposeController extends GetxController {
 
   void initFromEmail(Email email, ComposeMode mode) {
     final myPubkey = _nostrMailService.getPublicKey()!;
-    final signature = Get.find<SettingsController>().emailSignature.value;
-    final signatureBlock = signature.isEmpty ? '' : '\n\n$signature';
 
     // Get user's MailAddress from selectedFrom or fallback
     MailAddress fromAddress;
@@ -943,37 +977,177 @@ class ComposeController extends GetxController {
     // Set subject from builder
     subjectController.text = builder.subject ?? '';
 
-    // Build body with quote (manually for Quill)
-    final senderDisplay = email.sender?.encode() ?? '';
-    final dateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
-
-    switch (mode) {
-      case ComposeMode.reply:
-      case ComposeMode.replyAll:
-        final header =
-            '$signatureBlock\n\nOn ${dateFormat.format(email.date)}, $senderDisplay wrote:\n';
-        quillController.document = Document.fromDelta(
-          replyQuoteDelta(header: header, body: quotableText(email)),
-        );
-        quillController.updateSelection(
-          const TextSelection.collapsed(offset: 0),
-          ChangeSource.local,
-        );
-      case ComposeMode.forward:
-        final bodyText =
-            '$signatureBlock\n\n---------- Forwarded message ----------\n'
-            'From: $senderDisplay\n'
-            'Date: ${dateFormat.format(email.date)}\n'
-            'Subject: ${email.subject}\n\n'
-            '${quotableText(email)}';
-        setQuillContent(bodyText);
-    }
+    _quotedParts = switch (mode) {
+      ComposeMode.reply || ComposeMode.replyAll => quoteReply(email),
+      ComposeMode.forward => quoteForward(email),
+    };
 
     addReplyRecipients(
       email,
       to: builder.to ?? const [],
       cc: builder.cc ?? const [],
     );
+  }
+
+  /// Awaited before sending, so a reply or forward never goes out incomplete.
+  Future<void>? _quotedParts;
+
+  /// The load of each image the quote shows, keyed by Content-ID.
+  final _inlineImageLoads = <String, Future<Uint8List?>>{};
+
+  /// Quotes [email] below the editor and loads the images it shows.
+  @visibleForTesting
+  Future<void> quoteReply(Email email) => _quote(
+    email,
+    header: [
+      'On ${_quoteDateFormat.format(email.date)}, '
+          '${_readableAddresses([?email.sender])} wrote:',
+    ],
+    asReply: true,
+  );
+
+  /// Quotes [email] below the editor and loads the images and attachments it
+  /// carries.
+  @visibleForTesting
+  Future<void> quoteForward(Email email) => _quote(
+    email,
+    header: [
+      '---------- Forwarded message ----------',
+      'From: ${_readableAddresses([?email.sender])}',
+      'Date: ${_quoteDateFormat.format(email.date)}',
+      'Subject: ${email.subject ?? ''}',
+      if (email.mime.to case final to? when to.isNotEmpty)
+        'To: ${_readableAddresses(to)}',
+      if (email.mime.cc case final cc? when cc.isNotEmpty)
+        'Cc: ${_readableAddresses(cc)}',
+    ],
+    asReply: false,
+  );
+
+  Future<void> _quote(
+    Email email, {
+    required List<String> header,
+    required bool asReply,
+  }) {
+    final html = quoteHtml(email, header: header, asReply: asReply);
+    _quotedHtml = html;
+    _quoteIsReply = asReply;
+    _prepareQuote();
+    return _loadQuotedParts(
+      email,
+      htmlInlineImageCids(html),
+      withAttachments: !asReply,
+    );
+  }
+
+  void toggleQuote() {
+    quoteExpanded.value = !quoteExpanded.value;
+  }
+
+  void removeQuote() {
+    _quotedHtml = null;
+    _quotedParts = null;
+    _prepareQuote();
+  }
+
+  void loadQuotedImages() {
+    showQuotedImages.value = true;
+    _prepareQuote();
+  }
+
+  void _prepareQuote() {
+    final html = _quotedHtml;
+    quotedEmailHtml.value = html == null
+        ? null
+        : prepareEmailHtml(html, allowRemoteImages: showQuotedImages.value);
+  }
+
+  @override
+  Uint8List? resolvedInlineImage(String contentId) =>
+      inlineImages[contentId]?.data;
+
+  @override
+  Future<Uint8List?> inlineImageBytes(String contentId) =>
+      _inlineImageLoads[contentId] ??
+      Future.value(resolvedInlineImage(contentId));
+
+  /// Loads the images the quote shows, then, [withAttachments], every other
+  /// attachment of [email].
+  Future<void> _loadQuotedParts(
+    Email email,
+    Set<String> contentIds, {
+    required bool withAttachments,
+  }) async {
+    // One at a time: a cache miss makes getAttachmentBytes download and
+    // decrypt the whole message, and nothing dedupes that work.
+    Future<Uint8List?> previous = Future.value();
+    for (final contentId in contentIds) {
+      final load = previous.then((_) => _loadInlineImage(email, contentId));
+      _inlineImageLoads[contentId] = load;
+      previous = load;
+    }
+    final images = await Future.wait([
+      for (final contentId in contentIds) _inlineImageLoads[contentId]!,
+    ]);
+    var complete = !images.contains(null);
+
+    for (final ref
+        in withAttachments ? email.attachmentRefs : const <AttachmentRef>[]) {
+      if (isClosed) return;
+      if (contentIds.contains(normalizeContentId(ref.contentId))) continue;
+      final bytes = await _attachmentBytes(email, ref);
+      if (bytes == null) {
+        complete = false;
+        continue;
+      }
+      attachments.add(
+        ComposeAttachment(
+          filename: ref.filename ?? 'attachment',
+          data: bytes,
+          mimeType: ref.contentType,
+        ),
+      );
+    }
+
+    if (!complete && !isClosed && _quotedHtml != null) {
+      final l = AppLocalizations.of(Get.context!);
+      ToastHelper.error(Get.context!, l.composeForwardPartsFailed);
+    }
+  }
+
+  /// Null when the image cannot be recovered, never an error, which would
+  /// break the chain of loads behind it.
+  Future<Uint8List?> _loadInlineImage(Email email, String contentId) async {
+    if (isClosed) return null;
+    try {
+      final ref = inlineImageRef(email.attachmentRefs, contentId);
+      final bytes =
+          inlineImageFromMime(email.mime, contentId) ??
+          (ref == null
+              ? null
+              : await _nostrMailService.client.getAttachmentBytes(email, ref));
+      if (bytes != null) {
+        inlineImages[contentId] = ComposeAttachment(
+          filename: ref?.filename ?? 'image',
+          data: bytes,
+          mimeType:
+              ref?.contentType ??
+              lookupMimeType('', headerBytes: bytes) ??
+              'image/png',
+        );
+      }
+      return bytes;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<Uint8List?> _attachmentBytes(Email email, AttachmentRef ref) async {
+    try {
+      return await _nostrMailService.client.getAttachmentBytes(email, ref);
+    } catch (_) {
+      return null;
+    }
   }
 
   @visibleForTesting
@@ -1092,7 +1266,13 @@ class ComposeController extends GetxController {
       if (text.trim().isNotEmpty) setQuillContent(text);
       return;
     }
-    quillController.document = Document.fromDelta(HtmlToDelta().convert(html));
+    final (:body, :quote, :quoteIsReply) = splitQuote(html);
+    if (quote != null) {
+      _quotedHtml = quote;
+      _quoteIsReply = quoteIsReply;
+      _prepareQuote();
+    }
+    quillController.document = Document.fromDelta(HtmlToDelta().convert(body));
     quillController.updateSelection(
       const TextSelection.collapsed(offset: 0),
       ChangeSource.local,
@@ -1272,9 +1452,10 @@ class ComposeController extends GetxController {
       if (bccController.text.trim().isNotEmpty) return false;
     }
 
-    if (_pendingResolutions.isNotEmpty) {
+    final pending = [..._pendingResolutions, ?_quotedParts];
+    if (pending.isNotEmpty) {
       isSending.value = true;
-      await Future.wait(_pendingResolutions.toList());
+      await Future.wait(pending);
       isSending.value = false;
     }
 
