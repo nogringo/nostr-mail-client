@@ -496,7 +496,6 @@ class ComposeController extends GetxController {
         to: _toTransportRecipients(recipients),
         cc: _toTransportRecipients(ccRecipients),
         bcc: _toTransportRecipients(bccRecipients),
-        mailFrom: _hasLegacyRecipient ? from : null,
         signRumor: mode != SendMode.normal,
         isPublic: mode == SendMode.public,
       );
@@ -532,7 +531,6 @@ class ComposeController extends GetxController {
         to: _toTransportRecipients(recipients),
         cc: _toTransportRecipients(ccRecipients),
         bcc: _toTransportRecipients(bccRecipients),
-        mailFrom: _hasLegacyRecipient ? from : null,
         signRumor: mode != SendMode.normal,
         isPublic: mode == SendMode.public,
         at: at,
@@ -624,9 +622,6 @@ class ComposeController extends GetxController {
     }
     return MailAddress(null, r.input);
   }
-
-  bool get _hasLegacyRecipient =>
-      [...recipients, ...ccRecipients, ...bccRecipients].any((r) => r.isLegacy);
 
   List<mail.Recipient> _toTransportRecipients(List<Recipient> list) {
     return list.map((r) {
