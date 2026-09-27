@@ -9,6 +9,7 @@ import 'package:nmail_core/views/compose/widgets/from_selector_view.dart';
 import 'package:nmail_core/views/compose/widgets/recipient_chips_row.dart';
 
 import 'attachment_chip.dart';
+import 'inline_image_embed_builder.dart';
 import 'quill_toolbar_view.dart';
 import 'recipient_autocomplete.dart';
 import 'schedule_banner.dart';
@@ -158,6 +159,9 @@ class ScrollableContentView extends StatelessWidget {
               config: QuillEditorConfig(
                 placeholder: l.composePlaceholder,
                 padding: const EdgeInsets.symmetric(vertical: 8),
+                embedBuilders: [
+                  InlineImageEmbedBuilder(controller.inlineImages),
+                ],
               ),
             ),
           ),

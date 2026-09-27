@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:enough_mail_plus/enough_mail.dart';
-import 'package:flutter_quill/flutter_quill.dart' show Document;
+import 'package:flutter_quill/flutter_quill.dart' show BlockEmbed, Document;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +16,7 @@ import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
+import 'package:nmail_core/utils/inline_image_source.dart';
 
 import '../helpers/fake_metadata_service.dart';
 
@@ -292,6 +294,52 @@ void main() {
 
         expect(email, isNot(contains('Grumpy neighbour')));
         expect(email, isNot(contains('Tax man')));
+      });
+
+      test('sends a pasted image inline, next to the HTML body', () async {
+        final png = File('test/fixtures/media_metadata/photo.png');
+        final url = await controller.addInlineImage(await png.readAsBytes());
+        final document = Document()
+          ..insert(0, 'Look:\n')
+          ..insert(6, BlockEmbed.image(url));
+
+        final mime = controller.buildMimeMessage(
+          subject: 'Hi',
+          document: document,
+        );
+
+        final contentId = contentIdFromUrl(url)!;
+        final related = mime.allPartsFlat.singleWhere(
+          (part) => part.mediaType.sub == MediaSubtype.multipartRelated,
+        );
+        final image = related.parts!.singleWhere(
+          (part) => part.mediaType.isImage,
+        );
+        expect(
+          normalizeContentId(image.getHeaderValue('content-id')),
+          contentId,
+        );
+        expect(
+          image.getHeaderContentDisposition()?.disposition,
+          ContentDisposition.inline,
+        );
+        expect(mime.decodeTextHtmlPart(), contains('src="$url"'));
+        expect(mime.findContentInfo(), isEmpty);
+      });
+
+      test('leaves out an image deleted from the body', () async {
+        final png = File('test/fixtures/media_metadata/photo.png');
+        await controller.addInlineImage(await png.readAsBytes());
+
+        final mime = controller.buildMimeMessage(
+          subject: 'Hi',
+          document: Document()..insert(0, 'No image'),
+        );
+
+        expect(
+          mime.allPartsFlat.where((part) => part.mediaType.isImage),
+          isEmpty,
+        );
       });
     });
   });

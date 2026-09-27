@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -26,6 +30,8 @@ import 'package:nmail_core/models/send_mode.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/browser_image_paste/browser_image_paste.dart';
+import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
@@ -72,6 +78,9 @@ class ComposeController extends GetxController {
   final Rxn<FromOption> selectedFrom = Rxn<FromOption>();
   final fromOptions = <FromOption>[].obs;
   final attachments = <ComposeAttachment>[].obs;
+
+  /// Images shown in the body, keyed by the Content-ID their `cid:` URL names.
+  final inlineImages = <String, ComposeAttachment>{};
   final sendMode = SendMode.normal.obs;
 
   final showExpandedFields = false.obs;
@@ -98,16 +107,23 @@ class ComposeController extends GetxController {
     bccController = TextEditingController();
     subjectController = TextEditingController();
 
-    // Initialize Quill controller with signature
+    final editorConfig = QuillControllerConfig(
+      clipboardConfig: QuillClipboardConfig(onImagePaste: addInlineImage),
+    );
     if (signature.isEmpty) {
-      quillController = QuillController.basic();
+      quillController = QuillController.basic(config: editorConfig);
     } else {
       final doc = Document()..insert(0, '\n\n$signature');
       quillController = QuillController(
         document: doc,
         selection: const TextSelection.collapsed(offset: 0),
+        config: editorConfig,
       );
     }
+    _browserImagePaste = listenToBrowserImagePaste(
+      accepts: () => editorFocusNode.hasFocus,
+      onImage: _insertPastedImage,
+    );
 
     // Load from options
     loadFromOptions();
@@ -396,6 +412,41 @@ class ComposeController extends GetxController {
     }
   }
 
+  /// Returns the `cid:` URL the body embeds [bytes] under.
+  Future<String> addInlineImage(Uint8List bytes) async {
+    final data = stripMediaMetadata(bytes);
+    final mimeType = lookupMimeType('', headerBytes: data) ?? 'image/png';
+    final contentId = _newContentId();
+    inlineImages[contentId] = ComposeAttachment(
+      filename: 'image.${extensionFromMime(mimeType) ?? 'png'}',
+      data: data,
+      mimeType: mimeType,
+    );
+    return 'cid:$contentId';
+  }
+
+  StreamSubscription<void>? _browserImagePaste;
+
+  Future<void> _insertPastedImage(Uint8List bytes) async {
+    final url = await addInlineImage(bytes);
+    final selection = quillController.selection;
+    quillController.replaceText(
+      selection.start,
+      selection.end - selection.start,
+      BlockEmbed.image(url),
+      TextSelection.collapsed(offset: selection.start + 1),
+    );
+  }
+
+  String _newContentId() {
+    final random = Random.secure();
+    final hex = List.generate(
+      16,
+      (_) => random.nextInt(256).toRadixString(16).padLeft(2, '0'),
+    ).join();
+    return '$hex@nmail';
+  }
+
   /// Get MIME type based on file extension
   String _getMimeType(String filePath) {
     return lookupMimeType(filePath) ?? 'application/octet-stream';
@@ -550,9 +601,13 @@ class ComposeController extends GetxController {
     required String subject,
     required Document document,
   }) {
+    final delta = document.toDelta();
+    final converterOptions = ConverterOptions.forEmail();
+    converterOptions.sanitizerOptions.urlSanitizer = (url) =>
+        contentIdFromUrl(url) != null ? url : null;
     final converter = QuillDeltaToHtmlConverter(
-      document.toDelta().toJson().cast<Map<String, dynamic>>(),
-      ConverterOptions.forEmail(),
+      delta.toJson().cast<Map<String, dynamic>>(),
+      converterOptions,
     );
     final htmlBody = converter.convert();
 
@@ -593,10 +648,27 @@ class ComposeController extends GetxController {
 
     bodyBuilder.addTextPlain(plainText);
     if (hasHtml) {
-      bodyBuilder.addTextHtml(
+      final bodyImages = _inlineImagesIn(delta);
+      final htmlBuilder = bodyImages.isEmpty
+          ? bodyBuilder
+          : bodyBuilder.addPart(mediaSubtype: MediaSubtype.multipartRelated);
+      htmlBuilder.addTextHtml(
         htmlBody,
         transferEncoding: TransferEncoding.base64,
       );
+      for (final MapEntry(key: contentId, value: image) in bodyImages) {
+        htmlBuilder
+            .addBinary(
+              image.data,
+              MediaType.fromText(image.mimeType),
+              disposition: ContentDispositionHeader.from(
+                ContentDisposition.inline,
+                filename: image.filename,
+                size: image.size,
+              ),
+            )
+            .setHeader('Content-ID', '<$contentId>');
+      }
     }
 
     for (final attachment in attachments) {
@@ -609,6 +681,17 @@ class ComposeController extends GetxController {
     }
 
     return builder.buildMimeMessage();
+  }
+
+  /// Images deleted from the body are left out.
+  List<MapEntry<String, ComposeAttachment>> _inlineImagesIn(Delta delta) {
+    final contentIds = {
+      for (final op in delta.toList())
+        if (op.data case {'image': final String url}) contentIdFromUrl(url),
+    };
+    return inlineImages.entries
+        .where((entry) => contentIds.contains(entry.key))
+        .toList();
   }
 
   /// nostr recipients become `npub@nostr`; legacy ones keep their email input.
@@ -967,8 +1050,8 @@ class ComposeController extends GetxController {
     _applyFrom(mime?.fromEmail ?? scheduled.from);
 
     if (mime != null) {
-      _setBodyFromMime(mime);
       _loadAttachmentsFromMime(mime);
+      _setBodyFromMime(mime);
     }
   }
 
@@ -1016,6 +1099,17 @@ class ComposeController extends GetxController {
       }
       final filename = part.decodeFileName();
       final disposition = part.getHeaderContentDisposition()?.disposition;
+      final contentId = normalizeContentId(part.getHeaderValue('content-id'));
+      if (contentId != null && disposition != ContentDisposition.attachment) {
+        final data = part.decodeContentBinary();
+        if (data == null || data.isEmpty) return;
+        inlineImages[contentId] = ComposeAttachment(
+          filename: filename ?? 'image',
+          data: data,
+          mimeType: part.mediaType.text,
+        );
+        return;
+      }
       final isAttachment =
           disposition == ContentDisposition.attachment ||
           (filename != null && filename.isNotEmpty);
@@ -1041,6 +1135,12 @@ class ComposeController extends GetxController {
       const TextSelection.collapsed(offset: 0),
       ChangeSource.local,
     );
+  }
+
+  @override
+  void onClose() {
+    _browserImagePaste?.cancel();
+    super.onClose();
   }
 
   @override
