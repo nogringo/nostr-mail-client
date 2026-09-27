@@ -16,13 +16,15 @@ class BackgroundDefaultSwatch extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final settings = Get.find<SettingsController>();
 
-    final systemScheme = ColorScheme.fromSeed(
-      seedColor: SystemTheme.accentColor.accent,
-      brightness: Theme.of(context).brightness,
-    );
+    final brightness = Theme.of(context).brightness;
 
     return Obx(() {
       final current = settings.backgroundImage.value;
+      final systemScheme = ColorScheme.fromSeed(
+        seedColor: SystemTheme.accentColor.accent,
+        brightness: brightness,
+        dynamicSchemeVariant: settings.paletteStyle.value,
+      );
       return BackgroundThumbnail(
         label: l.settingsBackgroundDefaultLabel,
         isSelected: BackgroundPreset.isSystemColorValue(current),

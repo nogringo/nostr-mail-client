@@ -33,10 +33,10 @@ class EntryColorPicker extends StatelessWidget {
                 selected: controller.color.value == null,
                 onTap: () => controller.color.value = null,
               ),
-              for (final (index, hex) in palette.indexed)
+              for (final MapEntry(key: hex, value: name) in palette.entries)
                 EntryColorSwatch(
                   color: MailboxesController.parseEntryColor(hex),
-                  label: l.mailboxColorOption(index + 1),
+                  label: l.colorName(name),
                   selected: controller.color.value?.toUpperCase() == hex,
                   onTap: () => controller.color.value = hex,
                 ),

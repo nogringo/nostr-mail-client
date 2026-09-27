@@ -42,6 +42,7 @@ dependencies:
   idb_sqflite: ^1.4.4
   intl: ^0.20.2
   introduction_screen: ^4.0.0
+  material_color_utilities: ^0.13.0
   mime: ^2.0.0
   ndk: ^0.10.0-dev.7
   ndk_drift: ^0.1.1-dev.18

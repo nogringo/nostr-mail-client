@@ -80,6 +80,29 @@ class AppLocalizationsEs extends AppLocalizations {
       'Generar colores a partir de la imagen de fondo';
 
   @override
+  String get settingsThemeColor => 'Color del tema';
+
+  @override
+  String get settingsPaletteStyle => 'Estilo de paleta';
+
+  @override
+  String settingsPaletteStyleName(String style) {
+    String _temp0 = intl.Intl.selectLogic(style, {
+      'tonalSpot': 'Tonal',
+      'fidelity': 'Fidelidad',
+      'monochrome': 'Monocromo',
+      'neutral': 'Neutro',
+      'vibrant': 'Vibrante',
+      'expressive': 'Expresivo',
+      'content': 'Contenido',
+      'rainbow': 'Arcoíris',
+      'fruitSalad': 'Macedonia',
+      'other': 'Tonal',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get settingsLanguage => 'Idioma';
 
   @override
@@ -1723,8 +1746,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get mailboxColorAuto => 'Color automático';
 
   @override
-  String mailboxColorOption(int number) {
-    return 'Color $number';
+  String colorName(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'red': 'Rojo',
+      'pink': 'Rosa',
+      'orange': 'Naranja',
+      'yellow': 'Amarillo',
+      'green': 'Verde',
+      'darkGreen': 'Verde oscuro',
+      'lightBlue': 'Azul claro',
+      'blue': 'Azul',
+      'lavender': 'Lavanda',
+      'purple': 'Morado',
+      'gray': 'Gris',
+      'brown': 'Marrón',
+      'other': 'Color',
+    });
+    return '$_temp0';
   }
 
   @override

@@ -20,20 +20,21 @@ class MailEntryFormController extends GetxController {
   /// The spec's limit on a trimmed name.
   static const maxNameLength = 64;
 
-  static const palette = [
-    '#D50000',
-    '#E67C73',
-    '#F4511E',
-    '#F6BF26',
-    '#33B679',
-    '#0B8043',
-    '#039BE5',
-    '#3F51B5',
-    '#7986CB',
-    '#8E24AA',
-    '#616161',
-    '#795548',
-  ];
+  /// Suggested colors, keyed by `#RRGGBB`, with the name `colorName` shows.
+  static const palette = {
+    '#D50000': 'red',
+    '#E67C73': 'pink',
+    '#F4511E': 'orange',
+    '#F6BF26': 'yellow',
+    '#33B679': 'green',
+    '#0B8043': 'darkGreen',
+    '#039BE5': 'lightBlue',
+    '#3F51B5': 'blue',
+    '#7986CB': 'lavender',
+    '#8E24AA': 'purple',
+    '#616161': 'gray',
+    '#795548': 'brown',
+  };
 
   late final TextEditingController nameController;
   late final TextEditingController fromController;
@@ -81,7 +82,7 @@ class MailEntryFormController extends GetxController {
 
   static bool _isCustom(String? hex) =>
       MailboxesController.parseEntryColor(hex) != null &&
-      !palette.contains(hex!.toUpperCase());
+      !palette.containsKey(hex!.toUpperCase());
 
   /// Where the custom color dialog opens.
   Color get customColorSeed =>
@@ -89,7 +90,7 @@ class MailEntryFormController extends GetxController {
       MailboxesController.parseEntryColor(color.value) ??
       switch (entry) {
         final entry? => getStringColor(entry.id),
-        null => MailboxesController.parseEntryColor(palette.first)!,
+        null => MailboxesController.parseEntryColor(palette.keys.first)!,
       };
 
   void pickCustomColor(String hex) {

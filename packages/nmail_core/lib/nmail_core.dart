@@ -8,7 +8,6 @@ export 'models/recipient.dart';
 export 'models/send_mode.dart';
 export 'utils/address_book_vcard_mapper.dart';
 export 'utils/blossom_utils.dart';
-export 'utils/color_scheme_serializer.dart';
 export 'utils/confirm_open_link.dart';
 export 'utils/contact_birthday_utils.dart';
 export 'utils/format_date.dart';

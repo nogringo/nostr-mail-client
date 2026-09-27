@@ -21,7 +21,7 @@ void main() {
         ('dialog', scheme.surfaceContainerHigh),
       ]) {
         test('shows the palette as is on a ${brightness.name} $name', () {
-          for (final hex in MailEntryFormController.palette) {
+          for (final hex in MailEntryFormController.palette.keys) {
             expect(
               MailboxesController.colorOf(_entry(hex), on: background),
               MailboxesController.parseEntryColor(hex),

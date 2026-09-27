@@ -78,6 +78,29 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsDynamicThemeSubtitle => '背景画像から色を生成';
 
   @override
+  String get settingsThemeColor => 'テーマカラー';
+
+  @override
+  String get settingsPaletteStyle => 'パレットのスタイル';
+
+  @override
+  String settingsPaletteStyleName(String style) {
+    String _temp0 = intl.Intl.selectLogic(style, {
+      'tonalSpot': 'トーナル',
+      'fidelity': '忠実',
+      'monochrome': 'モノクローム',
+      'neutral': 'ニュートラル',
+      'vibrant': 'ビビッド',
+      'expressive': '表現豊か',
+      'content': 'コンテンツ',
+      'rainbow': 'レインボー',
+      'fruitSalad': 'フルーツサラダ',
+      'other': 'トーナル',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get settingsLanguage => '言語';
 
   @override
@@ -1635,8 +1658,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get mailboxColorAuto => '自動の色';
 
   @override
-  String mailboxColorOption(int number) {
-    return '色 $number';
+  String colorName(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'red': '赤',
+      'pink': 'ピンク',
+      'orange': 'オレンジ',
+      'yellow': '黄',
+      'green': '緑',
+      'darkGreen': '深緑',
+      'lightBlue': '水色',
+      'blue': '青',
+      'lavender': 'ラベンダー',
+      'purple': '紫',
+      'gray': 'グレー',
+      'brown': '茶',
+      'other': '色',
+    });
+    return '$_temp0';
   }
 
   @override

@@ -80,6 +80,29 @@ class AppLocalizationsRu extends AppLocalizations {
       'Создавать цвета из фонового изображения';
 
   @override
+  String get settingsThemeColor => 'Цвет темы';
+
+  @override
+  String get settingsPaletteStyle => 'Стиль палитры';
+
+  @override
+  String settingsPaletteStyleName(String style) {
+    String _temp0 = intl.Intl.selectLogic(style, {
+      'tonalSpot': 'Тональный',
+      'fidelity': 'Точный',
+      'monochrome': 'Монохромный',
+      'neutral': 'Нейтральный',
+      'vibrant': 'Яркий',
+      'expressive': 'Выразительный',
+      'content': 'Контент',
+      'rainbow': 'Радуга',
+      'fruitSalad': 'Фруктовый салат',
+      'other': 'Тональный',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get settingsLanguage => 'Язык';
 
   @override
@@ -1741,8 +1764,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get mailboxColorAuto => 'Автоматический цвет';
 
   @override
-  String mailboxColorOption(int number) {
-    return 'Цвет $number';
+  String colorName(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'red': 'Красный',
+      'pink': 'Розовый',
+      'orange': 'Оранжевый',
+      'yellow': 'Жёлтый',
+      'green': 'Зелёный',
+      'darkGreen': 'Тёмно-зелёный',
+      'lightBlue': 'Голубой',
+      'blue': 'Синий',
+      'lavender': 'Лавандовый',
+      'purple': 'Фиолетовый',
+      'gray': 'Серый',
+      'brown': 'Коричневый',
+      'other': 'Цвет',
+    });
+    return '$_temp0';
   }
 
   @override

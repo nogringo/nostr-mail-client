@@ -78,6 +78,29 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsDynamicThemeSubtitle => '根据背景图片生成颜色';
 
   @override
+  String get settingsThemeColor => '主题颜色';
+
+  @override
+  String get settingsPaletteStyle => '调色板样式';
+
+  @override
+  String settingsPaletteStyleName(String style) {
+    String _temp0 = intl.Intl.selectLogic(style, {
+      'tonalSpot': '色调',
+      'fidelity': '保真',
+      'monochrome': '单色',
+      'neutral': '中性',
+      'vibrant': '鲜艳',
+      'expressive': '富有表现力',
+      'content': '内容',
+      'rainbow': '彩虹',
+      'fruitSalad': '水果沙拉',
+      'other': '色调',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get settingsLanguage => '语言';
 
   @override
@@ -1621,8 +1644,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get mailboxColorAuto => '自动颜色';
 
   @override
-  String mailboxColorOption(int number) {
-    return '颜色 $number';
+  String colorName(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'red': '红色',
+      'pink': '粉色',
+      'orange': '橙色',
+      'yellow': '黄色',
+      'green': '绿色',
+      'darkGreen': '深绿色',
+      'lightBlue': '浅蓝色',
+      'blue': '蓝色',
+      'lavender': '薰衣草紫',
+      'purple': '紫色',
+      'gray': '灰色',
+      'brown': '棕色',
+      'other': '颜色',
+    });
+    return '$_temp0';
   }
 
   @override

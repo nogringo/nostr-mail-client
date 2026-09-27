@@ -3,10 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
+import 'package:system_theme/system_theme.dart';
 
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import '../controllers/auth_controller.dart';
+import 'mail_entry_form_controller.dart';
 import 'mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/background_preset.dart';
@@ -16,7 +18,7 @@ import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
-import 'package:nmail_core/utils/color_scheme_serializer.dart';
+import 'package:nmail_core/utils/seed_color_from_image.dart';
 
 class SettingsController extends GetxController {
   final _storageService = Get.find<StorageService>();
@@ -44,8 +46,17 @@ class SettingsController extends GetxController {
   final themeMode = ThemeMode.system.obs;
   final locale = Rxn<Locale>();
   final dynamicTheme = true.obs;
-  final lightColorScheme = Rxn<ColorScheme>();
-  final darkColorScheme = Rxn<ColorScheme>();
+
+  /// `#RRGGBB` seeding the theme while [dynamicTheme] is off, or null for the
+  /// system accent color.
+  final themeColor = RxnString();
+
+  /// A color from outside the suggested palette, kept while another one is
+  /// selected.
+  final customThemeColor = RxnString();
+  final paletteStyle = DynamicSchemeVariant.tonalSpot.obs;
+  final lightSeedColor = SystemTheme.accentColor.accent.obs;
+  final darkSeedColor = SystemTheme.accentColor.accent.obs;
 
   NostrMailService get _nostrMailService => Get.find<NostrMailService>();
 
@@ -94,8 +105,8 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(_backgroundKey),
       _storageService.getSetting<int>(themeModeKey),
       _storageService.getSetting<bool>(ThemeService.dynamicThemeKey),
-      _storageService.getSetting<String>(ThemeService.colorSchemeKeyLight),
-      _storageService.getSetting<String>(ThemeService.colorSchemeKeyDark),
+      _storageService.getSetting<String>(ThemeService.themeColorKey),
+      _storageService.getSetting<String>(ThemeService.paletteStyleKey),
       _storageService.getSetting<String>(localeKey),
       _storageService.getSetting<String>(_dohServerKey),
     ]);
@@ -107,15 +118,13 @@ class SettingsController extends GetxController {
     themeMode.value = ThemeMode.values[(results[2] as int?) ?? 0];
     dynamicTheme.value = (results[3] as bool?) ?? true;
 
-    final savedLightScheme = results[4] as String?;
-    if (savedLightScheme != null) {
-      lightColorScheme.value = colorSchemeFromJson(savedLightScheme);
+    themeColor.value = results[4] as String?;
+    if (_isCustomThemeColor(themeColor.value)) {
+      customThemeColor.value = themeColor.value;
     }
-
-    final savedDarkScheme = results[5] as String?;
-    if (savedDarkScheme != null) {
-      darkColorScheme.value = colorSchemeFromJson(savedDarkScheme);
-    }
+    paletteStyle.value =
+        DynamicSchemeVariant.values.asNameMap()[results[5]] ??
+        DynamicSchemeVariant.tonalSpot;
 
     final savedLocale = results[6] as String?;
     locale.value = _localeFromStorage(savedLocale);
@@ -123,11 +132,7 @@ class SettingsController extends GetxController {
 
     await _loadNotificationSettings();
 
-    if (dynamicTheme.value) {
-      await _refreshStoredBackgroundTheme(backgroundImage.value);
-    } else {
-      _applyTheme();
-    }
+    await _refreshTheme();
 
     _refreshSignatureFromRelays();
   }
@@ -264,21 +269,7 @@ class SettingsController extends GetxController {
       await _storageService.deleteSetting(_backgroundKey);
     }
 
-    if (dynamicTheme.value) {
-      await extractThemeFromImage(value);
-    }
-  }
-
-  Future<void> _refreshStoredBackgroundTheme(String? value) async {
-    if (value == null ||
-        value.isEmpty ||
-        BackgroundPreset.isSystemColorValue(value) ||
-        BackgroundPreset.fromStorageValue(value) != null) {
-      await extractThemeFromImage(value);
-      return;
-    }
-
-    _applyTheme();
+    if (dynamicTheme.value) await _refreshTheme();
   }
 
   Future<void> setThemeMode(ThemeMode value) async {
@@ -355,129 +346,104 @@ class SettingsController extends GetxController {
   Future<void> setDynamicTheme(bool value) async {
     dynamicTheme.value = value;
     await _storageService.saveSetting(ThemeService.dynamicThemeKey, value);
+    await _refreshTheme();
+  }
 
-    if (value) {
-      await extractThemeFromImage(backgroundImage.value);
+  /// [hex] is `#RRGGBB`, or null for the system accent color.
+  Future<void> setThemeColor(String? hex) async {
+    themeColor.value = hex;
+    if (hex == null) {
+      await _storageService.deleteSetting(ThemeService.themeColorKey);
     } else {
-      await _clearColorSchemes();
-      _applyTheme();
+      await _storageService.saveSetting(ThemeService.themeColorKey, hex);
     }
+    await _refreshTheme();
   }
 
-  Future<void> extractThemeFromImage(String? imagePath) async {
-    if (imagePath == null || imagePath.isEmpty) {
-      await _setDefaultBackgroundColorSchemes();
-      return;
-    }
-
-    if (BackgroundPreset.isSystemColorValue(imagePath)) {
-      await _clearColorSchemes();
-      _applyTheme();
-      return;
-    }
-
-    try {
-      final preset = BackgroundPreset.fromStorageValue(imagePath);
-      if (preset != null) {
-        await _setColorSchemesFromSeeds(
-          lightSeedColor: preset.lightSeedColor,
-          darkSeedColor: preset.darkSeedColor,
-        );
-        return;
-      }
-
-      final provider = BackgroundPreset.customImage(imagePath);
-
-      // Extract both light and dark schemes in parallel
-      final [light, dark] = await Future.wait([
-        ColorScheme.fromImageProvider(
-          provider: provider,
-          brightness: Brightness.light,
-        ),
-        ColorScheme.fromImageProvider(
-          provider: provider,
-          brightness: Brightness.dark,
-        ),
-      ]);
-
-      lightColorScheme.value = light;
-      darkColorScheme.value = dark;
-
-      await Future.wait([
-        _storageService.saveSetting(
-          ThemeService.colorSchemeKeyLight,
-          colorSchemeToJson(light),
-        ),
-        _storageService.saveSetting(
-          ThemeService.colorSchemeKeyDark,
-          colorSchemeToJson(dark),
-        ),
-      ]);
-
-      _applyTheme();
-    } catch (e) {
-      // On error, keep system color
-      await _clearColorSchemes();
-      _applyTheme();
-    }
+  Future<void> pickCustomThemeColor(String hex) async {
+    if (_isCustomThemeColor(hex)) customThemeColor.value = hex;
+    await setThemeColor(hex);
   }
 
-  Future<void> _setColorSchemesFromSeeds({
-    required Color lightSeedColor,
-    required Color darkSeedColor,
-  }) async {
-    final light = ColorScheme.fromSeed(
-      seedColor: lightSeedColor,
-      brightness: Brightness.light,
-    );
-    final dark = ColorScheme.fromSeed(
-      seedColor: darkSeedColor,
-      brightness: Brightness.dark,
-    );
+  /// Where the custom color dialog opens.
+  Color get customThemeColorSeed =>
+      MailboxesController.parseEntryColor(customThemeColor.value) ??
+      MailboxesController.parseEntryColor(themeColor.value) ??
+      lightSeedColor.value;
 
-    lightColorScheme.value = light;
-    darkColorScheme.value = dark;
+  bool _isCustomThemeColor(String? hex) =>
+      hex != null &&
+      !MailEntryFormController.palette.containsKey(hex.toUpperCase());
 
-    await Future.wait([
-      _storageService.saveSetting(
-        ThemeService.colorSchemeKeyLight,
-        colorSchemeToJson(light),
-      ),
-      _storageService.saveSetting(
-        ThemeService.colorSchemeKeyDark,
-        colorSchemeToJson(dark),
-      ),
-    ]);
+  Future<void> setPaletteStyle(DynamicSchemeVariant value) async {
+    paletteStyle.value = value;
+    _applyTheme();
+    await _storageService.saveSetting(ThemeService.paletteStyleKey, value.name);
+  }
 
+  Future<void> _refreshTheme() async {
+    final (light, dark) = await _themeSeedColors();
+    lightSeedColor.value = light;
+    darkSeedColor.value = dark;
     _applyTheme();
   }
 
-  Future<void> _setDefaultBackgroundColorSchemes() async {
-    final preset = BackgroundPreset.defaultPreset();
-    await _setColorSchemesFromSeeds(
-      lightSeedColor: preset.lightSeedColor,
-      darkSeedColor: preset.darkSeedColor,
-    );
+  Future<(Color, Color)> _themeSeedColors() async {
+    final accent = SystemTheme.accentColor.accent;
+    if (!dynamicTheme.value) {
+      final seed =
+          MailboxesController.parseEntryColor(themeColor.value) ?? accent;
+      return (seed, seed);
+    }
+
+    final background = backgroundImage.value;
+    if (BackgroundPreset.isSystemColorValue(background)) {
+      return (accent, accent);
+    }
+
+    final preset = background == null || background.isEmpty
+        ? BackgroundPreset.defaultPreset()
+        : BackgroundPreset.fromStorageValue(background);
+    if (preset != null) return (preset.lightSeedColor, preset.darkSeedColor);
+
+    final seed = await _backgroundImageSeedColor(background!) ?? accent;
+    return (seed, seed);
   }
 
-  Future<void> _clearColorSchemes() async {
-    lightColorScheme.value = null;
-    darkColorScheme.value = null;
-    await Future.wait([
-      _storageService.deleteSetting(ThemeService.colorSchemeKeyLight),
-      _storageService.deleteSetting(ThemeService.colorSchemeKeyDark),
-    ]);
+  /// Cached per image, so startup does not decode the background again.
+  Future<Color?> _backgroundImageSeedColor(String image) async {
+    final key = '${ThemeService.backgroundSeedColorKeyPrefix}$image';
+    final cached = MailboxesController.parseEntryColor(
+      await _storageService.getSetting<String>(key),
+    );
+    if (cached != null) return cached;
+
+    try {
+      final seed = await seedColorFromImage(
+        BackgroundPreset.customImage(image),
+      );
+      await _storageService.saveSetting(
+        key,
+        MailboxesController.formatEntryColor(seed),
+      );
+      return seed;
+    } catch (_) {
+      return null;
+    }
   }
 
   void _applyTheme() {
-    if (dynamicTheme.value && lightColorScheme.value != null) {
-      _themeService.setColorSchemes(
-        lightColorScheme.value,
-        darkColorScheme.value,
-      );
-    } else {
-      _themeService.clear();
-    }
+    _themeService.setColorSchemes(
+      ColorScheme.fromSeed(
+        seedColor: lightSeedColor.value,
+        dynamicSchemeVariant: paletteStyle.value,
+      ),
+      ColorScheme.fromSeed(
+        seedColor: darkSeedColor.value,
+        brightness: Brightness.dark,
+        dynamicSchemeVariant: paletteStyle.value,
+      ),
+    );
   }
 
   Future<void> resetApplication() async {
@@ -493,8 +459,11 @@ class SettingsController extends GetxController {
     themeMode.value = ThemeMode.system;
     locale.value = null;
     dynamicTheme.value = true;
-    lightColorScheme.value = null;
-    darkColorScheme.value = null;
+    themeColor.value = null;
+    customThemeColor.value = null;
+    paletteStyle.value = DynamicSchemeVariant.tonalSpot;
+    lightSeedColor.value = SystemTheme.accentColor.accent;
+    darkSeedColor.value = SystemTheme.accentColor.accent;
     _themeService.clear();
 
     // Navigate to login

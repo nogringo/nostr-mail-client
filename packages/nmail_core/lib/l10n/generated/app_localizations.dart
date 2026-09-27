@@ -253,6 +253,24 @@ abstract class AppLocalizations {
   /// **'Generate colors from background image'**
   String get settingsDynamicThemeSubtitle;
 
+  /// Title of the color choices that seed the theme when the dynamic theme is off
+  ///
+  /// In en, this message translates to:
+  /// **'Theme color'**
+  String get settingsThemeColor;
+
+  /// Title of the Material palette style choices in appearance settings
+  ///
+  /// In en, this message translates to:
+  /// **'Palette style'**
+  String get settingsPaletteStyle;
+
+  /// Name of a Material 3 dynamic color scheme variant
+  ///
+  /// In en, this message translates to:
+  /// **'{style, select, tonalSpot{Tonal spot} fidelity{Fidelity} monochrome{Monochrome} neutral{Neutral} vibrant{Vibrant} expressive{Expressive} content{Content} rainbow{Rainbow} fruitSalad{Fruit salad} other{Tonal spot}}'**
+  String settingsPaletteStyleName(String style);
+
   /// Settings tile title for the app language selector
   ///
   /// In en, this message translates to:
@@ -3157,11 +3175,11 @@ abstract class AppLocalizations {
   /// **'Automatic color'**
   String get mailboxColorAuto;
 
-  /// Screen reader label of one preset color swatch
+  /// Name of a suggested color, shown on hover and read by screen readers
   ///
   /// In en, this message translates to:
-  /// **'Color {number}'**
-  String mailboxColorOption(int number);
+  /// **'{color, select, red{Red} pink{Pink} orange{Orange} yellow{Yellow} green{Green} darkGreen{Dark green} lightBlue{Light blue} blue{Blue} lavender{Lavender} purple{Purple} gray{Gray} brown{Brown} other{Color}}'**
+  String colorName(String color);
 
   /// Opens the dialog to pick any color for a folder or tag, its title, and the screen reader label of the swatch holding that color
   ///

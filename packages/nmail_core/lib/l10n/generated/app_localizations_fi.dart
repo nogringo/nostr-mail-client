@@ -79,6 +79,29 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsDynamicThemeSubtitle => 'Luo värit taustakuvasta';
 
   @override
+  String get settingsThemeColor => 'Teeman väri';
+
+  @override
+  String get settingsPaletteStyle => 'Paletin tyyli';
+
+  @override
+  String settingsPaletteStyleName(String style) {
+    String _temp0 = intl.Intl.selectLogic(style, {
+      'tonalSpot': 'Sävy',
+      'fidelity': 'Uskollinen',
+      'monochrome': 'Yksivärinen',
+      'neutral': 'Neutraali',
+      'vibrant': 'Eloisa',
+      'expressive': 'Ilmeikäs',
+      'content': 'Sisältö',
+      'rainbow': 'Sateenkaari',
+      'fruitSalad': 'Hedelmäsalaatti',
+      'other': 'Sävy',
+    });
+    return '$_temp0';
+  }
+
+  @override
   String get settingsLanguage => 'Kieli';
 
   @override
@@ -1718,8 +1741,23 @@ class AppLocalizationsFi extends AppLocalizations {
   String get mailboxColorAuto => 'Automaattinen väri';
 
   @override
-  String mailboxColorOption(int number) {
-    return 'Väri $number';
+  String colorName(String color) {
+    String _temp0 = intl.Intl.selectLogic(color, {
+      'red': 'Punainen',
+      'pink': 'Vaaleanpunainen',
+      'orange': 'Oranssi',
+      'yellow': 'Keltainen',
+      'green': 'Vihreä',
+      'darkGreen': 'Tummanvihreä',
+      'lightBlue': 'Vaaleansininen',
+      'blue': 'Sininen',
+      'lavender': 'Laventeli',
+      'purple': 'Violetti',
+      'gray': 'Harmaa',
+      'brown': 'Ruskea',
+      'other': 'Väri',
+    });
+    return '$_temp0';
   }
 
   @override

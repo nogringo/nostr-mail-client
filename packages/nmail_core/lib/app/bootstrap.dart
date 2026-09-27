@@ -172,7 +172,7 @@ Future<void> _initApp({
   Get.put(authController, permanent: true);
 
   // Initialize theme service
-  await Get.putAsync(() => ThemeService().init(), permanent: true);
+  Get.put(ThemeService(), permanent: true);
 
   // SettingsController is awaited (not put inside InitialBinding) so the
   // saved theme mode and locale are available before the first frame.
