@@ -2743,6 +2743,12 @@ abstract class AppLocalizations {
   /// **'Failed to pick files: {error}'**
   String composePickFilesFailed(String error);
 
+  /// Error toast when the right-click Paste in the compose editor cannot read the clipboard, e.g. the browser denied access
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t read the clipboard'**
+  String get composePasteFailed;
+
   /// Error toast when a submitted recipient string can't be parsed
   ///
   /// In en, this message translates to:

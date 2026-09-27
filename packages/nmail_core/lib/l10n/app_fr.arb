@@ -578,6 +578,7 @@
       "error": { "type": "String" }
     }
   },
+  "composePasteFailed": "Impossible de lire le presse-papiers",
   "composeInvalidRecipient": "Format de destinataire invalide",
   "composeAddRecipient": "Ajoutez au moins un destinataire",
   "composeSendFailed": "Échec de l'envoi de l'e-mail",

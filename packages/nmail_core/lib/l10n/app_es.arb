@@ -578,6 +578,7 @@
       "error": { "type": "String" }
     }
   },
+  "composePasteFailed": "No se pudo leer el portapapeles",
   "composeInvalidRecipient": "Formato de destinatario no válido",
   "composeAddRecipient": "Añade al menos un destinatario",
   "composeSendFailed": "Error al enviar el correo",

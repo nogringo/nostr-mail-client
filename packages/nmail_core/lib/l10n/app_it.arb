@@ -578,6 +578,7 @@
       "error": { "type": "String" }
     }
   },
+  "composePasteFailed": "Impossibile leggere gli appunti",
   "composeInvalidRecipient": "Formato destinatario non valido",
   "composeAddRecipient": "Aggiungi almeno un destinatario",
   "composeSendFailed": "Impossibile inviare l'email",

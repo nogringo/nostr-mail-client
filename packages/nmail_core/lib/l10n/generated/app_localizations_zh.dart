@@ -1418,6 +1418,9 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed => '无法读取剪贴板';
+
+  @override
   String get composeInvalidRecipient => '收件人格式无效';
 
   @override

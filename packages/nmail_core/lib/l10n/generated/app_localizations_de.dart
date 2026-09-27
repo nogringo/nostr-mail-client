@@ -1507,6 +1507,10 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed =>
+      'Die Zwischenablage konnte nicht gelesen werden';
+
+  @override
   String get composeInvalidRecipient => 'Ungültiges Empfängerformat';
 
   @override

@@ -1504,6 +1504,10 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed =>
+      'Não foi possível ler a área de transferência';
+
+  @override
   String get composeInvalidRecipient => 'Formato de destinatário inválido';
 
   @override
@@ -3392,6 +3396,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String composePickFilesFailed(String error) {
     return 'Falha ao selecionar arquivos: $error';
   }
+
+  @override
+  String get composePasteFailed =>
+      'Não foi possível ler a área de transferência';
 
   @override
   String get composeInvalidRecipient => 'Formato de destinatário inválido';

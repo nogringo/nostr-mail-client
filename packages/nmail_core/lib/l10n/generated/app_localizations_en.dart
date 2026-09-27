@@ -1496,6 +1496,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed => 'Couldn\'t read the clipboard';
+
+  @override
   String get composeInvalidRecipient => 'Invalid recipient format';
 
   @override

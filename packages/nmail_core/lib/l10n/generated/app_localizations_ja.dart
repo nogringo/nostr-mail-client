@@ -1428,6 +1428,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed => 'クリップボードを読み取れませんでした';
+
+  @override
   String get composeInvalidRecipient => '宛先の形式が無効です';
 
   @override

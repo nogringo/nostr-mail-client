@@ -578,6 +578,7 @@
       "error": { "type": "String" }
     }
   },
+  "composePasteFailed": "Die Zwischenablage konnte nicht gelesen werden",
   "composeInvalidRecipient": "Ungültiges Empfängerformat",
   "composeAddRecipient": "Mindestens einen Empfänger hinzufügen",
   "composeSendFailed": "E-Mail konnte nicht gesendet werden",

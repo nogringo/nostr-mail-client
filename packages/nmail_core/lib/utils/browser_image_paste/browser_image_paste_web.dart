@@ -32,3 +32,16 @@ StreamSubscription<void>? listenToBrowserImagePaste({
         }
       });
 }
+
+/// Reads through the async Clipboard API, which asks for permission.
+Future<Uint8List?> readBrowserClipboardImage() async {
+  final items = (await web.window.navigator.clipboard.read().toDart).toDart;
+  for (final item in items) {
+    for (final type in item.types.toDart) {
+      if (!type.toDart.startsWith('image/')) continue;
+      final blob = await item.getType(type.toDart).toDart;
+      return (await blob.arrayBuffer().toDart).toDart.asUint8List();
+    }
+  }
+  return null;
+}

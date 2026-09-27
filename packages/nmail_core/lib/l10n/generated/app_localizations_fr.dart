@@ -1510,6 +1510,9 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed => 'Impossible de lire le presse-papiers';
+
+  @override
   String get composeInvalidRecipient => 'Format de destinataire invalide';
 
   @override

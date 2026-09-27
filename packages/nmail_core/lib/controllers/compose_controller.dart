@@ -438,6 +438,17 @@ class ComposeController extends GetxController {
     );
   }
 
+  Future<void> pasteFromClipboard() async {
+    try {
+      final image = await readBrowserClipboardImage();
+      if (image != null) return await _insertPastedImage(image);
+      await quillController.clipboardPaste();
+    } catch (_) {
+      final l = AppLocalizations.of(Get.context!);
+      ToastHelper.error(Get.context!, l.composePasteFailed);
+    }
+  }
+
   String _newContentId() {
     final random = Random.secure();
     final hex = List.generate(

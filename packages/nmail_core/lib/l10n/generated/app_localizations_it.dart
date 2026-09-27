@@ -1508,6 +1508,9 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed => 'Impossibile leggere gli appunti';
+
+  @override
   String get composeInvalidRecipient => 'Formato destinatario non valido';
 
   @override

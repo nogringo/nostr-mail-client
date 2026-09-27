@@ -578,6 +578,7 @@
       "error": { "type": "String" }
     }
   },
+  "composePasteFailed": "无法读取剪贴板",
   "composeInvalidRecipient": "收件人格式无效",
   "composeAddRecipient": "请至少添加一位收件人",
   "composeSendFailed": "发送邮件失败",

@@ -578,6 +578,7 @@
       "error": { "type": "String" }
     }
   },
+  "composePasteFailed": "Не удалось прочитать буфер обмена",
   "composeInvalidRecipient": "Неверный формат получателя",
   "composeAddRecipient": "Добавьте хотя бы одного получателя",
   "composeSendFailed": "Не удалось отправить письмо",

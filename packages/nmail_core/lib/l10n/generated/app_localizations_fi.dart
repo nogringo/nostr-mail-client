@@ -1502,6 +1502,9 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed => 'Leikepöydän lukeminen epäonnistui';
+
+  @override
   String get composeInvalidRecipient => 'Vastaanottajan osoite ei kelpaa';
 
   @override

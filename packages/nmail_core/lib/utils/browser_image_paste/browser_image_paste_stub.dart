@@ -5,3 +5,5 @@ StreamSubscription<void>? listenToBrowserImagePaste({
   required bool Function() accepts,
   required void Function(Uint8List bytes) onImage,
 }) => null;
+
+Future<Uint8List?> readBrowserClipboardImage() async => null;

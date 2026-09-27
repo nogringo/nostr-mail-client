@@ -1070,6 +1070,8 @@
       "error": { "type": "String" }
     }
   },
+  "composePasteFailed": "Couldn't read the clipboard",
+  "@composePasteFailed": { "description": "Error toast when the right-click Paste in the compose editor cannot read the clipboard, e.g. the browser denied access" },
   "composeInvalidRecipient": "Invalid recipient format",
   "@composeInvalidRecipient": { "description": "Error toast when a submitted recipient string can't be parsed" },
   "composeAddRecipient": "Add at least one recipient",

@@ -1520,6 +1520,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get composePasteFailed => 'Не удалось прочитать буфер обмена';
+
+  @override
   String get composeInvalidRecipient => 'Неверный формат получателя';
 
   @override

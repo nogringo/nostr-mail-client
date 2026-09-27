@@ -9,6 +9,7 @@ import 'package:nmail_core/views/compose/widgets/from_selector_view.dart';
 import 'package:nmail_core/views/compose/widgets/recipient_chips_row.dart';
 
 import 'attachment_chip.dart';
+import 'editor_context_menu.dart';
 import 'inline_image_embed_builder.dart';
 import 'quill_toolbar_view.dart';
 import 'recipient_autocomplete.dart';
@@ -152,16 +153,18 @@ class ScrollableContentView extends StatelessWidget {
           constraints: const BoxConstraints(minHeight: 200),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: QuillEditor(
-              controller: controller.quillController,
-              focusNode: controller.editorFocusNode,
-              scrollController: controller.editorScrollController,
-              config: QuillEditorConfig(
-                placeholder: l.composePlaceholder,
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                embedBuilders: [
-                  InlineImageEmbedBuilder(controller.inlineImages),
-                ],
+            child: EditorContextMenu(
+              child: QuillEditor(
+                controller: controller.quillController,
+                focusNode: controller.editorFocusNode,
+                scrollController: controller.editorScrollController,
+                config: QuillEditorConfig(
+                  placeholder: l.composePlaceholder,
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  embedBuilders: [
+                    InlineImageEmbedBuilder(controller.inlineImages),
+                  ],
+                ),
               ),
             ),
           ),
