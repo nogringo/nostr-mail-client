@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
@@ -52,6 +54,8 @@ Future<void> runNmailApp({
 }) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+  // web/index.html already blocks the browser menu; without this Flutter shows none either.
+  if (kIsWeb) await BrowserContextMenu.disableContextMenu();
 
   try {
     await _initApp(

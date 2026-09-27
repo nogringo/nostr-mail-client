@@ -35,7 +35,9 @@ class EmailBodyView extends StatelessWidget {
           HtmlBodyView(emailHtml: emailHtml)
         else
           SelectableText(
-            email.body,
+            // On web, the browser drops each \r from the text Cmd+C copies,
+            // which shifts the selection by one character per line.
+            email.body.replaceAll('\r\n', '\n'),
             style: const TextStyle(fontSize: 16, height: 1.5),
           ),
       ],
