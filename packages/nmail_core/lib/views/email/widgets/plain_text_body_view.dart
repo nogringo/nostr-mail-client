@@ -70,7 +70,7 @@ class PlainTextBodyView extends StatelessWidget {
                         ),
               ],
             ),
-            style: const TextStyle(fontSize: 16, height: 1.5),
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
       ),
