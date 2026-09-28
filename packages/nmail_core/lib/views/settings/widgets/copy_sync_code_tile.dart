@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/sensitive_clipboard.dart';
-import 'package:nmail_core/utils/platform_helper.dart';
-import 'package:nmail_core/utils/toast_helper.dart';
 import 'settings_action_tile.dart';
 
 class CopySyncCodeTile extends StatelessWidget {
-  const CopySyncCodeTile({
+  CopySyncCodeTile({
     super.key,
     required this.nsec,
     required this.index,
@@ -18,25 +17,28 @@ class CopySyncCodeTile extends StatelessWidget {
   final int index;
   final int count;
 
+  final _copied = false.obs;
+
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return SettingsActionTile(
-      icon: Icons.key,
-      title: l.settingsCopySyncCode,
-      index: index,
-      count: count,
-      onTap: () => _copy(context),
+    return Obx(
+      () => SettingsActionTile(
+        icon: _copied.value ? Icons.check : Icons.key,
+        title: _copied.value
+            ? l.settingsSyncCodeCopied
+            : l.settingsCopySyncCode,
+        index: index,
+        count: count,
+        onTap: _copy,
+      ),
     );
   }
 
-  Future<void> _copy(BuildContext context) async {
-    final l = AppLocalizations.of(context);
+  Future<void> _copy() async {
     await SensitiveClipboard.copy(nsec, label: 'sync code');
-    // Android already shows its own copy confirmation.
-    if (!PlatformHelper.isAndroid && context.mounted) {
-      ToastHelper.success(context, l.settingsSyncCodeCopied);
-    }
+    _copied.value = true;
+    Future.delayed(const Duration(seconds: 2), () => _copied.value = false);
   }
 }
