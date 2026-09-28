@@ -64,8 +64,11 @@ class RecipientChip extends StatelessWidget {
             : Get.find<MetadataService>().of(pubkey).value;
         // Warms the MX lookup so the card has the SMTP action on open.
         recipientSmtpAddress(recipient);
+        final contactName = recipient.displayName;
         return Text(
-          metadata?.realName ?? recipient.label,
+          contactName?.isNotEmpty == true
+              ? contactName!
+              : metadata?.realName ?? recipient.label,
           style: TextStyle(
             color: colorScheme.primary,
             fontWeight: FontWeight.w500,
