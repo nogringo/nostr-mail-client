@@ -13,6 +13,80 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [Unreleased]
+
+### Added
+
+- Sort your emails into your own folders and labels, from the drawer, the
+  email actions, or a selection. A folder or label can fill itself with rules
+  on the sender, the subject, or attachments, and takes a color from the
+  palette or a custom one.
+- Quote the original email below a reply or a forward, shown as it reads,
+  instead of copying it into the editor. A forward brings along the images and
+  attachments of the original. The quote of a reply starts folded and can be
+  removed.
+- Paste an image into the body of an email to insert it inline.
+- Cut, copy, paste, and select all from a right-click menu in the email editor
+  on web.
+- Select a run of emails with a shift-click, and select an email by tapping its
+  avatar, in the inbox and the scheduled list.
+- Choose the theme color when the dynamic theme is off: the system accent, a
+  suggested color, or a custom one. Pick one of the nine Material palette
+  styles whichever way the color is chosen.
+- Open the links and email addresses of a plain-text email.
+- Discover Nostr apps that accept your key on the identity page of the
+  onboarding.
+- Show an error screen with the details and a prefilled report when the app
+  fails to start, instead of a blank page.
+
+### Changed
+
+- Hide from relays which emails are read, archived, filed, or labeled, and
+  when. Update Nmail on all your devices at once: older versions do not see
+  these changes, nor the emails deleted from this version.
+- Delete an email without its sender being able to tell.
+- Keep a background picked from a file on web on the device, instead of
+  uploading it to your media servers. A background pasted as a link is
+  downloaded once instead of loaded from its host on every launch. Web keeps
+  all your backgrounds in a gallery, like the other platforms.
+- Show people from your address book with their contact name and picture in
+  the inbox, the email header, the scheduled list, and the recipients of an
+  email being written.
+- Put Restore first in the actions of an email in the trash, and Unarchive
+  first in the archive.
+- Rename the manual sync button to Refresh.
+- Show the Nostr logo on the network page of the onboarding, and name Nostr in
+  its text.
+- Show the year of a scheduled date outside the current year, and allow
+  scheduling up to five years ahead.
+- Confirm a copied sync code on its button instead of with a toast.
+- Stop using relay.damus.io by default, recommend blossom.ditto.pub as a media
+  server, and connect QR code logins through relay.nmail.li and
+  relay.primal.net.
+
+### Fixed
+
+- Keep the Bcc recipients of an email over 32 KB hidden from the other
+  recipients.
+- Stop sending the name you gave a Nostr contact in your address book to the
+  recipients of your emails. They are named after their public profile.
+- Log in with Amber by QR code, which waited without ever connecting.
+- Deliver public emails to the relays their recipients read from, instead of
+  only when both accounts shared a relay.
+- Keep a removed label removed when two devices had applied it before syncing.
+- Keep the settings saved by a newer version or another app when saving yours.
+- Show the inline images of an email, and apply its style rules.
+- Lay out tables, and buttons built from tables, in an email as a browser does.
+- Show recipient suggestions right away while writing, instead of waiting on
+  relays.
+- Copy the text of a plain-text email or of an email's source on web without
+  the selection shifting by one character per line.
+- Stop a pasted animated GIF background on web from raising an error on every
+  frame.
+- Open the local mail store when its creation had been interrupted, instead of
+  failing on every launch.
+- Launch the Linux AppImage and .deb packages, which failed to start.
+
 ## [0.16.0]
 
 ### Added
