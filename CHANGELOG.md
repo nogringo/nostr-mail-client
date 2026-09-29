@@ -26,6 +26,9 @@ Releases prior to 0.13.0 are listed on the
   attachments of the original. The quote of a reply starts folded and can be
   removed.
 - Paste an image into the body of an email to insert it inline.
+- Preview and rename the attachments of an email being written. Image
+  attachments show a thumbnail and open in the image viewer, and a right-click
+  or a long press on an attachment offers Rename and Remove.
 - Cut, copy, paste, and select all from a right-click menu in the email editor
   on web.
 - Select a run of emails with a shift-click, and select an email by tapping its
@@ -49,6 +52,11 @@ Releases prior to 0.13.0 are listed on the
   uploading it to your media servers. A background pasted as a link is
   downloaded once instead of loaded from its host on every launch. Web keeps
   all your backgrounds in a gallery, like the other platforms.
+- Store the backgrounds of every platform the same way. On Android, iOS,
+  Linux, macOS, and Windows, backgrounds added from a file before this version
+  are not kept: add them again from the appearance settings.
+- Make the soft gradient the default background, shown first in the
+  appearance settings. A background you already picked stays.
 - Show people from your address book with their contact name and picture in
   the inbox, the email header, the scheduled list, and the recipients of an
   email being written.
@@ -68,6 +76,10 @@ Releases prior to 0.13.0 are listed on the
 
 - Keep the Bcc recipients of an email over 32 KB hidden from the other
   recipients.
+- Show the subject and recipients of a scheduled email over 32 KB, which
+  appeared empty, and open it for editing without a delay.
+- Fit the attachments of an email on a phone screen: the header no longer
+  overflows, and attachments sit side by side.
 - Stop sending the name you gave a Nostr contact in your address book to the
   recipients of your emails. They are named after their public profile.
 - Log in with Amber by QR code, which waited without ever connecting.

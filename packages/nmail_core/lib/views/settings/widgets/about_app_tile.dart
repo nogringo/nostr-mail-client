@@ -3,7 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/about_controller.dart';
+import 'package:nmail_core/app/config/distribution_config.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
+import 'about_distribution_chip.dart';
 
 /// Top row of the identity group, joined to [AboutDeveloperTile] below it.
 class AboutAppTile extends StatelessWidget {
@@ -13,6 +15,7 @@ class AboutAppTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final controller = Get.find<AboutController>();
+    final distribution = Get.find<DistributionConfig>().distribution;
 
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -39,7 +42,14 @@ class AboutAppTile extends StatelessWidget {
             ),
           ),
         ),
-        title: Text('Nmail', style: theme.textTheme.headlineMedium),
+        title: Row(
+          spacing: 8,
+          children: [
+            Text('Nmail', style: theme.textTheme.headlineMedium),
+            if (distribution != Distribution.standard)
+              const AboutDistributionChip(),
+          ],
+        ),
         subtitle: Obx(
           () => Text(
             controller.version.value,

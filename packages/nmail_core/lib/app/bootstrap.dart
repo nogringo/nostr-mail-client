@@ -47,6 +47,7 @@ import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/views/startup_error/startup_error_app.dart';
 
 Future<void> runNmailApp({
+  required Distribution distribution,
   Future<void> Function()? onReady,
   String? privacyPolicyUrl,
   UnifiedPushDistributorChecker? hasUnifiedPushDistributor,
@@ -59,6 +60,7 @@ Future<void> runNmailApp({
 
   try {
     await _initApp(
+      distribution: distribution,
       onReady: onReady,
       privacyPolicyUrl: privacyPolicyUrl,
       hasUnifiedPushDistributor: hasUnifiedPushDistributor,
@@ -74,6 +76,7 @@ Future<void> runNmailApp({
 }
 
 Future<void> _initApp({
+  required Distribution distribution,
   Future<void> Function()? onReady,
   String? privacyPolicyUrl,
   UnifiedPushDistributorChecker? hasUnifiedPushDistributor,
@@ -86,6 +89,7 @@ Future<void> _initApp({
 
   Get.put(
     DistributionConfig(
+      distribution: distribution,
       privacyPolicyUrl: privacyPolicyUrl,
       hasUnifiedPushDistributor: hasUnifiedPushDistributor,
       unifiedPushDistributorInstallUrl: unifiedPushDistributorInstallUrl,

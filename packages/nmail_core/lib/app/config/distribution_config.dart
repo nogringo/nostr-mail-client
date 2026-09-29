@@ -1,7 +1,10 @@
 typedef UnifiedPushDistributorChecker = Future<bool> Function();
 
+enum Distribution { standard, foss, zapstore }
+
 class DistributionConfig {
   const DistributionConfig({
+    required this.distribution,
     this.privacyPolicyUrl,
     this.hasUnifiedPushDistributor,
     String? unifiedPushDistributorInstallUrl,
@@ -12,6 +15,7 @@ class DistributionConfig {
   static const defaultUnifiedPushDistributorInstallUrl =
       'https://f-droid.org/packages/org.unifiedpush.distributor.sunup/';
 
+  final Distribution distribution;
   final String? privacyPolicyUrl;
   final UnifiedPushDistributorChecker? hasUnifiedPushDistributor;
   final String unifiedPushDistributorInstallUrl;

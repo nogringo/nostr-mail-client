@@ -47,7 +47,9 @@ class AppDrawer extends StatelessWidget {
     return Drawer(
       child: Obx(
         () => ListView(
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.paddingOf(context).bottom + 16,
+          ),
           children: [
             SafeArea(
               bottom: false,
@@ -250,7 +252,6 @@ class AppDrawer extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(height: 16),
           ],
         ),
       ),
