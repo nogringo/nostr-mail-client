@@ -101,18 +101,18 @@ packages:
     dependency: transitive
     description:
       name: blossom_cache
-      sha256: "17ba1c11971657a000d2b4126773fffb4743232408a6310c8248c6974df1ba5f"
+      sha256: a66fd8ff85aedf6eb38ecb049197d2de3f33d30c4392a24156726465ff08213b
       url: "https://pub.dev"
     source: hosted
-    version: "0.4.0"
+    version: "0.5.0"
   blossom_upload_queue_shim_for_ndk:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: "19f96bbc9e357a3213ce27ea7e3ba10d94b3c390a58fd34e931f84ea30888a00"
+      sha256: "236389cc639108e39dceef357b79ac0cf0f7abdd21240388c636cfecd576301e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0"
+    version: "0.9.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -1057,10 +1057,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: d6d196650709ff375eca2ea29f076dff067738ff422f2246b352f61168408339
+      sha256: cbcf8d3d6d8be95f650b96bc6cf75065ddd983535dc81f317c40e8b0da039b08
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "5.0.0"
   package_config:
     dependency: transitive
     description:

@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
-import 'package:path/path.dart' as p;
-import 'package:path_provider/path_provider.dart';
 
 import '../models/background_preset.dart';
 import 'address_book_service.dart';
@@ -17,7 +13,6 @@ import 'storage_service.dart';
 
 class AccountLocalDataService extends GetxService {
   static const _backgroundImageKey = 'background_image';
-  static const _backgroundsDirName = 'backgrounds';
 
   final _storageService = Get.find<StorageService>();
 
@@ -83,7 +78,6 @@ class AccountLocalDataService extends GetxService {
       await Get.find<Ndk>().config.cache.clearAll();
     }
     await _storageService.clearAll();
-    await _deleteBackgroundsDirectory();
   }
 
   /// Deletes a background from the Blossom cache once no account on this
@@ -105,7 +99,6 @@ class AccountLocalDataService extends GetxService {
     final backgroundKey = '${_backgroundImageKey}_$pubkey';
     final background = await _storageService.getSetting<String>(backgroundKey);
     await _storageService.deleteSetting(backgroundKey);
-    await _deleteBackgroundFile(background);
     await _releaseCachedBackground(background);
 
     await _storageService.deleteSetting(
@@ -114,30 +107,5 @@ class AccountLocalDataService extends GetxService {
     await _storageService.deleteSetting(
       PushSubscriptionService.registrationKey(pubkey),
     );
-  }
-
-  Future<void> _deleteBackgroundFile(String? imagePath) async {
-    if (imagePath == null || imagePath.isEmpty) return;
-    try {
-      final backgroundsDir = await _backgroundsDirectory();
-      final file = File(imagePath);
-      if (await file.exists() && p.isWithin(backgroundsDir.path, file.path)) {
-        await file.delete();
-      }
-    } catch (_) {}
-  }
-
-  Future<void> _deleteBackgroundsDirectory() async {
-    try {
-      final backgroundsDir = await _backgroundsDirectory();
-      if (await backgroundsDir.exists()) {
-        await backgroundsDir.delete(recursive: true);
-      }
-    } catch (_) {}
-  }
-
-  Future<Directory> _backgroundsDirectory() async {
-    final appDir = await getApplicationSupportDirectory();
-    return Directory(p.join(appDir.path, _backgroundsDirName));
   }
 }

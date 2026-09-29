@@ -44,7 +44,10 @@ void main() {
     Get.put<BlossomCache>(cache);
     service = AccountLocalDataService();
 
-    final blob = await cache.put(Uint8List.fromList([1, 2, 3]), pinned: true);
+    final blob = await cache.put(
+      Uint8List.fromList([1, 2, 3]),
+      pinBy: BlossomCache.defaultHolder,
+    );
     sha256 = blob.sha256;
     background = BackgroundPreset.cachedImageValue(sha256);
   });

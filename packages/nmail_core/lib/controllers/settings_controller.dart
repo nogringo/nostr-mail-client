@@ -31,7 +31,6 @@ class SettingsController extends GetxController {
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
-  static const backgroundsDirName = 'backgrounds';
   static const _defaultSignature = '--\nSent with Nmail\nhttps://nostrmail.org';
 
   final alwaysLoadImages = false.obs;
@@ -405,6 +404,9 @@ class SettingsController extends GetxController {
         ? BackgroundPreset.defaultPreset()
         : BackgroundPreset.fromStorageValue(background);
     if (preset != null) return (preset.lightSeedColor, preset.darkSeedColor);
+    if (!BackgroundPreset.isCustomImageValue(background)) {
+      return (accent, accent);
+    }
 
     final seed = await _backgroundImageSeedColor(background!) ?? accent;
     return (seed, seed);

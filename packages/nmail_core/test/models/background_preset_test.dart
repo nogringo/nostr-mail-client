@@ -55,12 +55,12 @@ void main() {
       expect(BackgroundPreset.isCustomImageValue('preset:missing'), isFalse);
       expect(
         BackgroundPreset.isCustomImageValue('/tmp/background.png'),
-        isTrue,
+        isFalse,
       );
     },
   );
 
-  test('BackgroundPreset tells a cached web image from a pasted URL', () {
+  test('BackgroundPreset reads a cached image, not a pasted URL', () {
     const sha256 =
         'b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553';
     const url = 'https://example.com/background.jpg';
@@ -69,8 +69,11 @@ void main() {
     expect(BackgroundPreset.isCustomImageValue(cached), isTrue);
     expect(BackgroundPreset.cachedImageSha256(cached), sha256);
     expect(BackgroundPreset.cachedImageSha256(url), isNull);
-    expect(BackgroundPreset.webImage(cached), const BlossomCacheImage(sha256));
-    expect(BackgroundPreset.webImage(url), const NetworkImage(url));
+    expect(
+      BackgroundPreset.customImage(cached),
+      const BlossomCacheImage(sha256),
+    );
+    expect(BackgroundPreset.isCustomImageValue(url), isFalse);
   });
 
   test('BackgroundPreset variants carry colors and assets', () {
