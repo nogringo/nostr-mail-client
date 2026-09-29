@@ -193,6 +193,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsLogOut => 'Abmelden';
 
   @override
+  String get actionLogOut => 'Abmelden';
+
+  @override
+  String get logoutDialogTitle => 'Von diesem Konto abmelden?';
+
+  @override
+  String get logoutDialogMessage =>
+      'Dieses Konto und seine lokalen Daten werden von diesem Gerät entfernt. Deine Nachrichten bleiben auf deinen Relays und sind nach der nächsten Anmeldung wieder da.';
+
+  @override
   String get settingsResetApplication => 'App zurücksetzen';
 
   @override

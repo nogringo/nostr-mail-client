@@ -194,6 +194,16 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsLogOut => 'Déconnexion';
 
   @override
+  String get actionLogOut => 'Se déconnecter';
+
+  @override
+  String get logoutDialogTitle => 'Se déconnecter de ce compte ?';
+
+  @override
+  String get logoutDialogMessage =>
+      'Ce compte et ses données locales sont retirés de cet appareil. Vos messages restent sur vos relais et reviennent à votre prochaine connexion.';
+
+  @override
   String get settingsResetApplication => 'Réinitialiser l\'application';
 
   @override

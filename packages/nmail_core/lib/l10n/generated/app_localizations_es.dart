@@ -194,6 +194,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsLogOut => 'Cerrar sesión';
 
   @override
+  String get actionLogOut => 'Cerrar sesión';
+
+  @override
+  String get logoutDialogTitle => '¿Cerrar sesión en esta cuenta?';
+
+  @override
+  String get logoutDialogMessage =>
+      'Esta cuenta y sus datos locales se eliminan de este dispositivo. Tus mensajes permanecen en tus relays y vuelven cuando inicies sesión de nuevo.';
+
+  @override
   String get settingsResetApplication => 'Restablecer la aplicación';
 
   @override

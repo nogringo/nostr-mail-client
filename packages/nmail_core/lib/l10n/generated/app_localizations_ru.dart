@@ -194,6 +194,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsLogOut => 'Выйти';
 
   @override
+  String get actionLogOut => 'Выйти';
+
+  @override
+  String get logoutDialogTitle => 'Выйти из этого аккаунта?';
+
+  @override
+  String get logoutDialogMessage =>
+      'Этот аккаунт и его локальные данные будут удалены с этого устройства. Ваши сообщения останутся на ваших реле и вернутся при следующем входе.';
+
+  @override
   String get settingsResetApplication => 'Сбросить приложение';
 
   @override

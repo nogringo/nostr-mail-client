@@ -186,6 +186,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsLogOut => '退出登录';
 
   @override
+  String get actionLogOut => '退出登录';
+
+  @override
+  String get logoutDialogTitle => '要退出此账户吗？';
+
+  @override
+  String get logoutDialogMessage =>
+      '此账户及其本地数据将从本设备中移除。您的消息仍保留在您的中继上，再次登录后会重新同步。';
+
+  @override
   String get settingsResetApplication => '重置应用';
 
   @override

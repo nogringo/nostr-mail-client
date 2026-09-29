@@ -194,6 +194,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsLogOut => 'Terminar sessão';
 
   @override
+  String get actionLogOut => 'Terminar sessão';
+
+  @override
+  String get logoutDialogTitle => 'Terminar sessão nesta conta?';
+
+  @override
+  String get logoutDialogMessage =>
+      'Esta conta e os seus dados locais são removidos deste dispositivo. As suas mensagens ficam nos seus relays e voltam quando iniciar sessão novamente.';
+
+  @override
   String get settingsResetApplication => 'Repor aplicação';
 
   @override
@@ -2134,6 +2144,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsLogOut => 'Sair';
+
+  @override
+  String get actionLogOut => 'Sair';
+
+  @override
+  String get logoutDialogTitle => 'Sair desta conta?';
+
+  @override
+  String get logoutDialogMessage =>
+      'Esta conta e seus dados locais são removidos deste dispositivo. Suas mensagens continuam nos seus relays e voltam quando você entrar novamente.';
 
   @override
   String get settingsResetApplication => 'Redefinir aplicativo';

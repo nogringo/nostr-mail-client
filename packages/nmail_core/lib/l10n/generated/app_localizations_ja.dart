@@ -188,6 +188,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsLogOut => 'ログアウト';
 
   @override
+  String get actionLogOut => 'ログアウト';
+
+  @override
+  String get logoutDialogTitle => 'このアカウントからログアウトしますか？';
+
+  @override
+  String get logoutDialogMessage =>
+      'このアカウントとそのローカルデータはこのデバイスから削除されます。メッセージはリレーに残り、再度ログインすると戻ってきます。';
+
+  @override
   String get settingsResetApplication => 'アプリをリセット';
 
   @override

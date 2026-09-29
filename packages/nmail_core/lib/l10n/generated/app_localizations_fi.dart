@@ -192,6 +192,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsLogOut => 'Kirjaudu ulos';
 
   @override
+  String get actionLogOut => 'Kirjaudu ulos';
+
+  @override
+  String get logoutDialogTitle => 'Kirjaudutaanko ulos tältä tililtä?';
+
+  @override
+  String get logoutDialogMessage =>
+      'Tämä tili ja sen paikalliset tiedot poistetaan tältä laitteelta. Viestisi pysyvät palvelimillasi ja palaavat, kun kirjaudut uudelleen sisään.';
+
+  @override
   String get settingsResetApplication => 'Palauta sovellus';
 
   @override

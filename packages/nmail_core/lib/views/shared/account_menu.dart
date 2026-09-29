@@ -7,6 +7,7 @@ import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'account_menu_header.dart';
 import 'account_switcher_section.dart';
+import 'confirm_logout.dart';
 import 'copy_menu_item.dart';
 import 'layout_constants.dart';
 
@@ -50,7 +51,7 @@ class AccountMenu extends StatelessWidget {
         CopyMenuItem(label: l.inboxCopyNpub, value: () => auth.currentNpub),
         MenuItemButton(
           leadingIcon: Icon(Icons.logout, color: colorScheme.error),
-          onPressed: auth.logout,
+          onPressed: () => confirmLogout(context),
           child: Text(
             l.inboxLogout,
             style: TextStyle(color: colorScheme.error),

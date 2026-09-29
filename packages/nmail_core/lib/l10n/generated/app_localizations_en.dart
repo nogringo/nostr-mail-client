@@ -193,6 +193,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsLogOut => 'Log out';
 
   @override
+  String get actionLogOut => 'Log out';
+
+  @override
+  String get logoutDialogTitle => 'Log out of this account?';
+
+  @override
+  String get logoutDialogMessage =>
+      'This account and its local data are removed from this device. Your messages stay on your relays and come back when you log in again.';
+
+  @override
   String get settingsResetApplication => 'Reset application';
 
   @override

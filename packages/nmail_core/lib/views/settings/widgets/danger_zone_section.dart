@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-import 'package:nmail_core/controllers/auth_controller.dart';
+import 'package:nmail_core/views/shared/confirm_logout.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'delete_account_tile.dart';
 import 'reset_application_tile.dart';
@@ -23,7 +22,7 @@ class DangerZoneSection extends StatelessWidget {
           isDestructive: true,
           index: index,
           count: count,
-          onTap: () => Get.find<AuthController>().logout(),
+          onTap: () => confirmLogout(context),
         ),
         (index, count) => DeleteAccountTile(index: index, count: count),
         (index, count) => ResetApplicationTile(index: index, count: count),

@@ -11,6 +11,7 @@ import 'package:nmail_core/services/app_update_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import '../../../widgets/nostr_avatar.dart';
 import '../../mailboxes/widgets/show_mail_entry_form.dart';
+import '../../shared/confirm_logout.dart';
 import '../../shared/layout_constants.dart';
 import 'account_email_copy_button.dart';
 import 'sidebar_entry_item.dart';
@@ -257,9 +258,7 @@ class AppDrawer extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(28),
                 ),
-                onTap: () {
-                  Get.find<AuthController>().logout();
-                },
+                onTap: () => confirmLogout(context),
               ),
             ),
           ],

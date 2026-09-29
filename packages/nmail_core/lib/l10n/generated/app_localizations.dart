@@ -439,6 +439,24 @@ abstract class AppLocalizations {
   /// **'Log out'**
   String get settingsLogOut;
 
+  /// Button label confirming the log out in the log out dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get actionLogOut;
+
+  /// Title of the dialog confirming the log out
+  ///
+  /// In en, this message translates to:
+  /// **'Log out of this account?'**
+  String get logoutDialogTitle;
+
+  /// Explanation in the log out dialog of what logging out removes and what stays
+  ///
+  /// In en, this message translates to:
+  /// **'This account and its local data are removed from this device. Your messages stay on your relays and come back when you log in again.'**
+  String get logoutDialogMessage;
+
   /// Destructive tile title and confirmation dialog title for resetting the app
   ///
   /// In en, this message translates to:
