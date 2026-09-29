@@ -27,7 +27,11 @@ class AttachmentsSectionView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 8,
+          runSpacing: 8,
           children: [
             Text(
               l.emailAttachmentsTitle,
@@ -37,33 +41,53 @@ class AttachmentsSectionView extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
-            const Spacer(),
-            if (attachments.length > 1) ...[
-              Chip(
-                avatar: Icon(Icons.folder_zip),
-                label: Text(totalSizeText),
-                shape: StadiumBorder(),
+            if (attachments.length > 1)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Chip(
+                    avatar: Icon(Icons.folder_zip),
+                    label: Text(totalSizeText),
+                    shape: StadiumBorder(),
+                  ),
+                  const SizedBox(width: 8),
+                  FilledButton.icon(
+                    onPressed: () =>
+                        EmailController.to.downloadAllAttachments(attachments),
+                    icon: const Icon(Icons.file_download),
+                    label: Text(l.emailDownloadAll),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              FilledButton.icon(
-                onPressed: () =>
-                    EmailController.to.downloadAllAttachments(attachments),
-                icon: const Icon(Icons.file_download),
-                label: Text(l.emailDownloadAll),
-              ),
-            ],
           ],
         ),
         const SizedBox(height: 12),
-        Wrap(
-          spacing: 12,
-          runSpacing: 8,
-          children: attachments
-              .map(
-                (attachment) =>
-                    AttachmentCardView(email: email, attachment: attachment),
-              )
-              .toList(),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            const spacing = 12.0;
+            final columns = ((constraints.maxWidth + spacing) / (140 + spacing))
+                .floor()
+                .clamp(1, attachments.length);
+            final cardWidth =
+                ((constraints.maxWidth - spacing * (columns - 1)) / columns)
+                    .clamp(0.0, 200.0);
+
+            return Wrap(
+              spacing: spacing,
+              runSpacing: 8,
+              children: attachments
+                  .map(
+                    (attachment) => SizedBox(
+                      width: cardWidth,
+                      child: AttachmentCardView(
+                        email: email,
+                        attachment: attachment,
+                      ),
+                    ),
+                  )
+                  .toList(),
+            );
+          },
         ),
       ],
     );

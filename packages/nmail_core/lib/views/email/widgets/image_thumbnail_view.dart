@@ -1,9 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
-import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/views/email/email_controller.dart';
 
 class ImageThumbnailView extends StatelessWidget {
   final AttachmentRef ref;
@@ -14,10 +13,7 @@ class ImageThumbnailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Uint8List?>(
-      future: Get.find<NostrMailService>().client.getAttachmentBytes(
-        email,
-        ref,
-      ),
+      future: EmailController.to.thumbnailBytes(email, ref),
       builder: (context, snapshot) {
         final data = snapshot.data;
         if (snapshot.connectionState != ConnectionState.done) {

@@ -67,6 +67,8 @@ class EmailController extends GetxController implements InlineImageSource {
   final Map<String, Future<Uint8List?>> _inlineImageLoads = {};
   Future<void> _inlineImageQueue = Future.value();
 
+  final Map<String, Future<Uint8List?>> _thumbnailLoads = {};
+
   EmailController({required this.eventReference, this.mailbox}) {
     _showImages = Get.find<SettingsController>().alwaysLoadImages.value;
     loadEmail();
@@ -117,6 +119,13 @@ class EmailController extends GetxController implements InlineImageSource {
     return _inlineImageLoads.putIfAbsent(
       contentId,
       () => _loadInlineImage(email, contentId),
+    );
+  }
+
+  Future<Uint8List?> thumbnailBytes(Email email, AttachmentRef ref) {
+    return _thumbnailLoads.putIfAbsent(
+      ref.sha256,
+      () => Get.find<NostrMailService>().client.getAttachmentBytes(email, ref),
     );
   }
 
