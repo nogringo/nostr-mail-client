@@ -42,6 +42,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionRemove => 'Remove';
 
   @override
+  String get actionRename => 'Rename';
+
+  @override
   String get actionDiscard => 'Discard';
 
   @override
@@ -1092,6 +1095,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get composeRemoveAttachment => 'Remove attachment';
+
+  @override
+  String get composeRenameAttachment => 'Rename attachment';
+
+  @override
+  String get composeAttachmentFilename => 'File name';
 
   @override
   String get composeSend => 'Send';

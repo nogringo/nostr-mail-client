@@ -42,6 +42,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get actionRemove => 'Poista';
 
   @override
+  String get actionRename => 'Nimeä uudelleen';
+
+  @override
   String get actionDiscard => 'Hylkää';
 
   @override
@@ -1096,6 +1099,12 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get composeRemoveAttachment => 'Poista liite';
+
+  @override
+  String get composeRenameAttachment => 'Nimeä liite uudelleen';
+
+  @override
+  String get composeAttachmentFilename => 'Tiedostonimi';
 
   @override
   String get composeSend => 'Lähetä';

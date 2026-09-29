@@ -26,7 +26,6 @@ import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_move_to_picker.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_tags_picker.dart';
 import 'package:nmail_core/views/shared/window_caption_inset.dart';
-import 'package:pasteboard/pasteboard.dart';
 import 'package:path/path.dart' as p;
 import 'package:pdfrx/pdfrx.dart';
 import 'package:nmail_core/services/android_file_saver.dart';
@@ -578,19 +577,7 @@ class EmailController extends GetxController implements InlineImageSource {
         ref,
       ),
       onDownload: () => downloadAttachment(ref: ref),
-      onCopy: copyImage,
     );
-  }
-
-  Future<void> copyImage(Uint8List imageData) async {
-    try {
-      await Pasteboard.writeImage(imageData);
-    } catch (_) {
-      ToastHelper.error(
-        Get.context!,
-        AppLocalizations.of(Get.context!).emailCopyImageFailed,
-      );
-    }
   }
 
   Future<void> showPdfViewer({required AttachmentRef ref}) async {

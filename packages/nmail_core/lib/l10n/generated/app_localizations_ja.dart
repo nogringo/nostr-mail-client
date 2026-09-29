@@ -42,6 +42,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actionRemove => '削除';
 
   @override
+  String get actionRename => '名前を変更';
+
+  @override
   String get actionDiscard => '破棄';
 
   @override
@@ -1030,6 +1033,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get composeRemoveAttachment => '添付を削除';
+
+  @override
+  String get composeRenameAttachment => '添付の名前を変更';
+
+  @override
+  String get composeAttachmentFilename => 'ファイル名';
 
   @override
   String get composeSend => '送信';

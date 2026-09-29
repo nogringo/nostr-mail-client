@@ -42,6 +42,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get actionRemove => 'Remover';
 
   @override
+  String get actionRename => 'Mudar o nome';
+
+  @override
   String get actionDiscard => 'Descartar';
 
   @override
@@ -1102,6 +1105,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeRemoveAttachment => 'Remover anexo';
 
   @override
+  String get composeRenameAttachment => 'Mudar o nome do anexo';
+
+  @override
+  String get composeAttachmentFilename => 'Nome do ficheiro';
+
+  @override
   String get composeSend => 'Enviar';
 
   @override
@@ -1944,6 +1953,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get actionRemove => 'Remover';
+
+  @override
+  String get actionRename => 'Renomear';
 
   @override
   String get actionDiscard => 'Descartar';
@@ -3004,6 +3016,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeRemoveAttachment => 'Remover anexo';
+
+  @override
+  String get composeRenameAttachment => 'Renomear anexo';
+
+  @override
+  String get composeAttachmentFilename => 'Nome do arquivo';
 
   @override
   String get composeSend => 'Enviar';

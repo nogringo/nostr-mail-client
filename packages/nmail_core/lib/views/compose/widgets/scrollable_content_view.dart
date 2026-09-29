@@ -82,7 +82,7 @@ class ScrollableContentView extends StatelessWidget {
                           ? l.composeHideExpanded
                           : l.composeShowExpanded,
                     ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: isWide ? 16 : 8),
                 ],
               ),
               if (controller.showExpandedFields.value) ...[
@@ -187,6 +187,8 @@ class ScrollableContentView extends StatelessWidget {
                       AttachmentChip(
                         attachment: controller.attachments[i],
                         onDelete: () => controller.removeAttachment(i),
+                        onRename: (filename) =>
+                            controller.renameAttachment(i, filename),
                       ),
                   ],
                 ),

@@ -40,11 +40,16 @@ class DohServerTile extends StatelessWidget {
     final controller = TextEditingController(
       text: current == SettingsController.defaultDohServer ? '' : current,
     );
+    ModalRoute<Object?>? route;
     final server = await showDialog<String>(
       context: context,
-      builder: (_) => DohServerDialog(controller: controller),
+      builder: (dialogContext) {
+        route = ModalRoute.of(dialogContext);
+        return DohServerDialog(controller: controller);
+      },
     );
-    controller.dispose();
+    // The dialog still rebuilds while it animates out.
+    route?.completed.then((_) => controller.dispose());
     if (server != null) await settings.setDohServer(server);
   }
 }

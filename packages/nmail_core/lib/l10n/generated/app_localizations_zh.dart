@@ -42,6 +42,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get actionRemove => '移除';
 
   @override
+  String get actionRename => '重命名';
+
+  @override
   String get actionDiscard => '放弃';
 
   @override
@@ -1025,6 +1028,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get composeRemoveAttachment => '移除附件';
+
+  @override
+  String get composeRenameAttachment => '重命名附件';
+
+  @override
+  String get composeAttachmentFilename => '文件名';
 
   @override
   String get composeSend => '发送';

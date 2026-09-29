@@ -181,6 +181,12 @@ abstract class AppLocalizations {
   /// **'Remove'**
   String get actionRemove;
 
+  /// Generic Rename button label confirming a new name
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get actionRename;
+
   /// Discard button label used when leaving a form with unsaved changes
   ///
   /// In en, this message translates to:
@@ -1998,6 +2004,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove attachment'**
   String get composeRemoveAttachment;
+
+  /// Title of the dialog renaming a compose attachment
+  ///
+  /// In en, this message translates to:
+  /// **'Rename attachment'**
+  String get composeRenameAttachment;
+
+  /// Label of the text field in the rename attachment dialog
+  ///
+  /// In en, this message translates to:
+  /// **'File name'**
+  String get composeAttachmentFilename;
 
   /// Primary Send button label
   ///

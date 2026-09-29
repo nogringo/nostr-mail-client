@@ -447,6 +447,16 @@ class ComposeController extends GetxController implements InlineImageSource {
     }
   }
 
+  void renameAttachment(int index, String filename) {
+    if (index < 0 || index >= attachments.length) return;
+    final attachment = attachments[index];
+    attachments[index] = ComposeAttachment(
+      filename: filename,
+      data: attachment.data,
+      mimeType: attachment.mimeType,
+    );
+  }
+
   /// Returns the `cid:` URL the body embeds [bytes] under.
   Future<String> addInlineImage(Uint8List bytes) async {
     final data = stripMediaMetadata(bytes);

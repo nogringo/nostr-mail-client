@@ -2,8 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
+import 'package:get/get.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/utils/copy_image.dart';
 import 'package:nmail_core/views/shared/window_caption_inset.dart';
 import 'image_viewer_image.dart';
 
@@ -11,16 +13,16 @@ Future<void> showImageViewerPage(
   BuildContext context, {
   required String filename,
   required Future<Uint8List?> imageData,
-  required VoidCallback onDownload,
-  required ValueChanged<Uint8List> onCopy,
+  VoidCallback? onDownload,
+  Future<String?> Function(BuildContext context, String filename)? onRename,
 }) {
-  return Navigator.of(context).push(
+  return Navigator.of(context, rootNavigator: true).push(
     PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => ImageViewerPage(
-        filename: filename,
+        filename: filename.obs,
         imageData: imageData,
         onDownload: onDownload,
-        onCopy: onCopy,
+        onRename: onRename,
       ),
       transitionsBuilder: (context, animation, secondaryAnimation, child) =>
           FadeTransition(opacity: animation, child: child),
@@ -33,14 +35,17 @@ class ImageViewerPage extends StatelessWidget {
     super.key,
     required this.filename,
     required this.imageData,
-    required this.onDownload,
-    required this.onCopy,
+    this.onDownload,
+    this.onRename,
   });
 
-  final String filename;
+  final RxString filename;
   final Future<Uint8List?> imageData;
-  final VoidCallback onDownload;
-  final ValueChanged<Uint8List> onCopy;
+  final VoidCallback? onDownload;
+
+  /// Completes with the new name, or null when left unchanged.
+  final Future<String?> Function(BuildContext context, String filename)?
+  onRename;
 
   @override
   Widget build(BuildContext context) {
@@ -66,18 +71,30 @@ class ImageViewerPage extends StatelessWidget {
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 leading: const CloseButton(),
-                title: Text(
-                  filename,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                title: Obx(
+                  () => Text(
+                    filename.value,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 actionsPadding: .only(right: 8),
                 actions: [
-                  IconButton(
-                    icon: const Icon(Icons.download),
-                    onPressed: onDownload,
-                    tooltip: l.emailDownload,
-                  ),
+                  if (onRename case final onRename?)
+                    IconButton(
+                      icon: const Icon(Icons.edit_outlined),
+                      onPressed: () async {
+                        final renamed = await onRename(context, filename.value);
+                        if (renamed != null) filename.value = renamed;
+                      },
+                      tooltip: l.actionRename,
+                    ),
+                  if (onDownload != null)
+                    IconButton(
+                      icon: const Icon(Icons.download),
+                      onPressed: onDownload,
+                      tooltip: l.emailDownload,
+                    ),
                 ],
               ),
               body: GestureDetector(
@@ -95,7 +112,7 @@ class ImageViewerPage extends StatelessWidget {
                     }
                     return ImageViewerImage(
                       imageData: data,
-                      onCopy: () => onCopy(data),
+                      onCopy: () => copyImage(context, data),
                     );
                   },
                 ),

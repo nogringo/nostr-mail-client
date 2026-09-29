@@ -23,6 +23,8 @@ class DohServerDialog extends StatelessWidget {
       valueListenable: controller,
       builder: (context, value, _) {
         final isValid = _isValid(value.text);
+        void submit() => Navigator.pop(context, controller.text);
+
         return AlertDialog(
           title: Text(l.settingsDohServer),
           content: SizedBox(
@@ -37,6 +39,7 @@ class DohServerDialog extends StatelessWidget {
                 helperMaxLines: 3,
                 errorText: isValid ? null : l.settingsDohServerInvalid,
               ),
+              onSubmitted: isValid ? (_) => submit() : null,
             ),
           ),
           actions: [
@@ -45,9 +48,7 @@ class DohServerDialog extends StatelessWidget {
               child: Text(l.actionCancel),
             ),
             TextButton(
-              onPressed: isValid
-                  ? () => Navigator.pop(context, controller.text)
-                  : null,
+              onPressed: isValid ? submit : null,
               child: Text(l.actionSave),
             ),
           ],

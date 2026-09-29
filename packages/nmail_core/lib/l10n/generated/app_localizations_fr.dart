@@ -42,6 +42,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get actionRemove => 'Supprimer';
 
   @override
+  String get actionRename => 'Renommer';
+
+  @override
   String get actionDiscard => 'Abandonner';
 
   @override
@@ -1106,6 +1109,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get composeRemoveAttachment => 'Retirer la pièce jointe';
+
+  @override
+  String get composeRenameAttachment => 'Renommer la pièce jointe';
+
+  @override
+  String get composeAttachmentFilename => 'Nom du fichier';
 
   @override
   String get composeSend => 'Envoyer';
