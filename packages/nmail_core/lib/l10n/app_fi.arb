@@ -708,5 +708,10 @@
   "mailboxEmptyFolder": "Tämä kansio on tyhjä",
   "mailboxEmptyTag": "Millään sähköpostilla ei ole tätä tunnistetta",
   "mailboxSettingsTitle": "Kansiot ja tunnisteet",
-  "mailboxUnreadCount": "{count} lukematonta"
+  "mailboxUnreadCount": "{count} lukematonta",
+  "settingsUpdateAvailable": "Versio {version} saatavilla",
+  "settingsUpdateInstall": "Päivitä",
+  "settingsUpdateReload": "Lataa uudelleen",
+  "leftRailSettingsUpdateAvailable": "Asetukset, päivitys saatavilla",
+  "inboxMenuUpdateAvailable": "Valikko, päivitys saatavilla"
 }

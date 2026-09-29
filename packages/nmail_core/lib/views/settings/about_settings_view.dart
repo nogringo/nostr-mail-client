@@ -6,6 +6,7 @@ import 'widgets/about_app_tile.dart';
 import 'widgets/about_developer_tile.dart';
 import 'widgets/about_early_access_note.dart';
 import 'widgets/about_links_list.dart';
+import 'widgets/about_update_tile.dart';
 
 class AboutSettingsView extends StatelessWidget {
   const AboutSettingsView({super.key});
@@ -27,6 +28,7 @@ class AboutSettingsView extends StatelessWidget {
                 const SizedBox(height: 8),
                 const AboutAppTile(),
                 const AboutDeveloperTile(),
+                const AboutUpdateTile(),
                 const SizedBox(height: 12),
                 const AboutLinksList(),
                 const SizedBox(height: 24),

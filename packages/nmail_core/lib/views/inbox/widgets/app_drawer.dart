@@ -7,6 +7,7 @@ import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/mailbox.dart';
+import 'package:nmail_core/services/app_update_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import '../../../widgets/nostr_avatar.dart';
 import '../../mailboxes/widgets/show_mail_entry_form.dart';
@@ -223,7 +224,16 @@ class AppDrawer extends StatelessWidget {
                 horizontal: LayoutConstants.navigationInset,
               ),
               child: ListTile(
-                leading: const Icon(Icons.settings),
+                leading: Obx(
+                  () => Badge(
+                    isLabelVisible:
+                        Get.find<AppUpdateService>().availableUpdate.value !=
+                        null,
+                    backgroundColor: colorScheme.tertiary,
+                    smallSize: 8,
+                    child: const Icon(Icons.settings),
+                  ),
+                ),
                 title: Text(l.inboxSettings),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(28),

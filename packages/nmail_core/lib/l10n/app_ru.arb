@@ -703,5 +703,10 @@
   "mailboxEmptyFolder": "Эта папка пуста",
   "mailboxEmptyTag": "Ни у одного письма нет этой метки",
   "mailboxSettingsTitle": "Папки и метки",
-  "mailboxUnreadCount": "Непрочитанных: {count}"
+  "mailboxUnreadCount": "Непрочитанных: {count}",
+  "settingsUpdateAvailable": "Доступна версия {version}",
+  "settingsUpdateInstall": "Обновить",
+  "settingsUpdateReload": "Перезагрузить",
+  "leftRailSettingsUpdateAvailable": "Настройки, доступно обновление",
+  "inboxMenuUpdateAvailable": "Меню, доступно обновление"
 }

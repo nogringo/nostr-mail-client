@@ -703,5 +703,10 @@
   "mailboxEmptyFolder": "Dieser Ordner ist leer",
   "mailboxEmptyTag": "Keine E-Mail hat dieses Label",
   "mailboxSettingsTitle": "Ordner und Labels",
-  "mailboxUnreadCount": "{count} ungelesen"
+  "mailboxUnreadCount": "{count} ungelesen",
+  "settingsUpdateAvailable": "Version {version} verfügbar",
+  "settingsUpdateInstall": "Aktualisieren",
+  "settingsUpdateReload": "Neu laden",
+  "leftRailSettingsUpdateAvailable": "Einstellungen, Update verfügbar",
+  "inboxMenuUpdateAvailable": "Menü, Update verfügbar"
 }

@@ -1922,4 +1922,22 @@ class AppLocalizationsFr extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count non lus';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'Version $version disponible';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'Mettre à jour';
+
+  @override
+  String get settingsUpdateReload => 'Recharger';
+
+  @override
+  String get leftRailSettingsUpdateAvailable =>
+      'Paramètres, mise à jour disponible';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'Menu, mise à jour disponible';
 }

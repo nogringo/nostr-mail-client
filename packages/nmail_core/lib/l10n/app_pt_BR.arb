@@ -707,5 +707,10 @@
   "mailboxEmptyFolder": "Esta pasta está vazia",
   "mailboxEmptyTag": "Nenhum e-mail tem este marcador",
   "mailboxSettingsTitle": "Pastas e marcadores",
-  "mailboxUnreadCount": "{count} não lidos"
+  "mailboxUnreadCount": "{count} não lidos",
+  "settingsUpdateAvailable": "Versão {version} disponível",
+  "settingsUpdateInstall": "Atualizar",
+  "settingsUpdateReload": "Recarregar",
+  "leftRailSettingsUpdateAvailable": "Configurações, atualização disponível",
+  "inboxMenuUpdateAvailable": "Menu, atualização disponível"
 }

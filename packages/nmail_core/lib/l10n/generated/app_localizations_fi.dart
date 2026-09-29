@@ -1909,4 +1909,22 @@ class AppLocalizationsFi extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count lukematonta';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'Versio $version saatavilla';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'Päivitä';
+
+  @override
+  String get settingsUpdateReload => 'Lataa uudelleen';
+
+  @override
+  String get leftRailSettingsUpdateAvailable =>
+      'Asetukset, päivitys saatavilla';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'Valikko, päivitys saatavilla';
 }

@@ -1902,4 +1902,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count unread';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'Version $version available';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'Update';
+
+  @override
+  String get settingsUpdateReload => 'Reload';
+
+  @override
+  String get leftRailSettingsUpdateAvailable => 'Settings, update available';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'Menu, update available';
 }

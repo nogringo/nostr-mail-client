@@ -3414,6 +3414,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} unread'**
   String mailboxUnreadCount(int count);
+
+  /// About page row shown when a newer Nmail release exists
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version} available'**
+  String settingsUpdateAvailable(String version);
+
+  /// Button that opens the store or download page of the newer release
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get settingsUpdateInstall;
+
+  /// Button that reloads the web app to pick up the newer release
+  ///
+  /// In en, this message translates to:
+  /// **'Reload'**
+  String get settingsUpdateReload;
+
+  /// Tooltip on the desktop settings icon when a newer release exists
+  ///
+  /// In en, this message translates to:
+  /// **'Settings, update available'**
+  String get leftRailSettingsUpdateAvailable;
+
+  /// Tooltip on the mobile hamburger menu when a newer release exists
+  ///
+  /// In en, this message translates to:
+  /// **'Menu, update available'**
+  String get inboxMenuUpdateAvailable;
 }
 
 class _AppLocalizationsDelegate

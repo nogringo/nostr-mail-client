@@ -11,6 +11,7 @@ import '../shared/app_bar_account_avatar.dart';
 import '../shared/layout_constants.dart';
 import 'widgets/scheduled_list.dart';
 import 'widgets/scheduled_selection_actions_bar.dart';
+import '../shared/drawer_menu_button.dart';
 
 class ScheduledView extends GetView<ScheduledController> {
   const ScheduledView({super.key});
@@ -97,15 +98,7 @@ class ScheduledView extends GetView<ScheduledController> {
               ),
             );
           }
-          return Builder(
-            builder: (context) => Center(
-              child: IconButton(
-                icon: const Icon(Icons.menu),
-                tooltip: l.inboxMenu,
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-            ),
-          );
+          return const Center(child: DrawerMenuButton());
         }),
         title: Obx(
           () => Text(

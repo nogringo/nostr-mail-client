@@ -28,6 +28,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/account_local_data_service.dart';
+import 'package:nmail_core/services/app_update_service.dart';
 import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
@@ -194,6 +195,7 @@ Future<void> _initApp({
     ),
     permanent: true,
   );
+  Get.put(AppUpdateService(), permanent: true);
 
   // Run InitialBinding (ContactsService) before the router boots - the
   // router's redirect reads SettingsController on first navigation.

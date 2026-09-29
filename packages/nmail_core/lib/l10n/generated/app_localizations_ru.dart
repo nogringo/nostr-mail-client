@@ -1936,4 +1936,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return 'Непрочитанных: $count';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'Доступна версия $version';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'Обновить';
+
+  @override
+  String get settingsUpdateReload => 'Перезагрузить';
+
+  @override
+  String get leftRailSettingsUpdateAvailable =>
+      'Настройки, доступно обновление';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'Меню, доступно обновление';
 }

@@ -703,5 +703,10 @@
   "mailboxEmptyFolder": "このフォルダは空です",
   "mailboxEmptyTag": "このタグが付いたメールはありません",
   "mailboxSettingsTitle": "フォルダとタグ",
-  "mailboxUnreadCount": "未読 {count} 件"
+  "mailboxUnreadCount": "未読 {count} 件",
+  "settingsUpdateAvailable": "バージョン {version} が利用可能",
+  "settingsUpdateInstall": "アップデート",
+  "settingsUpdateReload": "再読み込み",
+  "leftRailSettingsUpdateAvailable": "設定、アップデートあり",
+  "inboxMenuUpdateAvailable": "メニュー、アップデートあり"
 }

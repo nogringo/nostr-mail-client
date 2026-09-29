@@ -703,5 +703,10 @@
   "mailboxEmptyFolder": "此文件夹为空",
   "mailboxEmptyTag": "没有邮件带有此标签",
   "mailboxSettingsTitle": "文件夹和标签",
-  "mailboxUnreadCount": "{count} 封未读"
+  "mailboxUnreadCount": "{count} 封未读",
+  "settingsUpdateAvailable": "{version} 版本可用",
+  "settingsUpdateInstall": "更新",
+  "settingsUpdateReload": "重新加载",
+  "leftRailSettingsUpdateAvailable": "设置，有可用更新",
+  "inboxMenuUpdateAvailable": "菜单，有可用更新"
 }

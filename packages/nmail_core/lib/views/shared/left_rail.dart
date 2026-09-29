@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
+import '../../services/app_update_service.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../../widgets/nostr_avatar.dart';
 import 'account_menu.dart';
@@ -60,11 +61,22 @@ class LeftRail extends StatelessWidget {
           ),
           const Spacer(),
           // Settings
-          IconButton(
-            icon: const Icon(Icons.settings),
-            tooltip: l.leftRailSettings,
-            onPressed: () => context.go(AppRoutes.settings),
-          ),
+          Obx(() {
+            final hasUpdate =
+                Get.find<AppUpdateService>().availableUpdate.value != null;
+            return IconButton(
+              icon: Badge(
+                isLabelVisible: hasUpdate,
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                smallSize: 8,
+                child: const Icon(Icons.settings),
+              ),
+              tooltip: hasUpdate
+                  ? l.leftRailSettingsUpdateAvailable
+                  : l.leftRailSettings,
+              onPressed: () => context.go(AppRoutes.settings),
+            );
+          }),
           // Account menu
           const _AccountMenuButton(),
         ],

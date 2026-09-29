@@ -1805,4 +1805,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count 封未读';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return '$version 版本可用';
+  }
+
+  @override
+  String get settingsUpdateInstall => '更新';
+
+  @override
+  String get settingsUpdateReload => '重新加载';
+
+  @override
+  String get leftRailSettingsUpdateAvailable => '设置，有可用更新';
+
+  @override
+  String get inboxMenuUpdateAvailable => '菜单，有可用更新';
 }

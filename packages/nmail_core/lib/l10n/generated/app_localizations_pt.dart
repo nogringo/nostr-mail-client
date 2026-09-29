@@ -1915,6 +1915,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count por ler';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'Versão $version disponível';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'Atualizar';
+
+  @override
+  String get settingsUpdateReload => 'Recarregar';
+
+  @override
+  String get leftRailSettingsUpdateAvailable =>
+      'Definições, atualização disponível';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'Menu, atualização disponível';
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -3828,4 +3846,22 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String mailboxUnreadCount(int count) {
     return '$count não lidos';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'Versão $version disponível';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'Atualizar';
+
+  @override
+  String get settingsUpdateReload => 'Recarregar';
+
+  @override
+  String get leftRailSettingsUpdateAvailable =>
+      'Configurações, atualização disponível';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'Menu, atualização disponível';
 }

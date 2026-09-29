@@ -12,6 +12,7 @@ class SettingsNavTile extends StatelessWidget {
     required this.count,
     required this.onTap,
     this.badge,
+    this.showDot = false,
   });
 
   final IconData icon;
@@ -20,6 +21,7 @@ class SettingsNavTile extends StatelessWidget {
   final int count;
   final VoidCallback onTap;
   final String? badge;
+  final bool showDot;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,12 @@ class SettingsNavTile extends StatelessWidget {
         tileColor: theme.colorScheme.surfaceContainerHigh,
         shape: segmentedListShape(index: index, count: count),
         minTileHeight: 56,
-        leading: Icon(icon),
+        leading: Badge(
+          isLabelVisible: showDot,
+          backgroundColor: theme.colorScheme.tertiary,
+          smallSize: 8,
+          child: Icon(icon),
+        ),
         title: Text(title),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,

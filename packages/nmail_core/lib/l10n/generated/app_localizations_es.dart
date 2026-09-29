@@ -1914,4 +1914,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count sin leer';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'Versión $version disponible';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'Actualizar';
+
+  @override
+  String get settingsUpdateReload => 'Recargar';
+
+  @override
+  String get leftRailSettingsUpdateAvailable =>
+      'Ajustes, actualización disponible';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'Menú, actualización disponible';
 }

@@ -703,5 +703,10 @@
   "mailboxEmptyFolder": "Esta carpeta está vacía",
   "mailboxEmptyTag": "Ningún correo tiene esta etiqueta",
   "mailboxSettingsTitle": "Carpetas y etiquetas",
-  "mailboxUnreadCount": "{count} sin leer"
+  "mailboxUnreadCount": "{count} sin leer",
+  "settingsUpdateAvailable": "Versión {version} disponible",
+  "settingsUpdateInstall": "Actualizar",
+  "settingsUpdateReload": "Recargar",
+  "leftRailSettingsUpdateAvailable": "Ajustes, actualización disponible",
+  "inboxMenuUpdateAvailable": "Menú, actualización disponible"
 }

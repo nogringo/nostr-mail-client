@@ -1819,4 +1819,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '未読 $count 件';
   }
+
+  @override
+  String settingsUpdateAvailable(String version) {
+    return 'バージョン $version が利用可能';
+  }
+
+  @override
+  String get settingsUpdateInstall => 'アップデート';
+
+  @override
+  String get settingsUpdateReload => '再読み込み';
+
+  @override
+  String get leftRailSettingsUpdateAvailable => '設定、アップデートあり';
+
+  @override
+  String get inboxMenuUpdateAvailable => 'メニュー、アップデートあり';
 }

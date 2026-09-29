@@ -1314,5 +1314,15 @@
   "mailboxSettingsTitle": "Folders and labels",
   "@mailboxSettingsTitle": {"description": "Settings page and entry to manage folders and tags"},
   "mailboxUnreadCount": "{count} unread",
-  "@mailboxUnreadCount": {"description": "Screen reader label of a sidebar unread count", "placeholders": {"count": {"type": "int"}}}
+  "@mailboxUnreadCount": {"description": "Screen reader label of a sidebar unread count", "placeholders": {"count": {"type": "int"}}},
+  "settingsUpdateAvailable": "Version {version} available",
+  "@settingsUpdateAvailable": {"description": "About page row shown when a newer Nmail release exists", "placeholders": {"version": {"type": "String"}}},
+  "settingsUpdateInstall": "Update",
+  "@settingsUpdateInstall": {"description": "Button that opens the store or download page of the newer release"},
+  "settingsUpdateReload": "Reload",
+  "@settingsUpdateReload": {"description": "Button that reloads the web app to pick up the newer release"},
+  "leftRailSettingsUpdateAvailable": "Settings, update available",
+  "@leftRailSettingsUpdateAvailable": {"description": "Tooltip on the desktop settings icon when a newer release exists"},
+  "inboxMenuUpdateAvailable": "Menu, update available",
+  "@inboxMenuUpdateAvailable": {"description": "Tooltip on the mobile hamburger menu when a newer release exists"}
 }

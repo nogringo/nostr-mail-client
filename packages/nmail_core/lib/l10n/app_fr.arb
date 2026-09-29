@@ -703,5 +703,10 @@
   "mailboxEmptyFolder": "Ce dossier est vide",
   "mailboxEmptyTag": "Aucun e-mail n'a cette étiquette",
   "mailboxSettingsTitle": "Dossiers et étiquettes",
-  "mailboxUnreadCount": "{count} non lus"
+  "mailboxUnreadCount": "{count} non lus",
+  "settingsUpdateAvailable": "Version {version} disponible",
+  "settingsUpdateInstall": "Mettre à jour",
+  "settingsUpdateReload": "Recharger",
+  "leftRailSettingsUpdateAvailable": "Paramètres, mise à jour disponible",
+  "inboxMenuUpdateAvailable": "Menu, mise à jour disponible"
 }

@@ -11,6 +11,7 @@ import 'widgets/contacts_overflow_menu.dart';
 import 'widgets/contacts_sidebar.dart';
 import 'widgets/mobile_contact_detail_page.dart';
 import 'widgets/show_contact_form.dart';
+import '../shared/drawer_menu_button.dart';
 
 class ContactsView extends StatelessWidget {
   const ContactsView({super.key});
@@ -31,15 +32,7 @@ class ContactsView extends StatelessWidget {
             ? null
             // AppBar only centers a leading that is itself an IconButton,
             // so a wrapped one needs its own Center or it fills the 56px slot.
-            : Builder(
-                builder: (context) => Center(
-                  child: IconButton(
-                    icon: const Icon(Icons.menu),
-                    tooltip: l.inboxMenu,
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                  ),
-                ),
-              ),
+            : const Center(child: DrawerMenuButton()),
         title: Text(l.contactsTitle),
         actions: [
           Obx(() {

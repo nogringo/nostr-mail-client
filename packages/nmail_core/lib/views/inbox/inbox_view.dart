@@ -21,6 +21,7 @@ import 'widgets/inbox_desktop_app_bar.dart';
 import 'widgets/search_field.dart';
 import 'widgets/selection_actions_bar.dart';
 import 'widgets/trash_banner.dart';
+import '../shared/drawer_menu_button.dart';
 
 class InboxView extends GetView<InboxController> {
   /// Mailbox this route represents (driven by the URL: `/inbox`, `/sent`,
@@ -181,15 +182,7 @@ class InboxView extends GetView<InboxController> {
               }
               // AppBar only centers a leading that is itself an IconButton,
               // so a wrapped one needs its own Center or it fills the 56px slot.
-              return Builder(
-                builder: (context) => Center(
-                  child: IconButton(
-                    icon: const Icon(Icons.menu),
-                    tooltip: l.inboxMenu,
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                  ),
-                ),
-              );
+              return const Center(child: DrawerMenuButton());
             }(),
             actionsPadding: .only(right: 8),
             actions: [
