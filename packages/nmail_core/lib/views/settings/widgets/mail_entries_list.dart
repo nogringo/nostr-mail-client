@@ -37,7 +37,7 @@ class MailEntriesList extends StatelessWidget {
               gutter,
               8,
               gutter,
-              LayoutConstants.fabClearance,
+              LayoutConstants.fabClearance(context),
             ),
             itemCount: entries.length,
             onReorderItem: (oldIndex, newIndex) =>

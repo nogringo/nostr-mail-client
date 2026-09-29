@@ -27,7 +27,7 @@ class IdentitiesList extends StatelessWidget {
               gutter,
               0,
               gutter,
-              LayoutConstants.fabClearance,
+              LayoutConstants.fabClearance(context),
             ),
             itemCount: controller.identities.length,
             onReorderItem: controller.reorder,

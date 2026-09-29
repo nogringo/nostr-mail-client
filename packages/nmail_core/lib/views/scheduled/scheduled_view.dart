@@ -122,7 +122,7 @@ class ScheduledView extends GetView<ScheduledController> {
         tooltip: l.inboxCompose,
         child: const Icon(Icons.edit),
       ),
-      body: const ScheduledList(bottomPadding: LayoutConstants.fabClearance),
+      body: ScheduledList(bottomPadding: LayoutConstants.fabClearance(context)),
     );
   }
 }

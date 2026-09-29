@@ -226,7 +226,7 @@ class InboxView extends GetView<InboxController> {
           Expanded(
             child: _buildEmailList(
               context,
-              bottomPadding: LayoutConstants.fabClearance,
+              bottomPadding: LayoutConstants.fabClearance(context),
             ),
           ),
         ],
