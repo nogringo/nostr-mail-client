@@ -112,18 +112,33 @@ class OnboardingView extends StatelessWidget {
               decoration: _getPageDecoration(context),
             ),
           ],
+          // introduction_screen builds on material_ui, whose Theme is not the
+          // app's: its scaffold and buttons would fall back to default colors.
+          globalBackgroundColor: colorScheme.surface,
           onDone: () => _onDone(context),
           onSkip: () => _onDone(context),
           showSkipButton: true,
-          skip: Text(
-            l.onboardingSkip,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+          overrideSkip: (_, onPressed) => TextButton(
+            onPressed: onPressed,
+            child: Text(
+              l.onboardingSkip,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
           ),
-          next: const Icon(Icons.arrow_forward),
-          nextSemantic: l.onboardingNext,
-          done: Text(
-            l.onboardingDone,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+          overrideNext: (_, onPressed) => Semantics(
+            label: l.onboardingNext,
+            button: true,
+            child: TextButton(
+              onPressed: onPressed,
+              child: const Icon(Icons.arrow_forward),
+            ),
+          ),
+          overrideDone: (_, onPressed) => TextButton(
+            onPressed: onPressed,
+            child: Text(
+              l.onboardingDone,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
           ),
           dotsDecorator: DotsDecorator(
             activeSize: const Size(22.0, 10.0),

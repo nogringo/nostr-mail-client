@@ -7,8 +7,8 @@ void main() {
   test('BackgroundPreset exposes three bundled presets', () {
     expect(BackgroundPreset.all, hasLength(3));
     expect(BackgroundPreset.all.map((preset) => preset.id), [
-      'animated_waves',
       'soft_gradient',
+      'animated_waves',
       'bloom_image',
     ]);
   });
@@ -34,7 +34,7 @@ void main() {
     expect(BackgroundPreset.fromStorageValue('preset:obsidian_bloom'), isNull);
   });
 
-  test('BackgroundPreset resolves the animated default for empty values', () {
+  test('BackgroundPreset resolves the default preset for empty values', () {
     expect(BackgroundPreset.resolve(null)?.id, BackgroundPreset.defaultId);
     expect(BackgroundPreset.resolve('')?.id, BackgroundPreset.defaultId);
   });

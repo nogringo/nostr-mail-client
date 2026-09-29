@@ -28,7 +28,7 @@ class BackgroundPreset {
   static const storagePrefix = 'preset:';
   static const cachedImagePrefix = 'blossom:';
   static const systemColorStorageValue = 'system:color';
-  static const defaultId = 'animated_waves';
+  static const defaultId = 'soft_gradient';
 
   final String id;
   final BackgroundPresetVariant lightVariant;
@@ -46,17 +46,6 @@ class BackgroundPreset {
 
   static const all = [
     BackgroundPreset(
-      id: 'animated_waves',
-      lightVariant: BackgroundPresetVariant(
-        id: 'paper_light',
-        seedColor: Color(0xFF5A9787),
-      ),
-      darkVariant: BackgroundPresetVariant(
-        id: 'midnight_inbox',
-        seedColor: Color(0xFF75B5A6),
-      ),
-    ),
-    BackgroundPreset(
       id: 'soft_gradient',
       lightVariant: BackgroundPresetVariant(
         id: 'relay_map',
@@ -65,6 +54,17 @@ class BackgroundPreset {
       darkVariant: BackgroundPresetVariant(
         id: 'dawn_sync',
         seedColor: Color(0xFF8EAED1),
+      ),
+    ),
+    BackgroundPreset(
+      id: 'animated_waves',
+      lightVariant: BackgroundPresetVariant(
+        id: 'paper_light',
+        seedColor: Color(0xFF5A9787),
+      ),
+      darkVariant: BackgroundPresetVariant(
+        id: 'midnight_inbox',
+        seedColor: Color(0xFF75B5A6),
       ),
     ),
     BackgroundPreset(
