@@ -13,7 +13,7 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
-## [Unreleased]
+## [0.17.0]
 
 ### Added
 
@@ -41,6 +41,10 @@ Releases prior to 0.13.0 are listed on the
   onboarding.
 - Show an error screen with the details and a prefilled report when the app
   fails to start, instead of a blank page.
+- Know when a newer version of Nmail is out: the menu and the settings show
+  it, and the about page offers to update, or to reload on web.
+- Show a FOSS chip next to the app name on the about page of the FOSS
+  version.
 
 ### Changed
 
