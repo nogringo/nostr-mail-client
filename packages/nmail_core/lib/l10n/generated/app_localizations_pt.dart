@@ -180,6 +180,17 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsSyncCodeCopied => 'Código de sincronização copiado';
 
   @override
+  String get settingsSyncCodeAuthReason =>
+      'Qualquer pessoa com o seu código de sincronização pode aceder à sua conta.';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason =>
+      'copiar o seu código de sincronização';
+
+  @override
+  String get deviceAuthTitle => 'Confirme a sua identidade';
+
+  @override
   String get settingsLogOut => 'Terminar sessão';
 
   @override
@@ -2109,6 +2120,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsSyncCodeCopied => 'Código de sincronização copiado';
+
+  @override
+  String get settingsSyncCodeAuthReason =>
+      'Qualquer pessoa com seu código de sincronização pode acessar sua conta.';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason =>
+      'copiar seu código de sincronização';
+
+  @override
+  String get deviceAuthTitle => 'Confirme sua identidade';
 
   @override
   String get settingsLogOut => 'Sair';

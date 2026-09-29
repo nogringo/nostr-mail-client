@@ -174,6 +174,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsSyncCodeCopied => '已复制同步码';
 
   @override
+  String get settingsSyncCodeAuthReason => '任何拥有您同步码的人都可以访问您的账户。';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason => '复制您的同步码';
+
+  @override
+  String get deviceAuthTitle => '确认是您本人';
+
+  @override
   String get settingsLogOut => '退出登录';
 
   @override

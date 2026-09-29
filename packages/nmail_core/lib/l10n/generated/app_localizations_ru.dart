@@ -180,6 +180,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsSyncCodeCopied => 'Код синхронизации скопирован';
 
   @override
+  String get settingsSyncCodeAuthReason =>
+      'Любой, у кого есть ваш код синхронизации, может получить доступ к вашему аккаунту.';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason =>
+      'скопировать ваш код синхронизации';
+
+  @override
+  String get deviceAuthTitle => 'Подтвердите, что это вы';
+
+  @override
   String get settingsLogOut => 'Выйти';
 
   @override

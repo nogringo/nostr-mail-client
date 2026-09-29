@@ -415,6 +415,24 @@ abstract class AppLocalizations {
   /// **'Sync code copied'**
   String get settingsSyncCodeCopied;
 
+  /// Explanation shown in the device lock prompt (pattern, PIN, password or biometrics) before copying the sync code
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone with your sync code can access your account.'**
+  String get settingsSyncCodeAuthReason;
+
+  /// Completes the macOS system sentence 'Nmail is trying to ...' in the device lock prompt before copying the sync code. Verb phrase, lowercase, no final period.
+  ///
+  /// In en, this message translates to:
+  /// **'copy your sync code'**
+  String get settingsSyncCodeAuthMacosReason;
+
+  /// Title of the device lock prompt (pattern, PIN, password or biometrics) on Android
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm it\'s you'**
+  String get deviceAuthTitle;
+
   /// Log out tile label in settings
   ///
   /// In en, this message translates to:

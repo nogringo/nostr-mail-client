@@ -179,6 +179,16 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsSyncCodeCopied => 'Synkronointikoodi kopioitu';
 
   @override
+  String get settingsSyncCodeAuthReason =>
+      'Kuka tahansa synkronointikoodisi haltija pääsee tiliisi.';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason => 'kopioida synkronointikoodisi';
+
+  @override
+  String get deviceAuthTitle => 'Vahvista henkilöllisyytesi';
+
+  @override
   String get settingsLogOut => 'Kirjaudu ulos';
 
   @override

@@ -180,6 +180,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsSyncCodeCopied => 'Sync-Code kopiert';
 
   @override
+  String get settingsSyncCodeAuthReason =>
+      'Wer deinen Sync-Code hat, kann auf dein Konto zugreifen.';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason => 'deinen Sync-Code zu kopieren';
+
+  @override
+  String get deviceAuthTitle => 'Bestätige, dass du es bist';
+
+  @override
   String get settingsLogOut => 'Abmelden';
 
   @override

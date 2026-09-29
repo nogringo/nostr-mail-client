@@ -42,6 +42,8 @@ dependencies:
   idb_sqflite: ^1.4.4
   intl: ^0.20.2
   introduction_screen: ^5.0.0
+  local_auth: ^3.0.2
+  local_auth_android: ^2.2.0
   material_color_utilities: ^0.13.0
   mime: ^2.0.0
   ndk: ^0.10.0-dev.9

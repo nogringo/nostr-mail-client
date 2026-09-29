@@ -175,6 +175,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsSyncCodeCopied => '同期コードをコピーしました';
 
   @override
+  String get settingsSyncCodeAuthReason =>
+      '同期コードを知っている人は誰でもあなたのアカウントにアクセスできます。';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason => '同期コードをコピー';
+
+  @override
+  String get deviceAuthTitle => '本人確認';
+
+  @override
   String get settingsLogOut => 'ログアウト';
 
   @override

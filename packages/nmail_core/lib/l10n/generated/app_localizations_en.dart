@@ -180,6 +180,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsSyncCodeCopied => 'Sync code copied';
 
   @override
+  String get settingsSyncCodeAuthReason =>
+      'Anyone with your sync code can access your account.';
+
+  @override
+  String get settingsSyncCodeAuthMacosReason => 'copy your sync code';
+
+  @override
+  String get deviceAuthTitle => 'Confirm it\'s you';
+
+  @override
   String get settingsLogOut => 'Log out';
 
   @override
