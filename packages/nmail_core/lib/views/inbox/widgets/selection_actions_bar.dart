@@ -60,7 +60,7 @@ class SelectionActionsBar extends StatelessWidget {
         ),
         _ActionItem(
           icon: const Icon(Icons.block),
-          label: l.senderRefuse,
+          label: l.senderBlock,
           onPressed: () => _judgeSelected(context, SenderVerdict.block),
           isPrimary: true,
         ),

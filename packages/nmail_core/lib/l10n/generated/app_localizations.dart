@@ -3511,12 +3511,6 @@ abstract class AppLocalizations {
   /// **'Accept sender'**
   String get senderAccept;
 
-  /// Menu action that refuses the sender of an email in Requests: all their emails move to Spam
-  ///
-  /// In en, this message translates to:
-  /// **'Refuse sender'**
-  String get senderRefuse;
-
   /// Action that blocks the sender of an email: all their emails move to Spam
   ///
   /// In en, this message translates to:
@@ -3535,17 +3529,17 @@ abstract class AppLocalizations {
   /// **'Could not update the sender'**
   String get senderVerdictFailed;
 
-  /// Button on a sender waiting in Requests: their emails move to the Inbox
+  /// Button above an email opened from Requests that accepts its sender: their emails move to the Inbox
   ///
   /// In en, this message translates to:
   /// **'Accept'**
   String get requestsAccept;
 
-  /// Button on a sender waiting in Requests: their emails move to Spam
+  /// Button above an email opened from Requests that blocks its sender: all their emails move to Spam
   ///
   /// In en, this message translates to:
-  /// **'Refuse'**
-  String get requestsRefuse;
+  /// **'Block'**
+  String get requestsBlock;
 
   /// Under a sender in Requests: how many emails they sent
   ///

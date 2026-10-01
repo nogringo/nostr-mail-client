@@ -1992,9 +1992,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get senderAccept => 'Aceitar remetente';
 
   @override
-  String get senderRefuse => 'Recusar remetente';
-
-  @override
   String get senderBlock => 'Bloquear remetente';
 
   @override
@@ -2007,7 +2004,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get requestsAccept => 'Aceitar';
 
   @override
-  String get requestsRefuse => 'Recusar';
+  String get requestsBlock => 'Bloquear';
 
   @override
   String requestsEmailCount(int count) {
@@ -4067,9 +4064,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get senderAccept => 'Aceitar remetente';
 
   @override
-  String get senderRefuse => 'Recusar remetente';
-
-  @override
   String get senderBlock => 'Bloquear remetente';
 
   @override
@@ -4082,7 +4076,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get requestsAccept => 'Aceitar';
 
   @override
-  String get requestsRefuse => 'Recusar';
+  String get requestsBlock => 'Bloquear';
 
   @override
   String requestsEmailCount(int count) {

@@ -356,7 +356,7 @@ class EmailTile extends StatelessWidget {
           l.senderAccept,
           _verdict(SenderVerdict.allow),
         ),
-        _MenuAction(Icons.block, l.senderRefuse, _verdict(SenderVerdict.block)),
+        _MenuAction(Icons.block, l.senderBlock, _verdict(SenderVerdict.block)),
         _MenuAction(Icons.reply, l.emailReply, onReply, startsGroup: true),
         _MenuAction(Icons.forward, l.emailForward, onForward),
         ?readToggle,

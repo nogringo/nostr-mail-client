@@ -1985,9 +1985,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get senderAccept => 'Hyväksy lähettäjä';
 
   @override
-  String get senderRefuse => 'Hylkää lähettäjä';
-
-  @override
   String get senderBlock => 'Estä lähettäjä';
 
   @override
@@ -2000,7 +1997,7 @@ class AppLocalizationsFi extends AppLocalizations {
   String get requestsAccept => 'Hyväksy';
 
   @override
-  String get requestsRefuse => 'Hylkää';
+  String get requestsBlock => 'Estä';
 
   @override
   String requestsEmailCount(int count) {

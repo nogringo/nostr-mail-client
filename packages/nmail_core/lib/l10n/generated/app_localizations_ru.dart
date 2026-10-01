@@ -2019,9 +2019,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get senderAccept => 'Принять отправителя';
 
   @override
-  String get senderRefuse => 'Отклонить отправителя';
-
-  @override
   String get senderBlock => 'Заблокировать отправителя';
 
   @override
@@ -2034,7 +2031,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get requestsAccept => 'Принять';
 
   @override
-  String get requestsRefuse => 'Отклонить';
+  String get requestsBlock => 'Заблокировать';
 
   @override
   String requestsEmailCount(int count) {

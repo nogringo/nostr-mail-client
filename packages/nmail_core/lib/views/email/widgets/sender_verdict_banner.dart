@@ -20,17 +20,20 @@ class SenderVerdictBanner extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    // Spelled out here, with the thumbs the Requests list shows alone.
     final actions = mailbox.isRequests
         ? [
-            TextButton(
+            TextButton.icon(
               onPressed: () =>
                   controller.setSenderVerdict(context, SenderVerdict.block),
-              child: Text(l.requestsRefuse),
+              icon: const Icon(Icons.thumb_down_outlined),
+              label: Text(l.requestsBlock),
             ),
-            FilledButton.tonal(
+            TextButton.icon(
               onPressed: () =>
                   controller.setSenderVerdict(context, SenderVerdict.allow),
-              child: Text(l.requestsAccept),
+              icon: const Icon(Icons.thumb_up_outlined),
+              label: Text(l.requestsAccept),
             ),
           ]
         : [

@@ -1877,9 +1877,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get senderAccept => '送信者を承認';
 
   @override
-  String get senderRefuse => '送信者を拒否';
-
-  @override
   String get senderBlock => '送信者をブロック';
 
   @override
@@ -1892,7 +1889,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get requestsAccept => '承認';
 
   @override
-  String get requestsRefuse => '拒否';
+  String get requestsBlock => 'ブロック';
 
   @override
   String requestsEmailCount(int count) {

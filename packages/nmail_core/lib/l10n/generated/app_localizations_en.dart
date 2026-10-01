@@ -1978,9 +1978,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get senderAccept => 'Accept sender';
 
   @override
-  String get senderRefuse => 'Refuse sender';
-
-  @override
   String get senderBlock => 'Block sender';
 
   @override
@@ -1993,7 +1990,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get requestsAccept => 'Accept';
 
   @override
-  String get requestsRefuse => 'Refuse';
+  String get requestsBlock => 'Block';
 
   @override
   String requestsEmailCount(int count) {

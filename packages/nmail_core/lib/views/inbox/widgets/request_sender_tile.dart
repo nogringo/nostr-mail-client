@@ -102,7 +102,7 @@ class RequestSenderTile extends GetView<InboxController> {
             ),
             IconButton(
               icon: const Icon(Icons.thumb_down_outlined),
-              tooltip: l.senderRefuse,
+              tooltip: l.senderBlock,
               onPressed: () => _judge(context, SenderVerdict.block),
             ),
             IconButton(

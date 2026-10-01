@@ -54,13 +54,12 @@ A sender has no verdict when its entry is not a member, or when the winning Add 
 | Action | Where | Effect |
 |--------|-------|--------|
 | Accept | Requests | Add `allow` for the sender |
-| Refuse | Requests | Add `block` for the sender |
 | Accept all | Requests | Add `allow` for every sender in Requests, in one event |
-| Block sender | any email outside Requests and Spam | Add `block` for the sender |
+| Block sender | any email outside Spam | Add `block` for the sender |
 | Unblock sender | Spam | Add `allow` for the sender |
 | Empty Spam | Spam | Delete every email in Spam, as emptying Trash does |
 
-Accept and Refuse apply to the sender, so they move all of its routed emails at once.
+Accept, Block sender and Unblock sender apply to the sender, so they move all of its routed emails at once.
 
 ## Notifications
 

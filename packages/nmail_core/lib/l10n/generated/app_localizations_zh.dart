@@ -1862,9 +1862,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get senderAccept => '接受发件人';
 
   @override
-  String get senderRefuse => '拒绝发件人';
-
-  @override
   String get senderBlock => '屏蔽发件人';
 
   @override
@@ -1877,7 +1874,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get requestsAccept => '接受';
 
   @override
-  String get requestsRefuse => '拒绝';
+  String get requestsBlock => '屏蔽';
 
   @override
   String requestsEmailCount(int count) {
