@@ -453,7 +453,8 @@ class EmailController extends GetxController implements InlineImageSource {
       email?.senderPubkey == Get.find<AuthController>().publicKey;
 
   /// The email leaves the mailbox it is shown from, along with every other
-  /// email of its sender.
+  /// email of its sender: back to that mailbox's list, past a page listing
+  /// only that sender's emails.
   Future<void> setSenderVerdict(
     BuildContext context,
     SenderVerdict verdict,
@@ -464,7 +465,13 @@ class EmailController extends GetxController implements InlineImageSource {
       context,
       () => Get.find<InboxController>().setSenderVerdict([senderKey], verdict),
     );
-    if (applied) AppRouter.popOrGoInbox();
+    if (!applied) return;
+    final mailbox = this.mailbox;
+    if (mailbox == null) {
+      AppRouter.popOrGoInbox();
+    } else {
+      AppRouter.router.go(AppRoutes.mailboxPath(mailbox));
+    }
   }
 
   void unarchiveEmail() {

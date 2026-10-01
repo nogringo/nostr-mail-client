@@ -47,6 +47,10 @@ class AppRoutes {
   // Path segment for the nested email detail route under each folder.
   static const emailSegment = 'email/:id';
 
+  // What one sender waiting in requests sent, nested under requests.
+  static const senderKeyParam = 'senderKey';
+  static const requestSenderSegment = 'sender/:$senderKeyParam';
+
   // Actions
   static const compose = '/compose';
   static const contactForm = '/contacts/form';
@@ -87,6 +91,13 @@ class AppRoutes {
   /// In-app deep-linkable email URL: `/<mailbox>/email/<hex>`.
   static String emailPath(Mailbox mailbox, String id) =>
       '${mailboxPath(mailbox)}/email/$id';
+
+  /// A bridged sender key holds `:` and `@`.
+  static String requestSenderPath(String senderKey) =>
+      '$requests/sender/${Uri.encodeComponent(senderKey)}';
+
+  static String requestSenderEmailPath(String senderKey, String id) =>
+      '${requestSenderPath(senderKey)}/email/$id';
 
   /// The request id travels in the URL rather than in `extra` so a reload on
   /// web keeps the report on screen.

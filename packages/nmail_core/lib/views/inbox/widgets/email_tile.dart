@@ -405,10 +405,14 @@ class EmailTile extends StatelessWidget {
   void _showContextMenu(BuildContext context, {Offset? position}) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final actions = _menuActions(
-      l,
-      Get.find<InboxController>().currentMailbox.value,
-    );
+    // A list that wires no callback for an action does not offer it.
+    final actions = [
+      for (final action in _menuActions(
+        l,
+        Get.find<InboxController>().currentMailbox.value,
+      ))
+        if (action.onPressed != null) action,
+    ];
     Color? colorOf(_MenuAction action) =>
         action.isDestructive ? colorScheme.error : null;
 

@@ -41,6 +41,10 @@ void main() {
       expect(AppRoutes.mailboxPath(Mailbox.requests), '/requests');
       expect(AppRoutes.emailPath(Mailbox.spam, 'abc'), '/spam/email/abc');
       expect(
+        AppRoutes.requestSenderEmailPath('ab:alice@example.com', 'abc'),
+        '/requests/sender/ab%3Aalice%40example.com/email/abc',
+      );
+      expect(
         AppRoutes.mailboxPath(const FolderMailbox(folderId)),
         '/folder/$folderId',
       );

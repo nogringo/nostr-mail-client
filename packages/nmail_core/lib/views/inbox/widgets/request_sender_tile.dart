@@ -1,4 +1,3 @@
-import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,6 @@ import 'package:nostr_mail/nostr_mail.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/format_date.dart';
@@ -16,7 +14,8 @@ import 'package:nmail_core/utils/sender_groups.dart';
 import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
 
 /// A sender waiting in requests: who they are, what they sent last, and the
-/// verdict to give them. Tapping it opens the latest email.
+/// verdict to give them. Tapping it shows what they sent: the email itself
+/// when there is one, the list of them otherwise.
 class RequestSenderTile extends GetView<InboxController> {
   final SenderGroup group;
 
@@ -24,17 +23,11 @@ class RequestSenderTile extends GetView<InboxController> {
 
   EmailSummary get _latest => group.emails.first;
 
-  /// A bridged email names its sender in the MIME From, the gift wrap only
-  /// the bridge.
-  EmailPerson get _person => _latest.isBridged
-      ? EmailPerson.email(
-          MailAddress(_latest.fromName, _latest.from),
-          bridgePubkey: _latest.senderPubkey,
-        )
-      : EmailPerson.nostr(_latest.senderPubkey);
-
-  void _open(BuildContext context) =>
-      context.go(AppRoutes.emailPath(Mailbox.requests, _latest.id));
+  void _open(BuildContext context) => context.go(
+    group.emails.length > 1
+        ? AppRoutes.requestSenderPath(group.senderKey)
+        : AppRoutes.emailPath(Mailbox.requests, _latest.id),
+  );
 
   Future<void> _judge(BuildContext context, SenderVerdict verdict) =>
       runSenderVerdict(
@@ -49,8 +42,10 @@ class RequestSenderTile extends GetView<InboxController> {
     final colorScheme = Theme.of(context).colorScheme;
     final count = group.emails.length;
 
+    final person = summarySender(_latest);
+
     return Obx(() {
-      final name = emailPersonName(_person);
+      final name = emailPersonName(person);
       final address = _latest.isBridged && name != _latest.from
           ? _latest.from
           : null;
@@ -58,7 +53,7 @@ class RequestSenderTile extends GetView<InboxController> {
 
       return ListTile(
         titleAlignment: ListTileTitleAlignment.top,
-        leading: BridgedPersonAvatar(person: _person),
+        leading: BridgedPersonAvatar(person: person),
         title: Row(
           children: [
             Expanded(
