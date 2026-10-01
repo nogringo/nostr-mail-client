@@ -442,7 +442,9 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   /// Surface a system notification for a genuinely new incoming email, but only
   /// while the app is not in the foreground, where the inbox already updates.
-  void _notifyIncomingEmail(Email email) {
+  /// Spam never notifies, and requests only for the first email of a sender
+  /// waiting there (docs/senders-and-spam.md).
+  Future<void> _notifyIncomingEmail(Email email) async {
     if (!Get.find<SettingsController>().notificationsEnabled.value) return;
     if (_lifecycleState == AppLifecycleState.resumed) return;
 
@@ -450,6 +452,21 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     if (startedAt != null && email.createdAt.isBefore(startedAt)) return;
 
     if (email.senderPubkey == _nostrMailService.getPublicKey()) return;
+
+    final generation = _accountGeneration;
+    final client = _nostrMailService.client;
+    final folder = (await client.getSummary(email.id))?.folder;
+    if (folder == Mailbox.spam.folderParam) return;
+    final isRequest = folder == Mailbox.requests.folderParam;
+    if (isRequest) {
+      final fromSender = await client.getSummaries(
+        folder: folder,
+        senderKey: email.senderKey,
+        limit: 1,
+      );
+      if (fromSender.total > 1) return;
+    }
+    if (generation != _accountGeneration) return;
 
     final from = email.sender;
     final title = (from?.personalName?.trim().isNotEmpty ?? false)
@@ -460,7 +477,10 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       id: email.id.hashCode & 0x7fffffff,
       title: title,
       body: email.subject?.trim() ?? '',
-      payload: '${AppRoutes.inbox}/email/${email.id}',
+      payload: AppRoutes.emailPath(
+        isRequest ? Mailbox.requests : Mailbox.inbox,
+        email.id,
+      ),
     );
   }
 
