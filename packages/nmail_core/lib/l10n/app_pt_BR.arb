@@ -48,6 +48,7 @@
   "settingsDohServerInvalid": "Digite um endereço https://",
   "settingsHosting": "Hospedagem",
   "settingsDebugTools": "Ferramentas de depuração",
+  "aboutDebugToolsUnlocked": "As ferramentas de depuração agora estão disponíveis em Configurações",
   "settingsCopySyncCode": "Copiar código de sincronização",
   "settingsSyncCodeCopied": "Código de sincronização copiado",
   "settingsSyncCodeAuthReason": "Qualquer pessoa com seu código de sincronização pode acessar sua conta.",

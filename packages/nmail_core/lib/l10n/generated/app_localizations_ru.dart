@@ -174,6 +174,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsDebugTools => 'Инструменты отладки';
 
   @override
+  String get aboutDebugToolsUnlocked =>
+      'Инструменты отладки теперь доступны в настройках';
+
+  @override
   String get settingsCopySyncCode => 'Скопировать код синхронизации';
 
   @override

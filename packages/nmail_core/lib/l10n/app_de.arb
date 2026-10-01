@@ -51,6 +51,7 @@
   "settingsDohServerInvalid": "Gib eine https://-Adresse ein",
   "settingsHosting": "Hosting",
   "settingsDebugTools": "Debug-Werkzeuge",
+  "aboutDebugToolsUnlocked": "Die Debug-Werkzeuge sind jetzt in den Einstellungen verfügbar",
   "settingsCopySyncCode": "Sync-Code kopieren",
   "settingsSyncCodeCopied": "Sync-Code kopiert",
   "settingsSyncCodeAuthReason": "Wer deinen Sync-Code hat, kann auf dein Konto zugreifen.",

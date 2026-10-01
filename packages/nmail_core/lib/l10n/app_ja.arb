@@ -51,6 +51,7 @@
   "settingsDohServerInvalid": "https:// のアドレスを入力してください",
   "settingsHosting": "ホスティング",
   "settingsDebugTools": "デバッグツール",
+  "aboutDebugToolsUnlocked": "デバッグツールが設定で使えるようになりました",
   "settingsCopySyncCode": "同期コードをコピー",
   "settingsSyncCodeCopied": "同期コードをコピーしました",
   "settingsSyncCodeAuthReason": "同期コードを知っている人は誰でもあなたのアカウントにアクセスできます。",

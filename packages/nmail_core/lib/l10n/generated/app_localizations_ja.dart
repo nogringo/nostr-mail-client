@@ -169,6 +169,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsDebugTools => 'デバッグツール';
 
   @override
+  String get aboutDebugToolsUnlocked => 'デバッグツールが設定で使えるようになりました';
+
+  @override
   String get settingsCopySyncCode => '同期コードをコピー';
 
   @override

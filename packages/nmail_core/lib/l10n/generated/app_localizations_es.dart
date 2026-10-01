@@ -174,6 +174,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsDebugTools => 'Herramientas de depuración';
 
   @override
+  String get aboutDebugToolsUnlocked =>
+      'Las herramientas de depuración ya están disponibles en Ajustes';
+
+  @override
   String get settingsCopySyncCode => 'Copiar código de sincronización';
 
   @override

@@ -51,6 +51,7 @@
   "settingsDohServerInvalid": "Anna https://-osoite",
   "settingsHosting": "Palvelimet",
   "settingsDebugTools": "Kehittäjätyökalut",
+  "aboutDebugToolsUnlocked": "Kehittäjätyökalut ovat nyt käytettävissä asetuksissa",
   "settingsCopySyncCode": "Kopioi synkronointikoodi",
   "settingsSyncCodeCopied": "Synkronointikoodi kopioitu",
   "settingsSyncCodeAuthReason": "Kuka tahansa synkronointikoodisi haltija pääsee tiliisi.",

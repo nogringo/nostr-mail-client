@@ -397,11 +397,17 @@ abstract class AppLocalizations {
   /// **'Hosting'**
   String get settingsHosting;
 
-  /// Debug tools tile/screen title (debug builds only)
+  /// Debug tools tile/screen title (debug builds, or release builds once unlocked from About)
   ///
   /// In en, this message translates to:
   /// **'Debug Tools'**
   String get settingsDebugTools;
+
+  /// Toast after tapping the app tile in About seven times, which reveals the Debug Tools entry in Settings
+  ///
+  /// In en, this message translates to:
+  /// **'Debug Tools are now available in Settings'**
+  String get aboutDebugToolsUnlocked;
 
   /// Settings tile title to copy the user's sync code (nsec) to the clipboard
   ///

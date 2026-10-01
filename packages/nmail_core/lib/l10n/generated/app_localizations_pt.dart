@@ -174,6 +174,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsDebugTools => 'Ferramentas de depuração';
 
   @override
+  String get aboutDebugToolsUnlocked =>
+      'As ferramentas de depuração estão agora disponíveis nas Definições';
+
+  @override
   String get settingsCopySyncCode => 'Copiar código de sincronização';
 
   @override
@@ -2258,6 +2262,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsDebugTools => 'Ferramentas de depuração';
+
+  @override
+  String get aboutDebugToolsUnlocked =>
+      'As ferramentas de depuração agora estão disponíveis em Configurações';
 
   @override
   String get settingsCopySyncCode => 'Copiar código de sincronização';

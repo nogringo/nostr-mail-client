@@ -51,6 +51,7 @@
   "settingsDohServerInvalid": "请输入 https:// 地址",
   "settingsHosting": "托管",
   "settingsDebugTools": "调试工具",
+  "aboutDebugToolsUnlocked": "调试工具现已在设置中可用",
   "settingsCopySyncCode": "复制同步码",
   "settingsSyncCodeCopied": "已复制同步码",
   "settingsSyncCodeAuthReason": "任何拥有您同步码的人都可以访问您的账户。",

@@ -51,6 +51,7 @@
   "settingsDohServerInvalid": "Введите адрес https://",
   "settingsHosting": "Хостинг",
   "settingsDebugTools": "Инструменты отладки",
+  "aboutDebugToolsUnlocked": "Инструменты отладки теперь доступны в настройках",
   "settingsCopySyncCode": "Скопировать код синхронизации",
   "settingsSyncCodeCopied": "Код синхронизации скопирован",
   "settingsSyncCodeAuthReason": "Любой, у кого есть ваш код синхронизации, может получить доступ к вашему аккаунту.",

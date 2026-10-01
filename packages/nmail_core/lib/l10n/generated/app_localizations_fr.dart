@@ -174,6 +174,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsDebugTools => 'Outils de débogage';
 
   @override
+  String get aboutDebugToolsUnlocked =>
+      'Les outils de débogage sont maintenant disponibles dans les paramètres';
+
+  @override
   String get settingsCopySyncCode => 'Copier le code de synchronisation';
 
   @override

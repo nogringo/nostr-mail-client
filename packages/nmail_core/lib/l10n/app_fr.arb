@@ -51,6 +51,7 @@
   "settingsDohServerInvalid": "Saisissez une adresse https://",
   "settingsHosting": "Hébergement",
   "settingsDebugTools": "Outils de débogage",
+  "aboutDebugToolsUnlocked": "Les outils de débogage sont maintenant disponibles dans les paramètres",
   "settingsCopySyncCode": "Copier le code de synchronisation",
   "settingsSyncCodeCopied": "Code de synchronisation copié",
   "settingsSyncCodeAuthReason": "Toute personne qui a votre code de synchronisation peut accéder à votre compte.",

@@ -173,6 +173,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsDebugTools => 'Kehittäjätyökalut';
 
   @override
+  String get aboutDebugToolsUnlocked =>
+      'Kehittäjätyökalut ovat nyt käytettävissä asetuksissa';
+
+  @override
   String get settingsCopySyncCode => 'Kopioi synkronointikoodi';
 
   @override

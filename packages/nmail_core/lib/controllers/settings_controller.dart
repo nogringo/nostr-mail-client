@@ -31,6 +31,7 @@ class SettingsController extends GetxController {
   static const _backgroundImageKey = 'background_image';
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
+  static const _debugToolsUnlockedKey = 'debug_tools_unlocked';
   static const _defaultSignature = '--\nSent with Nmail\nhttps://nostrmail.org';
 
   final alwaysLoadImages = false.obs;
@@ -56,6 +57,7 @@ class SettingsController extends GetxController {
   final paletteStyle = DynamicSchemeVariant.tonalSpot.obs;
   final lightSeedColor = SystemTheme.accentColor.accent.obs;
   final darkSeedColor = SystemTheme.accentColor.accent.obs;
+  final debugToolsUnlocked = false.obs;
 
   NostrMailService get _nostrMailService => Get.find<NostrMailService>();
 
@@ -108,6 +110,7 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(ThemeService.paletteStyleKey),
       _storageService.getSetting<String>(localeKey),
       _storageService.getSetting<String>(_dohServerKey),
+      _storageService.getSetting<bool>(_debugToolsUnlockedKey),
     ]);
 
     alwaysLoadImages.value = (results[0] as bool?) ?? false;
@@ -128,6 +131,7 @@ class SettingsController extends GetxController {
     final savedLocale = results[6] as String?;
     locale.value = _localeFromStorage(savedLocale);
     dohServer.value = (results[7] as String?) ?? defaultDohServer;
+    debugToolsUnlocked.value = (results[8] as bool?) ?? false;
 
     await _loadNotificationSettings();
 
@@ -207,6 +211,11 @@ class SettingsController extends GetxController {
     }
     dohServer.value = server;
     await _storageService.saveSetting(_dohServerKey, server);
+  }
+
+  Future<void> unlockDebugTools() async {
+    debugToolsUnlocked.value = true;
+    await _storageService.saveSetting(_debugToolsUnlockedKey, true);
   }
 
   Future<void> setNotificationsEnabled(bool value) async {
@@ -466,6 +475,7 @@ class SettingsController extends GetxController {
     paletteStyle.value = DynamicSchemeVariant.tonalSpot;
     lightSeedColor.value = SystemTheme.accentColor.accent;
     darkSeedColor.value = SystemTheme.accentColor.accent;
+    debugToolsUnlocked.value = false;
     _themeService.clear();
 
     // Navigate to login

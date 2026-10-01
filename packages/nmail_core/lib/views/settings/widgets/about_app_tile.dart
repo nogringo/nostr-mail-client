@@ -23,6 +23,7 @@ class AboutAppTile extends StatelessWidget {
         vertical: segmentedListGap / 2,
       ),
       child: ListTile(
+        onTap: () => controller.onVersionTap(context),
         tileColor: theme.colorScheme.surfaceContainerHigh,
         shape: segmentedListShape(index: 0, count: 2),
         minTileHeight: 72,

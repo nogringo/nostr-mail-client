@@ -174,6 +174,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsDebugTools => 'Debug Tools';
 
   @override
+  String get aboutDebugToolsUnlocked =>
+      'Debug Tools are now available in Settings';
+
+  @override
   String get settingsCopySyncCode => 'Copy sync code';
 
   @override

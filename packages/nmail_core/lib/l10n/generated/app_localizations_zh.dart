@@ -168,6 +168,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsDebugTools => '调试工具';
 
   @override
+  String get aboutDebugToolsUnlocked => '调试工具现已在设置中可用';
+
+  @override
   String get settingsCopySyncCode => '复制同步码';
 
   @override
