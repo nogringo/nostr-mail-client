@@ -580,6 +580,13 @@ class AppLocalizationsZh extends AppLocalizations {
       '忘记已从各中继获取的时间段，让同步引擎重新获取全部历史记录。不会删除任何消息。';
 
   @override
+  String get debugToolsHide => '隐藏调试工具';
+
+  @override
+  String get debugToolsHideDescription =>
+      '从设置中移除调试工具。如需重新显示，请在「关于」中点按 Nmail 卡片 7 次。';
+
+  @override
   String get debugNotificationPermissionDenied => '通知权限被拒绝。';
 
   @override

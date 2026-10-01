@@ -609,6 +609,13 @@ class AppLocalizationsIt extends AppLocalizations {
       'Dimentica quali periodi sono già stati recuperati da ciascun relay, così il motore di sincronizzazione recupera di nuovo tutta la cronologia. Nessun messaggio viene eliminato.';
 
   @override
+  String get debugToolsHide => 'Nascondi gli strumenti di debug';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Rimuove gli strumenti di debug dalle Impostazioni. Per mostrarli di nuovo, tocca 7 volte il riquadro Nmail in \"Informazioni\".';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Autorizzazione alle notifiche negata.';
 

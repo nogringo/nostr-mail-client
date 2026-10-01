@@ -602,6 +602,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Forgets which periods have already been fetched from each relay, so the sync engine fetches the whole history again. No message is deleted.';
 
   @override
+  String get debugToolsHide => 'Hide Debug Tools';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Removes Debug Tools from Settings. To show them again, tap the Nmail tile in \"About\" 7 times.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Notification permission denied.';
 

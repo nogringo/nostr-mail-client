@@ -1,12 +1,14 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
@@ -156,5 +158,10 @@ class DebugToolsController extends GetxController {
     } finally {
       isClearingSyncCoverage.value = false;
     }
+  }
+
+  Future<void> hideDebugTools(BuildContext context) async {
+    await Get.find<SettingsController>().lockDebugTools();
+    if (context.mounted) context.go(AppRoutes.settings);
   }
 }

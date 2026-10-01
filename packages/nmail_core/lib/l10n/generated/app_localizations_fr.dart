@@ -611,6 +611,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Oublie les périodes déjà récupérées sur chaque relais, pour que le moteur de synchronisation récupère à nouveau tout l\'historique. Aucun message n\'est supprimé.';
 
   @override
+  String get debugToolsHide => 'Masquer les outils de débogage';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Retire les outils de débogage des paramètres. Pour les afficher à nouveau, appuyez 7 fois sur la tuile Nmail dans « À propos ».';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Permission de notification refusée.';
 

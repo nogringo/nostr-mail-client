@@ -1195,6 +1195,18 @@ abstract class AppLocalizations {
   /// **'Forgets which periods have already been fetched from each relay, so the sync engine fetches the whole history again. No message is deleted.'**
   String get debugToolsClearSyncCoverageDescription;
 
+  /// Button label that removes the Debug Tools entry from Settings until it is unlocked again
+  ///
+  /// In en, this message translates to:
+  /// **'Hide Debug Tools'**
+  String get debugToolsHide;
+
+  /// Helper text explaining the hide-debug-tools action and how to bring them back from About
+  ///
+  /// In en, this message translates to:
+  /// **'Removes Debug Tools from Settings. To show them again, tap the Nmail tile in \"About\" 7 times.'**
+  String get debugToolsHideDescription;
+
   /// Error shown when the OS or browser denied notification permission
   ///
   /// In en, this message translates to:

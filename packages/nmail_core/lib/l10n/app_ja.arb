@@ -222,6 +222,8 @@
   "debugToolsSync": "同期",
   "debugToolsClearSyncCoverage": "同期カバレッジを消去",
   "debugToolsClearSyncCoverageDescription": "各リレーから取得済みの期間を忘れ、同期エンジンが履歴全体を再取得します。メッセージは削除されません。",
+  "debugToolsHide": "デバッグツールを非表示",
+  "debugToolsHideDescription": "設定からデバッグツールを削除します。再表示するには、「アプリ情報」の Nmail の項目を 7 回タップしてください。",
   "debugNotificationPermissionDenied": "通知の許可が拒否されました。",
 
   "folderInbox": "受信トレイ",

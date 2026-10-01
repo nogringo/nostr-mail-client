@@ -607,6 +607,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Olvida qué periodos ya se obtuvieron de cada relay, para que el motor de sincronización vuelva a obtener todo el historial. No se elimina ningún mensaje.';
 
   @override
+  String get debugToolsHide => 'Ocultar las herramientas de depuración';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Quita las herramientas de depuración de Ajustes. Para volver a mostrarlas, toca 7 veces el recuadro de Nmail en \"Acerca de\".';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Permiso de notificaciones denegado.';
 

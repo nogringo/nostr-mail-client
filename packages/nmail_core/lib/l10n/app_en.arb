@@ -402,6 +402,10 @@
   "@debugToolsClearSyncCoverage": { "description": "Button label to forget everything the sync engine has fetched, so it walks every relay's history again" },
   "debugToolsClearSyncCoverageDescription": "Forgets which periods have already been fetched from each relay, so the sync engine fetches the whole history again. No message is deleted.",
   "@debugToolsClearSyncCoverageDescription": { "description": "Helper text explaining the clear-sync-coverage debug action" },
+  "debugToolsHide": "Hide Debug Tools",
+  "@debugToolsHide": { "description": "Button label that removes the Debug Tools entry from Settings until it is unlocked again" },
+  "debugToolsHideDescription": "Removes Debug Tools from Settings. To show them again, tap the Nmail tile in \"About\" 7 times.",
+  "@debugToolsHideDescription": { "description": "Helper text explaining the hide-debug-tools action and how to bring them back from About" },
   "debugNotificationPermissionDenied": "Notification permission denied.",
   "@debugNotificationPermissionDenied": { "description": "Error shown when the OS or browser denied notification permission" },
 

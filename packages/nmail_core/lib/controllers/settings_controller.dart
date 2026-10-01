@@ -218,6 +218,11 @@ class SettingsController extends GetxController {
     await _storageService.saveSetting(_debugToolsUnlockedKey, true);
   }
 
+  Future<void> lockDebugTools() async {
+    debugToolsUnlocked.value = false;
+    await _storageService.deleteSetting(_debugToolsUnlockedKey);
+  }
+
   Future<void> setNotificationsEnabled(bool value) async {
     final pubkey = _pubkey;
     if (pubkey == null) {

@@ -584,6 +584,13 @@ class AppLocalizationsJa extends AppLocalizations {
       '各リレーから取得済みの期間を忘れ、同期エンジンが履歴全体を再取得します。メッセージは削除されません。';
 
   @override
+  String get debugToolsHide => 'デバッグツールを非表示';
+
+  @override
+  String get debugToolsHideDescription =>
+      '設定からデバッグツールを削除します。再表示するには、「アプリ情報」の Nmail の項目を 7 回タップしてください。';
+
+  @override
   String get debugNotificationPermissionDenied => '通知の許可が拒否されました。';
 
   @override

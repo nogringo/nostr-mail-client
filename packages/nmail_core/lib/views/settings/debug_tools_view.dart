@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/debug_tools_controller.dart';
+import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 
@@ -12,6 +13,7 @@ class DebugToolsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final controller = Get.put(DebugToolsController());
+    final settings = Get.find<SettingsController>();
 
     Widget content = Scaffold(
       appBar: AppBar(title: Text(l.settingsDebugTools)),
@@ -103,6 +105,25 @@ class DebugToolsView extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
+                  if (settings.debugToolsUnlocked.value) ...[
+                    const Divider(height: 48),
+                    ElevatedButton.icon(
+                      onPressed: () => controller.hideDebugTools(context),
+                      icon: const Icon(Icons.visibility_off_outlined),
+                      label: Text(l.debugToolsHide),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 48),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      l.debugToolsHideDescription,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

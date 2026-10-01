@@ -222,6 +222,8 @@
   "debugToolsSync": "Sincronización",
   "debugToolsClearSyncCoverage": "Borrar la cobertura de sincronización",
   "debugToolsClearSyncCoverageDescription": "Olvida qué periodos ya se obtuvieron de cada relay, para que el motor de sincronización vuelva a obtener todo el historial. No se elimina ningún mensaje.",
+  "debugToolsHide": "Ocultar las herramientas de depuración",
+  "debugToolsHideDescription": "Quita las herramientas de depuración de Ajustes. Para volver a mostrarlas, toca 7 veces el recuadro de Nmail en \"Acerca de\".",
   "debugNotificationPermissionDenied": "Permiso de notificaciones denegado.",
 
   "folderInbox": "Bandeja de entrada",

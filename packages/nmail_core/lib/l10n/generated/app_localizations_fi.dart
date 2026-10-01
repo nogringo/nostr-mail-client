@@ -604,6 +604,13 @@ class AppLocalizationsFi extends AppLocalizations {
       'Unohtaa, mitkä ajanjaksot on jo haettu kultakin palvelimelta, jolloin synkronointimoottori hakee koko historian uudelleen. Viestejä ei poisteta.';
 
   @override
+  String get debugToolsHide => 'Piilota kehittäjätyökalut';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Poistaa kehittäjätyökalut asetuksista. Saat ne takaisin napauttamalla Nmail-ruutua 7 kertaa kohdassa \"Tietoja\".';
+
+  @override
   String get debugNotificationPermissionDenied => 'Ilmoituslupa evätty.';
 
   @override

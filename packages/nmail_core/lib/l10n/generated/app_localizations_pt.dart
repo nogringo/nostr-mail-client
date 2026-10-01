@@ -607,6 +607,13 @@ class AppLocalizationsPt extends AppLocalizations {
       'Esquece os períodos já obtidos de cada relay, para que o motor de sincronização volte a obter todo o histórico. Nenhuma mensagem é eliminada.';
 
   @override
+  String get debugToolsHide => 'Ocultar as ferramentas de depuração';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Remove as ferramentas de depuração das Definições. Para as mostrar novamente, toque 7 vezes no cartão Nmail em \"Sobre\".';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Permissão de notificações recusada.';
 
@@ -2694,6 +2701,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get debugToolsClearSyncCoverageDescription =>
       'Esquece quais períodos já foram buscados de cada relay, para que o mecanismo de sincronização busque todo o histórico novamente. Nenhuma mensagem é excluída.';
+
+  @override
+  String get debugToolsHide => 'Ocultar ferramentas de depuração';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Remove as ferramentas de depuração de Configurações. Para exibi-las novamente, toque 7 vezes no cartão do Nmail em \"Sobre\".';
 
   @override
   String get debugNotificationPermissionDenied =>

@@ -606,6 +606,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Vergisst, welche Zeiträume bereits von jedem Relay abgerufen wurden, sodass die Sync-Engine den gesamten Verlauf erneut abruft. Es werden keine Nachrichten gelöscht.';
 
   @override
+  String get debugToolsHide => 'Debug-Werkzeuge ausblenden';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Entfernt die Debug-Werkzeuge aus den Einstellungen. Um sie wieder anzuzeigen, tippe unter \"Über\" 7-mal auf die Nmail-Kachel.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Benachrichtigungsberechtigung verweigert.';
 

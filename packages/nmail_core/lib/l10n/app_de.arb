@@ -222,6 +222,8 @@
   "debugToolsSync": "Synchronisierung",
   "debugToolsClearSyncCoverage": "Sync-Abdeckung löschen",
   "debugToolsClearSyncCoverageDescription": "Vergisst, welche Zeiträume bereits von jedem Relay abgerufen wurden, sodass die Sync-Engine den gesamten Verlauf erneut abruft. Es werden keine Nachrichten gelöscht.",
+  "debugToolsHide": "Debug-Werkzeuge ausblenden",
+  "debugToolsHideDescription": "Entfernt die Debug-Werkzeuge aus den Einstellungen. Um sie wieder anzuzeigen, tippe unter \"Über\" 7-mal auf die Nmail-Kachel.",
   "debugNotificationPermissionDenied": "Benachrichtigungsberechtigung verweigert.",
 
   "folderInbox": "Posteingang",

@@ -222,6 +222,8 @@
   "debugToolsSync": "Synchronisation",
   "debugToolsClearSyncCoverage": "Vider la couverture de synchronisation",
   "debugToolsClearSyncCoverageDescription": "Oublie les périodes déjà récupérées sur chaque relais, pour que le moteur de synchronisation récupère à nouveau tout l'historique. Aucun message n'est supprimé.",
+  "debugToolsHide": "Masquer les outils de débogage",
+  "debugToolsHideDescription": "Retire les outils de débogage des paramètres. Pour les afficher à nouveau, appuyez 7 fois sur la tuile Nmail dans « À propos ».",
   "debugNotificationPermissionDenied": "Permission de notification refusée.",
 
   "folderInbox": "Boîte de réception",

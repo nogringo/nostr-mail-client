@@ -607,6 +607,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Забывает, какие периоды уже получены с каждого реле, чтобы движок синхронизации заново загрузил всю историю. Сообщения не удаляются.';
 
   @override
+  String get debugToolsHide => 'Скрыть инструменты отладки';
+
+  @override
+  String get debugToolsHideDescription =>
+      'Убирает инструменты отладки из настроек. Чтобы снова их показать, нажмите 7 раз на плитку Nmail в разделе «О приложении».';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Разрешение на уведомления отклонено.';
 

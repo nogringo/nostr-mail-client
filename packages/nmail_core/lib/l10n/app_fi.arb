@@ -222,6 +222,8 @@
   "debugToolsSync": "Synkronointi",
   "debugToolsClearSyncCoverage": "Tyhjennä synkronoinnin kattavuus",
   "debugToolsClearSyncCoverageDescription": "Unohtaa, mitkä ajanjaksot on jo haettu kultakin palvelimelta, jolloin synkronointimoottori hakee koko historian uudelleen. Viestejä ei poisteta.",
+  "debugToolsHide": "Piilota kehittäjätyökalut",
+  "debugToolsHideDescription": "Poistaa kehittäjätyökalut asetuksista. Saat ne takaisin napauttamalla Nmail-ruutua 7 kertaa kohdassa \"Tietoja\".",
   "debugNotificationPermissionDenied": "Ilmoituslupa evätty.",
 
   "folderInbox": "Saapuneet",
