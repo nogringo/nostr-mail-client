@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/utils/run_sender_verdict.dart';
 import '../../mailboxes/widgets/show_move_to_picker.dart';
 import '../../mailboxes/widgets/show_tags_picker.dart';
 import 'delete_permanently_dialog.dart';
@@ -29,6 +31,7 @@ class SelectionActionsBar extends StatelessWidget {
 
     final mailbox = controller.currentMailbox.value;
     final canRestore = mailbox.isTrash || mailbox.isArchive;
+    final isScreened = mailbox.isRequests || mailbox.isSpam;
 
     if (mailbox.showsUnread) {
       actions.addAll([
@@ -48,15 +51,36 @@ class SelectionActionsBar extends StatelessWidget {
     }
 
     actions.addAll([
-      _ActionItem(
-        icon: Icon(canRestore ? Icons.restore_from_trash : Icons.archive),
-        label: canRestore ? l.emailRestore : l.emailArchive,
-        onPressed: canRestore
-            ? controller.restoreSelected
-            : controller.archiveSelected,
-        isPrimary: true,
-      ),
-      if (!mailbox.isTrash) ...[
+      if (mailbox.isRequests) ...[
+        _ActionItem(
+          icon: const Icon(Icons.how_to_reg),
+          label: l.senderAccept,
+          onPressed: () => _judgeSelected(context, SenderVerdict.allow),
+          isPrimary: true,
+        ),
+        _ActionItem(
+          icon: const Icon(Icons.block),
+          label: l.senderRefuse,
+          onPressed: () => _judgeSelected(context, SenderVerdict.block),
+          isPrimary: true,
+        ),
+      ] else if (mailbox.isSpam)
+        _ActionItem(
+          icon: const Icon(Icons.how_to_reg),
+          label: l.senderUnblock,
+          onPressed: () => _judgeSelected(context, SenderVerdict.allow),
+          isPrimary: true,
+        )
+      else
+        _ActionItem(
+          icon: Icon(canRestore ? Icons.restore_from_trash : Icons.archive),
+          label: canRestore ? l.emailRestore : l.emailArchive,
+          onPressed: canRestore
+              ? controller.restoreSelected
+              : controller.archiveSelected,
+          isPrimary: true,
+        ),
+      if (!mailbox.isTrash && !isScreened) ...[
         _ActionItem(
           icon: const Icon(Icons.drive_file_move_outlined),
           label: l.mailboxMoveTo,
@@ -70,6 +94,13 @@ class SelectionActionsBar extends StatelessWidget {
           isPrimary: true,
         ),
       ],
+      if (!isScreened && !mailbox.isSent)
+        _ActionItem(
+          icon: const Icon(Icons.block),
+          label: l.senderBlock,
+          onPressed: () => _judgeSelected(context, SenderVerdict.block),
+          isPrimary: false,
+        ),
       _ActionItem(
         icon: const Icon(Icons.delete_outline),
         label: l.actionDelete,
@@ -93,6 +124,12 @@ class SelectionActionsBar extends StatelessWidget {
     );
     if (folder != null) await controller.moveSelectedTo(folder);
   }
+
+  Future<void> _judgeSelected(BuildContext context, SenderVerdict verdict) =>
+      runSenderVerdict(
+        context,
+        () => Get.find<InboxController>().setSelectedSendersVerdict(verdict),
+      );
 
   Future<void> _tagSelected(
     BuildContext context,

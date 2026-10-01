@@ -29,6 +29,7 @@ sealed class Mailbox {
 
   bool get isInbox => this == inbox;
   bool get isRequests => this == requests;
+  bool get isSent => this == sent;
   bool get isTrash => this == trash;
   bool get isArchive => this == archive;
   bool get isSpam => this == spam;

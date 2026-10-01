@@ -1954,6 +1954,68 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => 'Hyväksy lähettäjä';
+
+  @override
+  String get senderRefuse => 'Hylkää lähettäjä';
+
+  @override
+  String get senderBlock => 'Estä lähettäjä';
+
+  @override
+  String get senderUnblock => 'Poista lähettäjän esto';
+
+  @override
+  String get senderVerdictFailed => 'Lähettäjän päivitys epäonnistui';
+
+  @override
+  String get requestsAccept => 'Hyväksy';
+
+  @override
+  String get requestsRefuse => 'Hylkää';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viestiä',
+      one: '$count viesti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'Hyväksytyt lähettäjät menevät Saapuneisiin, hylätyt roskapostiin.';
+
+  @override
+  String get requestsAcceptAll => 'Hyväksy kaikki';
+
+  @override
+  String get requestsAcceptAllTitle => 'Hyväksytäänkö kaikki lähettäjät?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Kaikki $count Pyyntöjen lähettäjää hyväksytään ja heidän viestinsä siirretään Saapuneisiin.',
+      one:
+          'Pyyntöjen lähettäjä hyväksytään ja sen viestit siirretään Saapuneisiin.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Hyväksy lähettäjä, niin sen viestit tulevat Saapuneisiin.';
+
+  @override
+  String get emailBlockedBanner => 'Olet estänyt tämän lähettäjän.';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Versio $version saatavilla';
   }

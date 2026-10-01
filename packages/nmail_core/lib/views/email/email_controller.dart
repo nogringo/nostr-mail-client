@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/email_person.dart';
@@ -19,6 +20,7 @@ import 'package:nmail_core/utils/get_mime_type.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
+import 'package:nmail_core/utils/run_sender_verdict.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/image_viewer_page.dart';
@@ -445,6 +447,24 @@ class EmailController extends GetxController implements InlineImageSource {
     if (email == null) return;
     Get.find<InboxController>().moveToArchive(email!.id);
     AppRouter.popOrGoInbox();
+  }
+
+  bool get isFromMe =>
+      email?.senderPubkey == Get.find<AuthController>().publicKey;
+
+  /// The email leaves the mailbox it is shown from, along with every other
+  /// email of its sender.
+  Future<void> setSenderVerdict(
+    BuildContext context,
+    SenderVerdict verdict,
+  ) async {
+    final senderKey = email?.senderKey;
+    if (senderKey == null) return;
+    final applied = await runSenderVerdict(
+      context,
+      () => Get.find<InboxController>().setSenderVerdict([senderKey], verdict),
+    );
+    if (applied) AppRouter.popOrGoInbox();
   }
 
   void unarchiveEmail() {

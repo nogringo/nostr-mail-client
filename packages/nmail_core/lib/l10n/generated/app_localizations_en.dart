@@ -1947,6 +1947,68 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => 'Accept sender';
+
+  @override
+  String get senderRefuse => 'Refuse sender';
+
+  @override
+  String get senderBlock => 'Block sender';
+
+  @override
+  String get senderUnblock => 'Unblock sender';
+
+  @override
+  String get senderVerdictFailed => 'Could not update the sender';
+
+  @override
+  String get requestsAccept => 'Accept';
+
+  @override
+  String get requestsRefuse => 'Refuse';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails',
+      one: '$count email',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'Accepted senders go to your Inbox, refused ones to Spam.';
+
+  @override
+  String get requestsAcceptAll => 'Accept all';
+
+  @override
+  String get requestsAcceptAllTitle => 'Accept all senders?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'All $count senders in Requests will be accepted and their emails moved to your Inbox.',
+      one:
+          'The sender in Requests will be accepted and their emails moved to your Inbox.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Accept this sender to get their emails in your Inbox.';
+
+  @override
+  String get emailBlockedBanner => 'You blocked this sender.';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Version $version available';
   }

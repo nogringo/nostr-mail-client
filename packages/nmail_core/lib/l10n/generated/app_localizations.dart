@@ -3481,6 +3481,90 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{{count} sender waiting} other{{count} senders waiting}}'**
   String mailboxPendingSenders(int count);
 
+  /// Menu action that accepts the sender of an email in Requests: all their emails move to the Inbox
+  ///
+  /// In en, this message translates to:
+  /// **'Accept sender'**
+  String get senderAccept;
+
+  /// Menu action that refuses the sender of an email in Requests: all their emails move to Spam
+  ///
+  /// In en, this message translates to:
+  /// **'Refuse sender'**
+  String get senderRefuse;
+
+  /// Action that blocks the sender of an email: all their emails move to Spam
+  ///
+  /// In en, this message translates to:
+  /// **'Block sender'**
+  String get senderBlock;
+
+  /// Action on an email in Spam that unblocks its sender: all their emails move to the Inbox
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock sender'**
+  String get senderUnblock;
+
+  /// Toast title when accepting, refusing, blocking or unblocking a sender fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update the sender'**
+  String get senderVerdictFailed;
+
+  /// Button on a sender waiting in Requests: their emails move to the Inbox
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get requestsAccept;
+
+  /// Button on a sender waiting in Requests: their emails move to Spam
+  ///
+  /// In en, this message translates to:
+  /// **'Refuse'**
+  String get requestsRefuse;
+
+  /// Button on a sender in Requests that shows or hides the emails they sent
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} email} other{{count} emails}}'**
+  String requestsEmailCount(int count);
+
+  /// Banner at the top of Requests explaining what Accept and Refuse do
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted senders go to your Inbox, refused ones to Spam.'**
+  String get requestsBannerMessage;
+
+  /// Banner action in Requests, and its confirm button, that accepts every waiting sender
+  ///
+  /// In en, this message translates to:
+  /// **'Accept all'**
+  String get requestsAcceptAll;
+
+  /// Title of the dialog confirming that every sender in Requests is accepted
+  ///
+  /// In en, this message translates to:
+  /// **'Accept all senders?'**
+  String get requestsAcceptAllTitle;
+
+  /// Body of the dialog confirming that every sender in Requests is accepted. Plural-aware on `count`, the number of senders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{The sender in Requests will be accepted and their emails moved to your Inbox.} other{All {count} senders in Requests will be accepted and their emails moved to your Inbox.}}'**
+  String requestsAcceptAllMessage(int count);
+
+  /// Banner above an email opened from Requests, next to the Refuse and Accept buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Accept this sender to get their emails in your Inbox.'**
+  String get emailRequestBanner;
+
+  /// Banner above an email opened from Spam, next to the Unblock sender button
+  ///
+  /// In en, this message translates to:
+  /// **'You blocked this sender.'**
+  String get emailBlockedBanner;
+
   /// About page row shown when a newer Nmail release exists
   ///
   /// In en, this message translates to:

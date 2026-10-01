@@ -1102,13 +1102,12 @@ packages:
     source: hosted
     version: "0.5.4"
   nostr_mail:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: nostr_mail
-      sha256: cbcf8d3d6d8be95f650b96bc6cf75065ddd983535dc81f317c40e8b0da039b08
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.0"
+      path: "../nostr-mail-dart"
+      relative: true
+    source: path
+    version: "6.0.0"
   package_config:
     dependency: transitive
     description:

@@ -1858,6 +1858,53 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => '送信者を承認';
+
+  @override
+  String get senderRefuse => '送信者を拒否';
+
+  @override
+  String get senderBlock => '送信者をブロック';
+
+  @override
+  String get senderUnblock => '送信者のブロックを解除';
+
+  @override
+  String get senderVerdictFailed => '送信者を更新できませんでした';
+
+  @override
+  String get requestsAccept => '承認';
+
+  @override
+  String get requestsRefuse => '拒否';
+
+  @override
+  String requestsEmailCount(int count) {
+    return 'メール $count 件';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      '承認した送信者のメールは受信トレイに、拒否した送信者のメールは迷惑メールに届きます。';
+
+  @override
+  String get requestsAcceptAll => 'すべて承認';
+
+  @override
+  String get requestsAcceptAllTitle => 'すべての送信者を承認しますか?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    return 'リクエストの送信者 $count 人を承認し、そのメールを受信トレイに移動します。';
+  }
+
+  @override
+  String get emailRequestBanner => 'この送信者を承認すると、メールが受信トレイに届きます。';
+
+  @override
+  String get emailBlockedBanner => 'この送信者はブロック済みです。';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'バージョン $version が利用可能';
   }

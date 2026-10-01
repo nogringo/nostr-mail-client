@@ -1964,6 +1964,68 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => 'Absender akzeptieren';
+
+  @override
+  String get senderRefuse => 'Absender ablehnen';
+
+  @override
+  String get senderBlock => 'Absender blockieren';
+
+  @override
+  String get senderUnblock => 'Absender entsperren';
+
+  @override
+  String get senderVerdictFailed => 'Absender konnte nicht aktualisiert werden';
+
+  @override
+  String get requestsAccept => 'Akzeptieren';
+
+  @override
+  String get requestsRefuse => 'Ablehnen';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count E-Mails',
+      one: '$count E-Mail',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'Akzeptierte Absender landen im Posteingang, abgelehnte im Spam.';
+
+  @override
+  String get requestsAcceptAll => 'Alle akzeptieren';
+
+  @override
+  String get requestsAcceptAllTitle => 'Alle Absender akzeptieren?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Alle $count Absender in Anfragen werden akzeptiert und ihre E-Mails in den Posteingang verschoben.',
+      one:
+          'Der Absender in Anfragen wird akzeptiert und seine E-Mails werden in den Posteingang verschoben.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Akzeptiere diesen Absender, um seine E-Mails im Posteingang zu erhalten.';
+
+  @override
+  String get emailBlockedBanner => 'Du hast diesen Absender blockiert.';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Version $version verfügbar';
   }

@@ -30,6 +30,9 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final RxSet<String> readEmailIds = <String>{}.obs;
   final hoveredEmailId = RxnString();
 
+  /// Sender keys whose emails are listed under their row in requests.
+  final RxSet<String> expandedSenders = <String>{}.obs;
+
   /// Row a shift-click extends the selection from: the last one toggled on
   /// its own, and whether that toggle checked or unchecked it.
   String? _selectionAnchorId;
@@ -219,6 +222,45 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     await _loadEmails();
   }
 
+  /// Applies [verdict] to every sender of [senderKeys] in one event, so a
+  /// remote signer asks once for the lot.
+  Future<void> setSenderVerdict(
+    Iterable<String> senderKeys,
+    SenderVerdict verdict,
+  ) async {
+    final keys = senderKeys.toSet();
+    if (keys.isEmpty) return;
+    await _nostrMailService.client.setSenderVerdicts({
+      for (final key in keys) key: verdict,
+    });
+    await _loadEmails();
+  }
+
+  /// The account's own mail is never routed by a verdict, so it is skipped.
+  Future<void> setSelectedSendersVerdict(SenderVerdict verdict) async {
+    final me = _nostrMailService.getPublicKey();
+    final keys = [
+      for (final email in selectedEmails)
+        if (email.senderPubkey != me) email.senderKey,
+    ];
+    clearSelection();
+    await setSenderVerdict(keys, verdict);
+  }
+
+  Future<void> acceptAllRequests() async {
+    final requests = await _nostrMailService.client.getSummaries(
+      folder: Mailbox.requests.folderParam,
+    );
+    await setSenderVerdict(
+      requests.items.map((email) => email.senderKey),
+      SenderVerdict.allow,
+    );
+  }
+
+  void toggleSenderExpanded(String senderKey) {
+    if (!expandedSenders.remove(senderKey)) expandedSenders.add(senderKey);
+  }
+
   List<EmailSummary> get selectedEmails =>
       emails.where((e) => selectedIds.contains(e.id)).toList();
 
@@ -283,6 +325,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
     emails.clear();
     readEmailIds.clear();
+    expandedSenders.clear();
     clearSelection();
     oldEmailsCount.value = 0;
     isSyncing.value = false;

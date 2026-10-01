@@ -1961,6 +1961,68 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => 'Aceitar remetente';
+
+  @override
+  String get senderRefuse => 'Recusar remetente';
+
+  @override
+  String get senderBlock => 'Bloquear remetente';
+
+  @override
+  String get senderUnblock => 'Desbloquear remetente';
+
+  @override
+  String get senderVerdictFailed => 'Não foi possível atualizar o remetente';
+
+  @override
+  String get requestsAccept => 'Aceitar';
+
+  @override
+  String get requestsRefuse => 'Recusar';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count emails',
+      one: '$count email',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'Os remetentes aceites vão para a caixa de entrada e os recusados para o spam.';
+
+  @override
+  String get requestsAcceptAll => 'Aceitar todos';
+
+  @override
+  String get requestsAcceptAllTitle => 'Aceitar todos os remetentes?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Os $count remetentes em Pedidos serão aceites e os emails deles movidos para a caixa de entrada.',
+      one:
+          'O remetente em Pedidos será aceite e os emails dele movidos para a caixa de entrada.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Aceite este remetente para receber os emails dele na caixa de entrada.';
+
+  @override
+  String get emailBlockedBanner => 'Bloqueou este remetente.';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Versão $version disponível';
   }
@@ -3934,6 +3996,68 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
     );
     return '$_temp0';
   }
+
+  @override
+  String get senderAccept => 'Aceitar remetente';
+
+  @override
+  String get senderRefuse => 'Recusar remetente';
+
+  @override
+  String get senderBlock => 'Bloquear remetente';
+
+  @override
+  String get senderUnblock => 'Desbloquear remetente';
+
+  @override
+  String get senderVerdictFailed => 'Não foi possível atualizar o remetente';
+
+  @override
+  String get requestsAccept => 'Aceitar';
+
+  @override
+  String get requestsRefuse => 'Recusar';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count e-mails',
+      one: '$count e-mail',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'Os remetentes aceitos vão para a caixa de entrada e os recusados para o spam.';
+
+  @override
+  String get requestsAcceptAll => 'Aceitar todos';
+
+  @override
+  String get requestsAcceptAllTitle => 'Aceitar todos os remetentes?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Os $count remetentes em Solicitações serão aceitos e os e-mails deles movidos para a caixa de entrada.',
+      one:
+          'O remetente em Solicitações será aceito e os e-mails dele movidos para a caixa de entrada.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Aceite este remetente para receber os e-mails dele na caixa de entrada.';
+
+  @override
+  String get emailBlockedBanner => 'Você bloqueou este remetente.';
 
   @override
   String settingsUpdateAvailable(String version) {

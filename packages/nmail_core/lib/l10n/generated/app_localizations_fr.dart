@@ -1968,6 +1968,68 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => 'Accepter l\'expéditeur';
+
+  @override
+  String get senderRefuse => 'Refuser l\'expéditeur';
+
+  @override
+  String get senderBlock => 'Bloquer l\'expéditeur';
+
+  @override
+  String get senderUnblock => 'Débloquer l\'expéditeur';
+
+  @override
+  String get senderVerdictFailed => 'Impossible de mettre à jour l\'expéditeur';
+
+  @override
+  String get requestsAccept => 'Accepter';
+
+  @override
+  String get requestsRefuse => 'Refuser';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count e-mails',
+      one: '$count e-mail',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'Les expéditeurs acceptés arrivent dans la boîte de réception, les refusés dans les spams.';
+
+  @override
+  String get requestsAcceptAll => 'Tout accepter';
+
+  @override
+  String get requestsAcceptAllTitle => 'Accepter tous les expéditeurs ?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Les $count expéditeurs des Demandes seront acceptés et leurs e-mails déplacés dans la boîte de réception.',
+      one:
+          'L\'expéditeur des Demandes sera accepté et ses e-mails déplacés dans la boîte de réception.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Acceptez cet expéditeur pour recevoir ses e-mails dans la boîte de réception.';
+
+  @override
+  String get emailBlockedBanner => 'Vous avez bloqué cet expéditeur.';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Version $version disponible';
   }

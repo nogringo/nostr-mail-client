@@ -11,6 +11,7 @@ import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/utils/mailbox_title.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/utils/run_sender_verdict.dart';
 import '../shared/app_bar_account_avatar.dart';
 import '../mailboxes/widgets/show_move_to_picker.dart';
 import '../mailboxes/widgets/show_tags_picker.dart';
@@ -18,6 +19,8 @@ import '../shared/layout_constants.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
+import 'widgets/requests_banner.dart';
+import 'widgets/requests_sender_list.dart';
 import 'widgets/search_field.dart';
 import 'widgets/selection_actions_bar.dart';
 import 'widgets/trash_banner.dart';
@@ -88,41 +91,50 @@ class InboxView extends GetView<InboxController> {
         );
       }
 
+      final listsSenders =
+          controller.currentMailbox.value.isRequests && !controller.isSearching;
+
       return Column(
         children: [
           const TrashBanner(),
+          const RequestsBanner(),
           Expanded(
             child: RefreshIndicator(
               onRefresh: controller.sync,
-              child: GetBuilder<InboxController>(
-                builder: (controller) => ListView.builder(
-                  padding: EdgeInsets.only(bottom: bottomPadding),
-                  itemCount: controller.emails.length,
-                  itemBuilder: (context, index) {
-                    final email = controller.emails[index];
-                    return Obx(
-                      () => EmailTile(
-                        key: ValueKey(email.id),
-                        email: email,
-                        onTap: () =>
-                            context.go(AppRoutes.emailPath(mailbox, email.id)),
-                        isSelected: controller.isSelected(email.id),
-                        onToggleSelect: () =>
-                            controller.toggleSelection(email.id),
-                        onExtendSelect: () =>
-                            controller.extendSelectionTo(email.id),
-                        onReply: () => _replyTo(context, email),
-                        onForward: () => _forward(context, email),
-                        onDelete: () => _deleteEmail(context, email),
-                        onArchive: () => _archiveEmail(context, email),
-                        onRestore: () => _restoreEmail(context, email),
-                        onMoveTo: () => _moveEmail(context, email),
-                        onTag: () => _tagEmail(context, email),
+              child: listsSenders
+                  ? RequestsSenderList(bottomPadding: bottomPadding)
+                  : GetBuilder<InboxController>(
+                      builder: (controller) => ListView.builder(
+                        padding: EdgeInsets.only(bottom: bottomPadding),
+                        itemCount: controller.emails.length,
+                        itemBuilder: (context, index) {
+                          final email = controller.emails[index];
+                          return Obx(
+                            () => EmailTile(
+                              key: ValueKey(email.id),
+                              email: email,
+                              onTap: () => context.go(
+                                AppRoutes.emailPath(mailbox, email.id),
+                              ),
+                              isSelected: controller.isSelected(email.id),
+                              onToggleSelect: () =>
+                                  controller.toggleSelection(email.id),
+                              onExtendSelect: () =>
+                                  controller.extendSelectionTo(email.id),
+                              onReply: () => _replyTo(context, email),
+                              onForward: () => _forward(context, email),
+                              onDelete: () => _deleteEmail(context, email),
+                              onArchive: () => _archiveEmail(context, email),
+                              onRestore: () => _restoreEmail(context, email),
+                              onMoveTo: () => _moveEmail(context, email),
+                              onTag: () => _tagEmail(context, email),
+                              onSenderVerdict: (verdict) =>
+                                  _setSenderVerdict(context, email, verdict),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
+                    ),
             ),
           ),
         ],
@@ -290,6 +302,15 @@ class InboxView extends GetView<InboxController> {
       remove: changes.remove,
     );
   }
+
+  Future<void> _setSenderVerdict(
+    BuildContext context,
+    EmailSummary email,
+    SenderVerdict verdict,
+  ) => runSenderVerdict(
+    context,
+    () => controller.setSenderVerdict([email.senderKey], verdict),
+  );
 
   void _restoreEmail(BuildContext context, EmailSummary email) {
     if (controller.currentMailbox.value.isArchive) {

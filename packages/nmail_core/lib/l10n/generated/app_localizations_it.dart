@@ -1966,6 +1966,68 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => 'Accetta mittente';
+
+  @override
+  String get senderRefuse => 'Rifiuta mittente';
+
+  @override
+  String get senderBlock => 'Blocca mittente';
+
+  @override
+  String get senderUnblock => 'Sblocca mittente';
+
+  @override
+  String get senderVerdictFailed => 'Impossibile aggiornare il mittente';
+
+  @override
+  String get requestsAccept => 'Accetta';
+
+  @override
+  String get requestsRefuse => 'Rifiuta';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count email',
+      one: '$count email',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'I mittenti accettati vanno in Posta in arrivo, quelli rifiutati nello spam.';
+
+  @override
+  String get requestsAcceptAll => 'Accetta tutti';
+
+  @override
+  String get requestsAcceptAllTitle => 'Accettare tutti i mittenti?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Tutti i $count mittenti in Richieste verranno accettati e le loro email spostate in Posta in arrivo.',
+      one:
+          'Il mittente in Richieste verrà accettato e le sue email spostate in Posta in arrivo.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Accetta questo mittente per ricevere le sue email in Posta in arrivo.';
+
+  @override
+  String get emailBlockedBanner => 'Hai bloccato questo mittente.';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Versione $version disponibile';
   }

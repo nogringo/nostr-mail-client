@@ -1843,6 +1843,52 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => '接受发件人';
+
+  @override
+  String get senderRefuse => '拒绝发件人';
+
+  @override
+  String get senderBlock => '屏蔽发件人';
+
+  @override
+  String get senderUnblock => '取消屏蔽发件人';
+
+  @override
+  String get senderVerdictFailed => '无法更新发件人';
+
+  @override
+  String get requestsAccept => '接受';
+
+  @override
+  String get requestsRefuse => '拒绝';
+
+  @override
+  String requestsEmailCount(int count) {
+    return '$count 封邮件';
+  }
+
+  @override
+  String get requestsBannerMessage => '已接受的发件人的邮件进入收件箱，已拒绝的进入垃圾邮件。';
+
+  @override
+  String get requestsAcceptAll => '全部接受';
+
+  @override
+  String get requestsAcceptAllTitle => '接受所有发件人?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    return '将接受请求中的 $count 位发件人，并把他们的邮件移到收件箱。';
+  }
+
+  @override
+  String get emailRequestBanner => '接受此发件人后，其邮件将进入收件箱。';
+
+  @override
+  String get emailBlockedBanner => '你已屏蔽此发件人。';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return '$version 版本可用';
   }

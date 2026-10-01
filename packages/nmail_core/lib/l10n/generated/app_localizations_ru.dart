@@ -1984,6 +1984,74 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get senderAccept => 'Принять отправителя';
+
+  @override
+  String get senderRefuse => 'Отклонить отправителя';
+
+  @override
+  String get senderBlock => 'Заблокировать отправителя';
+
+  @override
+  String get senderUnblock => 'Разблокировать отправителя';
+
+  @override
+  String get senderVerdictFailed => 'Не удалось обновить отправителя';
+
+  @override
+  String get requestsAccept => 'Принять';
+
+  @override
+  String get requestsRefuse => 'Отклонить';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count письма',
+      many: '$count писем',
+      few: '$count письма',
+      one: '$count письмо',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsBannerMessage =>
+      'Письма принятых отправителей попадают во Входящие, а отклонённых в Спам.';
+
+  @override
+  String get requestsAcceptAll => 'Принять всех';
+
+  @override
+  String get requestsAcceptAllTitle => 'Принять всех отправителей?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count отправителя из Запросов будут приняты, а их письма перемещены во Входящие.',
+      many:
+          '$count отправителей из Запросов будут приняты, а их письма перемещены во Входящие.',
+      few:
+          '$count отправителя из Запросов будут приняты, а их письма перемещены во Входящие.',
+      one:
+          '$count отправитель из Запросов будет принят, а его письма перемещены во Входящие.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Примите этого отправителя, чтобы получать его письма во Входящие.';
+
+  @override
+  String get emailBlockedBanner => 'Вы заблокировали этого отправителя.';
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Доступна версия $version';
   }
