@@ -3547,7 +3547,7 @@ abstract class AppLocalizations {
   /// **'Refuse'**
   String get requestsRefuse;
 
-  /// Button on a sender in Requests that shows or hides the emails they sent
+  /// Under a sender in Requests: how many emails they sent
   ///
   /// In en, this message translates to:
   /// **'{count, plural, one{{count} email} other{{count} emails}}'**

@@ -1360,7 +1360,7 @@
   "requestsRefuse": "Refuse",
   "@requestsRefuse": {"description": "Button on a sender waiting in Requests: their emails move to Spam"},
   "requestsEmailCount": "{count, plural, one{{count} email} other{{count} emails}}",
-  "@requestsEmailCount": {"description": "Button on a sender in Requests that shows or hides the emails they sent", "placeholders": {"count": {"type": "int"}}},
+  "@requestsEmailCount": {"description": "Under a sender in Requests: how many emails they sent", "placeholders": {"count": {"type": "int"}}},
   "requestsAcceptAll": "Accept all",
   "@requestsAcceptAll": {"description": "Banner action in Requests, and its confirm button, that accepts every waiting sender"},
   "requestsAcceptAllTitle": "Accept all senders?",

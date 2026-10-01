@@ -14,7 +14,6 @@ import 'package:nmail_core/utils/format_date.dart';
 import 'package:nmail_core/utils/run_sender_verdict.dart';
 import 'package:nmail_core/utils/sender_groups.dart';
 import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
-import 'request_email_row.dart';
 
 /// A sender waiting in requests: who they are, what they sent last, and the
 /// verdict to give them. Tapping it opens the latest email.
@@ -34,8 +33,8 @@ class RequestSenderTile extends GetView<InboxController> {
         )
       : EmailPerson.nostr(_latest.senderPubkey);
 
-  void _open(BuildContext context, EmailSummary email) =>
-      context.go(AppRoutes.emailPath(Mailbox.requests, email.id));
+  void _open(BuildContext context) =>
+      context.go(AppRoutes.emailPath(Mailbox.requests, _latest.id));
 
   Future<void> _judge(BuildContext context, SenderVerdict verdict) =>
       runSenderVerdict(
@@ -56,89 +55,64 @@ class RequestSenderTile extends GetView<InboxController> {
           ? _latest.from
           : null;
       final isUnread = !controller.isEmailRead(_latest.id);
-      final isExpanded = controller.expandedSenders.contains(group.senderKey);
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          ListTile(
-            titleAlignment: ListTileTitleAlignment.top,
-            leading: BridgedPersonAvatar(person: _person),
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    name,
+      return ListTile(
+        titleAlignment: ListTileTitleAlignment.top,
+        leading: BridgedPersonAvatar(person: _person),
+        title: Row(
+          children: [
+            Expanded(
+              child: Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
+            ),
+            const SizedBox(width: 8),
+            Padding(
+              // Ends where the thumb's glyph does, inside its button.
+              padding: const EdgeInsetsDirectional.only(end: 12),
+              child: Text(
+                formatDate(context, _latest.date),
+                style: textTheme.bodySmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ),
+          ],
+        ),
+        subtitle: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (address != null)
+                    Text(address, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(
+                    _latest.subject.isEmpty
+                        ? l.emailNoSubject
+                        : _latest.subject,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  formatDate(context, _latest.date),
-                  style: textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (address != null)
-                  Text(address, maxLines: 1, overflow: TextOverflow.ellipsis),
-                Text(
-                  _latest.subject.isEmpty ? l.emailNoSubject : _latest.subject,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: colorScheme.onSurface,
-                    fontWeight: isUnread ? FontWeight.w600 : null,
-                  ),
-                ),
-                OverflowBar(
-                  alignment: count > 1
-                      ? MainAxisAlignment.spaceBetween
-                      : MainAxisAlignment.end,
-                  overflowAlignment: OverflowBarAlignment.end,
-                  children: [
-                    if (count > 1)
-                      TextButton.icon(
-                        // Starts flush with the text above, not 12 in.
-                        style: TextButton.styleFrom(
-                          padding: const EdgeInsetsDirectional.only(end: 16),
-                        ),
-                        onPressed: () =>
-                            controller.toggleSenderExpanded(group.senderKey),
-                        icon: Icon(
-                          isExpanded ? Icons.expand_less : Icons.expand_more,
-                        ),
-                        label: Text(l.requestsEmailCount(count)),
-                      ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextButton(
-                          onPressed: () => _judge(context, SenderVerdict.block),
-                          child: Text(l.requestsRefuse),
-                        ),
-                        const SizedBox(width: 8),
-                        FilledButton.tonal(
-                          onPressed: () => _judge(context, SenderVerdict.allow),
-                          child: Text(l.requestsAccept),
-                        ),
-                      ],
+                    style: TextStyle(
+                      color: colorScheme.onSurface,
+                      fontWeight: isUnread ? FontWeight.w600 : null,
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                  if (count > 1) Text(l.requestsEmailCount(count)),
+                ],
+              ),
             ),
-            onTap: () => _open(context, _latest),
-          ),
-          if (isExpanded)
-            for (final email in group.emails)
-              RequestEmailRow(email: email, onTap: () => _open(context, email)),
-        ],
+            IconButton(
+              icon: const Icon(Icons.thumb_down_outlined),
+              tooltip: l.senderRefuse,
+              onPressed: () => _judge(context, SenderVerdict.block),
+            ),
+            IconButton(
+              icon: const Icon(Icons.thumb_up_outlined),
+              tooltip: l.senderAccept,
+              onPressed: () => _judge(context, SenderVerdict.allow),
+            ),
+          ],
+        ),
+        onTap: () => _open(context),
       );
     });
   }

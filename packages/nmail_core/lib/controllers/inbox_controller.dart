@@ -30,9 +30,6 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final RxSet<String> readEmailIds = <String>{}.obs;
   final hoveredEmailId = RxnString();
 
-  /// Sender keys whose emails are listed under their row in requests.
-  final RxSet<String> expandedSenders = <String>{}.obs;
-
   /// Row a shift-click extends the selection from: the last one toggled on
   /// its own, and whether that toggle checked or unchecked it.
   String? _selectionAnchorId;
@@ -257,10 +254,6 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     );
   }
 
-  void toggleSenderExpanded(String senderKey) {
-    if (!expandedSenders.remove(senderKey)) expandedSenders.add(senderKey);
-  }
-
   List<EmailSummary> get selectedEmails =>
       emails.where((e) => selectedIds.contains(e.id)).toList();
 
@@ -325,7 +318,6 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
     emails.clear();
     readEmailIds.clear();
-    expandedSenders.clear();
     clearSelection();
     oldEmailsCount.value = 0;
     isSyncing.value = false;
