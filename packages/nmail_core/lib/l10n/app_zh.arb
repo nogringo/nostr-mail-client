@@ -727,7 +727,6 @@
   "requestsAccept": "接受",
   "requestsRefuse": "拒绝",
   "requestsEmailCount": "{count} 封邮件",
-  "requestsBannerMessage": "已接受的发件人的邮件进入收件箱，已拒绝的进入垃圾邮件。",
   "requestsAcceptAll": "全部接受",
   "requestsAcceptAllTitle": "接受所有发件人?",
   "requestsAcceptAllMessage": "将接受请求中的 {count} 位发件人，并把他们的邮件移到收件箱。",

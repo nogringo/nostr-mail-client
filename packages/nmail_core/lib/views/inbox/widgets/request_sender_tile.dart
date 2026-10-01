@@ -62,8 +62,26 @@ class RequestSenderTile extends GetView<InboxController> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ListTile(
+            titleAlignment: ListTileTitleAlignment.top,
             leading: PersonAvatar(person: _person),
-            title: Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
+            title: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  formatDate(context, _latest.date),
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ),
+              ],
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -78,51 +96,44 @@ class RequestSenderTile extends GetView<InboxController> {
                     fontWeight: isUnread ? FontWeight.w600 : null,
                   ),
                 ),
-              ],
-            ),
-            isThreeLine: address != null,
-            trailing: Text(
-              formatDate(context, _latest.date),
-              style: textTheme.bodySmall?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
-            ),
-            onTap: () => _open(context, _latest),
-          ),
-          Padding(
-            // Puts the toggle's icon under the name (72, less the button's 12).
-            padding: const EdgeInsetsDirectional.fromSTEB(60, 0, 24, 8),
-            child: OverflowBar(
-              alignment: count > 1
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.end,
-              overflowAlignment: OverflowBarAlignment.end,
-              children: [
-                if (count > 1)
-                  TextButton.icon(
-                    onPressed: () =>
-                        controller.toggleSenderExpanded(group.senderKey),
-                    icon: Icon(
-                      isExpanded ? Icons.expand_less : Icons.expand_more,
-                    ),
-                    label: Text(l.requestsEmailCount(count)),
-                  ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+                OverflowBar(
+                  alignment: count > 1
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.end,
+                  overflowAlignment: OverflowBarAlignment.end,
                   children: [
-                    TextButton(
-                      onPressed: () => _judge(context, SenderVerdict.block),
-                      child: Text(l.requestsRefuse),
-                    ),
-                    const SizedBox(width: 8),
-                    FilledButton.tonal(
-                      onPressed: () => _judge(context, SenderVerdict.allow),
-                      child: Text(l.requestsAccept),
+                    if (count > 1)
+                      TextButton.icon(
+                        // Starts flush with the text above, not 12 in.
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsetsDirectional.only(end: 16),
+                        ),
+                        onPressed: () =>
+                            controller.toggleSenderExpanded(group.senderKey),
+                        icon: Icon(
+                          isExpanded ? Icons.expand_less : Icons.expand_more,
+                        ),
+                        label: Text(l.requestsEmailCount(count)),
+                      ),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextButton(
+                          onPressed: () => _judge(context, SenderVerdict.block),
+                          child: Text(l.requestsRefuse),
+                        ),
+                        const SizedBox(width: 8),
+                        FilledButton.tonal(
+                          onPressed: () => _judge(context, SenderVerdict.allow),
+                          child: Text(l.requestsAccept),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ],
             ),
+            onTap: () => _open(context, _latest),
           ),
           if (isExpanded)
             for (final email in group.emails)

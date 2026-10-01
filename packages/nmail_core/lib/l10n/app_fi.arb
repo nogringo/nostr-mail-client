@@ -732,7 +732,6 @@
   "requestsAccept": "Hyväksy",
   "requestsRefuse": "Hylkää",
   "requestsEmailCount": "{count, plural, one{{count} viesti} other{{count} viestiä}}",
-  "requestsBannerMessage": "Hyväksytyt lähettäjät menevät Saapuneisiin, hylätyt roskapostiin.",
   "requestsAcceptAll": "Hyväksy kaikki",
   "requestsAcceptAllTitle": "Hyväksytäänkö kaikki lähettäjät?",
   "requestsAcceptAllMessage": "{count, plural, one{Pyyntöjen lähettäjä hyväksytään ja sen viestit siirretään Saapuneisiin.} other{Kaikki {count} Pyyntöjen lähettäjää hyväksytään ja heidän viestinsä siirretään Saapuneisiin.}}",

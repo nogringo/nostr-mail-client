@@ -2014,10 +2014,6 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'Hyväksytyt lähettäjät menevät Saapuneisiin, hylätyt roskapostiin.';
-
-  @override
   String get requestsAcceptAll => 'Hyväksy kaikki';
 
   @override

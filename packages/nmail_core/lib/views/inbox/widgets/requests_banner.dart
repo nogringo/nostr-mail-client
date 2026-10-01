@@ -6,8 +6,8 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/run_sender_verdict.dart';
 import 'accept_all_senders_dialog.dart';
 
-/// Tells what Accept and Refuse do, and accepts every sender at once, as when
-/// the mail received before Requests existed lands here.
+/// Accepts every sender at once, as when the mail received before Requests
+/// existed lands here.
 class RequestsBanner extends GetView<InboxController> {
   const RequestsBanner({super.key});
 
@@ -29,7 +29,7 @@ class RequestsBanner extends GetView<InboxController> {
 
       return MaterialBanner(
         leading: const Icon(Icons.how_to_reg_outlined),
-        content: Text(l.requestsBannerMessage),
+        content: Text(l.mailboxPendingSenders(senderCount)),
         actions: [
           TextButton(
             onPressed: () => _acceptAll(context, senderCount),

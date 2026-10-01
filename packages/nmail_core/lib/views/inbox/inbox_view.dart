@@ -238,10 +238,15 @@ class InboxView extends GetView<InboxController> {
         }),
       ),
       drawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push(AppRoutes.compose),
-        tooltip: l.inboxCompose,
-        child: const Icon(Icons.edit),
+      // In requests it would sit on the column of Accept buttons.
+      floatingActionButton: Obx(
+        () => controller.currentMailbox.value.isRequests
+            ? const SizedBox.shrink()
+            : FloatingActionButton(
+                onPressed: () => context.push(AppRoutes.compose),
+                tooltip: l.inboxCompose,
+                child: const Icon(Icons.edit),
+              ),
       ),
       body: Column(
         children: [

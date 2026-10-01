@@ -727,7 +727,6 @@
   "requestsAccept": "Aceptar",
   "requestsRefuse": "Rechazar",
   "requestsEmailCount": "{count, plural, one{{count} correo} other{{count} correos}}",
-  "requestsBannerMessage": "Los remitentes aceptados van a la bandeja de entrada y los rechazados, a spam.",
   "requestsAcceptAll": "Aceptar todos",
   "requestsAcceptAllTitle": "¿Aceptar todos los remitentes?",
   "requestsAcceptAllMessage": "{count, plural, one{El remitente de Solicitudes será aceptado y sus correos pasarán a la bandeja de entrada.} other{Los {count} remitentes de Solicitudes serán aceptados y sus correos pasarán a la bandeja de entrada.}}",

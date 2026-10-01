@@ -727,7 +727,6 @@
   "requestsAccept": "Akzeptieren",
   "requestsRefuse": "Ablehnen",
   "requestsEmailCount": "{count, plural, one{{count} E-Mail} other{{count} E-Mails}}",
-  "requestsBannerMessage": "Akzeptierte Absender landen im Posteingang, abgelehnte im Spam.",
   "requestsAcceptAll": "Alle akzeptieren",
   "requestsAcceptAllTitle": "Alle Absender akzeptieren?",
   "requestsAcceptAllMessage": "{count, plural, one{Der Absender in Anfragen wird akzeptiert und seine E-Mails werden in den Posteingang verschoben.} other{Alle {count} Absender in Anfragen werden akzeptiert und ihre E-Mails in den Posteingang verschoben.}}",

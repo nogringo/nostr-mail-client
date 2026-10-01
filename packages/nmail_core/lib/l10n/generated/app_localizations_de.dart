@@ -2024,10 +2024,6 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'Akzeptierte Absender landen im Posteingang, abgelehnte im Spam.';
-
-  @override
   String get requestsAcceptAll => 'Alle akzeptieren';
 
   @override

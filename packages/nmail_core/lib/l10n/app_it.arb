@@ -727,7 +727,6 @@
   "requestsAccept": "Accetta",
   "requestsRefuse": "Rifiuta",
   "requestsEmailCount": "{count, plural, one{{count} email} other{{count} email}}",
-  "requestsBannerMessage": "I mittenti accettati vanno in Posta in arrivo, quelli rifiutati nello spam.",
   "requestsAcceptAll": "Accetta tutti",
   "requestsAcceptAllTitle": "Accettare tutti i mittenti?",
   "requestsAcceptAllMessage": "{count, plural, one{Il mittente in Richieste verrà accettato e le sue email spostate in Posta in arrivo.} other{Tutti i {count} mittenti in Richieste verranno accettati e le loro email spostate in Posta in arrivo.}}",

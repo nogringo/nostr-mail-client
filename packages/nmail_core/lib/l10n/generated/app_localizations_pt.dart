@@ -2021,10 +2021,6 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'Os remetentes aceites vão para a caixa de entrada e os recusados para o spam.';
-
-  @override
   String get requestsAcceptAll => 'Aceitar todos';
 
   @override
@@ -4098,10 +4094,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
     );
     return '$_temp0';
   }
-
-  @override
-  String get requestsBannerMessage =>
-      'Os remetentes aceitos vão para a caixa de entrada e os recusados para o spam.';
 
   @override
   String get requestsAcceptAll => 'Aceitar todos';

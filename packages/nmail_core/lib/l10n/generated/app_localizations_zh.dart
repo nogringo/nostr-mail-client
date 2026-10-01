@@ -1885,9 +1885,6 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage => '已接受的发件人的邮件进入收件箱，已拒绝的进入垃圾邮件。';
-
-  @override
   String get requestsAcceptAll => '全部接受';
 
   @override

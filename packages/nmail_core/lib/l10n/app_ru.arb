@@ -727,7 +727,6 @@
   "requestsAccept": "Принять",
   "requestsRefuse": "Отклонить",
   "requestsEmailCount": "{count, plural, one{{count} письмо} few{{count} письма} many{{count} писем} other{{count} письма}}",
-  "requestsBannerMessage": "Письма принятых отправителей попадают во Входящие, а отклонённых в Спам.",
   "requestsAcceptAll": "Принять всех",
   "requestsAcceptAllTitle": "Принять всех отправителей?",
   "requestsAcceptAllMessage": "{count, plural, one{{count} отправитель из Запросов будет принят, а его письма перемещены во Входящие.} few{{count} отправителя из Запросов будут приняты, а их письма перемещены во Входящие.} many{{count} отправителей из Запросов будут приняты, а их письма перемещены во Входящие.} other{{count} отправителя из Запросов будут приняты, а их письма перемещены во Входящие.}}",

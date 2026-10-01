@@ -3499,7 +3499,7 @@ abstract class AppLocalizations {
   /// **'{count} unread'**
   String mailboxUnreadCount(int count);
 
-  /// Screen reader label of the sidebar count on Requests: senders waiting to be accepted or refused
+  /// Senders waiting to be accepted or refused: banner text at the top of Requests, and screen reader label of the sidebar count on Requests
   ///
   /// In en, this message translates to:
   /// **'{count, plural, one{{count} sender waiting} other{{count} senders waiting}}'**
@@ -3552,12 +3552,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, one{{count} email} other{{count} emails}}'**
   String requestsEmailCount(int count);
-
-  /// Banner at the top of Requests explaining what Accept and Refuse do
-  ///
-  /// In en, this message translates to:
-  /// **'Accepted senders go to your Inbox, refused ones to Spam.'**
-  String get requestsBannerMessage;
 
   /// Banner action in Requests, and its confirm button, that accepts every waiting sender
   ///

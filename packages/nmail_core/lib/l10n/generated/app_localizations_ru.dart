@@ -2050,10 +2050,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'Письма принятых отправителей попадают во Входящие, а отклонённых в Спам.';
-
-  @override
   String get requestsAcceptAll => 'Принять всех';
 
   @override

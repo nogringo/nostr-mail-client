@@ -731,7 +731,6 @@
   "requestsAccept": "Aceitar",
   "requestsRefuse": "Recusar",
   "requestsEmailCount": "{count, plural, one{{count} email} other{{count} emails}}",
-  "requestsBannerMessage": "Os remetentes aceites vão para a caixa de entrada e os recusados para o spam.",
   "requestsAcceptAll": "Aceitar todos",
   "requestsAcceptAllTitle": "Aceitar todos os remetentes?",
   "requestsAcceptAllMessage": "{count, plural, one{O remetente em Pedidos será aceite e os emails dele movidos para a caixa de entrada.} other{Os {count} remetentes em Pedidos serão aceites e os emails deles movidos para a caixa de entrada.}}",

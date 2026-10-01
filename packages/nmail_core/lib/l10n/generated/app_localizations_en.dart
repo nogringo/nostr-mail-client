@@ -2007,10 +2007,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'Accepted senders go to your Inbox, refused ones to Spam.';
-
-  @override
   String get requestsAcceptAll => 'Accept all';
 
   @override

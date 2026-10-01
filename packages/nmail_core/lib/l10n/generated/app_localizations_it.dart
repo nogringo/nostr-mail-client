@@ -2026,10 +2026,6 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'I mittenti accettati vanno in Posta in arrivo, quelli rifiutati nello spam.';
-
-  @override
   String get requestsAcceptAll => 'Accetta tutti';
 
   @override

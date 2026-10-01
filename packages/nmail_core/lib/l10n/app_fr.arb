@@ -727,7 +727,6 @@
   "requestsAccept": "Accepter",
   "requestsRefuse": "Refuser",
   "requestsEmailCount": "{count, plural, one{{count} e-mail} other{{count} e-mails}}",
-  "requestsBannerMessage": "Les expéditeurs acceptés arrivent dans la boîte de réception, les refusés dans les spams.",
   "requestsAcceptAll": "Tout accepter",
   "requestsAcceptAllTitle": "Accepter tous les expéditeurs ?",
   "requestsAcceptAllMessage": "{count, plural, one{L'expéditeur des Demandes sera accepté et ses e-mails déplacés dans la boîte de réception.} other{Les {count} expéditeurs des Demandes seront acceptés et leurs e-mails déplacés dans la boîte de réception.}}",

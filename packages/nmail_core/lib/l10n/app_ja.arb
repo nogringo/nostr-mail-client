@@ -727,7 +727,6 @@
   "requestsAccept": "承認",
   "requestsRefuse": "拒否",
   "requestsEmailCount": "メール {count} 件",
-  "requestsBannerMessage": "承認した送信者のメールは受信トレイに、拒否した送信者のメールは迷惑メールに届きます。",
   "requestsAcceptAll": "すべて承認",
   "requestsAcceptAllTitle": "すべての送信者を承認しますか?",
   "requestsAcceptAllMessage": "リクエストの送信者 {count} 人を承認し、そのメールを受信トレイに移動します。",

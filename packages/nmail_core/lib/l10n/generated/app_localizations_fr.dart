@@ -2028,10 +2028,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'Les expéditeurs acceptés arrivent dans la boîte de réception, les refusés dans les spams.';
-
-  @override
   String get requestsAcceptAll => 'Tout accepter';
 
   @override

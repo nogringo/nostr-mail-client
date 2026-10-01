@@ -2020,10 +2020,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      'Los remitentes aceptados van a la bandeja de entrada y los rechazados, a spam.';
-
-  @override
   String get requestsAcceptAll => 'Aceptar todos';
 
   @override

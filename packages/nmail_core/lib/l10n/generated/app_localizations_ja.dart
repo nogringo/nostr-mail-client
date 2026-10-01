@@ -1900,10 +1900,6 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get requestsBannerMessage =>
-      '承認した送信者のメールは受信トレイに、拒否した送信者のメールは迷惑メールに届きます。';
-
-  @override
   String get requestsAcceptAll => 'すべて承認';
 
   @override
