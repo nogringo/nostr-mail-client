@@ -281,6 +281,10 @@
       "count": { "type": "int" }
     }
   },
+  "inboxSpamCount": "{count, plural, one{{count} viesti roskapostissa} other{{count} viestiä roskapostissa}}",
+  "inboxEmptySpamAction": "Tyhjennä roskaposti",
+  "inboxEmptySpamTitle": "Tyhjennetäänkö roskaposti?",
+  "inboxEmptySpamMessage": "Poistetaan pysyvästi {count, plural, one{{count} viesti} other{kaikki {count} viestiä}} roskapostista.\n\nToimintoa ei voi kumota.",
   "inboxDeleteSelectedMessage": "Poistetaan pysyvästi {count, plural, one{{count} viesti} other{{count} viestiä}}.\n\nToimintoa ei voi kumota.",
   "@inboxDeleteSelectedMessage": {
     "placeholders": {
@@ -734,6 +738,8 @@
   "requestsAcceptAllMessage": "{count, plural, one{Pyyntöjen lähettäjä hyväksytään ja sen viestit siirretään Saapuneisiin.} other{Kaikki {count} Pyyntöjen lähettäjää hyväksytään ja heidän viestinsä siirretään Saapuneisiin.}}",
   "emailRequestBanner": "Hyväksy lähettäjä, niin sen viestit tulevat Saapuneisiin.",
   "emailBlockedBanner": "Olet estänyt tämän lähettäjän.",
+  "pendingSendersBannerMessage": "{count, plural, one{{count} uusi lähettäjä odottaa Pyynnöissä} other{{count} uutta lähettäjää odottaa Pyynnöissä}}",
+  "pendingSendersBannerReview": "Tarkista",
   "settingsUpdateAvailable": "Versio {version} saatavilla",
   "settingsUpdateInstall": "Päivitä",
   "settingsUpdateReload": "Lataa uudelleen",

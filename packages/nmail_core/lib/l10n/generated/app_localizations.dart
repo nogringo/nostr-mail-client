@@ -1393,6 +1393,30 @@ abstract class AppLocalizations {
   /// **'This will permanently delete {count, plural, one{{count} email} other{all {count} emails}} in the trash.\n\nThis action cannot be undone.'**
   String inboxEmptyTrashMessage(int count);
 
+  /// Banner text at the top of the spam folder. Plural-aware.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} email in spam} other{{count} emails in spam}}'**
+  String inboxSpamCount(int count);
+
+  /// Spam banner action and confirm button that permanently deletes every email in spam
+  ///
+  /// In en, this message translates to:
+  /// **'Empty spam'**
+  String get inboxEmptySpamAction;
+
+  /// Confirmation dialog title for emptying spam
+  ///
+  /// In en, this message translates to:
+  /// **'Empty spam?'**
+  String get inboxEmptySpamTitle;
+
+  /// Confirmation message for emptying spam. Plural-aware on `count`.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete {count, plural, one{{count} email} other{all {count} emails}} in spam.\n\nThis action cannot be undone.'**
+  String inboxEmptySpamMessage(int count);
+
   /// Confirmation message when permanently deleting the selected emails from trash. Plural-aware on `count`.
   ///
   /// In en, this message translates to:
@@ -3564,6 +3588,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You blocked this sender.'**
   String get emailBlockedBanner;
+
+  /// Inbox banner while senders wait in Requests for a verdict. Plural-aware on `count`, the number of senders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} new sender is waiting in Requests} other{{count} new senders are waiting in Requests}}'**
+  String pendingSendersBannerMessage(int count);
+
+  /// Inbox banner action that opens Requests
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get pendingSendersBannerReview;
 
   /// About page row shown when a newer Nmail release exists
   ///

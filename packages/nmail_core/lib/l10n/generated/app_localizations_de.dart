@@ -732,6 +732,34 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String inboxSpamCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count E-Mails im Spam',
+      one: '$count E-Mail im Spam',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get inboxEmptySpamAction => 'Spam leeren';
+
+  @override
+  String get inboxEmptySpamTitle => 'Spam leeren?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'alle $count E-Mails',
+      one: '$count E-Mail',
+    );
+    return 'Dies löscht dauerhaft $_temp0 im Spam.\n\nDiese Aktion kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
   String inboxDeleteSelectedMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2024,6 +2052,20 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get emailBlockedBanner => 'Du hast diesen Absender blockiert.';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count neue Absender warten in Anfragen',
+      one: '$count neuer Absender wartet in Anfragen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pendingSendersBannerReview => 'Ansehen';
 
   @override
   String settingsUpdateAvailable(String version) {

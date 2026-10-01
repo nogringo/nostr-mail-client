@@ -494,6 +494,14 @@
       "count": { "type": "int" }
     }
   },
+  "inboxSpamCount": "{count, plural, one{{count} email in spam} other{{count} emails in spam}}",
+  "@inboxSpamCount": { "description": "Banner text at the top of the spam folder. Plural-aware.", "placeholders": { "count": { "type": "int" } } },
+  "inboxEmptySpamAction": "Empty spam",
+  "@inboxEmptySpamAction": { "description": "Spam banner action and confirm button that permanently deletes every email in spam" },
+  "inboxEmptySpamTitle": "Empty spam?",
+  "@inboxEmptySpamTitle": { "description": "Confirmation dialog title for emptying spam" },
+  "inboxEmptySpamMessage": "This will permanently delete {count, plural, one{{count} email} other{all {count} emails}} in spam.\n\nThis action cannot be undone.",
+  "@inboxEmptySpamMessage": { "description": "Confirmation message for emptying spam. Plural-aware on `count`.", "placeholders": { "count": { "type": "int" } } },
   "inboxDeleteSelectedMessage": "This will permanently delete {count, plural, one{{count} email} other{{count} emails}}.\n\nThis action cannot be undone.",
   "@inboxDeleteSelectedMessage": {
     "description": "Confirmation message when permanently deleting the selected emails from trash. Plural-aware on `count`.",
@@ -1365,6 +1373,10 @@
   "@emailRequestBanner": {"description": "Banner above an email opened from Requests, next to the Refuse and Accept buttons"},
   "emailBlockedBanner": "You blocked this sender.",
   "@emailBlockedBanner": {"description": "Banner above an email opened from Spam, next to the Unblock sender button"},
+  "pendingSendersBannerMessage": "{count, plural, one{{count} new sender is waiting in Requests} other{{count} new senders are waiting in Requests}}",
+  "@pendingSendersBannerMessage": {"description": "Inbox banner while senders wait in Requests for a verdict. Plural-aware on `count`, the number of senders.", "placeholders": {"count": {"type": "int"}}},
+  "pendingSendersBannerReview": "Review",
+  "@pendingSendersBannerReview": {"description": "Inbox banner action that opens Requests"},
   "settingsUpdateAvailable": "Version {version} available",
   "@settingsUpdateAvailable": {"description": "About page row shown when a newer Nmail release exists", "placeholders": {"version": {"type": "String"}}},
   "settingsUpdateInstall": "Update",

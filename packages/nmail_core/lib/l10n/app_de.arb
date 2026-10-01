@@ -281,6 +281,10 @@
       "count": { "type": "int" }
     }
   },
+  "inboxSpamCount": "{count, plural, one{{count} E-Mail im Spam} other{{count} E-Mails im Spam}}",
+  "inboxEmptySpamAction": "Spam leeren",
+  "inboxEmptySpamTitle": "Spam leeren?",
+  "inboxEmptySpamMessage": "Dies löscht dauerhaft {count, plural, one{{count} E-Mail} other{alle {count} E-Mails}} im Spam.\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
   "inboxDeleteSelectedMessage": "Dies löscht dauerhaft {count, plural, one{{count} E-Mail} other{{count} E-Mails}}.\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
   "@inboxDeleteSelectedMessage": {
     "placeholders": {
@@ -729,6 +733,8 @@
   "requestsAcceptAllMessage": "{count, plural, one{Der Absender in Anfragen wird akzeptiert und seine E-Mails werden in den Posteingang verschoben.} other{Alle {count} Absender in Anfragen werden akzeptiert und ihre E-Mails in den Posteingang verschoben.}}",
   "emailRequestBanner": "Akzeptiere diesen Absender, um seine E-Mails im Posteingang zu erhalten.",
   "emailBlockedBanner": "Du hast diesen Absender blockiert.",
+  "pendingSendersBannerMessage": "{count, plural, one{{count} neuer Absender wartet in Anfragen} other{{count} neue Absender warten in Anfragen}}",
+  "pendingSendersBannerReview": "Ansehen",
   "settingsUpdateAvailable": "Version {version} verfügbar",
   "settingsUpdateInstall": "Aktualisieren",
   "settingsUpdateReload": "Neu laden",

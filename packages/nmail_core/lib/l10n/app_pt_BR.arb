@@ -273,6 +273,10 @@
       "count": { "type": "int" }
     }
   },
+  "inboxSpamCount": "{count, plural, one{{count} e-mail no spam} other{{count} e-mails no spam}}",
+  "inboxEmptySpamAction": "Esvaziar spam",
+  "inboxEmptySpamTitle": "Esvaziar spam?",
+  "inboxEmptySpamMessage": "Isso excluirá permanentemente {count, plural, one{{count} e-mail} other{todos os {count} e-mails}} do spam.\n\nEsta ação não pode ser desfeita.",
   "inboxDeleteSelectedMessage": "Isso excluirá permanentemente {count, plural, one{{count} e-mail} other{{count} e-mails}}.\n\nEsta ação não pode ser desfeita.",
   "@inboxDeleteSelectedMessage": {
     "placeholders": {
@@ -733,6 +737,8 @@
   "requestsAcceptAllMessage": "{count, plural, one{O remetente em Solicitações será aceito e os e-mails dele movidos para a caixa de entrada.} other{Os {count} remetentes em Solicitações serão aceitos e os e-mails deles movidos para a caixa de entrada.}}",
   "emailRequestBanner": "Aceite este remetente para receber os e-mails dele na caixa de entrada.",
   "emailBlockedBanner": "Você bloqueou este remetente.",
+  "pendingSendersBannerMessage": "{count, plural, one{{count} novo remetente aguarda em Solicitações} other{{count} novos remetentes aguardam em Solicitações}}",
+  "pendingSendersBannerReview": "Revisar",
   "settingsUpdateAvailable": "Versão {version} disponível",
   "settingsUpdateInstall": "Atualizar",
   "settingsUpdateReload": "Recarregar",

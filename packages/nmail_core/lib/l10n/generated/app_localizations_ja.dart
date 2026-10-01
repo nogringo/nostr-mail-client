@@ -692,6 +692,22 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String inboxSpamCount(int count) {
+    return '迷惑メール $count 件';
+  }
+
+  @override
+  String get inboxEmptySpamAction => '迷惑メールを空にする';
+
+  @override
+  String get inboxEmptySpamTitle => '迷惑メールを空にしますか?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    return '迷惑メール $count 件をすべて完全に削除します。\n\nこの操作は元に戻せません。';
+  }
+
+  @override
   String inboxDeleteSelectedMessage(int count) {
     return 'メール $count 件を完全に削除します。\n\nこの操作は元に戻せません。';
   }
@@ -1903,6 +1919,14 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get emailBlockedBanner => 'この送信者はブロック済みです。';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    return 'リクエストで $count 人の新しい送信者が承認を待っています';
+  }
+
+  @override
+  String get pendingSendersBannerReview => '確認';
 
   @override
   String settingsUpdateAvailable(String version) {

@@ -281,6 +281,10 @@
       "count": { "type": "int" }
     }
   },
+  "inboxSpamCount": "迷惑メール {count} 件",
+  "inboxEmptySpamAction": "迷惑メールを空にする",
+  "inboxEmptySpamTitle": "迷惑メールを空にしますか?",
+  "inboxEmptySpamMessage": "迷惑メール {count} 件をすべて完全に削除します。\n\nこの操作は元に戻せません。",
   "inboxDeleteSelectedMessage": "メール {count} 件を完全に削除します。\n\nこの操作は元に戻せません。",
   "@inboxDeleteSelectedMessage": {
     "placeholders": {
@@ -729,6 +733,8 @@
   "requestsAcceptAllMessage": "リクエストの送信者 {count} 人を承認し、そのメールを受信トレイに移動します。",
   "emailRequestBanner": "この送信者を承認すると、メールが受信トレイに届きます。",
   "emailBlockedBanner": "この送信者はブロック済みです。",
+  "pendingSendersBannerMessage": "リクエストで {count} 人の新しい送信者が承認を待っています",
+  "pendingSendersBannerReview": "確認",
   "settingsUpdateAvailable": "バージョン {version} が利用可能",
   "settingsUpdateInstall": "アップデート",
   "settingsUpdateReload": "再読み込み",

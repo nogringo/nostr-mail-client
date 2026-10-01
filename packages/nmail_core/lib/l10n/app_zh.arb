@@ -281,6 +281,10 @@
       "count": { "type": "int" }
     }
   },
+  "inboxSpamCount": "垃圾邮件中有 {count} 封邮件",
+  "inboxEmptySpamAction": "清空垃圾邮件",
+  "inboxEmptySpamTitle": "清空垃圾邮件?",
+  "inboxEmptySpamMessage": "这将永久删除垃圾邮件中的全部 {count} 封邮件。\n\n此操作无法撤销。",
   "inboxDeleteSelectedMessage": "这将永久删除 {count} 封邮件。\n\n此操作无法撤销。",
   "@inboxDeleteSelectedMessage": {
     "placeholders": {
@@ -729,6 +733,8 @@
   "requestsAcceptAllMessage": "将接受请求中的 {count} 位发件人，并把他们的邮件移到收件箱。",
   "emailRequestBanner": "接受此发件人后，其邮件将进入收件箱。",
   "emailBlockedBanner": "你已屏蔽此发件人。",
+  "pendingSendersBannerMessage": "请求中有 {count} 位新发件人等待处理",
+  "pendingSendersBannerReview": "查看",
   "settingsUpdateAvailable": "{version} 版本可用",
   "settingsUpdateInstall": "更新",
   "settingsUpdateReload": "重新加载",

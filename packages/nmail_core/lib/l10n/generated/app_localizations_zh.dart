@@ -688,6 +688,22 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String inboxSpamCount(int count) {
+    return '垃圾邮件中有 $count 封邮件';
+  }
+
+  @override
+  String get inboxEmptySpamAction => '清空垃圾邮件';
+
+  @override
+  String get inboxEmptySpamTitle => '清空垃圾邮件?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    return '这将永久删除垃圾邮件中的全部 $count 封邮件。\n\n此操作无法撤销。';
+  }
+
+  @override
   String inboxDeleteSelectedMessage(int count) {
     return '这将永久删除 $count 封邮件。\n\n此操作无法撤销。';
   }
@@ -1887,6 +1903,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get emailBlockedBanner => '你已屏蔽此发件人。';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    return '请求中有 $count 位新发件人等待处理';
+  }
+
+  @override
+  String get pendingSendersBannerReview => '查看';
 
   @override
   String settingsUpdateAvailable(String version) {

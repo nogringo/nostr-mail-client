@@ -19,10 +19,12 @@ import '../shared/layout_constants.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
+import 'widgets/pending_senders_banner.dart';
 import 'widgets/requests_banner.dart';
 import 'widgets/requests_sender_list.dart';
 import 'widgets/search_field.dart';
 import 'widgets/selection_actions_bar.dart';
+import 'widgets/spam_banner.dart';
 import 'widgets/trash_banner.dart';
 import '../shared/drawer_menu_button.dart';
 
@@ -38,68 +40,76 @@ class InboxView extends GetView<InboxController> {
   Widget _buildEmailList(BuildContext context, {double bottomPadding = 0}) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    return Obx(() {
-      if (controller.emails.isEmpty) {
-        final (icon, message) = switch (controller.currentMailbox.value) {
-          SystemMailbox(folder: MailFolder.inbox) => (
-            Icons.inbox,
-            l.inboxEmptyInbox,
-          ),
-          SystemMailbox(folder: MailFolder.requests) => (
-            Icons.how_to_reg_outlined,
-            l.inboxEmptyRequests,
-          ),
-          SystemMailbox(folder: MailFolder.sent) => (
-            Icons.send,
-            l.inboxEmptySent,
-          ),
-          SystemMailbox(folder: MailFolder.trash) => (
-            Icons.delete_outline,
-            l.inboxEmptyTrash,
-          ),
-          SystemMailbox(folder: MailFolder.archive) => (
-            Icons.archive_outlined,
-            l.inboxEmptyArchive,
-          ),
-          SystemMailbox(folder: MailFolder.spam) => (
-            Icons.report_outlined,
-            l.inboxEmptySpam,
-          ),
-          FolderMailbox() => (Icons.folder_outlined, l.mailboxEmptyFolder),
-          TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),
-        };
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 64, color: colorScheme.onSurfaceVariant),
-              const SizedBox(height: 16),
-              Text(
-                message,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: colorScheme.onSurfaceVariant,
+    // Banners hide themselves outside their mailbox. The one for pending
+    // senders shows over an empty inbox too.
+    return Column(
+      children: [
+        const PendingSendersBanner(),
+        const RequestsBanner(),
+        const SpamBanner(),
+        const TrashBanner(),
+        Expanded(
+          child: Obx(() {
+            if (controller.emails.isEmpty) {
+              final (icon, message) = switch (controller.currentMailbox.value) {
+                SystemMailbox(folder: MailFolder.inbox) => (
+                  Icons.inbox,
+                  l.inboxEmptyInbox,
                 ),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: controller.sync,
-                child: Text(l.inboxSyncFromRelays),
-              ),
-            ],
-          ),
-        );
-      }
+                SystemMailbox(folder: MailFolder.requests) => (
+                  Icons.how_to_reg_outlined,
+                  l.inboxEmptyRequests,
+                ),
+                SystemMailbox(folder: MailFolder.sent) => (
+                  Icons.send,
+                  l.inboxEmptySent,
+                ),
+                SystemMailbox(folder: MailFolder.trash) => (
+                  Icons.delete_outline,
+                  l.inboxEmptyTrash,
+                ),
+                SystemMailbox(folder: MailFolder.archive) => (
+                  Icons.archive_outlined,
+                  l.inboxEmptyArchive,
+                ),
+                SystemMailbox(folder: MailFolder.spam) => (
+                  Icons.report_outlined,
+                  l.inboxEmptySpam,
+                ),
+                FolderMailbox() => (
+                  Icons.folder_outlined,
+                  l.mailboxEmptyFolder,
+                ),
+                TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),
+              };
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, size: 64, color: colorScheme.onSurfaceVariant),
+                    const SizedBox(height: 16),
+                    Text(
+                      message,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: controller.sync,
+                      child: Text(l.inboxSyncFromRelays),
+                    ),
+                  ],
+                ),
+              );
+            }
 
-      final listsSenders =
-          controller.currentMailbox.value.isRequests && !controller.isSearching;
+            final listsSenders =
+                controller.currentMailbox.value.isRequests &&
+                !controller.isSearching;
 
-      return Column(
-        children: [
-          const TrashBanner(),
-          const RequestsBanner(),
-          Expanded(
-            child: RefreshIndicator(
+            return RefreshIndicator(
               onRefresh: controller.sync,
               child: listsSenders
                   ? RequestsSenderList(bottomPadding: bottomPadding)
@@ -135,11 +145,11 @@ class InboxView extends GetView<InboxController> {
                         },
                       ),
                     ),
-            ),
-          ),
-        ],
-      );
-    });
+            );
+          }),
+        ),
+      ],
+    );
   }
 
   @override

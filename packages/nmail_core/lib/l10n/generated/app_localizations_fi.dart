@@ -729,6 +729,34 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String inboxSpamCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viestiä roskapostissa',
+      one: '$count viesti roskapostissa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get inboxEmptySpamAction => 'Tyhjennä roskaposti';
+
+  @override
+  String get inboxEmptySpamTitle => 'Tyhjennetäänkö roskaposti?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'kaikki $count viestiä',
+      one: '$count viesti',
+    );
+    return 'Poistetaan pysyvästi $_temp0 roskapostista.\n\nToimintoa ei voi kumota.';
+  }
+
+  @override
   String inboxDeleteSelectedMessage(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2014,6 +2042,20 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get emailBlockedBanner => 'Olet estänyt tämän lähettäjän.';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count uutta lähettäjää odottaa Pyynnöissä',
+      one: '$count uusi lähettäjä odottaa Pyynnöissä',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pendingSendersBannerReview => 'Tarkista';
 
   @override
   String settingsUpdateAvailable(String version) {

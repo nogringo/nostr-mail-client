@@ -22,7 +22,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final searchQuery = ''.obs;
   final isSearchMode = false.obs;
   final isSyncing = false.obs;
-  final isDeletingFromTrash = false.obs;
+  final isDeletingPermanently = false.obs;
   final Rx<Mailbox> currentMailbox = Rx<Mailbox>(Mailbox.inbox);
   final oldEmailsCount = 0.obs;
   final selectedIds = <String>{}.obs;
@@ -329,7 +329,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     clearSelection();
     oldEmailsCount.value = 0;
     isSyncing.value = false;
-    isDeletingFromTrash.value = false;
+    isDeletingPermanently.value = false;
     isSearchMode.value = false;
     searchQuery.value = '';
     _backgroundTime.value = null;
@@ -526,7 +526,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   Future<void> deleteOldEmails() async {
     if (!currentMailbox.value.isTrash) return;
 
-    isDeletingFromTrash.value = true;
+    isDeletingPermanently.value = true;
     try {
       final client = _nostrMailService.client;
       final thirtyDaysAgo = const Duration(days: 30);
@@ -542,24 +542,30 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       oldEmailsCount.value = await getOldEmailsCount();
       await _loadEmails();
     } finally {
-      isDeletingFromTrash.value = false;
+      isDeletingPermanently.value = false;
     }
   }
 
-  Future<void> emptyTrash() async {
-    if (!currentMailbox.value.isTrash) return;
+  Future<void> emptyTrash() => _deleteAll(Mailbox.trash);
 
-    isDeletingFromTrash.value = true;
+  Future<void> emptySpam() => _deleteAll(Mailbox.spam);
+
+  /// Permanently deletes every email of [mailbox], which must be the one
+  /// shown.
+  Future<void> _deleteAll(Mailbox mailbox) async {
+    if (currentMailbox.value != mailbox) return;
+
+    isDeletingPermanently.value = true;
     try {
       final client = _nostrMailService.client;
-      final trashed = await client.getSummaries(folder: 'trash');
-      await client.delete(trashed.items.map((email) => email.id));
+      final held = await client.getSummaries(folder: mailbox.folderParam);
+      await client.delete(held.items.map((email) => email.id));
 
       clearSelection();
       oldEmailsCount.value = 0;
       await _loadEmails();
     } finally {
-      isDeletingFromTrash.value = false;
+      isDeletingPermanently.value = false;
     }
   }
 }
