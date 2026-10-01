@@ -3,6 +3,7 @@ import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
+import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
 import '../models/background_preset.dart';
 import 'address_book_service.dart';
@@ -74,6 +75,11 @@ class AccountLocalDataService extends GetxService {
       if (Get.isRegistered<BlossomCache>())
         Get.find<BlossomCache>().clearAllLocalData(),
     ]);
+    // After the packages: they release their sync requests, which the engine
+    // would otherwise walk straight back into the cache being cleared.
+    if (Get.isRegistered<SyncEngine>()) {
+      await Get.find<SyncEngine>().clearAllLocalData();
+    }
     if (Get.isRegistered<Ndk>()) {
       await Get.find<Ndk>().config.cache.clearAll();
     }

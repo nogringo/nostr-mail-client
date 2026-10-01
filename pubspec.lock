@@ -1105,10 +1105,10 @@ packages:
     dependency: transitive
     description:
       name: nostr_mail
-      sha256: "0bd09b85f9d065ada428c778713e4c0e413ade114d66ab97aa585c4f3b2eb9c5"
+      sha256: "4cdda30a7d96ce37cbd77f1aabdd9f7a6d0773f54637419bac652580d352588f"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "6.0.1"
   package_config:
     dependency: transitive
     description:
