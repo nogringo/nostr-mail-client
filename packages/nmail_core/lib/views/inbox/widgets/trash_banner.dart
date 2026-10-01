@@ -20,7 +20,7 @@ class TrashBanner extends GetView<InboxController> {
         return const SizedBox.shrink();
       }
 
-      final isDeleting = controller.isDeletingFromTrash.value;
+      final isDeleting = controller.isDeletingPermanently.value;
       final trashCount = controller.emails.length;
       final oldCount = controller.oldEmailsCount.value;
 

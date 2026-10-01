@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -36,7 +37,11 @@ EmailActions buildEmailActions(
   final isInArchive = mailbox?.isArchive ?? false;
   final isInTrash = mailbox?.isTrash ?? false;
   final isUnknown = mailbox == null;
-  final canFile = !isInTrash && controller.summary != null;
+  // A verdict, offered by the banner above the email, files these.
+  final isScreened =
+      (mailbox?.isRequests ?? false) || (mailbox?.isSpam ?? false);
+  final canFile = !isInTrash && !isScreened && controller.summary != null;
+  final canBlockSender = !isUnknown && !isScreened && !controller.isFromMe;
 
   return EmailActions(
     primary: [
@@ -68,7 +73,7 @@ EmailActions buildEmailActions(
         label: l.emailActionForward,
         onPressed: controller.forwardEmail,
       ),
-      if (!isInTrash && !isInArchive && !isUnknown)
+      if (!isInTrash && !isInArchive && !isUnknown && !isScreened)
         EmailAction(
           icon: Icons.archive,
           label: l.emailActionArchive,
@@ -95,6 +100,13 @@ EmailActions buildEmailActions(
               ? l.emailActionMarkUnread
               : l.emailActionMarkRead,
           onPressed: controller.toggleReadStatus,
+        ),
+      if (canBlockSender)
+        EmailAction(
+          icon: Icons.block,
+          label: l.senderBlock,
+          onPressed: () =>
+              controller.setSenderVerdict(context, SenderVerdict.block),
         ),
       EmailAction(
         icon: Icons.info_outline,

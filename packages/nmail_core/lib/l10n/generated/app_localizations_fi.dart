@@ -605,6 +605,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get folderArchive => 'Arkisto';
 
   @override
+  String get folderRequests => 'Pyynnöt';
+
+  @override
+  String get folderSpam => 'Roskaposti';
+
+  @override
   String get folderScheduled => 'Ajastetut';
 
   @override
@@ -618,6 +624,12 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'Arkisto on tyhjä';
+
+  @override
+  String get inboxEmptyRequests => 'Ei pyyntöjä';
+
+  @override
+  String get inboxEmptySpam => 'Ei roskapostia';
 
   @override
   String get inboxSyncFromRelays => 'Päivitä';
@@ -714,6 +726,34 @@ class AppLocalizationsFi extends AppLocalizations {
       one: '$count viesti',
     );
     return 'Poistetaan pysyvästi $_temp0 roskakorista.\n\nToimintoa ei voi kumota.';
+  }
+
+  @override
+  String inboxSpamCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viestiä roskapostissa',
+      one: '$count viesti roskapostissa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get inboxEmptySpamAction => 'Tyhjennä roskaposti';
+
+  @override
+  String get inboxEmptySpamTitle => 'Tyhjennetäänkö roskaposti?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'kaikki $count viestiä',
+      one: '$count viesti',
+    );
+    return 'Poistetaan pysyvästi $_temp0 roskapostista.\n\nToimintoa ei voi kumota.';
   }
 
   @override
@@ -1929,6 +1969,86 @@ class AppLocalizationsFi extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count lukematonta';
   }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lähettäjää odottaa',
+      one: '$count lähettäjä odottaa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get senderAccept => 'Hyväksy lähettäjä';
+
+  @override
+  String get senderBlock => 'Estä lähettäjä';
+
+  @override
+  String get senderUnblock => 'Poista lähettäjän esto';
+
+  @override
+  String get senderVerdictFailed => 'Lähettäjän päivitys epäonnistui';
+
+  @override
+  String get requestsAccept => 'Hyväksy';
+
+  @override
+  String get requestsBlock => 'Estä';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count viestiä',
+      one: '$count viesti',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsAcceptAll => 'Hyväksy kaikki';
+
+  @override
+  String get requestsAcceptAllTitle => 'Hyväksytäänkö kaikki lähettäjät?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Kaikki $count Pyyntöjen lähettäjää hyväksytään ja heidän viestinsä siirretään Saapuneisiin.',
+      one:
+          'Pyyntöjen lähettäjä hyväksytään ja sen viestit siirretään Saapuneisiin.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Hyväksy lähettäjä, niin sen viestit tulevat Saapuneisiin.';
+
+  @override
+  String get emailBlockedBanner => 'Olet estänyt tämän lähettäjän.';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count uutta lähettäjää odottaa Pyynnöissä',
+      one: '$count uusi lähettäjä odottaa Pyynnöissä',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pendingSendersBannerReview => 'Tarkista';
 
   @override
   String settingsUpdateAvailable(String version) {

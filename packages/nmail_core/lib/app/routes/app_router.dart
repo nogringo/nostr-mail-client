@@ -29,6 +29,7 @@ import '../../views/email/email_controller.dart';
 import '../../views/email/email_view.dart';
 import '../../views/identity/create_identity_view.dart';
 import '../../views/inbox/inbox_view.dart';
+import '../../views/inbox/request_sender_view.dart';
 import '../../views/nostr/profile_share_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
 import '../../views/profile/profile_view.dart';
@@ -149,8 +150,31 @@ class AppRouter {
           // `context.go('/<mailbox>/email/<id>')` updates the URL AND
           // preserves a real back-stack to the mailbox.
           _mailboxRoute(AppRoutes.inbox, (_) => Mailbox.inbox),
+          _mailboxRoute(
+            AppRoutes.requests,
+            (_) => Mailbox.requests,
+            routes: [
+              GoRoute(
+                path: AppRoutes.requestSenderSegment,
+                builder: (_, state) => RequestSenderView(
+                  senderKey: state.pathParameters[AppRoutes.senderKeyParam]!,
+                ),
+                routes: [
+                  GoRoute(
+                    path: AppRoutes.emailSegment,
+                    builder: (_, state) {
+                      final id = state.pathParameters['id']!;
+                      _ensureEmailController(id, Mailbox.requests);
+                      return const EmailView();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
           _mailboxRoute(AppRoutes.sent, (_) => Mailbox.sent),
           _mailboxRoute(AppRoutes.archive, (_) => Mailbox.archive),
+          _mailboxRoute(AppRoutes.spam, (_) => Mailbox.spam),
           _mailboxRoute(AppRoutes.trash, (_) => Mailbox.trash),
           _mailboxRoute(
             AppRoutes.userFolder,
@@ -320,14 +344,15 @@ class AppRouter {
     ],
   );
 
-  /// Mailbox route + nested `email/:id` child. The nested child means
-  /// `context.go('/<mailbox>/email/<id>')` updates the URL and pushes
-  /// EmailView on top of the mailbox in the navigator stack, so `pop()`
-  /// returns to the mailbox naturally.
+  /// Mailbox route + nested `email/:id` child, plus any other [routes]. The
+  /// nested child means `context.go('/<mailbox>/email/<id>')` updates the URL
+  /// and pushes EmailView on top of the mailbox in the navigator stack, so
+  /// `pop()` returns to the mailbox naturally.
   static GoRoute _mailboxRoute(
     String path,
-    Mailbox Function(GoRouterState state) mailboxOf,
-  ) {
+    Mailbox Function(GoRouterState state) mailboxOf, {
+    List<RouteBase> routes = const [],
+  }) {
     return GoRoute(
       path: path,
       // Mailboxes are lateral peers (tab-like), not a hierarchy. Skip the
@@ -346,6 +371,7 @@ class AppRouter {
             return const EmailView();
           },
         ),
+        ...routes,
       ],
     );
   }

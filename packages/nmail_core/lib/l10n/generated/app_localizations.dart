@@ -1201,6 +1201,18 @@ abstract class AppLocalizations {
   /// **'Archive'**
   String get folderArchive;
 
+  /// Folder name: Requests (mail from senders the user has not accepted or refused yet)
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get folderRequests;
+
+  /// Folder name: Spam (mail from blocked senders)
+  ///
+  /// In en, this message translates to:
+  /// **'Spam'**
+  String get folderSpam;
+
   /// Folder name: Scheduled (emails queued for future delivery)
   ///
   /// In en, this message translates to:
@@ -1230,6 +1242,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Archive is empty'**
   String get inboxEmptyArchive;
+
+  /// Empty-state message when the requests folder is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No requests'**
+  String get inboxEmptyRequests;
+
+  /// Empty-state message when the spam folder is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No spam'**
+  String get inboxEmptySpam;
 
   /// Button shown below empty-state to refresh the mailbox
   ///
@@ -1368,6 +1392,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This will permanently delete {count, plural, one{{count} email} other{all {count} emails}} in the trash.\n\nThis action cannot be undone.'**
   String inboxEmptyTrashMessage(int count);
+
+  /// Banner text at the top of the spam folder. Plural-aware.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} email in spam} other{{count} emails in spam}}'**
+  String inboxSpamCount(int count);
+
+  /// Spam banner action and confirm button that permanently deletes every email in spam
+  ///
+  /// In en, this message translates to:
+  /// **'Empty spam'**
+  String get inboxEmptySpamAction;
+
+  /// Confirmation dialog title for emptying spam
+  ///
+  /// In en, this message translates to:
+  /// **'Empty spam?'**
+  String get inboxEmptySpamTitle;
+
+  /// Confirmation message for emptying spam. Plural-aware on `count`.
+  ///
+  /// In en, this message translates to:
+  /// **'This will permanently delete {count, plural, one{{count} email} other{all {count} emails}} in spam.\n\nThis action cannot be undone.'**
+  String inboxEmptySpamMessage(int count);
 
   /// Confirmation message when permanently deleting the selected emails from trash. Plural-aware on `count`.
   ///
@@ -3450,6 +3498,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} unread'**
   String mailboxUnreadCount(int count);
+
+  /// Senders waiting to be accepted or refused: banner text at the top of Requests, and screen reader label of the sidebar count on Requests
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} sender waiting} other{{count} senders waiting}}'**
+  String mailboxPendingSenders(int count);
+
+  /// Menu action that accepts the sender of an email in Requests: all their emails move to the Inbox
+  ///
+  /// In en, this message translates to:
+  /// **'Accept sender'**
+  String get senderAccept;
+
+  /// Action that blocks the sender of an email: all their emails move to Spam
+  ///
+  /// In en, this message translates to:
+  /// **'Block sender'**
+  String get senderBlock;
+
+  /// Action on an email in Spam that unblocks its sender: all their emails move to the Inbox
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock sender'**
+  String get senderUnblock;
+
+  /// Toast title when accepting, refusing, blocking or unblocking a sender fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not update the sender'**
+  String get senderVerdictFailed;
+
+  /// Button above an email opened from Requests that accepts its sender: their emails move to the Inbox
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get requestsAccept;
+
+  /// Button above an email opened from Requests that blocks its sender: all their emails move to Spam
+  ///
+  /// In en, this message translates to:
+  /// **'Block'**
+  String get requestsBlock;
+
+  /// Under a sender in Requests: how many emails they sent
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} email} other{{count} emails}}'**
+  String requestsEmailCount(int count);
+
+  /// Banner action in Requests, and its confirm button, that accepts every waiting sender
+  ///
+  /// In en, this message translates to:
+  /// **'Accept all'**
+  String get requestsAcceptAll;
+
+  /// Title of the dialog confirming that every sender in Requests is accepted
+  ///
+  /// In en, this message translates to:
+  /// **'Accept all senders?'**
+  String get requestsAcceptAllTitle;
+
+  /// Body of the dialog confirming that every sender in Requests is accepted. Plural-aware on `count`, the number of senders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{The sender in Requests will be accepted and their emails moved to your Inbox.} other{All {count} senders in Requests will be accepted and their emails moved to your Inbox.}}'**
+  String requestsAcceptAllMessage(int count);
+
+  /// Banner above an email opened from Requests, next to the Refuse and Accept buttons
+  ///
+  /// In en, this message translates to:
+  /// **'Accept this sender to get their emails in your Inbox.'**
+  String get emailRequestBanner;
+
+  /// Banner above an email opened from Spam, next to the Unblock sender button
+  ///
+  /// In en, this message translates to:
+  /// **'You blocked this sender.'**
+  String get emailBlockedBanner;
+
+  /// Inbox banner while senders wait in Requests for a verdict. Plural-aware on `count`, the number of senders.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} new sender is waiting in Requests} other{{count} new senders are waiting in Requests}}'**
+  String pendingSendersBannerMessage(int count);
+
+  /// Inbox banner action that opens Requests
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get pendingSendersBannerReview;
 
   /// About page row shown when a newer Nmail release exists
   ///

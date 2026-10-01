@@ -46,11 +46,11 @@ dependencies:
   local_auth_android: ^2.2.0
   material_color_utilities: ^0.13.0
   mime: ^2.0.0
-  ndk: ^0.10.0-dev.9
-  ndk_drift: ^0.1.1-dev.21
-  ndk_flutter: ^0.10.0-dev.7
+  ndk: ^0.10.1-dev.1
+  ndk_drift: ^0.2.0-dev.1
+  ndk_flutter: ^0.10.1-dev.1
   nostr_address_book: ^0.5.0
-  nostr_mail: ^5.0.0
+  nostr_mail: ^6.0.0
   package_info_plus: ^10.2.1
   pasteboard: ^0.5.0
   path: ^1.9.1

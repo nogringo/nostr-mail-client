@@ -22,7 +22,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   final searchQuery = ''.obs;
   final isSearchMode = false.obs;
   final isSyncing = false.obs;
-  final isDeletingFromTrash = false.obs;
+  final isDeletingPermanently = false.obs;
   final Rx<Mailbox> currentMailbox = Rx<Mailbox>(Mailbox.inbox);
   final oldEmailsCount = 0.obs;
   final selectedIds = <String>{}.obs;
@@ -219,6 +219,41 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     await _loadEmails();
   }
 
+  /// Applies [verdict] to every sender of [senderKeys] in one event, so a
+  /// remote signer asks once for the lot.
+  Future<void> setSenderVerdict(
+    Iterable<String> senderKeys,
+    SenderVerdict verdict,
+  ) async {
+    final keys = senderKeys.toSet();
+    if (keys.isEmpty) return;
+    await _nostrMailService.client.setSenderVerdicts({
+      for (final key in keys) key: verdict,
+    });
+    await _loadEmails();
+  }
+
+  /// The account's own mail is never routed by a verdict, so it is skipped.
+  Future<void> setSelectedSendersVerdict(SenderVerdict verdict) async {
+    final me = _nostrMailService.getPublicKey();
+    final keys = [
+      for (final email in selectedEmails)
+        if (email.senderPubkey != me) email.senderKey,
+    ];
+    clearSelection();
+    await setSenderVerdict(keys, verdict);
+  }
+
+  Future<void> acceptAllRequests() async {
+    final requests = await _nostrMailService.client.getSummaries(
+      folder: Mailbox.requests.folderParam,
+    );
+    await setSenderVerdict(
+      requests.items.map((email) => email.senderKey),
+      SenderVerdict.allow,
+    );
+  }
+
   List<EmailSummary> get selectedEmails =>
       emails.where((e) => selectedIds.contains(e.id)).toList();
 
@@ -286,7 +321,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     clearSelection();
     oldEmailsCount.value = 0;
     isSyncing.value = false;
-    isDeletingFromTrash.value = false;
+    isDeletingPermanently.value = false;
     isSearchMode.value = false;
     searchQuery.value = '';
     _backgroundTime.value = null;
@@ -381,22 +416,27 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     // Cross-device sync: label add/remove events from other devices arrive
     // via the label subscription in WatchManager. Reload so read/unread,
     // trash, archive and star state stay in sync without a manual refresh.
+    // A sender verdict moves mail between inbox, requests and spam with no
+    // label event at all.
     //
     // Throttled, not debounced: a bulk sync emits continuously for seconds, so
     // waiting for silence would leave the list empty until the very end.
     // leading gives an immediate first paint, trailing the final state.
-    _reloadSubscription = MergeStream<Object>([client.onEmail, client.onLabel])
-        .throttleTime(
-          AppConfig.watchReloadThrottle,
-          leading: true,
-          trailing: true,
-        )
-        .listen((_) => _loadEmails(), onError: (e) {});
+    _reloadSubscription =
+        MergeStream<Object>([client.onEmail, client.onLabel, client.onSender])
+            .throttleTime(
+              AppConfig.watchReloadThrottle,
+              leading: true,
+              trailing: true,
+            )
+            .listen((_) => _loadEmails(), onError: (e) {});
   }
 
   /// Surface a system notification for a genuinely new incoming email, but only
   /// while the app is not in the foreground, where the inbox already updates.
-  void _notifyIncomingEmail(Email email) {
+  /// Spam never notifies, and requests only for the first email of a sender
+  /// waiting there (docs/senders-and-spam.md).
+  Future<void> _notifyIncomingEmail(Email email) async {
     if (!Get.find<SettingsController>().notificationsEnabled.value) return;
     if (_lifecycleState == AppLifecycleState.resumed) return;
 
@@ -404,6 +444,21 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     if (startedAt != null && email.createdAt.isBefore(startedAt)) return;
 
     if (email.senderPubkey == _nostrMailService.getPublicKey()) return;
+
+    final generation = _accountGeneration;
+    final client = _nostrMailService.client;
+    final folder = (await client.getSummary(email.id))?.folder;
+    if (folder == Mailbox.spam.folderParam) return;
+    final isRequest = folder == Mailbox.requests.folderParam;
+    if (isRequest) {
+      final fromSender = await client.getSummaries(
+        folder: folder,
+        senderKey: email.senderKey,
+        limit: 1,
+      );
+      if (fromSender.total > 1) return;
+    }
+    if (generation != _accountGeneration) return;
 
     final from = email.sender;
     final title = (from?.personalName?.trim().isNotEmpty ?? false)
@@ -414,7 +469,10 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       id: email.id.hashCode & 0x7fffffff,
       title: title,
       body: email.subject?.trim() ?? '',
-      payload: '${AppRoutes.inbox}/email/${email.id}',
+      payload: AppRoutes.emailPath(
+        isRequest ? Mailbox.requests : Mailbox.inbox,
+        email.id,
+      ),
     );
   }
 
@@ -480,7 +538,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   Future<void> deleteOldEmails() async {
     if (!currentMailbox.value.isTrash) return;
 
-    isDeletingFromTrash.value = true;
+    isDeletingPermanently.value = true;
     try {
       final client = _nostrMailService.client;
       final thirtyDaysAgo = const Duration(days: 30);
@@ -496,24 +554,30 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       oldEmailsCount.value = await getOldEmailsCount();
       await _loadEmails();
     } finally {
-      isDeletingFromTrash.value = false;
+      isDeletingPermanently.value = false;
     }
   }
 
-  Future<void> emptyTrash() async {
-    if (!currentMailbox.value.isTrash) return;
+  Future<void> emptyTrash() => _deleteAll(Mailbox.trash);
 
-    isDeletingFromTrash.value = true;
+  Future<void> emptySpam() => _deleteAll(Mailbox.spam);
+
+  /// Permanently deletes every email of [mailbox], which must be the one
+  /// shown.
+  Future<void> _deleteAll(Mailbox mailbox) async {
+    if (currentMailbox.value != mailbox) return;
+
+    isDeletingPermanently.value = true;
     try {
       final client = _nostrMailService.client;
-      final trashed = await client.getSummaries(folder: 'trash');
-      await client.delete(trashed.items.map((email) => email.id));
+      final held = await client.getSummaries(folder: mailbox.folderParam);
+      await client.delete(held.items.map((email) => email.id));
 
       clearSelection();
       oldEmailsCount.value = 0;
       await _loadEmails();
     } finally {
-      isDeletingFromTrash.value = false;
+      isDeletingPermanently.value = false;
     }
   }
 }

@@ -10,6 +10,8 @@ void main() {
     test('maps each mailbox to the arguments of getSummaries', () {
       expect(Mailbox.inbox.folderParam, 'inbox');
       expect(Mailbox.trash.folderParam, 'trash');
+      expect(Mailbox.requests.folderParam, 'requests');
+      expect(Mailbox.spam.folderParam, 'spam');
       expect(Mailbox.inbox.tagParam, isNull);
       expect(const FolderMailbox(folderId).folderParam, folderId);
       expect(const FolderMailbox(folderId).tagParam, isNull);
@@ -23,17 +25,25 @@ void main() {
       expect(const FolderMailbox(folderId), isNot(TagMailbox(folderId)));
     });
 
-    test('shows unread outside sent and trash', () {
+    test('shows unread outside sent, trash and spam', () {
       expect(Mailbox.inbox.showsUnread, isTrue);
+      expect(Mailbox.requests.showsUnread, isTrue);
       expect(Mailbox.archive.showsUnread, isTrue);
       expect(const FolderMailbox(folderId).showsUnread, isTrue);
       expect(const TagMailbox(tagId).showsUnread, isTrue);
       expect(Mailbox.sent.showsUnread, isFalse);
       expect(Mailbox.trash.showsUnread, isFalse);
+      expect(Mailbox.spam.showsUnread, isFalse);
     });
 
     test('has a deep-linkable path, with the email nested under it', () {
       expect(AppRoutes.mailboxPath(Mailbox.sent), '/sent');
+      expect(AppRoutes.mailboxPath(Mailbox.requests), '/requests');
+      expect(AppRoutes.emailPath(Mailbox.spam, 'abc'), '/spam/email/abc');
+      expect(
+        AppRoutes.requestSenderEmailPath('ab:alice@example.com', 'abc'),
+        '/requests/sender/ab%3Aalice%40example.com/email/abc',
+      );
       expect(
         AppRoutes.mailboxPath(const FolderMailbox(folderId)),
         '/folder/$folderId',

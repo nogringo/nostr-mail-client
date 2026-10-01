@@ -19,6 +19,9 @@ class SidebarFolderItem extends StatelessWidget {
   /// A user folder or tag keeps its own color, selected or not.
   final Color? iconColor;
   final int? unreadCount;
+
+  /// What [unreadCount] counts, for screen readers. Unread emails by default.
+  final String? countLabel;
   final GestureTapUpCallback? onSecondaryTapUp;
   final VoidCallback? onLongPress;
 
@@ -31,6 +34,7 @@ class SidebarFolderItem extends StatelessWidget {
     required this.currentLocation,
     this.iconColor,
     this.unreadCount,
+    this.countLabel,
     this.onSecondaryTapUp,
     this.onLongPress,
   });
@@ -68,7 +72,7 @@ class SidebarFolderItem extends StatelessWidget {
           ),
           trailing: unread > 0
               ? Semantics(
-                  label: l.mailboxUnreadCount(unread),
+                  label: countLabel ?? l.mailboxUnreadCount(unread),
                   child: ExcludeSemantics(
                     child: Text(
                       '$unread',

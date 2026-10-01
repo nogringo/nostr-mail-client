@@ -11,6 +11,7 @@ import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/utils/mailbox_title.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/utils/run_sender_verdict.dart';
 import '../shared/app_bar_account_avatar.dart';
 import '../mailboxes/widgets/show_move_to_picker.dart';
 import '../mailboxes/widgets/show_tags_picker.dart';
@@ -18,8 +19,12 @@ import '../shared/layout_constants.dart';
 import 'widgets/app_drawer.dart';
 import 'widgets/email_tile.dart';
 import 'widgets/inbox_desktop_app_bar.dart';
+import 'widgets/pending_senders_banner.dart';
+import 'widgets/requests_banner.dart';
+import 'widgets/requests_sender_list.dart';
 import 'widgets/search_field.dart';
 import 'widgets/selection_actions_bar.dart';
+import 'widgets/spam_banner.dart';
 import 'widgets/trash_banner.dart';
 import '../shared/drawer_menu_button.dart';
 
@@ -35,91 +40,116 @@ class InboxView extends GetView<InboxController> {
   Widget _buildEmailList(BuildContext context, {double bottomPadding = 0}) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    return Obx(() {
-      if (controller.emails.isEmpty) {
-        final (icon, message) = switch (controller.currentMailbox.value) {
-          SystemMailbox(folder: MailFolder.inbox) => (
-            Icons.inbox,
-            l.inboxEmptyInbox,
-          ),
-          SystemMailbox(folder: MailFolder.sent) => (
-            Icons.send,
-            l.inboxEmptySent,
-          ),
-          SystemMailbox(folder: MailFolder.trash) => (
-            Icons.delete_outline,
-            l.inboxEmptyTrash,
-          ),
-          SystemMailbox(folder: MailFolder.archive) => (
-            Icons.archive_outlined,
-            l.inboxEmptyArchive,
-          ),
-          FolderMailbox() => (Icons.folder_outlined, l.mailboxEmptyFolder),
-          TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),
-        };
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(icon, size: 64, color: colorScheme.onSurfaceVariant),
-              const SizedBox(height: 16),
-              Text(
-                message,
-                style: TextStyle(
-                  fontSize: 18,
-                  color: colorScheme.onSurfaceVariant,
+    // Banners hide themselves outside their mailbox. The one for pending
+    // senders shows over an empty inbox too.
+    return Column(
+      children: [
+        const PendingSendersBanner(),
+        const RequestsBanner(),
+        const SpamBanner(),
+        const TrashBanner(),
+        Expanded(
+          child: Obx(() {
+            if (controller.emails.isEmpty) {
+              final (icon, message) = switch (controller.currentMailbox.value) {
+                SystemMailbox(folder: MailFolder.inbox) => (
+                  Icons.inbox,
+                  l.inboxEmptyInbox,
                 ),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: controller.sync,
-                child: Text(l.inboxSyncFromRelays),
-              ),
-            ],
-          ),
-        );
-      }
-
-      return Column(
-        children: [
-          const TrashBanner(),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: controller.sync,
-              child: GetBuilder<InboxController>(
-                builder: (controller) => ListView.builder(
-                  padding: EdgeInsets.only(bottom: bottomPadding),
-                  itemCount: controller.emails.length,
-                  itemBuilder: (context, index) {
-                    final email = controller.emails[index];
-                    return Obx(
-                      () => EmailTile(
-                        key: ValueKey(email.id),
-                        email: email,
-                        onTap: () =>
-                            context.go(AppRoutes.emailPath(mailbox, email.id)),
-                        isSelected: controller.isSelected(email.id),
-                        onToggleSelect: () =>
-                            controller.toggleSelection(email.id),
-                        onExtendSelect: () =>
-                            controller.extendSelectionTo(email.id),
-                        onReply: () => _replyTo(context, email),
-                        onForward: () => _forward(context, email),
-                        onDelete: () => _deleteEmail(context, email),
-                        onArchive: () => _archiveEmail(context, email),
-                        onRestore: () => _restoreEmail(context, email),
-                        onMoveTo: () => _moveEmail(context, email),
-                        onTag: () => _tagEmail(context, email),
+                SystemMailbox(folder: MailFolder.requests) => (
+                  Icons.how_to_reg_outlined,
+                  l.inboxEmptyRequests,
+                ),
+                SystemMailbox(folder: MailFolder.sent) => (
+                  Icons.send,
+                  l.inboxEmptySent,
+                ),
+                SystemMailbox(folder: MailFolder.trash) => (
+                  Icons.delete_outline,
+                  l.inboxEmptyTrash,
+                ),
+                SystemMailbox(folder: MailFolder.archive) => (
+                  Icons.archive_outlined,
+                  l.inboxEmptyArchive,
+                ),
+                SystemMailbox(folder: MailFolder.spam) => (
+                  Icons.report_outlined,
+                  l.inboxEmptySpam,
+                ),
+                FolderMailbox() => (
+                  Icons.folder_outlined,
+                  l.mailboxEmptyFolder,
+                ),
+                TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),
+              };
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(icon, size: 64, color: colorScheme.onSurfaceVariant),
+                    const SizedBox(height: 16),
+                    Text(
+                      message,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: colorScheme.onSurfaceVariant,
                       ),
-                    );
-                  },
+                    ),
+                    const SizedBox(height: 8),
+                    TextButton(
+                      onPressed: controller.sync,
+                      child: Text(l.inboxSyncFromRelays),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-        ],
-      );
-    });
+              );
+            }
+
+            final listsSenders =
+                controller.currentMailbox.value.isRequests &&
+                !controller.isSearching;
+
+            return RefreshIndicator(
+              onRefresh: controller.sync,
+              child: listsSenders
+                  ? RequestsSenderList(bottomPadding: bottomPadding)
+                  : GetBuilder<InboxController>(
+                      builder: (controller) => ListView.builder(
+                        padding: EdgeInsets.only(bottom: bottomPadding),
+                        itemCount: controller.emails.length,
+                        itemBuilder: (context, index) {
+                          final email = controller.emails[index];
+                          return Obx(
+                            () => EmailTile(
+                              key: ValueKey(email.id),
+                              email: email,
+                              onTap: () => context.go(
+                                AppRoutes.emailPath(mailbox, email.id),
+                              ),
+                              isSelected: controller.isSelected(email.id),
+                              onToggleSelect: () =>
+                                  controller.toggleSelection(email.id),
+                              onExtendSelect: () =>
+                                  controller.extendSelectionTo(email.id),
+                              onReply: () => _replyTo(context, email),
+                              onForward: () => _forward(context, email),
+                              onDelete: () => _deleteEmail(context, email),
+                              onArchive: () => _archiveEmail(context, email),
+                              onRestore: () => _restoreEmail(context, email),
+                              onMoveTo: () => _moveEmail(context, email),
+                              onTag: () => _tagEmail(context, email),
+                              onSenderVerdict: (verdict) =>
+                                  _setSenderVerdict(context, email, verdict),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+            );
+          }),
+        ),
+      ],
+    );
   }
 
   @override
@@ -208,10 +238,15 @@ class InboxView extends GetView<InboxController> {
         }),
       ),
       drawer: const AppDrawer(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.push(AppRoutes.compose),
-        tooltip: l.inboxCompose,
-        child: const Icon(Icons.edit),
+      // In requests it would sit on the column of Accept buttons.
+      floatingActionButton: Obx(
+        () => controller.currentMailbox.value.isRequests
+            ? const SizedBox.shrink()
+            : FloatingActionButton(
+                onPressed: () => context.push(AppRoutes.compose),
+                tooltip: l.inboxCompose,
+                child: const Icon(Icons.edit),
+              ),
       ),
       body: Column(
         children: [
@@ -282,6 +317,15 @@ class InboxView extends GetView<InboxController> {
       remove: changes.remove,
     );
   }
+
+  Future<void> _setSenderVerdict(
+    BuildContext context,
+    EmailSummary email,
+    SenderVerdict verdict,
+  ) => runSenderVerdict(
+    context,
+    () => controller.setSenderVerdict([email.senderKey], verdict),
+  );
 
   void _restoreEmail(BuildContext context, EmailSummary email) {
     if (controller.currentMailbox.value.isArchive) {

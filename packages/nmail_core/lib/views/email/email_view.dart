@@ -11,6 +11,7 @@ import 'widgets/desktop_actions_bar.dart';
 import 'widgets/email_body_view.dart';
 import 'widgets/header_view.dart';
 import 'widgets/mobile_actions_bar.dart';
+import 'widgets/sender_verdict_banner.dart';
 
 class EmailView extends StatelessWidget {
   const EmailView({super.key});
@@ -64,40 +65,47 @@ class EmailView extends StatelessWidget {
           bottomNavigationBar: !isWide ? const MobileActionsBar() : null,
           body: SafeArea(
             top: false,
-            child: SingleChildScrollView(
-              child: ResponsiveCenter(
-                maxWidth: 800,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HeaderView(),
-                    // Desktop: actions bar between header and body
-                    if (isWide)
-                      Container(
-                        margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .outlineVariant
-                                  .withValues(alpha: 0.5),
-                            ),
+            child: Column(
+              children: [
+                const SenderVerdictBanner(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: ResponsiveCenter(
+                      maxWidth: 800,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          HeaderView(),
+                          // Desktop: actions bar between header and body
+                          if (isWide)
+                            Container(
+                              margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .outlineVariant
+                                        .withValues(alpha: 0.5),
+                                  ),
+                                ),
+                              ),
+                              child: const DesktopActionsBar(),
+                            )
+                          else
+                            const SizedBox(height: 8),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: EmailBodyView(email: controller.email!),
                           ),
-                        ),
-                        child: const DesktopActionsBar(),
-                      )
-                    else
-                      const SizedBox(height: 8),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: EmailBodyView(email: controller.email!),
+                        ],
+                      ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         );

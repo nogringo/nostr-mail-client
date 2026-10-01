@@ -1,4 +1,4 @@
-import 'package:enough_mail_plus/enough_mail.dart';
+import 'package:enough_mail_plus/enough_mail.dart' hide Mailbox;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +16,8 @@ import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
-import 'package:nmail_core/views/email/widgets/person_avatar.dart';
-import '../../../widgets/nostr_avatar.dart';
+import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
+import 'package:nmail_core/views/shared/show_context_menu.dart';
 import '../../../widgets/selectable_avatar.dart';
 import '../../../widgets/tag_chips.dart';
 
@@ -37,6 +37,7 @@ class EmailTile extends StatelessWidget {
   final VoidCallback? onRestore;
   final VoidCallback? onMoveTo;
   final VoidCallback? onTag;
+  final ValueChanged<SenderVerdict>? onSenderVerdict;
 
   const EmailTile({
     super.key,
@@ -52,6 +53,7 @@ class EmailTile extends StatelessWidget {
     this.onRestore,
     this.onMoveTo,
     this.onTag,
+    this.onSenderVerdict,
   });
 
   bool get _extendRequested =>
@@ -106,7 +108,7 @@ class EmailTile extends StatelessWidget {
 
   EmailPerson get _otherSidePerson => _otherSidePubkey.isNotEmpty
       ? EmailPerson.nostr(_otherSidePubkey)
-      : EmailPerson.email(_displayAddress);
+      : EmailPerson.email(_displayAddress, bridgePubkey: _bridgePubkey);
 
   /// Pubkey of the bridge that relayed this email, when known. Only
   /// available for received bridged emails (gift-wrap sender = bridge).
@@ -194,27 +196,61 @@ class EmailTile extends StatelessWidget {
     ].where((part) => part.isNotEmpty).join(', ');
   }
 
+  VoidCallback? _verdict(SenderVerdict verdict) {
+    final onSenderVerdict = this.onSenderVerdict;
+    if (onSenderVerdict == null) return null;
+    return () => onSenderVerdict(verdict);
+  }
+
+  /// The account's own mail is never routed by a verdict.
+  bool get _canBlockSender => onSenderVerdict != null && !_isSentByMe;
+
+  /// What a swipe to the right does in [mailbox]. Trash only swipes to
+  /// delete.
+  ({IconData icon, Color color, String label, VoidCallback? action})?
+  _swipeRight(AppLocalizations l, Mailbox mailbox) {
+    if (mailbox.isTrash) return null;
+    if (mailbox.isRequests || mailbox.isSpam) {
+      return (
+        icon: Icons.how_to_reg,
+        color: Colors.green,
+        label: mailbox.isRequests ? l.senderAccept : l.senderUnblock,
+        action: _verdict(SenderVerdict.allow),
+      );
+    }
+    if (mailbox.isArchive) {
+      return (
+        icon: Icons.inbox,
+        color: Colors.blue,
+        label: l.emailUnarchive,
+        action: onRestore,
+      );
+    }
+    return (
+      icon: Icons.archive,
+      color: Colors.green,
+      label: l.emailArchive,
+      action: onArchive,
+    );
+  }
+
   /// Screen-reader equivalents of the swipe gestures and of the avatar's
   /// selection tap, which [Semantics.excludeSemantics] would otherwise leave
-  /// unreachable. Mirrors the directions [Dismissible] accepts for the current
-  /// folder.
+  /// unreachable. Trash, which has no swipe to the right, offers restore.
   Map<CustomSemanticsAction, VoidCallback> _semanticsActions(
-    AppLocalizations l, {
-    required bool isInTrash,
-    required bool isInArchive,
-  }) {
+    AppLocalizations l,
+    Mailbox mailbox,
+  ) {
+    final swipeRight = _swipeRight(l, mailbox);
     return {
       CustomSemanticsAction(label: l.emailSelectRow): ?onToggleSelect,
-      if (isInTrash) ...{
-        CustomSemanticsAction(label: l.emailRestore): ?onRestore,
-        CustomSemanticsAction(label: l.emailDeletePermanently): ?onDelete,
-      } else ...{
-        if (isInArchive)
-          CustomSemanticsAction(label: l.emailUnarchive): ?onRestore
-        else
-          CustomSemanticsAction(label: l.emailArchive): ?onArchive,
-        CustomSemanticsAction(label: l.emailMoveToTrash): ?onDelete,
-      },
+      if (swipeRight == null)
+        CustomSemanticsAction(label: l.emailRestore): ?onRestore
+      else
+        CustomSemanticsAction(label: swipeRight.label): ?swipeRight.action,
+      CustomSemanticsAction(
+        label: mailbox.isTrash ? l.emailDeletePermanently : l.emailMoveToTrash,
+      ): ?onDelete,
     };
   }
 
@@ -223,8 +259,7 @@ class EmailTile extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final isWide = ResponsiveHelper.isDesktop(context);
     final mailbox = Get.find<InboxController>().currentMailbox.value;
-    final isInTrash = mailbox.isTrash;
-    final isInArchive = mailbox.isArchive;
+    final swipeRight = _swipeRight(l, mailbox);
     final colorScheme = Theme.of(context).colorScheme;
 
     return Obx(
@@ -235,24 +270,19 @@ class EmailTile extends StatelessWidget {
         excludeSemantics: true,
         onTap: onTap,
         onLongPress: onToggleSelect,
-        customSemanticsActions: _semanticsActions(
-          l,
-          isInTrash: isInTrash,
-          isInArchive: isInArchive,
-        ),
+        customSemanticsActions: _semanticsActions(l, mailbox),
         child: Dismissible(
           key: ValueKey(email.id),
-          direction: isInTrash
+          direction: swipeRight == null
               ? DismissDirection.endToStart
               : DismissDirection.horizontal,
           background: Container(
-            color: isInArchive ? Colors.blue : Colors.green,
+            color: swipeRight?.color,
             alignment: Alignment.centerLeft,
             padding: const EdgeInsets.only(left: 16),
-            child: Icon(
-              isInArchive ? Icons.inbox : Icons.archive,
-              color: Colors.white,
-            ),
+            child: swipeRight == null
+                ? null
+                : Icon(swipeRight.icon, color: Colors.white),
           ),
           secondaryBackground: Container(
             color: colorScheme.error,
@@ -262,14 +292,8 @@ class EmailTile extends StatelessWidget {
           ),
           onDismissed: (direction) {
             if (direction == DismissDirection.startToEnd) {
-              // Swipe right - archive (or restore from archive)
-              if (isInArchive) {
-                onRestore?.call();
-              } else {
-                onArchive?.call();
-              }
+              swipeRight?.action?.call();
             } else if (direction == DismissDirection.endToStart) {
-              // Swipe left - delete
               onDelete?.call();
             }
           },
@@ -286,271 +310,160 @@ class EmailTile extends StatelessWidget {
     );
   }
 
+  /// The context menu of a row in [mailbox], grouped as dividers show them.
+  List<_MenuAction> _menuActions(AppLocalizations l, Mailbox mailbox) {
+    final inbox = Get.find<InboxController>();
+    final readToggle = !mailbox.showsUnread
+        ? null
+        : isUnread
+        ? _MenuAction(
+            Icons.mark_email_read,
+            l.emailMarkAsRead,
+            () => inbox.markAsRead(email.id),
+            startsGroup: true,
+          )
+        : _MenuAction(
+            Icons.mark_email_unread,
+            l.emailMarkAsUnread,
+            () => inbox.markAsUnread(email.id),
+            startsGroup: true,
+          );
+    final block = _canBlockSender
+        ? _MenuAction(Icons.block, l.senderBlock, _verdict(SenderVerdict.block))
+        : null;
+    final moveToTrash = _MenuAction(
+      Icons.delete_outline,
+      l.emailMoveToTrash,
+      onDelete,
+    );
+
+    if (mailbox.isTrash) {
+      return [
+        _MenuAction(Icons.restore_from_trash, l.emailRestore, onRestore),
+        ?block,
+        _MenuAction(
+          Icons.delete_forever,
+          l.emailDeletePermanently,
+          onDelete,
+          isDestructive: true,
+        ),
+      ];
+    }
+    if (mailbox.isRequests) {
+      return [
+        _MenuAction(
+          Icons.how_to_reg,
+          l.senderAccept,
+          _verdict(SenderVerdict.allow),
+        ),
+        _MenuAction(Icons.block, l.senderBlock, _verdict(SenderVerdict.block)),
+        _MenuAction(Icons.reply, l.emailReply, onReply, startsGroup: true),
+        _MenuAction(Icons.forward, l.emailForward, onForward),
+        ?readToggle,
+        moveToTrash,
+      ];
+    }
+    if (mailbox.isSpam) {
+      return [
+        _MenuAction(
+          Icons.how_to_reg,
+          l.senderUnblock,
+          _verdict(SenderVerdict.allow),
+        ),
+        moveToTrash,
+      ];
+    }
+    return [
+      _MenuAction(Icons.reply, l.emailReply, onReply),
+      _MenuAction(Icons.forward, l.emailForward, onForward),
+      if (mailbox.isArchive)
+        _MenuAction(
+          Icons.unarchive,
+          l.emailUnarchive,
+          onRestore,
+          startsGroup: true,
+        )
+      else
+        _MenuAction(
+          Icons.archive,
+          l.emailArchive,
+          onArchive,
+          startsGroup: true,
+        ),
+      _MenuAction(Icons.drive_file_move_outlined, l.mailboxMoveTo, onMoveTo),
+      // TODO: open the labels as a hover submenu of checkboxes that apply
+      // on click, which needs this menu to become a MenuAnchor.
+      _MenuAction(Icons.label_outline, l.mailboxTags, onTag),
+      ?readToggle,
+      ?block,
+      moveToTrash,
+    ];
+  }
+
+  /// Right-click (desktop) opens a menu at the cursor, a long press (mobile)
+  /// a bottom sheet.
   void _showContextMenu(BuildContext context, {Offset? position}) {
     final l = AppLocalizations.of(context);
-    final mailbox = Get.find<InboxController>().currentMailbox.value;
-    final isInTrash = mailbox.isTrash;
-    final isInArchive = mailbox.isArchive;
     final colorScheme = Theme.of(context).colorScheme;
+    // A list that wires no callback for an action does not offer it.
+    final actions = [
+      for (final action in _menuActions(
+        l,
+        Get.find<InboxController>().currentMailbox.value,
+      ))
+        if (action.onPressed != null) action,
+    ];
+    Color? colorOf(_MenuAction action) =>
+        action.isDestructive ? colorScheme.error : null;
 
-    // Right-click (desktop) → popup menu at cursor position
-    // Long-press (mobile) → bottom sheet
     if (position != null) {
-      // Desktop: popup menu
-      List<Widget> menuChildren(BuildContext menuContext) => [
-        if (!isInTrash) ...[
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.reply),
-            onPressed: () {
-              Navigator.of(menuContext).pop();
-              onReply?.call();
-            },
-            child: Text(l.emailReply),
-          ),
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.forward),
-            onPressed: () {
-              Navigator.of(menuContext).pop();
-              onForward?.call();
-            },
-            child: Text(l.emailForward),
-          ),
-          const Divider(height: 1),
-          if (!isInArchive)
+      showContextMenu<void>(
+        context,
+        position: position,
+        children: (menuContext) => [
+          for (final action in actions) ...[
+            if (action.startsGroup) const Divider(height: 1),
             MenuItemButton(
-              leadingIcon: const Icon(Icons.archive),
+              leadingIcon: Icon(action.icon, color: colorOf(action)),
               onPressed: () {
                 Navigator.of(menuContext).pop();
-                onArchive?.call();
+                action.onPressed?.call();
               },
-              child: Text(l.emailArchive),
-            )
-          else
-            MenuItemButton(
-              leadingIcon: const Icon(Icons.unarchive),
-              onPressed: () {
-                Navigator.of(menuContext).pop();
-                onRestore?.call();
-              },
-              child: Text(l.emailUnarchive),
-            ),
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.drive_file_move_outlined),
-            onPressed: () {
-              Navigator.of(menuContext).pop();
-              onMoveTo?.call();
-            },
-            child: Text(l.mailboxMoveTo),
-          ),
-          // TODO: open the labels as a hover submenu of checkboxes that apply
-          // on click, which needs this menu to become a MenuAnchor.
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.label_outline),
-            onPressed: () {
-              Navigator.of(menuContext).pop();
-              onTag?.call();
-            },
-            child: Text(l.mailboxTags),
-          ),
-          if (mailbox.showsUnread) ...[
-            const Divider(height: 1),
-            if (isUnread)
-              MenuItemButton(
-                leadingIcon: const Icon(Icons.mark_email_read),
-                onPressed: () {
-                  Navigator.of(menuContext).pop();
-                  final inboxController = Get.find<InboxController>();
-                  inboxController.markAsRead(email.id);
-                },
-                child: Text(l.emailMarkAsRead),
-              )
-            else
-              MenuItemButton(
-                leadingIcon: const Icon(Icons.mark_email_unread),
-                onPressed: () {
-                  Navigator.of(menuContext).pop();
-                  final inboxController = Get.find<InboxController>();
-                  inboxController.markAsUnread(email.id);
-                },
-                child: Text(l.emailMarkAsUnread),
+              child: Text(
+                action.label,
+                style: TextStyle(color: colorOf(action)),
               ),
-          ],
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.delete_outline),
-            onPressed: () {
-              Navigator.of(menuContext).pop();
-              onDelete?.call();
-            },
-            child: Text(l.emailMoveToTrash),
-          ),
-        ] else ...[
-          MenuItemButton(
-            leadingIcon: const Icon(Icons.restore_from_trash),
-            onPressed: () {
-              Navigator.of(menuContext).pop();
-              onRestore?.call();
-            },
-            child: Text(l.emailRestore),
-          ),
-          MenuItemButton(
-            leadingIcon: Icon(Icons.delete_forever, color: colorScheme.error),
-            onPressed: () {
-              Navigator.of(menuContext).pop();
-              onDelete?.call();
-            },
-            child: Text(
-              l.emailDeletePermanently,
-              style: TextStyle(color: colorScheme.error),
             ),
-          ),
+          ],
         ],
-      ];
+      );
+      return;
+    }
 
-      showDialog(
-        context: context,
-        barrierColor: Colors.transparent,
-        builder: (context) => Stack(
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: Wrap(
           children: [
-            Positioned.fill(
-              child: GestureDetector(onTap: () => Navigator.of(context).pop()),
-            ),
-            Positioned(
-              left: position.dx,
-              top: position.dy,
-              child: Material(
-                elevation: 8,
-                borderRadius: BorderRadius.circular(12),
-                clipBehavior: Clip.antiAlias,
-                surfaceTintColor: colorScheme.surfaceTint,
-                child: IntrinsicWidth(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: menuChildren(context),
-                  ),
+            for (final action in actions) ...[
+              if (action.startsGroup) const Divider(height: 1),
+              ListTile(
+                leading: Icon(action.icon, color: colorOf(action)),
+                title: Text(
+                  action.label,
+                  style: TextStyle(color: colorOf(action)),
                 ),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  action.onPressed?.call();
+                },
               ),
-            ),
+            ],
           ],
         ),
-      );
-    } else {
-      // Mobile: bottom sheet
-      showModalBottomSheet(
-        context: context,
-        showDragHandle: true,
-        builder: (context) => SafeArea(
-          child: Wrap(
-            children: [
-              if (!isInTrash) ...[
-                ListTile(
-                  leading: const Icon(Icons.reply),
-                  title: Text(l.emailReply),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onReply?.call();
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.forward),
-                  title: Text(l.emailForward),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onForward?.call();
-                  },
-                ),
-                const Divider(height: 1),
-                if (!isInArchive)
-                  ListTile(
-                    leading: const Icon(Icons.archive),
-                    title: Text(l.emailArchive),
-                    onTap: () {
-                      Navigator.pop(context);
-                      onArchive?.call();
-                    },
-                  )
-                else
-                  ListTile(
-                    leading: const Icon(Icons.unarchive),
-                    title: Text(l.emailUnarchive),
-                    onTap: () {
-                      Navigator.pop(context);
-                      onRestore?.call();
-                    },
-                  ),
-                ListTile(
-                  leading: const Icon(Icons.drive_file_move_outlined),
-                  title: Text(l.mailboxMoveTo),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onMoveTo?.call();
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.label_outline),
-                  title: Text(l.mailboxTags),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onTag?.call();
-                  },
-                ),
-                if (mailbox.showsUnread) ...[
-                  const Divider(height: 1),
-                  if (isUnread)
-                    ListTile(
-                      leading: const Icon(Icons.mark_email_read),
-                      title: Text(l.emailMarkAsRead),
-                      onTap: () {
-                        Navigator.pop(context);
-                        final inboxController = Get.find<InboxController>();
-                        inboxController.markAsRead(email.id);
-                      },
-                    )
-                  else
-                    ListTile(
-                      leading: const Icon(Icons.mark_email_unread),
-                      title: Text(l.emailMarkAsUnread),
-                      onTap: () {
-                        Navigator.pop(context);
-                        final inboxController = Get.find<InboxController>();
-                        inboxController.markAsUnread(email.id);
-                      },
-                    ),
-                ],
-                ListTile(
-                  leading: const Icon(Icons.delete_outline),
-                  title: Text(l.emailMoveToTrash),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onDelete?.call();
-                  },
-                ),
-              ] else ...[
-                ListTile(
-                  leading: const Icon(Icons.restore_from_trash),
-                  title: Text(l.emailRestore),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onRestore?.call();
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.delete_forever, color: colorScheme.error),
-                  title: Text(
-                    l.emailDeletePermanently,
-                    style: TextStyle(color: colorScheme.error),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                    onDelete?.call();
-                  },
-                ),
-              ],
-            ],
-          ),
-        ),
-      );
-    }
+      ),
+    );
   }
 
   Widget _buildCompactTile(BuildContext context, ColorScheme colorScheme) {
@@ -798,33 +711,10 @@ class EmailTile extends StatelessWidget {
 
     // Main avatar: nostr identity if the contact is one, else the
     // legacy MIME address. Decided per-address, not from isBridged.
-    final mainAvatar = PersonAvatar(person: _otherSidePerson, radius: radius);
-
-    // Bridge badge: provenance marker, only when the bridge pubkey is
-    // known (received bridged emails).
-    Widget baseAvatar;
-    if (_bridgePubkey.isEmpty) {
-      baseAvatar = mainAvatar;
-    } else {
-      final badgeRadius = compact ? 7.0 : 10.0;
-      baseAvatar = Stack(
-        clipBehavior: Clip.none,
-        children: [
-          mainAvatar,
-          Positioned(
-            right: -4,
-            bottom: -4,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: colorScheme.surface, width: 2),
-              ),
-              child: NostrAvatar(pubkey: _bridgePubkey, radius: badgeRadius),
-            ),
-          ),
-        ],
-      );
-    }
+    final baseAvatar = BridgedPersonAvatar(
+      person: _otherSidePerson,
+      radius: radius,
+    );
 
     final extra = _extraRecipientCount;
     if (extra == 0) return baseAvatar;
@@ -840,4 +730,22 @@ class EmailTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class _MenuAction {
+  final IconData icon;
+  final String label;
+  final VoidCallback? onPressed;
+  final bool isDestructive;
+
+  /// Draws a divider above, opening a new group.
+  final bool startsGroup;
+
+  const _MenuAction(
+    this.icon,
+    this.label,
+    this.onPressed, {
+    this.isDestructive = false,
+    this.startsGroup = false,
+  });
 }

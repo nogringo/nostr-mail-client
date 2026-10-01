@@ -57,6 +57,17 @@ class AppSidebar extends StatelessWidget {
                     unreadCount: mailboxes.unread[Mailbox.inbox],
                   ),
                   SidebarFolderItem(
+                    icon: Icons.how_to_reg_outlined,
+                    selectedIcon: Icons.how_to_reg,
+                    label: l.folderRequests,
+                    path: AppRoutes.requests,
+                    currentLocation: loc,
+                    unreadCount: mailboxes.pendingSenders.value,
+                    countLabel: l.mailboxPendingSenders(
+                      mailboxes.pendingSenders.value,
+                    ),
+                  ),
+                  SidebarFolderItem(
                     icon: Icons.send_outlined,
                     selectedIcon: Icons.send,
                     label: l.folderSent,
@@ -75,6 +86,13 @@ class AppSidebar extends StatelessWidget {
                     selectedIcon: Icons.archive,
                     label: l.folderArchive,
                     path: AppRoutes.archive,
+                    currentLocation: loc,
+                  ),
+                  SidebarFolderItem(
+                    icon: Icons.report_outlined,
+                    selectedIcon: Icons.report,
+                    label: l.folderSpam,
+                    path: AppRoutes.spam,
                     currentLocation: loc,
                   ),
                   SidebarFolderItem(

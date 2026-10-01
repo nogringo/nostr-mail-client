@@ -17,6 +17,7 @@ const _travel = 'bbbbbbbbbbbbbbbb';
 EmailSummary _email(String id, {List<String> tags = const []}) => EmailSummary(
   id: id,
   senderPubkey: '',
+  senderKey: '',
   from: 'alice@example.com',
   to: [MailAddress('Me', 'me@example.com')],
   subject: 'Subject',

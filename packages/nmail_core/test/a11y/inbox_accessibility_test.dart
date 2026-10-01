@@ -30,6 +30,7 @@ EmailSummary _receivedEmail({
   return EmailSummary(
     id: 'event-1',
     senderPubkey: '',
+    senderKey: '',
     from: 'alice@example.com',
     fromName: 'Alice Example',
     to: [MailAddress('Me', 'me@example.com')],

@@ -30,8 +30,10 @@ class AppRoutes {
 
   // Folders (drive InboxController.currentMailbox from URL)
   static const inbox = '/inbox';
+  static const requests = '/requests';
   static const sent = '/sent';
   static const archive = '/archive';
+  static const spam = '/spam';
   static const trash = '/trash';
   static const scheduled = '/scheduled';
 
@@ -44,6 +46,10 @@ class AppRoutes {
 
   // Path segment for the nested email detail route under each folder.
   static const emailSegment = 'email/:id';
+
+  // What one sender waiting in requests sent, nested under requests.
+  static const senderKeyParam = 'senderKey';
+  static const requestSenderSegment = 'sender/:$senderKeyParam';
 
   // Actions
   static const compose = '/compose';
@@ -73,8 +79,10 @@ class AppRoutes {
 
   static String mailboxPath(Mailbox mailbox) => switch (mailbox) {
     SystemMailbox(folder: MailFolder.inbox) => inbox,
+    SystemMailbox(folder: MailFolder.requests) => requests,
     SystemMailbox(folder: MailFolder.sent) => sent,
     SystemMailbox(folder: MailFolder.archive) => archive,
+    SystemMailbox(folder: MailFolder.spam) => spam,
     SystemMailbox(folder: MailFolder.trash) => trash,
     FolderMailbox(:final id) => '/folder/$id',
     TagMailbox(:final id) => '/label/$id',
@@ -83,6 +91,13 @@ class AppRoutes {
   /// In-app deep-linkable email URL: `/<mailbox>/email/<hex>`.
   static String emailPath(Mailbox mailbox, String id) =>
       '${mailboxPath(mailbox)}/email/$id';
+
+  /// A bridged sender key holds `:` and `@`.
+  static String requestSenderPath(String senderKey) =>
+      '$requests/sender/${Uri.encodeComponent(senderKey)}';
+
+  static String requestSenderEmailPath(String senderKey, String id) =>
+      '${requestSenderPath(senderKey)}/email/$id';
 
   /// The request id travels in the URL rather than in `extra` so a reload on
   /// web keeps the report on screen.

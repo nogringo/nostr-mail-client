@@ -610,6 +610,12 @@ class AppLocalizationsIt extends AppLocalizations {
   String get folderArchive => 'Archivio';
 
   @override
+  String get folderRequests => 'Richieste';
+
+  @override
+  String get folderSpam => 'Spam';
+
+  @override
   String get folderScheduled => 'Programmate';
 
   @override
@@ -623,6 +629,12 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'L\'archivio è vuoto';
+
+  @override
+  String get inboxEmptyRequests => 'Nessuna richiesta';
+
+  @override
+  String get inboxEmptySpam => 'Nessuno spam';
 
   @override
   String get inboxSyncFromRelays => 'Aggiorna';
@@ -720,6 +732,34 @@ class AppLocalizationsIt extends AppLocalizations {
       one: '$count email',
     );
     return 'Verranno eliminate definitivamente $_temp0 nel cestino.\n\nQuesta azione non può essere annullata.';
+  }
+
+  @override
+  String inboxSpamCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count email nello spam',
+      one: '$count email nello spam',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get inboxEmptySpamAction => 'Svuota spam';
+
+  @override
+  String get inboxEmptySpamTitle => 'Svuotare lo spam?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'tutte le $count email',
+      one: '$count email',
+    );
+    return 'Verranno eliminate definitivamente $_temp0 nello spam.\n\nQuesta azione non può essere annullata.';
   }
 
   @override
@@ -1941,6 +1981,86 @@ class AppLocalizationsIt extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count da leggere';
   }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mittenti in attesa',
+      one: '$count mittente in attesa',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get senderAccept => 'Accetta mittente';
+
+  @override
+  String get senderBlock => 'Blocca mittente';
+
+  @override
+  String get senderUnblock => 'Sblocca mittente';
+
+  @override
+  String get senderVerdictFailed => 'Impossibile aggiornare il mittente';
+
+  @override
+  String get requestsAccept => 'Accetta';
+
+  @override
+  String get requestsBlock => 'Blocca';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count email',
+      one: '$count email',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsAcceptAll => 'Accetta tutti';
+
+  @override
+  String get requestsAcceptAllTitle => 'Accettare tutti i mittenti?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Tutti i $count mittenti in Richieste verranno accettati e le loro email spostate in Posta in arrivo.',
+      one:
+          'Il mittente in Richieste verrà accettato e le sue email spostate in Posta in arrivo.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Accetta questo mittente per ricevere le sue email in Posta in arrivo.';
+
+  @override
+  String get emailBlockedBanner => 'Hai bloccato questo mittente.';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count nuovi mittenti sono in attesa in Richieste',
+      one: '$count nuovo mittente è in attesa in Richieste',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pendingSendersBannerReview => 'Esamina';
 
   @override
   String settingsUpdateAvailable(String version) {

@@ -1,4 +1,4 @@
-enum MailFolder { inbox, sent, trash, archive }
+enum MailFolder { inbox, requests, sent, trash, archive, spam }
 
 enum MailEntryKind { folder, tag }
 
@@ -8,9 +8,11 @@ sealed class Mailbox {
   const Mailbox();
 
   static const inbox = SystemMailbox(MailFolder.inbox);
+  static const requests = SystemMailbox(MailFolder.requests);
   static const sent = SystemMailbox(MailFolder.sent);
   static const trash = SystemMailbox(MailFolder.trash);
   static const archive = SystemMailbox(MailFolder.archive);
+  static const spam = SystemMailbox(MailFolder.spam);
 
   /// The `folder` argument of `getSummaries` and `watchUnreadCount`.
   String? get folderParam => switch (this) {
@@ -26,14 +28,19 @@ sealed class Mailbox {
   };
 
   bool get isInbox => this == inbox;
+  bool get isRequests => this == requests;
+  bool get isSent => this == sent;
   bool get isTrash => this == trash;
   bool get isArchive => this == archive;
+  bool get isSpam => this == spam;
 
-  /// Unread is a state of the email, so an archived one keeps it. Sent mail
-  /// and trash are never unread in any useful sense.
+  /// Unread is a state of the email, so an archived one keeps it. Sent mail,
+  /// trash and spam are never unread in any useful sense.
   bool get showsUnread => switch (this) {
     SystemMailbox(:final folder) =>
-      folder == MailFolder.inbox || folder == MailFolder.archive,
+      folder == MailFolder.inbox ||
+          folder == MailFolder.requests ||
+          folder == MailFolder.archive,
     _ => true,
   };
 }

@@ -609,6 +609,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get folderArchive => 'Архив';
 
   @override
+  String get folderRequests => 'Запросы';
+
+  @override
+  String get folderSpam => 'Спам';
+
+  @override
   String get folderScheduled => 'Запланированные';
 
   @override
@@ -622,6 +628,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'Архив пуст';
+
+  @override
+  String get inboxEmptyRequests => 'Запросов нет';
+
+  @override
+  String get inboxEmptySpam => 'Спама нет';
 
   @override
   String get inboxSyncFromRelays => 'Обновить';
@@ -724,6 +736,38 @@ class AppLocalizationsRu extends AppLocalizations {
       one: '$count письмо',
     );
     return 'Это навсегда удалит $_temp0 из корзины.\n\nЭто действие нельзя отменить.';
+  }
+
+  @override
+  String inboxSpamCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count письма в спаме',
+      many: '$count писем в спаме',
+      few: '$count письма в спаме',
+      one: '$count письмо в спаме',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get inboxEmptySpamAction => 'Очистить спам';
+
+  @override
+  String get inboxEmptySpamTitle => 'Очистить спам?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'все $count письма',
+      many: 'все $count писем',
+      few: 'все $count письма',
+      one: '$count письмо',
+    );
+    return 'Это навсегда удалит $_temp0 из спама.\n\nЭто действие нельзя отменить.';
   }
 
   @override
@@ -1957,6 +2001,96 @@ class AppLocalizationsRu extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return 'Непрочитанных: $count';
   }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count отправителя ждут',
+      many: '$count отправителей ждут',
+      few: '$count отправителя ждут',
+      one: '$count отправитель ждёт',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get senderAccept => 'Принять отправителя';
+
+  @override
+  String get senderBlock => 'Заблокировать отправителя';
+
+  @override
+  String get senderUnblock => 'Разблокировать отправителя';
+
+  @override
+  String get senderVerdictFailed => 'Не удалось обновить отправителя';
+
+  @override
+  String get requestsAccept => 'Принять';
+
+  @override
+  String get requestsBlock => 'Заблокировать';
+
+  @override
+  String requestsEmailCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count письма',
+      many: '$count писем',
+      few: '$count письма',
+      one: '$count письмо',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get requestsAcceptAll => 'Принять всех';
+
+  @override
+  String get requestsAcceptAllTitle => 'Принять всех отправителей?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count отправителя из Запросов будут приняты, а их письма перемещены во Входящие.',
+      many:
+          '$count отправителей из Запросов будут приняты, а их письма перемещены во Входящие.',
+      few:
+          '$count отправителя из Запросов будут приняты, а их письма перемещены во Входящие.',
+      one:
+          '$count отправитель из Запросов будет принят, а его письма перемещены во Входящие.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailRequestBanner =>
+      'Примите этого отправителя, чтобы получать его письма во Входящие.';
+
+  @override
+  String get emailBlockedBanner => 'Вы заблокировали этого отправителя.';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count новых отправителя ждут в Запросах',
+      many: '$count новых отправителей ждут в Запросах',
+      few: '$count новых отправителя ждут в Запросах',
+      one: '$count новый отправитель ждёт в Запросах',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get pendingSendersBannerReview => 'Просмотреть';
 
   @override
   String settingsUpdateAvailable(String version) {

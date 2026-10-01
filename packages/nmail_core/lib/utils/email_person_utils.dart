@@ -1,6 +1,8 @@
+import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
+import 'package:nostr_mail/nostr_mail.dart' show EmailSummary;
 
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/services/address_book_service.dart';
@@ -25,6 +27,15 @@ String emailPersonName(EmailPerson person) {
       ? address.email
       : personalName;
 }
+
+/// Who sent [email]. A bridged email names its sender in the MIME From, the
+/// gift wrap only the bridge.
+EmailPerson summarySender(EmailSummary email) => email.isBridged
+    ? EmailPerson.email(
+        MailAddress(email.fromName, email.from),
+        bridgePubkey: email.senderPubkey,
+      )
+    : EmailPerson.nostr(email.senderPubkey);
 
 /// The npub for a Nostr identity, the address otherwise.
 String emailPersonIdentifier(EmailPerson person) {

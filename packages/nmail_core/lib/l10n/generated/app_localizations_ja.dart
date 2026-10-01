@@ -586,6 +586,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get folderArchive => 'アーカイブ';
 
   @override
+  String get folderRequests => 'リクエスト';
+
+  @override
+  String get folderSpam => '迷惑メール';
+
+  @override
   String get folderScheduled => '予約済み';
 
   @override
@@ -599,6 +605,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'アーカイブは空です';
+
+  @override
+  String get inboxEmptyRequests => 'リクエストはありません';
+
+  @override
+  String get inboxEmptySpam => '迷惑メールはありません';
 
   @override
   String get inboxSyncFromRelays => '更新';
@@ -677,6 +689,22 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String inboxEmptyTrashMessage(int count) {
     return 'ゴミ箱のメール $count 件をすべて完全に削除します。\n\nこの操作は元に戻せません。';
+  }
+
+  @override
+  String inboxSpamCount(int count) {
+    return '迷惑メール $count 件';
+  }
+
+  @override
+  String get inboxEmptySpamAction => '迷惑メールを空にする';
+
+  @override
+  String get inboxEmptySpamTitle => '迷惑メールを空にしますか?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    return '迷惑メール $count 件をすべて完全に削除します。\n\nこの操作は元に戻せません。';
   }
 
   @override
@@ -1839,6 +1867,59 @@ class AppLocalizationsJa extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '未読 $count 件';
   }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    return '承認待ちの送信者 $count 人';
+  }
+
+  @override
+  String get senderAccept => '送信者を承認';
+
+  @override
+  String get senderBlock => '送信者をブロック';
+
+  @override
+  String get senderUnblock => '送信者のブロックを解除';
+
+  @override
+  String get senderVerdictFailed => '送信者を更新できませんでした';
+
+  @override
+  String get requestsAccept => '承認';
+
+  @override
+  String get requestsBlock => 'ブロック';
+
+  @override
+  String requestsEmailCount(int count) {
+    return 'メール $count 件';
+  }
+
+  @override
+  String get requestsAcceptAll => 'すべて承認';
+
+  @override
+  String get requestsAcceptAllTitle => 'すべての送信者を承認しますか?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    return 'リクエストの送信者 $count 人を承認し、そのメールを受信トレイに移動します。';
+  }
+
+  @override
+  String get emailRequestBanner => 'この送信者を承認すると、メールが受信トレイに届きます。';
+
+  @override
+  String get emailBlockedBanner => 'この送信者はブロック済みです。';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    return 'リクエストで $count 人の新しい送信者が承認を待っています';
+  }
+
+  @override
+  String get pendingSendersBannerReview => '確認';
 
   @override
   String settingsUpdateAvailable(String version) {

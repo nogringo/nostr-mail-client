@@ -582,6 +582,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get folderArchive => '归档';
 
   @override
+  String get folderRequests => '请求';
+
+  @override
+  String get folderSpam => '垃圾邮件';
+
+  @override
   String get folderScheduled => '定时邮件';
 
   @override
@@ -595,6 +601,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => '归档为空';
+
+  @override
+  String get inboxEmptyRequests => '没有请求';
+
+  @override
+  String get inboxEmptySpam => '没有垃圾邮件';
 
   @override
   String get inboxSyncFromRelays => '刷新';
@@ -673,6 +685,22 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String inboxEmptyTrashMessage(int count) {
     return '这将永久删除回收站中的全部 $count 封邮件。\n\n此操作无法撤销。';
+  }
+
+  @override
+  String inboxSpamCount(int count) {
+    return '垃圾邮件中有 $count 封邮件';
+  }
+
+  @override
+  String get inboxEmptySpamAction => '清空垃圾邮件';
+
+  @override
+  String get inboxEmptySpamTitle => '清空垃圾邮件?';
+
+  @override
+  String inboxEmptySpamMessage(int count) {
+    return '这将永久删除垃圾邮件中的全部 $count 封邮件。\n\n此操作无法撤销。';
   }
 
   @override
@@ -1824,6 +1852,59 @@ class AppLocalizationsZh extends AppLocalizations {
   String mailboxUnreadCount(int count) {
     return '$count 封未读';
   }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    return '$count 位发件人待处理';
+  }
+
+  @override
+  String get senderAccept => '接受发件人';
+
+  @override
+  String get senderBlock => '屏蔽发件人';
+
+  @override
+  String get senderUnblock => '取消屏蔽发件人';
+
+  @override
+  String get senderVerdictFailed => '无法更新发件人';
+
+  @override
+  String get requestsAccept => '接受';
+
+  @override
+  String get requestsBlock => '屏蔽';
+
+  @override
+  String requestsEmailCount(int count) {
+    return '$count 封邮件';
+  }
+
+  @override
+  String get requestsAcceptAll => '全部接受';
+
+  @override
+  String get requestsAcceptAllTitle => '接受所有发件人?';
+
+  @override
+  String requestsAcceptAllMessage(int count) {
+    return '将接受请求中的 $count 位发件人，并把他们的邮件移到收件箱。';
+  }
+
+  @override
+  String get emailRequestBanner => '接受此发件人后，其邮件将进入收件箱。';
+
+  @override
+  String get emailBlockedBanner => '你已屏蔽此发件人。';
+
+  @override
+  String pendingSendersBannerMessage(int count) {
+    return '请求中有 $count 位新发件人等待处理';
+  }
+
+  @override
+  String get pendingSendersBannerReview => '查看';
 
   @override
   String settingsUpdateAvailable(String version) {
