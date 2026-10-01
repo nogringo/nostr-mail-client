@@ -16,9 +16,8 @@ import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
-import 'package:nmail_core/views/email/widgets/person_avatar.dart';
+import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
 import 'package:nmail_core/views/shared/show_context_menu.dart';
-import '../../../widgets/nostr_avatar.dart';
 import '../../../widgets/selectable_avatar.dart';
 import '../../../widgets/tag_chips.dart';
 
@@ -109,7 +108,7 @@ class EmailTile extends StatelessWidget {
 
   EmailPerson get _otherSidePerson => _otherSidePubkey.isNotEmpty
       ? EmailPerson.nostr(_otherSidePubkey)
-      : EmailPerson.email(_displayAddress);
+      : EmailPerson.email(_displayAddress, bridgePubkey: _bridgePubkey);
 
   /// Pubkey of the bridge that relayed this email, when known. Only
   /// available for received bridged emails (gift-wrap sender = bridge).
@@ -708,33 +707,10 @@ class EmailTile extends StatelessWidget {
 
     // Main avatar: nostr identity if the contact is one, else the
     // legacy MIME address. Decided per-address, not from isBridged.
-    final mainAvatar = PersonAvatar(person: _otherSidePerson, radius: radius);
-
-    // Bridge badge: provenance marker, only when the bridge pubkey is
-    // known (received bridged emails).
-    Widget baseAvatar;
-    if (_bridgePubkey.isEmpty) {
-      baseAvatar = mainAvatar;
-    } else {
-      final badgeRadius = compact ? 7.0 : 10.0;
-      baseAvatar = Stack(
-        clipBehavior: Clip.none,
-        children: [
-          mainAvatar,
-          Positioned(
-            right: -4,
-            bottom: -4,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: colorScheme.surface, width: 2),
-              ),
-              child: NostrAvatar(pubkey: _bridgePubkey, radius: badgeRadius),
-            ),
-          ),
-        ],
-      );
-    }
+    final baseAvatar = BridgedPersonAvatar(
+      person: _otherSidePerson,
+      radius: radius,
+    );
 
     final extra = _extraRecipientCount;
     if (extra == 0) return baseAvatar;

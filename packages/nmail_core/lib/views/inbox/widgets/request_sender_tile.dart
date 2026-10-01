@@ -13,7 +13,7 @@ import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/format_date.dart';
 import 'package:nmail_core/utils/run_sender_verdict.dart';
 import 'package:nmail_core/utils/sender_groups.dart';
-import 'package:nmail_core/views/email/widgets/person_avatar.dart';
+import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
 import 'request_email_row.dart';
 
 /// A sender waiting in requests: who they are, what they sent last, and the
@@ -63,7 +63,7 @@ class RequestSenderTile extends GetView<InboxController> {
         children: [
           ListTile(
             titleAlignment: ListTileTitleAlignment.top,
-            leading: PersonAvatar(person: _person),
+            leading: BridgedPersonAvatar(person: _person),
             title: Row(
               children: [
                 Expanded(
