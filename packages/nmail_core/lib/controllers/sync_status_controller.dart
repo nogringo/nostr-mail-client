@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
@@ -25,8 +26,9 @@ class SyncStatusController extends GetxController {
     isSyncing = true;
     update();
     try {
-      final nostrMailService = Get.find<NostrMailService>();
-      await nostrMailService.client.fetchRecent();
+      await Get.find<SyncEngine>().clearAllLocalData();
+      // Waits for the walk from scratch the clear just started.
+      await Get.find<NostrMailService>().client.fetchRecent();
       await loadData();
     } finally {
       isSyncing = false;

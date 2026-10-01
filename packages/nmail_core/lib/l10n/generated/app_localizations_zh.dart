@@ -497,7 +497,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get syncStatusResync => '重新同步';
 
   @override
-  String get syncStatusResyncSubtitle => '重新从中继读取所有消息。';
+  String get syncStatusResyncSubtitle => '如果收件箱看起来不完整，请从中继重新下载全部内容。';
 
   @override
   String get syncStatusBeginningOfTime => '时间的起点';

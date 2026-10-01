@@ -190,7 +190,7 @@
   "syncStatusSectionTitle": "同步状态",
   "syncStatusEmpty": "暂无同步数据",
   "syncStatusResync": "重新同步",
-  "syncStatusResyncSubtitle": "重新从中继读取所有消息。",
+  "syncStatusResyncSubtitle": "如果收件箱看起来不完整，请从中继重新下载全部内容。",
   "syncStatusBeginningOfTime": "时间的起点",
 
   "identitiesTitle": "身份",

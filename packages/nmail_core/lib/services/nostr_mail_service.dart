@@ -24,13 +24,13 @@ const vanishAllRelays = 'ALL_RELAYS';
 /// Information about email sync status from relays
 class EmailSyncStatus {
   final String relayUrl;
-  final int? oldestTimestamp;
-  final int? newestTimestamp;
+  final DateTime oldest;
+  final DateTime newest;
 
   const EmailSyncStatus({
     required this.relayUrl,
-    this.oldestTimestamp,
-    this.newestTimestamp,
+    required this.oldest,
+    required this.newest,
   });
 }
 
@@ -163,33 +163,30 @@ class NostrMailService extends GetxService {
     return userRelayList?.relays ?? {};
   }
 
-  /// Get sync status for emails from DM relays only using fetchedRanges
+  /// Mail coverage of the sync engine on the DM relays.
   Future<List<EmailSyncStatus>> getEmailSyncStatus() async {
     final pubkey = _ndk.accounts.getPublicKey();
     if (pubkey == null) return [];
 
-    // Get user's DM relays
     final dmRelays = await getDmRelays();
 
-    // Build the same filter used for fetching emails (gift wraps for this user)
-    final filter = ndk_filter.Filter(
-      kinds: [GiftWrap.kGiftWrapEventkind],
-      pTags: [pubkey],
+    // Must match nostr_mail's emailFilter, the engine files coverage under its
+    // fingerprint.
+    final states = await Get.find<SyncEngine>().coverageOfFilter(
+      ndk_filter.Filter(kinds: [GiftWrap.kGiftWrapEventkind], pTags: [pubkey]),
+      authPubkey: pubkey,
     );
 
-    final fetchedRangesMap = await _ndk.fetchedRanges.getForFilter(filter);
-
-    // Filter to only show DM relays
-    return fetchedRangesMap.entries
-        .where((entry) => dmRelays.isEmpty || dmRelays.contains(entry.key))
-        .map((entry) {
-          final relayRanges = entry.value;
-          return EmailSyncStatus(
-            relayUrl: entry.key,
-            oldestTimestamp: relayRanges.oldest,
-            newestTimestamp: relayRanges.newest,
-          );
-        })
+    return states
+        .where((state) => state.coverage.isNotEmpty)
+        .where((state) => dmRelays.isEmpty || dmRelays.contains(state.relayUrl))
+        .map(
+          (state) => EmailSyncStatus(
+            relayUrl: state.relayUrl,
+            oldest: state.coverage.first.from,
+            newest: state.coverage.last.to,
+          ),
+        )
         .toList();
   }
 

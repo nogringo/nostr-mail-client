@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
 
-/// Reads every message from the relays again, closing the sync group.
+/// Downloads everything from the relays again, closing the sync group.
 class ResyncTile extends StatelessWidget {
   const ResyncTile({
     super.key,

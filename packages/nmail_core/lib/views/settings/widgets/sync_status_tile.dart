@@ -21,8 +21,8 @@ class SyncStatusTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final oldest = formatSyncTimestamp(context, status.oldestTimestamp);
-    final newest = formatSyncTimestamp(context, status.newestTimestamp);
+    final oldest = formatSyncDate(context, status.oldest);
+    final newest = formatSyncDate(context, status.newest);
 
     return Padding(
       padding: const EdgeInsets.symmetric(

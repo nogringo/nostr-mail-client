@@ -518,7 +518,7 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Lue kaikki viestit uudelleen palvelimilta.';
+      'Jos Saapuneet näyttää puutteelliselta, lataa kaikki uudelleen palvelimilta.';
 
   @override
   String get syncStatusBeginningOfTime => 'Alkuhetkestä';

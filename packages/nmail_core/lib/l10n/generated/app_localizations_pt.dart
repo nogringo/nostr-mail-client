@@ -520,7 +520,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Ler novamente todas as mensagens dos seus relays.';
+      'Se a sua caixa de entrada parecer incompleta, transfira tudo novamente dos seus relays.';
 
   @override
   String get syncStatusBeginningOfTime => 'Início dos tempos';
@@ -2617,7 +2617,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Ler todas as mensagens dos seus relays novamente.';
+      'Se sua caixa de entrada parecer incompleta, baixe tudo novamente dos seus relays.';
 
   @override
   String get syncStatusBeginningOfTime => 'Início dos tempos';

@@ -190,7 +190,7 @@
   "syncStatusSectionTitle": "同期ステータス",
   "syncStatusEmpty": "同期データがありません",
   "syncStatusResync": "再同期",
-  "syncStatusResyncSubtitle": "リレーからすべてのメッセージを読み直します。",
+  "syncStatusResyncSubtitle": "受信トレイが不完全に見える場合は、リレーからすべてを再ダウンロードします。",
   "syncStatusBeginningOfTime": "時の始まり",
 
   "identitiesTitle": "アイデンティティ",

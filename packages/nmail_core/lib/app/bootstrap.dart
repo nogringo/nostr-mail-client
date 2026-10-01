@@ -128,7 +128,6 @@ Future<void> _initApp({
       eventSignerFactory: NdkEventSignerFactory(),
       cache: cacheManager,
       bootstrapRelays: NostrConfig.bootstrapRelays,
-      fetchedRangesEnabled: true,
     ),
   );
   Get.put(ndk, permanent: true);

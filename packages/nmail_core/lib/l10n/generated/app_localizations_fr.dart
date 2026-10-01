@@ -522,7 +522,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Relire tous les messages depuis vos relais.';
+      'Si votre boîte de réception semble incomplète, téléchargez tout à nouveau depuis vos relais.';
 
   @override
   String get syncStatusBeginningOfTime => 'Origine des temps';

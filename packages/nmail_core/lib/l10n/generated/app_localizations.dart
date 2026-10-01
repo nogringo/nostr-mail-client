@@ -1033,16 +1033,16 @@ abstract class AppLocalizations {
   /// **'No sync data available'**
   String get syncStatusEmpty;
 
-  /// Row label that forces a fresh sync of all relays
+  /// Row label that clears the sync coverage and downloads everything again
   ///
   /// In en, this message translates to:
   /// **'Resync'**
   String get syncStatusResync;
 
-  /// Subtitle under the resync row explaining what it does
+  /// Subtitle under the resync row saying when to use it
   ///
   /// In en, this message translates to:
-  /// **'Read every message from your relays again.'**
+  /// **'If your inbox seems incomplete, download everything again from your relays.'**
   String get syncStatusResyncSubtitle;
 
   /// Sentinel label for a zero timestamp (i.e. sync started from the dawn of time)

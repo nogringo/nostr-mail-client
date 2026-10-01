@@ -179,7 +179,7 @@
   "syncStatusSectionTitle": "Status de sincronização",
   "syncStatusEmpty": "Nenhum dado de sincronização disponível",
   "syncStatusResync": "Ressincronizar",
-  "syncStatusResyncSubtitle": "Ler todas as mensagens dos seus relays novamente.",
+  "syncStatusResyncSubtitle": "Se sua caixa de entrada parecer incompleta, baixe tudo novamente dos seus relays.",
   "syncStatusBeginningOfTime": "Início dos tempos",
   "identitiesTitle": "Identidades",
   "identitiesEmptyTitle": "Nenhuma identidade ainda",

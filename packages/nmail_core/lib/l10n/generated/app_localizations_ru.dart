@@ -521,7 +521,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Заново прочитать все сообщения с ваших реле.';
+      'Если входящие выглядят неполными, загрузите всё заново с ваших реле.';
 
   @override
   String get syncStatusBeginningOfTime => 'Начало времён';

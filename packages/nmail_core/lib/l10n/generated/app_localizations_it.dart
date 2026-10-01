@@ -522,7 +522,7 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Rileggi tutti i messaggi dai tuoi relay.';
+      'Se la posta in arrivo sembra incompleta, scarica di nuovo tutto dai tuoi relay.';
 
   @override
   String get syncStatusBeginningOfTime => 'Inizio dei tempi';

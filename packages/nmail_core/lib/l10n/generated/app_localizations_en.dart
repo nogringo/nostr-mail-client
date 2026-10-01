@@ -516,7 +516,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Read every message from your relays again.';
+      'If your inbox seems incomplete, download everything again from your relays.';
 
   @override
   String get syncStatusBeginningOfTime => 'Beginning of time';

@@ -190,7 +190,7 @@
   "syncStatusSectionTitle": "Статус синхронизации",
   "syncStatusEmpty": "Нет данных о синхронизации",
   "syncStatusResync": "Пересинхронизировать",
-  "syncStatusResyncSubtitle": "Заново прочитать все сообщения с ваших реле.",
+  "syncStatusResyncSubtitle": "Если входящие выглядят неполными, загрузите всё заново с ваших реле.",
   "syncStatusBeginningOfTime": "Начало времён",
 
   "identitiesTitle": "Идентичности",

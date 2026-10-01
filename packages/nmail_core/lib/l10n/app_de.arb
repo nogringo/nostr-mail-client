@@ -190,7 +190,7 @@
   "syncStatusSectionTitle": "Sync-Status",
   "syncStatusEmpty": "Keine Sync-Daten verfügbar",
   "syncStatusResync": "Erneut synchronisieren",
-  "syncStatusResyncSubtitle": "Alle Nachrichten erneut von deinen Relays lesen.",
+  "syncStatusResyncSubtitle": "Wenn dein Posteingang unvollständig wirkt, lade alles erneut von deinen Relays herunter.",
   "syncStatusBeginningOfTime": "Anfang der Zeit",
 
   "identitiesTitle": "Identitäten",

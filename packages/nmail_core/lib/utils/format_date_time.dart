@@ -8,12 +8,9 @@ String formatDateTime(BuildContext context, DateTime date) {
   return DateFormat.yMd(locale).add_Hm().format(date);
 }
 
-String formatSyncTimestamp(BuildContext context, int? timestamp) {
-  if (timestamp == null) return '-';
-
-  final l = AppLocalizations.of(context);
-  if (timestamp == 0) return l.syncStatusBeginningOfTime;
-
-  final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-  return formatDateTime(context, date);
+String formatSyncDate(BuildContext context, DateTime date) {
+  if (date.millisecondsSinceEpoch == 0) {
+    return AppLocalizations.of(context).syncStatusBeginningOfTime;
+  }
+  return formatDateTime(context, date.toLocal());
 }

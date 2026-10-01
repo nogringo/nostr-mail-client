@@ -520,7 +520,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get syncStatusResyncSubtitle =>
-      'Alle Nachrichten erneut von deinen Relays lesen.';
+      'Wenn dein Posteingang unvollständig wirkt, lade alles erneut von deinen Relays herunter.';
 
   @override
   String get syncStatusBeginningOfTime => 'Anfang der Zeit';

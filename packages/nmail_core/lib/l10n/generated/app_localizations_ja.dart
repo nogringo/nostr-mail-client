@@ -500,7 +500,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get syncStatusResync => '再同期';
 
   @override
-  String get syncStatusResyncSubtitle => 'リレーからすべてのメッセージを読み直します。';
+  String get syncStatusResyncSubtitle =>
+      '受信トレイが不完全に見える場合は、リレーからすべてを再ダウンロードします。';
 
   @override
   String get syncStatusBeginningOfTime => '時の始まり';

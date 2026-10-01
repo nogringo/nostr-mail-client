@@ -190,7 +190,7 @@
   "syncStatusSectionTitle": "Synkronoinnin tila",
   "syncStatusEmpty": "Synkronointitietoja ei saatavilla",
   "syncStatusResync": "Synkronoi uudelleen",
-  "syncStatusResyncSubtitle": "Lue kaikki viestit uudelleen palvelimilta.",
+  "syncStatusResyncSubtitle": "Jos Saapuneet näyttää puutteelliselta, lataa kaikki uudelleen palvelimilta.",
   "syncStatusBeginningOfTime": "Alkuhetkestä",
 
   "identitiesTitle": "Henkilöllisyydet",
