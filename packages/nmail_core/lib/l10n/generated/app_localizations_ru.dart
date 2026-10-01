@@ -609,6 +609,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get folderArchive => 'Архив';
 
   @override
+  String get folderRequests => 'Запросы';
+
+  @override
+  String get folderSpam => 'Спам';
+
+  @override
   String get folderScheduled => 'Запланированные';
 
   @override
@@ -622,6 +628,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'Архив пуст';
+
+  @override
+  String get inboxEmptyRequests => 'Запросов нет';
+
+  @override
+  String get inboxEmptySpam => 'Спама нет';
 
   @override
   String get inboxSyncFromRelays => 'Обновить';
@@ -1956,6 +1968,19 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String mailboxUnreadCount(int count) {
     return 'Непрочитанных: $count';
+  }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count отправителя ждут',
+      many: '$count отправителей ждут',
+      few: '$count отправителя ждут',
+      one: '$count отправитель ждёт',
+    );
+    return '$_temp0';
   }
 
   @override

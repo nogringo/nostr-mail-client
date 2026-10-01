@@ -12,7 +12,7 @@ import 'package:nmail_core/utils/string_color.dart';
 import 'auth_controller.dart';
 
 /// The user folders and tags of the active account, as its private settings
-/// name them, and the unread count of each mailbox the sidebar lists.
+/// name them, and the counts the sidebar shows.
 class MailboxesController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();
   final _auth = Get.find<AuthController>();
@@ -20,6 +20,9 @@ class MailboxesController extends GetxController {
   final RxList<MailEntry> folders = <MailEntry>[].obs;
   final RxList<MailEntry> tags = <MailEntry>[].obs;
   final RxMap<Mailbox, int> unread = <Mailbox, int>{}.obs;
+
+  /// Senders with mail in requests, waiting for a verdict.
+  final pendingSenders = 0.obs;
 
   final List<StreamSubscription<int>> _unreadSubscriptions = [];
   Worker? _accountWorker;
@@ -217,8 +220,15 @@ class MailboxesController extends GetxController {
   void _watchUnread() {
     _cancelUnread();
     unread.clear();
+    pendingSenders.value = 0;
     if (!_nostrMailService.hasAccount) return;
 
+    _unreadSubscriptions.add(
+      _client.watchPendingSenderCount().listen(
+        (count) => pendingSenders.value = count,
+        onError: (_) {},
+      ),
+    );
     final mailboxes = <Mailbox>[
       Mailbox.inbox,
       for (final entry in folders) FolderMailbox(entry.id),

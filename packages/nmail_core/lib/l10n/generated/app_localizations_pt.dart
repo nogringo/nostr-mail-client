@@ -608,6 +608,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get folderArchive => 'Arquivo';
 
   @override
+  String get folderRequests => 'Pedidos';
+
+  @override
+  String get folderSpam => 'Spam';
+
+  @override
   String get folderScheduled => 'Agendados';
 
   @override
@@ -621,6 +627,12 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'O arquivo está vazio';
+
+  @override
+  String get inboxEmptyRequests => 'Sem pedidos';
+
+  @override
+  String get inboxEmptySpam => 'Sem spam';
 
   @override
   String get inboxSyncFromRelays => 'Atualizar';
@@ -1938,6 +1950,17 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count remetentes em espera',
+      one: '$count remetente em espera',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String settingsUpdateAvailable(String version) {
     return 'Versão $version disponível';
   }
@@ -2560,6 +2583,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get folderArchive => 'Arquivo';
 
   @override
+  String get folderRequests => 'Solicitações';
+
+  @override
+  String get folderSpam => 'Spam';
+
+  @override
   String get folderScheduled => 'Agendados';
 
   @override
@@ -2573,6 +2602,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get inboxEmptyArchive => 'O arquivo está vazio';
+
+  @override
+  String get inboxEmptyRequests => 'Nenhuma solicitação';
+
+  @override
+  String get inboxEmptySpam => 'Nenhum spam';
 
   @override
   String get inboxSyncFromRelays => 'Atualizar';
@@ -3887,6 +3922,17 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String mailboxUnreadCount(int count) {
     return '$count não lidos';
+  }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count remetentes aguardando',
+      one: '$count remetente aguardando',
+    );
+    return '$_temp0';
   }
 
   @override

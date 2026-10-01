@@ -30,8 +30,10 @@ class AppRoutes {
 
   // Folders (drive InboxController.currentMailbox from URL)
   static const inbox = '/inbox';
+  static const requests = '/requests';
   static const sent = '/sent';
   static const archive = '/archive';
+  static const spam = '/spam';
   static const trash = '/trash';
   static const scheduled = '/scheduled';
 
@@ -73,8 +75,10 @@ class AppRoutes {
 
   static String mailboxPath(Mailbox mailbox) => switch (mailbox) {
     SystemMailbox(folder: MailFolder.inbox) => inbox,
+    SystemMailbox(folder: MailFolder.requests) => requests,
     SystemMailbox(folder: MailFolder.sent) => sent,
     SystemMailbox(folder: MailFolder.archive) => archive,
+    SystemMailbox(folder: MailFolder.spam) => spam,
     SystemMailbox(folder: MailFolder.trash) => trash,
     FolderMailbox(:final id) => '/folder/$id',
     TagMailbox(:final id) => '/label/$id',

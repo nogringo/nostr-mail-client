@@ -149,8 +149,10 @@ class AppRouter {
           // `context.go('/<mailbox>/email/<id>')` updates the URL AND
           // preserves a real back-stack to the mailbox.
           _mailboxRoute(AppRoutes.inbox, (_) => Mailbox.inbox),
+          _mailboxRoute(AppRoutes.requests, (_) => Mailbox.requests),
           _mailboxRoute(AppRoutes.sent, (_) => Mailbox.sent),
           _mailboxRoute(AppRoutes.archive, (_) => Mailbox.archive),
+          _mailboxRoute(AppRoutes.spam, (_) => Mailbox.spam),
           _mailboxRoute(AppRoutes.trash, (_) => Mailbox.trash),
           _mailboxRoute(
             AppRoutes.userFolder,

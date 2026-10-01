@@ -381,17 +381,20 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     // Cross-device sync: label add/remove events from other devices arrive
     // via the label subscription in WatchManager. Reload so read/unread,
     // trash, archive and star state stay in sync without a manual refresh.
+    // A sender verdict moves mail between inbox, requests and spam with no
+    // label event at all.
     //
     // Throttled, not debounced: a bulk sync emits continuously for seconds, so
     // waiting for silence would leave the list empty until the very end.
     // leading gives an immediate first paint, trailing the final state.
-    _reloadSubscription = MergeStream<Object>([client.onEmail, client.onLabel])
-        .throttleTime(
-          AppConfig.watchReloadThrottle,
-          leading: true,
-          trailing: true,
-        )
-        .listen((_) => _loadEmails(), onError: (e) {});
+    _reloadSubscription =
+        MergeStream<Object>([client.onEmail, client.onLabel, client.onSender])
+            .throttleTime(
+              AppConfig.watchReloadThrottle,
+              leading: true,
+              trailing: true,
+            )
+            .listen((_) => _loadEmails(), onError: (e) {});
   }
 
   /// Surface a system notification for a genuinely new incoming email, but only

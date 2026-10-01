@@ -604,6 +604,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get folderArchive => 'Archive';
 
   @override
+  String get folderRequests => 'Requests';
+
+  @override
+  String get folderSpam => 'Spam';
+
+  @override
   String get folderScheduled => 'Scheduled';
 
   @override
@@ -617,6 +623,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'Archive is empty';
+
+  @override
+  String get inboxEmptyRequests => 'No requests';
+
+  @override
+  String get inboxEmptySpam => 'No spam';
 
   @override
   String get inboxSyncFromRelays => 'Refresh';
@@ -1921,6 +1933,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String mailboxUnreadCount(int count) {
     return '$count unread';
+  }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count senders waiting',
+      one: '$count sender waiting',
+    );
+    return '$_temp0';
   }
 
   @override

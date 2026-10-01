@@ -1201,6 +1201,18 @@ abstract class AppLocalizations {
   /// **'Archive'**
   String get folderArchive;
 
+  /// Folder name: Requests (mail from senders the user has not accepted or refused yet)
+  ///
+  /// In en, this message translates to:
+  /// **'Requests'**
+  String get folderRequests;
+
+  /// Folder name: Spam (mail from blocked senders)
+  ///
+  /// In en, this message translates to:
+  /// **'Spam'**
+  String get folderSpam;
+
   /// Folder name: Scheduled (emails queued for future delivery)
   ///
   /// In en, this message translates to:
@@ -1230,6 +1242,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Archive is empty'**
   String get inboxEmptyArchive;
+
+  /// Empty-state message when the requests folder is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No requests'**
+  String get inboxEmptyRequests;
+
+  /// Empty-state message when the spam folder is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No spam'**
+  String get inboxEmptySpam;
 
   /// Button shown below empty-state to refresh the mailbox
   ///
@@ -3450,6 +3474,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} unread'**
   String mailboxUnreadCount(int count);
+
+  /// Screen reader label of the sidebar count on Requests: senders waiting to be accepted or refused
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} sender waiting} other{{count} senders waiting}}'**
+  String mailboxPendingSenders(int count);
 
   /// About page row shown when a newer Nmail release exists
   ///

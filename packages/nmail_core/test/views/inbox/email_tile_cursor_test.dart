@@ -27,6 +27,7 @@ const _widths = [400.0, 700.0, 1200.0];
 EmailSummary _email([String id = 'a']) => EmailSummary(
   id: id,
   senderPubkey: '',
+  senderKey: '',
   from: 'alice@example.com',
   fromName: 'Alice Example',
   to: [MailAddress('Me', 'me@example.com')],

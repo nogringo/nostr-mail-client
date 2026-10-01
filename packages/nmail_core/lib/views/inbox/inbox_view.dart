@@ -42,6 +42,10 @@ class InboxView extends GetView<InboxController> {
             Icons.inbox,
             l.inboxEmptyInbox,
           ),
+          SystemMailbox(folder: MailFolder.requests) => (
+            Icons.how_to_reg_outlined,
+            l.inboxEmptyRequests,
+          ),
           SystemMailbox(folder: MailFolder.sent) => (
             Icons.send,
             l.inboxEmptySent,
@@ -53,6 +57,10 @@ class InboxView extends GetView<InboxController> {
           SystemMailbox(folder: MailFolder.archive) => (
             Icons.archive_outlined,
             l.inboxEmptyArchive,
+          ),
+          SystemMailbox(folder: MailFolder.spam) => (
+            Icons.report_outlined,
+            l.inboxEmptySpam,
           ),
           FolderMailbox() => (Icons.folder_outlined, l.mailboxEmptyFolder),
           TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),

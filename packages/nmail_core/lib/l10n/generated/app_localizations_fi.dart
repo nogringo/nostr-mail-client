@@ -605,6 +605,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get folderArchive => 'Arkisto';
 
   @override
+  String get folderRequests => 'Pyynnöt';
+
+  @override
+  String get folderSpam => 'Roskaposti';
+
+  @override
   String get folderScheduled => 'Ajastetut';
 
   @override
@@ -618,6 +624,12 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'Arkisto on tyhjä';
+
+  @override
+  String get inboxEmptyRequests => 'Ei pyyntöjä';
+
+  @override
+  String get inboxEmptySpam => 'Ei roskapostia';
 
   @override
   String get inboxSyncFromRelays => 'Päivitä';
@@ -1928,6 +1940,17 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String mailboxUnreadCount(int count) {
     return '$count lukematonta';
+  }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count lähettäjää odottaa',
+      one: '$count lähettäjä odottaa',
+    );
+    return '$_temp0';
   }
 
   @override

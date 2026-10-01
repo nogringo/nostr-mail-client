@@ -586,6 +586,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get folderArchive => 'アーカイブ';
 
   @override
+  String get folderRequests => 'リクエスト';
+
+  @override
+  String get folderSpam => '迷惑メール';
+
+  @override
   String get folderScheduled => '予約済み';
 
   @override
@@ -599,6 +605,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => 'アーカイブは空です';
+
+  @override
+  String get inboxEmptyRequests => 'リクエストはありません';
+
+  @override
+  String get inboxEmptySpam => '迷惑メールはありません';
 
   @override
   String get inboxSyncFromRelays => '更新';
@@ -1838,6 +1850,11 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String mailboxUnreadCount(int count) {
     return '未読 $count 件';
+  }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    return '承認待ちの送信者 $count 人';
   }
 
   @override

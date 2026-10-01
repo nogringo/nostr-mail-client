@@ -582,6 +582,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get folderArchive => '归档';
 
   @override
+  String get folderRequests => '请求';
+
+  @override
+  String get folderSpam => '垃圾邮件';
+
+  @override
   String get folderScheduled => '定时邮件';
 
   @override
@@ -595,6 +601,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get inboxEmptyArchive => '归档为空';
+
+  @override
+  String get inboxEmptyRequests => '没有请求';
+
+  @override
+  String get inboxEmptySpam => '没有垃圾邮件';
 
   @override
   String get inboxSyncFromRelays => '刷新';
@@ -1823,6 +1835,11 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String mailboxUnreadCount(int count) {
     return '$count 封未读';
+  }
+
+  @override
+  String mailboxPendingSenders(int count) {
+    return '$count 位发件人待处理';
   }
 
   @override

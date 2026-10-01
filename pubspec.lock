@@ -1057,26 +1057,26 @@ packages:
     dependency: transitive
     description:
       name: ndk
-      sha256: ba165fe2b9e917dbd9910829e84c38fc54e9ffdd23632a5916ef37d087e0e68e
+      sha256: "3b3112f0e0a6603138181bf2a603157a61fa5278707ecf1a5ec7a09344031f50"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.0-dev.9"
+    version: "0.10.1-dev.1"
   ndk_drift:
     dependency: transitive
     description:
       name: ndk_drift
-      sha256: "94c4c34c3ebf81363f1bdbb9384fd14960c230b132a6ce49d64be3106e696ec0"
+      sha256: "4abc7be3ca153cb7a09280a99724cfb0930431ed7984de7f01499f2345cb6e56"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.1-dev.22"
+    version: "0.2.0-dev.1"
   ndk_flutter:
     dependency: transitive
     description:
       name: ndk_flutter
-      sha256: "22ed0ee173eb0fe02983051212b7c810cb5e0ce9b35ca493853d1325149d2910"
+      sha256: "7455b0d0686e8e781b4e52e8e4f74d4eb52aa0fcbd0095621df7ce946824f441"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.0-dev.10"
+    version: "0.10.1-dev.1"
   nm:
     dependency: transitive
     description:
