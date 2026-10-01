@@ -593,6 +593,16 @@ class AppLocalizationsRu extends AppLocalizations {
       'Показывает локальное уведомление, как будто пришло новое письмо, чтобы проверить отображение уведомления и обработку нажатия.';
 
   @override
+  String get debugToolsSync => 'Синхронизация';
+
+  @override
+  String get debugToolsClearSyncCoverage => 'Очистить покрытие синхронизации';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Забывает, какие периоды уже получены с каждого реле, чтобы движок синхронизации заново загрузил всю историю. Сообщения не удаляются.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Разрешение на уведомления отклонено.';
 
@@ -1579,6 +1589,9 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'Письмо создано и перемещено в корзину, но не удалось обновить отметку времени';
+
+  @override
+  String get debugSyncCoverageCleared => 'Покрытие синхронизации очищено';
 
   @override
   String debugError(String error) {

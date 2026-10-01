@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "Erstellt eine Test-E-Mail im Papierkorb, die 31 Tage alt ist. Zum Testen der Funktion \"Alte E-Mails löschen\".",
   "debugToolsTriggerNotification": "Testbenachrichtigung auslösen",
   "debugToolsTriggerNotificationDescription": "Zeigt eine lokale Benachrichtigung an, als wäre eine neue E-Mail eingegangen, um die Anzeige und die Tipp-Verarbeitung zu testen.",
+  "debugToolsSync": "Synchronisierung",
+  "debugToolsClearSyncCoverage": "Sync-Abdeckung löschen",
+  "debugToolsClearSyncCoverageDescription": "Vergisst, welche Zeiträume bereits von jedem Relay abgerufen wurden, sodass die Sync-Engine den gesamten Verlauf erneut abruft. Es werden keine Nachrichten gelöscht.",
   "debugNotificationPermissionDenied": "Benachrichtigungsberechtigung verweigert.",
 
   "folderInbox": "Posteingang",
@@ -581,6 +584,7 @@
   "debugNotAuthenticated": "Nicht authentifiziert",
   "debugTestEmailCreated": "Test-E-Mail erstellt und in den Papierkorb verschoben (31 Tage alt)",
   "debugTestEmailPartial": "E-Mail erstellt und in den Papierkorb verschoben, aber Zeitstempel konnte nicht aktualisiert werden",
+  "debugSyncCoverageCleared": "Sync-Abdeckung gelöscht",
   "debugError": "Fehler: {error}",
   "@debugError": {
     "placeholders": {

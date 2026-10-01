@@ -592,6 +592,17 @@ class AppLocalizationsEs extends AppLocalizations {
       'Muestra una notificación local como si hubiera llegado un correo nuevo, para probar la visualización de la notificación y el manejo del toque.';
 
   @override
+  String get debugToolsSync => 'Sincronización';
+
+  @override
+  String get debugToolsClearSyncCoverage =>
+      'Borrar la cobertura de sincronización';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Olvida qué periodos ya se obtuvieron de cada relay, para que el motor de sincronización vuelva a obtener todo el historial. No se elimina ningún mensaje.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Permiso de notificaciones denegado.';
 
@@ -1561,6 +1572,9 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'Correo creado y enviado a la papelera, pero no se pudo actualizar la marca de tiempo';
+
+  @override
+  String get debugSyncCoverageCleared => 'Cobertura de sincronización borrada';
 
   @override
   String debugError(String error) {

@@ -592,6 +592,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Zeigt eine lokale Benachrichtigung an, als wäre eine neue E-Mail eingegangen, um die Anzeige und die Tipp-Verarbeitung zu testen.';
 
   @override
+  String get debugToolsSync => 'Synchronisierung';
+
+  @override
+  String get debugToolsClearSyncCoverage => 'Sync-Abdeckung löschen';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Vergisst, welche Zeiträume bereits von jedem Relay abgerufen wurden, sodass die Sync-Engine den gesamten Verlauf erneut abruft. Es werden keine Nachrichten gelöscht.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Benachrichtigungsberechtigung verweigert.';
 
@@ -1561,6 +1571,9 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'E-Mail erstellt und in den Papierkorb verschoben, aber Zeitstempel konnte nicht aktualisiert werden';
+
+  @override
+  String get debugSyncCoverageCleared => 'Sync-Abdeckung gelöscht';
 
   @override
   String debugError(String error) {

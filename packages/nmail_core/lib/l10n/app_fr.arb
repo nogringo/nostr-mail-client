@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "Crée un e-mail de test dans la corbeille, daté de 31 jours. Utilisez-le pour tester la fonctionnalité « Supprimer les anciens e-mails ».",
   "debugToolsTriggerNotification": "Déclencher une notification de test",
   "debugToolsTriggerNotificationDescription": "Affiche une notification locale comme si un nouvel e-mail venait d'arriver, pour tester l'affichage et le tap.",
+  "debugToolsSync": "Synchronisation",
+  "debugToolsClearSyncCoverage": "Vider la couverture de synchronisation",
+  "debugToolsClearSyncCoverageDescription": "Oublie les périodes déjà récupérées sur chaque relais, pour que le moteur de synchronisation récupère à nouveau tout l'historique. Aucun message n'est supprimé.",
   "debugNotificationPermissionDenied": "Permission de notification refusée.",
 
   "folderInbox": "Boîte de réception",
@@ -581,6 +584,7 @@
   "debugNotAuthenticated": "Non authentifié",
   "debugTestEmailCreated": "E-mail de test créé et mis à la corbeille (31 jours)",
   "debugTestEmailPartial": "E-mail créé et mis à la corbeille, mais l'horodatage n'a pas pu être mis à jour",
+  "debugSyncCoverageCleared": "Couverture de synchronisation vidée",
   "debugError": "Erreur : {error}",
   "@debugError": {
     "placeholders": {

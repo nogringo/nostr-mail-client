@@ -571,6 +571,16 @@ class AppLocalizationsJa extends AppLocalizations {
       '新しいメールが届いたかのようにローカル通知を表示し、通知の表示とタップ処理をテストします。';
 
   @override
+  String get debugToolsSync => '同期';
+
+  @override
+  String get debugToolsClearSyncCoverage => '同期カバレッジを消去';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      '各リレーから取得済みの期間を忘れ、同期エンジンが履歴全体を再取得します。メッセージは削除されません。';
+
+  @override
   String get debugNotificationPermissionDenied => '通知の許可が拒否されました。';
 
   @override
@@ -1470,6 +1480,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get debugTestEmailPartial => 'メールを作成しゴミ箱に移動しましたが、タイムスタンプを更新できませんでした';
+
+  @override
+  String get debugSyncCoverageCleared => '同期カバレッジを消去しました';
 
   @override
   String debugError(String error) {

@@ -592,6 +592,17 @@ class AppLocalizationsPt extends AppLocalizations {
       'Mostra uma notificação local como se tivesse chegado um novo email, para testar a apresentação da notificação e o processamento do toque.';
 
   @override
+  String get debugToolsSync => 'Sincronização';
+
+  @override
+  String get debugToolsClearSyncCoverage =>
+      'Limpar a cobertura de sincronização';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Esquece os períodos já obtidos de cada relay, para que o motor de sincronização volte a obter todo o histórico. Nenhuma mensagem é eliminada.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Permissão de notificações recusada.';
 
@@ -1559,6 +1570,9 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'Email criado e movido para o lixo, mas não foi possível atualizar o carimbo de data/hora';
+
+  @override
+  String get debugSyncCoverageCleared => 'Cobertura de sincronização limpa';
 
   @override
   String debugError(String error) {
@@ -2664,6 +2678,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'Mostra uma notificação local como se um novo e-mail tivesse chegado, para testar a exibição da notificação e o tratamento do toque.';
 
   @override
+  String get debugToolsSync => 'Sincronização';
+
+  @override
+  String get debugToolsClearSyncCoverage => 'Limpar cobertura de sincronização';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Esquece quais períodos já foram buscados de cada relay, para que o mecanismo de sincronização busque todo o histórico novamente. Nenhuma mensagem é excluída.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Permissão de notificações negada.';
 
@@ -3631,6 +3655,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get debugTestEmailPartial =>
       'E-mail criado e movido para a lixeira, mas não foi possível atualizar o carimbo de data/hora';
+
+  @override
+  String get debugSyncCoverageCleared => 'Cobertura de sincronização limpa';
 
   @override
   String debugError(String error) {

@@ -394,6 +394,12 @@
   "@debugToolsTriggerNotification": { "description": "Button label to show a local notification simulating a newly arrived email" },
   "debugToolsTriggerNotificationDescription": "Shows a local notification as if a new email had arrived, to test notification display and tap handling.",
   "@debugToolsTriggerNotificationDescription": { "description": "Helper text explaining the test-notification debug action" },
+  "debugToolsSync": "Sync",
+  "@debugToolsSync": { "description": "Section heading in the debug tools screen for sync engine actions" },
+  "debugToolsClearSyncCoverage": "Clear Sync Coverage",
+  "@debugToolsClearSyncCoverage": { "description": "Button label to forget everything the sync engine has fetched, so it walks every relay's history again" },
+  "debugToolsClearSyncCoverageDescription": "Forgets which periods have already been fetched from each relay, so the sync engine fetches the whole history again. No message is deleted.",
+  "@debugToolsClearSyncCoverageDescription": { "description": "Helper text explaining the clear-sync-coverage debug action" },
   "debugNotificationPermissionDenied": "Notification permission denied.",
   "@debugNotificationPermissionDenied": { "description": "Error shown when the OS or browser denied notification permission" },
 
@@ -1087,6 +1093,8 @@
   "@debugTestEmailCreated": { "description": "Debug SnackBar after the seed-old-email action succeeds" },
   "debugTestEmailPartial": "Email created and trashed, but could not update timestamp",
   "@debugTestEmailPartial": { "description": "Debug SnackBar when seeding succeeds but the timestamp override fails" },
+  "debugSyncCoverageCleared": "Sync coverage cleared",
+  "@debugSyncCoverageCleared": { "description": "Debug SnackBar after the sync engine coverage was cleared" },
   "debugError": "Error: {error}",
   "@debugError": {
     "description": "Generic debug error SnackBar prefix",

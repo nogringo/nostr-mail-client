@@ -68,6 +68,41 @@ class DebugToolsView extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                   ),
+                  const SizedBox(height: 32),
+                  Text(
+                    l.debugToolsSync,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Obx(() {
+                    final isClearing = controller.isClearingSyncCoverage.value;
+                    return ElevatedButton.icon(
+                      onPressed: isClearing
+                          ? null
+                          : () => controller.clearSyncCoverage(context),
+                      icon: isClearing
+                          ? const SizedBox.square(
+                              dimension: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.sync_disabled),
+                      label: Text(l.debugToolsClearSyncCoverage),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 48),
+                      ),
+                    );
+                  }),
+                  const SizedBox(height: 8),
+                  Text(
+                    l.debugToolsClearSyncCoverageDescription,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
                 ],
               ),
             ),

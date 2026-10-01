@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "Luo roskakoriin 31 päivää vanhan testiviestin. Käytä \"Poista vanhat viestit\" -ominaisuuden testaukseen.",
   "debugToolsTriggerNotification": "Käynnistä testi-ilmoitus",
   "debugToolsTriggerNotificationDescription": "Näyttää paikallisen ilmoituksen ikään kuin uusi sähköposti olisi saapunut, jotta ilmoituksen näyttöä ja napautuksen käsittelyä voi testata.",
+  "debugToolsSync": "Synkronointi",
+  "debugToolsClearSyncCoverage": "Tyhjennä synkronoinnin kattavuus",
+  "debugToolsClearSyncCoverageDescription": "Unohtaa, mitkä ajanjaksot on jo haettu kultakin palvelimelta, jolloin synkronointimoottori hakee koko historian uudelleen. Viestejä ei poisteta.",
   "debugNotificationPermissionDenied": "Ilmoituslupa evätty.",
 
   "folderInbox": "Saapuneet",
@@ -586,6 +589,7 @@
   "debugNotAuthenticated": "Ei todennettu",
   "debugTestEmailCreated": "Luotu ja poistettu testiviesti (31 päivää vanha)",
   "debugTestEmailPartial": "Viesti luotu ja poistettu, mutta aikaleiman päivitys epäonnistui",
+  "debugSyncCoverageCleared": "Synkronoinnin kattavuus tyhjennetty",
   "debugError": "Virhe: {error}",
   "@debugError": {
     "placeholders": {

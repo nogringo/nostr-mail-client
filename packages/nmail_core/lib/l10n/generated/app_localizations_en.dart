@@ -588,6 +588,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Shows a local notification as if a new email had arrived, to test notification display and tap handling.';
 
   @override
+  String get debugToolsSync => 'Sync';
+
+  @override
+  String get debugToolsClearSyncCoverage => 'Clear Sync Coverage';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Forgets which periods have already been fetched from each relay, so the sync engine fetches the whole history again. No message is deleted.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Notification permission denied.';
 
@@ -1550,6 +1560,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'Email created and trashed, but could not update timestamp';
+
+  @override
+  String get debugSyncCoverageCleared => 'Sync coverage cleared';
 
   @override
   String debugError(String error) {

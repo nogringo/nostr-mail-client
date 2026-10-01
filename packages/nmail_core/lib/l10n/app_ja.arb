@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "31 日前のテストメールをゴミ箱に作成します。「古いメールを削除」機能のテストに使用します。",
   "debugToolsTriggerNotification": "テスト通知を表示",
   "debugToolsTriggerNotificationDescription": "新しいメールが届いたかのようにローカル通知を表示し、通知の表示とタップ処理をテストします。",
+  "debugToolsSync": "同期",
+  "debugToolsClearSyncCoverage": "同期カバレッジを消去",
+  "debugToolsClearSyncCoverageDescription": "各リレーから取得済みの期間を忘れ、同期エンジンが履歴全体を再取得します。メッセージは削除されません。",
   "debugNotificationPermissionDenied": "通知の許可が拒否されました。",
 
   "folderInbox": "受信トレイ",
@@ -581,6 +584,7 @@
   "debugNotAuthenticated": "未認証",
   "debugTestEmailCreated": "テストメールを作成しゴミ箱に移動しました (31 日前)",
   "debugTestEmailPartial": "メールを作成しゴミ箱に移動しましたが、タイムスタンプを更新できませんでした",
+  "debugSyncCoverageCleared": "同期カバレッジを消去しました",
   "debugError": "エラー: {error}",
   "@debugError": {
     "placeholders": {

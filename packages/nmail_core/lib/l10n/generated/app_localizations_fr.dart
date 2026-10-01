@@ -596,6 +596,17 @@ class AppLocalizationsFr extends AppLocalizations {
       'Affiche une notification locale comme si un nouvel e-mail venait d\'arriver, pour tester l\'affichage et le tap.';
 
   @override
+  String get debugToolsSync => 'Synchronisation';
+
+  @override
+  String get debugToolsClearSyncCoverage =>
+      'Vider la couverture de synchronisation';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Oublie les périodes déjà récupérées sur chaque relais, pour que le moteur de synchronisation récupère à nouveau tout l\'historique. Aucun message n\'est supprimé.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Permission de notification refusée.';
 
@@ -1565,6 +1576,9 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'E-mail créé et mis à la corbeille, mais l\'horodatage n\'a pas pu être mis à jour';
+
+  @override
+  String get debugSyncCoverageCleared => 'Couverture de synchronisation vidée';
 
   @override
   String debugError(String error) {

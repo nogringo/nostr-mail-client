@@ -594,6 +594,17 @@ class AppLocalizationsIt extends AppLocalizations {
       'Mostra una notifica locale come se fosse arrivata una nuova email, per testare la visualizzazione della notifica e la gestione del tocco.';
 
   @override
+  String get debugToolsSync => 'Sincronizzazione';
+
+  @override
+  String get debugToolsClearSyncCoverage =>
+      'Cancella la copertura di sincronizzazione';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Dimentica quali periodi sono già stati recuperati da ciascun relay, così il motore di sincronizzazione recupera di nuovo tutta la cronologia. Nessun messaggio viene eliminato.';
+
+  @override
   String get debugNotificationPermissionDenied =>
       'Autorizzazione alle notifiche negata.';
 
@@ -1563,6 +1574,10 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'Email creata e spostata nel cestino, ma impossibile aggiornare il timestamp';
+
+  @override
+  String get debugSyncCoverageCleared =>
+      'Copertura di sincronizzazione cancellata';
 
   @override
   String debugError(String error) {

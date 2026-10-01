@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "Crea un'email di test nel cestino vecchia di 31 giorni. Usala per testare la funzione \"Elimina email vecchie\".",
   "debugToolsTriggerNotification": "Attiva notifica di test",
   "debugToolsTriggerNotificationDescription": "Mostra una notifica locale come se fosse arrivata una nuova email, per testare la visualizzazione della notifica e la gestione del tocco.",
+  "debugToolsSync": "Sincronizzazione",
+  "debugToolsClearSyncCoverage": "Cancella la copertura di sincronizzazione",
+  "debugToolsClearSyncCoverageDescription": "Dimentica quali periodi sono già stati recuperati da ciascun relay, così il motore di sincronizzazione recupera di nuovo tutta la cronologia. Nessun messaggio viene eliminato.",
   "debugNotificationPermissionDenied": "Autorizzazione alle notifiche negata.",
 
   "folderInbox": "Posta in arrivo",
@@ -581,6 +584,7 @@
   "debugNotAuthenticated": "Non autenticato",
   "debugTestEmailCreated": "Email di test creata e spostata nel cestino (31 giorni)",
   "debugTestEmailPartial": "Email creata e spostata nel cestino, ma impossibile aggiornare il timestamp",
+  "debugSyncCoverageCleared": "Copertura di sincronizzazione cancellata",
   "debugError": "Errore: {error}",
   "@debugError": {
     "placeholders": {

@@ -590,6 +590,16 @@ class AppLocalizationsFi extends AppLocalizations {
       'Näyttää paikallisen ilmoituksen ikään kuin uusi sähköposti olisi saapunut, jotta ilmoituksen näyttöä ja napautuksen käsittelyä voi testata.';
 
   @override
+  String get debugToolsSync => 'Synkronointi';
+
+  @override
+  String get debugToolsClearSyncCoverage => 'Tyhjennä synkronoinnin kattavuus';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      'Unohtaa, mitkä ajanjaksot on jo haettu kultakin palvelimelta, jolloin synkronointimoottori hakee koko historian uudelleen. Viestejä ei poisteta.';
+
+  @override
   String get debugNotificationPermissionDenied => 'Ilmoituslupa evätty.';
 
   @override
@@ -1556,6 +1566,9 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get debugTestEmailPartial =>
       'Viesti luotu ja poistettu, mutta aikaleiman päivitys epäonnistui';
+
+  @override
+  String get debugSyncCoverageCleared => 'Synkronoinnin kattavuus tyhjennetty';
 
   @override
   String debugError(String error) {

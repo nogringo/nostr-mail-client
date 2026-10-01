@@ -567,6 +567,16 @@ class AppLocalizationsZh extends AppLocalizations {
       '像收到新邮件一样显示本地通知，用于测试通知显示和点击处理。';
 
   @override
+  String get debugToolsSync => '同步';
+
+  @override
+  String get debugToolsClearSyncCoverage => '清除同步覆盖范围';
+
+  @override
+  String get debugToolsClearSyncCoverageDescription =>
+      '忘记已从各中继获取的时间段，让同步引擎重新获取全部历史记录。不会删除任何消息。';
+
+  @override
   String get debugNotificationPermissionDenied => '通知权限被拒绝。';
 
   @override
@@ -1459,6 +1469,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get debugTestEmailPartial => '邮件已创建并移至回收站,但无法更新时间戳';
+
+  @override
+  String get debugSyncCoverageCleared => '已清除同步覆盖范围';
 
   @override
   String debugError(String error) {

@@ -205,6 +205,9 @@
   "debugToolsCreateOldTrashedDescription": "Cria um email de teste no lixo com 31 dias. Use para testar a funcionalidade \"Eliminar emails antigos\".",
   "debugToolsTriggerNotification": "Acionar notificação de teste",
   "debugToolsTriggerNotificationDescription": "Mostra uma notificação local como se tivesse chegado um novo email, para testar a apresentação da notificação e o processamento do toque.",
+  "debugToolsSync": "Sincronização",
+  "debugToolsClearSyncCoverage": "Limpar a cobertura de sincronização",
+  "debugToolsClearSyncCoverageDescription": "Esquece os períodos já obtidos de cada relay, para que o motor de sincronização volte a obter todo o histórico. Nenhuma mensagem é eliminada.",
   "debugNotificationPermissionDenied": "Permissão de notificações recusada.",
   "folderInbox": "Caixa de entrada",
   "folderSent": "Enviados",
@@ -583,6 +586,7 @@
   "debugNotAuthenticated": "Não autenticado",
   "debugTestEmailCreated": "Email de teste criado e movido para o lixo (31 dias)",
   "debugTestEmailPartial": "Email criado e movido para o lixo, mas não foi possível atualizar o carimbo de data/hora",
+  "debugSyncCoverageCleared": "Cobertura de sincronização limpa",
   "debugError": "Erro: {error}",
   "@debugError": {
     "placeholders": {

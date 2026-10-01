@@ -1171,6 +1171,24 @@ abstract class AppLocalizations {
   /// **'Shows a local notification as if a new email had arrived, to test notification display and tap handling.'**
   String get debugToolsTriggerNotificationDescription;
 
+  /// Section heading in the debug tools screen for sync engine actions
+  ///
+  /// In en, this message translates to:
+  /// **'Sync'**
+  String get debugToolsSync;
+
+  /// Button label to forget everything the sync engine has fetched, so it walks every relay's history again
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Sync Coverage'**
+  String get debugToolsClearSyncCoverage;
+
+  /// Helper text explaining the clear-sync-coverage debug action
+  ///
+  /// In en, this message translates to:
+  /// **'Forgets which periods have already been fetched from each relay, so the sync engine fetches the whole history again. No message is deleted.'**
+  String get debugToolsClearSyncCoverageDescription;
+
   /// Error shown when the OS or browser denied notification permission
   ///
   /// In en, this message translates to:
@@ -2826,6 +2844,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email created and trashed, but could not update timestamp'**
   String get debugTestEmailPartial;
+
+  /// Debug SnackBar after the sync engine coverage was cleared
+  ///
+  /// In en, this message translates to:
+  /// **'Sync coverage cleared'**
+  String get debugSyncCoverageCleared;
 
   /// Generic debug error SnackBar prefix
   ///

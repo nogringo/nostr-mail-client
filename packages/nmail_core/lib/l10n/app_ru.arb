@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "Создаёт тестовое письмо в корзине возрастом 31 день. Используйте, чтобы протестировать функцию «Удалить старые письма».",
   "debugToolsTriggerNotification": "Показать тестовое уведомление",
   "debugToolsTriggerNotificationDescription": "Показывает локальное уведомление, как будто пришло новое письмо, чтобы проверить отображение уведомления и обработку нажатия.",
+  "debugToolsSync": "Синхронизация",
+  "debugToolsClearSyncCoverage": "Очистить покрытие синхронизации",
+  "debugToolsClearSyncCoverageDescription": "Забывает, какие периоды уже получены с каждого реле, чтобы движок синхронизации заново загрузил всю историю. Сообщения не удаляются.",
   "debugNotificationPermissionDenied": "Разрешение на уведомления отклонено.",
 
   "folderInbox": "Входящие",
@@ -581,6 +584,7 @@
   "debugNotAuthenticated": "Не авторизовано",
   "debugTestEmailCreated": "Тестовое письмо создано и перемещено в корзину (31 день)",
   "debugTestEmailPartial": "Письмо создано и перемещено в корзину, но не удалось обновить отметку времени",
+  "debugSyncCoverageCleared": "Покрытие синхронизации очищено",
   "debugError": "Ошибка: {error}",
   "@debugError": {
     "placeholders": {

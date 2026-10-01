@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "Crea un correo de prueba en la papelera con 31 días de antigüedad. Úsalo para probar la función \"Eliminar correos antiguos\".",
   "debugToolsTriggerNotification": "Activar notificación de prueba",
   "debugToolsTriggerNotificationDescription": "Muestra una notificación local como si hubiera llegado un correo nuevo, para probar la visualización de la notificación y el manejo del toque.",
+  "debugToolsSync": "Sincronización",
+  "debugToolsClearSyncCoverage": "Borrar la cobertura de sincronización",
+  "debugToolsClearSyncCoverageDescription": "Olvida qué periodos ya se obtuvieron de cada relay, para que el motor de sincronización vuelva a obtener todo el historial. No se elimina ningún mensaje.",
   "debugNotificationPermissionDenied": "Permiso de notificaciones denegado.",
 
   "folderInbox": "Bandeja de entrada",
@@ -581,6 +584,7 @@
   "debugNotAuthenticated": "No autenticado",
   "debugTestEmailCreated": "Correo de prueba creado y enviado a la papelera (31 días)",
   "debugTestEmailPartial": "Correo creado y enviado a la papelera, pero no se pudo actualizar la marca de tiempo",
+  "debugSyncCoverageCleared": "Cobertura de sincronización borrada",
   "debugError": "Error: {error}",
   "@debugError": {
     "placeholders": {

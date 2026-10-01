@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:sembast/sembast.dart';
+import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -14,6 +15,7 @@ import 'package:nmail_core/services/storage_service.dart';
 class DebugToolsController extends GetxController {
   final _nostrMailService = Get.find<NostrMailService>();
   final _storageService = Get.find<StorageService>();
+  final isClearingSyncCoverage = false.obs;
 
   Future<void> createOldTrashedEmail(BuildContext context) async {
     final l = AppLocalizations.of(context);
@@ -130,5 +132,29 @@ class DebugToolsController extends GetxController {
       body: 'This is a test email notification',
       payload: AppRoutes.inbox,
     );
+  }
+
+  Future<void> clearSyncCoverage(BuildContext context) async {
+    final l = AppLocalizations.of(context);
+    isClearingSyncCoverage.value = true;
+    try {
+      await Get.find<SyncEngine>().clearAllLocalData();
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l.debugSyncCoverageCleared)));
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l.debugError(e.toString())),
+            backgroundColor: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
+    } finally {
+      isClearingSyncCoverage.value = false;
+    }
   }
 }

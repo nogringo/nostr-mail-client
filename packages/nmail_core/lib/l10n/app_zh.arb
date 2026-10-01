@@ -218,6 +218,9 @@
   "debugToolsCreateOldTrashedDescription": "在回收站创建一封 31 天前的测试邮件。用于测试「删除旧邮件」功能。",
   "debugToolsTriggerNotification": "触发测试通知",
   "debugToolsTriggerNotificationDescription": "像收到新邮件一样显示本地通知，用于测试通知显示和点击处理。",
+  "debugToolsSync": "同步",
+  "debugToolsClearSyncCoverage": "清除同步覆盖范围",
+  "debugToolsClearSyncCoverageDescription": "忘记已从各中继获取的时间段，让同步引擎重新获取全部历史记录。不会删除任何消息。",
   "debugNotificationPermissionDenied": "通知权限被拒绝。",
 
   "folderInbox": "收件箱",
@@ -581,6 +584,7 @@
   "debugNotAuthenticated": "未认证",
   "debugTestEmailCreated": "测试邮件已创建并移至回收站(31 天)",
   "debugTestEmailPartial": "邮件已创建并移至回收站,但无法更新时间戳",
+  "debugSyncCoverageCleared": "已清除同步覆盖范围",
   "debugError": "错误: {error}",
   "@debugError": {
     "placeholders": {
