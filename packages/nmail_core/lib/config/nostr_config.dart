@@ -42,6 +42,7 @@ class NostrConfig {
   static const nip46ClientMetadata = Nip46ClientMetadata(
     perms: [
       "get_public_key",
+      "nip04_decrypt",
       "nip44_encrypt",
       "nip44_decrypt",
       "sign_event:0",
@@ -54,6 +55,7 @@ class NostrConfig {
       "sign_event:1985",
       "sign_event:1990",
       "sign_event:5905",
+      "sign_event:10000",
       "sign_event:10002",
       "sign_event:10050",
       "sign_event:10063",

@@ -10,7 +10,6 @@ import '../../controllers/about_controller.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/backgrounds_controller.dart';
 import '../../controllers/community_theme_controller.dart';
-import '../../controllers/community_themes_controller.dart';
 import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/identities_controller.dart';
@@ -287,7 +286,6 @@ class AppRouter {
                     path: 'themes',
                     builder: (_, _) {
                       Get.lazyPut(() => BackgroundsController());
-                      Get.lazyPut(() => CommunityThemesController());
                       return const CommunityThemesView();
                     },
                     routes: [

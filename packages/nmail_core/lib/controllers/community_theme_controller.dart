@@ -126,28 +126,31 @@ class CommunityThemeController extends GetxController {
 
   /// Adds the author to the private part of the NIP-51 mute list.
   ///
-  /// Throws when the signer fails, so a list it could not decrypt is never
-  /// replaced.
+  /// Throws when no relay answers or the signer fails, so a list it could not
+  /// read is never replaced by an old copy or an empty one.
   Future<void> muteAuthor() async {
     isMuting.value = true;
     try {
       final ndk = Get.find<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
-      // Replacing the list from an old copy would drop mutes made elsewhere.
-      final fetched = await ndk.requests
-          .query(
-            name: 'mute-list',
-            filter: Filter(
-              kinds: [Nip51List.kMute],
-              authors: [account.pubkey],
-              limit: 1,
-            ),
-            explicitRelays: await Get.find<NostrMailService>()
-                .getOutboxRelays(),
-            timeout: const Duration(seconds: 5),
-            cacheRead: false,
-          )
-          .future;
+      final response = ndk.requests.query(
+        name: 'mute-list',
+        filter: Filter(
+          kinds: [Nip51List.kMute],
+          authors: [account.pubkey],
+          limit: 1,
+        ),
+        explicitRelays: await Get.find<NostrMailService>().getOutboxRelays(),
+        timeout: const Duration(seconds: 5),
+        cacheRead: false,
+      );
+      final fetched = await response.future;
+      final outcomes = await response.relayOutcomesDone;
+      if (!outcomes.values.any(
+        (outcome) => outcome.status == RelayRequestStatus.eose,
+      )) {
+        throw StateError('No relay answered the mute list query');
+      }
       final cached = await ndk.config.cache.loadEvents(
         pubKeys: [account.pubkey],
         kinds: [Nip51List.kMute],

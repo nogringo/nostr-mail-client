@@ -13,36 +13,39 @@ class CommunityThemesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<CommunityThemesController>();
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l.settingsCommunityThemes)),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showShareThemeDialog(context),
-        icon: const Icon(Icons.share_outlined),
-        label: Text(l.communityThemesShare),
-      ),
-      body: SafeArea(
-        top: false,
-        child: Obx(() {
-          if (controller.themes.isEmpty) {
-            return controller.isLoading.value
-                ? const Center(child: CircularProgressIndicator())
-                : const CommunityThemesEmptyState();
-          }
+    // Disposes the controller once the page is gone, so each visit reloads.
+    return GetBuilder<CommunityThemesController>(
+      init: CommunityThemesController(),
+      builder: (controller) => Scaffold(
+        appBar: AppBar(title: Text(l.settingsCommunityThemes)),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () => showShareThemeDialog(context),
+          icon: const Icon(Icons.share_outlined),
+          label: Text(l.communityThemesShare),
+        ),
+        body: SafeArea(
+          top: false,
+          child: Obx(() {
+            if (controller.themes.isEmpty) {
+              return controller.isLoading.value
+                  ? const Center(child: CircularProgressIndicator())
+                  : const CommunityThemesEmptyState();
+            }
 
-          return Column(
-            children: [
-              SizedBox(
-                height: 4,
-                child: controller.isLoading.value
-                    ? const LinearProgressIndicator()
-                    : null,
-              ),
-              const Expanded(child: CommunityThemesList()),
-            ],
-          );
-        }),
+            return Column(
+              children: [
+                SizedBox(
+                  height: 4,
+                  child: controller.isLoading.value
+                      ? const LinearProgressIndicator()
+                      : null,
+                ),
+                const Expanded(child: CommunityThemesList()),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
