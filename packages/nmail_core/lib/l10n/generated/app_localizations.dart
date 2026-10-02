@@ -787,6 +787,36 @@ abstract class AppLocalizations {
   /// **'Theme not found'**
   String get communityThemeNotFound;
 
+  /// Menu item on a community theme page that mutes the theme's author, hiding all their themes
+  ///
+  /// In en, this message translates to:
+  /// **'Mute author'**
+  String get communityThemeMuteAuthor;
+
+  /// Title of the dialog confirming that the author of a community theme is muted, naming the author
+  ///
+  /// In en, this message translates to:
+  /// **'Mute {name}?'**
+  String communityThemeMuteTitle(String name);
+
+  /// Body of the dialog confirming that the author of a community theme is muted
+  ///
+  /// In en, this message translates to:
+  /// **'You won\'t see their themes anymore.'**
+  String get communityThemeMuteMessage;
+
+  /// Confirm button of the dialog that mutes the author of a community theme
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get communityThemeMuteAction;
+
+  /// Error toast when muting the author of a community theme fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t mute this author'**
+  String get communityThemeMuteError;
+
   /// Accessibility label for the background swatch that follows the device system accent color
   ///
   /// In en, this message translates to:

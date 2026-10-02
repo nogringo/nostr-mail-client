@@ -371,6 +371,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get communityThemeNotFound => '未找到主题';
 
   @override
+  String get communityThemeMuteAuthor => '屏蔽作者';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return '要屏蔽 $name 吗？';
+  }
+
+  @override
+  String get communityThemeMuteMessage => '你将不再看到此人的主题。';
+
+  @override
+  String get communityThemeMuteAction => '屏蔽';
+
+  @override
+  String get communityThemeMuteError => '无法屏蔽此作者';
+
+  @override
   String get settingsBackgroundDefaultLabel => '系统颜色';
 
   @override

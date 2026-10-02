@@ -376,6 +376,23 @@ class AppLocalizationsJa extends AppLocalizations {
   String get communityThemeNotFound => 'テーマが見つかりません';
 
   @override
+  String get communityThemeMuteAuthor => '作成者をミュート';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return '$name をミュートしますか？';
+  }
+
+  @override
+  String get communityThemeMuteMessage => 'このユーザーのテーマは表示されなくなります。';
+
+  @override
+  String get communityThemeMuteAction => 'ミュート';
+
+  @override
+  String get communityThemeMuteError => 'この作成者をミュートできませんでした';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'システムカラー';
 
   @override

@@ -129,6 +129,11 @@
   "communityThemeCopyLink": "复制链接",
   "communityThemeByAuthor": "作者: {name}",
   "communityThemeNotFound": "未找到主题",
+  "communityThemeMuteAuthor": "屏蔽作者",
+  "communityThemeMuteTitle": "要屏蔽 {name} 吗？",
+  "communityThemeMuteMessage": "你将不再看到此人的主题。",
+  "communityThemeMuteAction": "屏蔽",
+  "communityThemeMuteError": "无法屏蔽此作者",
 
   "settingsBackgroundDefaultLabel": "系统颜色",
   "settingsBackgroundSelectLabel": "选择背景图片",

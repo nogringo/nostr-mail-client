@@ -389,6 +389,25 @@ class AppLocalizationsRu extends AppLocalizations {
   String get communityThemeNotFound => 'Тема не найдена';
 
   @override
+  String get communityThemeMuteAuthor => 'Игнорировать автора';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Игнорировать $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage =>
+      'Вы больше не увидите темы этого автора.';
+
+  @override
+  String get communityThemeMuteAction => 'Игнорировать';
+
+  @override
+  String get communityThemeMuteError =>
+      'Не удалось добавить автора в игнорируемые';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Цвет системы';
 
   @override

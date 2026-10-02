@@ -390,6 +390,23 @@ class AppLocalizationsFr extends AppLocalizations {
   String get communityThemeNotFound => 'Thème introuvable';
 
   @override
+  String get communityThemeMuteAuthor => 'Masquer l\'auteur';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Masquer $name ?';
+  }
+
+  @override
+  String get communityThemeMuteMessage => 'Vous ne verrez plus ses thèmes.';
+
+  @override
+  String get communityThemeMuteAction => 'Masquer';
+
+  @override
+  String get communityThemeMuteError => 'Impossible de masquer cet auteur';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Couleur système';
 
   @override

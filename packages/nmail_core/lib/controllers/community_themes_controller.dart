@@ -116,6 +116,12 @@ class CommunityThemesController extends GetxController {
     themes.insert(0, theme);
   }
 
+  /// A copy by someone else that this author's theme hid shows on next load.
+  void hideAuthor(String pubkey) {
+    _muted = {..._muted, pubkey};
+    themes.removeWhere((theme) => theme.pubkey == pubkey);
+  }
+
   /// Reads the cache only, so cached themes do not wait on relays.
   Future<void> _readMuted(Ndk ndk) async {
     final pubkey = ndk.accounts.getPublicKey();

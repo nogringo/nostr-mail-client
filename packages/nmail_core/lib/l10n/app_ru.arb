@@ -129,6 +129,11 @@
   "communityThemeCopyLink": "Скопировать ссылку",
   "communityThemeByAuthor": "Автор: {name}",
   "communityThemeNotFound": "Тема не найдена",
+  "communityThemeMuteAuthor": "Игнорировать автора",
+  "communityThemeMuteTitle": "Игнорировать {name}?",
+  "communityThemeMuteMessage": "Вы больше не увидите темы этого автора.",
+  "communityThemeMuteAction": "Игнорировать",
+  "communityThemeMuteError": "Не удалось добавить автора в игнорируемые",
 
   "settingsBackgroundDefaultLabel": "Цвет системы",
   "settingsBackgroundSelectLabel": "Выбрать фоновое изображение",

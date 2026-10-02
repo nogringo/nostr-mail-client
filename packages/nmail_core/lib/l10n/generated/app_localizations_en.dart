@@ -387,6 +387,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get communityThemeNotFound => 'Theme not found';
 
   @override
+  String get communityThemeMuteAuthor => 'Mute author';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Mute $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage =>
+      'You won\'t see their themes anymore.';
+
+  @override
+  String get communityThemeMuteAction => 'Mute';
+
+  @override
+  String get communityThemeMuteError => 'Couldn\'t mute this author';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'System color';
 
   @override

@@ -129,6 +129,11 @@
   "communityThemeCopyLink": "Link kopieren",
   "communityThemeByAuthor": "Von {name}",
   "communityThemeNotFound": "Theme nicht gefunden",
+  "communityThemeMuteAuthor": "Autor stummschalten",
+  "communityThemeMuteTitle": "{name} stummschalten?",
+  "communityThemeMuteMessage": "Du siehst die Themes dieser Person nicht mehr.",
+  "communityThemeMuteAction": "Stummschalten",
+  "communityThemeMuteError": "Autor konnte nicht stummgeschaltet werden",
 
   "settingsBackgroundDefaultLabel": "Systemfarbe",
   "settingsBackgroundSelectLabel": "Hintergrundbild auswählen",

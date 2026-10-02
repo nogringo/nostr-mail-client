@@ -129,6 +129,11 @@
   "communityThemeCopyLink": "Copiar enlace",
   "communityThemeByAuthor": "Por {name}",
   "communityThemeNotFound": "Tema no encontrado",
+  "communityThemeMuteAuthor": "Silenciar al autor",
+  "communityThemeMuteTitle": "¿Silenciar a {name}?",
+  "communityThemeMuteMessage": "Ya no verás sus temas.",
+  "communityThemeMuteAction": "Silenciar",
+  "communityThemeMuteError": "No se pudo silenciar a este autor",
 
   "settingsBackgroundDefaultLabel": "Color del sistema",
   "settingsBackgroundSelectLabel": "Seleccionar imagen de fondo",

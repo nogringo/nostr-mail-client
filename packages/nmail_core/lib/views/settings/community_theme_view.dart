@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/controllers/community_theme_controller.dart';
 import 'widgets/community_theme_details.dart';
+import 'widgets/community_theme_menu.dart';
 import 'widgets/community_theme_not_found.dart';
 
 class CommunityThemeView extends StatelessWidget {
@@ -15,7 +17,15 @@ class CommunityThemeView extends StatelessWidget {
     return Obx(() {
       final theme = controller.theme.value;
       final page = Scaffold(
-        appBar: AppBar(title: theme == null ? null : Text(theme.title)),
+        appBar: AppBar(
+          title: theme == null ? null : Text(theme.title),
+          actionsPadding: .only(right: 8),
+          actions: [
+            if (theme != null &&
+                theme.pubkey != Get.find<Ndk>().accounts.getPublicKey())
+              CommunityThemeMenu(theme: theme),
+          ],
+        ),
         body: SafeArea(
           top: false,
           child: theme != null

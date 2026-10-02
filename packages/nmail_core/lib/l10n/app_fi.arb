@@ -129,6 +129,11 @@
   "communityThemeCopyLink": "Kopioi linkki",
   "communityThemeByAuthor": "Tekijä: {name}",
   "communityThemeNotFound": "Teemaa ei löytynyt",
+  "communityThemeMuteAuthor": "Mykistä tekijä",
+  "communityThemeMuteTitle": "Mykistetäänkö {name}?",
+  "communityThemeMuteMessage": "Et näe enää hänen teemojaan.",
+  "communityThemeMuteAction": "Mykistä",
+  "communityThemeMuteError": "Tekijän mykistäminen epäonnistui",
 
   "settingsBackgroundDefaultLabel": "Järjestelmän väri",
   "settingsBackgroundSelectLabel": "Valitse taustakuva",

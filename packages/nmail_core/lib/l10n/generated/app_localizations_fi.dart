@@ -387,6 +387,23 @@ class AppLocalizationsFi extends AppLocalizations {
   String get communityThemeNotFound => 'Teemaa ei löytynyt';
 
   @override
+  String get communityThemeMuteAuthor => 'Mykistä tekijä';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Mykistetäänkö $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage => 'Et näe enää hänen teemojaan.';
+
+  @override
+  String get communityThemeMuteAction => 'Mykistä';
+
+  @override
+  String get communityThemeMuteError => 'Tekijän mykistäminen epäonnistui';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Järjestelmän väri';
 
   @override

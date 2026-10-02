@@ -391,6 +391,24 @@ class AppLocalizationsPt extends AppLocalizations {
   String get communityThemeNotFound => 'Tema não encontrado';
 
   @override
+  String get communityThemeMuteAuthor => 'Silenciar autor';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Silenciar $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage =>
+      'Deixará de ver os temas desta pessoa.';
+
+  @override
+  String get communityThemeMuteAction => 'Silenciar';
+
+  @override
+  String get communityThemeMuteError => 'Não foi possível silenciar este autor';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';
 
   @override
@@ -2575,6 +2593,24 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get communityThemeNotFound => 'Tema não encontrado';
+
+  @override
+  String get communityThemeMuteAuthor => 'Silenciar autor';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Silenciar $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage =>
+      'Você não verá mais os temas dessa pessoa.';
+
+  @override
+  String get communityThemeMuteAction => 'Silenciar';
+
+  @override
+  String get communityThemeMuteError => 'Não foi possível silenciar este autor';
 
   @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';

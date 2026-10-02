@@ -129,6 +129,11 @@
   "communityThemeCopyLink": "Copier le lien",
   "communityThemeByAuthor": "Par {name}",
   "communityThemeNotFound": "Thème introuvable",
+  "communityThemeMuteAuthor": "Masquer l'auteur",
+  "communityThemeMuteTitle": "Masquer {name} ?",
+  "communityThemeMuteMessage": "Vous ne verrez plus ses thèmes.",
+  "communityThemeMuteAction": "Masquer",
+  "communityThemeMuteError": "Impossible de masquer cet auteur",
 
   "settingsBackgroundDefaultLabel": "Couleur système",
   "settingsBackgroundSelectLabel": "Sélectionner l'image de fond",
