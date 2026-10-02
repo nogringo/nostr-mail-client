@@ -105,6 +105,8 @@
   "settingsThemeDark": "ダーク",
   "settingsCommunityThemes": "コミュニティのテーマ",
   "communityThemesFilterAll": "すべて",
+  "communityThemesWithImage": "画像あり",
+  "communityThemesWithoutImage": "画像なし",
   "communityThemesEmpty": "テーマが見つかりません",
   "communityThemesRetry": "再試行",
   "communityThemesImageError": "このテーマの背景画像をダウンロードできませんでした",

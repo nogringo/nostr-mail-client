@@ -105,6 +105,8 @@
   "settingsThemeDark": "Sombre",
   "settingsCommunityThemes": "Thèmes de la communauté",
   "communityThemesFilterAll": "Tous",
+  "communityThemesWithImage": "Avec image",
+  "communityThemesWithoutImage": "Sans image",
   "communityThemesEmpty": "Aucun thème trouvé",
   "communityThemesRetry": "Réessayer",
   "communityThemesImageError": "Impossible de télécharger l'image de fond de ce thème",

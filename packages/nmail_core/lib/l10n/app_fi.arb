@@ -105,6 +105,8 @@
   "settingsThemeDark": "Tumma",
   "settingsCommunityThemes": "Yhteisön teemat",
   "communityThemesFilterAll": "Kaikki",
+  "communityThemesWithImage": "Kuvalla",
+  "communityThemesWithoutImage": "Ilman kuvaa",
   "communityThemesEmpty": "Teemoja ei löytynyt",
   "communityThemesRetry": "Yritä uudelleen",
   "communityThemesImageError": "Teeman taustakuvaa ei voitu ladata",

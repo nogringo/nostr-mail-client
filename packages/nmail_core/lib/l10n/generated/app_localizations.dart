@@ -643,6 +643,18 @@ abstract class AppLocalizations {
   /// **'All'**
   String get communityThemesFilterAll;
 
+  /// Filter option on the community themes page showing only themes with a background image
+  ///
+  /// In en, this message translates to:
+  /// **'With image'**
+  String get communityThemesWithImage;
+
+  /// Filter option on the community themes page showing only themes without a background image
+  ///
+  /// In en, this message translates to:
+  /// **'Without image'**
+  String get communityThemesWithoutImage;
+
   /// Empty state on the community themes page when no theme could be loaded
   ///
   /// In en, this message translates to:

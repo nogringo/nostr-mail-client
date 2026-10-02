@@ -307,6 +307,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get communityThemesFilterAll => 'Kaikki';
 
   @override
+  String get communityThemesWithImage => 'Kuvalla';
+
+  @override
+  String get communityThemesWithoutImage => 'Ilman kuvaa';
+
+  @override
   String get communityThemesEmpty => 'Teemoja ei löytynyt';
 
   @override

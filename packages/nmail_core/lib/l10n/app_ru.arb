@@ -105,6 +105,8 @@
   "settingsThemeDark": "Тёмная",
   "settingsCommunityThemes": "Темы сообщества",
   "communityThemesFilterAll": "Все",
+  "communityThemesWithImage": "С изображением",
+  "communityThemesWithoutImage": "Без изображения",
   "communityThemesEmpty": "Темы не найдены",
   "communityThemesRetry": "Повторить",
   "communityThemesImageError": "Не удалось загрузить фоновое изображение этой темы",

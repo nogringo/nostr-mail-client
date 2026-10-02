@@ -100,6 +100,8 @@
   "settingsThemeDark": "Escuro",
   "settingsCommunityThemes": "Temas da comunidade",
   "communityThemesFilterAll": "Todos",
+  "communityThemesWithImage": "Com imagem",
+  "communityThemesWithoutImage": "Sem imagem",
   "communityThemesEmpty": "Nenhum tema encontrado",
   "communityThemesRetry": "Tentar novamente",
   "communityThemesImageError": "Não foi possível baixar a imagem de fundo deste tema",

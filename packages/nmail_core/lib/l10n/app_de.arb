@@ -105,6 +105,8 @@
   "settingsThemeDark": "Dunkel",
   "settingsCommunityThemes": "Community-Themes",
   "communityThemesFilterAll": "Alle",
+  "communityThemesWithImage": "Mit Bild",
+  "communityThemesWithoutImage": "Ohne Bild",
   "communityThemesEmpty": "Keine Themes gefunden",
   "communityThemesRetry": "Erneut versuchen",
   "communityThemesImageError": "Das Hintergrundbild dieses Themes konnte nicht heruntergeladen werden",

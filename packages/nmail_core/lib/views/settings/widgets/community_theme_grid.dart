@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/utils/responsive_helper.dart';
 import 'community_theme_card.dart';
 
 class CommunityThemeGrid extends StatelessWidget {
@@ -13,9 +14,10 @@ class CommunityThemeGrid extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final controller = Get.find<CommunityThemesController>();
+    final isWide = ResponsiveHelper.isNotMobile(context);
 
     return Obx(() {
-      final themes = controller.visibleThemes;
+      final themes = controller.visibleThemes(filterByImage: isWide);
       if (themes.isEmpty) {
         return SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 48),

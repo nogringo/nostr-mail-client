@@ -309,6 +309,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get communityThemesFilterAll => 'Todos';
 
   @override
+  String get communityThemesWithImage => 'Com imagem';
+
+  @override
+  String get communityThemesWithoutImage => 'Sem imagem';
+
+  @override
   String get communityThemesEmpty => 'Nenhum tema encontrado';
 
   @override
@@ -2428,6 +2434,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get communityThemesFilterAll => 'Todos';
+
+  @override
+  String get communityThemesWithImage => 'Com imagem';
+
+  @override
+  String get communityThemesWithoutImage => 'Sem imagem';
 
   @override
   String get communityThemesEmpty => 'Nenhum tema encontrado';

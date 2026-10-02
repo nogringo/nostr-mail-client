@@ -309,6 +309,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get communityThemesFilterAll => 'Tous';
 
   @override
+  String get communityThemesWithImage => 'Avec image';
+
+  @override
+  String get communityThemesWithoutImage => 'Sans image';
+
+  @override
   String get communityThemesEmpty => 'Aucun thème trouvé';
 
   @override

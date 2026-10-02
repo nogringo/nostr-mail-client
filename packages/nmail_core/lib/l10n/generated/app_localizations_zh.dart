@@ -295,6 +295,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get communityThemesFilterAll => '全部';
 
   @override
+  String get communityThemesWithImage => '有图片';
+
+  @override
+  String get communityThemesWithoutImage => '无图片';
+
+  @override
   String get communityThemesEmpty => '未找到主题';
 
   @override

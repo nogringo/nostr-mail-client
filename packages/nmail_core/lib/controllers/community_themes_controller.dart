@@ -21,19 +21,26 @@ class CommunityThemesController extends GetxController {
   /// Null shows every color.
   final colorFamily = Rxn<ThemeColorFamily>();
 
+  /// Null shows themes with and without a background image.
+  final hasImage = RxnBool();
+
   /// Address of the theme being applied.
   final applying = RxnString();
 
   SettingsController get _settings => Get.find<SettingsController>();
 
-  List<CommunityTheme> get visibleThemes {
+  /// [filterByImage] is false where backgrounds are never shown.
+  List<CommunityTheme> visibleThemes({required bool filterByImage}) {
     final brightness = this.brightness.value;
     final colorFamily = this.colorFamily.value;
+    final hasImage = filterByImage ? this.hasImage.value : null;
     return themes
         .where(
           (theme) =>
               (brightness == null || theme.brightness == brightness) &&
-              (colorFamily == null || theme.colorFamily == colorFamily),
+              (colorFamily == null || theme.colorFamily == colorFamily) &&
+              (hasImage == null ||
+                  (theme.backgroundImageUrl != null) == hasImage),
         )
         .toList();
   }
