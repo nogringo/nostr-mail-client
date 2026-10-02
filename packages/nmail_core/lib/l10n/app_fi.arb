@@ -113,6 +113,8 @@
   "communityThemesImageError": "Teeman taustakuvaa ei voitu ladata",
   "communityThemesAllColors": "Kaikki värit",
   "communityThemesNoMatch": "Mikään teema ei vastaa näitä suodattimia",
+  "communityThemesSensitive": "Arkaluonteista sisältöä",
+  "communityThemesShow": "Näytä",
   "communityThemesShare": "Jaa teemani",
   "communityThemesShareName": "Teeman nimi",
   "communityThemesSharePublic": "Kaikki voivat nähdä ja ottaa tämän teeman käyttöön.",

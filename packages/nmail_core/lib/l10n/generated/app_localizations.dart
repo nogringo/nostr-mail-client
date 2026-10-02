@@ -691,6 +691,18 @@ abstract class AppLocalizations {
   /// **'No theme matches these filters'**
   String get communityThemesNoMatch;
 
+  /// Shown over a community theme hidden by a NIP-36 content warning that gives no reason
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive content'**
+  String get communityThemesSensitive;
+
+  /// Button that shows a community theme hidden by a content warning
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get communityThemesShow;
+
   /// Button on the community themes page, and title of the dialog, that publishes the current appearance as a community theme
   ///
   /// In en, this message translates to:

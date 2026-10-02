@@ -113,6 +113,8 @@
   "communityThemesImageError": "无法下载此主题的背景图片",
   "communityThemesAllColors": "所有颜色",
   "communityThemesNoMatch": "没有符合这些筛选条件的主题",
+  "communityThemesSensitive": "敏感内容",
+  "communityThemesShow": "显示",
   "communityThemesShare": "分享我的主题",
   "communityThemesShareName": "主题名称",
   "communityThemesSharePublic": "所有人都可以查看并应用此主题。",

@@ -113,6 +113,8 @@
   "communityThemesImageError": "このテーマの背景画像をダウンロードできませんでした",
   "communityThemesAllColors": "すべての色",
   "communityThemesNoMatch": "条件に一致するテーマはありません",
+  "communityThemesSensitive": "センシティブな内容",
+  "communityThemesShow": "表示",
   "communityThemesShare": "自分のテーマを共有",
   "communityThemesShareName": "テーマ名",
   "communityThemesSharePublic": "誰でもこのテーマを表示して適用できるようになります。",

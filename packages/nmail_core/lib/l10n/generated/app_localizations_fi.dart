@@ -332,6 +332,12 @@ class AppLocalizationsFi extends AppLocalizations {
       'Mikään teema ei vastaa näitä suodattimia';
 
   @override
+  String get communityThemesSensitive => 'Arkaluonteista sisältöä';
+
+  @override
+  String get communityThemesShow => 'Näytä';
+
+  @override
   String get communityThemesShare => 'Jaa teemani';
 
   @override

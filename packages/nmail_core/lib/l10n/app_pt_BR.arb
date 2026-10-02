@@ -108,6 +108,8 @@
   "communityThemesImageError": "Não foi possível baixar a imagem de fundo deste tema",
   "communityThemesAllColors": "Todas as cores",
   "communityThemesNoMatch": "Nenhum tema corresponde a esses filtros",
+  "communityThemesSensitive": "Conteúdo sensível",
+  "communityThemesShow": "Mostrar",
   "communityThemesShare": "Compartilhar meu tema",
   "communityThemesShareName": "Nome do tema",
   "communityThemesSharePublic": "Todos poderão ver e aplicar este tema.",

@@ -113,6 +113,8 @@
   "communityThemesImageError": "Das Hintergrundbild dieses Themes konnte nicht heruntergeladen werden",
   "communityThemesAllColors": "Alle Farben",
   "communityThemesNoMatch": "Kein Theme passt zu diesen Filtern",
+  "communityThemesSensitive": "Sensibler Inhalt",
+  "communityThemesShow": "Anzeigen",
   "communityThemesShare": "Mein Theme teilen",
   "communityThemesShareName": "Name des Themes",
   "communityThemesSharePublic": "Alle können dieses Theme sehen und anwenden.",

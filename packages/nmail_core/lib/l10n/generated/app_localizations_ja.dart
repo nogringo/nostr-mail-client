@@ -322,6 +322,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get communityThemesNoMatch => '条件に一致するテーマはありません';
 
   @override
+  String get communityThemesSensitive => 'センシティブな内容';
+
+  @override
+  String get communityThemesShow => '表示';
+
+  @override
   String get communityThemesShare => '自分のテーマを共有';
 
   @override

@@ -334,6 +334,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get communityThemesNoMatch => 'Нет тем, подходящих под эти фильтры';
 
   @override
+  String get communityThemesSensitive => 'Деликатный контент';
+
+  @override
+  String get communityThemesShow => 'Показать';
+
+  @override
   String get communityThemesShare => 'Поделиться своей темой';
 
   @override

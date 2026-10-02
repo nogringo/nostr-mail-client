@@ -113,6 +113,8 @@
   "communityThemesImageError": "Не удалось загрузить фоновое изображение этой темы",
   "communityThemesAllColors": "Все цвета",
   "communityThemesNoMatch": "Нет тем, подходящих под эти фильтры",
+  "communityThemesSensitive": "Деликатный контент",
+  "communityThemesShow": "Показать",
   "communityThemesShare": "Поделиться своей темой",
   "communityThemesShareName": "Название темы",
   "communityThemesSharePublic": "Все смогут увидеть и применить эту тему.",

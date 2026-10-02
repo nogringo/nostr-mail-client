@@ -319,6 +319,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get communityThemesNoMatch => '没有符合这些筛选条件的主题';
 
   @override
+  String get communityThemesSensitive => '敏感内容';
+
+  @override
+  String get communityThemesShow => '显示';
+
+  @override
   String get communityThemesShare => '分享我的主题';
 
   @override

@@ -7,6 +7,7 @@ import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'community_theme_preview.dart';
+import 'community_theme_warning.dart';
 
 class CommunityThemeCard extends StatelessWidget {
   const CommunityThemeCard({super.key, required this.theme});
@@ -25,6 +26,7 @@ class CommunityThemeCard extends StatelessWidget {
     return Obx(() {
       final isSelected = settings.communityTheme.value == theme.address;
       final isApplying = controller.applying.value == theme.address;
+      final isHidden = controller.isHidden(theme);
       final author = Get.find<MetadataService>().of(theme.pubkey).value;
       final imageUrl = theme.backgroundImageUrl;
 
@@ -33,7 +35,9 @@ class CommunityThemeCard extends StatelessWidget {
         selected: isSelected,
         child: InkWell(
           borderRadius: _radius,
-          onTap: () => controller.apply(context, theme),
+          onTap: isHidden
+              ? () => controller.reveal(theme)
+              : () => controller.apply(context, theme),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -45,7 +49,7 @@ class CommunityThemeCard extends StatelessWidget {
                       borderRadius: _radius,
                       child: CommunityThemePreview(
                         colorScheme: theme.colorScheme,
-                        background: imageUrl == null
+                        background: imageUrl == null || isHidden
                             ? null
                             : Image(
                                 image: ResizeImage(
@@ -58,6 +62,11 @@ class CommunityThemeCard extends StatelessWidget {
                               ),
                       ),
                     ),
+                    if (isHidden)
+                      CommunityThemeWarning(
+                        reason: theme.contentWarning!,
+                        onShow: () => controller.reveal(theme),
+                      ),
                     if (isSelected)
                       DecoratedBox(
                         decoration: BoxDecoration(

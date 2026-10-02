@@ -335,6 +335,12 @@ class AppLocalizationsPt extends AppLocalizations {
       'Nenhum tema corresponde a estes filtros';
 
   @override
+  String get communityThemesSensitive => 'Conteúdo sensível';
+
+  @override
+  String get communityThemesShow => 'Mostrar';
+
+  @override
   String get communityThemesShare => 'Partilhar o meu tema';
 
   @override
@@ -2496,6 +2502,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get communityThemesNoMatch =>
       'Nenhum tema corresponde a esses filtros';
+
+  @override
+  String get communityThemesSensitive => 'Conteúdo sensível';
+
+  @override
+  String get communityThemesShow => 'Mostrar';
 
   @override
   String get communityThemesShare => 'Compartilhar meu tema';

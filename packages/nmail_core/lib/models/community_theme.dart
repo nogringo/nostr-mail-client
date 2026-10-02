@@ -21,6 +21,7 @@ class CommunityTheme {
     required this.colorFamily,
     this.backgroundImageUrl,
     this.description,
+    this.contentWarning,
   });
 
   static const kind = 36767;
@@ -40,6 +41,9 @@ class CommunityTheme {
   final ThemeColorFamily colorFamily;
   final String? backgroundImageUrl;
   final String? description;
+
+  /// The NIP-36 reason, empty when the author gave none.
+  final String? contentWarning;
 
   String get address => '$kind:$pubkey:$identifier';
 
@@ -120,8 +124,12 @@ class CommunityTheme {
     DynamicSchemeVariant? materialVariant;
     String? imageUrl;
     String? description;
+    String? contentWarning;
 
     for (final tag in event.tags) {
+      if (tag.firstOrNull == 'content-warning') {
+        contentWarning = tag.elementAtOrNull(1)?.trim() ?? '';
+      }
       if (tag.length < 2) continue;
       switch (tag[0]) {
         case 'd':
@@ -184,6 +192,7 @@ class CommunityTheme {
       description: description == null || description.isEmpty
           ? null
           : description,
+      contentWarning: contentWarning,
     );
   }
 

@@ -281,6 +281,25 @@ void main() {
     );
   });
 
+  test('reads the NIP-36 content warning, with or without a reason', () {
+    CommunityTheme theme(List<List<String>> extra) =>
+        CommunityTheme.fromEvent(_event(_tags(extra: extra)))!;
+
+    expect(theme(const []).contentWarning, isNull);
+    expect(
+      theme([
+        ['content-warning', ' NSFW '],
+      ]).contentWarning,
+      'NSFW',
+    );
+    expect(
+      theme([
+        ['content-warning'],
+      ]).contentWarning,
+      '',
+    );
+  });
+
   test('reads the description and matches every word of a query', () {
     final theme = CommunityTheme.fromEvent(
       _event(

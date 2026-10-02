@@ -34,7 +34,19 @@ class CommunityThemesController extends GetxController {
   /// Authors the user muted (NIP-51 kind 10000), in this client or another.
   var _muted = <String>{};
 
+  /// Addresses of the themes shown past their content warning.
+  final _revealed = <String>{}.obs;
+
   SettingsController get _settings => Get.find<SettingsController>();
+
+  /// Behind its content warning, unless it is the user's own or applied.
+  bool isHidden(CommunityTheme theme) =>
+      theme.contentWarning != null &&
+      !_revealed.contains(theme.address) &&
+      theme.pubkey != Get.find<Ndk>().accounts.getPublicKey() &&
+      theme.address != _settings.communityTheme.value;
+
+  void reveal(CommunityTheme theme) => _revealed.add(theme.address);
 
   /// [filterByImage] is false where backgrounds are never shown.
   List<CommunityTheme> visibleThemes({required bool filterByImage}) {

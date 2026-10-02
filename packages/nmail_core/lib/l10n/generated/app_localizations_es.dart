@@ -334,6 +334,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get communityThemesNoMatch => 'Ningún tema coincide con estos filtros';
 
   @override
+  String get communityThemesSensitive => 'Contenido sensible';
+
+  @override
+  String get communityThemesShow => 'Mostrar';
+
+  @override
   String get communityThemesShare => 'Compartir mi tema';
 
   @override
