@@ -13,6 +13,7 @@ import 'package:nostr_mail/nostr_mail.dart'
     show AttachmentRef, Email, NostrMailClient;
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/contact.dart';
+import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
@@ -338,6 +339,68 @@ void main() {
         final recipient = controller.ccRecipients.single;
         expect(recipient.isNostr, isTrue);
         expect(recipient.pubkey, _otherPubkey);
+      });
+    });
+
+    group('applyReplyFrom', () {
+      final npub = Nip19.encodePubKey(_pubkey);
+      FromOption option(String address, FromSource source) =>
+          FromOption(mailAddress: MailAddress(null, address), source: source);
+
+      test('replies from the identity the email reached', () {
+        final bridge = option('$npub@uid.ovh', FromSource.npubBridge);
+        final identity = option('me@uid.ovh', FromSource.customIdentity);
+        controller.fromOptions.addAll([bridge, identity]);
+        controller.selectedFrom.value = bridge;
+
+        controller.applyReplyFrom(
+          _email(from: 'support@opensats.org', isBridged: true),
+        );
+
+        expect(controller.selectedFrom.value, same(identity));
+      });
+
+      test('waits for the From options to load', () async {
+        controller.applyReplyFrom(
+          _email(from: 'support@opensats.org', isBridged: true),
+        );
+        final identity = option('me@uid.ovh', FromSource.customIdentity);
+        controller.fromOptions.value = [
+          option('$npub@nostr', FromSource.npubNostr),
+          identity,
+        ];
+        await pumpEventQueue();
+
+        expect(controller.selectedFrom.value, same(identity));
+      });
+
+      test('replies to an own email from its From', () {
+        final work = option('me@work.com', FromSource.customIdentity);
+        controller.fromOptions.addAll([
+          option('me@uid.ovh', FromSource.customIdentity),
+          work,
+        ]);
+
+        controller.applyReplyFrom(
+          _email(from: 'me@work.com', isBridged: false),
+        );
+
+        expect(controller.selectedFrom.value, same(work));
+      });
+
+      test('keeps the bridge of a legacy recipient over npub@nostr', () {
+        final bridge = option('$npub@uid.ovh', FromSource.npubBridge);
+        controller.fromOptions.addAll([
+          option('$npub@nostr', FromSource.npubNostr),
+          bridge,
+        ]);
+        controller.selectedFrom.value = bridge;
+
+        controller.applyReplyFrom(
+          _email(from: 'alice@alice.com', cc: '$npub@nostr', isBridged: false),
+        );
+
+        expect(controller.selectedFrom.value, same(bridge));
       });
     });
 

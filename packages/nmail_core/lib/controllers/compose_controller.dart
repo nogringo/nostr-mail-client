@@ -947,6 +947,20 @@ class ComposeController extends GetxController implements InlineImageSource {
       to: builder.to ?? const [],
       cc: builder.cc ?? const [],
     );
+    if (mode != ComposeMode.forward) applyReplyFrom(email);
+  }
+
+  /// Replies from the address [email] reached, or was sent from when it is
+  /// the user's own.
+  @visibleForTesting
+  void applyReplyFrom(Email email) {
+    final mime = email.mime;
+    // npub@nostr is the default already, and must not replace the bridge a
+    // legacy recipient selected.
+    _applyFrom([
+      for (final address in [...?mime.from, ...?mime.to, ...?mime.cc])
+        if (!address.email.endsWith('@nostr')) address.email,
+    ]);
   }
 
   /// Awaited before sending, so a reply or forward never goes out incomplete.
@@ -1192,7 +1206,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     // Set after recipients so the original From wins over any bridge that
     // adding a legacy recipient auto-selected.
-    _applyFrom(mime?.fromEmail ?? scheduled.from);
+    _applyFrom([?(mime?.fromEmail ?? scheduled.from)]);
 
     if (mime != null) {
       _loadAttachmentsFromMime(mime);
@@ -1200,12 +1214,19 @@ class ComposeController extends GetxController implements InlineImageSource {
     }
   }
 
-  /// Select the From option whose address matches [address], as soon as the
-  /// options are loaded (they load asynchronously in [onInit]).
-  void _applyFrom(String? address) {
-    if (address == null) return;
+  /// Select the From option of the first of [addresses] that has one, as soon
+  /// as the options are loaded (they load asynchronously in [onInit]).
+  void _applyFrom(List<String> addresses) {
+    if (addresses.isEmpty) return;
     void apply(List<FromOption> options) {
-      final match = options.firstWhereOrNull((o) => o.address == address);
+      final match = addresses
+          .map(
+            (address) => options.firstWhereOrNull(
+              (o) => o.address.toLowerCase() == address.toLowerCase(),
+            ),
+          )
+          .nonNulls
+          .firstOrNull;
       if (match == null) return;
       selectedFrom.value = match;
       _autoSelectedBridge = null;
