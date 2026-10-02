@@ -305,6 +305,110 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsThemeDark => 'Dark';
 
   @override
+  String get settingsCommunityThemes => 'Community themes';
+
+  @override
+  String get communityThemesFilterAll => 'All';
+
+  @override
+  String get communityThemesSearchHint => 'Search themes';
+
+  @override
+  String get communityThemesWithImage => 'With image';
+
+  @override
+  String get communityThemesWithoutImage => 'Without image';
+
+  @override
+  String get communityThemesEmpty => 'No themes found';
+
+  @override
+  String get communityThemesRetry => 'Try again';
+
+  @override
+  String get communityThemesImageError =>
+      'Couldn\'t download this theme\'s background image';
+
+  @override
+  String get communityThemesAllColors => 'All colors';
+
+  @override
+  String get communityThemesNoMatch => 'No theme matches these filters';
+
+  @override
+  String get communityThemesSensitive => 'Sensitive content';
+
+  @override
+  String get communityThemesShow => 'Show';
+
+  @override
+  String get communityThemesShare => 'Share my theme';
+
+  @override
+  String get communityThemesShareName => 'Theme name';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Everyone will be able to see and apply this theme.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Everyone will be able to see and apply this theme, background image included.';
+
+  @override
+  String get communityThemesShareNsfw => 'NSFW content';
+
+  @override
+  String get communityThemesShareAction => 'Share';
+
+  @override
+  String get communityThemesShareError => 'Couldn\'t share your theme';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Your appearance is already the published theme \"$title\". Change it to share a new theme.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Your appearance is already a published theme. Change it to share a new theme.';
+
+  @override
+  String get communityThemeApply => 'Apply';
+
+  @override
+  String get communityThemeCurrent => 'Current theme';
+
+  @override
+  String get communityThemeCopyLink => 'Copy link';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'By $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Theme not found';
+
+  @override
+  String get communityThemeMuteAuthor => 'Mute author';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Mute $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage =>
+      'You won\'t see their themes anymore.';
+
+  @override
+  String get communityThemeMuteAction => 'Mute';
+
+  @override
+  String get communityThemeMuteError => 'Couldn\'t mute this author';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'System color';
 
   @override
@@ -1853,6 +1957,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'green': 'Green',
       'darkGreen': 'Dark green',
       'lightBlue': 'Light blue',
+      'cyan': 'Cyan',
       'blue': 'Blue',
       'lavender': 'Lavender',
       'purple': 'Purple',

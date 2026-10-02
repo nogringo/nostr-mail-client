@@ -292,6 +292,105 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsThemeDark => '深色';
 
   @override
+  String get settingsCommunityThemes => '社区主题';
+
+  @override
+  String get communityThemesFilterAll => '全部';
+
+  @override
+  String get communityThemesSearchHint => '搜索主题';
+
+  @override
+  String get communityThemesWithImage => '有图片';
+
+  @override
+  String get communityThemesWithoutImage => '无图片';
+
+  @override
+  String get communityThemesEmpty => '未找到主题';
+
+  @override
+  String get communityThemesRetry => '重试';
+
+  @override
+  String get communityThemesImageError => '无法下载此主题的背景图片';
+
+  @override
+  String get communityThemesAllColors => '所有颜色';
+
+  @override
+  String get communityThemesNoMatch => '没有符合这些筛选条件的主题';
+
+  @override
+  String get communityThemesSensitive => '敏感内容';
+
+  @override
+  String get communityThemesShow => '显示';
+
+  @override
+  String get communityThemesShare => '分享我的主题';
+
+  @override
+  String get communityThemesShareName => '主题名称';
+
+  @override
+  String get communityThemesSharePublic => '所有人都可以查看并应用此主题。';
+
+  @override
+  String get communityThemesSharePublicWithImage => '所有人都可以查看并应用此主题，包括背景图片。';
+
+  @override
+  String get communityThemesShareNsfw => 'NSFW 内容';
+
+  @override
+  String get communityThemesShareAction => '分享';
+
+  @override
+  String get communityThemesShareError => '无法分享你的主题';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return '你的外观已是已发布的主题「$title」。请修改外观以分享新主题。';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed => '你的外观已是已发布的主题。请修改外观以分享新主题。';
+
+  @override
+  String get communityThemeApply => '应用';
+
+  @override
+  String get communityThemeCurrent => '当前主题';
+
+  @override
+  String get communityThemeCopyLink => '复制链接';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return '作者: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => '未找到主题';
+
+  @override
+  String get communityThemeMuteAuthor => '屏蔽作者';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return '要屏蔽 $name 吗？';
+  }
+
+  @override
+  String get communityThemeMuteMessage => '你将不再看到此人的主题。';
+
+  @override
+  String get communityThemeMuteAction => '屏蔽';
+
+  @override
+  String get communityThemeMuteError => '无法屏蔽此作者';
+
+  @override
   String get settingsBackgroundDefaultLabel => '系统颜色';
 
   @override
@@ -1747,6 +1846,7 @@ class AppLocalizationsZh extends AppLocalizations {
       'green': '绿色',
       'darkGreen': '深绿色',
       'lightBlue': '浅蓝色',
+      'cyan': '青色',
       'blue': '蓝色',
       'lavender': '薰衣草紫',
       'purple': '紫色',

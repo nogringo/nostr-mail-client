@@ -12,6 +12,7 @@ import 'mail_entry_form_controller.dart';
 import 'mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/background_preset.dart';
+import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -55,6 +56,9 @@ class SettingsController extends GetxController {
   /// selected.
   final customThemeColor = RxnString();
   final paletteStyle = DynamicSchemeVariant.tonalSpot.obs;
+
+  /// Address of the applied community theme, until a theme setting changes.
+  final communityTheme = RxnString();
   final lightSeedColor = SystemTheme.accentColor.accent.obs;
   final darkSeedColor = SystemTheme.accentColor.accent.obs;
   final debugToolsUnlocked = false.obs;
@@ -111,6 +115,7 @@ class SettingsController extends GetxController {
       _storageService.getSetting<String>(localeKey),
       _storageService.getSetting<String>(_dohServerKey),
       _storageService.getSetting<bool>(_debugToolsUnlockedKey),
+      _storageService.getSetting<String>(ThemeService.communityThemeKey),
     ]);
 
     alwaysLoadImages.value = (results[0] as bool?) ?? false;
@@ -127,6 +132,7 @@ class SettingsController extends GetxController {
     paletteStyle.value =
         DynamicSchemeVariant.values.asNameMap()[results[5]] ??
         DynamicSchemeVariant.tonalSpot;
+    communityTheme.value = results[9] as String?;
 
     final savedLocale = results[6] as String?;
     locale.value = _localeFromStorage(savedLocale);
@@ -275,18 +281,24 @@ class SettingsController extends GetxController {
   }
 
   Future<void> setBackgroundImage(String? value) async {
+    await _saveBackgroundImage(value);
+    await _forgetCommunityTheme();
+
+    if (dynamicTheme.value) await _refreshTheme();
+  }
+
+  Future<void> _saveBackgroundImage(String? value) async {
     backgroundImage.value = value;
     if (value != null && value.isNotEmpty) {
       await _storageService.saveSetting(_backgroundKey, value);
     } else {
       await _storageService.deleteSetting(_backgroundKey);
     }
-
-    if (dynamicTheme.value) await _refreshTheme();
   }
 
   Future<void> setThemeMode(ThemeMode value) async {
     await _saveThemeMode(value);
+    await _forgetCommunityTheme();
   }
 
   Future<void> _saveThemeMode(ThemeMode value) async {
@@ -357,20 +369,30 @@ class SettingsController extends GetxController {
   }
 
   Future<void> setDynamicTheme(bool value) async {
+    await _saveDynamicTheme(value);
+    await _forgetCommunityTheme();
+    await _refreshTheme();
+  }
+
+  Future<void> _saveDynamicTheme(bool value) async {
     dynamicTheme.value = value;
     await _storageService.saveSetting(ThemeService.dynamicThemeKey, value);
-    await _refreshTheme();
   }
 
   /// [hex] is `#RRGGBB`, or null for the system accent color.
   Future<void> setThemeColor(String? hex) async {
+    await _saveThemeColor(hex);
+    await _forgetCommunityTheme();
+    await _refreshTheme();
+  }
+
+  Future<void> _saveThemeColor(String? hex) async {
     themeColor.value = hex;
     if (hex == null) {
       await _storageService.deleteSetting(ThemeService.themeColorKey);
     } else {
       await _storageService.saveSetting(ThemeService.themeColorKey, hex);
     }
-    await _refreshTheme();
   }
 
   Future<void> pickCustomThemeColor(String hex) async {
@@ -392,6 +414,45 @@ class SettingsController extends GetxController {
     paletteStyle.value = value;
     _applyTheme();
     await _storageService.saveSetting(ThemeService.paletteStyleKey, value.name);
+    await _forgetCommunityTheme();
+  }
+
+  /// [background] is a background value, see [BackgroundPreset].
+  Future<void> applyCommunityTheme(
+    CommunityTheme theme, {
+    required String background,
+  }) async {
+    final seedHex = MailboxesController.formatEntryColor(theme.seedColor);
+    if (_isCustomThemeColor(seedHex)) customThemeColor.value = seedHex;
+
+    paletteStyle.value = theme.variant;
+    await _storageService.saveSetting(
+      ThemeService.paletteStyleKey,
+      theme.variant.name,
+    );
+
+    await _saveDynamicTheme(false);
+    await _saveThemeColor(seedHex);
+    await _saveThemeMode(
+      theme.brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
+    );
+    await _saveBackgroundImage(background);
+
+    await markCommunityTheme(theme.address);
+
+    await _refreshTheme();
+  }
+
+  /// Marks [address] as the current look without changing any setting.
+  Future<void> markCommunityTheme(String address) async {
+    communityTheme.value = address;
+    await _storageService.saveSetting(ThemeService.communityThemeKey, address);
+  }
+
+  Future<void> _forgetCommunityTheme() async {
+    if (communityTheme.value == null) return;
+    communityTheme.value = null;
+    await _storageService.deleteSetting(ThemeService.communityThemeKey);
   }
 
   Future<void> _refreshTheme() async {
@@ -478,6 +539,7 @@ class SettingsController extends GetxController {
     themeColor.value = null;
     customThemeColor.value = null;
     paletteStyle.value = DynamicSchemeVariant.tonalSpot;
+    communityTheme.value = null;
     lightSeedColor.value = SystemTheme.accentColor.accent;
     darkSeedColor.value = SystemTheme.accentColor.accent;
     debugToolsUnlocked.value = false;

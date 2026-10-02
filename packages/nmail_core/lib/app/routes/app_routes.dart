@@ -1,3 +1,6 @@
+import 'package:ndk/ndk.dart';
+
+import '../../models/community_theme.dart';
 import '../../models/mailbox.dart';
 
 /// Path constants for all app routes.
@@ -12,7 +15,7 @@ import '../../models/mailbox.dart';
 /// real back-stack to the originating folder.
 ///
 /// `/:nostrId` is a root-level dispatcher for share links (NIP-19
-/// bech32 entities: nevent, note, npub, nprofile). The view inspects
+/// bech32 entities: nevent, note, npub, nprofile, naddr). The view inspects
 /// the prefix and renders the appropriate sub-view.
 class AppRoutes {
   // Public (no auth required)
@@ -61,6 +64,11 @@ class AppRoutes {
   // Settings (nested)
   static const settings = '/settings';
   static const settingsAppearance = '/settings/appearance';
+  static const settingsAppearanceThemes = '/settings/appearance/themes';
+  static const communityThemeAuthorParam = 'npub';
+  static const communityThemeIdentifierParam = 'identifier';
+  static const communityThemeSegment =
+      ':$communityThemeAuthorParam/:$communityThemeIdentifierParam';
   static const settingsIdentities = '/settings/identities';
   static const settingsIdentitiesNew = '/settings/identities/new';
   static const settingsMessages = '/settings/messages';
@@ -74,7 +82,7 @@ class AppRoutes {
   // `/email/:id` redirects to `/:hex` which the nostr dispatcher resolves.
   static const emailLegacy = '/email/:id';
 
-  // Root-level NIP-19 dispatcher (handles nevent, note, npub, nprofile)
+  // Root-level NIP-19 dispatcher (handles nevent, note, npub, nprofile, naddr)
   static const nostrIdParam = 'nostrId';
 
   static String mailboxPath(Mailbox mailbox) => switch (mailbox) {
@@ -91,6 +99,14 @@ class AppRoutes {
   /// In-app deep-linkable email URL: `/<mailbox>/email/<hex>`.
   static String emailPath(Mailbox mailbox, String id) =>
       '${mailboxPath(mailbox)}/email/$id';
+
+  /// A `d` tag can hold `/`. An empty one fits no path segment, so that theme
+  /// opens at its share link instead.
+  static String communityThemePath(CommunityTheme theme) =>
+      theme.identifier.isEmpty
+      ? '/${theme.naddr}'
+      : '$settingsAppearanceThemes/${Nip19.encodePubKey(theme.pubkey)}'
+            '/${Uri.encodeComponent(theme.identifier)}';
 
   /// A bridged sender key holds `:` and `@`.
   static String requestSenderPath(String senderKey) =>

@@ -295,6 +295,107 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsThemeDark => 'ダーク';
 
   @override
+  String get settingsCommunityThemes => 'コミュニティのテーマ';
+
+  @override
+  String get communityThemesFilterAll => 'すべて';
+
+  @override
+  String get communityThemesSearchHint => 'テーマを検索';
+
+  @override
+  String get communityThemesWithImage => '画像あり';
+
+  @override
+  String get communityThemesWithoutImage => '画像なし';
+
+  @override
+  String get communityThemesEmpty => 'テーマが見つかりません';
+
+  @override
+  String get communityThemesRetry => '再試行';
+
+  @override
+  String get communityThemesImageError => 'このテーマの背景画像をダウンロードできませんでした';
+
+  @override
+  String get communityThemesAllColors => 'すべての色';
+
+  @override
+  String get communityThemesNoMatch => '条件に一致するテーマはありません';
+
+  @override
+  String get communityThemesSensitive => 'センシティブな内容';
+
+  @override
+  String get communityThemesShow => '表示';
+
+  @override
+  String get communityThemesShare => '自分のテーマを共有';
+
+  @override
+  String get communityThemesShareName => 'テーマ名';
+
+  @override
+  String get communityThemesSharePublic => '誰でもこのテーマを表示して適用できるようになります。';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      '誰でもこのテーマを背景画像ごと表示して適用できるようになります。';
+
+  @override
+  String get communityThemesShareNsfw => 'NSFWコンテンツ';
+
+  @override
+  String get communityThemesShareAction => '共有';
+
+  @override
+  String get communityThemesShareError => 'テーマを共有できませんでした';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return '現在の外観はすでに公開済みのテーマ「$title」です。新しいテーマを共有するには外観を変更してください。';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      '現在の外観はすでに公開済みのテーマです。新しいテーマを共有するには外観を変更してください。';
+
+  @override
+  String get communityThemeApply => '適用';
+
+  @override
+  String get communityThemeCurrent => '現在のテーマ';
+
+  @override
+  String get communityThemeCopyLink => 'リンクをコピー';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return '作成者: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'テーマが見つかりません';
+
+  @override
+  String get communityThemeMuteAuthor => '作成者をミュート';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return '$name をミュートしますか？';
+  }
+
+  @override
+  String get communityThemeMuteMessage => 'このユーザーのテーマは表示されなくなります。';
+
+  @override
+  String get communityThemeMuteAction => 'ミュート';
+
+  @override
+  String get communityThemeMuteError => 'この作成者をミュートできませんでした';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'システムカラー';
 
   @override
@@ -1763,6 +1864,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'green': '緑',
       'darkGreen': '深緑',
       'lightBlue': '水色',
+      'cyan': 'シアン',
       'blue': '青',
       'lavender': 'ラベンダー',
       'purple': '紫',

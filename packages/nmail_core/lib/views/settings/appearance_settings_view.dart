@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/background_section.dart';
+import 'widgets/community_themes_section.dart';
 import 'widgets/theme_mode_section.dart';
 
 class AppearanceSettingsView extends StatelessWidget {
@@ -24,6 +25,8 @@ class AppearanceSettingsView extends StatelessWidget {
               children: [
                 SizedBox(height: 8),
                 ThemeModeSection(),
+                SizedBox(height: 12),
+                CommunityThemesSection(),
                 SizedBox(height: 12),
                 BackgroundSection(),
                 SizedBox(height: 32),

@@ -25,6 +25,13 @@ class NostrConfig {
     'wss://user.kindpag.es',
   ];
 
+  /// Where Profile Themes (kind 36767) are published, mostly by Ditto.
+  static const communityThemeRelays = [
+    'wss://relay.ditto.pub',
+    'wss://relay.primal.net',
+    'wss://relay.nmail.li',
+  ];
+
   /// NIP-46 relays for QR code logins. Each session keeps the list it logged
   /// in with, so a change only reaches new logins.
   static const nostrConnectRelays = [
@@ -35,6 +42,7 @@ class NostrConfig {
   static const nip46ClientMetadata = Nip46ClientMetadata(
     perms: [
       "get_public_key",
+      "nip04_decrypt",
       "nip44_encrypt",
       "nip44_decrypt",
       "sign_event:0",
@@ -47,6 +55,7 @@ class NostrConfig {
       "sign_event:1985",
       "sign_event:1990",
       "sign_event:5905",
+      "sign_event:10000",
       "sign_event:10002",
       "sign_event:10050",
       "sign_event:10063",
@@ -55,6 +64,7 @@ class NostrConfig {
       "sign_event:27235",
       "sign_event:30078",
       "sign_event:31234",
+      "sign_event:36767",
       "sign_event:38522",
     ],
     name: "Nmail",

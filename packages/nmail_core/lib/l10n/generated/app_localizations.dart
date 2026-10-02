@@ -637,6 +637,192 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get settingsThemeDark;
 
+  /// Settings row and page title for browsing themes published by the Nostr community
+  ///
+  /// In en, this message translates to:
+  /// **'Community themes'**
+  String get settingsCommunityThemes;
+
+  /// Filter option on the community themes page showing both light and dark themes
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get communityThemesFilterAll;
+
+  /// Placeholder of the search bar on the community themes page, which matches theme names and descriptions
+  ///
+  /// In en, this message translates to:
+  /// **'Search themes'**
+  String get communityThemesSearchHint;
+
+  /// Filter option on the community themes page showing only themes with a background image
+  ///
+  /// In en, this message translates to:
+  /// **'With image'**
+  String get communityThemesWithImage;
+
+  /// Filter option on the community themes page showing only themes without a background image
+  ///
+  /// In en, this message translates to:
+  /// **'Without image'**
+  String get communityThemesWithoutImage;
+
+  /// Empty state on the community themes page when no theme could be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'No themes found'**
+  String get communityThemesEmpty;
+
+  /// Button on the community themes empty state that loads the themes again
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get communityThemesRetry;
+
+  /// Error toast when a community theme cannot be applied because its background image failed to download
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t download this theme\'s background image'**
+  String get communityThemesImageError;
+
+  /// Label of the color filter swatch on the community themes page that shows themes of every color
+  ///
+  /// In en, this message translates to:
+  /// **'All colors'**
+  String get communityThemesAllColors;
+
+  /// Shown on the community themes page when the selected filters leave no theme
+  ///
+  /// In en, this message translates to:
+  /// **'No theme matches these filters'**
+  String get communityThemesNoMatch;
+
+  /// Shown over a community theme hidden by a NIP-36 content warning that gives no reason
+  ///
+  /// In en, this message translates to:
+  /// **'Sensitive content'**
+  String get communityThemesSensitive;
+
+  /// Button that shows a community theme hidden by a content warning
+  ///
+  /// In en, this message translates to:
+  /// **'Show'**
+  String get communityThemesShow;
+
+  /// Button on the community themes page, and title of the dialog, that publishes the current appearance as a community theme
+  ///
+  /// In en, this message translates to:
+  /// **'Share my theme'**
+  String get communityThemesShare;
+
+  /// Label of the theme name field in the share theme dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Theme name'**
+  String get communityThemesShareName;
+
+  /// Notice in the share theme dialog that a published theme is public
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone will be able to see and apply this theme.'**
+  String get communityThemesSharePublic;
+
+  /// Notice in the share theme dialog that a published theme is public, its background image too
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone will be able to see and apply this theme, background image included.'**
+  String get communityThemesSharePublicWithImage;
+
+  /// Switch in the share theme dialog that marks the theme NSFW with a NIP-36 content warning
+  ///
+  /// In en, this message translates to:
+  /// **'NSFW content'**
+  String get communityThemesShareNsfw;
+
+  /// Button of the share theme dialog that publishes the theme
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get communityThemesShareAction;
+
+  /// Error toast when publishing the theme fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t share your theme'**
+  String get communityThemesShareError;
+
+  /// Shown instead of the share form when the current appearance is a published theme, named by its title
+  ///
+  /// In en, this message translates to:
+  /// **'Your appearance is already the published theme \"{title}\". Change it to share a new theme.'**
+  String communityThemesShareCopy(String title);
+
+  /// Shown instead of the share form when the current appearance is a published theme whose title is unknown
+  ///
+  /// In en, this message translates to:
+  /// **'Your appearance is already a published theme. Change it to share a new theme.'**
+  String get communityThemesShareCopyUnnamed;
+
+  /// Button on a community theme page that applies the theme to the app
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get communityThemeApply;
+
+  /// Disabled button on a community theme page when the theme is already the app's appearance
+  ///
+  /// In en, this message translates to:
+  /// **'Current theme'**
+  String get communityThemeCurrent;
+
+  /// Button on a community theme page that copies the theme's share link
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get communityThemeCopyLink;
+
+  /// Byline under the title of a community theme page, naming its author
+  ///
+  /// In en, this message translates to:
+  /// **'By {name}'**
+  String communityThemeByAuthor(String name);
+
+  /// Shown on a community theme page when the theme could not be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'Theme not found'**
+  String get communityThemeNotFound;
+
+  /// Menu item on a community theme page that mutes the theme's author, hiding all their themes
+  ///
+  /// In en, this message translates to:
+  /// **'Mute author'**
+  String get communityThemeMuteAuthor;
+
+  /// Title of the dialog confirming that the author of a community theme is muted, naming the author
+  ///
+  /// In en, this message translates to:
+  /// **'Mute {name}?'**
+  String communityThemeMuteTitle(String name);
+
+  /// Body of the dialog confirming that the author of a community theme is muted
+  ///
+  /// In en, this message translates to:
+  /// **'You won\'t see their themes anymore.'**
+  String get communityThemeMuteMessage;
+
+  /// Confirm button of the dialog that mutes the author of a community theme
+  ///
+  /// In en, this message translates to:
+  /// **'Mute'**
+  String get communityThemeMuteAction;
+
+  /// Error toast when muting the author of a community theme fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t mute this author'**
+  String get communityThemeMuteError;
+
   /// Accessibility label for the background swatch that follows the device system accent color
   ///
   /// In en, this message translates to:
@@ -3352,7 +3538,7 @@ abstract class AppLocalizations {
   /// Name of a suggested color, shown on hover and read by screen readers
   ///
   /// In en, this message translates to:
-  /// **'{color, select, red{Red} pink{Pink} orange{Orange} yellow{Yellow} green{Green} darkGreen{Dark green} lightBlue{Light blue} blue{Blue} lavender{Lavender} purple{Purple} gray{Gray} brown{Brown} other{Color}}'**
+  /// **'{color, select, red{Red} pink{Pink} orange{Orange} yellow{Yellow} green{Green} darkGreen{Dark green} lightBlue{Light blue} cyan{Cyan} blue{Blue} lavender{Lavender} purple{Purple} gray{Gray} brown{Brown} other{Color}}'**
   String colorName(String color);
 
   /// Opens the dialog to pick any color for a folder or tag, its title, and the screen reader label of the swatch holding that color

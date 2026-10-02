@@ -305,6 +305,109 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsThemeDark => 'Tumma';
 
   @override
+  String get settingsCommunityThemes => 'Yhteisön teemat';
+
+  @override
+  String get communityThemesFilterAll => 'Kaikki';
+
+  @override
+  String get communityThemesSearchHint => 'Hae teemoja';
+
+  @override
+  String get communityThemesWithImage => 'Kuvalla';
+
+  @override
+  String get communityThemesWithoutImage => 'Ilman kuvaa';
+
+  @override
+  String get communityThemesEmpty => 'Teemoja ei löytynyt';
+
+  @override
+  String get communityThemesRetry => 'Yritä uudelleen';
+
+  @override
+  String get communityThemesImageError => 'Teeman taustakuvaa ei voitu ladata';
+
+  @override
+  String get communityThemesAllColors => 'Kaikki värit';
+
+  @override
+  String get communityThemesNoMatch =>
+      'Mikään teema ei vastaa näitä suodattimia';
+
+  @override
+  String get communityThemesSensitive => 'Arkaluonteista sisältöä';
+
+  @override
+  String get communityThemesShow => 'Näytä';
+
+  @override
+  String get communityThemesShare => 'Jaa teemani';
+
+  @override
+  String get communityThemesShareName => 'Teeman nimi';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Kaikki voivat nähdä ja ottaa tämän teeman käyttöön.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Kaikki voivat nähdä ja ottaa tämän teeman käyttöön taustakuvineen.';
+
+  @override
+  String get communityThemesShareNsfw => 'NSFW-sisältö';
+
+  @override
+  String get communityThemesShareAction => 'Jaa';
+
+  @override
+  String get communityThemesShareError => 'Teeman jakaminen epäonnistui';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Ulkoasusi on jo julkaistu teema \"$title\". Muuta sitä jakaaksesi uuden teeman.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Ulkoasusi on jo julkaistu teema. Muuta sitä jakaaksesi uuden teeman.';
+
+  @override
+  String get communityThemeApply => 'Käytä';
+
+  @override
+  String get communityThemeCurrent => 'Nykyinen teema';
+
+  @override
+  String get communityThemeCopyLink => 'Kopioi linkki';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Tekijä: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Teemaa ei löytynyt';
+
+  @override
+  String get communityThemeMuteAuthor => 'Mykistä tekijä';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Mykistetäänkö $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage => 'Et näe enää hänen teemojaan.';
+
+  @override
+  String get communityThemeMuteAction => 'Mykistä';
+
+  @override
+  String get communityThemeMuteError => 'Tekijän mykistäminen epäonnistui';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Järjestelmän väri';
 
   @override
@@ -1860,6 +1963,7 @@ class AppLocalizationsFi extends AppLocalizations {
       'green': 'Vihreä',
       'darkGreen': 'Tummanvihreä',
       'lightBlue': 'Vaaleansininen',
+      'cyan': 'Syaani',
       'blue': 'Sininen',
       'lavender': 'Laventeli',
       'purple': 'Violetti',

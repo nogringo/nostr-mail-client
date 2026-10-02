@@ -6,6 +6,7 @@ class ThemeService extends GetxService {
   static const themeColorKey = 'theme_color';
   static const paletteStyleKey = 'palette_style';
   static const backgroundSeedColorKeyPrefix = 'background_seed_color:';
+  static const communityThemeKey = 'community_theme';
 
   final lightColorScheme = Rxn<ColorScheme>();
   final darkColorScheme = Rxn<ColorScheme>();

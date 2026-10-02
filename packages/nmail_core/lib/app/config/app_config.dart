@@ -6,6 +6,8 @@ class AppConfig {
   /// How often the inbox reloads while watch events stream in
   static const watchReloadThrottle = Duration(milliseconds: 300);
 
+  static const webAppUrl = 'https://app.nostrmail.org';
+
   static const githubRepository = 'nogringo/nostr-mail-client';
   static const sourceCodeUrl = 'https://github.com/$githubRepository';
   static const licenseName = 'MIT';

@@ -306,6 +306,111 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsThemeDark => 'Тёмная';
 
   @override
+  String get settingsCommunityThemes => 'Темы сообщества';
+
+  @override
+  String get communityThemesFilterAll => 'Все';
+
+  @override
+  String get communityThemesSearchHint => 'Поиск тем';
+
+  @override
+  String get communityThemesWithImage => 'С изображением';
+
+  @override
+  String get communityThemesWithoutImage => 'Без изображения';
+
+  @override
+  String get communityThemesEmpty => 'Темы не найдены';
+
+  @override
+  String get communityThemesRetry => 'Повторить';
+
+  @override
+  String get communityThemesImageError =>
+      'Не удалось загрузить фоновое изображение этой темы';
+
+  @override
+  String get communityThemesAllColors => 'Все цвета';
+
+  @override
+  String get communityThemesNoMatch => 'Нет тем, подходящих под эти фильтры';
+
+  @override
+  String get communityThemesSensitive => 'Деликатный контент';
+
+  @override
+  String get communityThemesShow => 'Показать';
+
+  @override
+  String get communityThemesShare => 'Поделиться своей темой';
+
+  @override
+  String get communityThemesShareName => 'Название темы';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Все смогут увидеть и применить эту тему.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Все смогут увидеть и применить эту тему вместе с фоновым изображением.';
+
+  @override
+  String get communityThemesShareNsfw => 'NSFW-контент';
+
+  @override
+  String get communityThemesShareAction => 'Поделиться';
+
+  @override
+  String get communityThemesShareError => 'Не удалось поделиться темой';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Ваше оформление уже является опубликованной темой «$title». Измените его, чтобы поделиться новой темой.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Ваше оформление уже является опубликованной темой. Измените его, чтобы поделиться новой темой.';
+
+  @override
+  String get communityThemeApply => 'Применить';
+
+  @override
+  String get communityThemeCurrent => 'Текущая тема';
+
+  @override
+  String get communityThemeCopyLink => 'Скопировать ссылку';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Автор: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Тема не найдена';
+
+  @override
+  String get communityThemeMuteAuthor => 'Игнорировать автора';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return 'Игнорировать $name?';
+  }
+
+  @override
+  String get communityThemeMuteMessage =>
+      'Вы больше не увидите темы этого автора.';
+
+  @override
+  String get communityThemeMuteAction => 'Игнорировать';
+
+  @override
+  String get communityThemeMuteError =>
+      'Не удалось добавить автора в игнорируемые';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Цвет системы';
 
   @override
@@ -1887,6 +1992,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'green': 'Зелёный',
       'darkGreen': 'Тёмно-зелёный',
       'lightBlue': 'Голубой',
+      'cyan': 'Бирюзовый',
       'blue': 'Синий',
       'lavender': 'Лавандовый',
       'purple': 'Фиолетовый',

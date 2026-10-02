@@ -87,18 +87,7 @@ class BackgroundsController extends GetxController {
     isBusy.value = true;
 
     try {
-      final response = await http
-          .get(Uri.parse(url))
-          .timeout(const Duration(seconds: 10));
-      if (response.statusCode != 200) {
-        throw Exception('Failed to download image');
-      }
-      (await decodeImageFromList(response.bodyBytes)).dispose();
-
-      await _addToCachedGallery(
-        response.bodyBytes,
-        response.headers['content-type'],
-      );
+      await select(await downloadToGallery(url));
     } catch (_) {
       if (context.mounted) {
         ToastHelper.error(context, l.settingsBackgroundUrlError);
@@ -113,9 +102,11 @@ class BackgroundsController extends GetxController {
     isBusy.value = true;
 
     try {
-      await _addToCachedGallery(
-        await picked.readAsBytes(),
-        picked.extension != null ? 'image/${picked.extension}' : null,
+      await select(
+        await _addToCachedGallery(
+          await picked.readAsBytes(),
+          picked.extension != null ? 'image/${picked.extension}' : null,
+        ),
       );
     } catch (_) {
       if (context.mounted) {
@@ -126,7 +117,23 @@ class BackgroundsController extends GetxController {
     }
   }
 
-  Future<void> _addToCachedGallery(Uint8List bytes, String? type) async {
+  /// Returns the background value of the saved image, without selecting it.
+  Future<String> downloadToGallery(String url) async {
+    final response = await http
+        .get(Uri.parse(url))
+        .timeout(const Duration(seconds: 10));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to download image');
+    }
+    (await decodeImageFromList(response.bodyBytes)).dispose();
+
+    return _addToCachedGallery(
+      response.bodyBytes,
+      response.headers['content-type'],
+    );
+  }
+
+  Future<String> _addToCachedGallery(Uint8List bytes, String? type) async {
     final blob = await Get.find<BlossomCache>().put(
       bytes,
       type: type,
@@ -136,7 +143,7 @@ class BackgroundsController extends GetxController {
     savedImages.remove(value);
     savedImages.insert(0, value);
     await _saveCachedGallery();
-    await select(value);
+    return value;
   }
 
   Future<void> _deleteCachedImage(String value) async {

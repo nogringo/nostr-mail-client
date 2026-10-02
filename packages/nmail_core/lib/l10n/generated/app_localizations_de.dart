@@ -306,6 +306,112 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsThemeDark => 'Dunkel';
 
   @override
+  String get settingsCommunityThemes => 'Community-Themes';
+
+  @override
+  String get communityThemesFilterAll => 'Alle';
+
+  @override
+  String get communityThemesSearchHint => 'Themes durchsuchen';
+
+  @override
+  String get communityThemesWithImage => 'Mit Bild';
+
+  @override
+  String get communityThemesWithoutImage => 'Ohne Bild';
+
+  @override
+  String get communityThemesEmpty => 'Keine Themes gefunden';
+
+  @override
+  String get communityThemesRetry => 'Erneut versuchen';
+
+  @override
+  String get communityThemesImageError =>
+      'Das Hintergrundbild dieses Themes konnte nicht heruntergeladen werden';
+
+  @override
+  String get communityThemesAllColors => 'Alle Farben';
+
+  @override
+  String get communityThemesNoMatch => 'Kein Theme passt zu diesen Filtern';
+
+  @override
+  String get communityThemesSensitive => 'Sensibler Inhalt';
+
+  @override
+  String get communityThemesShow => 'Anzeigen';
+
+  @override
+  String get communityThemesShare => 'Mein Theme teilen';
+
+  @override
+  String get communityThemesShareName => 'Name des Themes';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Alle können dieses Theme sehen und anwenden.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Alle können dieses Theme sehen und anwenden, einschließlich des Hintergrundbilds.';
+
+  @override
+  String get communityThemesShareNsfw => 'NSFW-Inhalt';
+
+  @override
+  String get communityThemesShareAction => 'Teilen';
+
+  @override
+  String get communityThemesShareError =>
+      'Dein Theme konnte nicht geteilt werden';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Dein Erscheinungsbild ist bereits das veröffentlichte Theme \"$title\". Ändere es, um ein neues Theme zu teilen.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Dein Erscheinungsbild ist bereits ein veröffentlichtes Theme. Ändere es, um ein neues Theme zu teilen.';
+
+  @override
+  String get communityThemeApply => 'Anwenden';
+
+  @override
+  String get communityThemeCurrent => 'Aktuelles Theme';
+
+  @override
+  String get communityThemeCopyLink => 'Link kopieren';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Von $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Theme nicht gefunden';
+
+  @override
+  String get communityThemeMuteAuthor => 'Autor stummschalten';
+
+  @override
+  String communityThemeMuteTitle(String name) {
+    return '$name stummschalten?';
+  }
+
+  @override
+  String get communityThemeMuteMessage =>
+      'Du siehst die Themes dieser Person nicht mehr.';
+
+  @override
+  String get communityThemeMuteAction => 'Stummschalten';
+
+  @override
+  String get communityThemeMuteError =>
+      'Autor konnte nicht stummgeschaltet werden';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Systemfarbe';
 
   @override
@@ -1868,6 +1974,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'green': 'Grün',
       'darkGreen': 'Dunkelgrün',
       'lightBlue': 'Hellblau',
+      'cyan': 'Cyan',
       'blue': 'Blau',
       'lavender': 'Lavendel',
       'purple': 'Lila',
