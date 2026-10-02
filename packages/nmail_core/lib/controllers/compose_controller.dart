@@ -20,6 +20,7 @@ import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../app/routes/app_router.dart';
+import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_attachment.dart';
 import 'package:nmail_core/models/compose_mode.dart';
@@ -36,12 +37,12 @@ import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
+import 'package:nmail_core/utils/primary_email.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'auth_controller.dart';
 import 'settings_controller.dart';
 
-const String _defaultBridgeDomain = 'uid.ovh';
 const Duration _nip05Timeout = Duration(seconds: 5);
 
 final _quoteDateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
@@ -207,7 +208,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     if (parsed.isLegacy) {
       _trackResolution(_upgradeToNostr(parsed, list));
-      await _autoSelectBridgeForLegacy();
+      _autoSelectBridgeForLegacy();
     }
 
     return true;
@@ -772,33 +773,6 @@ class ComposeController extends GetxController implements InlineImageSource {
     }).toList();
   }
 
-  Future<String?> getDefaultFrom() async {
-    try {
-      final myPubkey = _nostrMailService.getPublicKey();
-      if (myPubkey == null) return null;
-
-      final emails = (await _nostrMailService.client.getSummaries()).items;
-
-      // Check sent emails first
-      final sentEmail = emails
-          .where((e) => e.senderPubkey == myPubkey)
-          .firstOrNull;
-      if (sentEmail != null && sentEmail.from.isNotEmpty) {
-        return MailAddress(sentEmail.fromName, sentEmail.from).encode();
-      }
-
-      // Fallback to received emails (use "to" which is my address)
-      final receivedEmail = emails
-          .where((e) => e.senderPubkey != myPubkey)
-          .firstOrNull;
-      if (receivedEmail != null) {
-        return receivedEmail.to.firstOrNull?.encode();
-      }
-    } catch (_) {}
-
-    return null;
-  }
-
   /// Load all available From options
   Future<void> loadFromOptions() async {
     final options = <FromOption>[];
@@ -820,6 +794,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     // 2. Add user-created identities
     final settings = await _nostrMailService.client.getLocalPrivateSettings();
+    _primaryEmail = primaryEmailAddress(npub: npub, settings: settings);
     final identities = settings?.identities ?? [];
 
     for (final identity in identities) {
@@ -837,7 +812,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     // Fallback to default bridge if none configured
     if (bridges.isEmpty) {
-      bridges = [_defaultBridgeDomain];
+      bridges = [NostrConfig.recommendedBridges.first];
     }
 
     for (final bridge in bridges) {
@@ -851,13 +826,8 @@ class ComposeController extends GetxController implements InlineImageSource {
     }
 
     fromOptions.value = options;
-
-    // Set default selection
-    if (selectedFrom.value == null && options.isNotEmpty) {
-      await _selectDefaultFrom(options);
-    }
-
-    await _autoSelectBridgeForLegacy();
+    selectedFrom.value ??= options.first;
+    _autoSelectBridgeForLegacy();
 
     // 4. Check if user's NIP-05 domain is a bridge
     final nip05 = metadata?.nip05;
@@ -870,31 +840,14 @@ class ComposeController extends GetxController implements InlineImageSource {
           source: FromSource.nip05Bridge,
         );
         fromOptions.add(option);
-        if (selectedFrom.value == options.first &&
-            option.address == await getDefaultFrom()) {
-          selectedFrom.value = option;
-        }
       }
     }
   }
 
-  Future<void> _selectDefaultFrom(List<FromOption> options) async {
-    // Try to find last used From address
-    final lastFrom = await getDefaultFrom();
-    if (lastFrom != null) {
-      final match = options.firstWhereOrNull((o) => o.address == lastFrom);
-      if (match != null) {
-        selectedFrom.value = match;
-        return;
-      }
-    }
+  /// The address the account menu copies, the From for legacy recipients.
+  String? _primaryEmail;
 
-    // Fallback to npub@nostr
-    selectedFrom.value = options.first;
-  }
-
-  /// Automatically select a bridge From address when legacy recipients are present
-  Future<void> _autoSelectBridgeForLegacy() async {
+  void _autoSelectBridgeForLegacy() {
     // Check if we have legacy recipients
     final hasLegacyRecipients =
         recipients.any((r) => r.isLegacy) ||
@@ -909,16 +862,13 @@ class ComposeController extends GetxController implements InlineImageSource {
       return; // Already using a bridge
     }
 
-    // Find first bridge option (npubBridge or nip05Bridge)
-    final bridgeOption = fromOptions.firstWhereOrNull(
-      (o) =>
-          o.source == FromSource.npubBridge ||
-          o.source == FromSource.nip05Bridge,
+    final primaryOption = fromOptions.firstWhereOrNull(
+      (o) => o.address == _primaryEmail,
     );
 
-    if (bridgeOption != null) {
-      selectedFrom.value = bridgeOption;
-      _autoSelectedBridge = bridgeOption;
+    if (primaryOption != null) {
+      selectedFrom.value = primaryOption;
+      _autoSelectedBridge = primaryOption;
     }
   }
 
