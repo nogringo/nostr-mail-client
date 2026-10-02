@@ -124,6 +124,11 @@
   "communityThemesShareError": "Dein Theme konnte nicht geteilt werden",
   "communityThemesShareCopy": "Dein Erscheinungsbild ist bereits das veröffentlichte Theme \"{title}\". Ändere es, um ein neues Theme zu teilen.",
   "communityThemesShareCopyUnnamed": "Dein Erscheinungsbild ist bereits ein veröffentlichtes Theme. Ändere es, um ein neues Theme zu teilen.",
+  "communityThemeApply": "Anwenden",
+  "communityThemeCurrent": "Aktuelles Theme",
+  "communityThemeCopyLink": "Link kopieren",
+  "communityThemeByAuthor": "Von {name}",
+  "communityThemeNotFound": "Theme nicht gefunden",
 
   "settingsBackgroundDefaultLabel": "Systemfarbe",
   "settingsBackgroundSelectLabel": "Hintergrundbild auswählen",

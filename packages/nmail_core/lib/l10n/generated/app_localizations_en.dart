@@ -370,6 +370,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your appearance is already a published theme. Change it to share a new theme.';
 
   @override
+  String get communityThemeApply => 'Apply';
+
+  @override
+  String get communityThemeCurrent => 'Current theme';
+
+  @override
+  String get communityThemeCopyLink => 'Copy link';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'By $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Theme not found';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'System color';
 
   @override

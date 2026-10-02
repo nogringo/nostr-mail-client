@@ -124,6 +124,11 @@
   "communityThemesShareError": "Не удалось поделиться темой",
   "communityThemesShareCopy": "Ваше оформление уже является опубликованной темой «{title}». Измените его, чтобы поделиться новой темой.",
   "communityThemesShareCopyUnnamed": "Ваше оформление уже является опубликованной темой. Измените его, чтобы поделиться новой темой.",
+  "communityThemeApply": "Применить",
+  "communityThemeCurrent": "Текущая тема",
+  "communityThemeCopyLink": "Скопировать ссылку",
+  "communityThemeByAuthor": "Автор: {name}",
+  "communityThemeNotFound": "Тема не найдена",
 
   "settingsBackgroundDefaultLabel": "Цвет системы",
   "settingsBackgroundSelectLabel": "Выбрать фоновое изображение",

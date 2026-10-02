@@ -124,6 +124,11 @@
   "communityThemesShareError": "Teeman jakaminen epäonnistui",
   "communityThemesShareCopy": "Ulkoasusi on jo julkaistu teema \"{title}\". Muuta sitä jakaaksesi uuden teeman.",
   "communityThemesShareCopyUnnamed": "Ulkoasusi on jo julkaistu teema. Muuta sitä jakaaksesi uuden teeman.",
+  "communityThemeApply": "Käytä",
+  "communityThemeCurrent": "Nykyinen teema",
+  "communityThemeCopyLink": "Kopioi linkki",
+  "communityThemeByAuthor": "Tekijä: {name}",
+  "communityThemeNotFound": "Teemaa ei löytynyt",
 
   "settingsBackgroundDefaultLabel": "Järjestelmän väri",
   "settingsBackgroundSelectLabel": "Valitse taustakuva",

@@ -124,6 +124,11 @@
   "communityThemesShareError": "テーマを共有できませんでした",
   "communityThemesShareCopy": "現在の外観はすでに公開済みのテーマ「{title}」です。新しいテーマを共有するには外観を変更してください。",
   "communityThemesShareCopyUnnamed": "現在の外観はすでに公開済みのテーマです。新しいテーマを共有するには外観を変更してください。",
+  "communityThemeApply": "適用",
+  "communityThemeCurrent": "現在のテーマ",
+  "communityThemeCopyLink": "リンクをコピー",
+  "communityThemeByAuthor": "作成者: {name}",
+  "communityThemeNotFound": "テーマが見つかりません",
 
   "settingsBackgroundDefaultLabel": "システムカラー",
   "settingsBackgroundSelectLabel": "背景画像を選択",

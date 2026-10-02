@@ -757,6 +757,36 @@ abstract class AppLocalizations {
   /// **'Your appearance is already a published theme. Change it to share a new theme.'**
   String get communityThemesShareCopyUnnamed;
 
+  /// Button on a community theme page that applies the theme to the app
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get communityThemeApply;
+
+  /// Disabled button on a community theme page when the theme is already the app's appearance
+  ///
+  /// In en, this message translates to:
+  /// **'Current theme'**
+  String get communityThemeCurrent;
+
+  /// Button on a community theme page that copies the theme's share link
+  ///
+  /// In en, this message translates to:
+  /// **'Copy link'**
+  String get communityThemeCopyLink;
+
+  /// Byline under the title of a community theme page, naming its author
+  ///
+  /// In en, this message translates to:
+  /// **'By {name}'**
+  String communityThemeByAuthor(String name);
+
+  /// Shown on a community theme page when the theme could not be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'Theme not found'**
+  String get communityThemeNotFound;
+
   /// Accessibility label for the background swatch that follows the device system accent color
   ///
   /// In en, this message translates to:

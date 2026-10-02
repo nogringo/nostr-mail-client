@@ -370,6 +370,23 @@ class AppLocalizationsFi extends AppLocalizations {
       'Ulkoasusi on jo julkaistu teema. Muuta sitä jakaaksesi uuden teeman.';
 
   @override
+  String get communityThemeApply => 'Käytä';
+
+  @override
+  String get communityThemeCurrent => 'Nykyinen teema';
+
+  @override
+  String get communityThemeCopyLink => 'Kopioi linkki';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Tekijä: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Teemaa ei löytynyt';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Järjestelmän väri';
 
   @override

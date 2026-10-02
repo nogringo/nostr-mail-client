@@ -372,6 +372,23 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tu apariencia ya es un tema publicado. Cámbiala para compartir un tema nuevo.';
 
   @override
+  String get communityThemeApply => 'Aplicar';
+
+  @override
+  String get communityThemeCurrent => 'Tema actual';
+
+  @override
+  String get communityThemeCopyLink => 'Copiar enlace';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Por $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Tema no encontrado';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Color del sistema';
 
   @override

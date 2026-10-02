@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
+import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/models/community_theme.dart';
@@ -25,7 +27,6 @@ class CommunityThemeCard extends StatelessWidget {
 
     return Obx(() {
       final isSelected = settings.communityTheme.value == theme.address;
-      final isApplying = controller.applying.value == theme.address;
       final isHidden = controller.isHidden(theme);
       final author = Get.find<MetadataService>().of(theme.pubkey).value;
       final imageUrl = theme.backgroundImageUrl;
@@ -35,9 +36,7 @@ class CommunityThemeCard extends StatelessWidget {
         selected: isSelected,
         child: InkWell(
           borderRadius: _radius,
-          onTap: isHidden
-              ? () => controller.reveal(theme)
-              : () => controller.apply(context, theme),
+          onTap: () => context.go(AppRoutes.communityThemePath(theme)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -74,16 +73,6 @@ class CommunityThemeCard extends StatelessWidget {
                           border: Border.all(
                             color: colorScheme.primary,
                             width: 3,
-                          ),
-                        ),
-                      ),
-                    if (isApplying)
-                      ClipRRect(
-                        borderRadius: _radius,
-                        child: ColoredBox(
-                          color: colorScheme.scrim.withValues(alpha: 0.32),
-                          child: const Center(
-                            child: CircularProgressIndicator(),
                           ),
                         ),
                       ),

@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ndk/ndk.dart';
+import 'package:nmail_core/app/routes/app_routes.dart';
+import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/models/community_theme.dart';
 
 const _pubkey =
@@ -331,5 +333,31 @@ void main() {
     )!;
 
     expect(theme.description, isNull);
+  });
+
+  test('the naddr points at the theme address with one relay hint', () {
+    final theme = CommunityTheme.fromEvent(_event(_tags()))!;
+    final naddr = Nip19.decodeNaddr(theme.naddr);
+
+    expect(naddr.kind, CommunityTheme.kind);
+    expect(naddr.pubkey, _pubkey);
+    expect(naddr.identifier, 'mk-dark-theme');
+    expect(naddr.relays, [NostrConfig.communityThemeRelays.first]);
+  });
+
+  test('the in-app path holds the npub and the escaped d tag', () {
+    final theme = CommunityTheme.fromEvent(_event(_tags(d: 'dark/neon')))!;
+
+    expect(
+      AppRoutes.communityThemePath(theme),
+      '${AppRoutes.settingsAppearanceThemes}/'
+      '${Nip19.encodePubKey(_pubkey)}/dark%2Fneon',
+    );
+  });
+
+  test('a theme with an empty d tag opens at its share link', () {
+    final theme = CommunityTheme.fromEvent(_event(_tags(d: '')))!;
+
+    expect(AppRoutes.communityThemePath(theme), '/${theme.naddr}');
   });
 }

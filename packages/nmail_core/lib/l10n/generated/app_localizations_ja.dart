@@ -359,6 +359,23 @@ class AppLocalizationsJa extends AppLocalizations {
       '現在の外観はすでに公開済みのテーマです。新しいテーマを共有するには外観を変更してください。';
 
   @override
+  String get communityThemeApply => '適用';
+
+  @override
+  String get communityThemeCurrent => '現在のテーマ';
+
+  @override
+  String get communityThemeCopyLink => 'リンクをコピー';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return '作成者: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'テーマが見つかりません';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'システムカラー';
 
   @override

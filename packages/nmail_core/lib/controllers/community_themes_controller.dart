@@ -3,14 +3,10 @@ import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
-import 'package:nmail_core/controllers/backgrounds_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
-import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/models/background_preset.dart';
 import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/models/theme_color_family.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
-import 'package:nmail_core/utils/toast_helper.dart';
 
 class CommunityThemesController extends GetxController {
   final themes = <CommunityTheme>[].obs;
@@ -28,23 +24,20 @@ class CommunityThemesController extends GetxController {
   final searchController = TextEditingController();
   final query = ''.obs;
 
-  /// Address of the theme being applied.
-  final applying = RxnString();
-
   /// Authors the user muted (NIP-51 kind 10000), in this client or another.
   var _muted = <String>{};
 
   /// Addresses of the themes shown past their content warning.
   final _revealed = <String>{}.obs;
 
-  SettingsController get _settings => Get.find<SettingsController>();
+  bool isHidden(CommunityTheme theme) =>
+      !_revealed.contains(theme.address) && startsHidden(theme);
 
   /// Behind its content warning, unless it is the user's own or applied.
-  bool isHidden(CommunityTheme theme) =>
+  static bool startsHidden(CommunityTheme theme) =>
       theme.contentWarning != null &&
-      !_revealed.contains(theme.address) &&
       theme.pubkey != Get.find<Ndk>().accounts.getPublicKey() &&
-      theme.address != _settings.communityTheme.value;
+      theme.address != Get.find<SettingsController>().communityTheme.value;
 
   void reveal(CommunityTheme theme) => _revealed.add(theme.address);
 
@@ -172,25 +165,5 @@ class CommunityThemesController extends GetxController {
     themes.value = CommunityTheme.withoutCopies(
       CommunityTheme.latest(unmuted.toList()),
     );
-  }
-
-  Future<void> apply(BuildContext context, CommunityTheme theme) async {
-    if (applying.value != null) return;
-    final l = AppLocalizations.of(context);
-    applying.value = theme.address;
-
-    try {
-      final imageUrl = theme.backgroundImageUrl;
-      final background = imageUrl != null
-          ? await Get.find<BackgroundsController>().downloadToGallery(imageUrl)
-          : BackgroundPreset.systemColorStorageValue;
-      await _settings.applyCommunityTheme(theme, background: background);
-    } catch (_) {
-      if (context.mounted) {
-        ToastHelper.error(context, l.communityThemesImageError);
-      }
-    } finally {
-      if (!isClosed) applying.value = null;
-    }
   }
 }

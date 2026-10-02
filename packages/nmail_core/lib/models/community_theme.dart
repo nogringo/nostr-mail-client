@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:ndk/ndk.dart';
 
+import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/models/theme_color_family.dart';
 
 /// A shareable theme from the Profile Themes spec (kind 36767).
@@ -46,6 +47,15 @@ class CommunityTheme {
   final String? contentWarning;
 
   String get address => '$kind:$pubkey:$identifier';
+
+  /// A single relay hint, the one holding almost every theme, keeps the link
+  /// short.
+  String get naddr => Nip19.encodeNaddr(
+    identifier: identifier,
+    pubkey: pubkey,
+    kind: kind,
+    relays: [NostrConfig.communityThemeRelays.first],
+  );
 
   /// Whether every word of [query] is in the title or the description,
   /// ignoring case.

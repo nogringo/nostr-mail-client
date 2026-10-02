@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ndk/domain_layer/entities/naddr.dart';
+import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 
 import '../../controllers/about_controller.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/backgrounds_controller.dart';
+import '../../controllers/community_theme_controller.dart';
 import '../../controllers/community_themes_controller.dart';
 import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
@@ -16,6 +19,7 @@ import '../../models/mailbox.dart';
 import '../../controllers/profile_controller.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
+import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/storage_service.dart';
@@ -38,6 +42,7 @@ import '../../views/relay_setup/relay_setup_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
 import '../../views/settings/about_settings_view.dart';
 import '../../views/settings/appearance_settings_view.dart';
+import '../../views/settings/community_theme_view.dart';
 import '../../views/settings/community_themes_view.dart';
 import '../../views/settings/confirm_discard_hosting_changes.dart';
 import '../../views/settings/confirm_discard_identity_changes.dart';
@@ -285,6 +290,13 @@ class AppRouter {
                       Get.lazyPut(() => CommunityThemesController());
                       return const CommunityThemesView();
                     },
+                    routes: [
+                      GoRoute(
+                        path: AppRoutes.communityThemeSegment,
+                        builder: (_, state) =>
+                            _communityThemeView(state.pathParameters),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -343,7 +355,8 @@ class AppRouter {
             },
           ),
 
-          // Root-level NIP-19 dispatcher (handles nevent, note, npub, nprofile)
+          // Root-level NIP-19 dispatcher (handles nevent, note, npub, nprofile,
+          // naddr)
           GoRoute(
             path: '/:${AppRoutes.nostrIdParam}',
             builder: (_, state) {
@@ -425,9 +438,58 @@ class AppRouter {
     Get.put(EmailController(eventReference: eventReference, mailbox: mailbox));
   }
 
+  static void _ensureCommunityThemeController({
+    required String pubkey,
+    required String identifier,
+    List<String> relays = const [],
+  }) {
+    if (Get.isRegistered<CommunityThemeController>()) {
+      final existing = Get.find<CommunityThemeController>();
+      if (existing.pubkey == pubkey && existing.identifier == identifier) {
+        return;
+      }
+      Get.delete<CommunityThemeController>();
+    }
+    Get.put(
+      CommunityThemeController(
+        pubkey: pubkey,
+        identifier: identifier,
+        relays: relays,
+      ),
+    );
+  }
+
+  static Widget _communityThemeView(Map<String, String> parameters) {
+    final npub = parameters[AppRoutes.communityThemeAuthorParam]!;
+    final pubkey = npub.startsWith('npub1') ? Nip19.decode(npub) : '';
+    if (pubkey.isEmpty) return const NotFoundView();
+    _ensureCommunityThemeController(
+      pubkey: pubkey,
+      identifier: parameters[AppRoutes.communityThemeIdentifierParam]!,
+    );
+    return const CommunityThemeView();
+  }
+
   static Widget _dispatchNostrId(String id) {
     if (id.startsWith('npub1') || id.startsWith('nprofile1')) {
       return ProfileShareView(bech32: id);
+    }
+
+    if (id.startsWith('naddr1')) {
+      final Naddr naddr;
+      try {
+        naddr = Nip19.decodeNaddr(id);
+      } catch (_) {
+        return const NotFoundView();
+      }
+      if (naddr.kind != CommunityTheme.kind) return const NotFoundView();
+      Get.lazyPut(() => BackgroundsController());
+      _ensureCommunityThemeController(
+        pubkey: naddr.pubkey,
+        identifier: naddr.identifier,
+        relays: naddr.relays ?? const [],
+      );
+      return const CommunityThemeView();
     }
 
     if (nostrEventReferenceFromString(id) == null) {

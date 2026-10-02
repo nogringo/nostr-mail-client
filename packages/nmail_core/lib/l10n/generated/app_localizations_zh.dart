@@ -354,6 +354,23 @@ class AppLocalizationsZh extends AppLocalizations {
   String get communityThemesShareCopyUnnamed => '你的外观已是已发布的主题。请修改外观以分享新主题。';
 
   @override
+  String get communityThemeApply => '应用';
+
+  @override
+  String get communityThemeCurrent => '当前主题';
+
+  @override
+  String get communityThemeCopyLink => '复制链接';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return '作者: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => '未找到主题';
+
+  @override
   String get settingsBackgroundDefaultLabel => '系统颜色';
 
   @override

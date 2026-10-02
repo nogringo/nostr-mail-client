@@ -374,6 +374,23 @@ class AppLocalizationsPt extends AppLocalizations {
       'A sua aparência já é um tema publicado. Altere-a para partilhar um novo tema.';
 
   @override
+  String get communityThemeApply => 'Aplicar';
+
+  @override
+  String get communityThemeCurrent => 'Tema atual';
+
+  @override
+  String get communityThemeCopyLink => 'Copiar link';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Por $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Tema não encontrado';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';
 
   @override
@@ -2541,6 +2558,23 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get communityThemesShareCopyUnnamed =>
       'Sua aparência já é um tema publicado. Altere-a para compartilhar um novo tema.';
+
+  @override
+  String get communityThemeApply => 'Aplicar';
+
+  @override
+  String get communityThemeCurrent => 'Tema atual';
+
+  @override
+  String get communityThemeCopyLink => 'Copiar link';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Por $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Tema não encontrado';
 
   @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';

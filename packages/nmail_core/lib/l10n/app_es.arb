@@ -124,6 +124,11 @@
   "communityThemesShareError": "No se pudo compartir tu tema",
   "communityThemesShareCopy": "Tu apariencia ya es el tema publicado \"{title}\". Cámbiala para compartir un tema nuevo.",
   "communityThemesShareCopyUnnamed": "Tu apariencia ya es un tema publicado. Cámbiala para compartir un tema nuevo.",
+  "communityThemeApply": "Aplicar",
+  "communityThemeCurrent": "Tema actual",
+  "communityThemeCopyLink": "Copiar enlace",
+  "communityThemeByAuthor": "Por {name}",
+  "communityThemeNotFound": "Tema no encontrado",
 
   "settingsBackgroundDefaultLabel": "Color del sistema",
   "settingsBackgroundSelectLabel": "Seleccionar imagen de fondo",

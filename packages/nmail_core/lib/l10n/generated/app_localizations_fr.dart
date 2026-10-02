@@ -373,6 +373,23 @@ class AppLocalizationsFr extends AppLocalizations {
       'Votre apparence est déjà un thème publié. Modifiez-la pour partager un nouveau thème.';
 
   @override
+  String get communityThemeApply => 'Appliquer';
+
+  @override
+  String get communityThemeCurrent => 'Thème actuel';
+
+  @override
+  String get communityThemeCopyLink => 'Copier le lien';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Par $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Thème introuvable';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Couleur système';
 
   @override

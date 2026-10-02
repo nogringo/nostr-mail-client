@@ -124,6 +124,11 @@
   "communityThemesShareError": "无法分享你的主题",
   "communityThemesShareCopy": "你的外观已是已发布的主题「{title}」。请修改外观以分享新主题。",
   "communityThemesShareCopyUnnamed": "你的外观已是已发布的主题。请修改外观以分享新主题。",
+  "communityThemeApply": "应用",
+  "communityThemeCurrent": "当前主题",
+  "communityThemeCopyLink": "复制链接",
+  "communityThemeByAuthor": "作者: {name}",
+  "communityThemeNotFound": "未找到主题",
 
   "settingsBackgroundDefaultLabel": "系统颜色",
   "settingsBackgroundSelectLabel": "选择背景图片",

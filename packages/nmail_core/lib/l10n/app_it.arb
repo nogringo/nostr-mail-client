@@ -124,6 +124,11 @@
   "communityThemesShareError": "Impossibile condividere il tuo tema",
   "communityThemesShareCopy": "Il tuo aspetto è già il tema pubblicato \"{title}\". Modificalo per condividere un nuovo tema.",
   "communityThemesShareCopyUnnamed": "Il tuo aspetto è già un tema pubblicato. Modificalo per condividere un nuovo tema.",
+  "communityThemeApply": "Applica",
+  "communityThemeCurrent": "Tema attuale",
+  "communityThemeCopyLink": "Copia link",
+  "communityThemeByAuthor": "Di {name}",
+  "communityThemeNotFound": "Tema non trovato",
 
   "settingsBackgroundDefaultLabel": "Colore di sistema",
   "settingsBackgroundSelectLabel": "Seleziona immagine di sfondo",

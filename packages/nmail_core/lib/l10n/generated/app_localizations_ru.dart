@@ -372,6 +372,23 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ваше оформление уже является опубликованной темой. Измените его, чтобы поделиться новой темой.';
 
   @override
+  String get communityThemeApply => 'Применить';
+
+  @override
+  String get communityThemeCurrent => 'Текущая тема';
+
+  @override
+  String get communityThemeCopyLink => 'Скопировать ссылку';
+
+  @override
+  String communityThemeByAuthor(String name) {
+    return 'Автор: $name';
+  }
+
+  @override
+  String get communityThemeNotFound => 'Тема не найдена';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Цвет системы';
 
   @override
