@@ -45,6 +45,7 @@ import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/app_color_schemes.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
+import 'package:nmail_core/utils/reload_on_newer_schema/reload_on_newer_schema.dart';
 import 'package:nmail_core/views/startup_error/startup_error_app.dart';
 
 Future<void> runNmailApp({
@@ -163,7 +164,10 @@ Future<void> _initApp({
   // declares what the active account needs, but never stops nor disposes it.
   Get.put(SyncEngine(ndk, db: storageService.db), permanent: true);
 
-  Get.put(openMailDatabase(), permanent: true);
+  final mailDatabase = openMailDatabase();
+  Get.put(mailDatabase, permanent: true);
+  // Before NostrMailService opens the store and runs its migration.
+  reloadOnNewerSchema(mailDatabase.schemaVersion);
 
   Get.put(DeviceConnectivityService(), permanent: true);
 

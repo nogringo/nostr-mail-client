@@ -214,6 +214,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'This will delete all local data including settings, background images, and log you out.\n\nThis action cannot be undone.';
 
   @override
+  String get settingsResetApplicationFailed =>
+      'Could not reset the application';
+
+  @override
   String get settingsDeleteAccount => 'Delete account';
 
   @override

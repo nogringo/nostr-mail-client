@@ -213,6 +213,10 @@ class AppLocalizationsFi extends AppLocalizations {
       'Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.';
 
   @override
+  String get settingsResetApplicationFailed =>
+      'Sovelluksen palautus epäonnistui';
+
+  @override
   String get settingsDeleteAccount => 'Poista tili';
 
   @override

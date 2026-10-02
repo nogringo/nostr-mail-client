@@ -63,6 +63,7 @@
   "logoutDialogMessage": "Dieses Konto und seine lokalen Daten werden von diesem Gerät entfernt. Deine Nachrichten bleiben auf deinen Relays und sind nach der nächsten Anmeldung wieder da.",
   "settingsResetApplication": "App zurücksetzen",
   "settingsResetConfirmMessage": "Dies löscht alle lokalen Daten einschließlich Einstellungen und Hintergrundbilder und meldet dich ab.\n\nDiese Aktion kann nicht rückgängig gemacht werden.",
+  "settingsResetApplicationFailed": "App konnte nicht zurückgesetzt werden",
   "settingsDeleteAccount": "Konto löschen",
   "settingsDeleteAccountTitle": "Dieses Konto löschen?",
   "settingsDeleteAccountMessage": "Deine Relays werden gebeten, deine Nachrichten und dein Profil zu löschen, und das Konto wird von diesem Gerät entfernt.",

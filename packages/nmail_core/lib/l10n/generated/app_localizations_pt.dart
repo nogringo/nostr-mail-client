@@ -215,6 +215,10 @@ class AppLocalizationsPt extends AppLocalizations {
       'Isto eliminará todos os dados locais, incluindo definições e imagens de fundo, e terminará a sessão.\n\nEsta ação não pode ser anulada.';
 
   @override
+  String get settingsResetApplicationFailed =>
+      'Não foi possível repor a aplicação';
+
+  @override
   String get settingsDeleteAccount => 'Eliminar conta';
 
   @override
@@ -2310,6 +2314,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get settingsResetConfirmMessage =>
       'Isso excluirá todos os dados locais, incluindo configurações e imagens de fundo, e fará logout.\n\nEsta ação não pode ser desfeita.';
+
+  @override
+  String get settingsResetApplicationFailed =>
+      'Não foi possível redefinir o aplicativo';
 
   @override
   String get settingsDeleteAccount => 'Excluir conta';

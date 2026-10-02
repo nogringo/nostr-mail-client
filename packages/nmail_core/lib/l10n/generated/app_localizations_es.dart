@@ -215,6 +215,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Esto eliminará todos los datos locales, incluidos ajustes e imágenes de fondo, y cerrará la sesión.\n\nEsta acción no se puede deshacer.';
 
   @override
+  String get settingsResetApplicationFailed =>
+      'No se pudo restablecer la aplicación';
+
+  @override
   String get settingsDeleteAccount => 'Eliminar cuenta';
 
   @override

@@ -215,6 +215,10 @@ class AppLocalizationsFr extends AppLocalizations {
       'Cela supprimera toutes les données locales, y compris les paramètres et les images de fond, et vous déconnectera.\n\nCette action est irréversible.';
 
   @override
+  String get settingsResetApplicationFailed =>
+      'Impossible de réinitialiser l\'application';
+
+  @override
   String get settingsDeleteAccount => 'Supprimer le compte';
 
   @override

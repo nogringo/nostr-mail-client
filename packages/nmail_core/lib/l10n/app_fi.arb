@@ -63,6 +63,7 @@
   "logoutDialogMessage": "Tämä tili ja sen paikalliset tiedot poistetaan tältä laitteelta. Viestisi pysyvät palvelimillasi ja palaavat, kun kirjaudut uudelleen sisään.",
   "settingsResetApplication": "Palauta sovellus",
   "settingsResetConfirmMessage": "Poistaa kaiken paikallisen datan, mukaan lukien asetukset ja taustakuvat, ja kirjautuu ulos.\n\nToimintoa ei voi kumota.",
+  "settingsResetApplicationFailed": "Sovelluksen palautus epäonnistui",
   "settingsDeleteAccount": "Poista tili",
   "settingsDeleteAccountTitle": "Poistetaanko tämä tili?",
   "settingsDeleteAccountMessage": "Palvelimia pyydetään poistamaan viestisi ja profiilisi, ja tili poistetaan tältä laitteelta.",

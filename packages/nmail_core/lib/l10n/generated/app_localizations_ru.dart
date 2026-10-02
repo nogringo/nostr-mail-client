@@ -215,6 +215,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Все локальные данные, включая настройки и фоновые изображения, будут удалены, и вы выйдете из аккаунта.\n\nЭто действие нельзя отменить.';
 
   @override
+  String get settingsResetApplicationFailed => 'Не удалось сбросить приложение';
+
+  @override
   String get settingsDeleteAccount => 'Удалить аккаунт';
 
   @override

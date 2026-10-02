@@ -63,6 +63,7 @@
   "logoutDialogMessage": "Questo account e i suoi dati locali vengono rimossi da questo dispositivo. I tuoi messaggi restano sui tuoi relay e tornano al prossimo accesso.",
   "settingsResetApplication": "Reimposta applicazione",
   "settingsResetConfirmMessage": "Verranno eliminati tutti i dati locali, comprese le impostazioni e le immagini di sfondo, e verrai disconnesso.\n\nQuesta azione non può essere annullata.",
+  "settingsResetApplicationFailed": "Impossibile reimpostare l'applicazione",
   "settingsDeleteAccount": "Elimina account",
   "settingsDeleteAccountTitle": "Eliminare questo account?",
   "settingsDeleteAccountMessage": "Ai tuoi relay viene chiesto di cancellare i tuoi messaggi e il tuo profilo, e l'account viene rimosso da questo dispositivo.",

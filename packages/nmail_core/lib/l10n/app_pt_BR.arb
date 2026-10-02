@@ -60,6 +60,7 @@
   "logoutDialogMessage": "Esta conta e seus dados locais são removidos deste dispositivo. Suas mensagens continuam nos seus relays e voltam quando você entrar novamente.",
   "settingsResetApplication": "Redefinir aplicativo",
   "settingsResetConfirmMessage": "Isso excluirá todos os dados locais, incluindo configurações e imagens de fundo, e fará logout.\n\nEsta ação não pode ser desfeita.",
+  "settingsResetApplicationFailed": "Não foi possível redefinir o aplicativo",
   "settingsDeleteAccount": "Excluir conta",
   "settingsDeleteAccountTitle": "Excluir esta conta?",
   "settingsDeleteAccountMessage": "Seus relays são solicitados a apagar suas mensagens e seu perfil, e a conta é removida deste dispositivo.",

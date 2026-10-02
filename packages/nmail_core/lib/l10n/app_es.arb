@@ -63,6 +63,7 @@
   "logoutDialogMessage": "Esta cuenta y sus datos locales se eliminan de este dispositivo. Tus mensajes permanecen en tus relays y vuelven cuando inicies sesión de nuevo.",
   "settingsResetApplication": "Restablecer la aplicación",
   "settingsResetConfirmMessage": "Esto eliminará todos los datos locales, incluidos ajustes e imágenes de fondo, y cerrará la sesión.\n\nEsta acción no se puede deshacer.",
+  "settingsResetApplicationFailed": "No se pudo restablecer la aplicación",
   "settingsDeleteAccount": "Eliminar cuenta",
   "settingsDeleteAccountTitle": "¿Eliminar esta cuenta?",
   "settingsDeleteAccountMessage": "Se pide a tus relays que borren tus mensajes y tu perfil, y la cuenta se elimina de este dispositivo.",

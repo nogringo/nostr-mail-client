@@ -475,6 +475,12 @@ abstract class AppLocalizations {
   /// **'This will delete all local data including settings, background images, and log you out.\n\nThis action cannot be undone.'**
   String get settingsResetConfirmMessage;
 
+  /// Error toast shown when resetting the application fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reset the application'**
+  String get settingsResetApplicationFailed;
+
   /// Destructive tile title in settings that starts deleting the Nostr account
   ///
   /// In en, this message translates to:

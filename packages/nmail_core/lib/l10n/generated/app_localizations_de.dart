@@ -214,6 +214,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Dies löscht alle lokalen Daten einschließlich Einstellungen und Hintergrundbilder und meldet dich ab.\n\nDiese Aktion kann nicht rückgängig gemacht werden.';
 
   @override
+  String get settingsResetApplicationFailed =>
+      'App konnte nicht zurückgesetzt werden';
+
+  @override
   String get settingsDeleteAccount => 'Konto löschen';
 
   @override

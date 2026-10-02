@@ -215,6 +215,10 @@ class AppLocalizationsIt extends AppLocalizations {
       'Verranno eliminati tutti i dati locali, comprese le impostazioni e le immagini di sfondo, e verrai disconnesso.\n\nQuesta azione non può essere annullata.';
 
   @override
+  String get settingsResetApplicationFailed =>
+      'Impossibile reimpostare l\'applicazione';
+
+  @override
   String get settingsDeleteAccount => 'Elimina account';
 
   @override

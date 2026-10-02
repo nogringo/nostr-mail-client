@@ -123,6 +123,8 @@
   "@settingsResetApplication": { "description": "Destructive tile title and confirmation dialog title for resetting the app" },
   "settingsResetConfirmMessage": "This will delete all local data including settings, background images, and log you out.\n\nThis action cannot be undone.",
   "@settingsResetConfirmMessage": { "description": "Confirmation message shown before resetting the application" },
+  "settingsResetApplicationFailed": "Could not reset the application",
+  "@settingsResetApplicationFailed": { "description": "Error toast shown when resetting the application fails" },
   "settingsDeleteAccount": "Delete account",
   "@settingsDeleteAccount": { "description": "Destructive tile title in settings that starts deleting the Nostr account" },
   "settingsDeleteAccountTitle": "Delete this account?",
