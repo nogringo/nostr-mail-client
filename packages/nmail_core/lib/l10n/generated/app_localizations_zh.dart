@@ -153,6 +153,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsEmailSignatureHint => '输入您的签名...';
 
   @override
+  String get settingsEmailSignatureDefault => '通过 Nmail 发送';
+
+  @override
   String get settingsDohServer => 'DNS-over-HTTPS 服务器';
 
   @override

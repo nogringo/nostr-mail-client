@@ -134,7 +134,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     _contactsService.loadContacts();
 
     final settings = Get.find<SettingsController>();
-    final signature = settings.emailSignature.value;
+    final signature = settings.signature(AppLocalizations.of(Get.context!));
     showQuotedImages.value = settings.alwaysLoadImages.value;
 
     toController = TextEditingController();

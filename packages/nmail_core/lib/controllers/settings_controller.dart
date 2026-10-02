@@ -33,7 +33,6 @@ class SettingsController extends GetxController {
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
   static const _debugToolsUnlockedKey = 'debug_tools_unlocked';
-  static const _defaultSignature = '--\nSent with Nmail\nhttps://nostrmail.org';
 
   final alwaysLoadImages = false.obs;
   final dohServer = defaultDohServer.obs;
@@ -42,7 +41,9 @@ class SettingsController extends GetxController {
   /// Notification setting of every account on this device, keyed by pubkey.
   /// [notificationsEnabled] mirrors the active account's entry.
   final notificationsByAccount = <String, bool>{}.obs;
-  final emailSignature = _defaultSignature.obs;
+
+  /// Null until the user writes one: [signature] then shows the default.
+  final emailSignature = RxnString();
   final backgroundImage = Rxn<String>();
   final themeMode = ThemeMode.system.obs;
   final locale = Rxn<Locale>();
@@ -167,13 +168,16 @@ class SettingsController extends GetxController {
         : loaded[active] ?? false;
   }
 
+  String signature(AppLocalizations l) =>
+      emailSignature.value ??
+      '--\n${l.settingsEmailSignatureDefault}\nhttps://nostrmail.org';
+
   /// Read the signature from the Nostr private-settings cache (primed by
-  /// `NostrMailService.activateForCurrentAccount()`), falling back to the
-  /// default.
-  String get _cachedSignature {
-    if (!_nostrMailService.hasAccount) return _defaultSignature;
+  /// `NostrMailService.activateForCurrentAccount()`).
+  String? get _cachedSignature {
+    if (!_nostrMailService.hasAccount) return null;
     final sig = _nostrMailService.client.cachedPrivateSettings()?.signature;
-    return (sig != null && sig.isNotEmpty) ? sig : _defaultSignature;
+    return (sig != null && sig.isNotEmpty) ? sig : null;
   }
 
   Future<void> _refreshSignatureFromRelays() async {
@@ -531,7 +535,7 @@ class SettingsController extends GetxController {
     dohServer.value = defaultDohServer;
     notificationsEnabled.value = false;
     notificationsByAccount.clear();
-    emailSignature.value = _defaultSignature;
+    emailSignature.value = null;
     backgroundImage.value = null;
     themeMode.value = ThemeMode.system;
     locale.value = null;

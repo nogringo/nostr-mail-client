@@ -153,6 +153,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsEmailSignatureHint => '署名を入力...';
 
   @override
+  String get settingsEmailSignatureDefault => 'Nmail から送信';
+
+  @override
   String get settingsDohServer => 'DNS-over-HTTPS サーバー';
 
   @override

@@ -46,6 +46,7 @@
   "settingsEmailSignature": "メール署名",
   "settingsEmailSignatureEmpty": "署名が設定されていません",
   "settingsEmailSignatureHint": "署名を入力...",
+  "settingsEmailSignatureDefault": "Nmail から送信",
   "settingsDohServer": "DNS-over-HTTPS サーバー",
   "settingsDohServerHelper": "Nostr アドレスがメールも受信できるかを確認します。空欄にするとデフォルトのサーバーを使用します。",
   "settingsDohServerInvalid": "https:// のアドレスを入力してください",

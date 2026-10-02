@@ -158,6 +158,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Signatur eingeben...';
 
   @override
+  String get settingsEmailSignatureDefault => 'Gesendet mit Nmail';
+
+  @override
   String get settingsDohServer => 'DNS-over-HTTPS-Server';
 
   @override

@@ -46,6 +46,7 @@
   "settingsEmailSignature": "E-Mail-Signatur",
   "settingsEmailSignatureEmpty": "Keine Signatur konfiguriert",
   "settingsEmailSignatureHint": "Signatur eingeben...",
+  "settingsEmailSignatureDefault": "Gesendet mit Nmail",
   "settingsDohServer": "DNS-over-HTTPS-Server",
   "settingsDohServerHelper": "Prüft, ob eine Nostr-Adresse auch E-Mails empfängt. Leer lassen für den Standardserver.",
   "settingsDohServerInvalid": "Gib eine https://-Adresse ein",

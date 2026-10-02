@@ -46,6 +46,7 @@
   "settingsEmailSignature": "Подпись письма",
   "settingsEmailSignatureEmpty": "Подпись не настроена",
   "settingsEmailSignatureHint": "Введите вашу подпись...",
+  "settingsEmailSignatureDefault": "Отправлено через Nmail",
   "settingsDohServer": "Сервер DNS-over-HTTPS",
   "settingsDohServerHelper": "Проверяет, принимает ли адрес Nostr также электронную почту. Оставьте пустым для сервера по умолчанию.",
   "settingsDohServerInvalid": "Введите адрес https://",

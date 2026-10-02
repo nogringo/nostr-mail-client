@@ -373,6 +373,12 @@ abstract class AppLocalizations {
   /// **'Enter your signature...'**
   String get settingsEmailSignatureHint;
 
+  /// Line of the default email signature, between the "--" delimiter and the Nmail website URL
+  ///
+  /// In en, this message translates to:
+  /// **'Sent with Nmail'**
+  String get settingsEmailSignatureDefault;
+
   /// Title of the setting holding the DNS-over-HTTPS server URL
   ///
   /// In en, this message translates to:

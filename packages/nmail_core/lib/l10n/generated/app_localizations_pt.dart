@@ -158,6 +158,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Introduza a sua assinatura...';
 
   @override
+  String get settingsEmailSignatureDefault => 'Enviado com o Nmail';
+
+  @override
   String get settingsDohServer => 'Servidor DNS-over-HTTPS';
 
   @override
@@ -2364,6 +2367,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsEmailSignatureHint => 'Digite sua assinatura...';
+
+  @override
+  String get settingsEmailSignatureDefault => 'Enviado com Nmail';
 
   @override
   String get settingsDohServer => 'Servidor DNS-over-HTTPS';

@@ -21,7 +21,7 @@ class EmailSignatureTile extends StatelessWidget {
         vertical: segmentedListGap / 2,
       ),
       child: Obx(() {
-        final signature = settings.emailSignature.value;
+        final signature = settings.signature(l);
         return ListTile(
           tileColor: colorScheme.surfaceContainerHigh,
           shape: segmentedListShape(index: 0, count: 3),
@@ -40,7 +40,7 @@ class EmailSignatureTile extends StatelessWidget {
 
   Future<void> _edit(BuildContext context, SettingsController settings) async {
     final controller = TextEditingController(
-      text: settings.emailSignature.value,
+      text: settings.signature(AppLocalizations.of(context)),
     );
     final signature = await showDialog<String>(
       context: context,

@@ -46,6 +46,7 @@
   "settingsEmailSignature": "Sähköpostin allekirjoitus",
   "settingsEmailSignatureEmpty": "Ei allekirjoitusta",
   "settingsEmailSignatureHint": "Luo allekirjoitus...",
+  "settingsEmailSignatureDefault": "Lähetetty Nmaililla",
   "settingsDohServer": "DNS-over-HTTPS-palvelin",
   "settingsDohServerHelper": "Tarkistaa, vastaanottaako Nostr-osoite myös sähköpostia. Jätä tyhjäksi käyttääksesi oletuspalvelinta.",
   "settingsDohServerInvalid": "Anna https://-osoite",

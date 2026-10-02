@@ -157,6 +157,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Luo allekirjoitus...';
 
   @override
+  String get settingsEmailSignatureDefault => 'Lähetetty Nmaililla';
+
+  @override
   String get settingsDohServer => 'DNS-over-HTTPS-palvelin';
 
   @override

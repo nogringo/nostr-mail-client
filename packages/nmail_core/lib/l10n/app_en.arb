@@ -89,6 +89,8 @@
   "@settingsEmailSignatureEmpty": { "description": "Subtitle shown when no email signature is configured" },
   "settingsEmailSignatureHint": "Enter your signature...",
   "@settingsEmailSignatureHint": { "description": "Placeholder text in the email signature input" },
+  "settingsEmailSignatureDefault": "Sent with Nmail",
+  "@settingsEmailSignatureDefault": { "description": "Line of the default email signature, between the \"--\" delimiter and the Nmail website URL" },
   "settingsDohServer": "DNS-over-HTTPS server",
   "@settingsDohServer": { "description": "Title of the setting holding the DNS-over-HTTPS server URL" },
   "settingsDohServerHelper": "Checks whether a Nostr address also receives email. Leave empty for the default server.",

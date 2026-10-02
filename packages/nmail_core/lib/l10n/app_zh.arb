@@ -46,6 +46,7 @@
   "settingsEmailSignature": "邮件签名",
   "settingsEmailSignatureEmpty": "未配置签名",
   "settingsEmailSignatureHint": "输入您的签名...",
+  "settingsEmailSignatureDefault": "通过 Nmail 发送",
   "settingsDohServer": "DNS-over-HTTPS 服务器",
   "settingsDohServerHelper": "检查 Nostr 地址是否也能接收电子邮件。留空则使用默认服务器。",
   "settingsDohServerInvalid": "请输入 https:// 地址",

@@ -158,6 +158,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsEmailSignatureHint => 'Введите вашу подпись...';
 
   @override
+  String get settingsEmailSignatureDefault => 'Отправлено через Nmail';
+
+  @override
   String get settingsDohServer => 'Сервер DNS-over-HTTPS';
 
   @override

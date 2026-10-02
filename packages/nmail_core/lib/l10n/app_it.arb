@@ -46,6 +46,7 @@
   "settingsEmailSignature": "Firma email",
   "settingsEmailSignatureEmpty": "Nessuna firma configurata",
   "settingsEmailSignatureHint": "Inserisci la tua firma...",
+  "settingsEmailSignatureDefault": "Inviato con Nmail",
   "settingsDohServer": "Server DNS-over-HTTPS",
   "settingsDohServerHelper": "Verifica se un indirizzo Nostr riceve anche email. Lascia vuoto per il server predefinito.",
   "settingsDohServerInvalid": "Inserisci un indirizzo https://",
