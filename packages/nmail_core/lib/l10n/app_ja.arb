@@ -105,6 +105,7 @@
   "settingsThemeDark": "ダーク",
   "settingsCommunityThemes": "コミュニティのテーマ",
   "communityThemesFilterAll": "すべて",
+  "communityThemesSearchHint": "テーマを検索",
   "communityThemesWithImage": "画像あり",
   "communityThemesWithoutImage": "画像なし",
   "communityThemesEmpty": "テーマが見つかりません",

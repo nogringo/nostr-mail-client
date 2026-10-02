@@ -309,6 +309,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get communityThemesFilterAll => 'Todos';
 
   @override
+  String get communityThemesSearchHint => 'Buscar temas';
+
+  @override
   String get communityThemesWithImage => 'Con imagen';
 
   @override

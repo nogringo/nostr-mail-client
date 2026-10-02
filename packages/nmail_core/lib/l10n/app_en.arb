@@ -193,6 +193,8 @@
   "@settingsCommunityThemes": { "description": "Settings row and page title for browsing themes published by the Nostr community" },
   "communityThemesFilterAll": "All",
   "@communityThemesFilterAll": { "description": "Filter option on the community themes page showing both light and dark themes" },
+  "communityThemesSearchHint": "Search themes",
+  "@communityThemesSearchHint": { "description": "Placeholder of the search bar on the community themes page, which matches theme names and descriptions" },
   "communityThemesWithImage": "With image",
   "@communityThemesWithImage": { "description": "Filter option on the community themes page showing only themes with a background image" },
   "communityThemesWithoutImage": "Without image",

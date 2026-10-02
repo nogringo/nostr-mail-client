@@ -105,6 +105,7 @@
   "settingsThemeDark": "深色",
   "settingsCommunityThemes": "社区主题",
   "communityThemesFilterAll": "全部",
+  "communityThemesSearchHint": "搜索主题",
   "communityThemesWithImage": "有图片",
   "communityThemesWithoutImage": "无图片",
   "communityThemesEmpty": "未找到主题",

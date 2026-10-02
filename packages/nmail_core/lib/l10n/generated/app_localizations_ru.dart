@@ -309,6 +309,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get communityThemesFilterAll => 'Все';
 
   @override
+  String get communityThemesSearchHint => 'Поиск тем';
+
+  @override
   String get communityThemesWithImage => 'С изображением';
 
   @override

@@ -643,6 +643,12 @@ abstract class AppLocalizations {
   /// **'All'**
   String get communityThemesFilterAll;
 
+  /// Placeholder of the search bar on the community themes page, which matches theme names and descriptions
+  ///
+  /// In en, this message translates to:
+  /// **'Search themes'**
+  String get communityThemesSearchHint;
+
   /// Filter option on the community themes page showing only themes with a background image
   ///
   /// In en, this message translates to:

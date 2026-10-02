@@ -265,4 +265,37 @@ void main() {
       matches(RegExp(r'^[a-z0-9]{6}$')),
     );
   });
+
+  test('reads the description and matches every word of a query', () {
+    final theme = CommunityTheme.fromEvent(
+      _event(
+        _tags(
+          extra: [
+            ['description', '  Neon green on black  '],
+          ],
+        ),
+      ),
+    )!;
+
+    expect(theme.description, 'Neon green on black');
+    expect(theme.matches(''), isTrue);
+    expect(theme.matches('mk'), isTrue);
+    expect(theme.matches('DARK neon'), isTrue);
+    expect(theme.matches('  green   theme '), isTrue);
+    expect(theme.matches('dark red'), isFalse);
+  });
+
+  test('a blank description is dropped', () {
+    final theme = CommunityTheme.fromEvent(
+      _event(
+        _tags(
+          extra: [
+            ['description', '   '],
+          ],
+        ),
+      ),
+    )!;
+
+    expect(theme.description, isNull);
+  });
 }

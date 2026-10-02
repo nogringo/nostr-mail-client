@@ -105,6 +105,7 @@
   "settingsThemeDark": "Тёмная",
   "settingsCommunityThemes": "Темы сообщества",
   "communityThemesFilterAll": "Все",
+  "communityThemesSearchHint": "Поиск тем",
   "communityThemesWithImage": "С изображением",
   "communityThemesWithoutImage": "Без изображения",
   "communityThemesEmpty": "Темы не найдены",

@@ -7,6 +7,7 @@ import 'community_theme_color_filter.dart';
 import 'community_theme_filter.dart';
 import 'community_theme_grid.dart';
 import 'community_theme_image_filter.dart';
+import 'community_theme_search_bar.dart';
 
 class CommunityThemesList extends StatelessWidget {
   const CommunityThemesList({super.key});
@@ -29,6 +30,12 @@ class CommunityThemesList extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: gutter),
               sliver: SliverMainAxisGroup(
                 slivers: [
+                  const SliverPadding(
+                    padding: EdgeInsets.fromLTRB(16, 8, 16, 4),
+                    sliver: SliverToBoxAdapter(
+                      child: CommunityThemeSearchBar(),
+                    ),
+                  ),
                   SliverPadding(
                     padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
                     sliver: SliverToBoxAdapter(

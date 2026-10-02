@@ -105,6 +105,7 @@
   "settingsThemeDark": "Tumma",
   "settingsCommunityThemes": "Yhteisön teemat",
   "communityThemesFilterAll": "Kaikki",
+  "communityThemesSearchHint": "Hae teemoja",
   "communityThemesWithImage": "Kuvalla",
   "communityThemesWithoutImage": "Ilman kuvaa",
   "communityThemesEmpty": "Teemoja ei löytynyt",

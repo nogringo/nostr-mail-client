@@ -298,6 +298,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get communityThemesFilterAll => 'すべて';
 
   @override
+  String get communityThemesSearchHint => 'テーマを検索';
+
+  @override
   String get communityThemesWithImage => '画像あり';
 
   @override

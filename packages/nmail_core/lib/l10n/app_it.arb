@@ -105,6 +105,7 @@
   "settingsThemeDark": "Scuro",
   "settingsCommunityThemes": "Temi della community",
   "communityThemesFilterAll": "Tutti",
+  "communityThemesSearchHint": "Cerca temi",
   "communityThemesWithImage": "Con immagine",
   "communityThemesWithoutImage": "Senza immagine",
   "communityThemesEmpty": "Nessun tema trovato",

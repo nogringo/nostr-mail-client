@@ -20,6 +20,7 @@ class CommunityTheme {
     required this.variant,
     required this.colorFamily,
     this.backgroundImageUrl,
+    this.description,
   });
 
   static const kind = 36767;
@@ -38,8 +39,19 @@ class CommunityTheme {
   final DynamicSchemeVariant variant;
   final ThemeColorFamily colorFamily;
   final String? backgroundImageUrl;
+  final String? description;
 
   String get address => '$kind:$pubkey:$identifier';
+
+  /// Whether every word of [query] is in the title or the description,
+  /// ignoring case.
+  bool matches(String query) {
+    final text = '$title ${description ?? ''}'.toLowerCase();
+    return query
+        .toLowerCase()
+        .split(RegExp(r'\s+'))
+        .every((word) => text.contains(word));
+  }
 
   ColorScheme get colorScheme => ColorScheme.fromSeed(
     seedColor: seedColor,
@@ -102,12 +114,15 @@ class CommunityTheme {
     Color? materialSeed;
     DynamicSchemeVariant? materialVariant;
     String? imageUrl;
+    String? description;
 
     for (final tag in event.tags) {
       if (tag.length < 2) continue;
       switch (tag[0]) {
         case 'd':
           identifier = tag[1];
+        case 'description':
+          description = tag[1].trim();
         case 'title':
           title = tag[1].trim();
         case 'c' when tag.length >= 3:
@@ -161,6 +176,9 @@ class CommunityTheme {
               : DynamicSchemeVariant.fidelity),
       colorFamily: colorFamily,
       backgroundImageUrl: imageUrl,
+      description: description == null || description.isEmpty
+          ? null
+          : description,
     );
   }
 

@@ -24,6 +24,9 @@ class CommunityThemesController extends GetxController {
   /// Null shows themes with and without a background image.
   final hasImage = RxnBool();
 
+  final searchController = TextEditingController();
+  final query = ''.obs;
+
   /// Address of the theme being applied.
   final applying = RxnString();
 
@@ -34,13 +37,15 @@ class CommunityThemesController extends GetxController {
     final brightness = this.brightness.value;
     final colorFamily = this.colorFamily.value;
     final hasImage = filterByImage ? this.hasImage.value : null;
+    final query = this.query.value;
     return themes
         .where(
           (theme) =>
               (brightness == null || theme.brightness == brightness) &&
               (colorFamily == null || theme.colorFamily == colorFamily) &&
               (hasImage == null ||
-                  (theme.backgroundImageUrl != null) == hasImage),
+                  (theme.backgroundImageUrl != null) == hasImage) &&
+              theme.matches(query),
         )
         .toList();
   }
@@ -48,7 +53,16 @@ class CommunityThemesController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    searchController.addListener(
+      () => query.value = searchController.text.trim(),
+    );
     load();
+  }
+
+  @override
+  void onClose() {
+    searchController.dispose();
+    super.onClose();
   }
 
   Future<void> load() async {
@@ -81,11 +95,12 @@ class CommunityThemesController extends GetxController {
     }
   }
 
-  /// Puts the user's new theme first, with no filter hiding it.
+  /// Puts the user's new theme first, with no filter or search hiding it.
   void showPublished(CommunityTheme theme) {
     brightness.value = null;
     colorFamily.value = null;
     hasImage.value = null;
+    searchController.clear();
     themes.insert(0, theme);
   }
 
