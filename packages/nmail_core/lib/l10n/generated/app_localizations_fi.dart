@@ -301,6 +301,28 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsThemeDark => 'Tumma';
 
   @override
+  String get settingsCommunityThemes => 'Yhteisön teemat';
+
+  @override
+  String get communityThemesFilterAll => 'Kaikki';
+
+  @override
+  String get communityThemesEmpty => 'Teemoja ei löytynyt';
+
+  @override
+  String get communityThemesRetry => 'Yritä uudelleen';
+
+  @override
+  String get communityThemesImageError => 'Teeman taustakuvaa ei voitu ladata';
+
+  @override
+  String get communityThemesAllColors => 'Kaikki värit';
+
+  @override
+  String get communityThemesNoMatch =>
+      'Mikään teema ei vastaa näitä suodattimia';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Järjestelmän väri';
 
   @override
@@ -1856,6 +1878,7 @@ class AppLocalizationsFi extends AppLocalizations {
       'green': 'Vihreä',
       'darkGreen': 'Tummanvihreä',
       'lightBlue': 'Vaaleansininen',
+      'cyan': 'Syaani',
       'blue': 'Sininen',
       'lavender': 'Laventeli',
       'purple': 'Violetti',

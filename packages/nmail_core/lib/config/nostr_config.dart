@@ -25,6 +25,13 @@ class NostrConfig {
     'wss://user.kindpag.es',
   ];
 
+  /// Where Profile Themes (kind 36767) are published, mostly by Ditto.
+  static const communityThemeRelays = [
+    'wss://relay.ditto.pub',
+    'wss://relay.primal.net',
+    'wss://relay.nmail.li',
+  ];
+
   /// NIP-46 relays for QR code logins. Each session keeps the list it logged
   /// in with, so a change only reaches new logins.
   static const nostrConnectRelays = [

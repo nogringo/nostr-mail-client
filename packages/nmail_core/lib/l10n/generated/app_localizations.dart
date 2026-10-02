@@ -631,6 +631,48 @@ abstract class AppLocalizations {
   /// **'Dark'**
   String get settingsThemeDark;
 
+  /// Settings row and page title for browsing themes published by the Nostr community
+  ///
+  /// In en, this message translates to:
+  /// **'Community themes'**
+  String get settingsCommunityThemes;
+
+  /// Filter option on the community themes page showing both light and dark themes
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get communityThemesFilterAll;
+
+  /// Empty state on the community themes page when no theme could be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'No themes found'**
+  String get communityThemesEmpty;
+
+  /// Button on the community themes empty state that loads the themes again
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get communityThemesRetry;
+
+  /// Error toast when a community theme cannot be applied because its background image failed to download
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t download this theme\'s background image'**
+  String get communityThemesImageError;
+
+  /// Label of the color filter swatch on the community themes page that shows themes of every color
+  ///
+  /// In en, this message translates to:
+  /// **'All colors'**
+  String get communityThemesAllColors;
+
+  /// Shown on the community themes page when the selected filters leave no theme
+  ///
+  /// In en, this message translates to:
+  /// **'No theme matches these filters'**
+  String get communityThemesNoMatch;
+
   /// Accessibility label for the background swatch that follows the device system accent color
   ///
   /// In en, this message translates to:
@@ -3346,7 +3388,7 @@ abstract class AppLocalizations {
   /// Name of a suggested color, shown on hover and read by screen readers
   ///
   /// In en, this message translates to:
-  /// **'{color, select, red{Red} pink{Pink} orange{Orange} yellow{Yellow} green{Green} darkGreen{Dark green} lightBlue{Light blue} blue{Blue} lavender{Lavender} purple{Purple} gray{Gray} brown{Brown} other{Color}}'**
+  /// **'{color, select, red{Red} pink{Pink} orange{Orange} yellow{Yellow} green{Green} darkGreen{Dark green} lightBlue{Light blue} cyan{Cyan} blue{Blue} lavender{Lavender} purple{Purple} gray{Gray} brown{Brown} other{Color}}'**
   String colorName(String color);
 
   /// Opens the dialog to pick any color for a folder or tag, its title, and the screen reader label of the swatch holding that color

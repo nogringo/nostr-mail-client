@@ -303,6 +303,29 @@ class AppLocalizationsPt extends AppLocalizations {
   String get settingsThemeDark => 'Escuro';
 
   @override
+  String get settingsCommunityThemes => 'Temas da comunidade';
+
+  @override
+  String get communityThemesFilterAll => 'Todos';
+
+  @override
+  String get communityThemesEmpty => 'Nenhum tema encontrado';
+
+  @override
+  String get communityThemesRetry => 'Tentar novamente';
+
+  @override
+  String get communityThemesImageError =>
+      'Não foi possível transferir a imagem de fundo deste tema';
+
+  @override
+  String get communityThemesAllColors => 'Todas as cores';
+
+  @override
+  String get communityThemesNoMatch =>
+      'Nenhum tema corresponde a estes filtros';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';
 
   @override
@@ -1863,6 +1886,7 @@ class AppLocalizationsPt extends AppLocalizations {
       'green': 'Verde',
       'darkGreen': 'Verde-escuro',
       'lightBlue': 'Azul-claro',
+      'cyan': 'Ciano',
       'blue': 'Azul',
       'lavender': 'Lavanda',
       'purple': 'Roxo',
@@ -2398,6 +2422,29 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get settingsThemeDark => 'Escuro';
+
+  @override
+  String get settingsCommunityThemes => 'Temas da comunidade';
+
+  @override
+  String get communityThemesFilterAll => 'Todos';
+
+  @override
+  String get communityThemesEmpty => 'Nenhum tema encontrado';
+
+  @override
+  String get communityThemesRetry => 'Tentar novamente';
+
+  @override
+  String get communityThemesImageError =>
+      'Não foi possível baixar a imagem de fundo deste tema';
+
+  @override
+  String get communityThemesAllColors => 'Todas as cores';
+
+  @override
+  String get communityThemesNoMatch =>
+      'Nenhum tema corresponde a esses filtros';
 
   @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';
@@ -3959,6 +4006,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
       'green': 'Verde',
       'darkGreen': 'Verde-escuro',
       'lightBlue': 'Azul-claro',
+      'cyan': 'Ciano',
       'blue': 'Azul',
       'lavender': 'Lavanda',
       'purple': 'Roxo',

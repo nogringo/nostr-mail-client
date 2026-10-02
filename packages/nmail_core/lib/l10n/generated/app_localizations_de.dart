@@ -302,6 +302,28 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsThemeDark => 'Dunkel';
 
   @override
+  String get settingsCommunityThemes => 'Community-Themes';
+
+  @override
+  String get communityThemesFilterAll => 'Alle';
+
+  @override
+  String get communityThemesEmpty => 'Keine Themes gefunden';
+
+  @override
+  String get communityThemesRetry => 'Erneut versuchen';
+
+  @override
+  String get communityThemesImageError =>
+      'Das Hintergrundbild dieses Themes konnte nicht heruntergeladen werden';
+
+  @override
+  String get communityThemesAllColors => 'Alle Farben';
+
+  @override
+  String get communityThemesNoMatch => 'Kein Theme passt zu diesen Filtern';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Systemfarbe';
 
   @override
@@ -1864,6 +1886,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'green': 'Grün',
       'darkGreen': 'Dunkelgrün',
       'lightBlue': 'Hellblau',
+      'cyan': 'Cyan',
       'blue': 'Blau',
       'lavender': 'Lavendel',
       'purple': 'Lila',

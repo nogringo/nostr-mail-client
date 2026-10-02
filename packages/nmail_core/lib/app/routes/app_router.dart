@@ -7,6 +7,7 @@ import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 import '../../controllers/about_controller.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/backgrounds_controller.dart';
+import '../../controllers/community_themes_controller.dart';
 import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/identities_controller.dart';
@@ -37,6 +38,7 @@ import '../../views/relay_setup/relay_setup_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
 import '../../views/settings/about_settings_view.dart';
 import '../../views/settings/appearance_settings_view.dart';
+import '../../views/settings/community_themes_view.dart';
 import '../../views/settings/confirm_discard_hosting_changes.dart';
 import '../../views/settings/confirm_discard_identity_changes.dart';
 import '../../views/settings/debug_tools_view.dart';
@@ -275,6 +277,16 @@ class AppRouter {
                   Get.lazyPut(() => BackgroundsController());
                   return const AppearanceSettingsView();
                 },
+                routes: [
+                  GoRoute(
+                    path: 'themes',
+                    builder: (_, _) {
+                      Get.lazyPut(() => BackgroundsController());
+                      Get.lazyPut(() => CommunityThemesController());
+                      return const CommunityThemesView();
+                    },
+                  ),
+                ],
               ),
               GoRoute(
                 path: 'identities',

@@ -292,6 +292,27 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsThemeDark => 'ダーク';
 
   @override
+  String get settingsCommunityThemes => 'コミュニティのテーマ';
+
+  @override
+  String get communityThemesFilterAll => 'すべて';
+
+  @override
+  String get communityThemesEmpty => 'テーマが見つかりません';
+
+  @override
+  String get communityThemesRetry => '再試行';
+
+  @override
+  String get communityThemesImageError => 'このテーマの背景画像をダウンロードできませんでした';
+
+  @override
+  String get communityThemesAllColors => 'すべての色';
+
+  @override
+  String get communityThemesNoMatch => '条件に一致するテーマはありません';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'システムカラー';
 
   @override
@@ -1760,6 +1781,7 @@ class AppLocalizationsJa extends AppLocalizations {
       'green': '緑',
       'darkGreen': '深緑',
       'lightBlue': '水色',
+      'cyan': 'シアン',
       'blue': '青',
       'lavender': 'ラベンダー',
       'purple': '紫',

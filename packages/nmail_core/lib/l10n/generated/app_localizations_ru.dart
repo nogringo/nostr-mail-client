@@ -303,6 +303,28 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsThemeDark => 'Тёмная';
 
   @override
+  String get settingsCommunityThemes => 'Темы сообщества';
+
+  @override
+  String get communityThemesFilterAll => 'Все';
+
+  @override
+  String get communityThemesEmpty => 'Темы не найдены';
+
+  @override
+  String get communityThemesRetry => 'Повторить';
+
+  @override
+  String get communityThemesImageError =>
+      'Не удалось загрузить фоновое изображение этой темы';
+
+  @override
+  String get communityThemesAllColors => 'Все цвета';
+
+  @override
+  String get communityThemesNoMatch => 'Нет тем, подходящих под эти фильтры';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Цвет системы';
 
   @override
@@ -1884,6 +1906,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'green': 'Зелёный',
       'darkGreen': 'Тёмно-зелёный',
       'lightBlue': 'Голубой',
+      'cyan': 'Бирюзовый',
       'blue': 'Синий',
       'lavender': 'Лавандовый',
       'purple': 'Фиолетовый',

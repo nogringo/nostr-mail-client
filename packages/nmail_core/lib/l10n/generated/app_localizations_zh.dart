@@ -289,6 +289,27 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsThemeDark => '深色';
 
   @override
+  String get settingsCommunityThemes => '社区主题';
+
+  @override
+  String get communityThemesFilterAll => '全部';
+
+  @override
+  String get communityThemesEmpty => '未找到主题';
+
+  @override
+  String get communityThemesRetry => '重试';
+
+  @override
+  String get communityThemesImageError => '无法下载此主题的背景图片';
+
+  @override
+  String get communityThemesAllColors => '所有颜色';
+
+  @override
+  String get communityThemesNoMatch => '没有符合这些筛选条件的主题';
+
+  @override
   String get settingsBackgroundDefaultLabel => '系统颜色';
 
   @override
@@ -1744,6 +1765,7 @@ class AppLocalizationsZh extends AppLocalizations {
       'green': '绿色',
       'darkGreen': '深绿色',
       'lightBlue': '浅蓝色',
+      'cyan': '青色',
       'blue': '蓝色',
       'lavender': '薰衣草紫',
       'purple': '紫色',

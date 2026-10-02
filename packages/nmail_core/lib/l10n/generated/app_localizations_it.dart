@@ -303,6 +303,29 @@ class AppLocalizationsIt extends AppLocalizations {
   String get settingsThemeDark => 'Scuro';
 
   @override
+  String get settingsCommunityThemes => 'Temi della community';
+
+  @override
+  String get communityThemesFilterAll => 'Tutti';
+
+  @override
+  String get communityThemesEmpty => 'Nessun tema trovato';
+
+  @override
+  String get communityThemesRetry => 'Riprova';
+
+  @override
+  String get communityThemesImageError =>
+      'Impossibile scaricare l\'immagine di sfondo di questo tema';
+
+  @override
+  String get communityThemesAllColors => 'Tutti i colori';
+
+  @override
+  String get communityThemesNoMatch =>
+      'Nessun tema corrisponde a questi filtri';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Colore di sistema';
 
   @override
@@ -1870,6 +1893,7 @@ class AppLocalizationsIt extends AppLocalizations {
       'green': 'Verde',
       'darkGreen': 'Verde scuro',
       'lightBlue': 'Azzurro',
+      'cyan': 'Ciano',
       'blue': 'Blu',
       'lavender': 'Lavanda',
       'purple': 'Viola',
