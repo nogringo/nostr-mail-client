@@ -9,6 +9,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/background_preset.dart';
 import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/models/theme_color_family.dart';
+import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
 class CommunityThemesController extends GetxController {
@@ -29,6 +30,9 @@ class CommunityThemesController extends GetxController {
 
   /// Address of the theme being applied.
   final applying = RxnString();
+
+  /// Authors the user muted (NIP-51 kind 10000), in this client or another.
+  var _muted = <String>{};
 
   SettingsController get _settings => Get.find<SettingsController>();
 
@@ -69,12 +73,14 @@ class CommunityThemesController extends GetxController {
     isLoading.value = true;
     final ndk = Get.find<Ndk>();
     try {
+      await _readMuted(ndk);
       final cached = await ndk.config.cache
           .loadEvents(kinds: [CommunityTheme.kind])
           .catchError((_) => <Nip01Event>[]);
       if (isClosed) return;
       if (cached.isNotEmpty) _show(cached);
 
+      final mutedRefresh = _refreshMuted(ndk);
       final fetched = await ndk.requests
           .query(
             name: 'community-themes',
@@ -86,6 +92,7 @@ class CommunityThemesController extends GetxController {
             cacheRead: false,
           )
           .future;
+      await mutedRefresh;
       if (isClosed) return;
       _show([...cached, ...fetched]);
     } catch (_) {
@@ -104,8 +111,55 @@ class CommunityThemesController extends GetxController {
     themes.insert(0, theme);
   }
 
+  /// Reads the cache only, so cached themes do not wait on relays.
+  Future<void> _readMuted(Ndk ndk) async {
+    final pubkey = ndk.accounts.getPublicKey();
+    if (pubkey == null) return;
+    try {
+      final cached = await ndk.config.cache.loadEvents(
+        pubKeys: [pubkey],
+        kinds: [Nip51List.kMute],
+      );
+      if (cached.isEmpty) return;
+      // Reads the same cache, and remembers the decrypted private part.
+      final list = await ndk.lists.getSingleNip51List(Nip51List.kMute);
+      _muted = {...?list?.pubKeys.map((element) => element.value)};
+    } catch (_) {
+      // Themes still load without the list.
+    }
+  }
+
+  Future<void> _refreshMuted(Ndk ndk) async {
+    final pubkey = ndk.accounts.getPublicKey();
+    if (pubkey == null) return;
+    try {
+      // The query writes the list to the cache [_readMuted] reads.
+      await ndk.requests
+          .query(
+            name: 'mute-list',
+            filter: Filter(
+              kinds: [Nip51List.kMute],
+              authors: [pubkey],
+              limit: 1,
+            ),
+            explicitRelays: await Get.find<NostrMailService>()
+                .getOutboxRelays(),
+            timeout: const Duration(seconds: 5),
+            cacheRead: false,
+          )
+          .future;
+    } catch (_) {
+      // The cached list stays in use.
+    }
+    await _readMuted(ndk);
+  }
+
   void _show(List<Nip01Event> events) {
-    themes.value = CommunityTheme.withoutCopies(CommunityTheme.latest(events));
+    // Before dropping copies, so a copy by someone else is kept.
+    final unmuted = events.where((event) => !_muted.contains(event.pubKey));
+    themes.value = CommunityTheme.withoutCopies(
+      CommunityTheme.latest(unmuted.toList()),
+    );
   }
 
   Future<void> apply(BuildContext context, CommunityTheme theme) async {
