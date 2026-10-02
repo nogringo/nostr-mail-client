@@ -46,8 +46,15 @@ class CommunityThemesController extends GetxController {
 
   Future<void> load() async {
     isLoading.value = true;
+    final ndk = Get.find<Ndk>();
     try {
-      final events = await Get.find<Ndk>().requests
+      final cached = await ndk.config.cache
+          .loadEvents(kinds: [CommunityTheme.kind])
+          .catchError((_) => <Nip01Event>[]);
+      if (isClosed) return;
+      if (cached.isNotEmpty) _show(cached);
+
+      final fetched = await ndk.requests
           .query(
             name: 'community-themes',
             filter: Filter(kinds: [CommunityTheme.kind], limit: 500),
@@ -59,14 +66,16 @@ class CommunityThemesController extends GetxController {
           )
           .future;
       if (isClosed) return;
-      themes.value = CommunityTheme.withoutCopies(
-        CommunityTheme.latest(events),
-      );
+      _show([...cached, ...fetched]);
     } catch (_) {
-      if (!isClosed) themes.clear();
+      // The cached themes stay on screen.
     } finally {
       if (!isClosed) isLoading.value = false;
     }
+  }
+
+  void _show(List<Nip01Event> events) {
+    themes.value = CommunityTheme.withoutCopies(CommunityTheme.latest(events));
   }
 
   Future<void> apply(BuildContext context, CommunityTheme theme) async {
