@@ -335,6 +335,9 @@ class AppLocalizationsJa extends AppLocalizations {
       '誰でもこのテーマを背景画像ごと表示して適用できるようになります。';
 
   @override
+  String get communityThemesShareNsfw => 'NSFWコンテンツ';
+
+  @override
   String get communityThemesShareAction => '共有';
 
   @override

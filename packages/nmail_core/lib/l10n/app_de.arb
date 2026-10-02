@@ -117,6 +117,7 @@
   "communityThemesShareName": "Name des Themes",
   "communityThemesSharePublic": "Alle können dieses Theme sehen und anwenden.",
   "communityThemesSharePublicWithImage": "Alle können dieses Theme sehen und anwenden, einschließlich des Hintergrundbilds.",
+  "communityThemesShareNsfw": "NSFW-Inhalt",
   "communityThemesShareAction": "Teilen",
   "communityThemesShareError": "Dein Theme konnte nicht geteilt werden",
   "communityThemesShareCopy": "Dein Erscheinungsbild ist bereits das veröffentlichte Theme \"{title}\". Ändere es, um ein neues Theme zu teilen.",

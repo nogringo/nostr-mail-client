@@ -61,6 +61,9 @@ class CommunityTheme {
 
   /// Tags of a theme generated from a Material 3 seed. The `c` colors are
   /// for clients that do not read the `material` tag.
+  ///
+  /// A non-null [contentWarning] adds a NIP-36 warning, with no reason when
+  /// empty.
   static List<List<String>> eventTags({
     required String identifier,
     required String title,
@@ -68,6 +71,7 @@ class CommunityTheme {
     required DynamicSchemeVariant variant,
     required Brightness brightness,
     ({String url, String type})? image,
+    String? contentWarning,
   }) {
     final scheme = ColorScheme.fromSeed(
       seedColor: seedColor,
@@ -86,6 +90,7 @@ class CommunityTheme {
       ['title', title],
       ['alt', 'Custom theme: $title'],
       ['t', 'theme'],
+      if (contentWarning != null) ['content-warning', contentWarning],
     ];
   }
 

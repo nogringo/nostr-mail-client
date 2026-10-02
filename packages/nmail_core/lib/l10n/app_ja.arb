@@ -117,6 +117,7 @@
   "communityThemesShareName": "テーマ名",
   "communityThemesSharePublic": "誰でもこのテーマを表示して適用できるようになります。",
   "communityThemesSharePublicWithImage": "誰でもこのテーマを背景画像ごと表示して適用できるようになります。",
+  "communityThemesShareNsfw": "NSFWコンテンツ",
   "communityThemesShareAction": "共有",
   "communityThemesShareError": "テーマを共有できませんでした",
   "communityThemesShareCopy": "現在の外観はすでに公開済みのテーマ「{title}」です。新しいテーマを共有するには外観を変更してください。",

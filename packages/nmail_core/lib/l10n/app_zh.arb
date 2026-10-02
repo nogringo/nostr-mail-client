@@ -117,6 +117,7 @@
   "communityThemesShareName": "主题名称",
   "communityThemesSharePublic": "所有人都可以查看并应用此主题。",
   "communityThemesSharePublicWithImage": "所有人都可以查看并应用此主题，包括背景图片。",
+  "communityThemesShareNsfw": "NSFW 内容",
   "communityThemesShareAction": "分享",
   "communityThemesShareError": "无法分享你的主题",
   "communityThemesShareCopy": "你的外观已是已发布的主题「{title}」。请修改外观以分享新主题。",

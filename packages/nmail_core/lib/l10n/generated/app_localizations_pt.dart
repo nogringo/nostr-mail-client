@@ -349,6 +349,9 @@ class AppLocalizationsPt extends AppLocalizations {
       'Todos poderão ver e aplicar este tema, incluindo a imagem de fundo.';
 
   @override
+  String get communityThemesShareNsfw => 'Conteúdo NSFW';
+
+  @override
   String get communityThemesShareAction => 'Partilhar';
 
   @override
@@ -2507,6 +2510,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get communityThemesSharePublicWithImage =>
       'Todos poderão ver e aplicar este tema, incluindo a imagem de fundo.';
+
+  @override
+  String get communityThemesShareNsfw => 'Conteúdo NSFW';
 
   @override
   String get communityThemesShareAction => 'Compartilhar';

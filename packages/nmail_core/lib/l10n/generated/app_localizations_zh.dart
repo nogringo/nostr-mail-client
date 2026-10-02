@@ -331,6 +331,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get communityThemesSharePublicWithImage => '所有人都可以查看并应用此主题，包括背景图片。';
 
   @override
+  String get communityThemesShareNsfw => 'NSFW 内容';
+
+  @override
   String get communityThemesShareAction => '分享';
 
   @override

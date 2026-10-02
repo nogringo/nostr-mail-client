@@ -348,6 +348,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Все смогут увидеть и применить эту тему вместе с фоновым изображением.';
 
   @override
+  String get communityThemesShareNsfw => 'NSFW-контент';
+
+  @override
   String get communityThemesShareAction => 'Поделиться';
 
   @override

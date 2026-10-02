@@ -715,6 +715,12 @@ abstract class AppLocalizations {
   /// **'Everyone will be able to see and apply this theme, background image included.'**
   String get communityThemesSharePublicWithImage;
 
+  /// Switch in the share theme dialog that marks the theme NSFW with a NIP-36 content warning
+  ///
+  /// In en, this message translates to:
+  /// **'NSFW content'**
+  String get communityThemesShareNsfw;
+
   /// Button of the share theme dialog that publishes the theme
   ///
   /// In en, this message translates to:

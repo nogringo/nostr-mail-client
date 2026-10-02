@@ -253,6 +253,21 @@ void main() {
 
     expect(tags.where((tag) => tag.first == 'bg'), isEmpty);
     expect(tags, contains(equals(['material', '#33b679', 'tonal-spot'])));
+    expect(tags.where((tag) => tag.first == 'content-warning'), isEmpty);
+  });
+
+  test('eventTags adds a NIP-36 content warning', () {
+    List<List<String>> tagsWarning(String reason) => CommunityTheme.eventTags(
+      identifier: 'plain',
+      title: 'Plain',
+      seedColor: const Color(0xFF33B679),
+      variant: DynamicSchemeVariant.tonalSpot,
+      brightness: Brightness.light,
+      contentWarning: reason,
+    );
+
+    expect(tagsWarning('NSFW'), contains(equals(['content-warning', 'NSFW'])));
+    expect(tagsWarning(''), contains(equals(['content-warning', ''])));
   });
 
   test('newIdentifier slugs the title and adds a random suffix', () {

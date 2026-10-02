@@ -346,6 +346,9 @@ class AppLocalizationsFi extends AppLocalizations {
       'Kaikki voivat nähdä ja ottaa tämän teeman käyttöön taustakuvineen.';
 
   @override
+  String get communityThemesShareNsfw => 'NSFW-sisältö';
+
+  @override
   String get communityThemesShareAction => 'Jaa';
 
   @override

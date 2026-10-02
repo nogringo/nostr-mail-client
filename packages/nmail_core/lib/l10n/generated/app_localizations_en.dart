@@ -346,6 +346,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Everyone will be able to see and apply this theme, background image included.';
 
   @override
+  String get communityThemesShareNsfw => 'NSFW content';
+
+  @override
   String get communityThemesShareAction => 'Share';
 
   @override

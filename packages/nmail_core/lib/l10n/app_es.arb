@@ -117,6 +117,7 @@
   "communityThemesShareName": "Nombre del tema",
   "communityThemesSharePublic": "Todos podrán ver y aplicar este tema.",
   "communityThemesSharePublicWithImage": "Todos podrán ver y aplicar este tema, incluida la imagen de fondo.",
+  "communityThemesShareNsfw": "Contenido NSFW",
   "communityThemesShareAction": "Compartir",
   "communityThemesShareError": "No se pudo compartir tu tema",
   "communityThemesShareCopy": "Tu apariencia ya es el tema publicado \"{title}\". Cámbiala para compartir un tema nuevo.",

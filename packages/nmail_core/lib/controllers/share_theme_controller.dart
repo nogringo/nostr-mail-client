@@ -24,6 +24,7 @@ class ShareThemeController extends GetxController {
 
   final titleController = TextEditingController();
   final title = ''.obs;
+  final isNsfw = false.obs;
   final isPublishing = false.obs;
 
   SettingsController get _settings => Get.find<SettingsController>();
@@ -84,6 +85,7 @@ class ShareThemeController extends GetxController {
           variant: _settings.paletteStyle.value,
           brightness: brightness,
           image: await _uploadBackground(),
+          contentWarning: isNsfw.value ? 'NSFW' : null,
         ),
         content: '',
       );

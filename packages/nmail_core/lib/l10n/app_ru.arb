@@ -117,6 +117,7 @@
   "communityThemesShareName": "Название темы",
   "communityThemesSharePublic": "Все смогут увидеть и применить эту тему.",
   "communityThemesSharePublicWithImage": "Все смогут увидеть и применить эту тему вместе с фоновым изображением.",
+  "communityThemesShareNsfw": "NSFW-контент",
   "communityThemesShareAction": "Поделиться",
   "communityThemesShareError": "Не удалось поделиться темой",
   "communityThemesShareCopy": "Ваше оформление уже является опубликованной темой «{title}». Измените его, чтобы поделиться новой темой.",

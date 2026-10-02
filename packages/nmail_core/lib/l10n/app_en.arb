@@ -217,6 +217,8 @@
   "@communityThemesSharePublic": { "description": "Notice in the share theme dialog that a published theme is public" },
   "communityThemesSharePublicWithImage": "Everyone will be able to see and apply this theme, background image included.",
   "@communityThemesSharePublicWithImage": { "description": "Notice in the share theme dialog that a published theme is public, its background image too" },
+  "communityThemesShareNsfw": "NSFW content",
+  "@communityThemesShareNsfw": { "description": "Switch in the share theme dialog that marks the theme NSFW with a NIP-36 content warning" },
   "communityThemesShareAction": "Share",
   "@communityThemesShareAction": { "description": "Button of the share theme dialog that publishes the theme" },
   "communityThemesShareError": "Couldn't share your theme",

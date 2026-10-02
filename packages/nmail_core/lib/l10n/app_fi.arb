@@ -117,6 +117,7 @@
   "communityThemesShareName": "Teeman nimi",
   "communityThemesSharePublic": "Kaikki voivat nähdä ja ottaa tämän teeman käyttöön.",
   "communityThemesSharePublicWithImage": "Kaikki voivat nähdä ja ottaa tämän teeman käyttöön taustakuvineen.",
+  "communityThemesShareNsfw": "NSFW-sisältö",
   "communityThemesShareAction": "Jaa",
   "communityThemesShareError": "Teeman jakaminen epäonnistui",
   "communityThemesShareCopy": "Ulkoasusi on jo julkaistu teema \"{title}\". Muuta sitä jakaaksesi uuden teeman.",
