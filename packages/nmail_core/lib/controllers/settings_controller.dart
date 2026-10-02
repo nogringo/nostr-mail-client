@@ -176,8 +176,7 @@ class SettingsController extends GetxController {
   /// `NostrMailService.activateForCurrentAccount()`).
   String? get _cachedSignature {
     if (!_nostrMailService.hasAccount) return null;
-    final sig = _nostrMailService.client.cachedPrivateSettings()?.signature;
-    return (sig != null && sig.isNotEmpty) ? sig : null;
+    return _nostrMailService.client.cachedPrivateSettings()?.signature;
   }
 
   Future<void> _refreshSignatureFromRelays() async {
@@ -188,9 +187,7 @@ class SettingsController extends GetxController {
           (await _nostrMailService.client.fetchPrivateSettings())?.signature;
       // An account switch during the fetch would land this on the new account.
       if (_pubkey != pubkey) return;
-      if (remote != null && remote.isNotEmpty) {
-        emailSignature.value = remote;
-      }
+      if (remote != null) emailSignature.value = remote;
     } catch (_) {
       return;
     }
