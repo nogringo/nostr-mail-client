@@ -319,6 +319,34 @@ class AppLocalizationsJa extends AppLocalizations {
   String get communityThemesNoMatch => '条件に一致するテーマはありません';
 
   @override
+  String get communityThemesShare => '自分のテーマを共有';
+
+  @override
+  String get communityThemesShareName => 'テーマ名';
+
+  @override
+  String get communityThemesSharePublic => '誰でもこのテーマを表示して適用できるようになります。';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      '誰でもこのテーマを背景画像ごと表示して適用できるようになります。';
+
+  @override
+  String get communityThemesShareAction => '共有';
+
+  @override
+  String get communityThemesShareError => 'テーマを共有できませんでした';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return '現在の外観はすでに公開済みのテーマ「$title」です。新しいテーマを共有するには外観を変更してください。';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      '現在の外観はすでに公開済みのテーマです。新しいテーマを共有するには外観を変更してください。';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'システムカラー';
 
   @override

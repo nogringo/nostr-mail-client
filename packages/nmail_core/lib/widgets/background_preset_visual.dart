@@ -1,4 +1,6 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
@@ -122,6 +124,24 @@ class _BackgroundPresetVisualState extends State<BackgroundPresetVisual>
       painter: _BackgroundPresetPainter(widget.variant),
       child: const SizedBox.expand(),
     );
+  }
+}
+
+/// A PNG still of a painted [variant], waves at their starting point.
+Future<Uint8List> renderBackgroundPreset(
+  BackgroundPresetVariant variant, {
+  Size size = const Size(1920, 1080),
+}) async {
+  final recorder = ui.PictureRecorder();
+  _BackgroundPresetPainter(variant).paint(Canvas(recorder), size);
+  final picture = recorder.endRecording();
+  final image = await picture.toImage(size.width.round(), size.height.round());
+  try {
+    final data = await image.toByteData(format: ui.ImageByteFormat.png);
+    return data!.buffer.asUint8List();
+  } finally {
+    image.dispose();
+    picture.dispose();
   }
 }
 

@@ -685,6 +685,54 @@ abstract class AppLocalizations {
   /// **'No theme matches these filters'**
   String get communityThemesNoMatch;
 
+  /// Button on the community themes page, and title of the dialog, that publishes the current appearance as a community theme
+  ///
+  /// In en, this message translates to:
+  /// **'Share my theme'**
+  String get communityThemesShare;
+
+  /// Label of the theme name field in the share theme dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Theme name'**
+  String get communityThemesShareName;
+
+  /// Notice in the share theme dialog that a published theme is public
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone will be able to see and apply this theme.'**
+  String get communityThemesSharePublic;
+
+  /// Notice in the share theme dialog that a published theme is public, its background image too
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone will be able to see and apply this theme, background image included.'**
+  String get communityThemesSharePublicWithImage;
+
+  /// Button of the share theme dialog that publishes the theme
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get communityThemesShareAction;
+
+  /// Error toast when publishing the theme fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t share your theme'**
+  String get communityThemesShareError;
+
+  /// Shown instead of the share form when the current appearance is a published theme, named by its title
+  ///
+  /// In en, this message translates to:
+  /// **'Your appearance is already the published theme \"{title}\". Change it to share a new theme.'**
+  String communityThemesShareCopy(String title);
+
+  /// Shown instead of the share form when the current appearance is a published theme whose title is unknown
+  ///
+  /// In en, this message translates to:
+  /// **'Your appearance is already a published theme. Change it to share a new theme.'**
+  String get communityThemesShareCopyUnnamed;
+
   /// Accessibility label for the background swatch that follows the device system accent color
   ///
   /// In en, this message translates to:

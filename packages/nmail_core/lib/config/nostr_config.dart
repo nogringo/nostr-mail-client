@@ -62,6 +62,7 @@ class NostrConfig {
       "sign_event:27235",
       "sign_event:30078",
       "sign_event:31234",
+      "sign_event:36767",
       "sign_event:38522",
     ],
     name: "Nmail",

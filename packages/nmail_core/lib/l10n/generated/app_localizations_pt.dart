@@ -332,6 +332,36 @@ class AppLocalizationsPt extends AppLocalizations {
       'Nenhum tema corresponde a estes filtros';
 
   @override
+  String get communityThemesShare => 'Partilhar o meu tema';
+
+  @override
+  String get communityThemesShareName => 'Nome do tema';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Todos poderão ver e aplicar este tema.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Todos poderão ver e aplicar este tema, incluindo a imagem de fundo.';
+
+  @override
+  String get communityThemesShareAction => 'Partilhar';
+
+  @override
+  String get communityThemesShareError =>
+      'Não foi possível partilhar o seu tema';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'A sua aparência já é o tema publicado \"$title\". Altere-a para partilhar um novo tema.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'A sua aparência já é um tema publicado. Altere-a para partilhar um novo tema.';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';
 
   @override
@@ -2457,6 +2487,36 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get communityThemesNoMatch =>
       'Nenhum tema corresponde a esses filtros';
+
+  @override
+  String get communityThemesShare => 'Compartilhar meu tema';
+
+  @override
+  String get communityThemesShareName => 'Nome do tema';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Todos poderão ver e aplicar este tema.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Todos poderão ver e aplicar este tema, incluindo a imagem de fundo.';
+
+  @override
+  String get communityThemesShareAction => 'Compartilhar';
+
+  @override
+  String get communityThemesShareError =>
+      'Não foi possível compartilhar seu tema';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Sua aparência já é o tema publicado \"$title\". Altere-a para compartilhar um novo tema.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Sua aparência já é um tema publicado. Altere-a para compartilhar um novo tema.';
 
   @override
   String get settingsBackgroundDefaultLabel => 'Cor do sistema';

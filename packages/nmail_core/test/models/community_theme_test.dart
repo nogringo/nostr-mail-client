@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ndk/ndk.dart';
@@ -215,6 +217,52 @@ void main() {
     expect(
       CommunityTheme.withoutCopies(themes).map((theme) => theme.identifier),
       ['with-image', 'original'],
+    );
+  });
+
+  test('eventTags reads back as the same theme', () {
+    const url = 'https://blossom.example/abc.webp';
+    final tags = CommunityTheme.eventTags(
+      identifier: 'night-owl-abc123',
+      title: 'Night Owl',
+      seedColor: const Color(0xFF3F51B5),
+      variant: DynamicSchemeVariant.fruitSalad,
+      brightness: Brightness.dark,
+      image: (url: url, type: 'image/webp'),
+    );
+    final theme = CommunityTheme.fromEvent(_event(tags))!;
+
+    expect(theme.identifier, 'night-owl-abc123');
+    expect(theme.title, 'Night Owl');
+    expect(theme.seedColor, const Color(0xFF3F51B5));
+    expect(theme.variant, DynamicSchemeVariant.fruitSalad);
+    expect(theme.brightness, Brightness.dark);
+    expect(theme.backgroundImageUrl, url);
+    expect(tags, contains(equals(['material', '#3f51b5', 'fruit-salad'])));
+    expect(tags, contains(equals(['color-scheme', 'dark'])));
+  });
+
+  test('eventTags leaves out bg without an image', () {
+    final tags = CommunityTheme.eventTags(
+      identifier: 'plain',
+      title: 'Plain',
+      seedColor: const Color(0xFF33B679),
+      variant: DynamicSchemeVariant.tonalSpot,
+      brightness: Brightness.light,
+    );
+
+    expect(tags.where((tag) => tag.first == 'bg'), isEmpty);
+    expect(tags, contains(equals(['material', '#33b679', 'tonal-spot'])));
+  });
+
+  test('newIdentifier slugs the title and adds a random suffix', () {
+    expect(
+      CommunityTheme.newIdentifier('Night Owl!', Random(1)),
+      matches(RegExp(r'^night-owl-[a-z0-9]{6}$')),
+    );
+    expect(
+      CommunityTheme.newIdentifier('夜', Random(1)),
+      matches(RegExp(r'^[a-z0-9]{6}$')),
     );
   });
 }

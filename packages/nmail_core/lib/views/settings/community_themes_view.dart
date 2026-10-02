@@ -5,6 +5,7 @@ import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'widgets/community_themes_empty_state.dart';
 import 'widgets/community_themes_list.dart';
+import 'widgets/show_share_theme_dialog.dart';
 
 class CommunityThemesView extends StatelessWidget {
   const CommunityThemesView({super.key});
@@ -16,6 +17,11 @@ class CommunityThemesView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l.settingsCommunityThemes)),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => showShareThemeDialog(context),
+        icon: const Icon(Icons.share_outlined),
+        label: Text(l.communityThemesShare),
+      ),
       body: SafeArea(
         top: false,
         child: Obx(() {

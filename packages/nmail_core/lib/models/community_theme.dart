@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:ndk/ndk.dart';
 
@@ -44,6 +46,51 @@ class CommunityTheme {
     brightness: brightness,
     dynamicSchemeVariant: variant,
   );
+
+  /// Tags of a theme generated from a Material 3 seed. The `c` colors are
+  /// for clients that do not read the `material` tag.
+  static List<List<String>> eventTags({
+    required String identifier,
+    required String title,
+    required Color seedColor,
+    required DynamicSchemeVariant variant,
+    required Brightness brightness,
+    ({String url, String type})? image,
+  }) {
+    final scheme = ColorScheme.fromSeed(
+      seedColor: seedColor,
+      brightness: brightness,
+      dynamicSchemeVariant: variant,
+    );
+    return [
+      ['d', identifier],
+      ['c', _formatColor(scheme.surface), 'background'],
+      ['c', _formatColor(scheme.onSurface), 'text'],
+      ['c', _formatColor(scheme.primary), 'primary'],
+      ['color-scheme', brightness.name],
+      ['material', _formatColor(seedColor), _variantName(variant)],
+      if (image != null)
+        ['bg', 'url ${image.url}', 'mode cover', 'm ${image.type}'],
+      ['title', title],
+      ['alt', 'Custom theme: $title'],
+      ['t', 'theme'],
+    ];
+  }
+
+  /// A slug of [title] made unique by a random suffix, like Ditto does.
+  static String newIdentifier(String title, [Random? random]) {
+    final generator = random ?? Random.secure();
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    final suffix = String.fromCharCodes([
+      for (var i = 0; i < 6; i++)
+        alphabet.codeUnitAt(generator.nextInt(alphabet.length)),
+    ]);
+    final slug = title
+        .toLowerCase()
+        .replaceAll(RegExp('[^a-z0-9]+'), '-')
+        .replaceAll(RegExp(r'^-+|-+$'), '');
+    return slug.isEmpty ? suffix : '$slug-$suffix';
+  }
 
   static CommunityTheme? fromEvent(Nip01Event event) {
     if (event.kind != kind) return null;
@@ -146,6 +193,12 @@ class CommunityTheme {
   }
 
   Object get _look => (seedColor, variant, brightness, backgroundImageUrl);
+
+  static String _formatColor(Color color) =>
+      '#${(color.toARGB32() & 0xFFFFFF).toRadixString(16).padLeft(6, '0')}';
+
+  static String _variantName(DynamicSchemeVariant variant) => variant.name
+      .replaceAllMapped(RegExp('[A-Z]'), (m) => '-${m[0]!.toLowerCase()}');
 
   static Color? _parseColor(String hex) {
     if (!_hexColor.hasMatch(hex)) return null;

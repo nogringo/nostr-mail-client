@@ -438,13 +438,15 @@ class SettingsController extends GetxController {
     );
     await _saveBackgroundImage(background);
 
-    communityTheme.value = theme.address;
-    await _storageService.saveSetting(
-      ThemeService.communityThemeKey,
-      theme.address,
-    );
+    await markCommunityTheme(theme.address);
 
     await _refreshTheme();
+  }
+
+  /// Marks [address] as the current look without changing any setting.
+  Future<void> markCommunityTheme(String address) async {
+    communityTheme.value = address;
+    await _storageService.saveSetting(ThemeService.communityThemeKey, address);
   }
 
   Future<void> _forgetCommunityTheme() async {

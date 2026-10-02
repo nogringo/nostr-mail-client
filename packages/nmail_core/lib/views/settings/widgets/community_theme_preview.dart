@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 
-import 'package:nmail_core/models/community_theme.dart';
-
-/// A miniature of the wide layout in the colors the theme would produce.
+/// A miniature of the wide layout in [colorScheme], over [background], which
+/// covers the whole preview.
 class CommunityThemePreview extends StatelessWidget {
-  const CommunityThemePreview({super.key, required this.theme});
+  const CommunityThemePreview({
+    super.key,
+    required this.colorScheme,
+    this.background,
+  });
 
-  final CommunityTheme theme;
+  final ColorScheme colorScheme;
+  final Widget? background;
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = theme.colorScheme;
-    final imageUrl = theme.backgroundImageUrl;
-
     return Stack(
       fit: StackFit.expand,
       children: [
         ColoredBox(color: colorScheme.primaryContainer),
-        if (imageUrl != null)
-          Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
-            cacheWidth: 480,
-            errorBuilder: (_, _, _) => const SizedBox.shrink(),
-          ),
+        ?background,
         Padding(
           padding: const EdgeInsets.fromLTRB(14, 10, 10, 10),
           child: ClipRRect(

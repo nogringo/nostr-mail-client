@@ -332,6 +332,35 @@ class AppLocalizationsFr extends AppLocalizations {
       'Aucun thème ne correspond à ces filtres';
 
   @override
+  String get communityThemesShare => 'Partager mon thème';
+
+  @override
+  String get communityThemesShareName => 'Nom du thème';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Tout le monde pourra voir et appliquer ce thème.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Tout le monde pourra voir et appliquer ce thème, image de fond comprise.';
+
+  @override
+  String get communityThemesShareAction => 'Partager';
+
+  @override
+  String get communityThemesShareError => 'Impossible de partager votre thème';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Votre apparence est déjà le thème publié « $title ». Modifiez-la pour partager un nouveau thème.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Votre apparence est déjà un thème publié. Modifiez-la pour partager un nouveau thème.';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Couleur système';
 
   @override

@@ -81,6 +81,14 @@ class CommunityThemesController extends GetxController {
     }
   }
 
+  /// Puts the user's new theme first, with no filter hiding it.
+  void showPublished(CommunityTheme theme) {
+    brightness.value = null;
+    colorFamily.value = null;
+    hasImage.value = null;
+    themes.insert(0, theme);
+  }
+
   void _show(List<Nip01Event> events) {
     themes.value = CommunityTheme.withoutCopies(CommunityTheme.latest(events));
   }

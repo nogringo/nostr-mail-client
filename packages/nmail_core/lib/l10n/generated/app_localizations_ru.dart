@@ -331,6 +331,35 @@ class AppLocalizationsRu extends AppLocalizations {
   String get communityThemesNoMatch => 'Нет тем, подходящих под эти фильтры';
 
   @override
+  String get communityThemesShare => 'Поделиться своей темой';
+
+  @override
+  String get communityThemesShareName => 'Название темы';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Все смогут увидеть и применить эту тему.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Все смогут увидеть и применить эту тему вместе с фоновым изображением.';
+
+  @override
+  String get communityThemesShareAction => 'Поделиться';
+
+  @override
+  String get communityThemesShareError => 'Не удалось поделиться темой';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Ваше оформление уже является опубликованной темой «$title». Измените его, чтобы поделиться новой темой.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Ваше оформление уже является опубликованной темой. Измените его, чтобы поделиться новой темой.';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Цвет системы';
 
   @override

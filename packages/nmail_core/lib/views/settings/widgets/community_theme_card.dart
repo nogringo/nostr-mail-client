@@ -26,6 +26,7 @@ class CommunityThemeCard extends StatelessWidget {
       final isSelected = settings.communityTheme.value == theme.address;
       final isApplying = controller.applying.value == theme.address;
       final author = Get.find<MetadataService>().of(theme.pubkey).value;
+      final imageUrl = theme.backgroundImageUrl;
 
       return Semantics(
         button: true,
@@ -42,7 +43,20 @@ class CommunityThemeCard extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: _radius,
-                      child: CommunityThemePreview(theme: theme),
+                      child: CommunityThemePreview(
+                        colorScheme: theme.colorScheme,
+                        background: imageUrl == null
+                            ? null
+                            : Image(
+                                image: ResizeImage(
+                                  NetworkImage(imageUrl),
+                                  width: 480,
+                                ),
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, _, _) =>
+                                    const SizedBox.shrink(),
+                              ),
+                      ),
                     ),
                     if (isSelected)
                       DecoratedBox(

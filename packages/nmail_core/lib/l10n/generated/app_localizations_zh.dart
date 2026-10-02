@@ -316,6 +316,32 @@ class AppLocalizationsZh extends AppLocalizations {
   String get communityThemesNoMatch => '没有符合这些筛选条件的主题';
 
   @override
+  String get communityThemesShare => '分享我的主题';
+
+  @override
+  String get communityThemesShareName => '主题名称';
+
+  @override
+  String get communityThemesSharePublic => '所有人都可以查看并应用此主题。';
+
+  @override
+  String get communityThemesSharePublicWithImage => '所有人都可以查看并应用此主题，包括背景图片。';
+
+  @override
+  String get communityThemesShareAction => '分享';
+
+  @override
+  String get communityThemesShareError => '无法分享你的主题';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return '你的外观已是已发布的主题「$title」。请修改外观以分享新主题。';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed => '你的外观已是已发布的主题。请修改外观以分享新主题。';
+
+  @override
   String get settingsBackgroundDefaultLabel => '系统颜色';
 
   @override

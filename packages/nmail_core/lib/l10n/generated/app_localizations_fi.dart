@@ -329,6 +329,35 @@ class AppLocalizationsFi extends AppLocalizations {
       'Mikään teema ei vastaa näitä suodattimia';
 
   @override
+  String get communityThemesShare => 'Jaa teemani';
+
+  @override
+  String get communityThemesShareName => 'Teeman nimi';
+
+  @override
+  String get communityThemesSharePublic =>
+      'Kaikki voivat nähdä ja ottaa tämän teeman käyttöön.';
+
+  @override
+  String get communityThemesSharePublicWithImage =>
+      'Kaikki voivat nähdä ja ottaa tämän teeman käyttöön taustakuvineen.';
+
+  @override
+  String get communityThemesShareAction => 'Jaa';
+
+  @override
+  String get communityThemesShareError => 'Teeman jakaminen epäonnistui';
+
+  @override
+  String communityThemesShareCopy(String title) {
+    return 'Ulkoasusi on jo julkaistu teema \"$title\". Muuta sitä jakaaksesi uuden teeman.';
+  }
+
+  @override
+  String get communityThemesShareCopyUnnamed =>
+      'Ulkoasusi on jo julkaistu teema. Muuta sitä jakaaksesi uuden teeman.';
+
+  @override
   String get settingsBackgroundDefaultLabel => 'Järjestelmän väri';
 
   @override

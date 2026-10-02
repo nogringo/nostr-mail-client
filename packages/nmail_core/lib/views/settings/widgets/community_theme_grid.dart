@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/views/shared/layout_constants.dart';
 import 'community_theme_card.dart';
 
 class CommunityThemeGrid extends StatelessWidget {
@@ -34,7 +35,12 @@ class CommunityThemeGrid extends StatelessWidget {
       }
 
       return SliverPadding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          8,
+          16,
+          LayoutConstants.fabClearance(context),
+        ),
         sliver: SliverGrid.builder(
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 220,
