@@ -37,7 +37,7 @@ enum RelaySetupAction { useFound, create }
 
 class RelaySetupController extends ChangeNotifier {
   RelaySetupController() {
-    _onlineSubscription = _device.isOffline.listen(_handleOnlineEdge);
+    _device.isOffline.addListener(_handleOnlineEdge);
     _startAutoSearch();
   }
 
@@ -45,12 +45,11 @@ class RelaySetupController extends ChangeNotifier {
   final formKey = GlobalKey<FormState>();
 
   final _ndk = GetIt.I<Ndk>();
-  final _device = Get.find<DeviceConnectivityService>();
+  final _device = GetIt.I<DeviceConnectivityService>();
   late final RelayListDiscovery _discovery = RelayListDiscovery(
     _ndk,
     device: _device,
   );
-  late final StreamSubscription<bool> _onlineSubscription;
   bool _isDisposed = false;
 
   /// An online edge that landed mid-search, replayed once the search settles.
@@ -74,15 +73,15 @@ class RelaySetupController extends ChangeNotifier {
   @override
   void dispose() {
     _isDisposed = true;
-    _onlineSubscription.cancel();
+    _device.isOffline.removeListener(_handleOnlineEdge);
     _discovery.dispose();
     hintController.dispose();
     super.dispose();
   }
 
   /// The network came back, so recover without waiting for the retry button.
-  void _handleOnlineEdge(bool offline) {
-    if (offline || isLeaving) return;
+  void _handleOnlineEdge() {
+    if (_device.isOffline.value || isLeaving) return;
     if (stage == RelaySetupStage.searching) {
       _searchAgainWhenSettled = true;
       return;

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart';
 
@@ -11,13 +10,12 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 class RelayConnectivityController extends ChangeNotifier {
   RelayConnectivityController() {
     _subscribeToConnectivity();
-    _deviceSubscription = _device.isOffline.listen((_) => notifyListeners());
+    _device.isOffline.addListener(notifyListeners);
   }
 
-  final _device = Get.find<DeviceConnectivityService>();
+  final _device = GetIt.I<DeviceConnectivityService>();
 
   StreamSubscription<List<RelayConnectivity>>? _subscription;
-  late final StreamSubscription<bool> _deviceSubscription;
 
   /// Whether each relay is reachable, by url. NDK opens one connection per
   /// authenticated identity, and a relay listed twice would read as two.
@@ -33,7 +31,7 @@ class RelayConnectivityController extends ChangeNotifier {
   @override
   void dispose() {
     _subscription?.cancel();
-    _deviceSubscription.cancel();
+    _device.isOffline.removeListener(notifyListeners);
     super.dispose();
   }
 

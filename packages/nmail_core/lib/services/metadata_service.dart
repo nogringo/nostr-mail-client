@@ -24,7 +24,7 @@ class MetadataService extends GetxService {
 
   late final RelayListDiscovery _discovery = RelayListDiscovery(
     _ndk,
-    device: Get.find<DeviceConnectivityService>(),
+    device: GetIt.I<DeviceConnectivityService>(),
   );
   late final MetadataReader _reader = MetadataReader(_ndk, _discovery);
 

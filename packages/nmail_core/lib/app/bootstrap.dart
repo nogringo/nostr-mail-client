@@ -168,7 +168,10 @@ Future<void> _initApp({
   // Before NostrMailService opens the store and runs its migration.
   reloadOnNewerSchema(mailDatabase.schemaVersion);
 
-  Get.put(DeviceConnectivityService(), permanent: true);
+  GetIt.I.registerSingleton(
+    DeviceConnectivityService(),
+    dispose: (service) => service.dispose(),
+  );
 
   // Initialize Services and Controllers early for Middlewares
   GetIt.I.registerSingleton(AccountLocalDataService());

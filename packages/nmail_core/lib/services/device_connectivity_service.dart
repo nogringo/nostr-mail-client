@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
@@ -14,9 +13,16 @@ import 'package:ndk/ndk.dart';
 /// forces, so without a nudge the app stays dark for a minute after the network
 /// comes back. `tryReconnect` passes `force: true`, which is the only way
 /// through.
-class DeviceConnectivityService extends GetxService {
+class DeviceConnectivityService {
   DeviceConnectivityService({Connectivity? connectivity})
-    : _connectivity = connectivity ?? Connectivity();
+    : _connectivity = connectivity ?? Connectivity() {
+    _subscription = _connectivity.onConnectivityChanged.listen(
+      (results) => _setOffline(!results.hasConnectivity),
+      onError: (_) => _setOffline(false),
+    );
+    _lifecycle = AppLifecycleListener(onResume: _handleResume);
+    unawaited(_refresh());
+  }
 
   final Connectivity _connectivity;
 
@@ -27,37 +33,25 @@ class DeviceConnectivityService extends GetxService {
   /// both derive it from an internet probe (NetworkManager's nmcheck, Windows
   /// NCSI), which a firewall can fail on a perfectly working network. Read it
   /// alongside relay connectivity, never alone.
-  final isOffline = false.obs;
+  final isOffline = ValueNotifier(false);
 
   static const _debounce = Duration(seconds: 3);
 
-  StreamSubscription<List<ConnectivityResult>>? _subscription;
-  AppLifecycleListener? _lifecycle;
+  late final StreamSubscription<List<ConnectivityResult>> _subscription;
+  late final AppLifecycleListener _lifecycle;
   Timer? _debounceTimer;
   Completer<void>? _scheduled;
   Completer<void>? _rerun;
   Future<void>? _pass;
 
-  @override
-  void onInit() {
-    super.onInit();
-    _subscription = _connectivity.onConnectivityChanged.listen(
-      (results) => _setOffline(!results.hasConnectivity),
-      onError: (_) => _setOffline(false),
-    );
-    _lifecycle = AppLifecycleListener(onResume: _handleResume);
-    unawaited(_refresh());
-  }
-
-  @override
-  void onClose() {
-    _subscription?.cancel();
-    _lifecycle?.dispose();
+  void dispose() {
+    _subscription.cancel();
+    _lifecycle.dispose();
     _debounceTimer?.cancel();
     // Release anyone awaiting a pass that will now never run.
     _scheduled?.complete();
     _rerun?.complete();
-    super.onClose();
+    isOffline.dispose();
   }
 
   /// Reconnects every relay right away. For an explicit user action; anything
