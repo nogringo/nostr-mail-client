@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show LogicalKeyboardKey;
-import 'package:get/get.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/copy_image.dart';
@@ -19,7 +18,7 @@ Future<void> showImageViewerPage(
   return Navigator.of(context, rootNavigator: true).push(
     PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => ImageViewerPage(
-        filename: filename.obs,
+        filename: ValueNotifier(filename),
         imageData: imageData,
         onDownload: onDownload,
         onRename: onRename,
@@ -39,7 +38,7 @@ class ImageViewerPage extends StatelessWidget {
     this.onRename,
   });
 
-  final RxString filename;
+  final ValueNotifier<String> filename;
   final Future<Uint8List?> imageData;
   final VoidCallback? onDownload;
 
@@ -71,12 +70,10 @@ class ImageViewerPage extends StatelessWidget {
               appBar: AppBar(
                 backgroundColor: Colors.black,
                 leading: const CloseButton(),
-                title: Obx(
-                  () => Text(
-                    filename.value,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                title: ValueListenableBuilder(
+                  valueListenable: filename,
+                  builder: (context, name, _) =>
+                      Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
                 ),
                 actionsPadding: .only(right: 8),
                 actions: [

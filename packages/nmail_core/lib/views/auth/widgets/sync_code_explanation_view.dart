@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../controllers/auth_controller.dart';
@@ -8,7 +7,7 @@ import 'package:nmail_core/services/sensitive_clipboard.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
 class SyncCodeExplanationView extends StatelessWidget {
-  final RxBool _hasCopied = false.obs;
+  final _hasCopied = ValueNotifier(false);
 
   SyncCodeExplanationView({super.key});
 
@@ -106,12 +105,13 @@ class SyncCodeExplanationView extends StatelessWidget {
 
         const SizedBox(height: 32),
 
-        Obx(
-          () => FilledButton.icon(
+        ValueListenableBuilder(
+          valueListenable: _hasCopied,
+          builder: (context, hasCopied, _) => FilledButton.icon(
             onPressed: () => _copySyncCode(context),
-            icon: Icon(_hasCopied.value ? Icons.check : Icons.copy_all_rounded),
+            icon: Icon(hasCopied ? Icons.check : Icons.copy_all_rounded),
             label: Text(
-              _hasCopied.value ? l.authCopied : l.authCopySyncCode,
+              hasCopied ? l.authCopied : l.authCopySyncCode,
               style: const TextStyle(fontSize: 16),
             ),
             style: FilledButton.styleFrom(

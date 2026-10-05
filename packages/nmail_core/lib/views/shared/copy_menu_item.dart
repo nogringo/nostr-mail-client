@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 class CopyMenuItem extends StatelessWidget {
   CopyMenuItem({
@@ -16,13 +15,13 @@ class CopyMenuItem extends StatelessWidget {
   final String? Function() value;
   final Listenable? listenable;
 
-  final _copied = false.obs;
+  final _copied = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: Listenable.merge([listenable]),
-      builder: (context, _) => Obx(() {
+      listenable: Listenable.merge([listenable, _copied]),
+      builder: (context, _) {
         final text = value();
         return MenuItemButton(
           leadingIcon: Icon(_copied.value ? Icons.check : Icons.copy),
@@ -30,7 +29,7 @@ class CopyMenuItem extends StatelessWidget {
           onPressed: text == null ? null : () => _copy(text),
           child: Text(label),
         );
-      }),
+      },
     );
   }
 

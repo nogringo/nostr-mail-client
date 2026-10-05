@@ -138,7 +138,7 @@ Registered in `runNmailApp()` or `InitialBinding`:
 ### 6. Removal
 
 - [x] `InitialBinding` and `Get.smartManagement`
-- [ ] Widget-local `.obs` and `Obx` in `copy_menu_item.dart`, `copy_sync_code_tile.dart`, `email_source_copy_button.dart`, `image_viewer_page.dart`, `nip59_events_dialog.dart` and `sync_code_explanation_view.dart`
+- [x] Widget-local `.obs` and `Obx` in `copy_menu_item.dart`, `copy_sync_code_tile.dart`, `email_source_copy_button.dart`, `image_viewer_page.dart`, `nip59_events_dialog.dart` and `sync_code_explanation_view.dart`
 - [ ] Remaining `Get.reset()` and `Get.testMode` in tests
 - [ ] `flutter pub remove get` in `packages/nmail_core`, `apps/nmail_standard` and `apps/nmail_foss`
 - [ ] `AGENTS.md`

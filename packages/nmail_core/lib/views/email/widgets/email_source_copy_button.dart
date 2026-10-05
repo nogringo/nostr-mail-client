@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../email_controller.dart';
@@ -8,7 +7,7 @@ import '../email_controller.dart';
 class EmailSourceCopyButton extends StatelessWidget {
   EmailSourceCopyButton({super.key});
 
-  final _copied = false.obs;
+  final _copied = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +16,13 @@ class EmailSourceCopyButton extends StatelessWidget {
     final controller = EmailController.to;
 
     return ListenableBuilder(
-      listenable: controller,
+      listenable: Listenable.merge([controller, _copied]),
       builder: (context, _) {
         final source = controller.rawContent;
-        return Obx(
-          () => IconButton(
-            icon: Icon(_copied.value ? Icons.check : Icons.copy),
-            tooltip: l.actionCopy,
-            onPressed: source == null ? null : () => _copy(source),
-          ),
+        return IconButton(
+          icon: Icon(_copied.value ? Icons.check : Icons.copy),
+          tooltip: l.actionCopy,
+          onPressed: source == null ? null : () => _copy(source),
         );
       },
     );

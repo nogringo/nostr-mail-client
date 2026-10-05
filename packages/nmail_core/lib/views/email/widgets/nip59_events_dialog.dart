@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_highlight/flutter_highlight.dart';
 import 'package:flutter_highlight/themes/a11y-light.dart';
 import 'package:flutter_highlight/themes/a11y-dark.dart';
-import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -184,7 +183,7 @@ class EventCard extends StatelessWidget {
 
   EventCard({super.key, this.event, required this.kind, required this.label});
 
-  final RxBool _copied = false.obs;
+  final _copied = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
@@ -221,12 +220,13 @@ class EventCard extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: Align(
                 alignment: Alignment.centerRight,
-                child: Obx(
-                  () => TextButton.icon(
+                child: ValueListenableBuilder(
+                  valueListenable: _copied,
+                  builder: (context, copied, _) => TextButton.icon(
                     onPressed: _copyJson,
                     icon: Icon(
-                      _copied.value ? Icons.check : Icons.copy,
-                      key: ValueKey(_copied.value),
+                      copied ? Icons.check : Icons.copy,
+                      key: ValueKey(copied),
                     ),
                     label: Text(l.emailNip59CopyJson),
                   ),

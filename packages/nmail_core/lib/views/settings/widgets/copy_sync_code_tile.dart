@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/device_auth.dart';
@@ -18,18 +17,17 @@ class CopySyncCodeTile extends StatelessWidget {
   final int index;
   final int count;
 
-  final _copied = false.obs;
+  final _copied = ValueNotifier(false);
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return Obx(
-      () => SettingsActionTile(
-        icon: _copied.value ? Icons.check : Icons.key,
-        title: _copied.value
-            ? l.settingsSyncCodeCopied
-            : l.settingsCopySyncCode,
+    return ValueListenableBuilder(
+      valueListenable: _copied,
+      builder: (context, copied, _) => SettingsActionTile(
+        icon: copied ? Icons.check : Icons.key,
+        title: copied ? l.settingsSyncCodeCopied : l.settingsCopySyncCode,
         index: index,
         count: count,
         onTap: () => _copy(l),
