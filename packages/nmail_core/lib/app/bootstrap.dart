@@ -136,11 +136,10 @@ Future<void> _initApp({
 
   // Reactive in-RAM metadata cache so avatars/names resolve without flashing.
   Get.put(MetadataService(), permanent: true);
-  Get.put(
+  GetIt.I.registerSingleton(
     MailDomainService(
       dohServer: () => Get.find<SettingsController>().dohServer.value,
     ),
-    permanent: true,
   );
 
   // Initialize Blossom cache and offline queues as app-level singletons.

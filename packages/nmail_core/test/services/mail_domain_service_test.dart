@@ -37,9 +37,9 @@ void main() {
   );
 
   Future<bool?> lookup(MailDomainService service, String domain) async {
-    final slot = service.acceptsMail(domain);
+    service.acceptsMail(domain);
     await pumpEventQueue();
-    return slot.value;
+    return service.acceptsMail(domain);
   }
 
   setUp(() {

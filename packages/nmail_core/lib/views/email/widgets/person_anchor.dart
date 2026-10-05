@@ -29,11 +29,15 @@ class PersonAnchor extends StatelessWidget {
   /// Defaults to [buildPersonCardActions].
   final PersonCardActionsBuilder? actions;
 
+  /// Rebuilds the open card's [actions] when it notifies.
+  final Listenable? actionsListenable;
+
   const PersonAnchor({
     super.key,
     required this.person,
     required this.builder,
     this.actions,
+    this.actionsListenable,
   });
 
   @override
@@ -45,7 +49,12 @@ class PersonAnchor extends StatelessWidget {
     if (!ResponsiveHelper.isNotMobile(context)) {
       return builder(
         context,
-        () => showPersonCardSheet(context, person, actions),
+        () => showPersonCardSheet(
+          context,
+          person,
+          actions,
+          actionsListenable: actionsListenable,
+        ),
       );
     }
     return MenuAnchor(
@@ -56,6 +65,7 @@ class PersonAnchor extends StatelessWidget {
           person: person,
           actionContext: context,
           actions: actions,
+          actionsListenable: actionsListenable,
         ),
       ],
       builder: (context, controller, _) => builder(

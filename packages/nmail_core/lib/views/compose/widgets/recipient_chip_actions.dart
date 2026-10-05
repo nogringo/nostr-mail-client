@@ -1,6 +1,7 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
@@ -27,7 +28,8 @@ EmailPerson recipientPerson(Recipient recipient) {
 }
 
 /// The address typed for this recipient, else its NIP-05 once its domain is
-/// known to receive mail. Reads reactive stores: call it inside an `Obx`.
+/// known to receive mail. Call it inside an `Obx`, under a listener on
+/// [MailDomainService].
 String? recipientSmtpAddress(Recipient recipient) {
   final known = recipient.smtpAddress;
   final pubkey = recipient.pubkey;
@@ -38,7 +40,7 @@ String? recipientSmtpAddress(Recipient recipient) {
   );
   if (address == null) return null;
   final domain = address.split('@').last;
-  final acceptsMail = Get.find<MailDomainService>().acceptsMail(domain).value;
+  final acceptsMail = GetIt.I<MailDomainService>().acceptsMail(domain);
   return acceptsMail == true ? address : null;
 }
 

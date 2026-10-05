@@ -1,9 +1,11 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/recipient.dart';
+import 'package:nmail_core/services/mail_domain_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/views/email/widgets/person_anchor.dart';
@@ -47,6 +49,7 @@ class RecipientChip extends StatelessWidget {
         field: field,
         recipient: recipient,
       ),
+      actionsListenable: GetIt.I<MailDomainService>(),
       builder: (context, open) => recipient.isNostr
           ? _buildNostrChip(context, open)
           : _buildLegacyChip(context, open),

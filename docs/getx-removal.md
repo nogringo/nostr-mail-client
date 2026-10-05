@@ -125,7 +125,7 @@ Registered in `runNmailApp()` or `InitialBinding`:
 - [ ] `ContactsService`
 - [ ] `DeviceConnectivityService`
 - [ ] `MailboxesController`
-- [ ] `MailDomainService`
+- [x] `MailDomainService`
 - [ ] `MetadataService`
 - [x] `NostrMailService`
 - [x] `NotificationService`

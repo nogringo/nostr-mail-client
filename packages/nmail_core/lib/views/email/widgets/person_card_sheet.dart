@@ -11,8 +11,9 @@ import 'person_card_header.dart';
 Future<void> showPersonCardSheet(
   BuildContext context,
   EmailPerson person,
-  PersonCardActionsBuilder actions,
-) {
+  PersonCardActionsBuilder actions, {
+  Listenable? actionsListenable,
+}) {
   return showModalBottomSheet<void>(
     context: context,
     showDragHandle: true,
@@ -20,6 +21,7 @@ Future<void> showPersonCardSheet(
       person: person,
       actionContext: context,
       actions: actions,
+      actionsListenable: actionsListenable,
     ),
   );
 }
@@ -28,39 +30,44 @@ class PersonCardSheet extends StatelessWidget {
   final EmailPerson person;
   final BuildContext actionContext;
   final PersonCardActionsBuilder actions;
+  final Listenable? actionsListenable;
 
   const PersonCardSheet({
     super.key,
     required this.person,
     required this.actionContext,
     required this.actions,
+    this.actionsListenable,
   });
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Obx(() {
-        final contact = findEmailPersonContact(
-          Get.find<AddressBookService>().contacts,
-          person,
-        );
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            PersonCardHeader(person: person),
-            const Divider(),
-            for (final action in actions(actionContext, contact))
-              ListTile(
-                leading: Icon(action.icon),
-                title: Text(action.label),
-                onTap: () {
-                  Navigator.pop(context);
-                  action.onPressed();
-                },
-              ),
-          ],
-        );
-      }),
+      child: ListenableBuilder(
+        listenable: Listenable.merge([actionsListenable]),
+        builder: (context, _) => Obx(() {
+          final contact = findEmailPersonContact(
+            Get.find<AddressBookService>().contacts,
+            person,
+          );
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              PersonCardHeader(person: person),
+              const Divider(),
+              for (final action in actions(actionContext, contact))
+                ListTile(
+                  leading: Icon(action.icon),
+                  title: Text(action.label),
+                  onTap: () {
+                    Navigator.pop(context);
+                    action.onPressed();
+                  },
+                ),
+            ],
+          );
+        }),
+      ),
     );
   }
 }

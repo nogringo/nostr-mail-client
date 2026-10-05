@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +12,7 @@ import 'package:nmail_core/services/storage_service.dart';
 /// Positive and negative answers are both persisted for [maxAge]. A failed
 /// lookup is not an answer: it is never stored and reads as true, so the user
 /// keeps the choice.
-class MailDomainService extends GetxService {
+class MailDomainService extends ChangeNotifier {
   MailDomainService({
     required this._dohServer,
     StorageService? storage,
@@ -33,25 +33,23 @@ class MailDomainService extends GetxService {
   final http.Client _client;
   final DateTime Function() _now;
 
-  final Map<String, Rx<bool?>> _cache = {};
+  final Map<String, bool?> _answers = {};
 
-  /// Null until known. Read `.value` inside an `Obx` to rebuild on the answer.
-  Rx<bool?> acceptsMail(String domain) {
+  /// Null until known, then notifies. The first call for a domain looks it up.
+  bool? acceptsMail(String domain) {
     final key = domain.toLowerCase();
-    final existing = _cache[key];
-    if (existing != null) return existing;
+    if (_answers.containsKey(key)) return _answers[key];
 
-    final slot = Rx<bool?>(null);
-    _cache[key] = slot;
-    _load(key, slot);
-    return slot;
+    _answers[key] = null;
+    _load(key);
+    return null;
   }
 
-  Future<void> _load(String domain, Rx<bool?> slot) async {
+  Future<void> _load(String domain) async {
     final storageKey = '$_keyPrefix$domain';
     final stored = await _storage.getSetting<Map>(storageKey);
     if (stored != null) {
-      slot.value = stored['acceptsMail'] as bool;
+      _answer(domain, stored['acceptsMail'] as bool);
       final checkedAt = DateTime.fromMillisecondsSinceEpoch(
         stored['checkedAt'] as int,
       );
@@ -62,10 +60,10 @@ class MailDomainService extends GetxService {
     try {
       accepts = await _queryMx(domain);
     } catch (_) {
-      slot.value ??= true;
+      _answer(domain, _answers[domain] ?? true);
       return;
     }
-    slot.value = accepts;
+    _answer(domain, accepts);
     await _storage.saveSetting(storageKey, {
       'acceptsMail': accepts,
       'checkedAt': _now().millisecondsSinceEpoch,
@@ -98,6 +96,12 @@ class MailDomainService extends GetxService {
       (answer) =>
           answer['type'] == _mxType && !_isNullMx(answer['data'] as String),
     );
+  }
+
+  void _answer(String domain, bool accepts) {
+    if (_answers[domain] == accepts) return;
+    _answers[domain] = accepts;
+    notifyListeners();
   }
 
   bool _isNullMx(String data) => data.trim().split(RegExp(r'\s+')).last == '.';

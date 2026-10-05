@@ -12,35 +12,40 @@ class PersonCardMenu extends StatelessWidget {
   final EmailPerson person;
   final BuildContext actionContext;
   final PersonCardActionsBuilder actions;
+  final Listenable? actionsListenable;
 
   const PersonCardMenu({
     super.key,
     required this.person,
     required this.actionContext,
     required this.actions,
+    this.actionsListenable,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final contact = findEmailPersonContact(
-        Get.find<AddressBookService>().contacts,
-        person,
-      );
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          PersonCardMenuHeader(person: person),
-          const Divider(height: 1),
-          for (final action in actions(actionContext, contact))
-            MenuItemButton(
-              leadingIcon: Icon(action.icon),
-              onPressed: action.onPressed,
-              child: Text(action.label),
-            ),
-        ],
-      );
-    });
+    return ListenableBuilder(
+      listenable: Listenable.merge([actionsListenable]),
+      builder: (context, _) => Obx(() {
+        final contact = findEmailPersonContact(
+          Get.find<AddressBookService>().contacts,
+          person,
+        );
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PersonCardMenuHeader(person: person),
+            const Divider(height: 1),
+            for (final action in actions(actionContext, contact))
+              MenuItemButton(
+                leadingIcon: Icon(action.icon),
+                onPressed: action.onPressed,
+                child: Text(action.label),
+              ),
+          ],
+        );
+      }),
+    );
   }
 }
