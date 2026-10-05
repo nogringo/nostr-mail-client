@@ -11,35 +11,41 @@ class MobileActionsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final emailController = EmailController.to;
-    final actions = buildEmailActions(
-      context,
-      l,
-      emailController,
-      emailController.mailbox,
-    );
 
-    const buttonWidth = 68.0;
-    // Always reserve space for delete + more_vert buttons (2 buttons).
-    const spaceForFixedButtons = buttonWidth * 2;
-    final remainingWidth =
-        MediaQuery.sizeOf(context).width - spaceForFixedButtons;
-    final maxButtons = ((remainingWidth - 16) / buttonWidth).floor();
+    return ListenableBuilder(
+      listenable: emailController,
+      builder: (context, _) {
+        final actions = buildEmailActions(
+          context,
+          l,
+          emailController,
+          emailController.mailbox,
+        );
 
-    final visibleCount = maxButtons.clamp(0, actions.primary.length);
-    final visibleActions = actions.primary.take(visibleCount).toList();
-    final overflowActions = actions.primary.skip(visibleCount).toList();
+        const buttonWidth = 68.0;
+        // Always reserve space for delete + more_vert buttons (2 buttons).
+        const spaceForFixedButtons = buttonWidth * 2;
+        final remainingWidth =
+            MediaQuery.sizeOf(context).width - spaceForFixedButtons;
+        final maxButtons = ((remainingWidth - 16) / buttonWidth).floor();
 
-    return BottomAppBar(
-      child: Row(
-        children: [
-          ...visibleActions.map(
-            (action) => Expanded(child: _buildButton(action)),
+        final visibleCount = maxButtons.clamp(0, actions.primary.length);
+        final visibleActions = actions.primary.take(visibleCount).toList();
+        final overflowActions = actions.primary.skip(visibleCount).toList();
+
+        return BottomAppBar(
+          child: Row(
+            children: [
+              ...visibleActions.map(
+                (action) => Expanded(child: _buildButton(action)),
+              ),
+              Expanded(child: _buildButton(actions.delete)),
+              if (overflowActions.isNotEmpty)
+                Expanded(child: _MoreButton(actions: overflowActions)),
+            ],
           ),
-          Expanded(child: _buildButton(actions.delete)),
-          if (overflowActions.isNotEmpty)
-            Expanded(child: _MoreButton(actions: overflowActions)),
-        ],
-      ),
+        );
+      },
     );
   }
 

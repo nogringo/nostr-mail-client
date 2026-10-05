@@ -260,7 +260,9 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     // Auto-mark as read where unread shows (non-blocking).
     // Cold-start via share link (mailbox == null) does not auto-mark.
     if (mailbox?.showsUnread ?? false) {
-      Get.find<InboxController>().markAsRead(loaded.id);
+      Get.find<InboxController>().markAsRead(loaded.id).then((_) {
+        if (!_isDisposed) notifyListeners();
+      });
     }
     await _loadSummary();
   }

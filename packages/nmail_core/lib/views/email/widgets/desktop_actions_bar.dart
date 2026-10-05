@@ -11,39 +11,45 @@ class DesktopActionsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final emailController = EmailController.to;
-    final actions = buildEmailActions(
-      context,
-      l,
-      emailController,
-      emailController.mailbox,
-    );
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        // Conservative estimates: longest labels (e.g. "NIP-59 Events",
-        // "Download email") render around ~150px with icon + padding.
-        const buttonWidth = 150.0;
-        const deleteButtonWidth = 110.0;
-        const moreButtonWidth = 48.0;
+    return ListenableBuilder(
+      listenable: emailController,
+      builder: (context, _) {
+        final actions = buildEmailActions(
+          context,
+          l,
+          emailController,
+          emailController.mailbox,
+        );
 
-        // Always reserve space for delete + more button so we never overflow.
-        final reservedSpace = deleteButtonWidth + moreButtonWidth;
-        final availableWidth = constraints.maxWidth - reservedSpace;
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            // Conservative estimates: longest labels (e.g. "NIP-59 Events",
+            // "Download email") render around ~150px with icon + padding.
+            const buttonWidth = 150.0;
+            const deleteButtonWidth = 110.0;
+            const moreButtonWidth = 48.0;
 
-        final maxButtons = (availableWidth / buttonWidth).floor();
-        final visibleCount = maxButtons.clamp(0, actions.primary.length);
+            // Always reserve space for delete + more button so we never overflow.
+            final reservedSpace = deleteButtonWidth + moreButtonWidth;
+            final availableWidth = constraints.maxWidth - reservedSpace;
 
-        final visibleActions = actions.primary.take(visibleCount).toList();
-        final overflowActions = actions.primary.skip(visibleCount).toList();
+            final maxButtons = (availableWidth / buttonWidth).floor();
+            final visibleCount = maxButtons.clamp(0, actions.primary.length);
 
-        return Row(
-          children: [
-            ...visibleActions.map(_buildButton),
-            const Spacer(),
-            _buildButton(actions.delete),
-            if (overflowActions.isNotEmpty)
-              _MoreButton(actions: overflowActions),
-          ],
+            final visibleActions = actions.primary.take(visibleCount).toList();
+            final overflowActions = actions.primary.skip(visibleCount).toList();
+
+            return Row(
+              children: [
+                ...visibleActions.map(_buildButton),
+                const Spacer(),
+                _buildButton(actions.delete),
+                if (overflowActions.isNotEmpty)
+                  _MoreButton(actions: overflowActions),
+              ],
+            );
+          },
         );
       },
     );
