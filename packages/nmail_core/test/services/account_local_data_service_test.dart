@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:ndk/ndk.dart';
@@ -55,7 +54,6 @@ void main() {
 
   tearDown(() async {
     await ndk.destroy();
-    Get.reset();
     await GetIt.I.reset();
   });
 

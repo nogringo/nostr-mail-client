@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nmail_core/services/contacts_service.dart';
@@ -18,7 +17,6 @@ void main() {
   late ContactsService contactsService;
 
   setUp(() {
-    Get.testMode = true;
     ndk = Ndk(
       NdkConfig(
         cache: MemCacheManager(),
@@ -37,7 +35,6 @@ void main() {
 
   tearDown(() async {
     contactsService.dispose();
-    Get.reset();
     await GetIt.I.reset();
     await ndk.destroy();
   });

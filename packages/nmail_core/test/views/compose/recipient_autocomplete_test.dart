@@ -4,7 +4,6 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -75,7 +74,6 @@ void main() {
   late ContactsService contactsService;
 
   setUp(() {
-    Get.testMode = true;
     ndk = Ndk(
       NdkConfig(
         cache: MemCacheManager(),
@@ -96,7 +94,6 @@ void main() {
   });
 
   tearDown(() async {
-    Get.reset();
     await GetIt.I.reset();
     await ndk.destroy();
   });
