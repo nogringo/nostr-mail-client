@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/backgrounds_controller.dart';
 import '../../../controllers/settings_controller.dart';
@@ -15,7 +16,7 @@ class BackgroundImageThumbnail extends StatelessWidget {
 
   Future<void> _confirmDelete(BuildContext context) async {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<BackgroundsController>();
+    final controller = GetIt.I<BackgroundsController>();
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -50,7 +51,7 @@ class BackgroundImageThumbnail extends StatelessWidget {
         label: l.settingsBackgroundSelectLabel,
         showLabel: false,
         isSelected: settings.backgroundImage.value == value,
-        onTap: () => Get.find<BackgroundsController>().select(value),
+        onTap: () => GetIt.I<BackgroundsController>().select(value),
         onLongPress: () => _confirmDelete(context),
         badge: BackgroundRemoveBadge(
           label: l.settingsBackgroundDeleteLabel,

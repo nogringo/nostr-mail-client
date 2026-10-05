@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/routes/app_routes.dart';
@@ -15,26 +15,29 @@ class IdentitiesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<IdentitiesController>();
+    final controller = GetIt.I<IdentitiesController>();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l.identitiesTitle),
         actionsPadding: .only(right: 8),
         actions: [
-          Obx(() {
-            final canSave = controller.hasChanges && !controller.isSaving.value;
-            return FilledButton(
-              onPressed: canSave ? controller.saveChanges : null,
-              child: controller.isSaving.value
-                  ? const SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(l.actionSave),
-            );
-          }),
+          ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) {
+              final canSave = controller.hasChanges && !controller.isSaving;
+              return FilledButton(
+                onPressed: canSave ? controller.saveChanges : null,
+                child: controller.isSaving
+                    ? const SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : Text(l.actionSave),
+              );
+            },
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -47,29 +50,32 @@ class IdentitiesView extends StatelessWidget {
       ),
       body: SafeArea(
         top: false,
-        child: Obx(() {
-          if (controller.isLoading.value) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          return Column(
-            children: [
-              SizedBox(
-                height: 4,
-                child: controller.isRefreshing.value
-                    ? const LinearProgressIndicator()
-                    : null,
-              ),
-              Expanded(
-                child: controller.identities.isEmpty
-                    ? const ResponsiveCenter(
-                        maxWidth: 600,
-                        child: IdentitiesEmptyState(),
-                      )
-                    : const IdentitiesList(maxWidth: 600),
-              ),
-            ],
-          );
-        }),
+        child: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
+            if (controller.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            return Column(
+              children: [
+                SizedBox(
+                  height: 4,
+                  child: controller.isRefreshing
+                      ? const LinearProgressIndicator()
+                      : null,
+                ),
+                Expanded(
+                  child: controller.identities.isEmpty
+                      ? const ResponsiveCenter(
+                          maxWidth: 600,
+                          child: IdentitiesEmptyState(),
+                        )
+                      : const IdentitiesList(maxWidth: 600),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

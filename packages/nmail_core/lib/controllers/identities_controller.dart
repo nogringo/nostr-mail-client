@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:enough_mail_plus/enough_mail.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart' show PrivateSettings;
 
@@ -6,41 +9,40 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/key_address.dart';
 import 'auth_controller.dart';
 
-class IdentitiesController extends GetxController {
+class IdentitiesController extends ChangeNotifier {
+  IdentitiesController() {
+    _bindCurrentAccount();
+    _accountSubscription = _auth.activePubkey.listen((_) => _rebindAccount());
+  }
+
   final _nostrMailService = Get.find<NostrMailService>();
   final _auth = Get.find<AuthController>();
 
-  final RxList<MailAddress> identities = <MailAddress>[].obs;
-  final RxSet<int> markedForDeletion = <int>{}.obs;
-  final RxBool isLoading = true.obs;
-  final RxBool isRefreshing = false.obs;
-  final RxBool isSaving = false.obs;
+  List<MailAddress> identities = [];
+  final markedForDeletion = <int>{};
+  bool isLoading = true;
+  bool isRefreshing = false;
+  bool isSaving = false;
 
   String? _myHex;
 
   List<MailAddress> _original = const [];
   bool _hasLoadedData = false;
   int _accountGeneration = 0;
-  Worker? _accountWorker;
+  late final StreamSubscription<String?> _accountSubscription;
 
   @override
-  void onInit() {
-    super.onInit();
-    _bindCurrentAccount();
-    _accountWorker = ever(_auth.activePubkey, (_) => _rebindAccount());
-  }
-
-  @override
-  void onClose() {
-    _accountWorker?.dispose();
-    super.onClose();
+  void dispose() {
+    _accountSubscription.cancel();
+    super.dispose();
   }
 
   void _bindCurrentAccount() {
     final hex = _auth.publicKey;
     _myHex = hex;
     if (hex == null || !_nostrMailService.hasAccount) {
-      isLoading.value = false;
+      isLoading = false;
+      notifyListeners();
       return;
     }
     _loadCachedData();
@@ -51,10 +53,11 @@ class IdentitiesController extends GetxController {
     _accountGeneration++;
     _hasLoadedData = false;
     _original = const [];
-    identities.clear();
+    identities = [];
     markedForDeletion.clear();
-    isLoading.value = true;
-    isRefreshing.value = false;
+    isLoading = true;
+    isRefreshing = false;
+    notifyListeners();
     _bindCurrentAccount();
   }
 
@@ -81,13 +84,14 @@ class IdentitiesController extends GetxController {
     if (settings == null) return;
 
     _applySettings(settings);
-    isLoading.value = false;
+    isLoading = false;
+    notifyListeners();
   }
 
   void _applySettings(PrivateSettings? settings) {
     final loaded = settings?.identities ?? [];
     _original = List.from(loaded);
-    identities.assignAll(loaded);
+    identities = List.of(loaded);
     markedForDeletion.clear();
     _hasLoadedData = true;
   }
@@ -98,10 +102,11 @@ class IdentitiesController extends GetxController {
   }) async {
     final generation = _accountGeneration;
     if (_hasLoadedData && fetchFromRelays) {
-      isRefreshing.value = true;
+      isRefreshing = true;
     } else if (!_hasLoadedData) {
-      isLoading.value = true;
+      isLoading = true;
     }
+    notifyListeners();
 
     try {
       final settings = fetchFromRelays
@@ -118,8 +123,9 @@ class IdentitiesController extends GetxController {
       }
     } finally {
       if (generation == _accountGeneration) {
-        isLoading.value = false;
-        isRefreshing.value = false;
+        isLoading = false;
+        isRefreshing = false;
+        notifyListeners();
       }
     }
   }
@@ -130,6 +136,7 @@ class IdentitiesController extends GetxController {
     } else {
       markedForDeletion.add(index);
     }
+    notifyListeners();
   }
 
   void reorder(int oldIndex, int newIndex) {
@@ -151,17 +158,20 @@ class IdentitiesController extends GetxController {
     markedForDeletion
       ..clear()
       ..addAll(shifted);
+    notifyListeners();
   }
 
   void discardChanges() {
-    identities.assignAll(_original);
+    identities = List.of(_original);
     markedForDeletion.clear();
+    notifyListeners();
   }
 
   Future<void> saveChanges() async {
-    if (!hasChanges || isSaving.value) return;
+    if (!hasChanges || isSaving) return;
     final generation = _accountGeneration;
-    isSaving.value = true;
+    isSaving = true;
+    notifyListeners();
     try {
       final toSave = <MailAddress>[];
       for (int i = 0; i < identities.length; i++) {
@@ -170,10 +180,11 @@ class IdentitiesController extends GetxController {
       await _nostrMailService.client.updatePrivateSettings(identities: toSave);
       if (generation != _accountGeneration) return;
       _original = List.from(toSave);
-      identities.assignAll(toSave);
+      identities = toSave;
       markedForDeletion.clear();
     } finally {
-      isSaving.value = false;
+      isSaving = false;
+      notifyListeners();
     }
   }
 }

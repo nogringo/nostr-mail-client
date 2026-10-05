@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/backgrounds_controller.dart';
 import '../../../models/background_preset.dart';
@@ -16,21 +16,24 @@ class BackgroundGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<BackgroundsController>();
+    final controller = GetIt.I<BackgroundsController>();
 
-    return Obx(() {
-      final images = controller.savedImages;
-      const presets = BackgroundPreset.all;
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final images = controller.savedImages;
+        const presets = BackgroundPreset.all;
 
-      return BackgroundGrid(
-        children: [
-          for (final preset in presets)
-            BackgroundPresetThumbnail(preset: preset),
-          const BackgroundDefaultSwatch(),
-          for (final image in images) BackgroundImageThumbnail(value: image),
-          const BackgroundAddButton(),
-        ],
-      );
-    });
+        return BackgroundGrid(
+          children: [
+            for (final preset in presets)
+              BackgroundPresetThumbnail(preset: preset),
+            const BackgroundDefaultSwatch(),
+            for (final image in images) BackgroundImageThumbnail(value: image),
+            const BackgroundAddButton(),
+          ],
+        );
+      },
+    );
   }
 }

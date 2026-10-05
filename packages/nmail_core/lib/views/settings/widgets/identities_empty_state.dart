@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/routes/app_routes.dart';
@@ -46,7 +46,7 @@ class IdentitiesEmptyState extends StatelessWidget {
               label: Text(l.identitiesCreate),
               onPressed: () async {
                 await context.push(AppRoutes.settingsIdentitiesNew);
-                await Get.find<IdentitiesController>().loadData();
+                await GetIt.I<IdentitiesController>().loadData();
               },
             ),
           ],

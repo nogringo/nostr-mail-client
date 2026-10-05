@@ -275,14 +275,14 @@ class AppRouter {
             path: AppRoutes.settings,
             builder: (_, _) {
               // The root list shows how many identities the account has.
-              Get.lazyPut(() => IdentitiesController());
+              _registerOnce(IdentitiesController.new);
               return const SettingsView();
             },
             routes: [
               GoRoute(
                 path: 'appearance',
                 builder: (_, _) {
-                  Get.lazyPut(() => BackgroundsController());
+                  _registerOnce(BackgroundsController.new);
                   return const AppearanceSettingsView();
                 },
                 routes: [
@@ -293,7 +293,7 @@ class AppRouter {
                       return true;
                     },
                     builder: (_, _) {
-                      Get.lazyPut(() => BackgroundsController());
+                      _registerOnce(BackgroundsController.new);
                       _ensureCommunityThemesController();
                       return const CommunityThemesView();
                     },
@@ -311,7 +311,7 @@ class AppRouter {
                 path: 'identities',
                 onExit: (context, _) => confirmDiscardIdentityChanges(context),
                 builder: (_, _) {
-                  Get.lazyPut(() => IdentitiesController());
+                  _registerOnce(IdentitiesController.new);
                   return const IdentitiesView();
                 },
                 routes: [
@@ -354,7 +354,7 @@ class AppRouter {
               GoRoute(
                 path: 'about',
                 builder: (_, _) {
-                  Get.lazyPut(() => AboutController());
+                  _registerOnce(AboutController.new);
                   return const AboutSettingsView();
                 },
               ),
@@ -436,6 +436,15 @@ class AppRouter {
         initialRecipient: initialRecipient,
         editingScheduled: editingScheduled,
       ),
+    );
+  }
+
+  /// Created on first use and kept.
+  static void _registerOnce<T extends ChangeNotifier>(T Function() create) {
+    if (GetIt.I.isRegistered<T>()) return;
+    GetIt.I.registerLazySingleton(
+      create,
+      dispose: (controller) => controller.dispose(),
     );
   }
 
@@ -544,7 +553,7 @@ class AppRouter {
         return const NotFoundView();
       }
       if (naddr.kind != CommunityTheme.kind) return const NotFoundView();
-      Get.lazyPut(() => BackgroundsController());
+      _registerOnce(BackgroundsController.new);
       _ensureCommunityThemeController(
         pubkey: naddr.pubkey,
         identifier: naddr.identifier,

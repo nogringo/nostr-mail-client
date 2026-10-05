@@ -14,29 +14,39 @@ import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
 /// The gallery of saved backgrounds, kept in the Blossom cache.
-class BackgroundsController extends GetxController {
+class BackgroundsController extends ChangeNotifier {
+  BackgroundsController() {
+    loadSavedImages();
+  }
+
   static const _cachedGalleryKey = 'background_gallery';
 
   /// Newest first, as background values.
-  final savedImages = <String>[].obs;
-  final isBusy = false.obs;
+  final savedImages = <String>[];
+  bool isBusy = false;
+
+  bool _isDisposed = false;
 
   SettingsController get _settings => Get.find<SettingsController>();
 
   @override
-  void onInit() {
-    super.onInit();
-    loadSavedImages();
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   Future<void> loadSavedImages() async {
     try {
       final images = await _listCachedGallery();
-      if (isClosed) return;
-      savedImages.value = images;
+      if (_isDisposed) return;
+      savedImages
+        ..clear()
+        ..addAll(images);
     } catch (_) {
-      if (!isClosed) savedImages.clear();
+      if (_isDisposed) return;
+      savedImages.clear();
     }
+    notifyListeners();
   }
 
   Future<void> select(String? value) => _settings.setBackgroundImage(value);
@@ -85,7 +95,8 @@ class BackgroundsController extends GetxController {
 
   Future<void> _downloadToCache(BuildContext context, String url) async {
     final l = AppLocalizations.of(context);
-    isBusy.value = true;
+    isBusy = true;
+    notifyListeners();
 
     try {
       await select(await downloadToGallery(url));
@@ -94,13 +105,17 @@ class BackgroundsController extends GetxController {
         ToastHelper.error(context, l.settingsBackgroundUrlError);
       }
     } finally {
-      if (!isClosed) isBusy.value = false;
+      if (!_isDisposed) {
+        isBusy = false;
+        notifyListeners();
+      }
     }
   }
 
   Future<void> addPickedImage(BuildContext context, PlatformFile picked) async {
     final l = AppLocalizations.of(context);
-    isBusy.value = true;
+    isBusy = true;
+    notifyListeners();
 
     try {
       await select(
@@ -114,7 +129,10 @@ class BackgroundsController extends GetxController {
         ToastHelper.error(context, l.settingsBackgroundCopyFailed);
       }
     } finally {
-      if (!isClosed) isBusy.value = false;
+      if (!_isDisposed) {
+        isBusy = false;
+        notifyListeners();
+      }
     }
   }
 
@@ -143,6 +161,7 @@ class BackgroundsController extends GetxController {
     final value = BackgroundPreset.cachedImageValue(blob.sha256);
     savedImages.remove(value);
     savedImages.insert(0, value);
+    notifyListeners();
     await _saveCachedGallery();
     return value;
   }
@@ -151,6 +170,7 @@ class BackgroundsController extends GetxController {
     final sha256 = BackgroundPreset.cachedImageSha256(value);
     if (sha256 != null) await GetIt.I<BlossomCache>().delete(sha256);
     savedImages.remove(value);
+    notifyListeners();
     await _saveCachedGallery();
   }
 

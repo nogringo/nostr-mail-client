@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:system_theme/system_theme.dart';
 
 import '../../../controllers/backgrounds_controller.dart';
@@ -28,7 +29,7 @@ class BackgroundDefaultSwatch extends StatelessWidget {
       return BackgroundThumbnail(
         label: l.settingsBackgroundDefaultLabel,
         isSelected: BackgroundPreset.isSystemColorValue(current),
-        onTap: () => Get.find<BackgroundsController>().select(
+        onTap: () => GetIt.I<BackgroundsController>().select(
           BackgroundPreset.systemColorStorageValue,
         ),
         child: ColoredBox(color: systemScheme.primaryContainer),

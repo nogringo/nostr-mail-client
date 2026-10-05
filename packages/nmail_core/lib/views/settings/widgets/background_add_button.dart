@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/backgrounds_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -11,7 +11,7 @@ class BackgroundAddButton extends StatelessWidget {
   const BackgroundAddButton({super.key});
 
   Future<void> _addBackground(BuildContext context) async {
-    final controller = Get.find<BackgroundsController>();
+    final controller = GetIt.I<BackgroundsController>();
 
     final source = await _askSource(context);
     if (source == null || !context.mounted) return;
@@ -106,29 +106,32 @@ class BackgroundAddButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final controller = Get.find<BackgroundsController>();
+    final controller = GetIt.I<BackgroundsController>();
 
-    return Obx(() {
-      final isBusy = controller.isBusy.value;
-      return BackgroundThumbnail(
-        label: l.settingsBackgroundAddLabel,
-        onTap: isBusy ? null : () => _addBackground(context),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceContainerLowest,
-            border: Border.all(color: colorScheme.outlineVariant),
-            borderRadius: BorderRadius.circular(8),
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final isBusy = controller.isBusy;
+        return BackgroundThumbnail(
+          label: l.settingsBackgroundAddLabel,
+          onTap: isBusy ? null : () => _addBackground(context),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: colorScheme.surfaceContainerLowest,
+              border: Border.all(color: colorScheme.outlineVariant),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: isBusy
+                ? const Center(
+                    child: SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  )
+                : Icon(Icons.add, color: colorScheme.onSurfaceVariant),
           ),
-          child: isBusy
-              ? const Center(
-                  child: SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                )
-              : Icon(Icons.add, color: colorScheme.onSurfaceVariant),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

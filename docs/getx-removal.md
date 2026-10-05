@@ -98,6 +98,7 @@ Created in a `show...` helper:
 Disposed when leaving the route:
 
 - [ ] `ComposeController`
+- [ ] `ProfileController`
 
 Kept until the next one opened replaces it:
 
@@ -106,12 +107,11 @@ Kept until the next one opened replaces it:
 
 Created on first use and kept:
 
-- [ ] `AboutController`
-- [ ] `BackgroundsController`
+- [x] `AboutController`
+- [x] `BackgroundsController`
 - [ ] `ContactsController`
-- [ ] `IdentitiesController`
+- [x] `IdentitiesController`
 - [ ] `InboxController`
-- [ ] `ProfileController`
 - [ ] `ScheduledController`
 
 ### 5. App services and controllers

@@ -6,21 +6,20 @@ import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
-class AboutController extends GetxController {
-  static const _tapsToUnlockDebugTools = 7;
-
-  final version = ''.obs;
-  var _versionTaps = 0;
-
-  @override
-  void onInit() {
-    super.onInit();
+class AboutController extends ChangeNotifier {
+  AboutController() {
     _loadVersion();
   }
 
+  static const _tapsToUnlockDebugTools = 7;
+
+  String version = '';
+  var _versionTaps = 0;
+
   Future<void> _loadVersion() async {
     final info = await PackageInfo.fromPlatform();
-    version.value = info.version;
+    version = info.version;
+    notifyListeners();
   }
 
   void onVersionTap(BuildContext context) {

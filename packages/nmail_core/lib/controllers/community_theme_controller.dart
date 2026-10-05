@@ -130,7 +130,7 @@ class CommunityThemeController extends ChangeNotifier {
     try {
       final imageUrl = theme.backgroundImageUrl;
       final background = imageUrl != null
-          ? await Get.find<BackgroundsController>().downloadToGallery(imageUrl)
+          ? await GetIt.I<BackgroundsController>().downloadToGallery(imageUrl)
           : BackgroundPreset.systemColorStorageValue;
       await _settings.applyCommunityTheme(theme, background: background);
     } catch (_) {

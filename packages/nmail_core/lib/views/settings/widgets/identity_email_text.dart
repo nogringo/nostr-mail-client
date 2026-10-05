@@ -1,6 +1,6 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/identities_controller.dart';
 
@@ -16,7 +16,7 @@ class IdentityEmailText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<IdentitiesController>();
+    final controller = GetIt.I<IdentitiesController>();
     final disabledColor = Theme.of(context).disabledColor;
     final decoration = isMarked ? TextDecoration.lineThrough : null;
     final baseStyle = TextStyle(

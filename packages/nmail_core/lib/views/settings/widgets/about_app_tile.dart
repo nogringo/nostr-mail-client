@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../controllers/about_controller.dart';
@@ -15,7 +14,7 @@ class AboutAppTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final controller = Get.find<AboutController>();
+    final controller = GetIt.I<AboutController>();
     final distribution = GetIt.I<DistributionConfig>().distribution;
 
     return Padding(
@@ -52,9 +51,10 @@ class AboutAppTile extends StatelessWidget {
               const AboutDistributionChip(),
           ],
         ),
-        subtitle: Obx(
-          () => Text(
-            controller.version.value,
+        subtitle: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => Text(
+            controller.version,
             style: TextStyle(color: theme.colorScheme.primary),
           ),
         ),
