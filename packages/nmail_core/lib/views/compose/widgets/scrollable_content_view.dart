@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:get/get.dart';
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/recipient.dart';
@@ -17,119 +16,121 @@ import 'recipient_autocomplete.dart';
 import 'schedule_banner.dart';
 
 class ScrollableContentView extends StatelessWidget {
-  const ScrollableContentView({super.key});
+  const ScrollableContentView({super.key, required this.controller});
+
+  final ComposeController controller;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = ComposeController.to;
     final isWide = ResponsiveHelper.isNotMobile(context);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const ScheduleBanner(),
-        Obx(
-          () => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (controller.recipients.isNotEmpty)
-                RecipientChipsRow(
-                  field: RecipientField.to,
-                  recipients: controller.recipients,
-                  onDelete: controller.removeRecipient,
-                ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 16, right: 8),
-                      child: RecipientAutocomplete(
-                        textController: controller.toController,
-                        focusNode: controller.focusNodeOf(RecipientField.to),
-                        hintText: controller.recipients.isEmpty
-                            ? l.composeTo
-                            : l.composeAddMore,
-                        excludeIds: controller.recipientIds,
-                        onContactSelected: controller.addRecipientFromContact,
-                        onManualInput: controller.addRecipient,
-                        onSubmitted: controller.handleToSubmit,
-                      ),
-                    ),
-                  ),
-                  if (isWide)
-                    TextButton.icon(
-                      onPressed: controller.toggleExpandedFields,
-                      icon: Icon(
-                        controller.showExpandedFields.value
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
-                      ),
-                      iconAlignment: IconAlignment.end,
-                      label: Text(l.composeExpandedFieldsButtonLabel),
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                      ),
-                    )
-                  else
-                    IconButton(
-                      icon: Icon(
-                        controller.showExpandedFields.value
-                            ? Icons.keyboard_arrow_up
-                            : Icons.keyboard_arrow_down,
-                      ),
-                      onPressed: controller.toggleExpandedFields,
-                      tooltip: controller.showExpandedFields.value
-                          ? l.composeHideExpanded
-                          : l.composeShowExpanded,
-                    ),
-                  SizedBox(width: isWide ? 16 : 8),
-                ],
+        ScheduleBanner(controller: controller),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (controller.recipients.isNotEmpty)
+              RecipientChipsRow(
+                controller: controller,
+                field: RecipientField.to,
+                recipients: controller.recipients,
+                onDelete: controller.removeRecipient,
               ),
-              if (controller.showExpandedFields.value) ...[
-                const Divider(height: 1),
-                if (controller.ccRecipients.isNotEmpty)
-                  RecipientChipsRow(
-                    field: RecipientField.cc,
-                    recipients: controller.ccRecipients,
-                    onDelete: controller.removeCcRecipient,
-                  ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: RecipientAutocomplete(
-                    textController: controller.ccController,
-                    focusNode: controller.focusNodeOf(RecipientField.cc),
-                    hintText: l.composeCc,
-                    excludeIds: controller.ccRecipientIds,
-                    onContactSelected: controller.addCcRecipientFromContact,
-                    onManualInput: controller.addCcRecipient,
-                    onSubmitted: controller.handleCcSubmit,
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 8),
+                    child: RecipientAutocomplete(
+                      textController: controller.toController,
+                      focusNode: controller.focusNodeOf(RecipientField.to),
+                      hintText: controller.recipients.isEmpty
+                          ? l.composeTo
+                          : l.composeAddMore,
+                      excludeIds: controller.recipientIds,
+                      onContactSelected: controller.addRecipientFromContact,
+                      onManualInput: controller.addRecipient,
+                      onSubmitted: controller.handleToSubmit,
+                    ),
                   ),
                 ),
-                const Divider(height: 1),
-                if (controller.bccRecipients.isNotEmpty)
-                  RecipientChipsRow(
-                    field: RecipientField.bcc,
-                    recipients: controller.bccRecipients,
-                    onDelete: controller.removeBccRecipient,
+                if (isWide)
+                  TextButton.icon(
+                    onPressed: controller.toggleExpandedFields,
+                    icon: Icon(
+                      controller.showExpandedFields
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                    ),
+                    iconAlignment: IconAlignment.end,
+                    label: Text(l.composeExpandedFieldsButtonLabel),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                    ),
+                  )
+                else
+                  IconButton(
+                    icon: Icon(
+                      controller.showExpandedFields
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                    ),
+                    onPressed: controller.toggleExpandedFields,
+                    tooltip: controller.showExpandedFields
+                        ? l.composeHideExpanded
+                        : l.composeShowExpanded,
                   ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: RecipientAutocomplete(
-                    textController: controller.bccController,
-                    focusNode: controller.focusNodeOf(RecipientField.bcc),
-                    hintText: l.composeBcc,
-                    excludeIds: controller.bccRecipientIds,
-                    onContactSelected: controller.addBccRecipientFromContact,
-                    onManualInput: controller.addBccRecipient,
-                    onSubmitted: controller.handleBccSubmit,
-                  ),
-                ),
-                const Divider(height: 1),
-                FromSelectorView(),
+                SizedBox(width: isWide ? 16 : 8),
               ],
+            ),
+            if (controller.showExpandedFields) ...[
+              const Divider(height: 1),
+              if (controller.ccRecipients.isNotEmpty)
+                RecipientChipsRow(
+                  controller: controller,
+                  field: RecipientField.cc,
+                  recipients: controller.ccRecipients,
+                  onDelete: controller.removeCcRecipient,
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: RecipientAutocomplete(
+                  textController: controller.ccController,
+                  focusNode: controller.focusNodeOf(RecipientField.cc),
+                  hintText: l.composeCc,
+                  excludeIds: controller.ccRecipientIds,
+                  onContactSelected: controller.addCcRecipientFromContact,
+                  onManualInput: controller.addCcRecipient,
+                  onSubmitted: controller.handleCcSubmit,
+                ),
+              ),
+              const Divider(height: 1),
+              if (controller.bccRecipients.isNotEmpty)
+                RecipientChipsRow(
+                  controller: controller,
+                  field: RecipientField.bcc,
+                  recipients: controller.bccRecipients,
+                  onDelete: controller.removeBccRecipient,
+                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: RecipientAutocomplete(
+                  textController: controller.bccController,
+                  focusNode: controller.focusNodeOf(RecipientField.bcc),
+                  hintText: l.composeBcc,
+                  excludeIds: controller.bccRecipientIds,
+                  onContactSelected: controller.addBccRecipientFromContact,
+                  onManualInput: controller.addBccRecipient,
+                  onSubmitted: controller.handleBccSubmit,
+                ),
+              ),
+              const Divider(height: 1),
+              FromSelectorView(controller: controller),
             ],
-          ),
+          ],
         ),
         const Divider(height: 1),
         Padding(
@@ -151,13 +152,14 @@ class ScrollableContentView extends StatelessWidget {
           ),
         ),
         const Divider(height: 1),
-        QuillToolbarView(),
+        QuillToolbarView(controller: controller),
         const Divider(height: 1),
         Container(
           constraints: const BoxConstraints(minHeight: 200),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: EditorContextMenu(
+              controller: controller,
               child: QuillEditor(
                 controller: controller.quillController,
                 focusNode: controller.editorFocusNode,
@@ -173,10 +175,8 @@ class ScrollableContentView extends StatelessWidget {
             ),
           ),
         ),
-        Obx(() {
-          if (controller.attachments.isEmpty) return Container();
-
-          return Column(
+        if (controller.attachments.isNotEmpty)
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Divider(height: 1),
@@ -197,9 +197,8 @@ class ScrollableContentView extends StatelessWidget {
                 ),
               ),
             ],
-          );
-        }),
-        const QuotedEmailView(),
+          ),
+        QuotedEmailView(controller: controller),
       ],
     );
   }

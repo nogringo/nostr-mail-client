@@ -6,11 +6,13 @@ import 'package:nmail_core/utils/toast_helper.dart';
 /// Pick a send date and time and store it as the pending schedule. This does
 /// not send: delivery is queued only when the user presses the send button,
 /// which schedules whenever [ComposeController.scheduledAt] is set.
-Future<void> pickScheduleTime(BuildContext context) async {
+Future<void> pickScheduleTime(
+  BuildContext context,
+  ComposeController controller,
+) async {
   final l = AppLocalizations.of(context);
-  final controller = ComposeController.to;
   final now = DateTime.now();
-  final existing = controller.scheduledAt.value;
+  final existing = controller.scheduledAt;
   final suggested = (existing != null && existing.isAfter(now))
       ? existing
       : now.add(const Duration(hours: 1));
@@ -35,5 +37,5 @@ Future<void> pickScheduleTime(BuildContext context) async {
     return;
   }
 
-  controller.scheduledAt.value = at;
+  controller.scheduledAt = at;
 }

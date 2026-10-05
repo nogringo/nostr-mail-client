@@ -61,9 +61,7 @@ String _readableAddresses(Iterable<MailAddress> addresses) => addresses
 
 enum NostrLookupResult { found, notFound, unreachable }
 
-class ComposeController extends GetxController implements InlineImageSource {
-  static ComposeController get to => Get.find();
-
+class ComposeController extends ChangeNotifier implements InlineImageSource {
   /// Optional source email + mode for reply/forward flows.
   /// Passed by the route builder via GoRouter's `extra`.
   final Email? sourceEmail;
@@ -84,17 +82,46 @@ class ComposeController extends GetxController implements InlineImageSource {
   bool get isEditingScheduled => editingScheduled != null;
 
   /// Pre-fills, and reflects edits to, the send time when editing a schedule.
-  final Rxn<DateTime> scheduledAt = Rxn<DateTime>();
+  DateTime? get scheduledAt => _scheduledAt;
+  set scheduledAt(DateTime? value) {
+    _scheduledAt = value;
+    notifyListeners();
+  }
 
   final _nostrMailService = Get.find<NostrMailService>();
   final _contactsService = Get.find<ContactsService>();
   final _metadataService = Get.find<MetadataService>();
 
-  final isSending = false.obs;
-  final recipients = <Recipient>[].obs;
-  final Rxn<FromOption> selectedFrom = Rxn<FromOption>();
-  final fromOptions = <FromOption>[].obs;
-  final attachments = <ComposeAttachment>[].obs;
+  bool get isSending => _isSending;
+  set isSending(bool value) {
+    _isSending = value;
+    notifyListeners();
+  }
+
+  final recipients = <Recipient>[];
+
+  FromOption? get selectedFrom => _selectedFrom;
+  set selectedFrom(FromOption? value) {
+    _selectedFrom = value;
+    notifyListeners();
+  }
+
+  List<FromOption> get fromOptions => _fromOptions;
+  set fromOptions(List<FromOption> value) {
+    _fromOptions = value;
+    if (_pendingFrom case final addresses?) {
+      _pendingFrom = null;
+      _applyFrom(addresses);
+    }
+    notifyListeners();
+  }
+
+  DateTime? _scheduledAt;
+  bool _isSending = false;
+  FromOption? _selectedFrom;
+  List<FromOption> _fromOptions = [];
+
+  final attachments = <ComposeAttachment>[];
 
   /// Images of the body and of the quote, keyed by the Content-ID their `cid:`
   /// URL names.
@@ -109,19 +136,21 @@ class ComposeController extends GetxController implements InlineImageSource {
   bool get quoteIsReply => _quoteIsReply;
   bool _quoteIsReply = false;
 
-  final quoteExpanded = false.obs;
+  bool quoteExpanded = false;
 
   /// [_quotedHtml] ready to display, kept because resolving its styles on
   /// every rebuild would cost too much.
-  final quotedEmailHtml = Rxn<EmailHtml>();
+  EmailHtml? quotedEmailHtml;
 
   /// Whether the quote shows the images it would fetch over the network.
-  final showQuotedImages = false.obs;
-  final sendMode = SendMode.normal.obs;
+  bool showQuotedImages = false;
+  SendMode sendMode = SendMode.normal;
 
-  final showExpandedFields = false.obs;
-  final ccRecipients = <Recipient>[].obs;
-  final bccRecipients = <Recipient>[].obs;
+  bool showExpandedFields = false;
+  final ccRecipients = <Recipient>[];
+  final bccRecipients = <Recipient>[];
+
+  bool _isDisposed = false;
 
   late final TextEditingController toController;
   late final TextEditingController ccController;
@@ -134,16 +163,14 @@ class ComposeController extends GetxController implements InlineImageSource {
   };
   final ScrollController editorScrollController = ScrollController();
 
-  @override
-  void onInit() {
-    super.onInit();
+  void init() {
     _contactsService.loadContacts();
 
     final settings = Get.find<SettingsController>();
     final signature = settings.signature(
       AppLocalizations.of(AppRouter.rootContext!),
     );
-    showQuotedImages.value = settings.alwaysLoadImages.value;
+    showQuotedImages = settings.alwaysLoadImages.value;
 
     toController = TextEditingController();
     ccController = TextEditingController();
@@ -170,12 +197,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     // Load from options
     loadFromOptions();
-  }
 
-  @override
-  void onReady() {
-    super.onReady();
-    // Initialize reply/forward async after onInit completes
     if (editingScheduled != null) {
       initFromScheduled(editingScheduled!);
     } else if (sourceEmail != null && sourceMode != null) {
@@ -195,7 +217,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   Future<bool> addBccRecipient(String input) =>
       _addRecipientToList(input, bccRecipients);
 
-  Future<bool> _addRecipientToList(String input, RxList<Recipient> list) async {
+  Future<bool> _addRecipientToList(String input, List<Recipient> list) async {
     final trimmed = input.trim();
     if (trimmed.isEmpty) return false;
     if (list.any((r) => r.input == trimmed)) return false;
@@ -221,10 +243,11 @@ class ComposeController extends GetxController implements InlineImageSource {
     return true;
   }
 
-  bool _addUnique(Recipient recipient, RxList<Recipient> list) {
+  bool _addUnique(Recipient recipient, List<Recipient> list) {
     final pubkey = recipient.pubkey;
     if (pubkey != null && list.any((r) => r.pubkey == pubkey)) return false;
     list.add(recipient);
+    notifyListeners();
     return true;
   }
 
@@ -237,7 +260,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     resolution.whenComplete(() => _pendingResolutions.remove(resolution));
   }
 
-  Future<void> _upgradeToNostr(Recipient legacy, RxList<Recipient> list) async {
+  Future<void> _upgradeToNostr(Recipient legacy, List<Recipient> list) async {
     final pubkey = await _resolveNip05(legacy.input);
     if (pubkey == null) return;
     _promoteToNostr(list, legacy, pubkey);
@@ -245,7 +268,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
   /// Keeps the legacy address so the user can switch back to SMTP.
   void _promoteToNostr(
-    RxList<Recipient> list,
+    List<Recipient> list,
     Recipient legacy,
     String pubkey,
   ) {
@@ -263,9 +286,10 @@ class ComposeController extends GetxController implements InlineImageSource {
       );
     }
     _revertBridgeIfNoLegacy();
+    notifyListeners();
   }
 
-  RxList<Recipient> recipientsOf(RecipientField field) => switch (field) {
+  List<Recipient> recipientsOf(RecipientField field) => switch (field) {
     RecipientField.to => recipients,
     RecipientField.cc => ccRecipients,
     RecipientField.bcc => bccRecipients,
@@ -303,7 +327,8 @@ class ComposeController extends GetxController implements InlineImageSource {
     } else {
       target.add(recipient);
     }
-    if (to != RecipientField.to) showExpandedFields.value = true;
+    if (to != RecipientField.to) showExpandedFields = true;
+    notifyListeners();
   }
 
   /// Turns the chip back into the text the user typed.
@@ -328,6 +353,7 @@ class ComposeController extends GetxController implements InlineImageSource {
       type: RecipientType.legacy,
     );
     _autoSelectBridgeForLegacy();
+    notifyListeners();
   }
 
   Future<NostrLookupResult> sendViaNostr(
@@ -353,9 +379,10 @@ class ComposeController extends GetxController implements InlineImageSource {
   void removeBccRecipient(int index) =>
       _removeRecipientFromList(index, bccRecipients);
 
-  void _removeRecipientFromList(int index, RxList<Recipient> list) {
+  void _removeRecipientFromList(int index, List<Recipient> list) {
     if (index < 0 || index >= list.length) return;
     if (list.removeAt(index).isLegacy) _revertBridgeIfNoLegacy();
+    notifyListeners();
   }
 
   /// The bridge picked by [_autoSelectBridgeForLegacy], reverted once no
@@ -370,14 +397,14 @@ class ComposeController extends GetxController implements InlineImageSource {
     if (hasLegacyRecipients) return;
 
     final bridge = _autoSelectedBridge;
-    if (bridge == null || selectedFrom.value != bridge) return;
+    if (bridge == null || selectedFrom != bridge) return;
     _autoSelectedBridge = null;
 
     final nostrOption = fromOptions.firstWhereOrNull(
       (o) => o.source == FromSource.npubNostr,
     );
     if (nostrOption != null) {
-      selectedFrom.value = nostrOption;
+      selectedFrom = nostrOption;
     }
   }
 
@@ -388,7 +415,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   void addBccRecipientFromContact(Contact contact) =>
       _addContactToList(contact, bccRecipients);
 
-  void _addContactToList(Contact contact, RxList<Recipient> list) {
+  void _addContactToList(Contact contact, List<Recipient> list) {
     // Check if already added (by pubkey or email)
     if (contact.pubkey != null && contact.pubkey!.isNotEmpty) {
       if (list.any((r) => r.pubkey == contact.pubkey)) return;
@@ -407,6 +434,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     if (recipient.isLegacy) {
       _autoSelectBridgeForLegacy();
     }
+    notifyListeners();
   }
 
   Set<String> get recipientIds => _getIdsFromList(recipients);
@@ -414,7 +442,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   Set<String> get bccRecipientIds => _getIdsFromList(bccRecipients);
 
   /// Get all recipient identifiers for exclusion in autocomplete
-  Set<String> _getIdsFromList(RxList<Recipient> list) {
+  Set<String> _getIdsFromList(List<Recipient> list) {
     final ids = <String>{};
     for (final r in list) {
       if (r.pubkey != null) {
@@ -442,6 +470,7 @@ class ComposeController extends GetxController implements InlineImageSource {
             mimeType: _getMimeType(file.name),
           ),
         );
+        notifyListeners();
       }
     } catch (e) {
       if (AppRouter.rootContext != null) {
@@ -457,6 +486,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   void removeAttachment(int index) {
     if (index >= 0 && index < attachments.length) {
       attachments.removeAt(index);
+      notifyListeners();
     }
   }
 
@@ -468,6 +498,7 @@ class ComposeController extends GetxController implements InlineImageSource {
       data: attachment.data,
       mimeType: attachment.mimeType,
     );
+    notifyListeners();
   }
 
   /// Returns the `cid:` URL the body embeds [bytes] under.
@@ -603,7 +634,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   }) async {
     if (recipients.isEmpty) return false;
 
-    isSending.value = true;
+    isSending = true;
     try {
       final message = buildMimeMessage(
         from: from,
@@ -624,7 +655,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     } catch (e) {
       return false;
     } finally {
-      isSending.value = false;
+      isSending = false;
     }
   }
 
@@ -638,7 +669,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   }) async {
     if (recipients.isEmpty) return false;
 
-    isSending.value = true;
+    isSending = true;
     try {
       final message = buildMimeMessage(
         from: from,
@@ -660,7 +691,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     } catch (e) {
       return false;
     } finally {
-      isSending.value = false;
+      isSending = false;
     }
   }
 
@@ -701,7 +732,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     }
 
     if (from != null) {
-      final displayName = selectedFrom.value?.displayName;
+      final displayName = selectedFrom?.displayName;
       builder.from = [MailAddress(displayName, from)];
     }
 
@@ -837,8 +868,8 @@ class ComposeController extends GetxController implements InlineImageSource {
       );
     }
 
-    fromOptions.value = options;
-    selectedFrom.value ??= options.first;
+    fromOptions = options;
+    selectedFrom ??= options.first;
     _autoSelectBridgeForLegacy();
 
     // 4. Check if user's NIP-05 domain is a bridge
@@ -851,7 +882,7 @@ class ComposeController extends GetxController implements InlineImageSource {
           picture: metadata?.picture,
           source: FromSource.nip05Bridge,
         );
-        fromOptions.add(option);
+        fromOptions = [...fromOptions, option];
       }
     }
   }
@@ -869,7 +900,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     if (!hasLegacyRecipients) return;
 
     // If current selection is already a bridge, keep it
-    final currentFrom = selectedFrom.value;
+    final currentFrom = selectedFrom;
     if (currentFrom != null && currentFrom.source != FromSource.npubNostr) {
       return; // Already using a bridge
     }
@@ -879,7 +910,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     );
 
     if (primaryOption != null) {
-      selectedFrom.value = primaryOption;
+      selectedFrom = primaryOption;
       _autoSelectedBridge = primaryOption;
     }
   }
@@ -903,7 +934,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   }
 
   void selectFrom(FromOption option) {
-    selectedFrom.value = option;
+    selectedFrom = option;
     _autoSelectedBridge = null;
   }
 
@@ -912,8 +943,8 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     // Get user's MailAddress from selectedFrom or fallback
     MailAddress fromAddress;
-    if (selectedFrom.value != null) {
-      fromAddress = selectedFrom.value!.mailAddress;
+    if (selectedFrom != null) {
+      fromAddress = selectedFrom!.mailAddress;
     } else {
       // Fallback: try to get from email.mime.to (sent by me) or use default
       final myAddress = email.senderPubkey == myPubkey
@@ -1027,7 +1058,8 @@ class ComposeController extends GetxController implements InlineImageSource {
   }
 
   void toggleQuote() {
-    quoteExpanded.value = !quoteExpanded.value;
+    quoteExpanded = !quoteExpanded;
+    notifyListeners();
   }
 
   void removeQuote() {
@@ -1037,15 +1069,16 @@ class ComposeController extends GetxController implements InlineImageSource {
   }
 
   void loadQuotedImages() {
-    showQuotedImages.value = true;
+    showQuotedImages = true;
     _prepareQuote();
   }
 
   void _prepareQuote() {
     final html = _quotedHtml;
-    quotedEmailHtml.value = html == null
+    quotedEmailHtml = html == null
         ? null
-        : prepareEmailHtml(html, allowRemoteImages: showQuotedImages.value);
+        : prepareEmailHtml(html, allowRemoteImages: showQuotedImages);
+    notifyListeners();
   }
 
   @override
@@ -1079,7 +1112,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     for (final ref
         in withAttachments ? email.attachmentRefs : const <AttachmentRef>[]) {
-      if (isClosed) return;
+      if (_isDisposed) return;
       if (contentIds.contains(normalizeContentId(ref.contentId))) continue;
       final bytes = await _attachmentBytes(email, ref);
       if (bytes == null) {
@@ -1093,9 +1126,10 @@ class ComposeController extends GetxController implements InlineImageSource {
           mimeType: ref.contentType,
         ),
       );
+      notifyListeners();
     }
 
-    if (!complete && !isClosed && _quotedHtml != null) {
+    if (!complete && !_isDisposed && _quotedHtml != null) {
       final l = AppLocalizations.of(AppRouter.rootContext!);
       ToastHelper.error(AppRouter.rootContext!, l.composeForwardPartsFailed);
     }
@@ -1104,7 +1138,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   /// Null when the image cannot be recovered, never an error, which would
   /// break the chain of loads behind it.
   Future<Uint8List?> _loadInlineImage(Email email, String contentId) async {
-    if (isClosed) return null;
+    if (_isDisposed) return null;
     try {
       final ref = inlineImageRef(email.attachmentRefs, contentId);
       final bytes =
@@ -1164,7 +1198,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   /// and the sender of an email that came through Nostr stays its pubkey.
   void _addReplyRecipient(
     MailAddress address,
-    RxList<Recipient> list,
+    List<Recipient> list,
     Email email,
     Set<String> nostrSenderAddresses,
   ) {
@@ -1193,13 +1227,14 @@ class ComposeController extends GetxController implements InlineImageSource {
   /// immediately; the full body and attachments are hydrated from the original
   /// MIME, which the package reconstructs from the schedule's stored content.
   Future<void> initFromScheduled(ScheduledEmail scheduled) async {
-    scheduledAt.value = scheduled.scheduleAt;
-    sendMode.value = scheduled.isPublic ? SendMode.public : SendMode.normal;
+    scheduledAt = scheduled.scheduleAt;
+    sendMode = scheduled.isPublic ? SendMode.public : SendMode.normal;
     subjectController.text = scheduled.subject;
 
     final mime = await _nostrMailService.client.getScheduledMime(
       scheduled.packageId,
     );
+    if (_isDisposed) return;
 
     final to = mime?.to?.map((a) => a.email) ?? scheduled.to;
     final cc = mime?.cc?.map((a) => a.email) ?? scheduled.cc;
@@ -1214,7 +1249,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     for (final address in bcc) {
       addBccRecipient(address);
     }
-    if (cc.isNotEmpty || bcc.isNotEmpty) showExpandedFields.value = true;
+    if (cc.isNotEmpty || bcc.isNotEmpty) showExpandedFields = true;
 
     // Set after recipients so the original From wins over any bridge that
     // adding a legacy recipient auto-selected.
@@ -1224,32 +1259,32 @@ class ComposeController extends GetxController implements InlineImageSource {
       _loadAttachmentsFromMime(mime);
       _setBodyFromMime(mime);
     }
+    notifyListeners();
   }
 
   /// Select the From option of the first of [addresses] that has one, as soon
-  /// as the options are loaded (they load asynchronously in [onInit]).
+  /// as the options are loaded (they load asynchronously in [init]).
   void _applyFrom(List<String> addresses) {
     if (addresses.isEmpty) return;
-    void apply(List<FromOption> options) {
-      final match = addresses
-          .map(
-            (address) => options.firstWhereOrNull(
-              (o) => o.address.toLowerCase() == address.toLowerCase(),
-            ),
-          )
-          .nonNulls
-          .firstOrNull;
-      if (match == null) return;
-      selectedFrom.value = match;
-      _autoSelectedBridge = null;
+    if (fromOptions.isEmpty) {
+      _pendingFrom = addresses;
+      return;
     }
-
-    if (fromOptions.isNotEmpty) {
-      apply(fromOptions);
-    } else {
-      once(fromOptions, apply);
-    }
+    final match = addresses
+        .map(
+          (address) => fromOptions.firstWhereOrNull(
+            (o) => o.address.toLowerCase() == address.toLowerCase(),
+          ),
+        )
+        .nonNulls
+        .firstOrNull;
+    if (match == null) return;
+    selectedFrom = match;
+    _autoSelectedBridge = null;
   }
+
+  /// The addresses [_applyFrom] got before the From options loaded.
+  List<String>? _pendingFrom;
 
   /// The HTML part is the source of truth, as in other rich-text clients.
   void _setBodyFromMime(MimeMessage mime) {
@@ -1321,14 +1356,16 @@ class ComposeController extends GetxController implements InlineImageSource {
     );
   }
 
+  /// Lookups, loads and sends outlive the page that started them.
   @override
-  void onClose() {
-    _browserImagePaste?.cancel();
-    super.onClose();
+  void notifyListeners() {
+    if (!_isDisposed) super.notifyListeners();
   }
 
   @override
   void dispose() {
+    _isDisposed = true;
+    _browserImagePaste?.cancel();
     toController.dispose();
     ccController.dispose();
     bccController.dispose();
@@ -1343,7 +1380,8 @@ class ComposeController extends GetxController implements InlineImageSource {
   }
 
   void toggleExpandedFields() {
-    showExpandedFields.value = !showExpandedFields.value;
+    showExpandedFields = !showExpandedFields;
+    notifyListeners();
   }
 
   Future<void> handleToSubmit(String value) =>
@@ -1361,6 +1399,7 @@ class ComposeController extends GetxController implements InlineImageSource {
     final input = value.trim();
     if (input.isNotEmpty) {
       final added = await addFunc(input);
+      if (_isDisposed) return;
       if (added) {
         controller.clear();
       } else {
@@ -1376,7 +1415,7 @@ class ComposeController extends GetxController implements InlineImageSource {
   Future<void> firstSend() async {
     if (!await _flushAndValidate()) return;
 
-    final at = scheduledAt.value;
+    final at = scheduledAt;
     if (at != null && !at.isAfter(DateTime.now())) {
       final l = AppLocalizations.of(AppRouter.rootContext!);
       ToastHelper.error(AppRouter.rootContext!, l.composeScheduleTimePast);
@@ -1387,17 +1426,17 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     final success = at != null
         ? await scheduleSend(
-            from: selectedFrom.value?.address,
+            from: selectedFrom?.address,
             subject: subjectController.text,
             document: quillController.document,
             at: at,
-            mode: sendMode.value,
+            mode: sendMode,
           )
         : await send(
-            from: selectedFrom.value?.address,
+            from: selectedFrom?.address,
             subject: subjectController.text,
             document: quillController.document,
-            mode: sendMode.value,
+            mode: sendMode,
           );
 
     final l = AppLocalizations.of(AppRouter.rootContext!);
@@ -1450,9 +1489,9 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     final pending = [..._pendingResolutions, ?_quotedParts];
     if (pending.isNotEmpty) {
-      isSending.value = true;
+      isSending = true;
       await Future.wait(pending);
-      isSending.value = false;
+      isSending = false;
     }
 
     final l = AppLocalizations.of(AppRouter.rootContext!);
@@ -1461,8 +1500,8 @@ class ComposeController extends GetxController implements InlineImageSource {
       return false;
     }
 
-    if (selectedFrom.value == null && fromOptions.isNotEmpty) {
-      selectedFrom.value = fromOptions.first;
+    if (selectedFrom == null && fromOptions.isNotEmpty) {
+      selectedFrom = fromOptions.first;
     }
 
     return true;

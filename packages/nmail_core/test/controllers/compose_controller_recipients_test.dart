@@ -265,7 +265,7 @@ void main() {
 
       expect(controller.recipients, isEmpty);
       expect(controller.ccRecipients.single, same(recipient));
-      expect(controller.showExpandedFields.value, isTrue);
+      expect(controller.showExpandedFields, isTrue);
     });
 
     test('moveRecipient does not duplicate a recipient already there', () {
@@ -353,13 +353,13 @@ void main() {
         final bridge = option('$npub@uid.ovh', FromSource.npubBridge);
         final identity = option('me@uid.ovh', FromSource.customIdentity);
         controller.fromOptions.addAll([bridge, identity]);
-        controller.selectedFrom.value = bridge;
+        controller.selectedFrom = bridge;
 
         controller.applyReplyFrom(
           _email(from: 'support@opensats.org', isBridged: true),
         );
 
-        expect(controller.selectedFrom.value, same(identity));
+        expect(controller.selectedFrom, same(identity));
       });
 
       test('waits for the From options to load', () async {
@@ -367,13 +367,13 @@ void main() {
           _email(from: 'support@opensats.org', isBridged: true),
         );
         final identity = option('me@uid.ovh', FromSource.customIdentity);
-        controller.fromOptions.value = [
+        controller.fromOptions = [
           option('$npub@nostr', FromSource.npubNostr),
           identity,
         ];
         await pumpEventQueue();
 
-        expect(controller.selectedFrom.value, same(identity));
+        expect(controller.selectedFrom, same(identity));
       });
 
       test('replies to an own email from its From', () {
@@ -387,7 +387,7 @@ void main() {
           _email(from: 'me@work.com', isBridged: false),
         );
 
-        expect(controller.selectedFrom.value, same(work));
+        expect(controller.selectedFrom, same(work));
       });
 
       test('keeps the bridge of a legacy recipient over npub@nostr', () {
@@ -396,13 +396,13 @@ void main() {
           option('$npub@nostr', FromSource.npubNostr),
           bridge,
         ]);
-        controller.selectedFrom.value = bridge;
+        controller.selectedFrom = bridge;
 
         controller.applyReplyFrom(
           _email(from: 'alice@alice.com', cc: '$npub@nostr', isBridged: false),
         );
 
-        expect(controller.selectedFrom.value, same(bridge));
+        expect(controller.selectedFrom, same(bridge));
       });
     });
 
@@ -572,12 +572,12 @@ void main() {
       test('a reply quote starts folded and can be left out', () async {
         await controller.quoteReply(_quotedEmail());
         expect(controller.quoteIsReply, isTrue);
-        expect(controller.quoteExpanded.value, isFalse);
+        expect(controller.quoteExpanded, isFalse);
 
         controller.removeQuote();
         final sent = send('Thanks');
 
-        expect(controller.quotedEmailHtml.value, isNull);
+        expect(controller.quotedEmailHtml, isNull);
         expect(sent.decodeTextHtmlPart(), isNot(contains('wrote:')));
         expect(
           sent.allPartsFlat.where(

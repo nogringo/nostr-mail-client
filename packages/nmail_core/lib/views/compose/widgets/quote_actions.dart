@@ -4,14 +4,18 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 /// Unfolds, folds and removes the email a reply quotes.
 class QuoteActions extends StatelessWidget {
+  final ComposeController controller;
   final bool expanded;
 
-  const QuoteActions({super.key, required this.expanded});
+  const QuoteActions({
+    super.key,
+    required this.controller,
+    required this.expanded,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = ComposeController.to;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

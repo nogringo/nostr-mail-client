@@ -14,7 +14,6 @@ import '../../controllers/blossom_servers_controller.dart';
 import '../../controllers/bridges_controller.dart';
 import '../../controllers/community_theme_controller.dart';
 import '../../controllers/community_themes_controller.dart';
-import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/dm_relays_controller.dart';
 import '../../controllers/identities_controller.dart';
@@ -229,25 +228,14 @@ class AppRouter {
           // Compose
           GoRoute(
             path: AppRoutes.compose,
-            // Dispose the controller when the route actually leaves the
-            // stack (pop, redirect away). go_router does NOT call onExit
-            // on builder rebuilds, so the in-progress draft survives theme
-            // changes / refreshListenable fires.
-            onExit: (_, _) {
-              if (Get.isRegistered<ComposeController>()) {
-                Get.delete<ComposeController>();
-              }
-              return true;
-            },
             builder: (_, state) {
               final extra = state.extra is Map ? state.extra as Map : null;
-              _ensureComposeController(
+              return ComposeView(
                 sourceEmail: extra?['email'] as Email?,
                 sourceMode: extra?['mode'] as ComposeMode?,
                 initialRecipient: extra?['recipient'] as Recipient?,
                 editingScheduled: extra?['scheduledEmail'] as ScheduledEmail?,
               );
-              return const ComposeView();
             },
           ),
 
@@ -401,28 +389,6 @@ class AppRouter {
         ),
         ...routes,
       ],
-    );
-  }
-
-  /// Register ComposeController once per route entry. The compose route's
-  /// `onExit` disposes it on actual exit, so a fresh push always lands here
-  /// with no existing controller. On builder re-runs while the route stays
-  /// on-stack (theme change, refreshListenable fire) the existing controller
-  /// is kept and the in-progress draft is preserved.
-  static void _ensureComposeController({
-    required Email? sourceEmail,
-    required ComposeMode? sourceMode,
-    required Recipient? initialRecipient,
-    required ScheduledEmail? editingScheduled,
-  }) {
-    if (Get.isRegistered<ComposeController>()) return;
-    Get.put(
-      ComposeController(
-        sourceEmail: sourceEmail,
-        sourceMode: sourceMode,
-        initialRecipient: initialRecipient,
-        editingScheduled: editingScheduled,
-      ),
     );
   }
 

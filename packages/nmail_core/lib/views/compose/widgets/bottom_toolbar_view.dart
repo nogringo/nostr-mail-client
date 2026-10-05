@@ -5,19 +5,20 @@ import 'package:nmail_core/views/compose/widgets/schedule_send_button.dart';
 import 'package:nmail_core/views/compose/widgets/send_button_menu.dart';
 
 class BottomToolbarView extends StatelessWidget {
-  const BottomToolbarView({super.key});
+  const BottomToolbarView({super.key, required this.controller});
+
+  final ComposeController controller;
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = ComposeController.to;
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          const SendButtonMenu(),
+          SendButtonMenu(controller: controller),
           const SizedBox(width: 8),
-          const ScheduleSendButton(),
+          ScheduleSendButton(controller: controller),
           IconButton(
             onPressed: controller.pickAttachments,
             icon: const Icon(Icons.attach_file),

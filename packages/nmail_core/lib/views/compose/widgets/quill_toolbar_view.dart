@@ -3,7 +3,9 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nmail_core/controllers/compose_controller.dart';
 
 class QuillToolbarView extends StatelessWidget {
-  const QuillToolbarView({super.key});
+  const QuillToolbarView({super.key, required this.controller});
+
+  final ComposeController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class QuillToolbarView extends StatelessWidget {
     );
 
     return QuillSimpleToolbar(
-      controller: ComposeController.to.quillController,
+      controller: controller.quillController,
       config: QuillSimpleToolbarConfig(
         buttonOptions: QuillSimpleToolbarButtonOptions(
           bold: _toggleOptions(

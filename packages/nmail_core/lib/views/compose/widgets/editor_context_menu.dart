@@ -8,8 +8,13 @@ import 'package:nmail_core/views/shared/show_context_menu.dart';
 
 /// The browser menu is disabled on the web and flutter_quill shows none there.
 class EditorContextMenu extends StatelessWidget {
-  const EditorContextMenu({super.key, required this.child});
+  const EditorContextMenu({
+    super.key,
+    required this.controller,
+    required this.child,
+  });
 
+  final ComposeController controller;
   final Widget child;
 
   @override
@@ -25,7 +30,6 @@ class EditorContextMenu extends StatelessWidget {
   }
 
   Future<void> _showMenu(BuildContext context, Offset position) {
-    final controller = ComposeController.to;
     final quill = controller.quillController;
     final hasSelection = !quill.selection.isCollapsed;
     final labels = MaterialLocalizations.of(context);

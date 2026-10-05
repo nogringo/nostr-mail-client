@@ -46,11 +46,11 @@ String? recipientSmtpAddress(Recipient recipient) {
 List<PersonCardAction> buildRecipientChipActions(
   BuildContext context,
   AddressBookContact? contact, {
+  required ComposeController controller,
   required RecipientField field,
   required Recipient recipient,
 }) {
   final l = AppLocalizations.of(context);
-  final controller = ComposeController.to;
   final pubkey = recipient.pubkey;
   final smtpAddress = recipientSmtpAddress(recipient);
   final fieldLabels = {
@@ -70,13 +70,13 @@ List<PersonCardAction> buildRecipientChipActions(
       PersonCardAction(
         icon: Icons.swap_horiz,
         label: l.composeRecipientSendViaNostr,
-        onPressed: () => _sendViaNostr(context, field, recipient),
+        onPressed: () => _sendViaNostr(context, controller, field, recipient),
       ),
     if (!_keyInput.hasMatch(recipient.input))
       PersonCardAction(
         icon: Icons.edit_outlined,
         label: l.composeRecipientEdit,
-        onPressed: () => _edit(field, recipient),
+        onPressed: () => _edit(controller, field, recipient),
       ),
     for (final target in RecipientField.values)
       if (target != field)
@@ -114,10 +114,11 @@ List<PersonCardAction> buildRecipientChipActions(
 
 Future<void> _sendViaNostr(
   BuildContext context,
+  ComposeController controller,
   RecipientField field,
   Recipient recipient,
 ) async {
-  final result = await ComposeController.to.sendViaNostr(field, recipient);
+  final result = await controller.sendViaNostr(field, recipient);
   if (!context.mounted) return;
   final l = AppLocalizations.of(context);
   switch (result) {
@@ -136,8 +137,11 @@ Future<void> _sendViaNostr(
   }
 }
 
-void _edit(RecipientField field, Recipient recipient) {
-  final controller = ComposeController.to;
+void _edit(
+  ComposeController controller,
+  RecipientField field,
+  Recipient recipient,
+) {
   controller.editRecipient(field, recipient);
   final focusNode = controller.focusNodeOf(field);
   // After the menu closes, or it takes the focus back.

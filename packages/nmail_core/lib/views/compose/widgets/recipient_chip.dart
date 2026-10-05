@@ -2,6 +2,7 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
@@ -11,12 +12,14 @@ import '../../../widgets/nostr_avatar.dart';
 import 'recipient_chip_actions.dart';
 
 class RecipientChip extends StatelessWidget {
+  final ComposeController controller;
   final RecipientField field;
   final Recipient recipient;
   final VoidCallback onDelete;
 
   const RecipientChip({
     super.key,
+    required this.controller,
     required this.field,
     required this.recipient,
     required this.onDelete,
@@ -40,6 +43,7 @@ class RecipientChip extends StatelessWidget {
       actions: (actionContext, contact) => buildRecipientChipActions(
         actionContext,
         contact,
+        controller: controller,
         field: field,
         recipient: recipient,
       ),

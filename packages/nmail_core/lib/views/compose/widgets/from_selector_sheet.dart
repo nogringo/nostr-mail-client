@@ -11,9 +11,11 @@ import 'package:nmail_core/models/from_option.dart';
 import '../../../widgets/nostr_avatar.dart';
 
 class FromSelectorSheet extends StatelessWidget {
-  const FromSelectorSheet({super.key});
+  const FromSelectorSheet({super.key, required this.controller});
 
-  static Future<void> show(BuildContext context) {
+  final ComposeController controller;
+
+  static Future<void> show(BuildContext context, ComposeController controller) {
     return showModalBottomSheet(
       context: context,
       // Compose lives in the shell navigator, which would confine the sheet
@@ -23,14 +25,13 @@ class FromSelectorSheet extends StatelessWidget {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder: (context) => const FromSelectorSheet(),
+      builder: (context) => FromSelectorSheet(controller: controller),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<ComposeController>();
     final colorScheme = Theme.of(context).colorScheme;
 
     return SafeArea(
@@ -57,8 +58,9 @@ class FromSelectorSheet extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Flexible(
-            child: Obx(
-              () => ListView.builder(
+            child: ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) => ListView.builder(
                 shrinkWrap: true,
                 itemCount: controller.fromOptions.length + 1,
                 itemBuilder: (context, index) {
@@ -75,7 +77,7 @@ class FromSelectorSheet extends StatelessWidget {
                   // Regular from options (shifted by 1)
                   final option = controller.fromOptions[index - 1];
                   final isSelected =
-                      controller.selectedFrom.value?.address == option.address;
+                      controller.selectedFrom?.address == option.address;
                   return _FromOptionTile(
                     option: option,
                     isSelected: isSelected,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'recipient_chip.dart';
 
@@ -12,11 +13,13 @@ import 'recipient_chip.dart';
 class RecipientChipsRow extends StatelessWidget {
   const RecipientChipsRow({
     super.key,
+    required this.controller,
     required this.field,
     required this.recipients,
     required this.onDelete,
   });
 
+  final ComposeController controller;
   final RecipientField field;
   final List<Recipient> recipients;
   final void Function(int index) onDelete;
@@ -31,6 +34,7 @@ class RecipientChipsRow extends StatelessWidget {
         children: [
           for (final (index, recipient) in recipients.indexed)
             RecipientChip(
+              controller: controller,
               field: field,
               recipient: recipient,
               onDelete: () => onDelete(index),
