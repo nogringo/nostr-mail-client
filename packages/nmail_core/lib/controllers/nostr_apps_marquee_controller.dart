@@ -1,22 +1,19 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 
-class NostrAppsMarqueeController extends GetxController
-    with GetSingleTickerProviderStateMixin {
-  NostrAppsMarqueeController({required this.copies});
+class NostrAppsMarqueeController {
+  NostrAppsMarqueeController({
+    required this.copies,
+    required TickerProvider vsync,
+  }) {
+    _ticker = vsync.createTicker(_onTick)..start();
+  }
 
   static const _pixelsPerSecond = 30.0;
 
   final int copies;
   final scrollController = ScrollController();
   late final Ticker _ticker;
-
-  @override
-  void onInit() {
-    super.onInit();
-    _ticker = createTicker(_onTick)..start();
-  }
 
   void _onTick(Duration elapsed) {
     if (!scrollController.hasClients) return;
@@ -29,10 +26,8 @@ class NostrAppsMarqueeController extends GetxController
     scrollController.jumpTo(offset.clamp(0.0, position.maxScrollExtent));
   }
 
-  @override
-  void onClose() {
+  void dispose() {
     _ticker.dispose();
     scrollController.dispose();
-    super.onClose();
   }
 }

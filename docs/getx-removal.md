@@ -10,11 +10,12 @@ The `get` package is removed from `nmail_core`, `nmail_standard` and `nmail_foss
 | `GetxService` | Plain class, with `dispose()` when it holds resources |
 | `onInit()` | Constructor, or an awaited `init()` |
 | `onClose()` | `dispose()` |
+| `isClosed` | `_isDisposed` flag set in `dispose()` |
 | `.obs`, `Rx<T>`, `Rxn<T>` | `ValueNotifier<T>`, or a field followed by `notifyListeners()` |
 | `RxList`, `RxSet`, `RxMap` | `ValueNotifier` holding the collection, assigned a new collection on every change |
 | `Obx` | `ListenableBuilder` or `ValueListenableBuilder` |
 | `GetBuilder` + `update()` | `ListenableBuilder` + `notifyListeners()` |
-| `GetBuilder(init: ...)` | Controller created and disposed by the widget that shows it |
+| `GetBuilder(init: ...)` | `ControllerBuilder(create: ...)`, which creates, listens to and disposes the controller |
 | `ever`, `everAll`, `once` | `addListener` (on `Listenable.merge` for several sources), removed in `dispose()` |
 | `Get.put(x, permanent: true)` | `GetIt.I.registerSingleton(x)` |
 | `Get.lazyPut(() => X())` | `GetIt.I.registerLazySingleton(() => X(), dispose: (x) => x.dispose())` |
@@ -67,22 +68,22 @@ Objects registered with `Get.put` that are not GetX classes.
 
 Created by `GetBuilder(init: ...)` or by a view:
 
-- [ ] `AccountDeletedController`
+- [x] `AccountDeletedController`
 - [ ] `BlossomServersController`
 - [ ] `BridgesController`
 - [ ] `CommunityThemesController`
-- [ ] `CreateIdentityController`
-- [ ] `DebugToolsController`
-- [ ] `DeleteAccountController`
+- [x] `CreateIdentityController`
+- [x] `DebugToolsController`
+- [x] `DeleteAccountController`
 - [ ] `DmRelaysController`
 - [ ] `Nip65RelaysController`
-- [ ] `NostrAppsMarqueeController`
-- [ ] `PlainTextBodyController`
+- [x] `NostrAppsMarqueeController`
+- [x] `PlainTextBodyController`
 - [ ] `RecipientAutocompleteController`
-- [ ] `RelayConnectivityController`
-- [ ] `RelaySetupController`
-- [ ] `StartupErrorController`
-- [ ] `SyncStatusController`
+- [x] `RelayConnectivityController`
+- [x] `RelaySetupController`
+- [x] `StartupErrorController`
+- [x] `SyncStatusController`
 
 Created in a `show...` helper:
 

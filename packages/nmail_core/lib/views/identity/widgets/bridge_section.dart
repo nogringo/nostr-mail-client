@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 import '../../../controllers/create_identity_controller.dart';
 import 'package:nmail_core/config/nostr_config.dart';
@@ -22,8 +21,9 @@ class BridgeSection extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 12),
-        GetBuilder<CreateIdentityController>(
-          builder: (_) => _buildBridgeChips(context),
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => _buildBridgeChips(context),
         ),
         const SizedBox(height: 8),
         _buildBridgeTextField(context),

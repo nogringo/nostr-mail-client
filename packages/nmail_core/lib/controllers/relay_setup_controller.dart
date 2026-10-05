@@ -35,7 +35,12 @@ enum HintOutcome { notFound, unreachable, nip05NotFound, nip05Unreachable }
 /// meanwhile.
 enum RelaySetupAction { useFound, create }
 
-class RelaySetupController extends GetxController {
+class RelaySetupController extends ChangeNotifier {
+  RelaySetupController() {
+    _onlineSubscription = _device.isOffline.listen(_handleOnlineEdge);
+    _startAutoSearch();
+  }
+
   final hintController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
@@ -45,7 +50,8 @@ class RelaySetupController extends GetxController {
     _ndk,
     device: _device,
   );
-  Worker? _onlineWorker;
+  late final StreamSubscription<bool> _onlineSubscription;
+  bool _isDisposed = false;
 
   /// An online edge that landed mid-search, replayed once the search settles.
   bool _searchAgainWhenSettled = false;
@@ -66,18 +72,12 @@ class RelaySetupController extends GetxController {
   String get pubkey => Get.find<AuthController>().publicKey!;
 
   @override
-  void onInit() {
-    super.onInit();
-    _onlineWorker = ever(_device.isOffline, _handleOnlineEdge);
-    _startAutoSearch();
-  }
-
-  @override
-  void onClose() {
-    _onlineWorker?.dispose();
+  void dispose() {
+    _isDisposed = true;
+    _onlineSubscription.cancel();
     _discovery.dispose();
     hintController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   /// The network came back, so recover without waiting for the retry button.
@@ -97,10 +97,10 @@ class RelaySetupController extends GetxController {
   Future<void> _recoverAfterOnlineEdge() async {
     stage = RelaySetupStage.searching;
     showProgress = true;
-    update();
+    notifyListeners();
 
     await _device.reconnectSoon();
-    if (isClosed) return;
+    if (_isDisposed) return;
 
     await _startAutoSearch(showProgressNow: true);
   }
@@ -108,24 +108,24 @@ class RelaySetupController extends GetxController {
   Future<void> _startAutoSearch({bool showProgressNow = false}) async {
     stage = RelaySetupStage.searching;
     showProgress = showProgressNow;
-    update();
+    notifyListeners();
 
     if (!showProgressNow) {
       Future.delayed(const Duration(milliseconds: 300), () {
-        if (isClosed || stage != RelaySetupStage.searching) return;
+        if (_isDisposed || stage != RelaySetupStage.searching) return;
         showProgress = true;
-        update();
+        notifyListeners();
       });
     }
 
     final result = await _discovery.searchEverywhere(pubkey);
-    if (isClosed) return;
+    if (_isDisposed) return;
     if (result is RelayListFound) return _adoptAndContinue(result);
 
     stage = result is RelayListUnreachable
         ? RelaySetupStage.unreachable
         : RelaySetupStage.missing;
-    update();
+    notifyListeners();
 
     if (!_searchAgainWhenSettled) return;
     _searchAgainWhenSettled = false;
@@ -137,7 +137,7 @@ class RelaySetupController extends GetxController {
 
     stage = RelaySetupStage.searching;
     showProgress = true;
-    update();
+    notifyListeners();
 
     // Capped because the pass awaits each relay in turn: offline that is 4s
     // apiece, and this one is on a button rather than a background edge.
@@ -145,28 +145,28 @@ class RelaySetupController extends GetxController {
       const Duration(seconds: 6),
       onTimeout: () {},
     );
-    if (isClosed) return;
+    if (_isDisposed) return;
 
     await _startAutoSearch(showProgressNow: true);
   }
 
   Future<void> _adoptAndContinue(RelayListFound found) async {
     await _discovery.adopt(found);
-    if (isClosed) return;
+    if (_isDisposed) return;
     await _continueToInbox();
   }
 
   Future<void> _continueToInbox() async {
     await Get.find<AuthController>().completeLogin();
     // The router already left this screen, and the user may have moved on.
-    if (isClosed) return;
+    if (_isDisposed) return;
     AppRouter.router.go(AppRoutes.inbox);
   }
 
   void clearHintOutcome() {
     if (hintOutcome == null) return;
     hintOutcome = null;
-    update();
+    notifyListeners();
   }
 
   Future<void> searchHint() async {
@@ -179,17 +179,17 @@ class RelaySetupController extends GetxController {
     isSearchingHint = true;
     hintOutcome = null;
     hintResult = null;
-    update();
+    notifyListeners();
 
     try {
       final relays = hint.kind == RelayHintKind.nip05
           ? await _resolveNip05Relays(hint.value)
           : hint.relays;
-      if (isClosed) return;
+      if (_isDisposed) return;
       if (relays == null) return;
 
       final result = await _discovery.searchOn(pubkey, relays);
-      if (isClosed) return;
+      if (_isDisposed) return;
       switch (result) {
         case RelayListFound():
           hintResult = result;
@@ -199,9 +199,9 @@ class RelaySetupController extends GetxController {
           hintOutcome = HintOutcome.notFound;
       }
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         isSearchingHint = false;
-        update();
+        notifyListeners();
       }
     }
   }
@@ -210,7 +210,7 @@ class RelaySetupController extends GetxController {
   /// already recorded the outcome to show.
   Future<List<String>?> _resolveNip05Relays(String identifier) async {
     final resolved = await _ndk.nip05.resolve(identifier);
-    if (isClosed) return null;
+    if (_isDisposed) return null;
     switch (resolved) {
       case Nip05Found(data: final data):
         final relays = data.relays ?? const <String>[];
@@ -232,28 +232,28 @@ class RelaySetupController extends GetxController {
     final found = hintResult;
     if (found == null || isLeaving) return;
     runningAction = RelaySetupAction.useFound;
-    update();
+    notifyListeners();
     try {
       await _discovery.adopt(found);
-      if (isClosed) return;
+      if (_isDisposed) return;
       await _continueToInbox();
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         runningAction = null;
-        update();
+        notifyListeners();
       }
     }
   }
 
   void discardFoundList() {
     hintResult = null;
-    update();
+    notifyListeners();
   }
 
   Future<void> createRelayList() async {
     if (isLeaving) return;
     runningAction = RelaySetupAction.create;
-    update();
+    notifyListeners();
     try {
       final account = _ndk.accounts.getLoggedAccount()!;
       final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -283,12 +283,12 @@ class RelaySetupController extends GetxController {
         ]),
         pubkey: account.pubkey,
       );
-      if (isClosed) return;
+      if (_isDisposed) return;
       await _continueToInbox();
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         runningAction = null;
-        update();
+        notifyListeners();
       }
     }
   }

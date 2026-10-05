@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/relay_setup_controller.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 import '../shared/app_bar_account_avatar.dart';
 import 'widgets/relay_setup_missing.dart';
 import 'widgets/relay_setup_searching.dart';
@@ -28,11 +29,10 @@ class RelaySetupView extends StatelessWidget {
         }
         // One controller per account: logging out here can land on another
         // account that has no list either, without leaving this route.
-        return GetBuilder<RelaySetupController>(
+        return ControllerBuilder(
           key: ValueKey(pubkey),
-          tag: pubkey,
-          init: RelaySetupController(),
-          builder: (controller) => Scaffold(
+          create: RelaySetupController.new,
+          builder: (context, controller) => Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
               actions: const [AppBarAccountAvatar(), SizedBox(width: 16)],

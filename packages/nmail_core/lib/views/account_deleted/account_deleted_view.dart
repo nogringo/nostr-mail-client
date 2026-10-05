@@ -7,6 +7,7 @@ import 'package:nmail_core/controllers/account_deleted_controller.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 import 'widgets/vanish_relay_row.dart';
 
 /// Terminal screen of a deletion: the account is off this device, and the
@@ -21,9 +22,9 @@ class AccountDeletedView extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
-    return GetBuilder<AccountDeletedController>(
-      init: AccountDeletedController(requestId: requestId),
-      builder: (controller) {
+    return ControllerBuilder(
+      create: () => AccountDeletedController(requestId: requestId),
+      builder: (context, controller) {
         final relays = controller.relays;
 
         return PopScope(

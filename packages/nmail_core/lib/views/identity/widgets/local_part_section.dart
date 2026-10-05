@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 import '../../../controllers/create_identity_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -38,8 +37,9 @@ class LocalPartSection extends StatelessWidget {
 
   Widget _buildLocalPartChips(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return GetBuilder<CreateIdentityController>(
-      builder: (_) => Wrap(
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => Wrap(
         spacing: 8,
         children: [
           _buildFormatChip(

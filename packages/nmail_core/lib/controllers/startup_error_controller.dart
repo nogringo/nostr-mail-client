@@ -1,27 +1,27 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
-class StartupErrorController extends GetxController {
+class StartupErrorController extends ChangeNotifier {
   bool hasCopied = false;
   Timer? _resetTimer;
 
   Future<void> copyDetails(String details) async {
     await Clipboard.setData(ClipboardData(text: details));
     hasCopied = true;
-    update();
+    notifyListeners();
 
     _resetTimer?.cancel();
     _resetTimer = Timer(const Duration(seconds: 2), () {
       hasCopied = false;
-      update();
+      notifyListeners();
     });
   }
 
   @override
-  void onClose() {
+  void dispose() {
     _resetTimer?.cancel();
-    super.onClose();
+    super.dispose();
   }
 }

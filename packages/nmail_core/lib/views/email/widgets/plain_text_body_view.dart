@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/controllers/plain_text_body_controller.dart';
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/utils/confirm_open_link.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/utils/text_links.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 
 import 'person_anchor.dart';
 import 'person_card_actions.dart';
@@ -27,24 +27,24 @@ class PlainTextBodyView extends StatelessWidget {
         (actionContext, contact) =>
             buildPersonCardActions(actionContext, person, contact);
 
-    return GetBuilder<PlainTextBodyController>(
-      tag: email.id,
-      init: PlainTextBodyController(
-        // On web, the browser drops each \r from the text Cmd+C copies,
-        // which shifts the selection by one character per line.
-        email.body.replaceAll('\r\n', '\n'),
-        onOpenUrl: (url) => confirmOpenLink(context, url),
-        onOpenAddress: (person, position) {
-          if (ResponsiveHelper.isNotMobile(context)) {
-            Get.find<PlainTextBodyController>(
-              tag: email.id,
-            ).openMenu(person, position);
-          } else {
-            showPersonCardSheet(context, person, actionsFor(person));
-          }
-        },
-      ),
-      builder: (controller) => MenuAnchor(
+    return ControllerBuilder(
+      create: () {
+        late final PlainTextBodyController controller;
+        return controller = PlainTextBodyController(
+          // On web, the browser drops each \r from the text Cmd+C copies,
+          // which shifts the selection by one character per line.
+          email.body.replaceAll('\r\n', '\n'),
+          onOpenUrl: (url) => confirmOpenLink(context, url),
+          onOpenAddress: (person, position) {
+            if (ResponsiveHelper.isNotMobile(context)) {
+              controller.openMenu(person, position);
+            } else {
+              showPersonCardSheet(context, person, actionsFor(person));
+            }
+          },
+        );
+      },
+      builder: (context, controller) => MenuAnchor(
         controller: controller.menuController,
         style: personCardMenuStyle(context),
         menuChildren: [

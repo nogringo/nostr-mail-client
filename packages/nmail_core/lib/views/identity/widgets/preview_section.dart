@@ -1,6 +1,5 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../controllers/create_identity_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -15,8 +14,9 @@ class PreviewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return GetBuilder<CreateIdentityController>(
-      builder: (_) {
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         final mailAddress = controller.buildIdentity();
 
         if (!controller.hasRequiredFields || mailAddress == null) {

@@ -5,22 +5,22 @@ import 'auth_controller.dart';
 
 /// Drives the delete-account confirmation dialog: the typed confirmation, the
 /// signing step, and the refusal it can end on.
-class DeleteAccountController extends GetxController {
+class DeleteAccountController extends ChangeNotifier {
+  DeleteAccountController() {
+    confirmation.addListener(notifyListeners);
+  }
+
   final confirmation = TextEditingController();
 
   bool isDeleting = false;
   bool hasFailed = false;
+  bool _isDisposed = false;
 
   @override
-  void onInit() {
-    super.onInit();
-    confirmation.addListener(update);
-  }
-
-  @override
-  void onClose() {
+  void dispose() {
+    _isDisposed = true;
     confirmation.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   bool confirms(String word) =>
@@ -32,16 +32,16 @@ class DeleteAccountController extends GetxController {
     if (isDeleting) return null;
     isDeleting = true;
     hasFailed = false;
-    update();
+    notifyListeners();
 
     try {
       final request = await Get.find<AuthController>().deleteAccount();
       return request.id;
     } catch (_) {
-      if (isClosed) return null;
+      if (_isDisposed) return null;
       isDeleting = false;
       hasFailed = true;
-      update();
+      notifyListeners();
       return null;
     }
   }

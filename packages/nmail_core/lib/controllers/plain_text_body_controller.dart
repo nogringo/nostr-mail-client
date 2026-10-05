@@ -1,12 +1,11 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/text_links.dart';
 
-class PlainTextBodyController extends GetxController {
+class PlainTextBodyController extends ChangeNotifier {
   final String text;
   final void Function(String url) onOpenUrl;
 
@@ -17,21 +16,7 @@ class PlainTextBodyController extends GetxController {
     this.text, {
     required this.onOpenUrl,
     required this.onOpenAddress,
-  });
-
-  late final List<TextLinkSegment> segments;
-
-  /// Parallel to [segments]: the tap handler of each link, null for text.
-  late final List<TapGestureRecognizer?> recognizers;
-
-  final menuController = MenuController();
-
-  /// The person the address menu shows, once an address was tapped.
-  EmailPerson? menuPerson;
-
-  @override
-  void onInit() {
-    super.onInit();
+  }) {
     segments = splitTextLinks(text);
     recognizers = [
       for (final segment in segments)
@@ -47,6 +32,16 @@ class PlainTextBodyController extends GetxController {
     ];
   }
 
+  late final List<TextLinkSegment> segments;
+
+  /// Parallel to [segments]: the tap handler of each link, null for text.
+  late final List<TapGestureRecognizer?> recognizers;
+
+  final menuController = MenuController();
+
+  /// The person the address menu shows, once an address was tapped.
+  EmailPerson? menuPerson;
+
   static EmailPerson _person(String address) {
     final mailAddress = MailAddress(null, address);
     final pubkey = extractPubkeyFromAddress(address);
@@ -57,15 +52,15 @@ class PlainTextBodyController extends GetxController {
 
   void openMenu(EmailPerson person, Offset position) {
     menuPerson = person;
-    update();
+    notifyListeners();
     menuController.open(position: position);
   }
 
   @override
-  void onClose() {
+  void dispose() {
     for (final recognizer in recognizers) {
       recognizer?.dispose();
     }
-    super.onClose();
+    super.dispose();
   }
 }

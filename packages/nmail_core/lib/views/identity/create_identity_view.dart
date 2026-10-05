@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../controllers/create_identity_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 import 'widgets/display_name_field.dart';
 import 'widgets/local_part_section.dart';
 import 'widgets/bridge_section.dart';
@@ -19,9 +19,9 @@ class CreateIdentityView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<CreateIdentityController>(
-      init: CreateIdentityController(),
-      builder: (controller) {
+    return ControllerBuilder(
+      create: CreateIdentityController.new,
+      builder: (context, controller) {
         return Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(
@@ -29,11 +29,10 @@ class CreateIdentityView extends StatelessWidget {
             actionsPadding: .only(right: 8),
             actions: [
               FilledButton(
-                onPressed:
-                    (controller.isSaving.value || !controller.isFormValid)
+                onPressed: (controller.isSaving || !controller.isFormValid)
                     ? null
                     : controller.saveIdentity,
-                child: controller.isSaving.value
+                child: controller.isSaving
                     ? const SizedBox(
                         width: 18,
                         height: 18,

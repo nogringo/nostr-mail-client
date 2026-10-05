@@ -1,18 +1,25 @@
 import 'dart:async';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
-import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/utils/relay_utils.dart';
 
 /// Follows one queued request to vanish as the relays answer it.
-class AccountDeletedController extends GetxController {
-  AccountDeletedController({required this.requestId});
+class AccountDeletedController extends ChangeNotifier {
+  AccountDeletedController({required this.requestId}) {
+    _subscription = GetIt.I<OfflineBroadcast>().watch(requestId).listen((
+      record,
+    ) {
+      request = record;
+      notifyListeners();
+    });
+  }
 
   final String requestId;
 
-  StreamSubscription<QueuedBroadcast?>? _subscription;
+  late final StreamSubscription<QueuedBroadcast?> _subscription;
   QueuedBroadcast? request;
 
   List<String> get relays {
@@ -36,20 +43,8 @@ class AccountDeletedController extends GetxController {
       request?.terminalErrors.containsKey(relay) ?? false;
 
   @override
-  void onInit() {
-    super.onInit();
-    _subscription = GetIt.I<OfflineBroadcast>().watch(requestId).listen((
-      record,
-    ) {
-      if (isClosed) return;
-      request = record;
-      update();
-    });
-  }
-
-  @override
-  void onClose() {
-    _subscription?.cancel();
-    super.onClose();
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }

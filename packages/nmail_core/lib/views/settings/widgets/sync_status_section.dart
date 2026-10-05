@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../controllers/sync_status_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 import 'hosting_empty_tile.dart';
 import 'hosting_loading_tile.dart';
 import 'resync_tile.dart';
@@ -18,10 +18,9 @@ class SyncStatusSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<SyncStatusController>(
-      init: SyncStatusController(),
-      global: false,
-      builder: (controller) {
+    return ControllerBuilder(
+      create: SyncStatusController.new,
+      builder: (context, controller) {
         final statuses = controller.syncStatus ?? const <EmailSyncStatus>[];
 
         return Column(

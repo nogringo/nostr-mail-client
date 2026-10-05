@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/delete_account_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 import 'package:nmail_core/widgets/nostr_avatar.dart';
 import 'package:nmail_core/widgets/nostr_display_name.dart';
 
@@ -22,9 +22,9 @@ class DeleteAccountDialog extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final confirmWord = l.settingsDeleteAccountConfirmWord;
 
-    return GetBuilder<DeleteAccountController>(
-      init: DeleteAccountController(),
-      builder: (controller) {
+    return ControllerBuilder(
+      create: DeleteAccountController.new,
+      builder: (context, controller) {
         final isDeleting = controller.isDeleting;
         final canDelete = controller.confirms(confirmWord) && !isDeleting;
 

@@ -15,10 +15,11 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 
-class DebugToolsController extends GetxController {
+class DebugToolsController extends ChangeNotifier {
   final _nostrMailService = Get.find<NostrMailService>();
   final _storageService = Get.find<StorageService>();
-  final isClearingSyncCoverage = false.obs;
+  bool isClearingSyncCoverage = false;
+  bool _isDisposed = false;
 
   Future<void> createOldTrashedEmail(BuildContext context) async {
     final l = AppLocalizations.of(context);
@@ -139,7 +140,8 @@ class DebugToolsController extends GetxController {
 
   Future<void> clearSyncCoverage(BuildContext context) async {
     final l = AppLocalizations.of(context);
-    isClearingSyncCoverage.value = true;
+    isClearingSyncCoverage = true;
+    notifyListeners();
     try {
       await GetIt.I<SyncEngine>().clearAllLocalData();
       if (context.mounted) {
@@ -157,12 +159,21 @@ class DebugToolsController extends GetxController {
         );
       }
     } finally {
-      isClearingSyncCoverage.value = false;
+      if (!_isDisposed) {
+        isClearingSyncCoverage = false;
+        notifyListeners();
+      }
     }
   }
 
   Future<void> hideDebugTools(BuildContext context) async {
     await Get.find<SettingsController>().lockDebugTools();
     if (context.mounted) context.go(AppRoutes.settings);
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 }

@@ -9,7 +9,15 @@ import 'package:nmail_core/models/local_part_format.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
-class CreateIdentityController extends GetxController {
+class CreateIdentityController extends ChangeNotifier {
+  CreateIdentityController() {
+    nameController.addListener(notifyListeners);
+    localPartController.addListener(notifyListeners);
+    bridgeController.addListener(notifyListeners);
+    _loadUserData();
+    _loadBridges();
+  }
+
   final nameController = TextEditingController();
   final localPartController = TextEditingController();
   final bridgeController = TextEditingController();
@@ -20,30 +28,22 @@ class CreateIdentityController extends GetxController {
   late String myBase36;
   LocalPartFormat? selectedFormat;
   String? selectedBridge;
-  final isLoading = true.obs;
-  final isSaving = false.obs;
+  bool isLoading = true;
+  bool isSaving = false;
+  bool _isDisposed = false;
 
   final _nostrMailService = Get.find<NostrMailService>();
 
   @override
-  void onInit() {
-    super.onInit();
-    nameController.addListener(update);
-    localPartController.addListener(update);
-    bridgeController.addListener(update);
-    _loadUserData();
-    _loadBridges();
-  }
-
-  @override
-  void onClose() {
-    nameController.removeListener(update);
-    localPartController.removeListener(update);
-    bridgeController.removeListener(update);
+  void dispose() {
+    _isDisposed = true;
+    nameController.removeListener(notifyListeners);
+    localPartController.removeListener(notifyListeners);
+    bridgeController.removeListener(notifyListeners);
     nameController.dispose();
     localPartController.dispose();
     bridgeController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   void _loadUserData() {
@@ -64,27 +64,29 @@ class CreateIdentityController extends GetxController {
       availableBridges = [];
       existingIdentities = [];
     } finally {
-      isLoading.value = false;
-      update();
+      if (!_isDisposed) {
+        isLoading = false;
+        notifyListeners();
+      }
     }
   }
 
   void useNpub() {
     localPartController.text = myNpub;
     selectedFormat = LocalPartFormat.npub;
-    update();
+    notifyListeners();
   }
 
   void useHex() {
     localPartController.text = myHex;
     selectedFormat = LocalPartFormat.hex;
-    update();
+    notifyListeners();
   }
 
   void useBase36() {
     localPartController.text = myBase36;
     selectedFormat = LocalPartFormat.base36;
-    update();
+    notifyListeners();
   }
 
   void checkLocalPartFormat() {
@@ -94,7 +96,7 @@ class CreateIdentityController extends GetxController {
         text != myBase36 &&
         selectedFormat != null) {
       selectedFormat = null;
-      update();
+      notifyListeners();
     }
   }
 
@@ -103,14 +105,14 @@ class CreateIdentityController extends GetxController {
     if (bridgeController.text != bridge) {
       bridgeController.text = bridge;
     }
-    update();
+    notifyListeners();
   }
 
   void checkBridgeFormat() {
     final text = bridgeController.text.trim();
     if (text != selectedBridge && selectedBridge != null) {
       selectedBridge = null;
-      update();
+      notifyListeners();
     }
   }
 
@@ -132,7 +134,7 @@ class CreateIdentityController extends GetxController {
   }
 
   bool validateForm() {
-    if (isLoading.value) return false;
+    if (isLoading) return false;
     if (!hasRequiredFields) return false;
     if (hasExactDuplicate) return false;
 
@@ -156,20 +158,19 @@ class CreateIdentityController extends GetxController {
 
   Future<void> saveIdentity() async {
     if (!isFormValid) return;
-    if (isSaving.value) return;
+    if (isSaving) return;
 
     final newIdentity = buildIdentity();
     if (newIdentity == null) return;
 
-    isSaving.value = true;
-    update();
+    isSaving = true;
+    notifyListeners();
 
     try {
       final settings = await _nostrMailService.client.getLocalPrivateSettings();
       final existingIdentities = settings?.identities ?? [];
       this.existingIdentities = existingIdentities;
       if (_identityExists(existingIdentities, newIdentity)) {
-        update();
         return;
       }
 
@@ -194,10 +195,10 @@ class CreateIdentityController extends GetxController {
   }
 
   void _stopSaving() {
-    if (isClosed) return;
+    if (_isDisposed) return;
 
-    isSaving.value = false;
-    update();
+    isSaving = false;
+    notifyListeners();
   }
 
   bool _identityExists(
