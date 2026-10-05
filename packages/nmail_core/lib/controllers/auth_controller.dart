@@ -109,7 +109,7 @@ class AuthController extends GetxController {
     if (pk == null) return;
 
     try {
-      final metadata = await Get.find<MetadataService>().load(pk);
+      final metadata = await GetIt.I<MetadataService>().load(pk);
       if (publicKey != pk) return;
       userMetadata.value = metadata;
     } catch (_) {}

@@ -88,7 +88,7 @@ void main() {
     GetIt.I.registerSingleton(StorageService());
     GetIt.I.registerSingleton(NostrMailService());
     metadataService = FakeMetadataService();
-    Get.put<MetadataService>(metadataService);
+    GetIt.I.registerSingleton<MetadataService>(metadataService);
     contactsService = GetIt.I.registerSingleton(
       ContactsService(),
       dispose: (service) => service.dispose(),

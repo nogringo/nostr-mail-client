@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/community_theme.dart';
@@ -18,9 +18,9 @@ class CommunityThemeAuthor extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    return Obx(() {
-      final author = Get.find<MetadataService>().of(theme.pubkey).value;
-      return Row(
+    return ValueListenableBuilder(
+      valueListenable: GetIt.I<MetadataService>().of(theme.pubkey),
+      builder: (context, author, _) => Row(
         spacing: 8,
         children: [
           NostrAvatar(pubkey: theme.pubkey, radius: 12),
@@ -37,7 +37,7 @@ class CommunityThemeAuthor extends StatelessWidget {
             ),
           ),
         ],
-      );
-    });
+      ),
+    );
   }
 }

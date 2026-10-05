@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
@@ -13,13 +13,13 @@ import 'package:nmail_core/services/relay_list_discovery.dart';
 ///
 /// NDK resolves metadata asynchronously - even a cache hit goes through the
 /// async Sembast cache - so avatars and names "flash" from a placeholder to
-/// the real value on every widget build. This service keeps one [Rx] per
-/// pubkey for the whole app lifetime: the first lookup returns null and kicks
-/// off a one-shot load, every later lookup is synchronous, so the value never
-/// flashes again once resolved.
+/// the real value on every widget build. This service keeps one
+/// [ValueNotifier] per pubkey for the whole app lifetime: the first lookup
+/// returns null and kicks off a one-shot load, every later lookup is
+/// synchronous, so the value never flashes again once resolved.
 ///
-/// Read [of] inside an `Obx` to rebuild when the metadata arrives.
-class MetadataService extends GetxService {
+/// Listen to [of] to rebuild when the metadata arrives.
+class MetadataService {
   final Ndk _ndk = GetIt.I<Ndk>();
 
   late final RelayListDiscovery _discovery = RelayListDiscovery(
@@ -29,7 +29,7 @@ class MetadataService extends GetxService {
   late final MetadataReader _reader = MetadataReader(_ndk, _discovery);
 
   /// One reactive slot per pubkey, kept for the app's lifetime.
-  final Map<String, Rx<Metadata?>> _cache = {};
+  final Map<String, ValueNotifier<Metadata?>> _cache = {};
 
   final _resolved = StreamController<Metadata>.broadcast();
 
@@ -37,13 +37,13 @@ class MetadataService extends GetxService {
   Stream<Metadata> get resolved => _resolved.stream;
 
   /// Reactive accessor. Returns immediately with whatever is known (possibly
-  /// null) and triggers a background load on the first miss. Read `.value`
-  /// inside an `Obx` to rebuild once the metadata is resolved.
-  Rx<Metadata?> of(String pubkey) {
+  /// null) and triggers a background load on the first miss. Listen to it to
+  /// rebuild once the metadata is resolved.
+  ValueListenable<Metadata?> of(String pubkey) {
     final existing = _cache[pubkey];
     if (existing != null) return existing;
 
-    final slot = Rx<Metadata?>(null);
+    final slot = ValueNotifier<Metadata?>(null);
     _cache[pubkey] = slot;
     _load(pubkey);
     return slot;
@@ -87,11 +87,9 @@ class MetadataService extends GetxService {
     }
   }
 
-  @override
-  void onClose() {
+  void dispose() {
     _resolved.close();
     _discovery.dispose();
-    super.onClose();
   }
 
   Future<void> _load(String pubkey) async {

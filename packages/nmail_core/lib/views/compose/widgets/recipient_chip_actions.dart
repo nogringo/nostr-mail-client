@@ -1,6 +1,5 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
@@ -28,15 +27,15 @@ EmailPerson recipientPerson(Recipient recipient) {
 }
 
 /// The address typed for this recipient, else its NIP-05 once its domain is
-/// known to receive mail. Call it inside an `Obx`, under a listener on
-/// [MailDomainService].
+/// known to receive mail. Call it under a listener on [MailDomainService] and
+/// on the recipient's profile in [MetadataService].
 String? recipientSmtpAddress(Recipient recipient) {
   final known = recipient.smtpAddress;
   final pubkey = recipient.pubkey;
   if (known != null || pubkey == null) return known;
 
   final address = nip05MailAddress(
-    Get.find<MetadataService>().of(pubkey).value?.nip05,
+    GetIt.I<MetadataService>().of(pubkey).value?.nip05,
   );
   if (address == null) return null;
   final domain = address.split('@').last;

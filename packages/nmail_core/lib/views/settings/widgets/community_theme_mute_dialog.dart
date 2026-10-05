@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,14 +21,14 @@ class CommunityThemeMuteDialog extends StatelessWidget {
     final controller = GetIt.I<CommunityThemeController>();
 
     return AlertDialog(
-      title: Obx(() {
-        final author = Get.find<MetadataService>().of(theme.pubkey).value;
-        return Text(
+      title: ValueListenableBuilder(
+        valueListenable: GetIt.I<MetadataService>().of(theme.pubkey),
+        builder: (context, author, _) => Text(
           l.communityThemeMuteTitle(
             author?.getBestName() ?? getAnonName(theme.pubkey),
           ),
-        );
-      }),
+        ),
+      ),
       content: Text(l.communityThemeMuteMessage),
       actions: [
         TextButton(

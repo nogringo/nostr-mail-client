@@ -151,22 +151,21 @@ class EmailTile extends StatelessWidget {
     ];
   }
 
-  String _displayNameForAddress(MailAddress address) {
+  EmailPerson _personForAddress(MailAddress address) {
     final pubkey = extractPubkeyFromAddress(address.email);
-    return emailPersonName(
-      pubkey != null ? EmailPerson.nostr(pubkey) : EmailPerson.email(address),
-    );
+    return pubkey != null
+        ? EmailPerson.nostr(pubkey)
+        : EmailPerson.email(address);
   }
 
-  String get _displayName {
-    if (_isSentByMe) {
-      return _displayAddresses.map(_displayNameForAddress).join(', ');
-    }
+  List<EmailPerson> get _displayPersons => _isSentByMe
+      ? _displayAddresses.map(_personForAddress).toList()
+      : [_otherSidePerson];
 
-    // Read inside the Obx that wraps the tile, so the name updates in place
-    // once metadata loads or the contact changes.
-    return emailPersonName(_otherSidePerson);
-  }
+  // Read inside the Obx that wraps the tile, under a listener on each
+  // person's profile, so the name updates in place once metadata loads or the
+  // contact changes.
+  String get _displayName => _displayPersons.map(emailPersonName).join(', ');
 
   Widget _buildDisplayNameText(TextStyle style) {
     return Tooltip(
@@ -263,48 +262,53 @@ class EmailTile extends StatelessWidget {
     final swipeRight = _swipeRight(l, mailbox);
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Obx(
-      () => Semantics(
-        label: _semanticsLabel(context),
-        button: true,
-        selected: isSelected,
-        excludeSemantics: true,
-        onTap: onTap,
-        onLongPress: onToggleSelect,
-        customSemanticsActions: _semanticsActions(l, mailbox),
-        child: Dismissible(
-          key: ValueKey(email.id),
-          direction: swipeRight == null
-              ? DismissDirection.endToStart
-              : DismissDirection.horizontal,
-          background: Container(
-            color: swipeRight?.color,
-            alignment: Alignment.centerLeft,
-            padding: const EdgeInsets.only(left: 16),
-            child: swipeRight == null
-                ? null
-                : Icon(swipeRight.icon, color: Colors.white),
-          ),
-          secondaryBackground: Container(
-            color: colorScheme.error,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(right: 16),
-            child: Icon(Icons.delete, color: colorScheme.onError),
-          ),
-          onDismissed: (direction) {
-            if (direction == DismissDirection.startToEnd) {
-              swipeRight?.action?.call();
-            } else if (direction == DismissDirection.endToStart) {
-              onDelete?.call();
-            }
-          },
-          child: GestureDetector(
-            onSecondaryTapUp: (details) =>
-                _showContextMenu(context, position: details.globalPosition),
-            onLongPress: () => _showContextMenu(context),
-            child: isWide
-                ? _buildCompactTile(context, colorScheme)
-                : _buildDefaultTile(context),
+    return ListenableBuilder(
+      listenable: Listenable.merge(
+        _displayPersons.map(emailPersonNameListenable),
+      ),
+      builder: (context, _) => Obx(
+        () => Semantics(
+          label: _semanticsLabel(context),
+          button: true,
+          selected: isSelected,
+          excludeSemantics: true,
+          onTap: onTap,
+          onLongPress: onToggleSelect,
+          customSemanticsActions: _semanticsActions(l, mailbox),
+          child: Dismissible(
+            key: ValueKey(email.id),
+            direction: swipeRight == null
+                ? DismissDirection.endToStart
+                : DismissDirection.horizontal,
+            background: Container(
+              color: swipeRight?.color,
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.only(left: 16),
+              child: swipeRight == null
+                  ? null
+                  : Icon(swipeRight.icon, color: Colors.white),
+            ),
+            secondaryBackground: Container(
+              color: colorScheme.error,
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 16),
+              child: Icon(Icons.delete, color: colorScheme.onError),
+            ),
+            onDismissed: (direction) {
+              if (direction == DismissDirection.startToEnd) {
+                swipeRight?.action?.call();
+              } else if (direction == DismissDirection.endToStart) {
+                onDelete?.call();
+              }
+            },
+            child: GestureDetector(
+              onSecondaryTapUp: (details) =>
+                  _showContextMenu(context, position: details.globalPosition),
+              onLongPress: () => _showContextMenu(context),
+              child: isWide
+                  ? _buildCompactTile(context, colorScheme)
+                  : _buildDefaultTile(context),
+            ),
           ),
         ),
       ),

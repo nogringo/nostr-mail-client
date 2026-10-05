@@ -26,12 +26,13 @@ class CommunityThemeCard extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
+    final author = GetIt.I<MetadataService>().of(theme.pubkey);
+
     return ListenableBuilder(
-      listenable: controller,
+      listenable: Listenable.merge([controller, author]),
       builder: (context, _) => Obx(() {
         final isSelected = settings.communityTheme.value == theme.address;
         final isHidden = controller.isHidden(theme);
-        final author = Get.find<MetadataService>().of(theme.pubkey).value;
         final imageUrl = theme.backgroundImageUrl;
 
         return Semantics(
@@ -92,7 +93,7 @@ class CommunityThemeCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  author?.getBestName() ?? getAnonName(theme.pubkey),
+                  author.value?.getBestName() ?? getAnonName(theme.pubkey),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.bodySmall?.copyWith(

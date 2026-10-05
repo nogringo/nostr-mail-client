@@ -1,7 +1,8 @@
 import 'package:enough_mail_plus/enough_mail.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/recipient.dart';
@@ -27,6 +28,11 @@ class RecipientChip extends StatelessWidget {
     required this.onDelete,
   });
 
+  ValueListenable<Metadata?>? get _profile {
+    final pubkey = recipient.pubkey;
+    return pubkey == null ? null : GetIt.I<MetadataService>().of(pubkey);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (recipient.isLoading) {
@@ -49,7 +55,10 @@ class RecipientChip extends StatelessWidget {
         field: field,
         recipient: recipient,
       ),
-      actionsListenable: GetIt.I<MailDomainService>(),
+      actionsListenable: Listenable.merge([
+        GetIt.I<MailDomainService>(),
+        _profile,
+      ]),
       builder: (context, open) => recipient.isNostr
           ? _buildNostrChip(context, open)
           : _buildLegacyChip(context, open),
@@ -58,30 +67,30 @@ class RecipientChip extends StatelessWidget {
 
   Widget _buildNostrChip(BuildContext context, VoidCallback onPressed) {
     final colorScheme = Theme.of(context).colorScheme;
+    final profile = _profile;
     return InputChip(
       onPressed: onPressed,
       shape: const StadiumBorder(),
       backgroundColor: colorScheme.primaryContainer,
       side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
       avatar: _buildAvatar(context),
-      label: Obx(() {
-        final pubkey = recipient.pubkey;
-        final metadata = pubkey == null
-            ? null
-            : Get.find<MetadataService>().of(pubkey).value;
-        // Warms the MX lookup so the card has the SMTP action on open.
-        recipientSmtpAddress(recipient);
-        final contactName = recipient.displayName;
-        return Text(
-          contactName?.isNotEmpty == true
-              ? contactName!
-              : metadata?.realName ?? recipient.label,
-          style: TextStyle(
-            color: colorScheme.primary,
-            fontWeight: FontWeight.w500,
-          ),
-        );
-      }),
+      label: ListenableBuilder(
+        listenable: Listenable.merge([profile]),
+        builder: (context, _) {
+          // Warms the MX lookup so the card has the SMTP action on open.
+          recipientSmtpAddress(recipient);
+          final contactName = recipient.displayName;
+          return Text(
+            contactName?.isNotEmpty == true
+                ? contactName!
+                : profile?.value?.realName ?? recipient.label,
+            style: TextStyle(
+              color: colorScheme.primary,
+              fontWeight: FontWeight.w500,
+            ),
+          );
+        },
+      ),
       deleteIcon: Icon(
         Icons.close,
         size: 18,

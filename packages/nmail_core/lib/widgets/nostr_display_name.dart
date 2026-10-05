@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
@@ -14,13 +14,13 @@ class NostrDisplayName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final metadata = Get.find<MetadataService>().of(pubkey).value;
-      return Text(
+    return ValueListenableBuilder(
+      valueListenable: GetIt.I<MetadataService>().of(pubkey),
+      builder: (context, metadata, _) => Text(
         metadata?.getBestName() ?? getAnonName(pubkey),
         style: style,
         overflow: TextOverflow.ellipsis,
-      );
-    });
+      ),
+    );
   }
 }

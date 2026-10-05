@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/metadata_service.dart';
@@ -20,14 +20,14 @@ class PersonBridgeLabel extends StatelessWidget {
         NostrAvatar(pubkey: bridgePubkey, radius: 8),
         const SizedBox(width: 6),
         Flexible(
-          child: Obx(() {
-            final metadata = Get.find<MetadataService>().of(bridgePubkey).value;
-            return Text(
+          child: ValueListenableBuilder(
+            valueListenable: GetIt.I<MetadataService>().of(bridgePubkey),
+            builder: (context, metadata, _) => Text(
               l.personCardViaBridge(
                 metadata?.getBestName() ?? getAnonName(bridgePubkey),
               ),
-            );
-          }),
+            ),
+          ),
         ),
       ],
     );

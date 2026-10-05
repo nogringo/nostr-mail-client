@@ -136,7 +136,10 @@ Future<void> _initApp({
   GetIt.I.registerSingleton(NdkFlutter(ndk: ndk));
 
   // Reactive in-RAM metadata cache so avatars/names resolve without flashing.
-  Get.put(MetadataService(), permanent: true);
+  GetIt.I.registerSingleton(
+    MetadataService(),
+    dispose: (service) => service.dispose(),
+  );
   GetIt.I.registerSingleton(
     MailDomainService(
       dohServer: () => Get.find<SettingsController>().dohServer.value,

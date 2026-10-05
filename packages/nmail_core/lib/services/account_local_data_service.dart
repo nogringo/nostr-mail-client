@@ -58,8 +58,8 @@ class AccountLocalDataService {
       cache.removeNip05(pubkey),
     ]);
 
-    if (Get.isRegistered<MetadataService>()) {
-      Get.find<MetadataService>().forget(pubkey);
+    if (GetIt.I.isRegistered<MetadataService>()) {
+      GetIt.I<MetadataService>().forget(pubkey);
     }
   }
 

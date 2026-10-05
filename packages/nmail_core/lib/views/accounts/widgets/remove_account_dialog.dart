@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -18,7 +19,7 @@ class RemoveAccountDialog extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final auth = Get.find<AuthController>();
 
-    final metadata = Get.find<MetadataService>().of(pubkey).value;
+    final metadata = GetIt.I<MetadataService>().of(pubkey).value;
     final name = metadata?.getBestName() ?? getAnonName(pubkey);
     final holdsPrivateKey =
         auth.signerKindOf(pubkey) == AccountSignerKind.privateKey;

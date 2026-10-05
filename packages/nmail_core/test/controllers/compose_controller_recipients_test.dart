@@ -213,7 +213,7 @@ void main() {
       mailClient = _FakeMailClient();
       GetIt.I.registerSingleton<NostrMailService>(_FakeNostrMailService(mailClient));
       metadataService = FakeMetadataService();
-      Get.put<MetadataService>(metadataService);
+      GetIt.I.registerSingleton<MetadataService>(metadataService);
       GetIt.I.registerSingleton(
         ContactsService(),
         dispose: (service) => service.dispose(),

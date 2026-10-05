@@ -1,5 +1,7 @@
 import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 import 'package:nostr_mail/nostr_mail.dart' show EmailSummary;
@@ -11,14 +13,15 @@ import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 
 /// The name the user gave the contact wins over the one the person gives
-/// themselves. A call inside `Obx` follows contact edits and profile updates.
+/// themselves. Call it inside an `Obx`, under a listener on
+/// [emailPersonNameListenable], to follow contact edits and profile updates.
 String emailPersonName(EmailPerson person) {
   final contactName = emailPersonContact(person)?.index.formattedName.trim();
   if (contactName != null && contactName.isNotEmpty) return contactName;
 
   final pubkey = person.pubkey;
   if (pubkey != null) {
-    final metadata = Get.find<MetadataService>().of(pubkey).value;
+    final metadata = GetIt.I<MetadataService>().of(pubkey).value;
     return metadata?.getBestName() ?? getAnonName(pubkey);
   }
   final address = person.address!;
@@ -26,6 +29,14 @@ String emailPersonName(EmailPerson person) {
   return personalName == null || personalName.isEmpty
       ? address.email
       : personalName;
+}
+
+/// Notifies when the profile [emailPersonName] reads changes.
+Listenable emailPersonNameListenable(EmailPerson person) {
+  final pubkey = person.pubkey;
+  return Listenable.merge([
+    if (pubkey != null) GetIt.I<MetadataService>().of(pubkey),
+  ]);
 }
 
 /// Who sent [email]. A bridged email names its sender in the MIME From, the

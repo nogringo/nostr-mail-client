@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
@@ -17,12 +17,12 @@ class NostrIdentityName extends StatelessWidget {
       return const Text('Nostr', overflow: TextOverflow.ellipsis);
     }
 
-    return Obx(() {
-      final metadata = Get.find<MetadataService>().of(pubkey).value;
-      return Text(
+    return ValueListenableBuilder(
+      valueListenable: GetIt.I<MetadataService>().of(pubkey),
+      builder: (context, metadata, _) => Text(
         metadata?.getBestName() ?? getAnonName(pubkey),
         overflow: TextOverflow.ellipsis,
-      );
-    });
+      ),
+    );
   }
 }

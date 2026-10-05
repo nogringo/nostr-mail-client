@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/services/metadata_service.dart';
@@ -18,13 +18,13 @@ class ContactSuggestionName extends StatelessWidget {
     if (contact.isLegacy || contact.displayName?.isNotEmpty == true) {
       return Text(contact.label, style: style, overflow: TextOverflow.ellipsis);
     }
-    return Obx(() {
-      final metadata = Get.find<MetadataService>().of(contact.pubkey!).value;
-      return Text(
+    return ValueListenableBuilder(
+      valueListenable: GetIt.I<MetadataService>().of(contact.pubkey!),
+      builder: (context, metadata, _) => Text(
         metadata?.realName ?? contact.label,
         style: style,
         overflow: TextOverflow.ellipsis,
-      );
-    });
+      ),
+    );
   }
 }

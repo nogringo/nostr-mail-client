@@ -47,71 +47,78 @@ class RequestSenderTile extends StatelessWidget {
 
     final person = summarySender(_latest);
 
-    return Obx(() {
-      final name = emailPersonName(person);
-      final address = _latest.isBridged && name != _latest.from
-          ? _latest.from
-          : null;
-      final isUnread = !controller.isEmailRead(_latest.id);
+    return ListenableBuilder(
+      listenable: emailPersonNameListenable(person),
+      builder: (context, _) => Obx(() {
+        final name = emailPersonName(person);
+        final address = _latest.isBridged && name != _latest.from
+            ? _latest.from
+            : null;
+        final isUnread = !controller.isEmailRead(_latest.id);
 
-      return ListTile(
-        titleAlignment: ListTileTitleAlignment.top,
-        leading: BridgedPersonAvatar(person: person),
-        title: Row(
-          children: [
-            Expanded(
-              child: Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
-            ),
-            const SizedBox(width: 8),
-            Padding(
-              // Ends where the thumb's glyph does, inside its button.
-              padding: const EdgeInsetsDirectional.only(end: 12),
-              child: Text(
-                formatDate(context, _latest.date),
-                style: textTheme.bodySmall?.copyWith(
-                  color: colorScheme.onSurfaceVariant,
+        return ListTile(
+          titleAlignment: ListTileTitleAlignment.top,
+          leading: BridgedPersonAvatar(person: person),
+          title: Row(
+            children: [
+              Expanded(
+                child: Text(name, maxLines: 1, overflow: TextOverflow.ellipsis),
+              ),
+              const SizedBox(width: 8),
+              Padding(
+                // Ends where the thumb's glyph does, inside its button.
+                padding: const EdgeInsetsDirectional.only(end: 12),
+                child: Text(
+                  formatDate(context, _latest.date),
+                  style: textTheme.bodySmall?.copyWith(
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-        subtitle: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (address != null)
-                    Text(address, maxLines: 1, overflow: TextOverflow.ellipsis),
-                  Text(
-                    _latest.subject.isEmpty
-                        ? l.emailNoSubject
-                        : _latest.subject,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: colorScheme.onSurface,
-                      fontWeight: isUnread ? FontWeight.w600 : null,
+            ],
+          ),
+          subtitle: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (address != null)
+                      Text(
+                        address,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    Text(
+                      _latest.subject.isEmpty
+                          ? l.emailNoSubject
+                          : _latest.subject,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: colorScheme.onSurface,
+                        fontWeight: isUnread ? FontWeight.w600 : null,
+                      ),
                     ),
-                  ),
-                  if (count > 1) Text(l.requestsEmailCount(count)),
-                ],
+                    if (count > 1) Text(l.requestsEmailCount(count)),
+                  ],
+                ),
               ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.thumb_down_outlined),
-              tooltip: l.senderBlock,
-              onPressed: () => _judge(context, SenderVerdict.block),
-            ),
-            IconButton(
-              icon: const Icon(Icons.thumb_up_outlined),
-              tooltip: l.senderAccept,
-              onPressed: () => _judge(context, SenderVerdict.allow),
-            ),
-          ],
-        ),
-        onTap: () => _open(context),
-      );
-    });
+              IconButton(
+                icon: const Icon(Icons.thumb_down_outlined),
+                tooltip: l.senderBlock,
+                onPressed: () => _judge(context, SenderVerdict.block),
+              ),
+              IconButton(
+                icon: const Icon(Icons.thumb_up_outlined),
+                tooltip: l.senderAccept,
+                onPressed: () => _judge(context, SenderVerdict.allow),
+              ),
+            ],
+          ),
+          onTap: () => _open(context),
+        );
+      }),
+    );
   }
 }

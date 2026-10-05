@@ -17,7 +17,7 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class ContactsService {
   ContactsService() {
-    _resolvedSubscription = Get.find<MetadataService>().resolved.listen(
+    _resolvedSubscription = GetIt.I<MetadataService>().resolved.listen(
       _onProfileResolved,
     );
   }
@@ -124,7 +124,7 @@ class ContactsService {
   }) async {
     if (pubkeys.isEmpty) return const <String, Metadata>{};
     if (fromRelays) {
-      return Get.find<MetadataService>().loadMany(pubkeys.toList());
+      return GetIt.I<MetadataService>().loadMany(pubkeys.toList());
     }
     final cached = await _ndk.config.cache.loadMetadatas(pubkeys.toList());
     return {for (final metadata in cached.nonNulls) metadata.pubKey: metadata};

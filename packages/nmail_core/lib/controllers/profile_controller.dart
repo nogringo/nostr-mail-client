@@ -82,7 +82,7 @@ class ProfileController extends ChangeNotifier {
     }
 
     try {
-      final metadata = await Get.find<MetadataService>().load(pubkey);
+      final metadata = await GetIt.I<MetadataService>().load(pubkey);
 
       if (metadata != null) {
         authController.userMetadata.value = metadata;

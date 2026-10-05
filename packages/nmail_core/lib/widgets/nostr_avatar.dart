@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/services/metadata_service.dart';
@@ -39,11 +39,11 @@ class NostrAvatar extends StatelessWidget {
         name: name,
       );
     }
-    final store = Get.find<MetadataService>();
-    return Obx(
-      () => NostrAvatarVisual(
+    return ValueListenableBuilder(
+      valueListenable: GetIt.I<MetadataService>().of(pubkey),
+      builder: (context, metadata, _) => NostrAvatarVisual(
         pubkey: pubkey,
-        metadata: store.of(pubkey).value,
+        metadata: metadata,
         radius: radius,
         name: name,
       ),

@@ -12,6 +12,10 @@ class PersonName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Text(emailPersonName(person), style: style));
+    return ListenableBuilder(
+      listenable: emailPersonNameListenable(person),
+      builder: (context, _) =>
+          Obx(() => Text(emailPersonName(person), style: style)),
+    );
   }
 }
