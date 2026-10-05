@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
@@ -19,7 +18,7 @@ enum UpdateSource { web, playStore, zapStore, github }
 
 /// Polls the latest GitHub release, whatever the install channel: stores lag
 /// behind it for a while, which is accepted.
-class AppUpdateService extends GetxService {
+class AppUpdateService {
   AppUpdateService({http.Client? client}) : _client = client ?? http.Client();
 
   static const _latestReleaseUrl =
@@ -31,7 +30,7 @@ class AppUpdateService extends GetxService {
   PackageInfo? _packageInfo;
 
   /// The latest release when it is newer than the running build, else null.
-  final availableUpdate = Rxn<AppRelease>();
+  final availableUpdate = ValueNotifier<AppRelease?>(null);
 
   UpdateSource get source {
     if (kIsWeb) return UpdateSource.web;
@@ -44,20 +43,17 @@ class AppUpdateService extends GetxService {
     return UpdateSource.github;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
+  void start() {
     // No App Store link to send iOS users to yet.
     if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) return;
     unawaited(check());
     _timer = Timer.periodic(_checkInterval, (_) => check());
   }
 
-  @override
-  void onClose() {
+  void dispose() {
     _timer?.cancel();
     _client.close();
-    super.onClose();
+    availableUpdate.dispose();
   }
 
   Future<void> check() async {

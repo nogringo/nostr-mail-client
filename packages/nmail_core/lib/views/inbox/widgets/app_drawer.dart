@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/routes/app_routes.dart';
@@ -243,11 +244,10 @@ class AppDrawer extends StatelessWidget {
                 horizontal: LayoutConstants.navigationInset,
               ),
               child: ListTile(
-                leading: Obx(
-                  () => Badge(
-                    isLabelVisible:
-                        Get.find<AppUpdateService>().availableUpdate.value !=
-                        null,
+                leading: ValueListenableBuilder(
+                  valueListenable: GetIt.I<AppUpdateService>().availableUpdate,
+                  builder: (context, release, _) => Badge(
+                    isLabelVisible: release != null,
                     backgroundColor: colorScheme.tertiary,
                     smallSize: 8,
                     child: const Icon(Icons.settings),

@@ -200,7 +200,10 @@ Future<void> _initApp({
     ),
     dispose: (service) => service.dispose(),
   );
-  Get.put(AppUpdateService(), permanent: true);
+  GetIt.I.registerSingleton(
+    AppUpdateService()..start(),
+    dispose: (service) => service.dispose(),
+  );
 
   // Run InitialBinding (ContactsService) before the router boots - the
   // router's redirect reads SettingsController on first navigation.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/routes/app_routes.dart';
@@ -61,22 +62,24 @@ class LeftRail extends StatelessWidget {
           ),
           const Spacer(),
           // Settings
-          Obx(() {
-            final hasUpdate =
-                Get.find<AppUpdateService>().availableUpdate.value != null;
-            return IconButton(
-              icon: Badge(
-                isLabelVisible: hasUpdate,
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
-                smallSize: 8,
-                child: const Icon(Icons.settings),
-              ),
-              tooltip: hasUpdate
-                  ? l.leftRailSettingsUpdateAvailable
-                  : l.leftRailSettings,
-              onPressed: () => context.go(AppRoutes.settings),
-            );
-          }),
+          ValueListenableBuilder(
+            valueListenable: GetIt.I<AppUpdateService>().availableUpdate,
+            builder: (context, release, _) {
+              final hasUpdate = release != null;
+              return IconButton(
+                icon: Badge(
+                  isLabelVisible: hasUpdate,
+                  backgroundColor: Theme.of(context).colorScheme.tertiary,
+                  smallSize: 8,
+                  child: const Icon(Icons.settings),
+                ),
+                tooltip: hasUpdate
+                    ? l.leftRailSettingsUpdateAvailable
+                    : l.leftRailSettings,
+                onPressed: () => context.go(AppRoutes.settings),
+              );
+            },
+          ),
           // Account menu
           const _AccountMenuButton(),
         ],

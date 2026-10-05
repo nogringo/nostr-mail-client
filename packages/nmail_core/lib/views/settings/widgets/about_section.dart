@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -14,17 +14,18 @@ class AboutSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final updates = Get.find<AppUpdateService>();
+    final updates = GetIt.I<AppUpdateService>();
 
     return SettingsGroup(
       rows: [
-        (index, count) => Obx(
-          () => SettingsNavTile(
+        (index, count) => ValueListenableBuilder(
+          valueListenable: updates.availableUpdate,
+          builder: (context, release, _) => SettingsNavTile(
             icon: Icons.info_outline,
             title: l.settingsAbout,
             index: index,
             count: count,
-            showDot: updates.availableUpdate.value != null,
+            showDot: release != null,
             onTap: () => context.go(AppRoutes.settingsAbout),
           ),
         ),
