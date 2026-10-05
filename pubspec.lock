@@ -741,14 +741,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.4"
-  get:
-    dependency: transitive
-    description:
-      name: get
-      sha256: "5ed34a7925b85336e15d472cc4cfe7d9ebf4ab8e8b9f688585bf6b50f4c3d79a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.7.3"
   get_it:
     dependency: transitive
     description:
