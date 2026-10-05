@@ -23,22 +23,39 @@ import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import '../views/contacts/widgets/import_conflict_dialog.dart';
 
-class ContactsController extends GetxController {
+class ContactsController extends ChangeNotifier {
+  ContactsController() {
+    queryController.addListener(notifyListeners);
+    _contactsSubscription = addressBookService.contacts.listen(
+      (_) => _ensureSelection(),
+    );
+    _loadingSubscription = addressBookService.isLoading.listen(
+      (_) => notifyListeners(),
+    );
+    addressBookService.load(sync: true).then((_) => _ensureSelection());
+    _checkLaunchCapabilities();
+  }
+
   final addressBookService = Get.find<AddressBookService>();
   final queryController = TextEditingController();
-  final query = ''.obs;
-  final selectedUid = RxnString();
-  final copiedVCardUid = RxnString();
+  String? selectedUid;
+  String? copiedVCardUid;
   Timer? _copiedVCardTimer;
+  late final StreamSubscription<List<AddressBookContact>> _contactsSubscription;
+  late final StreamSubscription<bool> _loadingSubscription;
 
   /// Whether the platform can place a call / send an SMS. Checked once at init
   /// (a `tel:`/`sms:` handler is a device-wide capability, not per-number) so
   /// the phone-row buttons can hide when there is no app to handle them.
-  final canCall = false.obs;
-  final canSms = false.obs;
+  bool canCall = false;
+  bool canSms = false;
+
+  String get query => queryController.text;
+
+  bool get isLoading => addressBookService.isLoading.value;
 
   List<AddressBookContact> get filteredContacts {
-    final q = query.value.trim().toLowerCase();
+    final q = query.trim().toLowerCase();
     final list = addressBookService.contacts.where((contact) {
       if (q.isEmpty) return true;
       final index = contact.index;
@@ -61,38 +78,31 @@ class ContactsController extends GetxController {
   }
 
   AddressBookContact? get selectedContact {
-    final uid = selectedUid.value;
+    final uid = selectedUid;
     if (uid == null) return null;
     return addressBookService.contacts.firstWhereOrNull(
       (contact) => contact.uid == uid,
     );
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    queryController.addListener(() => query.value = queryController.text);
-    ever<List<AddressBookContact>>(addressBookService.contacts, (_) {
-      _ensureSelection();
-    });
-    addressBookService.load(sync: true).then((_) => _ensureSelection());
-    _checkLaunchCapabilities();
-  }
-
   Future<void> _checkLaunchCapabilities() async {
-    canCall.value = await canLaunchUrl(Uri(scheme: 'tel', path: '0'));
-    canSms.value = await canLaunchUrl(Uri(scheme: 'sms', path: '0'));
+    canCall = await canLaunchUrl(Uri(scheme: 'tel', path: '0'));
+    canSms = await canLaunchUrl(Uri(scheme: 'sms', path: '0'));
+    notifyListeners();
   }
 
   @override
-  void onClose() {
+  void dispose() {
     _copiedVCardTimer?.cancel();
+    _contactsSubscription.cancel();
+    _loadingSubscription.cancel();
     queryController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   void select(AddressBookContact contact) {
-    selectedUid.value = contact.uid;
+    selectedUid = contact.uid;
+    notifyListeners();
   }
 
   Future<void> syncContacts() => addressBookService.pull();
@@ -230,7 +240,8 @@ class ContactsController extends GetxController {
       form,
       existing: existing,
     );
-    selectedUid.value = saved.uid;
+    selectedUid = saved.uid;
+    notifyListeners();
   }
 
   Future<void> deleteSelected() async {
@@ -241,19 +252,21 @@ class ContactsController extends GetxController {
 
   Future<void> deleteContact(AddressBookContact contact) async {
     await addressBookService.deleteContact(contact);
-    if (selectedUid.value == contact.uid) {
-      selectedUid.value = null;
+    if (selectedUid == contact.uid) {
+      selectedUid = null;
     }
     _ensureSelection();
   }
 
   void copyVCard(AddressBookContact contact) {
     Clipboard.setData(ClipboardData(text: contact.vCard));
-    copiedVCardUid.value = contact.uid;
+    copiedVCardUid = contact.uid;
+    notifyListeners();
     _copiedVCardTimer?.cancel();
     _copiedVCardTimer = Timer(const Duration(seconds: 2), () {
-      if (copiedVCardUid.value == contact.uid) {
-        copiedVCardUid.value = null;
+      if (copiedVCardUid == contact.uid) {
+        copiedVCardUid = null;
+        notifyListeners();
       }
     });
   }
@@ -298,14 +311,15 @@ class ContactsController extends GetxController {
   }
 
   void _ensureSelection() {
-    final current = selectedUid.value;
+    final current = selectedUid;
     final visible = filteredContacts;
     if (visible.isEmpty) {
-      selectedUid.value = null;
-      return;
+      selectedUid = null;
+    } else if (current == null ||
+        !visible.any((contact) => contact.uid == current)) {
+      selectedUid = visible.first.uid;
     }
-    if (current == null || !visible.any((contact) => contact.uid == current)) {
-      selectedUid.value = visible.first.uid;
-    }
+    // Also the only signal that the contact list changed.
+    notifyListeners();
   }
 }

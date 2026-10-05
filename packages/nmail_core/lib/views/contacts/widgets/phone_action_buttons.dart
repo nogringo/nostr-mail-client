@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -16,26 +16,29 @@ class PhoneActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ContactsController>();
+    final controller = GetIt.I<ContactsController>();
     final l = AppLocalizations.of(context);
-    return Obx(() {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (controller.canCall.value)
-            IconButton(
-              icon: const Icon(Icons.call_outlined),
-              tooltip: l.contactsCall,
-              onPressed: () => controller.callNumber(phone),
-            ),
-          if (controller.canSms.value)
-            IconButton(
-              icon: const Icon(Icons.sms_outlined),
-              tooltip: l.contactsSendSms,
-              onPressed: () => controller.smsNumber(phone),
-            ),
-        ],
-      );
-    });
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (controller.canCall)
+              IconButton(
+                icon: const Icon(Icons.call_outlined),
+                tooltip: l.contactsCall,
+                onPressed: () => controller.callNumber(phone),
+              ),
+            if (controller.canSms)
+              IconButton(
+                icon: const Icon(Icons.sms_outlined),
+                tooltip: l.contactsSendSms,
+                onPressed: () => controller.smsNumber(phone),
+              ),
+          ],
+        );
+      },
+    );
   }
 }

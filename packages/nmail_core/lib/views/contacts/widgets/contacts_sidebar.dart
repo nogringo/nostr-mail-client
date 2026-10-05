@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../../../controllers/contacts_controller.dart';
@@ -24,9 +25,7 @@ class ContactsSidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.isRegistered<ContactsController>()
-        ? Get.find<ContactsController>()
-        : Get.put(ContactsController());
+    final controller = GetIt.I<ContactsController>();
     final l = AppLocalizations.of(context);
     return Material(
       color: Colors.transparent,
@@ -71,66 +70,57 @@ class ContactsSidebar extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Obx(() {
-              final contacts = controller.filteredContacts;
-              if (contacts.isEmpty &&
-                  controller.addressBookService.isLoading.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              final list = contacts.isEmpty
-                  ? ListView(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.45,
-                          child: Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: Text(
-                                controller.query.value.trim().isEmpty
-                                    ? l.contactsEmpty
-                                    : l.contactsSearchEmpty,
-                                textAlign: TextAlign.center,
+            child: ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) {
+                final contacts = controller.filteredContacts;
+                if (contacts.isEmpty && controller.isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                final list = contacts.isEmpty
+                    ? ListView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.45,
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(24),
+                                child: Text(
+                                  controller.query.trim().isEmpty
+                                      ? l.contactsEmpty
+                                      : l.contactsSearchEmpty,
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  : ListView.builder(
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      itemCount: contacts.length,
-                      itemBuilder: (context, index) {
-                        final contact = contacts[index];
-                        if (!showSelection) {
+                        ],
+                      )
+                    : ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: contacts.length,
+                        itemBuilder: (context, index) {
+                          final contact = contacts[index];
                           return ContactListTile(
                             contact: contact,
-                            selected: false,
+                            selected:
+                                showSelection &&
+                                controller.selectedUid == contact.uid,
                             onTap: () {
                               controller.select(contact);
                               onContactTap?.call(contact);
                             },
                           );
-                        }
-                        return Obx(
-                          () => ContactListTile(
-                            contact: contact,
-                            selected:
-                                controller.selectedUid.value == contact.uid,
-                            onTap: () {
-                              controller.select(contact);
-                              onContactTap?.call(contact);
-                            },
-                          ),
-                        );
-                      },
-                    );
-              if (!enablePullToRefresh) return list;
-              return RefreshIndicator(
-                onRefresh: controller.syncContacts,
-                child: list,
-              );
-            }),
+                        },
+                      );
+                if (!enablePullToRefresh) return list;
+                return RefreshIndicator(
+                  onRefresh: controller.syncContacts,
+                  child: list,
+                );
+              },
+            ),
           ),
         ],
       ),

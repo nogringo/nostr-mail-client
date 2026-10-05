@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../../../controllers/contacts_controller.dart';
@@ -14,19 +14,22 @@ class ContactActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ContactsController>();
+    final controller = GetIt.I<ContactsController>();
     final l = AppLocalizations.of(context);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Obx(() {
-          final copied = controller.copiedVCardUid.value == contact.uid;
-          return IconButton(
-            icon: Icon(copied ? Icons.check : Icons.copy),
-            tooltip: copied ? l.contactsVCardCopied : l.contactsCopyVCard,
-            onPressed: () => controller.copyVCard(contact),
-          );
-        }),
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
+            final copied = controller.copiedVCardUid == contact.uid;
+            return IconButton(
+              icon: Icon(copied ? Icons.check : Icons.copy),
+              tooltip: copied ? l.contactsVCardCopied : l.contactsCopyVCard,
+              onPressed: () => controller.copyVCard(contact),
+            );
+          },
+        ),
         IconButton(
           icon: const Icon(Icons.edit),
           tooltip: l.contactsEdit,

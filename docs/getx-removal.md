@@ -109,7 +109,7 @@ Created on first use and kept:
 
 - [x] `AboutController`
 - [x] `BackgroundsController`
-- [ ] `ContactsController`
+- [x] `ContactsController`
 - [x] `IdentitiesController`
 - [ ] `InboxController`
 - [ ] `ScheduledController`

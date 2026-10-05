@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -20,7 +20,7 @@ class ContactsOverflowMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<ContactsController>();
+    final controller = GetIt.I<ContactsController>();
     return PopupMenuButton<_ContactsMenuAction>(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

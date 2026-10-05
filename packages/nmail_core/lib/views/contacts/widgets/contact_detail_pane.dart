@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -19,70 +19,73 @@ class ContactDetailPane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<ContactsController>();
+    final controller = GetIt.I<ContactsController>();
     final l = AppLocalizations.of(context);
-    return Obx(() {
-      final displayedContact = uid == null
-          ? controller.selectedContact
-          : controller.addressBookService.contacts.firstWhereOrNull(
-              (contact) => contact.uid == uid,
-            );
-      if (displayedContact == null) {
-        return Center(child: Text(l.contactsSelectPrompt));
-      }
-      final form = controller.formFor(displayedContact);
-      final birthday = form.birthday;
-      return ListView(
-        padding: const EdgeInsets.all(24),
-        children: [
-          ContactHeader(contact: displayedContact),
-          const SizedBox(height: 24),
-          if (birthday != null) ...[
-            ContactSectionTitle(l.contactsBirthdayTitle),
-            const SizedBox(height: 8),
-            ContactActionRow(
-              icon: Icons.cake_outlined,
-              title: Text(
-                formatContactBirthdayForDisplay(context, birthday),
-                overflow: TextOverflow.ellipsis,
-              ),
-              copyValue: formatContactBirthdayForDisplay(context, birthday),
-              index: 0,
-              count: 1,
-            ),
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final displayedContact = uid == null
+            ? controller.selectedContact
+            : controller.addressBookService.contacts.firstWhereOrNull(
+                (contact) => contact.uid == uid,
+              );
+        if (displayedContact == null) {
+          return Center(child: Text(l.contactsSelectPrompt));
+        }
+        final form = controller.formFor(displayedContact);
+        final birthday = form.birthday;
+        return ListView(
+          padding: const EdgeInsets.all(24),
+          children: [
+            ContactHeader(contact: displayedContact),
             const SizedBox(height: 24),
-          ],
-          if (displayedContact.index.emails.isNotEmpty) ...[
-            ContactSectionTitle(l.contactsEmailsTitle),
-            const SizedBox(height: 8),
-            for (final (i, email) in displayedContact.index.emails.indexed)
+            if (birthday != null) ...[
+              ContactSectionTitle(l.contactsBirthdayTitle),
+              const SizedBox(height: 8),
               ContactActionRow(
-                icon: Icons.alternate_email,
-                title: Text(email, overflow: TextOverflow.ellipsis),
-                copyValue: email,
-                onCompose: () => controller.composeToEmail(context, email),
-                index: i,
-                count: displayedContact.index.emails.length,
+                icon: Icons.cake_outlined,
+                title: Text(
+                  formatContactBirthdayForDisplay(context, birthday),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                copyValue: formatContactBirthdayForDisplay(context, birthday),
+                index: 0,
+                count: 1,
               ),
-            const SizedBox(height: 24),
+              const SizedBox(height: 24),
+            ],
+            if (displayedContact.index.emails.isNotEmpty) ...[
+              ContactSectionTitle(l.contactsEmailsTitle),
+              const SizedBox(height: 8),
+              for (final (i, email) in displayedContact.index.emails.indexed)
+                ContactActionRow(
+                  icon: Icons.alternate_email,
+                  title: Text(email, overflow: TextOverflow.ellipsis),
+                  copyValue: email,
+                  onCompose: () => controller.composeToEmail(context, email),
+                  index: i,
+                  count: displayedContact.index.emails.length,
+                ),
+              const SizedBox(height: 24),
+            ],
+            if (form.phones.isNotEmpty) ...[
+              ContactSectionTitle(l.contactsPhonesTitle),
+              const SizedBox(height: 8),
+              for (final (i, phone) in form.phones.indexed)
+                ContactActionRow(
+                  icon: Icons.phone_outlined,
+                  title: Text(phone, overflow: TextOverflow.ellipsis),
+                  copyValue: phone,
+                  trailing: PhoneActionButtons(phone: phone),
+                  index: i,
+                  count: form.phones.length,
+                ),
+              const SizedBox(height: 24),
+            ],
+            ContactNostrSection(contact: displayedContact),
           ],
-          if (form.phones.isNotEmpty) ...[
-            ContactSectionTitle(l.contactsPhonesTitle),
-            const SizedBox(height: 8),
-            for (final (i, phone) in form.phones.indexed)
-              ContactActionRow(
-                icon: Icons.phone_outlined,
-                title: Text(phone, overflow: TextOverflow.ellipsis),
-                copyValue: phone,
-                trailing: PhoneActionButtons(phone: phone),
-                index: i,
-                count: form.phones.length,
-              ),
-            const SizedBox(height: 24),
-          ],
-          ContactNostrSection(contact: displayedContact),
-        ],
-      );
-    });
+        );
+      },
+    );
   }
 }

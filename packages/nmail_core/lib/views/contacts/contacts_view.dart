@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -18,9 +19,7 @@ class ContactsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!Get.isRegistered<ContactsController>()) {
-      Get.put(ContactsController());
-    }
+    final controller = GetIt.I<ContactsController>();
     final isWide = ResponsiveHelper.isNotMobile(context);
     final l = AppLocalizations.of(context);
     return Scaffold(
@@ -36,7 +35,6 @@ class ContactsView extends StatelessWidget {
         title: Text(l.contactsTitle),
         actions: [
           Obx(() {
-            final controller = Get.find<ContactsController>();
             if (controller.addressBookService.lastError.value == null) {
               return const SizedBox.shrink();
             }
@@ -47,11 +45,14 @@ class ContactsView extends StatelessWidget {
             );
           }),
           if (isWide)
-            Obx(() {
-              final contact = Get.find<ContactsController>().selectedContact;
-              if (contact == null) return const SizedBox.shrink();
-              return ContactActions(contact: contact);
-            }),
+            ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) {
+                final contact = controller.selectedContact;
+                if (contact == null) return const SizedBox.shrink();
+                return ContactActions(contact: contact);
+              },
+            ),
           if (!isWide)
             IconButton(
               icon: const Icon(Icons.person_add),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../../../controllers/contacts_controller.dart';
@@ -64,7 +64,7 @@ class ContactHeader extends StatelessWidget {
   }
 
   void _copyName(BuildContext context, String name) {
-    Get.find<ContactsController>().copyText(name);
+    GetIt.I<ContactsController>().copyText(name);
     showContactCopyFeedback(context, AppLocalizations.of(context).authCopied);
   }
 }

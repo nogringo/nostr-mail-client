@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../controllers/contact_form_controller.dart';
-import '../../../controllers/contacts_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'contact_form_sheet.dart';
@@ -15,10 +13,6 @@ Future<void> showContactForm(
   AddressBookContact? contact,
   AddressBookContactForm? initialForm,
 }) async {
-  if (!Get.isRegistered<ContactsController>()) {
-    Get.put(ContactsController());
-  }
-
   // Mobile: a full-screen go_router route (ContactFormPage owns its
   // controller via ControllerBuilder). Desktop: a centered dialog whose
   // controller is created and disposed locally here.

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
@@ -67,7 +67,7 @@ class ContactFormController extends ChangeNotifier {
   final List<String> phones = [];
   bool _isDisposed = false;
 
-  ContactsController get _contactsController => Get.find<ContactsController>();
+  ContactsController get _contactsController => GetIt.I<ContactsController>();
 
   bool get isEditing => contact != null;
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
@@ -111,11 +111,8 @@ void _compose(BuildContext context, EmailPerson person) {
 }
 
 void _openContact(BuildContext context, AddressBookContact contact) {
-  if (!Get.isRegistered<ContactsController>()) {
-    Get.put(ContactsController());
-  }
   if (ResponsiveHelper.isNotMobile(context)) {
-    Get.find<ContactsController>()
+    GetIt.I<ContactsController>()
       ..queryController.clear()
       ..select(contact);
     context.go(AppRoutes.contacts);

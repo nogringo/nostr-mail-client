@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -67,7 +67,7 @@ class ContactActionRow extends StatelessWidget {
   }
 
   void _copyValue(BuildContext context) {
-    Get.find<ContactsController>().copyText(copyValue);
+    GetIt.I<ContactsController>().copyText(copyValue);
     showContactCopyFeedback(context, AppLocalizations.of(context).authCopied);
   }
 }

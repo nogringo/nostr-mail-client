@@ -80,6 +80,7 @@ class AppRouter {
   static GoRouter init() {
     _authNotifier ??= _AuthRefreshNotifier();
     Get.lazyPut(() => InboxController());
+    _registerOnce(ContactsController.new);
     return _router;
   }
 
@@ -196,12 +197,7 @@ class AppRouter {
 
           GoRoute(
             path: AppRoutes.contacts,
-            builder: (_, _) {
-              if (!Get.isRegistered<ContactsController>()) {
-                Get.put(ContactsController());
-              }
-              return const ContactsView();
-            },
+            builder: (_, _) => const ContactsView(),
           ),
 
           GoRoute(
@@ -224,9 +220,6 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.contactForm,
             builder: (_, state) {
-              if (!Get.isRegistered<ContactsController>()) {
-                Get.put(ContactsController());
-              }
               final extra = state.extra is Map ? state.extra as Map : null;
               return ContactFormPage(
                 contact: extra?['contact'] as AddressBookContact?,
