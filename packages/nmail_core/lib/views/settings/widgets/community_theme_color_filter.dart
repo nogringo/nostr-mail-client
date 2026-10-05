@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -12,29 +12,32 @@ class CommunityThemeColorFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<CommunityThemesController>();
+    final controller = GetIt.I<CommunityThemesController>();
 
-    return Obx(() {
-      final selected = controller.colorFamily.value;
-      return Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        children: [
-          EntryColorSwatch(
-            color: null,
-            label: l.communityThemesAllColors,
-            selected: selected == null,
-            onTap: () => controller.colorFamily.value = null,
-          ),
-          for (final family in ThemeColorFamily.values)
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final selected = controller.colorFamily;
+        return Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
             EntryColorSwatch(
-              color: family.swatch,
-              label: l.colorName(family.name),
-              selected: selected == family,
-              onTap: () => controller.colorFamily.value = family,
+              color: null,
+              label: l.communityThemesAllColors,
+              selected: selected == null,
+              onTap: () => controller.colorFamily = null,
             ),
-        ],
-      );
-    });
+            for (final family in ThemeColorFamily.values)
+              EntryColorSwatch(
+                color: family.swatch,
+                label: l.colorName(family.name),
+                selected: selected == family,
+                onTap: () => controller.colorFamily = family,
+              ),
+          ],
+        );
+      },
+    );
   }
 }

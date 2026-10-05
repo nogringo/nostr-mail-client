@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -10,10 +10,11 @@ class CommunityThemeImageFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<CommunityThemesController>();
+    final controller = GetIt.I<CommunityThemesController>();
 
-    return Obx(
-      () => SegmentedButton<bool?>(
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => SegmentedButton<bool?>(
         segments: [
           ButtonSegment(value: null, label: Text(l.communityThemesFilterAll)),
           ButtonSegment(
@@ -27,10 +28,10 @@ class CommunityThemeImageFilter extends StatelessWidget {
             label: Text(l.communityThemesWithoutImage),
           ),
         ],
-        selected: {controller.hasImage.value},
+        selected: {controller.hasImage},
         showSelectedIcon: false,
         onSelectionChanged: (selection) =>
-            controller.hasImage.value = selection.single,
+            controller.hasImage = selection.single,
       ),
     );
   }

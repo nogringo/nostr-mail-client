@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -14,21 +14,22 @@ class CommunityThemesView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    // Disposes the controller once the page is gone, so each visit reloads.
-    return GetBuilder<CommunityThemesController>(
-      init: CommunityThemesController(),
-      builder: (controller) => Scaffold(
-        appBar: AppBar(title: Text(l.settingsCommunityThemes)),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () => showShareThemeDialog(context),
-          icon: const Icon(Icons.share_outlined),
-          label: Text(l.communityThemesShare),
-        ),
-        body: SafeArea(
-          top: false,
-          child: Obx(() {
+    final controller = GetIt.I<CommunityThemesController>();
+
+    return Scaffold(
+      appBar: AppBar(title: Text(l.settingsCommunityThemes)),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => showShareThemeDialog(context),
+        icon: const Icon(Icons.share_outlined),
+        label: Text(l.communityThemesShare),
+      ),
+      body: SafeArea(
+        top: false,
+        child: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
             if (controller.themes.isEmpty) {
-              return controller.isLoading.value
+              return controller.isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : const CommunityThemesEmptyState();
             }
@@ -37,14 +38,14 @@ class CommunityThemesView extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 4,
-                  child: controller.isLoading.value
+                  child: controller.isLoading
                       ? const LinearProgressIndicator()
                       : null,
                 ),
                 const Expanded(child: CommunityThemesList()),
               ],
             );
-          }),
+          },
         ),
       ),
     );

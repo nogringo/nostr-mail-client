@@ -45,8 +45,8 @@ class CommunityThemeController extends GetxController {
 
   /// Registered when the theme opens from the themes page.
   CommunityThemesController? get _browser =>
-      Get.isRegistered<CommunityThemesController>()
-      ? Get.find<CommunityThemesController>()
+      GetIt.I.isRegistered<CommunityThemesController>()
+      ? GetIt.I<CommunityThemesController>()
       : null;
 
   bool get isHidden {

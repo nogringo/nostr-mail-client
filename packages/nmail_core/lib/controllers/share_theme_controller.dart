@@ -104,7 +104,7 @@ class ShareThemeController extends GetxController {
       );
 
       final theme = CommunityTheme.fromEvent(signed)!;
-      Get.find<CommunityThemesController>().showPublished(theme);
+      GetIt.I<CommunityThemesController>().showPublished(theme);
       await _settings.markCommunityTheme(theme.address);
     } finally {
       if (!isClosed) isPublishing.value = false;

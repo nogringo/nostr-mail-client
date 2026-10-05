@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -10,10 +10,11 @@ class CommunityThemeFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<CommunityThemesController>();
+    final controller = GetIt.I<CommunityThemesController>();
 
-    return Obx(
-      () => SegmentedButton<Brightness?>(
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => SegmentedButton<Brightness?>(
         segments: [
           ButtonSegment(value: null, label: Text(l.communityThemesFilterAll)),
           ButtonSegment(
@@ -27,10 +28,10 @@ class CommunityThemeFilter extends StatelessWidget {
             label: Text(l.settingsThemeDark),
           ),
         ],
-        selected: {controller.brightness.value},
+        selected: {controller.brightness},
         showSelectedIcon: false,
         onSelectionChanged: (selection) =>
-            controller.brightness.value = selection.single,
+            controller.brightness = selection.single,
       ),
     );
   }

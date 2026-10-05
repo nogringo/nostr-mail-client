@@ -71,7 +71,7 @@ Created by `GetBuilder(init: ...)` or by a view:
 - [x] `AccountDeletedController`
 - [x] `BlossomServersController`
 - [x] `BridgesController`
-- [ ] `CommunityThemesController`
+- [x] `CommunityThemesController`
 - [x] `CreateIdentityController`
 - [x] `DebugToolsController`
 - [x] `DeleteAccountController`

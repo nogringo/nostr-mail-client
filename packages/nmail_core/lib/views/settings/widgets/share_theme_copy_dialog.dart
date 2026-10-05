@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -15,7 +15,7 @@ class ShareThemeCopyDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final title = Get.find<CommunityThemesController>().themes
+    final title = GetIt.I<CommunityThemesController>().themes
         .firstWhereOrNull((theme) => theme.address == address)
         ?.title;
 

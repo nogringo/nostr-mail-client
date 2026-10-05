@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -10,7 +10,7 @@ class CommunityThemeSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<CommunityThemesController>();
+    final controller = GetIt.I<CommunityThemesController>();
 
     return SearchBar(
       controller: controller.searchController,
@@ -20,8 +20,9 @@ class CommunityThemeSearchBar extends StatelessWidget {
       leading: const Icon(Icons.search),
       textInputAction: TextInputAction.search,
       trailing: [
-        Obx(
-          () => controller.query.value.isEmpty
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => controller.query.isEmpty
               ? const SizedBox.shrink()
               : IconButton(
                   icon: const Icon(Icons.close),

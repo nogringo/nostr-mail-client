@@ -9,27 +9,50 @@ import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/models/theme_color_family.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
-class CommunityThemesController extends GetxController {
-  final themes = <CommunityTheme>[].obs;
-  final isLoading = false.obs;
+class CommunityThemesController extends ChangeNotifier {
+  CommunityThemesController() {
+    searchController.addListener(_onSearchChanged);
+    load();
+  }
+
+  List<CommunityTheme> themes = [];
+  bool isLoading = false;
 
   /// Null shows every theme.
-  final brightness = Rxn<Brightness>();
+  Brightness? get brightness => _brightness;
+  set brightness(Brightness? value) {
+    _brightness = value;
+    notifyListeners();
+  }
 
   /// Null shows every color.
-  final colorFamily = Rxn<ThemeColorFamily>();
+  ThemeColorFamily? get colorFamily => _colorFamily;
+  set colorFamily(ThemeColorFamily? value) {
+    _colorFamily = value;
+    notifyListeners();
+  }
 
   /// Null shows themes with and without a background image.
-  final hasImage = RxnBool();
+  bool? get hasImage => _hasImage;
+  set hasImage(bool? value) {
+    _hasImage = value;
+    notifyListeners();
+  }
+
+  Brightness? _brightness;
+  ThemeColorFamily? _colorFamily;
+  bool? _hasImage;
 
   final searchController = TextEditingController();
-  final query = ''.obs;
+  String query = '';
 
   /// Authors the user muted (NIP-51 kind 10000), in this client or another.
   var _muted = <String>{};
 
   /// Addresses of the themes shown past their content warning.
-  final _revealed = <String>{}.obs;
+  final _revealed = <String>{};
+
+  bool _isDisposed = false;
 
   bool isHidden(CommunityTheme theme) =>
       !_revealed.contains(theme.address) && startsHidden(theme);
@@ -40,19 +63,19 @@ class CommunityThemesController extends GetxController {
       theme.pubkey != GetIt.I<Ndk>().accounts.getPublicKey() &&
       theme.address != Get.find<SettingsController>().communityTheme.value;
 
-  void reveal(CommunityTheme theme) => _revealed.add(theme.address);
+  void reveal(CommunityTheme theme) {
+    _revealed.add(theme.address);
+    notifyListeners();
+  }
 
   /// [filterByImage] is false where backgrounds are never shown.
   List<CommunityTheme> visibleThemes({required bool filterByImage}) {
-    final brightness = this.brightness.value;
-    final colorFamily = this.colorFamily.value;
-    final hasImage = filterByImage ? this.hasImage.value : null;
-    final query = this.query.value;
+    final hasImage = filterByImage ? _hasImage : null;
     return themes
         .where(
           (theme) =>
-              (brightness == null || theme.brightness == brightness) &&
-              (colorFamily == null || theme.colorFamily == colorFamily) &&
+              (_brightness == null || theme.brightness == _brightness) &&
+              (_colorFamily == null || theme.colorFamily == _colorFamily) &&
               (hasImage == null ||
                   (theme.backgroundImageUrl != null) == hasImage) &&
               theme.matches(query),
@@ -61,29 +84,29 @@ class CommunityThemesController extends GetxController {
   }
 
   @override
-  void onInit() {
-    super.onInit();
-    searchController.addListener(
-      () => query.value = searchController.text.trim(),
-    );
-    load();
+  void dispose() {
+    _isDisposed = true;
+    searchController.dispose();
+    super.dispose();
   }
 
-  @override
-  void onClose() {
-    searchController.dispose();
-    super.onClose();
+  void _onSearchChanged() {
+    final query = searchController.text.trim();
+    if (query == this.query) return;
+    this.query = query;
+    notifyListeners();
   }
 
   Future<void> load() async {
-    isLoading.value = true;
+    isLoading = true;
+    notifyListeners();
     final ndk = GetIt.I<Ndk>();
     try {
       await _readMuted(ndk);
       final cached = await ndk.config.cache
           .loadEvents(kinds: [CommunityTheme.kind])
           .catchError((_) => <Nip01Event>[]);
-      if (isClosed) return;
+      if (_isDisposed) return;
       if (cached.isNotEmpty) _show(cached);
 
       final mutedRefresh = _refreshMuted(ndk);
@@ -99,28 +122,33 @@ class CommunityThemesController extends GetxController {
           )
           .future;
       await mutedRefresh;
-      if (isClosed) return;
+      if (_isDisposed) return;
       _show([...cached, ...fetched]);
     } catch (_) {
       // The cached themes stay on screen.
     } finally {
-      if (!isClosed) isLoading.value = false;
+      if (!_isDisposed) {
+        isLoading = false;
+        notifyListeners();
+      }
     }
   }
 
   /// Puts the user's new theme first, with no filter or search hiding it.
   void showPublished(CommunityTheme theme) {
-    brightness.value = null;
-    colorFamily.value = null;
-    hasImage.value = null;
+    _brightness = null;
+    _colorFamily = null;
+    _hasImage = null;
     searchController.clear();
     themes.insert(0, theme);
+    notifyListeners();
   }
 
   /// A copy by someone else that this author's theme hid shows on next load.
   void hideAuthor(String pubkey) {
     _muted = {..._muted, pubkey};
     themes.removeWhere((theme) => theme.pubkey == pubkey);
+    notifyListeners();
   }
 
   /// Reads the cache only, so cached themes do not wait on relays.
@@ -169,8 +197,9 @@ class CommunityThemesController extends GetxController {
   void _show(List<Nip01Event> events) {
     // Before dropping copies, so a copy by someone else is kept.
     final unmuted = events.where((event) => !_muted.contains(event.pubKey));
-    themes.value = CommunityTheme.withoutCopies(
+    themes = CommunityTheme.withoutCopies(
       CommunityTheme.latest(unmuted.toList()),
     );
+    notifyListeners();
   }
 }

@@ -13,6 +13,7 @@ import '../../controllers/backgrounds_controller.dart';
 import '../../controllers/blossom_servers_controller.dart';
 import '../../controllers/bridges_controller.dart';
 import '../../controllers/community_theme_controller.dart';
+import '../../controllers/community_themes_controller.dart';
 import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/dm_relays_controller.dart';
@@ -287,8 +288,13 @@ class AppRouter {
                 routes: [
                   GoRoute(
                     path: 'themes',
+                    onExit: (_, _) {
+                      GetIt.I.unregister<CommunityThemesController>();
+                      return true;
+                    },
                     builder: (_, _) {
                       Get.lazyPut(() => BackgroundsController());
+                      _ensureCommunityThemesController();
                       return const CommunityThemesView();
                     },
                     routes: [
@@ -477,6 +483,16 @@ class AppRouter {
       Get.delete<EmailController>();
     }
     Get.put(EmailController(eventReference: eventReference, mailbox: mailbox));
+  }
+
+  /// One per visit, so each visit reloads. The theme opened from the page
+  /// shares it.
+  static void _ensureCommunityThemesController() {
+    if (GetIt.I.isRegistered<CommunityThemesController>()) return;
+    GetIt.I.registerLazySingleton(
+      CommunityThemesController.new,
+      dispose: (controller) => controller.dispose(),
+    );
   }
 
   static void _ensureCommunityThemeController({
