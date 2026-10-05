@@ -200,7 +200,7 @@ Current route model:
 - Email details are nested under folders as `/<folder>/email/:id`.
 - Scheduled mail: `/scheduled`.
 - Contacts: `/contacts`, `/contacts/form`.
-- Compose: `/compose`; `ComposeController` is disposed in `onExit`.
+- Compose: `/compose`; `ComposeView` owns its `ComposeController` through `ControllerBuilder`, which disposes it with the page.
 - Settings tree: `/settings`, `/settings/identities`, `/settings/identities/new`, `/settings/hosting`, `/settings/debug-tools`.
 - Legacy `/email/:id` redirects through the root NIP-19 dispatcher.
 - Root `/:nostrId` dispatches `npub`, `nprofile`, `nevent`, and note/event references.
@@ -292,7 +292,7 @@ There are no broad integration/widget test conventions established yet.
 
 - Linting uses `package:flutter_lints/flutter.yaml`.
 - `experimental_member_use` is ignored in package analysis options.
-- Controllers end with `Controller` and extend `ChangeNotifier`, with `dispose()` releasing what they hold.
+- Controllers end with `Controller` and extend `ChangeNotifier`, or expose one `ValueNotifier` per field when widgets each follow one of them (`AuthController`, `SettingsController`), with `dispose()` releasing what they hold.
 - Long-lived services end with `Service`; app-level services are registered in `get_it` by `runNmailApp()`.
 - Files use `snake_case`.
 - Widgets read state through `ListenableBuilder` or `ValueListenableBuilder`.

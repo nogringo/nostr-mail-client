@@ -164,7 +164,10 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   final ScrollController editorScrollController = ScrollController();
 
   void init() {
-    _contactsService.loadContacts();
+    // init runs during build, and loading notifies the address book's listeners.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _contactsService.loadContacts(),
+    );
 
     final settings = GetIt.I<SettingsController>();
     final signature = settings.signature(
