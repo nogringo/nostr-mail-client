@@ -199,7 +199,7 @@ class SettingsController extends GetxController {
   /// account, since `authStateChanges` fires before that.
   Future<void> reloadSyncedSettings() async {
     emailSignature.value = _cachedSignature;
-    final mailboxes = Get.find<MailboxesController>()..applyCached();
+    final mailboxes = GetIt.I<MailboxesController>()..applyCached();
     await _refreshSignatureFromRelays();
     mailboxes.applyCached();
   }

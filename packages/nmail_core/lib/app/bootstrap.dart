@@ -20,13 +20,13 @@ import 'package:toastification/toastification.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-import 'package:nmail_core/app/bindings/initial_binding.dart';
 import 'package:nmail_core/app/config/distribution_config.dart';
 import 'package:nmail_core/app/widgets/pending_requests_overlay.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
+import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/account_local_data_service.dart';
 import 'package:nmail_core/services/address_book_service.dart';
@@ -193,8 +193,8 @@ Future<void> _initApp({
   // Initialize theme service
   GetIt.I.registerSingleton(ThemeService());
 
-  // SettingsController is awaited (not put inside InitialBinding) so the
-  // saved theme mode and locale are available before the first frame.
+  // SettingsController is awaited so the saved theme mode and locale are
+  // available before the first frame.
   await Get.putAsync(() => SettingsController().init(), permanent: true);
 
   GetIt.I.registerSingleton(await NotificationService().init());
@@ -217,10 +217,10 @@ Future<void> _initApp({
     ContactsService.new,
     dispose: (service) => service.dispose(),
   );
-
-  // Run InitialBinding before the router boots: the router's redirect reads
-  // SettingsController on first navigation.
-  InitialBinding().dependencies();
+  GetIt.I.registerSingleton(
+    MailboxesController(),
+    dispose: (controller) => controller.dispose(),
+  );
 
   // Flavor-specific setup (e.g. FCM on nmail_standard), kept out of core.
   // A push transport that cannot set itself up, because the browser blocks

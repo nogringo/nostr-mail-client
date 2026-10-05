@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/app/routes/app_router.dart';
@@ -17,7 +17,7 @@ Future<void> confirmDeleteMailEntry(
   required MailEntry entry,
 }) async {
   final l = AppLocalizations.of(context);
-  final mailboxes = Get.find<MailboxesController>();
+  final mailboxes = GetIt.I<MailboxesController>();
   final count = await mailboxes.countHeld(kind, entry.id);
   if (!context.mounted) return;
 

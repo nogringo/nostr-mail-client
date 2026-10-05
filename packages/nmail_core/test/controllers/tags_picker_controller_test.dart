@@ -52,11 +52,14 @@ void main() {
     GetIt.I.registerSingleton(NotificationService());
     GetIt.I.registerSingleton(NostrMailService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
-    mailboxes = Get.put(MailboxesController());
-    mailboxes.tags.assignAll(const [
+    mailboxes = GetIt.I.registerSingleton(
+      MailboxesController(),
+      dispose: (controller) => controller.dispose(),
+    );
+    mailboxes.tags = const [
       MailEntry(id: _urgent, name: 'Urgent'),
       MailEntry(id: _travel, name: 'Travel'),
-    ]);
+    ];
   });
 
   tearDown(() async {
@@ -99,7 +102,10 @@ void main() {
 
     test('a tag created from the picker is added once checked', () {
       final picker = TagsPickerController([_email('1')]);
-      mailboxes.tags.add(const MailEntry(id: 'cccccccccccccccc', name: 'New'));
+      mailboxes.tags = [
+        ...mailboxes.tags,
+        const MailEntry(id: 'cccccccccccccccc', name: 'New'),
+      ];
 
       picker.check('cccccccccccccccc');
 

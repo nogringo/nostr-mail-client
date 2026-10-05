@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -18,7 +18,7 @@ class MoveToDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final mailboxes = Get.find<MailboxesController>();
+    final mailboxes = GetIt.I<MailboxesController>();
     return SimpleDialog(
       title: Text(l.mailboxMoveTo),
       children: [

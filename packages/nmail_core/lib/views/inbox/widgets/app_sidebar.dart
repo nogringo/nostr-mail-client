@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/routes/app_routes.dart';
@@ -23,7 +23,7 @@ class AppSidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final loc = GoRouterState.of(context).matchedLocation;
-    final mailboxes = Get.find<MailboxesController>();
+    final mailboxes = GetIt.I<MailboxesController>();
 
     return Material(
       color: Colors.transparent,
@@ -44,8 +44,13 @@ class AppSidebar extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Obx(
-              () => ListView(
+            child: ListenableBuilder(
+              listenable: Listenable.merge([
+                mailboxes,
+                mailboxes.unread,
+                mailboxes.pendingSenders,
+              ]),
+              builder: (context, _) => ListView(
                 padding: const EdgeInsets.only(bottom: 12),
                 children: [
                   SidebarFolderItem(
@@ -54,7 +59,7 @@ class AppSidebar extends StatelessWidget {
                     label: l.folderInbox,
                     path: AppRoutes.inbox,
                     currentLocation: loc,
-                    unreadCount: mailboxes.unread[Mailbox.inbox],
+                    unreadCount: mailboxes.unread.value[Mailbox.inbox],
                   ),
                   SidebarFolderItem(
                     icon: Icons.how_to_reg_outlined,

@@ -45,11 +45,16 @@ class AppDrawer extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final loc = GoRouterState.of(context).matchedLocation;
-    final mailboxes = Get.find<MailboxesController>();
+    final mailboxes = GetIt.I<MailboxesController>();
 
     return Drawer(
-      child: Obx(
-        () => ListView(
+      child: ListenableBuilder(
+        listenable: Listenable.merge([
+          mailboxes,
+          mailboxes.unread,
+          mailboxes.pendingSenders,
+        ]),
+        builder: (context, _) => ListView(
           padding: EdgeInsets.only(
             bottom: MediaQuery.paddingOf(context).bottom + 16,
           ),
@@ -153,7 +158,7 @@ class AppDrawer extends StatelessWidget {
               label: l.folderInbox,
               path: AppRoutes.inbox,
               currentLocation: loc,
-              unreadCount: mailboxes.unread[Mailbox.inbox],
+              unreadCount: mailboxes.unread.value[Mailbox.inbox],
             ),
             SidebarFolderItem(
               icon: Icons.how_to_reg_outlined,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/controllers/tags_picker_controller.dart';
@@ -17,14 +17,15 @@ class TagsPickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final mailboxes = Get.find<MailboxesController>();
+    final mailboxes = GetIt.I<MailboxesController>();
     return AlertDialog(
       title: Text(l.mailboxTags),
       contentPadding: const EdgeInsets.symmetric(vertical: 16),
       content: SizedBox(
         width: 360,
-        child: Obx(
-          () => ListView(
+        child: ListenableBuilder(
+          listenable: mailboxes,
+          builder: (context, _) => ListView(
             shrinkWrap: true,
             children: [
               if (mailboxes.tags.isEmpty)

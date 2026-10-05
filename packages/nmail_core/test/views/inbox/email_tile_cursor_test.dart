@@ -108,7 +108,10 @@ void main() {
     GetIt.I.registerSingleton(NostrMailService());
     GetIt.I.registerSingleton(AddressBookService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
-    Get.put(MailboxesController());
+    GetIt.I.registerSingleton(
+      MailboxesController(),
+      dispose: (controller) => controller.dispose(),
+    );
     GetIt.I.registerSingleton(
       InboxController(),
       dispose: (controller) => controller.dispose(),

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'mailboxes_controller.dart';
@@ -10,7 +10,7 @@ class TagsPickerController extends ChangeNotifier {
   final List<EmailSummary> emails;
 
   TagsPickerController(this.emails) {
-    for (final tag in Get.find<MailboxesController>().tags) {
+    for (final tag in GetIt.I<MailboxesController>().tags) {
       final holding = emails.where((e) => e.tags.contains(tag.id)).length;
       _initial[tag.id] = holding == 0
           ? false

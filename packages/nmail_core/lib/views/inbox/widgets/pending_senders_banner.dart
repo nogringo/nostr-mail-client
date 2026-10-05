@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,11 +16,11 @@ class PendingSendersBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final mailboxes = Get.find<MailboxesController>();
+    final mailboxes = GetIt.I<MailboxesController>();
 
     return ListenableBuilder(
-      listenable: controller,
-      builder: (context, _) => Obx(() {
+      listenable: Listenable.merge([controller, mailboxes.pendingSenders]),
+      builder: (context, _) {
         final pending = mailboxes.pendingSenders.value;
         if (!controller.currentMailbox.isInbox ||
             controller.isSearching ||
@@ -39,7 +38,7 @@ class PendingSendersBanner extends StatelessWidget {
             ),
           ],
         );
-      }),
+      },
     );
   }
 }

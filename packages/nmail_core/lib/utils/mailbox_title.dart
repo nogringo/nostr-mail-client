@@ -1,4 +1,4 @@
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -14,8 +14,8 @@ extension MailboxTitle on Mailbox {
     SystemMailbox(folder: MailFolder.archive) => l.folderArchive,
     SystemMailbox(folder: MailFolder.spam) => l.folderSpam,
     FolderMailbox(:final id) =>
-      Get.find<MailboxesController>().folderById(id)?.name ?? id,
+      GetIt.I<MailboxesController>().folderById(id)?.name ?? id,
     TagMailbox(:final id) =>
-      Get.find<MailboxesController>().tagById(id)?.name ?? id,
+      GetIt.I<MailboxesController>().tagById(id)?.name ?? id,
   };
 }

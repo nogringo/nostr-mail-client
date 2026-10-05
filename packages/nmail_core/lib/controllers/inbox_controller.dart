@@ -19,17 +19,14 @@ class InboxController extends ChangeNotifier with WidgetsBindingObserver {
   InboxController() {
     WidgetsBinding.instance.addObserver(this);
     // A changed match condition moves emails without any label event.
-    final mailboxes = Get.find<MailboxesController>();
-    _mailboxesSubscriptions = [
-      mailboxes.folders.listen((_) => _loadEmails()),
-      mailboxes.tags.listen((_) => _loadEmails()),
-    ];
+    _mailboxes.addListener(_loadEmails);
     if (_nostrMailService.hasAccount) {
       activateForCurrentAccount();
     }
   }
 
   final _nostrMailService = GetIt.I<NostrMailService>();
+  final _mailboxes = GetIt.I<MailboxesController>();
   final _notifications = GetIt.I<NotificationService>();
 
   List<EmailSummary> emails = [];
@@ -51,7 +48,6 @@ class InboxController extends ChangeNotifier with WidgetsBindingObserver {
 
   StreamSubscription? _notifySubscription;
   StreamSubscription? _reloadSubscription;
-  late final List<StreamSubscription<Object?>> _mailboxesSubscriptions;
   int _accountGeneration = 0;
   AppLifecycleState _lifecycleState = AppLifecycleState.resumed;
   DateTime? _watchStartedAt;
@@ -286,9 +282,7 @@ class InboxController extends ChangeNotifier with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    for (final subscription in _mailboxesSubscriptions) {
-      subscription.cancel();
-    }
+    _mailboxes.removeListener(_loadEmails);
     _notifySubscription?.cancel();
     _reloadSubscription?.cancel();
     hoveredEmailId.dispose();

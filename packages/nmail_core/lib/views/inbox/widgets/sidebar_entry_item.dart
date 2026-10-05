@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -23,13 +23,14 @@ class SidebarEntryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mailboxes = Get.find<MailboxesController>();
+    final mailboxes = GetIt.I<MailboxesController>();
     final mailbox = switch (kind) {
       MailEntryKind.folder => FolderMailbox(entry.id),
       MailEntryKind.tag => TagMailbox(entry.id),
     };
-    return Obx(
-      () => SidebarFolderItem(
+    return ValueListenableBuilder(
+      valueListenable: mailboxes.unread,
+      builder: (context, unread, _) => SidebarFolderItem(
         icon: switch (kind) {
           MailEntryKind.folder => Icons.folder_outlined,
           MailEntryKind.tag => Icons.label_outline,
@@ -45,7 +46,7 @@ class SidebarEntryItem extends StatelessWidget {
         label: entry.name,
         path: AppRoutes.mailboxPath(mailbox),
         currentLocation: currentLocation,
-        unreadCount: mailboxes.unread[mailbox],
+        unreadCount: unread[mailbox],
         onSecondaryTapUp: (details) => showMailEntryMenu(
           context,
           kind: kind,

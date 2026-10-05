@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:ui' show Color;
 
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -14,36 +15,37 @@ import 'package:nmail_core/utils/string_color.dart';
 import 'auth_controller.dart';
 
 /// The user folders and tags of the active account, as its private settings
-/// name them, and the counts the sidebar shows.
-class MailboxesController extends GetxController {
+/// name them, and the counts the sidebar shows. Notifies when the folders or
+/// the tags change; the counts notify on their own.
+class MailboxesController extends ChangeNotifier {
+  MailboxesController() {
+    applyCached();
+    _accountSubscription = _auth.activePubkey.listen((_) => applyCached());
+  }
+
   final _nostrMailService = GetIt.I<NostrMailService>();
   final _auth = Get.find<AuthController>();
 
-  final RxList<MailEntry> folders = <MailEntry>[].obs;
-  final RxList<MailEntry> tags = <MailEntry>[].obs;
-  final RxMap<Mailbox, int> unread = <Mailbox, int>{}.obs;
+  List<MailEntry> folders = const [];
+  List<MailEntry> tags = const [];
+  final unread = ValueNotifier<Map<Mailbox, int>>(const {});
 
   /// Senders with mail in requests, waiting for a verdict.
-  final pendingSenders = 0.obs;
+  final pendingSenders = ValueNotifier(0);
 
   final List<StreamSubscription<int>> _unreadSubscriptions = [];
-  Worker? _accountWorker;
+  late final StreamSubscription<String?> _accountSubscription;
   String? _appliedKey;
 
   NostrMailClient get _client => _nostrMailService.client;
 
   @override
-  void onInit() {
-    super.onInit();
-    applyCached();
-    _accountWorker = ever(_auth.activePubkey, (_) => applyCached());
-  }
-
-  @override
-  void onClose() {
-    _accountWorker?.dispose();
+  void dispose() {
+    _accountSubscription.cancel();
     _cancelUnread();
-    super.onClose();
+    unread.dispose();
+    pendingSenders.dispose();
+    super.dispose();
   }
 
   /// Reads the entries from the private-settings cache of the active account.
@@ -64,12 +66,13 @@ class MailboxesController extends GetxController {
     if (key == _appliedKey) return;
     _appliedKey = key;
 
-    folders.assignAll(nextFolders);
-    tags.assignAll(nextTags);
+    folders = nextFolders;
+    tags = nextTags;
     _watchUnread();
+    notifyListeners();
   }
 
-  RxList<MailEntry> entriesOf(MailEntryKind kind) => switch (kind) {
+  List<MailEntry> entriesOf(MailEntryKind kind) => switch (kind) {
     MailEntryKind.folder => folders,
     MailEntryKind.tag => tags,
   };
@@ -154,14 +157,19 @@ class MailboxesController extends GetxController {
 
   /// Publishes the new order in one settings event, not one per moved entry.
   Future<void> reorder(MailEntryKind kind, int oldIndex, int newIndex) async {
-    final list = entriesOf(kind);
-    final entries = [...list];
+    final entries = [...entriesOf(kind)];
     entries.insert(newIndex, entries.removeAt(oldIndex));
     final positioned = [
       for (final (index, entry) in entries.indexed)
         entry.copyWith(position: index),
     ];
-    list.assignAll(positioned);
+    switch (kind) {
+      case MailEntryKind.folder:
+        folders = positioned;
+      case MailEntryKind.tag:
+        tags = positioned;
+    }
+    notifyListeners();
     try {
       await switch (kind) {
         MailEntryKind.folder => _client.updatePrivateSettings(
@@ -221,7 +229,7 @@ class MailboxesController extends GetxController {
 
   void _watchUnread() {
     _cancelUnread();
-    unread.clear();
+    unread.value = const {};
     pendingSenders.value = 0;
     if (!_nostrMailService.hasAccount) return;
 
@@ -243,7 +251,10 @@ class MailboxesController extends GetxController {
               folder: mailbox.folderParam,
               tag: mailbox.tagParam,
             )
-            .listen((count) => unread[mailbox] = count, onError: (_) {}),
+            .listen(
+              (count) => unread.value = {...unread.value, mailbox: count},
+              onError: (_) {},
+            ),
       );
     }
   }

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -22,35 +22,38 @@ class MailEntriesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mailboxes = Get.find<MailboxesController>();
+    final mailboxes = GetIt.I<MailboxesController>();
     // Centered by padding, not a width constraint, to keep the scrollbar at
     // the screen edge: reordering needs the list to own its scroll.
     return LayoutBuilder(
       builder: (context, constraints) {
         final gutter = max(0.0, (constraints.maxWidth - _maxWidth) / 2);
-        return Obx(() {
-          final entries = mailboxes.entriesOf(kind);
-          if (entries.isEmpty) return MailEntriesEmptyState(kind: kind);
-          return ReorderableListView.builder(
-            buildDefaultDragHandles: false,
-            padding: EdgeInsets.fromLTRB(
-              gutter,
-              8,
-              gutter,
-              LayoutConstants.fabClearance(context),
-            ),
-            itemCount: entries.length,
-            onReorderItem: (oldIndex, newIndex) =>
-                _reorder(context, oldIndex, newIndex),
-            itemBuilder: (context, index) => MailEntryTile(
-              key: ValueKey(entries[index].id),
-              kind: kind,
-              entry: entries[index],
-              index: index,
-            ),
-            footer: MailEntryAddTile(kind: kind),
-          );
-        });
+        return ListenableBuilder(
+          listenable: mailboxes,
+          builder: (context, _) {
+            final entries = mailboxes.entriesOf(kind);
+            if (entries.isEmpty) return MailEntriesEmptyState(kind: kind);
+            return ReorderableListView.builder(
+              buildDefaultDragHandles: false,
+              padding: EdgeInsets.fromLTRB(
+                gutter,
+                8,
+                gutter,
+                LayoutConstants.fabClearance(context),
+              ),
+              itemCount: entries.length,
+              onReorderItem: (oldIndex, newIndex) =>
+                  _reorder(context, oldIndex, newIndex),
+              itemBuilder: (context, index) => MailEntryTile(
+                key: ValueKey(entries[index].id),
+                kind: kind,
+                entry: entries[index],
+                index: index,
+              ),
+              footer: MailEntryAddTile(kind: kind),
+            );
+          },
+        );
       },
     );
   }
@@ -62,7 +65,7 @@ class MailEntriesList extends StatelessWidget {
   ) async {
     final l = AppLocalizations.of(context);
     try {
-      await Get.find<MailboxesController>().reorder(kind, oldIndex, newIndex);
+      await GetIt.I<MailboxesController>().reorder(kind, oldIndex, newIndex);
     } catch (_) {
       if (context.mounted) ToastHelper.error(context, l.mailboxSaveFailed);
     }

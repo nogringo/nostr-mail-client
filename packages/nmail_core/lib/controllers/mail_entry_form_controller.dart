@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/models/mailbox.dart';
@@ -83,7 +83,7 @@ class MailEntryFormController extends ChangeNotifier {
   MailEntryFormError? error;
   bool _isDisposed = false;
 
-  MailboxesController get _mailboxes => Get.find<MailboxesController>();
+  MailboxesController get _mailboxes => GetIt.I<MailboxesController>();
 
   bool get isEditing => entry != null;
 
