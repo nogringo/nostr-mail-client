@@ -15,6 +15,7 @@ dependencies:
   get: ^4.7.3
   unifiedpush: ^6.2.0
   unifiedpush_ui: ^0.2.0
+  get_it: ^9.3.0
 
 dev_dependencies:
   flutter_test:
