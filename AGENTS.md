@@ -31,7 +31,8 @@ Current package metadata:
 | Framework | Flutter |
 | Language | Dart |
 | Workspace layout | Dart pub workspace (`pubspec.yaml` with `apps/*` and `packages/*`) |
-| State management / DI | `get` (GetX) |
+| State management | Flutter SDK (`ChangeNotifier`, `ValueNotifier`, `ListenableBuilder`) |
+| Dependency injection | `get_it` |
 | Routing | `go_router` via `MaterialApp.router` |
 | Nostr protocol | `ndk` + `ndk_flutter` |
 | Email domain logic | `nostr_mail` |
@@ -73,7 +74,7 @@ Current package metadata:
 |       |-- lib/app/routes/              # go_router route tree and route constants
 |       |-- lib/app/config/              # App/distribution config
 |       |-- lib/config/nostr_config.dart # Bootstrap relays and recommended defaults
-|       |-- lib/controllers/             # GetX controllers
+|       |-- lib/controllers/             # ChangeNotifier controllers
 |       |-- lib/models/                  # Plain Dart models
 |       |-- lib/services/                # Long-lived services and platform abstractions
 |       |-- lib/utils/                   # Pure helpers/extensions
@@ -156,7 +157,7 @@ Linux and macOS release packaging use `fastforge` in CI. There is no Fastforge c
 
 The shared entry point is `packages/nmail_core/lib/app/bootstrap.dart`.
 
-`runNmailApp()` does the app-wide setup:
+`runNmailApp()` does the app-wide setup and registers app-lifetime singletons in `get_it`:
 
 - Enables path URL strategy for web.
 - Registers `DistributionConfig`.
@@ -165,9 +166,9 @@ The shared entry point is `packages/nmail_core/lib/app/bootstrap.dart`.
 - Initializes `StorageService`.
 - Creates `Ndk` with `NdkEventVerifier`, `NdkEventSignerFactory`, cache, bootstrap relays, and fetched ranges.
 - Registers `Ndk`, `NdkFlutter`, `MetadataService`, `NostrMailService`, `AuthController`, `ThemeService`, `SettingsController`, `NotificationService`, and `PushRegistrationService`.
-- Initializes Blossom cache plus offline broadcast/upload queues as permanent singletons.
+- Initializes Blossom cache plus offline broadcast/upload queues as singletons.
 - Registers `DeviceConnectivityService`, which forces NDK relays past their connect backoff when the OS regains a network.
-- Runs `InitialBinding` for `AddressBookService` and `ContactsService`.
+- Registers `AddressBookService`, `ContactsService` (lazily) and `MailboxesController`.
 - Calls the distribution-specific `onReady` hook.
 - Starts `MainApp`.
 
@@ -176,13 +177,13 @@ Important distribution hooks:
 - `apps/nmail_standard/lib/main.dart` passes `FcmPush.init` and an iOS App Store privacy policy URL.
 - `apps/nmail_foss/lib/main.dart` passes `UnifiedPushHandler.init`; when launched with `--unifiedpush-bg`, it runs `UnifiedPushHandler.runBackground()` instead of the full app.
 
-Use `Get.find<T>()` carefully. Many services are permanent and assumed to exist for the whole app lifetime. Route-scoped controllers are still registered and cleaned up in the router where needed.
+Read singletons with `GetIt.I<T>()`. App-level services exist for the whole app lifetime. Route-scoped controllers are registered and unregistered in `AppRouter`. Widget-scoped controllers are created and disposed by `ControllerBuilder`, dialog-scoped ones by their `show...` helper.
 
 ---
 
 ## Routing And Navigation
 
-Routing has migrated from `GetMaterialApp`/`GetPage` to `go_router`.
+Routing uses `go_router`.
 
 Key files:
 
@@ -204,7 +205,7 @@ Current route model:
 - Legacy `/email/:id` redirects through the root NIP-19 dispatcher.
 - Root `/:nostrId` dispatches `npub`, `nprofile`, `nevent`, and note/event references.
 
-GetX is still used for DI, reactivity, and controller ownership. Controllers, which have no `BuildContext`, show toasts and dialogs through `AppRouter.rootContext`.
+Controllers, which have no `BuildContext`, show toasts and dialogs through `AppRouter.rootContext`.
 
 When adding routes:
 
@@ -291,10 +292,11 @@ There are no broad integration/widget test conventions established yet.
 
 - Linting uses `package:flutter_lints/flutter.yaml`.
 - `experimental_member_use` is ignored in package analysis options.
-- Controllers end with `Controller` and generally extend `GetxController`.
-- Long-lived services end with `Service`; persistent app-level services are registered with `permanent: true`.
+- Controllers end with `Controller` and extend `ChangeNotifier`, with `dispose()` releasing what they hold.
+- Long-lived services end with `Service`; app-level services are registered in `get_it` by `runNmailApp()`.
 - Files use `snake_case`.
-- Rx observables follow existing naming patterns (`isLoading`, `hasX`, plural collections, etc.).
+- Widgets read state through `ListenableBuilder` or `ValueListenableBuilder`.
+- `ValueNotifier` fields follow existing naming patterns (`isLoading`, `hasX`, plural collections, etc.).
 - Keep platform branching explicit (`kIsWeb`, `defaultTargetPlatform`, `PlatformHelper`, conditional imports).
 - Prefer existing helper APIs and local patterns over adding new abstractions.
 - Keep generated localization files and platform runner changes intentional; avoid unrelated churn.
