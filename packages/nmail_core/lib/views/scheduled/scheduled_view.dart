@@ -20,6 +20,11 @@ class ScheduledView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // An account switch drops the controller just before leaving this page.
+    if (!GetIt.I.isRegistered<ScheduledController>()) {
+      return const SizedBox.shrink();
+    }
+
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
 
