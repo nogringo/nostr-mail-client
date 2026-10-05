@@ -15,20 +15,40 @@ import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'auth_controller.dart';
 
-class ProfileController extends GetxController {
+class ProfileController extends ChangeNotifier {
+  ProfileController() {
+    final authController = Get.find<AuthController>();
+    final metadata = authController.userMetadata.value;
+    if (metadata != null) {
+      _currentMetadata = metadata;
+      nameController.text = metadata.name ?? '';
+      displayNameController.text = metadata.displayName ?? '';
+      pictureController.text = metadata.picture ?? '';
+      aboutController.text = metadata.about ?? '';
+      isLoading = false;
+    }
+    nameController.addListener(notifyListeners);
+    displayNameController.addListener(notifyListeners);
+    pictureController.addListener(notifyListeners);
+    aboutController.addListener(notifyListeners);
+    loadMetadata();
+  }
+
   final nameController = TextEditingController();
   final displayNameController = TextEditingController();
   final pictureController = TextEditingController();
   final aboutController = TextEditingController();
 
-  final Rx<Metadata?> _currentMetadata = Rx<Metadata?>(null);
-  final RxBool isLoading = true.obs;
-  final RxBool isSaving = false.obs;
-  final RxBool isUploadingPicture = false.obs;
-  final RxBool showMoreOptions = false.obs;
+  Metadata? _currentMetadata;
+  bool isLoading = true;
+  bool isSaving = false;
+  bool isUploadingPicture = false;
+  bool showMoreOptions = false;
+
+  bool _isDisposed = false;
 
   bool get hasChanges {
-    final metadata = _currentMetadata.value;
+    final metadata = _currentMetadata;
     if (metadata == null) return true;
 
     return nameController.text.trim() != (metadata.name ?? '') ||
@@ -38,26 +58,26 @@ class ProfileController extends GetxController {
   }
 
   @override
-  void onInit() {
-    super.onInit();
-    final authController = Get.find<AuthController>();
-    final metadata = authController.userMetadata.value;
-    if (metadata != null) {
-      _currentMetadata.value = metadata;
-      nameController.text = metadata.name ?? '';
-      displayNameController.text = metadata.displayName ?? '';
-      pictureController.text = metadata.picture ?? '';
-      aboutController.text = metadata.about ?? '';
-      isLoading.value = false;
-    }
-    loadMetadata();
+  void dispose() {
+    _isDisposed = true;
+    nameController.dispose();
+    displayNameController.dispose();
+    pictureController.dispose();
+    aboutController.dispose();
+    super.dispose();
+  }
+
+  void toggleMoreOptions() {
+    showMoreOptions = !showMoreOptions;
+    notifyListeners();
   }
 
   Future<void> loadMetadata() async {
     final authController = Get.find<AuthController>();
     final pubkey = authController.publicKey;
     if (pubkey == null) {
-      isLoading.value = false;
+      isLoading = false;
+      notifyListeners();
       return;
     }
 
@@ -66,21 +86,22 @@ class ProfileController extends GetxController {
 
       if (metadata != null) {
         authController.userMetadata.value = metadata;
-        _currentMetadata.value = metadata;
+        if (_isDisposed) return;
+        _currentMetadata = metadata;
         nameController.text = metadata.name ?? '';
         displayNameController.text = metadata.displayName ?? '';
         pictureController.text = metadata.picture ?? '';
         aboutController.text = metadata.about ?? '';
       }
     } catch (e) {
-      if (!isClosed) {
+      if (!_isDisposed) {
         final l = AppLocalizations.of(AppRouter.rootContext!);
         ToastHelper.error(AppRouter.rootContext!, l.profileLoadFailed);
       }
     } finally {
-      if (!isClosed) {
-        isLoading.value = false;
-        update();
+      if (!_isDisposed) {
+        isLoading = false;
+        notifyListeners();
       }
     }
   }
@@ -91,10 +112,10 @@ class ProfileController extends GetxController {
       dialogTitle: l.profileSelectPicture,
       type: FileType.image,
     );
-    if (file == null) return;
+    if (file == null || _isDisposed) return;
 
-    isUploadingPicture.value = true;
-    update();
+    isUploadingPicture = true;
+    notifyListeners();
 
     try {
       final ndk = GetIt.I<Ndk>();
@@ -111,6 +132,7 @@ class ProfileController extends GetxController {
         contentType: file.extension != null ? 'image/${file.extension}' : null,
         serverUrls: serverUrls,
       );
+      if (_isDisposed) return;
 
       if (uploadResults.isEmpty) {
         if (context.mounted) {
@@ -139,9 +161,9 @@ class ProfileController extends GetxController {
         ToastHelper.error(context, l.profileUploadError);
       }
     } finally {
-      if (!isClosed) {
-        isUploadingPicture.value = false;
-        update();
+      if (!_isDisposed) {
+        isUploadingPicture = false;
+        notifyListeners();
       }
     }
   }
@@ -150,12 +172,12 @@ class ProfileController extends GetxController {
     final pubkey = Get.find<AuthController>().publicKey;
     if (pubkey == null) return;
 
-    isSaving.value = true;
-    update();
+    isSaving = true;
+    notifyListeners();
 
     try {
       // Start from current object to preserve fields like banner, nip05, website, etc.
-      final metadata = _currentMetadata.value ?? Metadata(pubKey: pubkey);
+      final metadata = _currentMetadata ?? Metadata(pubKey: pubkey);
 
       // Update fields using setters
       final rawName = nameController.text.trim();
@@ -199,9 +221,9 @@ class ProfileController extends GetxController {
       authController.userMetadata.value = metadata;
       authController.userMetadata.refresh();
     } catch (e) {
-      if (!isClosed) {
-        isSaving.value = false;
-        update();
+      if (!_isDisposed) {
+        isSaving = false;
+        notifyListeners();
         final l = AppLocalizations.of(AppRouter.rootContext!);
         ToastHelper.error(AppRouter.rootContext!, l.profileUpdateFailed);
       }

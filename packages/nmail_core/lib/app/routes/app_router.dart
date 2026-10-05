@@ -21,7 +21,6 @@ import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../models/mailbox.dart';
 import '../../controllers/nip65_relays_controller.dart';
-import '../../controllers/profile_controller.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/community_theme.dart';
@@ -264,10 +263,7 @@ class AppRouter {
           // Profile
           GoRoute(
             path: AppRoutes.profile,
-            builder: (_, _) {
-              Get.lazyPut(() => ProfileController());
-              return const ProfileView();
-            },
+            builder: (_, _) => const ProfileView(),
           ),
 
           // Settings tree

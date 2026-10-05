@@ -98,7 +98,7 @@ Created in a `show...` helper:
 Disposed when leaving the route:
 
 - [ ] `ComposeController`
-- [ ] `ProfileController`
+- [x] `ProfileController`
 
 Kept until the next one opened replaces it:
 
