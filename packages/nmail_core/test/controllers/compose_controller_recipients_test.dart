@@ -214,7 +214,10 @@ void main() {
       GetIt.I.registerSingleton<NostrMailService>(_FakeNostrMailService(mailClient));
       metadataService = FakeMetadataService();
       Get.put<MetadataService>(metadataService);
-      Get.put(ContactsService());
+      GetIt.I.registerSingleton(
+        ContactsService(),
+        dispose: (service) => service.dispose(),
+      );
       controller = ComposeController();
     });
 

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:enough_mail_plus/enough_mail.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +15,13 @@ import 'package:nmail_core/services/address_book_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
-class ContactsService extends GetxService {
+class ContactsService {
+  ContactsService() {
+    _resolvedSubscription = Get.find<MetadataService>().resolved.listen(
+      _onProfileResolved,
+    );
+  }
+
   final _nostrMailService = GetIt.I<NostrMailService>();
   final _ndk = GetIt.I<Ndk>();
   AddressBookService? get _addressBookService =>
@@ -22,31 +29,22 @@ class ContactsService extends GetxService {
       ? Get.find<AddressBookService>()
       : null;
 
-  final contacts = <Contact>[].obs;
-  final isLoading = false.obs;
+  final contacts = ValueNotifier<List<Contact>>(const []);
+  bool _isLoading = false;
 
   /// Every profile resolved while the app runs, such as a NIP-05 lookup's.
   final _resolvedProfiles = <String, Contact>{};
-  StreamSubscription<Metadata>? _resolvedSubscription;
+  late final StreamSubscription<Metadata> _resolvedSubscription;
 
-  @override
-  void onInit() {
-    super.onInit();
-    _resolvedSubscription = Get.find<MetadataService>().resolved.listen(
-      _onProfileResolved,
-    );
-  }
-
-  @override
-  void onClose() {
-    _resolvedSubscription?.cancel();
-    super.onClose();
+  void dispose() {
+    _resolvedSubscription.cancel();
+    contacts.dispose();
   }
 
   /// Load contacts from email history, Nostr follows, and NDK cache
   Future<void> loadContacts() async {
-    if (isLoading.value) return;
-    isLoading.value = true;
+    if (_isLoading) return;
+    _isLoading = true;
 
     try {
       await _addressBookService?.load(sync: false);
@@ -58,7 +56,7 @@ class ContactsService extends GetxService {
         await _collectContacts(fromRelays: true),
       );
     } finally {
-      isLoading.value = false;
+      _isLoading = false;
     }
   }
 
@@ -67,10 +65,10 @@ class ContactsService extends GetxService {
     if (contact == null) return;
     _resolvedProfiles[metadata.pubKey] = contact;
     if (metadata.pubKey == _nostrMailService.getPublicKey() ||
-        contacts.any((existing) => existing.pubkey == metadata.pubKey)) {
+        contacts.value.any((existing) => existing.pubkey == metadata.pubKey)) {
       return;
     }
-    contacts.add(contact);
+    contacts.value = [...contacts.value, contact];
   }
 
   /// A load may have read the cache before a profile landed in it.
@@ -388,7 +386,7 @@ class ContactsService extends GetxService {
     final q = query.toLowerCase().trim();
     if (q.length < 2) return [];
 
-    final filtered = contacts.where((contact) {
+    final filtered = contacts.value.where((contact) {
       // Exclude already added recipients (check both pubkey and email)
       if (excludeIds != null) {
         if (contact.pubkey != null && excludeIds.contains(contact.pubkey)) {

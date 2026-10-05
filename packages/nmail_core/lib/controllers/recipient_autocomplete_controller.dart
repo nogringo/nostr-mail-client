@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/services/contacts_service.dart';
@@ -19,20 +19,17 @@ class RecipientAutocompleteController extends ChangeNotifier {
   }) {
     focusNode.addListener(_onFocusChanged);
     textController.addListener(_onTextChanged);
-    _contactsSubscription = _contactsService.contacts.listen(
-      (_) => _refreshSuggestions(),
-    );
+    _contactsService.contacts.addListener(_refreshSuggestions);
   }
 
   final TextEditingController textController;
   final FocusNode focusNode;
-  final _contactsService = Get.find<ContactsService>();
+  final _contactsService = GetIt.I<ContactsService>();
   final layerLink = LayerLink();
   final tapRegionGroup = Object();
   final textFieldKey = GlobalKey();
 
   Timer? _nip05Timer;
-  late final StreamSubscription<List<Contact>> _contactsSubscription;
   OverlayEntry? _overlayEntry;
   BuildContext? _overlayContext;
   WidgetBuilder? _overlayBuilder;
@@ -55,7 +52,7 @@ class RecipientAutocompleteController extends ChangeNotifier {
   void dispose() {
     _isDisposed = true;
     _nip05Timer?.cancel();
-    _contactsSubscription.cancel();
+    _contactsService.contacts.removeListener(_refreshSuggestions);
     hideOverlay();
     textController.removeListener(_onTextChanged);
     focusNode.removeListener(_onFocusChanged);

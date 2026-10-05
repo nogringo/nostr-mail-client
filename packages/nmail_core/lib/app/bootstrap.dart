@@ -33,6 +33,7 @@ import 'package:nmail_core/services/app_update_service.dart';
 import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
+import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/device_connectivity_service.dart';
 import 'package:nmail_core/services/mail_database.dart';
 import 'package:nmail_core/services/mail_domain_service.dart';
@@ -204,9 +205,13 @@ Future<void> _initApp({
     AppUpdateService()..start(),
     dispose: (service) => service.dispose(),
   );
+  GetIt.I.registerLazySingleton(
+    ContactsService.new,
+    dispose: (service) => service.dispose(),
+  );
 
-  // Run InitialBinding (ContactsService) before the router boots - the
-  // router's redirect reads SettingsController on first navigation.
+  // Run InitialBinding before the router boots: the router's redirect reads
+  // SettingsController on first navigation.
   InitialBinding().dependencies();
 
   // Flavor-specific setup (e.g. FCM on nmail_standard), kept out of core.

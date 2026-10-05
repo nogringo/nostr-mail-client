@@ -90,7 +90,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   }
 
   final _nostrMailService = GetIt.I<NostrMailService>();
-  final _contactsService = Get.find<ContactsService>();
+  final _contactsService = GetIt.I<ContactsService>();
   final _metadataService = Get.find<MetadataService>();
 
   bool get isSending => _isSending;

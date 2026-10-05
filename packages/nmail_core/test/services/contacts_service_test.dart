@@ -32,10 +32,11 @@ void main() {
     GetIt.I.registerSingleton(NostrMailService());
     metadataService = FakeMetadataService();
     Get.put<MetadataService>(metadataService);
-    contactsService = Get.put(ContactsService());
+    contactsService = ContactsService();
   });
 
   tearDown(() async {
+    contactsService.dispose();
     Get.reset();
     await GetIt.I.reset();
     await ndk.destroy();
@@ -48,7 +49,7 @@ void main() {
     await contactsService.loadContacts();
 
     expect(
-      contactsService.contacts.map((contact) => contact.pubkey),
+      contactsService.contacts.value.map((contact) => contact.pubkey),
       contains(_bobPubkey),
     );
   });

@@ -122,7 +122,7 @@ Registered in `runNmailApp()` or `InitialBinding`:
 - [ ] `AddressBookService`
 - [x] `AppUpdateService`
 - [ ] `AuthController`
-- [ ] `ContactsService`
+- [x] `ContactsService`
 - [x] `DeviceConnectivityService`
 - [ ] `MailboxesController`
 - [x] `MailDomainService`

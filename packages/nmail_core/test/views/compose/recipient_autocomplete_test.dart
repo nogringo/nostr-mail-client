@@ -89,7 +89,10 @@ void main() {
     GetIt.I.registerSingleton(NostrMailService());
     metadataService = FakeMetadataService();
     Get.put<MetadataService>(metadataService);
-    contactsService = Get.put(ContactsService());
+    contactsService = GetIt.I.registerSingleton(
+      ContactsService(),
+      dispose: (service) => service.dispose(),
+    );
   });
 
   tearDown(() async {
