@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import '../../../controllers/inbox_controller.dart';
@@ -29,7 +29,7 @@ class SelectionActionsBar extends StatelessWidget {
       ),
     ];
 
-    final mailbox = controller.currentMailbox.value;
+    final mailbox = controller.currentMailbox;
     final canRestore = mailbox.isTrash || mailbox.isArchive;
     final isScreened = mailbox.isRequests || mailbox.isSpam;
 
@@ -120,7 +120,7 @@ class SelectionActionsBar extends StatelessWidget {
   ) async {
     final folder = await showMoveToPicker(
       context,
-      current: controller.currentMailbox.value,
+      current: controller.currentMailbox,
     );
     if (folder != null) await controller.moveSelectedTo(folder);
   }
@@ -128,7 +128,7 @@ class SelectionActionsBar extends StatelessWidget {
   Future<void> _judgeSelected(BuildContext context, SenderVerdict verdict) =>
       runSenderVerdict(
         context,
-        () => Get.find<InboxController>().setSelectedSendersVerdict(verdict),
+        () => GetIt.I<InboxController>().setSelectedSendersVerdict(verdict),
       );
 
   Future<void> _tagSelected(
@@ -162,7 +162,7 @@ class SelectionActionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<InboxController>();
+    final controller = GetIt.I<InboxController>();
     final actions = _getActions(context, l, controller);
 
     return LayoutBuilder(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
-class SearchField extends GetView<InboxController> {
+class SearchField extends StatelessWidget {
   const SearchField({super.key});
+
+  InboxController get controller => GetIt.I<InboxController>();
 
   @override
   Widget build(BuildContext context) {

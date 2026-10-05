@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nmail_core/controllers/scheduled_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/scheduled_email_extensions.dart';
@@ -67,7 +67,7 @@ class ScheduledEmailCompactTile extends StatelessWidget {
                   children: [
                     SelectableAvatar(
                       id: email.packageId,
-                      hoveredId: Get.find<ScheduledController>().hoveredId,
+                      hoveredId: GetIt.I<ScheduledController>().hoveredId,
                       avatar: ScheduledRecipientAvatar(
                         email: email,
                         radius: 14,

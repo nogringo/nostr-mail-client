@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -8,36 +8,41 @@ import 'accept_all_senders_dialog.dart';
 
 /// Accepts every sender at once, as when the mail received before Requests
 /// existed lands here.
-class RequestsBanner extends GetView<InboxController> {
+class RequestsBanner extends StatelessWidget {
   const RequestsBanner({super.key});
+
+  InboxController get controller => GetIt.I<InboxController>();
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return Obx(() {
-      if (!controller.currentMailbox.value.isRequests ||
-          controller.isSearching ||
-          controller.emails.isEmpty) {
-        return const SizedBox.shrink();
-      }
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        if (!controller.currentMailbox.isRequests ||
+            controller.isSearching ||
+            controller.emails.isEmpty) {
+          return const SizedBox.shrink();
+        }
 
-      final senderCount = controller.emails
-          .map((email) => email.senderKey)
-          .toSet()
-          .length;
+        final senderCount = controller.emails
+            .map((email) => email.senderKey)
+            .toSet()
+            .length;
 
-      return MaterialBanner(
-        leading: const Icon(Icons.how_to_reg_outlined),
-        content: Text(l.mailboxPendingSenders(senderCount)),
-        actions: [
-          TextButton(
-            onPressed: () => _acceptAll(context, senderCount),
-            child: Text(l.requestsAcceptAll),
-          ),
-        ],
-      );
-    });
+        return MaterialBanner(
+          leading: const Icon(Icons.how_to_reg_outlined),
+          content: Text(l.mailboxPendingSenders(senderCount)),
+          actions: [
+            TextButton(
+              onPressed: () => _acceptAll(context, senderCount),
+              child: Text(l.requestsAcceptAll),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _acceptAll(BuildContext context, int senderCount) async {

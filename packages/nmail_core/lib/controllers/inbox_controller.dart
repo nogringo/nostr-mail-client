@@ -14,21 +14,34 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/utils/selection_range.dart';
 
-class InboxController extends GetxController with WidgetsBindingObserver {
+class InboxController extends ChangeNotifier with WidgetsBindingObserver {
+  InboxController() {
+    WidgetsBinding.instance.addObserver(this);
+    // A changed match condition moves emails without any label event.
+    final mailboxes = Get.find<MailboxesController>();
+    _mailboxesSubscriptions = [
+      mailboxes.folders.listen((_) => _loadEmails()),
+      mailboxes.tags.listen((_) => _loadEmails()),
+    ];
+    if (_nostrMailService.hasAccount) {
+      activateForCurrentAccount();
+    }
+  }
+
   final _nostrMailService = Get.find<NostrMailService>();
   final _notifications = Get.find<NotificationService>();
 
-  final RxList<EmailSummary> emails = <EmailSummary>[].obs;
-  final searchQuery = ''.obs;
-  final isSearchMode = false.obs;
-  final isSyncing = false.obs;
-  final isDeletingPermanently = false.obs;
-  final Rx<Mailbox> currentMailbox = Rx<Mailbox>(Mailbox.inbox);
-  final oldEmailsCount = 0.obs;
-  final selectedIds = <String>{}.obs;
-  final Rx<DateTime?> _backgroundTime = Rx<DateTime?>(null);
-  final RxSet<String> readEmailIds = <String>{}.obs;
-  final hoveredEmailId = RxnString();
+  List<EmailSummary> emails = [];
+  String searchQuery = '';
+  bool isSearchMode = false;
+  bool isSyncing = false;
+  bool isDeletingPermanently = false;
+  Mailbox currentMailbox = Mailbox.inbox;
+  int oldEmailsCount = 0;
+  final selectedIds = <String>{};
+  DateTime? _backgroundTime;
+  final readEmailIds = <String>{};
+  final hoveredEmailId = ValueNotifier<String?>(null);
 
   /// Row a shift-click extends the selection from: the last one toggled on
   /// its own, and whether that toggle checked or unchecked it.
@@ -37,14 +50,14 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   StreamSubscription? _notifySubscription;
   StreamSubscription? _reloadSubscription;
-  Worker? _mailboxesWorker;
+  late final List<StreamSubscription<Object?>> _mailboxesSubscriptions;
   int _accountGeneration = 0;
   AppLifecycleState _lifecycleState = AppLifecycleState.resumed;
   DateTime? _watchStartedAt;
   bool _isLoadingEmails = false;
   bool _pendingReload = false;
 
-  bool get isSearching => searchQuery.value.isNotEmpty;
+  bool get isSearching => searchQuery.isNotEmpty;
   int get unreadCount => emails.length - readEmailIds.length;
 
   // Read/unread status management
@@ -57,11 +70,13 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   Future<void> markAsRead(String emailId) async {
     await _nostrMailService.markEmailAsRead(emailId);
     readEmailIds.add(emailId);
+    notifyListeners();
   }
 
   Future<void> markAsUnread(String emailId) async {
     await _nostrMailService.markEmailAsUnread(emailId);
     readEmailIds.remove(emailId);
+    notifyListeners();
   }
 
   Future<void> markAllAsRead() async {
@@ -81,25 +96,29 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   }
 
   void setSearchQuery(String query) {
-    if (searchQuery.value == query) return;
+    if (searchQuery == query) return;
 
-    searchQuery.value = query;
+    searchQuery = query;
+    notifyListeners();
     _loadEmails();
   }
 
   void enterSearchMode() {
-    isSearchMode.value = true;
+    isSearchMode = true;
+    notifyListeners();
   }
 
   void exitSearchMode() {
-    isSearchMode.value = false;
+    isSearchMode = false;
+    notifyListeners();
     clearSearch();
   }
 
   void clearSearch() {
-    if (searchQuery.value.isEmpty) return;
+    if (searchQuery.isEmpty) return;
 
-    searchQuery.value = '';
+    searchQuery = '';
+    notifyListeners();
     _loadEmails();
   }
 
@@ -117,6 +136,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     }
     _selectionAnchorId = id;
     _selectionAnchorChecked = selectedIds.contains(id);
+    notifyListeners();
   }
 
   /// Applies the anchor's own state to every row between it and [id], so a
@@ -135,21 +155,26 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     } else {
       selectedIds.removeAll(range);
     }
+    notifyListeners();
   }
 
   void selectAll() {
-    selectedIds.assignAll(emails.map((e) => e.id));
+    selectedIds
+      ..clear()
+      ..addAll(emails.map((e) => e.id));
     _selectionAnchorId = null;
+    notifyListeners();
   }
 
   void clearSelection() {
     selectedIds.clear();
     _selectionAnchorId = null;
+    notifyListeners();
   }
 
   Future<void> deleteSelected() async {
     final ids = selectedIds.toList();
-    if (currentMailbox.value.isTrash) {
+    if (currentMailbox.isTrash) {
       await _nostrMailService.client.delete(ids);
     } else {
       await Future.wait(
@@ -171,7 +196,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   Future<void> restoreSelected() async {
     final ids = selectedIds.toList();
-    if (currentMailbox.value.isTrash) {
+    if (currentMailbox.isTrash) {
       await Future.wait(
         ids.map((id) => _nostrMailService.client.restoreFromTrash(id)),
       );
@@ -258,27 +283,15 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       emails.where((e) => selectedIds.contains(e.id)).toList();
 
   @override
-  void onInit() {
-    super.onInit();
-    WidgetsBinding.instance.addObserver(this);
-    // A changed match condition moves emails without any label event.
-    final mailboxes = Get.find<MailboxesController>();
-    _mailboxesWorker = everAll([
-      mailboxes.folders,
-      mailboxes.tags,
-    ], (_) => _loadEmails());
-    if (_nostrMailService.hasAccount) {
-      activateForCurrentAccount();
-    }
-  }
-
-  @override
-  void onClose() {
+  void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _mailboxesWorker?.dispose();
+    for (final subscription in _mailboxesSubscriptions) {
+      subscription.cancel();
+    }
     _notifySubscription?.cancel();
     _reloadSubscription?.cancel();
-    super.onClose();
+    hoveredEmailId.dispose();
+    super.dispose();
   }
 
   @override
@@ -287,7 +300,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     switch (state) {
       case AppLifecycleState.paused:
         // App went to background, record the time
-        _backgroundTime.value = DateTime.now();
+        _backgroundTime = DateTime.now();
         break;
       case AppLifecycleState.resumed:
         // App came back from background, sync if needed
@@ -300,7 +313,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   /// Sync only if app was in background for more than debounce duration
   void _syncIfNecessary() {
-    final backgroundTime = _backgroundTime.value;
+    final backgroundTime = _backgroundTime;
     if (backgroundTime == null) return;
 
     final now = DateTime.now();
@@ -316,16 +329,17 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     _notifySubscription = null;
     _reloadSubscription = null;
 
-    emails.clear();
+    emails = [];
     readEmailIds.clear();
     clearSelection();
-    oldEmailsCount.value = 0;
-    isSyncing.value = false;
-    isDeletingPermanently.value = false;
-    isSearchMode.value = false;
-    searchQuery.value = '';
-    _backgroundTime.value = null;
-    if (mailbox != null) currentMailbox.value = mailbox;
+    oldEmailsCount = 0;
+    isSyncing = false;
+    isDeletingPermanently = false;
+    isSearchMode = false;
+    searchQuery = '';
+    _backgroundTime = null;
+    if (mailbox != null) currentMailbox = mailbox;
+    notifyListeners();
   }
 
   Future<void> activateForCurrentAccount({Mailbox? mailbox}) async {
@@ -361,14 +375,14 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     final client = _nostrMailService.client;
 
     if (isSearching) {
-      final loaded = await client.getSummaries(search: searchQuery.value);
+      final loaded = await client.getSummaries(search: searchQuery);
       if (generation != _accountGeneration) return;
+      oldEmailsCount = 0;
       _applyLoaded(loaded.items);
-      oldEmailsCount.value = 0;
       return;
     }
 
-    final mailbox = currentMailbox.value;
+    final mailbox = currentMailbox;
     final loaded = await client.getSummaries(
       folder: mailbox.folderParam,
       tag: mailbox.tagParam,
@@ -380,26 +394,31 @@ class InboxController extends GetxController with WidgetsBindingObserver {
     if (mailbox.isTrash) {
       final count = await getOldEmailsCount();
       if (generation != _accountGeneration) return;
-      oldEmailsCount.value = count;
+      oldEmailsCount = count;
     } else {
-      oldEmailsCount.value = 0;
+      oldEmailsCount = 0;
     }
+    notifyListeners();
   }
 
   void _applyLoaded(List<EmailSummary> loaded) {
-    emails.assignAll(loaded);
-    readEmailIds.assignAll([
-      for (final email in loaded)
-        if (email.isRead) email.id,
-    ]);
+    emails = loaded;
+    readEmailIds
+      ..clear()
+      ..addAll([
+        for (final email in loaded)
+          if (email.isRead) email.id,
+      ]);
+    notifyListeners();
   }
 
   void setMailbox(Mailbox mailbox) {
-    if (currentMailbox.value != mailbox) {
-      currentMailbox.value = mailbox;
+    if (currentMailbox != mailbox) {
+      currentMailbox = mailbox;
       clearSelection();
-      isSearchMode.value = false;
-      searchQuery.value = ''; // Clear search when switching mailboxes
+      isSearchMode = false;
+      searchQuery = ''; // Clear search when switching mailboxes
+      notifyListeners();
       _loadEmails();
     }
   }
@@ -477,10 +496,11 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> sync() async {
-    if (isSyncing.value) return;
+    if (isSyncing) return;
 
     final generation = _accountGeneration;
-    isSyncing.value = true;
+    isSyncing = true;
+    notifyListeners();
     try {
       await _nostrMailService.client.fetchRecent();
       if (generation == _accountGeneration) {
@@ -488,7 +508,8 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       }
     } finally {
       if (generation == _accountGeneration) {
-        isSyncing.value = false;
+        isSyncing = false;
+        notifyListeners();
       }
     }
   }
@@ -504,7 +525,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   }
 
   Future<void> deleteEmail(String id) async {
-    if (currentMailbox.value.isTrash) {
+    if (currentMailbox.isTrash) {
       // Permanent delete
       await _nostrMailService.client.delete([id]);
     } else {
@@ -526,7 +547,7 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   /// Get count of emails in trash older than 30 days
   Future<int> getOldEmailsCount() async {
-    if (!currentMailbox.value.isTrash) return 0;
+    if (!currentMailbox.isTrash) return 0;
 
     final client = _nostrMailService.client;
     final thirtyDaysAgo = const Duration(days: 30);
@@ -536,9 +557,10 @@ class InboxController extends GetxController with WidgetsBindingObserver {
 
   /// Delete all emails in trash older than 30 days
   Future<void> deleteOldEmails() async {
-    if (!currentMailbox.value.isTrash) return;
+    if (!currentMailbox.isTrash) return;
 
-    isDeletingPermanently.value = true;
+    isDeletingPermanently = true;
+    notifyListeners();
     try {
       final client = _nostrMailService.client;
       final thirtyDaysAgo = const Duration(days: 30);
@@ -551,10 +573,11 @@ class InboxController extends GetxController with WidgetsBindingObserver {
       await client.delete(oldEmailIds);
 
       // Update old emails count
-      oldEmailsCount.value = await getOldEmailsCount();
+      oldEmailsCount = await getOldEmailsCount();
       await _loadEmails();
     } finally {
-      isDeletingPermanently.value = false;
+      isDeletingPermanently = false;
+      notifyListeners();
     }
   }
 
@@ -565,19 +588,21 @@ class InboxController extends GetxController with WidgetsBindingObserver {
   /// Permanently deletes every email of [mailbox], which must be the one
   /// shown.
   Future<void> _deleteAll(Mailbox mailbox) async {
-    if (currentMailbox.value != mailbox) return;
+    if (currentMailbox != mailbox) return;
 
-    isDeletingPermanently.value = true;
+    isDeletingPermanently = true;
+    notifyListeners();
     try {
       final client = _nostrMailService.client;
       final held = await client.getSummaries(folder: mailbox.folderParam);
       await client.delete(held.items.map((email) => email.id));
 
       clearSelection();
-      oldEmailsCount.value = 0;
+      oldEmailsCount = 0;
       await _loadEmails();
     } finally {
-      isDeletingPermanently.value = false;
+      isDeletingPermanently = false;
+      notifyListeners();
     }
   }
 }

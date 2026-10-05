@@ -1,25 +1,37 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/scheduled_email_extensions.dart';
 
-class ScheduledController extends GetxController {
+class ScheduledController extends ChangeNotifier {
+  ScheduledController() {
+    _clock = Timer.periodic(const Duration(minutes: 1), (_) {
+      now = DateTime.now();
+      notifyListeners();
+    });
+    if (_nostrMailService.hasAccount) {
+      _activate();
+    }
+  }
+
   final _nostrMailService = Get.find<NostrMailService>();
 
-  final RxList<ScheduledEmail> scheduled = <ScheduledEmail>[].obs;
-  final isLoading = false.obs;
-  final isSyncing = false.obs;
-  final selectedIds = <String>{}.obs;
-  final hoveredId = RxnString();
+  List<ScheduledEmail> scheduled = [];
+  bool isLoading = false;
+  bool isSyncing = false;
+  final selectedIds = <String>{};
+  final hoveredId = ValueNotifier<String?>(null);
 
   /// Ticks so an email turns overdue on screen without waiting for feedback.
-  final now = DateTime.now().obs;
+  DateTime now = DateTime.now();
 
   StreamSubscription<List<ScheduledEmail>>? _watchSubscription;
   Timer? _clock;
+  bool _isDisposed = false;
 
   bool get hasSelection => selectedIds.isNotEmpty;
   bool get allSelected =>
@@ -27,31 +39,27 @@ class ScheduledController extends GetxController {
   bool isSelected(String id) => selectedIds.contains(id);
 
   @override
-  void onInit() {
-    super.onInit();
-    _clock = Timer.periodic(
-      const Duration(minutes: 1),
-      (_) => now.value = DateTime.now(),
-    );
-    if (_nostrMailService.hasAccount) {
-      _activate();
-    }
-  }
-
-  @override
-  void onClose() {
+  void dispose() {
+    _isDisposed = true;
     _watchSubscription?.cancel();
     _clock?.cancel();
-    super.onClose();
+    hoveredId.dispose();
+    super.dispose();
   }
 
   Future<void> _activate() async {
     final client = _nostrMailService.client;
-    isLoading.value = true;
+    isLoading = true;
+    notifyListeners();
     try {
-      _onScheduled(await client.getScheduledEmails());
+      final loaded = await client.getScheduledEmails();
+      if (_isDisposed) return;
+      _onScheduled(loaded);
     } finally {
-      isLoading.value = false;
+      if (!_isDisposed) {
+        isLoading = false;
+        notifyListeners();
+      }
     }
     _watchSubscription = client.watchScheduledEmails().listen(
       _onScheduled,
@@ -62,9 +70,10 @@ class ScheduledController extends GetxController {
   }
 
   void _onScheduled(List<ScheduledEmail> list) {
-    scheduled.assignAll(list.where((e) => !e.isFinished));
+    scheduled = list.where((e) => !e.isFinished).toList();
     final ids = scheduled.map((e) => e.packageId).toSet();
     selectedIds.removeWhere((id) => !ids.contains(id));
+    notifyListeners();
   }
 
   void toggleSelection(String id) {
@@ -73,11 +82,20 @@ class ScheduledController extends GetxController {
     } else {
       selectedIds.add(id);
     }
+    notifyListeners();
   }
 
-  void selectAll() => selectedIds.assignAll(scheduled.map((e) => e.packageId));
+  void selectAll() {
+    selectedIds
+      ..clear()
+      ..addAll(scheduled.map((e) => e.packageId));
+    notifyListeners();
+  }
 
-  void clearSelection() => selectedIds.clear();
+  void clearSelection() {
+    selectedIds.clear();
+    notifyListeners();
+  }
 
   /// Cancel a scheduled email; the watch stream removes it from [scheduled].
   Future<void> cancel(String packageId) =>
@@ -86,19 +104,23 @@ class ScheduledController extends GetxController {
   /// Cancel every selected scheduled email.
   Future<void> cancelSelected() async {
     final ids = selectedIds.toList();
-    selectedIds.clear();
+    clearSelection();
     await Future.wait(ids.map(_nostrMailService.client.cancelScheduledEmail));
   }
 
   /// Pull the latest schedules and DVM statuses from relays; the watch stream
   /// re-emits with the result.
   Future<void> resync() async {
-    if (isSyncing.value) return;
-    isSyncing.value = true;
+    if (isSyncing) return;
+    isSyncing = true;
+    notifyListeners();
     try {
       await _nostrMailService.client.resyncScheduledEmails();
     } finally {
-      isSyncing.value = false;
+      if (!_isDisposed) {
+        isSyncing = false;
+        notifyListeners();
+      }
     }
   }
 }

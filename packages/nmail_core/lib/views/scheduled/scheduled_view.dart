@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../app/routes/app_routes.dart';
@@ -13,8 +13,10 @@ import 'widgets/scheduled_list.dart';
 import 'widgets/scheduled_selection_actions_bar.dart';
 import '../shared/drawer_menu_button.dart';
 
-class ScheduledView extends GetView<ScheduledController> {
+class ScheduledView extends StatelessWidget {
   const ScheduledView({super.key});
+
+  ScheduledController get controller => GetIt.I<ScheduledController>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,48 +35,51 @@ class ScheduledView extends GetView<ScheduledController> {
                 bottom: BorderSide(color: colorScheme.outlineVariant),
               ),
             ),
-            child: Obx(() {
-              if (controller.hasSelection) {
+            child: ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) {
+                if (controller.hasSelection) {
+                  return Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        tooltip: l.inboxClearSelection,
+                        onPressed: controller.clearSelection,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        l.inboxSelectedCount(controller.selectedIds.length),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const Spacer(),
+                      const ScheduledSelectionActionsBar(),
+                    ],
+                  );
+                }
                 return Row(
                   children: [
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      tooltip: l.inboxClearSelection,
-                      onPressed: controller.clearSelection,
-                    ),
-                    const SizedBox(width: 8),
                     Text(
-                      l.inboxSelectedCount(controller.selectedIds.length),
+                      l.folderScheduled,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const Spacer(),
-                    const ScheduledSelectionActionsBar(),
+                    IconButton(
+                      icon: controller.isSyncing
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.refresh),
+                      tooltip: l.inboxSync,
+                      onPressed: controller.isSyncing
+                          ? null
+                          : controller.resync,
+                    ),
                   ],
                 );
-              }
-              return Row(
-                children: [
-                  Text(
-                    l.folderScheduled,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const Spacer(),
-                  IconButton(
-                    icon: controller.isSyncing.value
-                        ? const SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.refresh),
-                    tooltip: l.inboxSync,
-                    onPressed: controller.isSyncing.value
-                        ? null
-                        : controller.resync,
-                  ),
-                ],
-              );
-            }),
+              },
+            ),
           ),
           const Expanded(child: ScheduledList()),
         ],
@@ -88,20 +93,24 @@ class ScheduledView extends GetView<ScheduledController> {
         automaticallyImplyLeading: false,
         // AppBar only centers a leading that is itself an IconButton, so these
         // wrapped ones need their own Center or they fill the 56px slot.
-        leading: Obx(() {
-          if (controller.hasSelection) {
-            return Center(
-              child: IconButton(
-                icon: const Icon(Icons.close),
-                tooltip: l.inboxClearSelection,
-                onPressed: controller.clearSelection,
-              ),
-            );
-          }
-          return const Center(child: DrawerMenuButton());
-        }),
-        title: Obx(
-          () => Text(
+        leading: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
+            if (controller.hasSelection) {
+              return Center(
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  tooltip: l.inboxClearSelection,
+                  onPressed: controller.clearSelection,
+                ),
+              );
+            }
+            return const Center(child: DrawerMenuButton());
+          },
+        ),
+        title: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => Text(
             controller.hasSelection
                 ? '${controller.selectedIds.length}'
                 : l.folderScheduled,
@@ -109,8 +118,9 @@ class ScheduledView extends GetView<ScheduledController> {
         ),
         actionsPadding: .only(right: 8),
         actions: [
-          Obx(
-            () => controller.hasSelection
+          ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) => controller.hasSelection
                 ? const ScheduledSelectionActionsBar()
                 : const AppBarAccountAvatar(),
           ),

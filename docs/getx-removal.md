@@ -111,8 +111,8 @@ Created on first use and kept:
 - [x] `BackgroundsController`
 - [x] `ContactsController`
 - [x] `IdentitiesController`
-- [ ] `InboxController`
-- [ ] `ScheduledController`
+- [x] `InboxController`
+- [x] `ScheduledController`
 
 ### 5. App services and controllers
 

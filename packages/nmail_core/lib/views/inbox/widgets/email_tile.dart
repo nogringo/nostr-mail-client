@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/utils/format_date.dart';
 import 'package:nmail_core/views/inbox/widgets/attachments_chips_view.dart';
@@ -130,14 +131,14 @@ class EmailTile extends StatelessWidget {
   /// Unread only shows where it means something: not in sent, trash or
   /// archive.
   bool get isUnread {
-    final controller = Get.find<InboxController>();
-    if (!controller.currentMailbox.value.showsUnread) return false;
+    final controller = GetIt.I<InboxController>();
+    if (!controller.currentMailbox.showsUnread) return false;
     return !controller.isEmailRead(email.id);
   }
 
   /// The tag being browsed goes without saying on its own rows.
   String? get _browsedTagId =>
-      switch (Get.find<InboxController>().currentMailbox.value) {
+      switch (GetIt.I<InboxController>().currentMailbox) {
         TagMailbox(:final id) => id,
         _ => null,
       };
@@ -258,7 +259,7 @@ class EmailTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final isWide = ResponsiveHelper.isDesktop(context);
-    final mailbox = Get.find<InboxController>().currentMailbox.value;
+    final mailbox = GetIt.I<InboxController>().currentMailbox;
     final swipeRight = _swipeRight(l, mailbox);
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -312,7 +313,7 @@ class EmailTile extends StatelessWidget {
 
   /// The context menu of a row in [mailbox], grouped as dividers show them.
   List<_MenuAction> _menuActions(AppLocalizations l, Mailbox mailbox) {
-    final inbox = Get.find<InboxController>();
+    final inbox = GetIt.I<InboxController>();
     final readToggle = !mailbox.showsUnread
         ? null
         : isUnread
@@ -409,7 +410,7 @@ class EmailTile extends StatelessWidget {
     final actions = [
       for (final action in _menuActions(
         l,
-        Get.find<InboxController>().currentMailbox.value,
+        GetIt.I<InboxController>().currentMailbox,
       ))
         if (action.onPressed != null) action,
     ];
@@ -507,7 +508,7 @@ class EmailTile extends StatelessWidget {
                   children: [
                     SelectableAvatar(
                       id: email.id,
-                      hoveredId: Get.find<InboxController>().hoveredEmailId,
+                      hoveredId: GetIt.I<InboxController>().hoveredEmailId,
                       avatar: _buildAvatar(context, compact: true),
                       radius: 14,
                       isSelected: isSelected,
@@ -600,7 +601,7 @@ class EmailTile extends StatelessWidget {
     return Obx(() {
       final isUnread = this.isUnread;
       final attachments = email.attachmentRefs;
-      final controller = Get.find<InboxController>();
+      final controller = GetIt.I<InboxController>();
       final isSelectionMode = controller.hasSelection;
       final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
       final hasPreview = email.preview.isNotEmpty;

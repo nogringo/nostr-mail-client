@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
@@ -16,10 +17,12 @@ import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
 /// A sender waiting in requests: who they are, what they sent last, and the
 /// verdict to give them. Tapping it shows what they sent: the email itself
 /// when there is one, the list of them otherwise.
-class RequestSenderTile extends GetView<InboxController> {
+class RequestSenderTile extends StatelessWidget {
   final SenderGroup group;
 
   const RequestSenderTile({super.key, required this.group});
+
+  InboxController get controller => GetIt.I<InboxController>();
 
   EmailSummary get _latest => group.emails.first;
 

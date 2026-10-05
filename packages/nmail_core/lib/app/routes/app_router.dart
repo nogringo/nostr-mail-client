@@ -79,7 +79,7 @@ class AppRouter {
   /// Must be called from `main()` *after* `AuthController` is registered.
   static GoRouter init() {
     _authNotifier ??= _AuthRefreshNotifier();
-    Get.lazyPut(() => InboxController());
+    _registerOnce(InboxController.new);
     _registerOnce(ContactsController.new);
     return _router;
   }
@@ -203,9 +203,7 @@ class AppRouter {
           GoRoute(
             path: AppRoutes.scheduled,
             pageBuilder: (_, state) {
-              if (!Get.isRegistered<ScheduledController>()) {
-                Get.put(ScheduledController());
-              }
+              _registerOnce(ScheduledController.new);
               return NoTransitionPage(
                 key: state.pageKey,
                 child: const ScheduledView(),

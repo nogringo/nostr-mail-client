@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -13,7 +13,7 @@ class ScheduledSelectionActionsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final controller = Get.find<ScheduledController>();
+    final controller = GetIt.I<ScheduledController>();
 
     return Row(
       mainAxisSize: MainAxisSize.min,

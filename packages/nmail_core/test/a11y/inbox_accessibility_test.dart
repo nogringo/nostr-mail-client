@@ -107,7 +107,7 @@ void main() {
 
   setUp(() {
     Get.testMode = true;
-    // Never log this ndk in: InboxController.onInit would then call
+    // Never log this ndk in: the InboxController constructor would then call
     // activateForCurrentAccount and touch the uninitialised client.
     ndk = Ndk(
       NdkConfig(
@@ -124,7 +124,10 @@ void main() {
     Get.put<AddressBookService>(EmptyAddressBookService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
     Get.put(MailboxesController());
-    Get.put(InboxController());
+    GetIt.I.registerSingleton(
+      InboxController(),
+      dispose: (controller) => controller.dispose(),
+    );
   });
 
   tearDown(() async {

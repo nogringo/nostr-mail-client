@@ -154,13 +154,13 @@ class AuthController extends GetxController {
   /// with `unawaited`.
   Future<void> completeLogin() async {
     await _nostrMailService.activateForCurrentAccount();
-    if (Get.isRegistered<InboxController>()) {
-      await Get.find<InboxController>().activateForCurrentAccount(
+    if (GetIt.I.isRegistered<InboxController>()) {
+      await GetIt.I<InboxController>().activateForCurrentAccount(
         mailbox: Mailbox.inbox,
       );
     }
-    if (Get.isRegistered<ScheduledController>()) {
-      await Get.delete<ScheduledController>();
+    if (GetIt.I.isRegistered<ScheduledController>()) {
+      await GetIt.I.unregister<ScheduledController>();
     }
     isLoggedIn.value = true;
     // After the activation above: the router leaves RelaySetupView on this flip.
@@ -323,12 +323,12 @@ class AuthController extends GetxController {
 
     try {
       await _nostrMailService.resetForAccountChange();
-      if (Get.isRegistered<InboxController>()) {
-        await Get.find<InboxController>().resetForAccountChange();
+      if (GetIt.I.isRegistered<InboxController>()) {
+        await GetIt.I<InboxController>().resetForAccountChange();
         if (generation != _accountSwitchGeneration) return;
       }
-      if (Get.isRegistered<ScheduledController>()) {
-        await Get.delete<ScheduledController>();
+      if (GetIt.I.isRegistered<ScheduledController>()) {
+        await GetIt.I.unregister<ScheduledController>();
         if (generation != _accountSwitchGeneration) return;
       }
 
@@ -360,8 +360,8 @@ class AuthController extends GetxController {
         unawaited(Get.find<PushSubscriptionService>().refreshAccount(pubkey));
       }
 
-      if (Get.isRegistered<InboxController>()) {
-        await Get.find<InboxController>().activateForCurrentAccount(
+      if (GetIt.I.isRegistered<InboxController>()) {
+        await GetIt.I<InboxController>().activateForCurrentAccount(
           mailbox: Mailbox.inbox,
         );
         if (generation != _accountSwitchGeneration) return;
@@ -481,11 +481,11 @@ class AuthController extends GetxController {
         await Get.find<PushSubscriptionService>().forget(removedPubkey);
       }
       final fallbackPubkey = otherAccountPubkeys.firstOrNull;
-      if (Get.isRegistered<InboxController>()) {
-        await Get.find<InboxController>().resetForAccountChange();
+      if (GetIt.I.isRegistered<InboxController>()) {
+        await GetIt.I<InboxController>().resetForAccountChange();
       }
-      if (Get.isRegistered<ScheduledController>()) {
-        await Get.delete<ScheduledController>();
+      if (GetIt.I.isRegistered<ScheduledController>()) {
+        await GetIt.I.unregister<ScheduledController>();
       }
       if (clearLocalData && removedPubkey != null) {
         await Get.find<AccountLocalDataService>().clearLocalAccountData(
@@ -530,8 +530,8 @@ class AuthController extends GetxController {
         AppRouter.router.go(AppRoutes.relaySetup);
         return;
       }
-      if (Get.isRegistered<InboxController>()) {
-        await Get.find<InboxController>().activateForCurrentAccount(
+      if (GetIt.I.isRegistered<InboxController>()) {
+        await GetIt.I<InboxController>().activateForCurrentAccount(
           mailbox: Mailbox.inbox,
         );
       }
@@ -551,11 +551,11 @@ class AuthController extends GetxController {
           await pushSubscriptions.forget(pubkey);
         }
       }
-      if (Get.isRegistered<InboxController>()) {
-        await Get.find<InboxController>().resetForAccountChange();
+      if (GetIt.I.isRegistered<InboxController>()) {
+        await GetIt.I<InboxController>().resetForAccountChange();
       }
-      if (Get.isRegistered<ScheduledController>()) {
-        await Get.delete<ScheduledController>();
+      if (GetIt.I.isRegistered<ScheduledController>()) {
+        await GetIt.I.unregister<ScheduledController>();
       }
       if (clearLocalData) {
         await Get.find<AccountLocalDataService>().clearAllLocalData();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
@@ -28,7 +28,7 @@ import 'widgets/spam_banner.dart';
 import 'widgets/trash_banner.dart';
 import '../shared/drawer_menu_button.dart';
 
-class InboxView extends GetView<InboxController> {
+class InboxView extends StatelessWidget {
   /// Mailbox this route represents (driven by the URL: `/inbox`, `/sent`,
   /// `/folder/<id>`, ...). Synced to `InboxController.currentMailbox` on build
   /// so the rest of the view (toolbar title, email list source, action
@@ -36,6 +36,8 @@ class InboxView extends GetView<InboxController> {
   final Mailbox mailbox;
 
   const InboxView({super.key, required this.mailbox});
+
+  InboxController get controller => GetIt.I<InboxController>();
 
   Widget _buildEmailList(BuildContext context, {double bottomPadding = 0}) {
     final l = AppLocalizations.of(context);
@@ -49,104 +51,103 @@ class InboxView extends GetView<InboxController> {
         const SpamBanner(),
         const TrashBanner(),
         Expanded(
-          child: Obx(() {
-            if (controller.emails.isEmpty) {
-              final (icon, message) = switch (controller.currentMailbox.value) {
-                SystemMailbox(folder: MailFolder.inbox) => (
-                  Icons.inbox,
-                  l.inboxEmptyInbox,
-                ),
-                SystemMailbox(folder: MailFolder.requests) => (
-                  Icons.how_to_reg_outlined,
-                  l.inboxEmptyRequests,
-                ),
-                SystemMailbox(folder: MailFolder.sent) => (
-                  Icons.send,
-                  l.inboxEmptySent,
-                ),
-                SystemMailbox(folder: MailFolder.trash) => (
-                  Icons.delete_outline,
-                  l.inboxEmptyTrash,
-                ),
-                SystemMailbox(folder: MailFolder.archive) => (
-                  Icons.archive_outlined,
-                  l.inboxEmptyArchive,
-                ),
-                SystemMailbox(folder: MailFolder.spam) => (
-                  Icons.report_outlined,
-                  l.inboxEmptySpam,
-                ),
-                FolderMailbox() => (
-                  Icons.folder_outlined,
-                  l.mailboxEmptyFolder,
-                ),
-                TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),
-              };
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(icon, size: 64, color: colorScheme.onSurfaceVariant),
-                    const SizedBox(height: 16),
-                    Text(
-                      message,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: colorScheme.onSurfaceVariant,
+          child: ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) {
+              if (controller.emails.isEmpty) {
+                final (icon, message) = switch (controller.currentMailbox) {
+                  SystemMailbox(folder: MailFolder.inbox) => (
+                    Icons.inbox,
+                    l.inboxEmptyInbox,
+                  ),
+                  SystemMailbox(folder: MailFolder.requests) => (
+                    Icons.how_to_reg_outlined,
+                    l.inboxEmptyRequests,
+                  ),
+                  SystemMailbox(folder: MailFolder.sent) => (
+                    Icons.send,
+                    l.inboxEmptySent,
+                  ),
+                  SystemMailbox(folder: MailFolder.trash) => (
+                    Icons.delete_outline,
+                    l.inboxEmptyTrash,
+                  ),
+                  SystemMailbox(folder: MailFolder.archive) => (
+                    Icons.archive_outlined,
+                    l.inboxEmptyArchive,
+                  ),
+                  SystemMailbox(folder: MailFolder.spam) => (
+                    Icons.report_outlined,
+                    l.inboxEmptySpam,
+                  ),
+                  FolderMailbox() => (
+                    Icons.folder_outlined,
+                    l.mailboxEmptyFolder,
+                  ),
+                  TagMailbox() => (Icons.label_outline, l.mailboxEmptyTag),
+                };
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(icon, size: 64, color: colorScheme.onSurfaceVariant),
+                      const SizedBox(height: 16),
+                      Text(
+                        message,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: colorScheme.onSurfaceVariant,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextButton(
-                      onPressed: controller.sync,
-                      child: Text(l.inboxSyncFromRelays),
-                    ),
-                  ],
-                ),
-              );
-            }
+                      const SizedBox(height: 8),
+                      TextButton(
+                        onPressed: controller.sync,
+                        child: Text(l.inboxSyncFromRelays),
+                      ),
+                    ],
+                  ),
+                );
+              }
 
-            final listsSenders =
-                controller.currentMailbox.value.isRequests &&
-                !controller.isSearching;
+              final listsSenders =
+                  controller.currentMailbox.isRequests &&
+                  !controller.isSearching;
 
-            return RefreshIndicator(
-              onRefresh: controller.sync,
-              child: listsSenders
-                  ? RequestsSenderList(bottomPadding: bottomPadding)
-                  : GetBuilder<InboxController>(
-                      builder: (controller) => ListView.builder(
+              return RefreshIndicator(
+                onRefresh: controller.sync,
+                child: listsSenders
+                    ? RequestsSenderList(bottomPadding: bottomPadding)
+                    : ListView.builder(
                         padding: EdgeInsets.only(bottom: bottomPadding),
                         itemCount: controller.emails.length,
                         itemBuilder: (context, index) {
                           final email = controller.emails[index];
-                          return Obx(
-                            () => EmailTile(
-                              key: ValueKey(email.id),
-                              email: email,
-                              onTap: () => context.go(
-                                AppRoutes.emailPath(mailbox, email.id),
-                              ),
-                              isSelected: controller.isSelected(email.id),
-                              onToggleSelect: () =>
-                                  controller.toggleSelection(email.id),
-                              onExtendSelect: () =>
-                                  controller.extendSelectionTo(email.id),
-                              onReply: () => _replyTo(context, email),
-                              onForward: () => _forward(context, email),
-                              onDelete: () => _deleteEmail(context, email),
-                              onArchive: () => _archiveEmail(context, email),
-                              onRestore: () => _restoreEmail(context, email),
-                              onMoveTo: () => _moveEmail(context, email),
-                              onTag: () => _tagEmail(context, email),
-                              onSenderVerdict: (verdict) =>
-                                  _setSenderVerdict(context, email, verdict),
+                          return EmailTile(
+                            key: ValueKey(email.id),
+                            email: email,
+                            onTap: () => context.go(
+                              AppRoutes.emailPath(mailbox, email.id),
                             ),
+                            isSelected: controller.isSelected(email.id),
+                            onToggleSelect: () =>
+                                controller.toggleSelection(email.id),
+                            onExtendSelect: () =>
+                                controller.extendSelectionTo(email.id),
+                            onReply: () => _replyTo(context, email),
+                            onForward: () => _forward(context, email),
+                            onDelete: () => _deleteEmail(context, email),
+                            onArchive: () => _archiveEmail(context, email),
+                            onRestore: () => _restoreEmail(context, email),
+                            onMoveTo: () => _moveEmail(context, email),
+                            onTag: () => _tagEmail(context, email),
+                            onSenderVerdict: (verdict) =>
+                                _setSenderVerdict(context, email, verdict),
                           );
                         },
                       ),
-                    ),
-            );
-          }),
+              );
+            },
+          ),
         ),
       ],
     );
@@ -160,7 +161,7 @@ class InboxView extends GetView<InboxController> {
 
     // Sync URL-driven mailbox to the shared controller after build settles.
     // Skipping when already aligned avoids redundant notifications.
-    if (controller.currentMailbox.value != mailbox) {
+    if (controller.currentMailbox != mailbox) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         controller.setMailbox(mailbox);
       });
@@ -180,67 +181,71 @@ class InboxView extends GetView<InboxController> {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Obx(() {
-          final isSearching =
-              controller.isSearchMode.value && !controller.hasSelection;
-          return AppBar(
-            scrolledUnderElevation: 0,
-            backgroundColor: colorScheme.surface,
-            automaticallyImplyLeading: false,
-            titleSpacing: isSearching ? 8 : null,
-            title: Builder(
-              builder: (context) {
+        child: ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
+            final isSearching =
+                controller.isSearchMode && !controller.hasSelection;
+            return AppBar(
+              scrolledUnderElevation: 0,
+              backgroundColor: colorScheme.surface,
+              automaticallyImplyLeading: false,
+              titleSpacing: isSearching ? 8 : null,
+              title: Builder(
+                builder: (context) {
+                  if (controller.hasSelection) {
+                    return Text('${controller.selectedIds.length}');
+                  }
+                  if (controller.isSearchMode) {
+                    return SearchField();
+                  }
+                  return Text(controller.currentMailbox.title(l));
+                },
+              ),
+              leading: () {
+                if (isSearching) {
+                  return null;
+                }
                 if (controller.hasSelection) {
-                  return Text('${controller.selectedIds.length}');
+                  return IconButton(
+                    icon: const Icon(Icons.close),
+                    tooltip: l.inboxClearSelection,
+                    onPressed: controller.clearSelection,
+                  );
                 }
-                if (controller.isSearchMode.value) {
-                  return SearchField();
-                }
-                return Text(controller.currentMailbox.value.title(l));
-              },
-            ),
-            leading: () {
-              if (isSearching) {
-                return null;
-              }
-              if (controller.hasSelection) {
-                return IconButton(
-                  icon: const Icon(Icons.close),
-                  tooltip: l.inboxClearSelection,
-                  onPressed: controller.clearSelection,
-                );
-              }
-              // AppBar only centers a leading that is itself an IconButton,
-              // so a wrapped one needs its own Center or it fills the 56px slot.
-              return const Center(child: DrawerMenuButton());
-            }(),
-            actionsPadding: .only(right: 8),
-            actions: [
-              if (controller.isSearchMode.value)
-                const SizedBox.shrink()
-              else if (controller.hasSelection)
-                const SelectionActionsBar()
-              else
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.search),
-                      tooltip: l.inboxSearch,
-                      onPressed: () => controller.enterSearchMode(),
-                    ),
-                    const SizedBox(width: 8),
-                    const AppBarAccountAvatar(),
-                  ],
-                ),
-            ],
-          );
-        }),
+                // AppBar only centers a leading that is itself an IconButton,
+                // so a wrapped one needs its own Center or it fills the 56px slot.
+                return const Center(child: DrawerMenuButton());
+              }(),
+              actionsPadding: .only(right: 8),
+              actions: [
+                if (controller.isSearchMode)
+                  const SizedBox.shrink()
+                else if (controller.hasSelection)
+                  const SelectionActionsBar()
+                else
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.search),
+                        tooltip: l.inboxSearch,
+                        onPressed: () => controller.enterSearchMode(),
+                      ),
+                      const SizedBox(width: 8),
+                      const AppBarAccountAvatar(),
+                    ],
+                  ),
+              ],
+            );
+          },
+        ),
       ),
       drawer: const AppDrawer(),
       // In requests it would sit on the column of Accept buttons.
-      floatingActionButton: Obx(
-        () => controller.currentMailbox.value.isRequests
+      floatingActionButton: ListenableBuilder(
+        listenable: controller,
+        builder: (context, _) => controller.currentMailbox.isRequests
             ? const SizedBox.shrink()
             : FloatingActionButton(
                 onPressed: () => context.push(AppRoutes.compose),
@@ -252,8 +257,9 @@ class InboxView extends GetView<InboxController> {
         children: [
           SizedBox(
             height: 4,
-            child: Obx(
-              () => controller.isSyncing.value
+            child: ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) => controller.isSyncing
                   ? const LinearProgressIndicator()
                   : const SizedBox.shrink(),
             ),
@@ -303,7 +309,7 @@ class InboxView extends GetView<InboxController> {
   Future<void> _moveEmail(BuildContext context, EmailSummary email) async {
     final folder = await showMoveToPicker(
       context,
-      current: controller.currentMailbox.value,
+      current: controller.currentMailbox,
     );
     if (folder != null) await controller.moveTo([email.id], folder);
   }
@@ -328,7 +334,7 @@ class InboxView extends GetView<InboxController> {
   );
 
   void _restoreEmail(BuildContext context, EmailSummary email) {
-    if (controller.currentMailbox.value.isArchive) {
+    if (controller.currentMailbox.isArchive) {
       controller.restoreFromArchive(email.id);
     } else {
       controller.restoreFromTrash(email.id);

@@ -199,7 +199,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   /// Check if current email is read
   bool get isEmailRead {
     if (email == null) return true;
-    return Get.find<InboxController>().isEmailRead(email!.id);
+    return GetIt.I<InboxController>().isEmailRead(email!.id);
   }
 
   Future<void> showEmailSource() async {
@@ -232,7 +232,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   void toggleReadStatus() async {
     if (email == null) return;
 
-    final inboxController = Get.find<InboxController>();
+    final inboxController = GetIt.I<InboxController>();
     if (isEmailRead) {
       await inboxController.markAsUnread(email!.id);
     } else {
@@ -260,7 +260,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     // Auto-mark as read where unread shows (non-blocking).
     // Cold-start via share link (mailbox == null) does not auto-mark.
     if (mailbox?.showsUnread ?? false) {
-      Get.find<InboxController>().markAsRead(loaded.id).then((_) {
+      GetIt.I<InboxController>().markAsRead(loaded.id).then((_) {
         if (!_isDisposed) notifyListeners();
       });
     }
@@ -279,7 +279,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     if (id == null) return;
     final folder = await showMoveToPicker(context, current: mailbox);
     if (folder == null) return;
-    await Get.find<InboxController>().moveTo([id], folder);
+    await GetIt.I<InboxController>().moveTo([id], folder);
     AppRouter.popOrGoInbox();
   }
 
@@ -288,7 +288,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     if (summary == null) return;
     final changes = await showTagsPicker(context, emails: [summary]);
     if (changes == null) return;
-    await Get.find<InboxController>().applyTags(
+    await GetIt.I<InboxController>().applyTags(
       [summary],
       add: changes.add,
       remove: changes.remove,
@@ -299,7 +299,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<void> removeTag(String tagId) async {
     final summary = this.summary;
     if (summary == null) return;
-    await Get.find<InboxController>().applyTags([summary], remove: {tagId});
+    await GetIt.I<InboxController>().applyTags([summary], remove: {tagId});
     await _loadSummary();
   }
 
@@ -307,7 +307,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     if (email == null) return;
 
     final l = AppLocalizations.of(context);
-    final inboxController = Get.find<InboxController>();
+    final inboxController = GetIt.I<InboxController>();
     final isInTrash = mailbox?.isTrash ?? false;
 
     if (isInTrash) {
@@ -359,7 +359,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   void restoreEmail() {
     if (email == null) return;
 
-    Get.find<InboxController>().restoreFromTrash(email!.id);
+    GetIt.I<InboxController>().restoreFromTrash(email!.id);
     AppRouter.popOrGoInbox();
   }
 
@@ -468,7 +468,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
   void archiveEmail() {
     if (email == null) return;
-    Get.find<InboxController>().moveToArchive(email!.id);
+    GetIt.I<InboxController>().moveToArchive(email!.id);
     AppRouter.popOrGoInbox();
   }
 
@@ -486,7 +486,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     if (senderKey == null) return;
     final applied = await runSenderVerdict(
       context,
-      () => Get.find<InboxController>().setSenderVerdict([senderKey], verdict),
+      () => GetIt.I<InboxController>().setSenderVerdict([senderKey], verdict),
     );
     if (!applied) return;
     final mailbox = this.mailbox;
@@ -499,7 +499,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
   void unarchiveEmail() {
     if (email == null) return;
-    Get.find<InboxController>().restoreFromArchive(email!.id);
+    GetIt.I<InboxController>().restoreFromArchive(email!.id);
     AppRouter.popOrGoInbox();
   }
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 /// An avatar that doubles as its row's selection control: hovering it swaps the
 /// avatar for a check, so the affordance stays discoverable without a separate
@@ -11,7 +10,7 @@ import 'package:get/get.dart';
 /// left rebuild.
 class SelectableAvatar extends StatelessWidget {
   final String id;
-  final RxnString hoveredId;
+  final ValueNotifier<String?> hoveredId;
   final Widget avatar;
   final double radius;
   final bool isSelected;
@@ -54,29 +53,30 @@ class SelectableAvatar extends StatelessWidget {
           onTap: onToggle,
           mouseCursor: WidgetStateMouseCursor.clickable,
           customBorder: const CircleBorder(),
-          child: Obx(() {
-            // Read before the branches: an Obx that returns without touching
-            // its observable throws.
-            final isHovered = hoveredId.value == id;
-            if (isSelected) {
-              return CircleAvatar(
-                radius: radius,
-                child: Icon(Icons.check, size: radius),
-              );
-            }
-            if (onToggle != null && isHovered) {
-              return CircleAvatar(
-                radius: radius,
-                backgroundColor: colorScheme.surfaceContainerHighest,
-                child: Icon(
-                  Icons.check,
-                  size: radius,
-                  color: colorScheme.onSurfaceVariant,
-                ),
-              );
-            }
-            return avatar;
-          }),
+          child: ValueListenableBuilder(
+            valueListenable: hoveredId,
+            builder: (context, hovered, _) {
+              final isHovered = hovered == id;
+              if (isSelected) {
+                return CircleAvatar(
+                  radius: radius,
+                  child: Icon(Icons.check, size: radius),
+                );
+              }
+              if (onToggle != null && isHovered) {
+                return CircleAvatar(
+                  radius: radius,
+                  backgroundColor: colorScheme.surfaceContainerHighest,
+                  child: Icon(
+                    Icons.check,
+                    size: radius,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                );
+              }
+              return avatar;
+            },
+          ),
         ),
       ),
     );
