@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -49,7 +48,7 @@ class RequestSenderTile extends StatelessWidget {
 
     return ListenableBuilder(
       listenable: emailPersonNameListenable(person),
-      builder: (context, _) => Obx(() {
+      builder: (context, _) {
         final name = emailPersonName(person);
         final address = _latest.isBridged && name != _latest.from
             ? _latest.from
@@ -118,7 +117,7 @@ class RequestSenderTile extends StatelessWidget {
           ),
           onTap: () => _open(context),
         );
-      }),
+      },
     );
   }
 }

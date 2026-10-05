@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
@@ -23,12 +22,10 @@ class PersonCardMenuHeader extends StatelessWidget {
     final nameStyle = textTheme.titleSmall;
     final name = ListenableBuilder(
       listenable: emailPersonNameListenable(person),
-      builder: (context, _) => Obx(
-        () => Text(
-          emailPersonName(person),
-          style: nameStyle,
-          overflow: person.pubkey == null ? null : TextOverflow.ellipsis,
-        ),
+      builder: (context, _) => Text(
+        emailPersonName(person),
+        style: nameStyle,
+        overflow: person.pubkey == null ? null : TextOverflow.ellipsis,
       ),
     );
 

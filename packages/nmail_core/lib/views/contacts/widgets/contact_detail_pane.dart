@@ -26,7 +26,7 @@ class ContactDetailPane extends StatelessWidget {
       builder: (context, _) {
         final displayedContact = uid == null
             ? controller.selectedContact
-            : controller.addressBookService.contacts.firstWhereOrNull(
+            : controller.addressBookService.contacts.value.firstWhereOrNull(
                 (contact) => contact.uid == uid,
               );
         if (displayedContact == null) {

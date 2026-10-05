@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
 
-import 'package:nmail_core/services/address_book_service.dart';
-
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
@@ -13,9 +11,6 @@ class InitialBinding extends Bindings {
     // - AuthController
     // - SettingsController (via Get.putAsync, awaited before runApp)
 
-    if (!Get.isRegistered<AddressBookService>()) {
-      Get.put(AddressBookService(), permanent: true);
-    }
     Get.put(MailboxesController(), permanent: true);
   }
 }

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:enough_mail_plus/enough_mail.dart' as mail;
-import 'package:get/get.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' show Nip05Found;
 import 'package:ndk/ndk.dart';
@@ -14,28 +14,24 @@ import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/services/storage_service.dart';
 
-class AddressBookService extends GetxService {
-  AddressBookService({NostrAddressBook? book, this.syncOnInit = true})
-    : _injectedBook = book;
+class AddressBookService {
+  AddressBookService({NostrAddressBook? book}) : _injectedBook = book;
 
   final NostrAddressBook? _injectedBook;
-  final bool syncOnInit;
   late final NostrAddressBook _book;
   late final Ndk _ndk;
 
-  final contacts = <AddressBookContact>[].obs;
-  final isLoading = false.obs;
-  final isSyncing = false.obs;
-  final lastError = RxnString();
+  final contacts = ValueNotifier<List<AddressBookContact>>(const []);
+  final isLoading = ValueNotifier(false);
+  final isSyncing = ValueNotifier(false);
+  final lastError = ValueNotifier<String?>(null);
 
   StreamSubscription<List<AddressBookContact>>? _watchSubscription;
   StreamSubscription? _authSubscription;
 
   String? get _currentPubkey => _ndk.accounts.getPublicKey();
 
-  @override
-  void onInit() {
-    super.onInit();
+  void start({bool sync = true}) {
     _ndk = GetIt.I<Ndk>();
     _book =
         _injectedBook ??
@@ -50,15 +46,17 @@ class AddressBookService extends GetxService {
       _book.stopAllSync();
       unawaited(load(sync: true));
     });
-    unawaited(load(sync: syncOnInit));
+    unawaited(load(sync: sync));
   }
 
-  @override
-  void onClose() {
+  void dispose() {
     _book.stopAllSync();
     _watchSubscription?.cancel();
     _authSubscription?.cancel();
-    super.onClose();
+    contacts.dispose();
+    isLoading.dispose();
+    isSyncing.dispose();
+    lastError.dispose();
   }
 
   Future<void> load({bool sync = false}) async {
@@ -146,7 +144,9 @@ class AddressBookService extends GetxService {
   }
 
   List<Contact> suggestionContacts() {
-    return contacts.expand(_suggestionsFromContact).toList(growable: false);
+    return contacts.value
+        .expand(_suggestionsFromContact)
+        .toList(growable: false);
   }
 
   Future<String?> resolveNostrIdentifier(String input) async {

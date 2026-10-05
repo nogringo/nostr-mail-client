@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../controllers/contacts_controller.dart';
@@ -34,16 +33,17 @@ class ContactsView extends StatelessWidget {
             : const Center(child: DrawerMenuButton()),
         title: Text(l.contactsTitle),
         actions: [
-          Obx(() {
-            if (controller.addressBookService.lastError.value == null) {
-              return const SizedBox.shrink();
-            }
-            return IconButton(
-              icon: const Icon(Icons.cloud_sync_outlined),
-              tooltip: l.contactsRetry,
-              onPressed: controller.retryBroadcasts,
-            );
-          }),
+          ValueListenableBuilder(
+            valueListenable: controller.addressBookService.lastError,
+            builder: (context, lastError, _) {
+              if (lastError == null) return const SizedBox.shrink();
+              return IconButton(
+                icon: const Icon(Icons.cloud_sync_outlined),
+                tooltip: l.contactsRetry,
+                onPressed: controller.retryBroadcasts,
+              );
+            },
+          ),
           if (isWide)
             ListenableBuilder(
               listenable: controller,

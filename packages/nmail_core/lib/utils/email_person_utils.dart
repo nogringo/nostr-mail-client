@@ -1,6 +1,5 @@
 import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
@@ -13,8 +12,8 @@ import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import 'package:nmail_core/utils/metadata_extensions.dart';
 
 /// The name the user gave the contact wins over the one the person gives
-/// themselves. Call it inside an `Obx`, under a listener on
-/// [emailPersonNameListenable], to follow contact edits and profile updates.
+/// themselves. Call it under a listener on [emailPersonNameListenable] to
+/// follow contact edits and profile updates.
 String emailPersonName(EmailPerson person) {
   final contactName = emailPersonContact(person)?.index.formattedName.trim();
   if (contactName != null && contactName.isNotEmpty) return contactName;
@@ -31,10 +30,11 @@ String emailPersonName(EmailPerson person) {
       : personalName;
 }
 
-/// Notifies when the profile [emailPersonName] reads changes.
+/// Notifies when the contact or the profile [emailPersonName] reads changes.
 Listenable emailPersonNameListenable(EmailPerson person) {
   final pubkey = person.pubkey;
   return Listenable.merge([
+    GetIt.I<AddressBookService>().contacts,
     if (pubkey != null) GetIt.I<MetadataService>().of(pubkey),
   ]);
 }
@@ -54,10 +54,13 @@ String emailPersonIdentifier(EmailPerson person) {
   return pubkey != null ? Nip19.encodePubKey(pubkey) : person.address!.email;
 }
 
-/// Always reads the address book, so a call inside `Obx` follows contact
+/// Call it under a listener on [AddressBookService.contacts] to follow contact
 /// edits.
 AddressBookContact? emailPersonContact(EmailPerson person) =>
-    findEmailPersonContact(Get.find<AddressBookService>().contacts(), person);
+    findEmailPersonContact(
+      GetIt.I<AddressBookService>().contacts.value,
+      person,
+    );
 
 AddressBookContact? findEmailPersonContact(
   Iterable<AddressBookContact> contacts,

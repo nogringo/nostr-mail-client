@@ -29,6 +29,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/account_local_data_service.dart';
+import 'package:nmail_core/services/address_book_service.dart';
 import 'package:nmail_core/services/app_update_service.dart';
 import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
@@ -206,6 +207,10 @@ Future<void> _initApp({
   );
   GetIt.I.registerSingleton(
     AppUpdateService()..start(),
+    dispose: (service) => service.dispose(),
+  );
+  GetIt.I.registerSingleton(
+    AddressBookService()..start(),
     dispose: (service) => service.dispose(),
   );
   GetIt.I.registerLazySingleton(

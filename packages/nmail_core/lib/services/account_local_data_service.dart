@@ -1,7 +1,6 @@
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
@@ -22,8 +21,8 @@ class AccountLocalDataService {
     await Future.wait([
       if (GetIt.I.isRegistered<NostrMailService>())
         GetIt.I<NostrMailService>().clearLocalAccountData(pubkey: pubkey),
-      if (Get.isRegistered<AddressBookService>())
-        Get.find<AddressBookService>().clearLocalAccountData(pubkey: pubkey),
+      if (GetIt.I.isRegistered<AddressBookService>())
+        GetIt.I<AddressBookService>().clearLocalAccountData(pubkey: pubkey),
       if (GetIt.I.isRegistered<OfflineBroadcast>())
         GetIt.I<OfflineBroadcast>().clearLocalAccountData(pubkey: pubkey),
       if (GetIt.I.isRegistered<OfflineBlossomUpload>())
@@ -67,8 +66,8 @@ class AccountLocalDataService {
     await Future.wait([
       if (GetIt.I.isRegistered<NostrMailService>())
         GetIt.I<NostrMailService>().clearAllLocalData(),
-      if (Get.isRegistered<AddressBookService>())
-        Get.find<AddressBookService>().clearAllLocalData(),
+      if (GetIt.I.isRegistered<AddressBookService>())
+        GetIt.I<AddressBookService>().clearAllLocalData(),
       if (GetIt.I.isRegistered<OfflineBroadcast>())
         GetIt.I<OfflineBroadcast>().clearAllLocalData(),
       if (GetIt.I.isRegistered<OfflineBlossomUpload>())

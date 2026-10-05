@@ -6,7 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
@@ -26,23 +26,17 @@ import '../views/contacts/widgets/import_conflict_dialog.dart';
 class ContactsController extends ChangeNotifier {
   ContactsController() {
     queryController.addListener(notifyListeners);
-    _contactsSubscription = addressBookService.contacts.listen(
-      (_) => _ensureSelection(),
-    );
-    _loadingSubscription = addressBookService.isLoading.listen(
-      (_) => notifyListeners(),
-    );
+    addressBookService.contacts.addListener(_ensureSelection);
+    addressBookService.isLoading.addListener(notifyListeners);
     addressBookService.load(sync: true).then((_) => _ensureSelection());
     _checkLaunchCapabilities();
   }
 
-  final addressBookService = Get.find<AddressBookService>();
+  final addressBookService = GetIt.I<AddressBookService>();
   final queryController = TextEditingController();
   String? selectedUid;
   String? copiedVCardUid;
   Timer? _copiedVCardTimer;
-  late final StreamSubscription<List<AddressBookContact>> _contactsSubscription;
-  late final StreamSubscription<bool> _loadingSubscription;
 
   /// Whether the platform can place a call / send an SMS. Checked once at init
   /// (a `tel:`/`sms:` handler is a device-wide capability, not per-number) so
@@ -56,7 +50,7 @@ class ContactsController extends ChangeNotifier {
 
   List<AddressBookContact> get filteredContacts {
     final q = query.trim().toLowerCase();
-    final list = addressBookService.contacts.where((contact) {
+    final list = addressBookService.contacts.value.where((contact) {
       if (q.isEmpty) return true;
       final index = contact.index;
       final haystack = [
@@ -80,7 +74,7 @@ class ContactsController extends ChangeNotifier {
   AddressBookContact? get selectedContact {
     final uid = selectedUid;
     if (uid == null) return null;
-    return addressBookService.contacts.firstWhereOrNull(
+    return addressBookService.contacts.value.firstWhereOrNull(
       (contact) => contact.uid == uid,
     );
   }
@@ -94,8 +88,8 @@ class ContactsController extends ChangeNotifier {
   @override
   void dispose() {
     _copiedVCardTimer?.cancel();
-    _contactsSubscription.cancel();
-    _loadingSubscription.cancel();
+    addressBookService.contacts.removeListener(_ensureSelection);
+    addressBookService.isLoading.removeListener(notifyListeners);
     queryController.dispose();
     super.dispose();
   }
@@ -111,7 +105,7 @@ class ContactsController extends ChangeNotifier {
 
   Future<void> exportContacts(BuildContext context) async {
     final l = AppLocalizations.of(context);
-    final list = addressBookService.contacts;
+    final list = addressBookService.contacts.value;
     if (list.isEmpty) {
       ToastHelper.info(context, l.contactsExportEmpty);
       return;
@@ -215,7 +209,7 @@ class ContactsController extends ChangeNotifier {
   }
 
   AddressBookContact? _findExisting(AddressBookContactForm form) {
-    final list = addressBookService.contacts;
+    final list = addressBookService.contacts.value;
     if (form.uid != null) {
       final byUid = list.firstWhereOrNull((contact) => contact.uid == form.uid);
       if (byUid != null) return byUid;

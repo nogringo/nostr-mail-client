@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/services/address_book_service.dart';
@@ -24,13 +24,11 @@ class PersonCardMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final contacts = GetIt.I<AddressBookService>().contacts;
     return ListenableBuilder(
-      listenable: Listenable.merge([actionsListenable]),
-      builder: (context, _) => Obx(() {
-        final contact = findEmailPersonContact(
-          Get.find<AddressBookService>().contacts,
-          person,
-        );
+      listenable: Listenable.merge([contacts, actionsListenable]),
+      builder: (context, _) {
+        final contact = findEmailPersonContact(contacts.value, person);
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
@@ -45,7 +43,7 @@ class PersonCardMenu extends StatelessWidget {
               ),
           ],
         );
-      }),
+      },
     );
   }
 }

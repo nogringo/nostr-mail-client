@@ -17,9 +17,8 @@ class MobileContactDetailPage extends StatelessWidget {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, _) {
-        final contact = controller.addressBookService.contacts.firstWhereOrNull(
-          (contact) => contact.uid == uid,
-        );
+        final contact = controller.addressBookService.contacts.value
+            .firstWhereOrNull((contact) => contact.uid == uid);
         return Scaffold(
           appBar: AppBar(
             actionsPadding: .only(right: 8),

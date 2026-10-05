@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
@@ -14,8 +13,7 @@ class PersonName extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: emailPersonNameListenable(person),
-      builder: (context, _) =>
-          Obx(() => Text(emailPersonName(person), style: style)),
+      builder: (context, _) => Text(emailPersonName(person), style: style),
     );
   }
 }

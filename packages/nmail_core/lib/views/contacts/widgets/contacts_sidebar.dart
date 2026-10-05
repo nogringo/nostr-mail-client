@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
@@ -44,9 +43,10 @@ class ContactsSidebar extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Obx(
-                    () => IconButton(
-                      icon: controller.addressBookService.isSyncing.value
+                  ValueListenableBuilder(
+                    valueListenable: controller.addressBookService.isSyncing,
+                    builder: (context, isSyncing, _) => IconButton(
+                      icon: isSyncing
                           ? const SizedBox(
                               width: 20,
                               height: 20,
@@ -54,9 +54,7 @@ class ContactsSidebar extends StatelessWidget {
                             )
                           : const Icon(Icons.sync),
                       tooltip: l.contactsSync,
-                      onPressed: controller.addressBookService.isSyncing.value
-                          ? null
-                          : controller.syncContacts,
+                      onPressed: isSyncing ? null : controller.syncContacts,
                     ),
                   ),
                 ],

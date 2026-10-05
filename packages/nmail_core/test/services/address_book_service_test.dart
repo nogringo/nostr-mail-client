@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' show Nip05;
 import 'package:ndk/ndk.dart';
@@ -20,7 +19,6 @@ void main() {
   late AddressBookService service;
 
   setUp(() async {
-    Get.testMode = true;
     db = await databaseFactoryMemory.openDatabase('address_book_service.db');
     ndk = Ndk(
       NdkConfig(
@@ -42,17 +40,16 @@ void main() {
       broadcastQueue: broadcastQueue,
       syncEngine: syncEngine,
     );
-    service = Get.put(AddressBookService(book: book, syncOnInit: false));
+    service = AddressBookService(book: book)..start(sync: false);
     await Future<void>.delayed(Duration.zero);
   });
 
   tearDown(() async {
-    Get.delete<AddressBookService>();
+    service.dispose();
     await syncEngine.dispose();
     await broadcastQueue.dispose();
     await ndk.destroy();
     await db.close();
-    Get.reset();
     await GetIt.I.reset();
   });
 
@@ -64,9 +61,9 @@ void main() {
       ),
     );
 
-    expect(service.contacts, hasLength(1));
-    expect(service.contacts.single.index.formattedName, 'Alice Example');
-    expect(service.contacts.single.pubKey, ndk.accounts.getPublicKey());
+    expect(service.contacts.value, hasLength(1));
+    expect(service.contacts.value.single.index.formattedName, 'Alice Example');
+    expect(service.contacts.value.single.pubKey, ndk.accounts.getPublicKey());
   });
 
   test('delete removes contacts from active list', () async {
@@ -79,7 +76,7 @@ void main() {
 
     await service.deleteContact(contact);
 
-    expect(service.contacts, isEmpty);
+    expect(service.contacts.value, isEmpty);
   });
 
   test('resolves NIP-05 identifiers through NDK cache', () async {

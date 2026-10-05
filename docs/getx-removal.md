@@ -119,7 +119,7 @@ Created on first use and kept:
 Registered in `runNmailApp()` or `InitialBinding`:
 
 - [x] `AccountLocalDataService`
-- [ ] `AddressBookService`
+- [x] `AddressBookService`
 - [x] `AppUpdateService`
 - [ ] `AuthController`
 - [x] `ContactsService`

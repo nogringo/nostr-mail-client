@@ -17,8 +17,6 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/views/inbox/widgets/email_tile.dart';
 
-import '../helpers/empty_address_book_service.dart';
-
 const _mobileWidth = 400.0;
 const _desktopWidth = 1200.0;
 
@@ -121,7 +119,7 @@ void main() {
     GetIt.I.registerSingleton(StorageService());
     GetIt.I.registerSingleton(NotificationService());
     GetIt.I.registerSingleton(NostrMailService());
-    Get.put<AddressBookService>(EmptyAddressBookService());
+    GetIt.I.registerSingleton(AddressBookService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
     Get.put(MailboxesController());
     GetIt.I.registerSingleton(

@@ -20,8 +20,6 @@ import 'package:nmail_core/views/inbox/widgets/attachment_chip_view.dart';
 import 'package:nmail_core/views/inbox/widgets/email_tile.dart';
 import 'package:nmail_core/widgets/selectable_avatar.dart';
 
-import '../../helpers/empty_address_book_service.dart';
-
 /// Widths that pick each layout: the ListTile below 900, the compact row above.
 const _widths = [400.0, 700.0, 1200.0];
 
@@ -108,7 +106,7 @@ void main() {
     GetIt.I.registerSingleton(StorageService());
     GetIt.I.registerSingleton(NotificationService());
     GetIt.I.registerSingleton(NostrMailService());
-    Get.put<AddressBookService>(EmptyAddressBookService());
+    GetIt.I.registerSingleton(AddressBookService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
     Get.put(MailboxesController());
     GetIt.I.registerSingleton(

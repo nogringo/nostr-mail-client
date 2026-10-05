@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'package:collection/collection.dart';
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
@@ -25,8 +24,8 @@ class ContactsService {
   final _nostrMailService = GetIt.I<NostrMailService>();
   final _ndk = GetIt.I<Ndk>();
   AddressBookService? get _addressBookService =>
-      Get.isRegistered<AddressBookService>()
-      ? Get.find<AddressBookService>()
+      GetIt.I.isRegistered<AddressBookService>()
+      ? GetIt.I<AddressBookService>()
       : null;
 
   final contacts = ValueNotifier<List<Contact>>(const []);
