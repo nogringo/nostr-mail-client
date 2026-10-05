@@ -50,7 +50,7 @@ class ComposeView extends StatelessWidget {
             ],
           ],
         ),
-        // One tree at any width: a remount disposes the recipients' focus nodes.
+        // One tree at any width: a remount would unfocus the field in use.
         body: SafeArea(
           top: false,
           child: Column(
