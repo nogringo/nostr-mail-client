@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -25,7 +25,7 @@ class AccountMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
 
     return MenuAnchor(
       alignmentOffset: alignmentOffset,
@@ -47,8 +47,16 @@ class AccountMenu extends StatelessWidget {
           child: Text(l.inboxAddAccount),
         ),
         const Divider(height: 1),
-        CopyMenuItem(label: l.inboxCopyEmail, value: () => auth.primaryEmail),
-        CopyMenuItem(label: l.inboxCopyNpub, value: () => auth.currentNpub),
+        CopyMenuItem(
+          label: l.inboxCopyEmail,
+          value: () => auth.primaryEmail,
+          listenable: auth.activeNpub,
+        ),
+        CopyMenuItem(
+          label: l.inboxCopyNpub,
+          value: () => auth.currentNpub,
+          listenable: auth.activeNpub,
+        ),
         MenuItemButton(
           leadingIcon: Icon(Icons.logout, color: colorScheme.error),
           onPressed: () => confirmLogout(context),

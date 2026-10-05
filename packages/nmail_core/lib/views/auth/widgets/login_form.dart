@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
@@ -10,14 +10,17 @@ import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
-class LoginForm extends GetView<AuthController> {
+class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
+
+  AuthController get controller => GetIt.I<AuthController>();
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return Obx(
-      () => Column(
+    return ValueListenableBuilder(
+      valueListenable: controller.showMoreOptions,
+      builder: (context, showMoreOptions, _) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           NLogin(
@@ -59,9 +62,10 @@ class LoginForm extends GetView<AuthController> {
           Align(
             alignment: Alignment.centerLeft,
             child: TextButton.icon(
-              onPressed: () => controller.showMoreOptions.toggle(),
+              onPressed: () =>
+                  controller.showMoreOptions.value = !showMoreOptions,
               icon: AnimatedRotation(
-                turns: controller.showMoreOptions.value ? 0.5 : 0,
+                turns: showMoreOptions ? 0.5 : 0,
                 duration: const Duration(milliseconds: 200),
                 child: const Icon(Icons.expand_more),
               ),
@@ -69,11 +73,11 @@ class LoginForm extends GetView<AuthController> {
             ),
           ),
           AnimatedOpacity(
-            opacity: controller.showMoreOptions.value ? 1.0 : 0.0,
+            opacity: showMoreOptions ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOut,
             child: Visibility(
-              visible: controller.showMoreOptions.value,
+              visible: showMoreOptions,
               maintainSize: true,
               maintainAnimation: true,
               maintainState: true,

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -820,7 +819,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   /// Load all available From options
   Future<void> loadFromOptions() async {
     final options = <FromOption>[];
-    final authController = Get.find<AuthController>();
+    final authController = GetIt.I<AuthController>();
     final npub = authController.npub;
     final metadata = authController.userMetadata.value;
     final senderName = getSenderName(metadata);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
 
@@ -30,7 +30,7 @@ class EmailView extends StatelessWidget {
       context.go(AppRoutes.mailboxPath(mailbox));
       return;
     }
-    final myPubkey = Get.find<AuthController>().publicKey;
+    final myPubkey = GetIt.I<AuthController>().publicKey;
     final isMine = controller.email?.senderPubkey == myPubkey;
     context.go(isMine ? AppRoutes.sent : AppRoutes.inbox);
   }

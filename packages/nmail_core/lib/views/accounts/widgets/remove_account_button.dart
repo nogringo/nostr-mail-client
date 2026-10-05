@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -14,27 +14,29 @@ class RemoveAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
 
-    return Obx(() {
-      final pending = auth.pendingAccountPubkey.value;
-      if (pending == pubkey) {
-        return const SizedBox.square(
-          dimension: 48,
-          child: Center(
-            child: SizedBox.square(
-              dimension: 16,
-              child: CircularProgressIndicator(strokeWidth: 2),
+    return ValueListenableBuilder(
+      valueListenable: auth.pendingAccountPubkey,
+      builder: (context, pending, _) {
+        if (pending == pubkey) {
+          return const SizedBox.square(
+            dimension: 48,
+            child: Center(
+              child: SizedBox.square(
+                dimension: 16,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
             ),
-          ),
+          );
+        }
+        return IconButton(
+          icon: const Icon(Icons.close, size: 20),
+          tooltip: l.accountsRemove,
+          onPressed: pending != null ? null : () => _confirmRemove(context),
         );
-      }
-      return IconButton(
-        icon: const Icon(Icons.close, size: 20),
-        tooltip: l.accountsRemove,
-        onPressed: pending != null ? null : () => _confirmRemove(context),
-      );
-    });
+      },
+    );
   }
 
   Future<void> _confirmRemove(BuildContext context) async {
@@ -46,7 +48,7 @@ class RemoveAccountButton extends StatelessWidget {
     if (confirmed != true || !context.mounted) return;
 
     try {
-      await Get.find<AuthController>().removeAccount(pubkey);
+      await GetIt.I<AuthController>().removeAccount(pubkey);
     } catch (_) {
       if (context.mounted) ToastHelper.error(context, l.accountsRemoveFailed);
     }

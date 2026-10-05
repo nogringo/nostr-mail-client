@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -23,7 +22,7 @@ class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
   Widget _buildAvatar(BuildContext context) {
-    final authController = Get.find<AuthController>();
+    final authController = GetIt.I<AuthController>();
     final pubkey = authController.currentPubkey!;
     return NostrAvatar(
       pubkey: pubkey,
@@ -33,7 +32,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   String _displayName() {
-    final authController = Get.find<AuthController>();
+    final authController = GetIt.I<AuthController>();
     final metadata = authController.userMetadata.value;
     final pubkey = authController.currentPubkey!;
 
@@ -46,6 +45,7 @@ class AppDrawer extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final loc = GoRouterState.of(context).matchedLocation;
     final mailboxes = GetIt.I<MailboxesController>();
+    final auth = GetIt.I<AuthController>();
 
     return Drawer(
       child: ListenableBuilder(
@@ -71,8 +71,12 @@ class AppDrawer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(
-                      () => Row(
+                    ListenableBuilder(
+                      listenable: Listenable.merge([
+                        auth.activePubkey,
+                        auth.userMetadata,
+                      ]),
+                      builder: (context, _) => Row(
                         children: [
                           Semantics(
                             label: l.inboxEditProfile,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -16,43 +16,50 @@ class AccountMenuHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
     final textTheme = Theme.of(context).textTheme;
 
-    return Obx(() {
-      final metadata = auth.userMetadata.value;
-      final pubkey = auth.currentPubkey!;
+    return ListenableBuilder(
+      listenable: Listenable.merge([
+        auth.userMetadata,
+        auth.activePubkey,
+        auth.needsRelayListSetup,
+      ]),
+      builder: (context, _) {
+        final metadata = auth.userMetadata.value;
+        final pubkey = auth.currentPubkey!;
 
-      return Container(
-        width: LayoutConstants.accountMenuWidth,
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            NostrAvatar(pubkey: pubkey, metadata: metadata, radius: 32),
-            const SizedBox(height: 12),
-            Text(
-              metadata?.getBestName() ?? getAnonName(pubkey),
-              style: textTheme.titleMedium,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            const AccountEmailText(),
-            // Publishing a profile needs the relay list this account lacks.
-            if (!auth.needsRelayListSetup.value) ...[
+        return Container(
+          width: LayoutConstants.accountMenuWidth,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              NostrAvatar(pubkey: pubkey, metadata: metadata, radius: 32),
               const SizedBox(height: 12),
-              FilledButton.tonalIcon(
-                onPressed: () {
-                  MenuController.maybeOf(context)?.close();
-                  context.go(AppRoutes.profile);
-                },
-                icon: const Icon(Icons.edit_outlined),
-                label: Text(l.inboxEditProfile),
+              Text(
+                metadata?.getBestName() ?? getAnonName(pubkey),
+                style: textTheme.titleMedium,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
+              const AccountEmailText(),
+              // Publishing a profile needs the relay list this account lacks.
+              if (!auth.needsRelayListSetup.value) ...[
+                const SizedBox(height: 12),
+                FilledButton.tonalIcon(
+                  onPressed: () {
+                    MenuController.maybeOf(context)?.close();
+                    context.go(AppRoutes.profile);
+                  },
+                  icon: const Icon(Icons.edit_outlined),
+                  label: Text(l.inboxEditProfile),
+                ),
+              ],
             ],
-          ],
-        ),
-      );
-    });
+          ),
+        );
+      },
+    );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,7 +17,7 @@ class AccountSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
     final settings = GetIt.I<SettingsController>();
     final nsec = auth.getNsec();
 
@@ -26,17 +25,20 @@ class AccountSection extends StatelessWidget {
       valueListenable: settings.debugToolsUnlocked,
       builder: (context, debugToolsUnlocked, _) => SettingsGroup(
         rows: [
-          (index, count) => Obx(() {
-            final total = auth.accountPubkeys.length;
-            return SettingsNavTile(
-              icon: Icons.manage_accounts_outlined,
-              title: l.accountsTitle,
-              badge: total < 2 ? null : '$total',
-              index: index,
-              count: count,
-              onTap: () => context.go(AppRoutes.accounts),
-            );
-          }),
+          (index, count) => ValueListenableBuilder(
+            valueListenable: auth.accountPubkeys,
+            builder: (context, accountPubkeys, _) {
+              final total = accountPubkeys.length;
+              return SettingsNavTile(
+                icon: Icons.manage_accounts_outlined,
+                title: l.accountsTitle,
+                badge: total < 2 ? null : '$total',
+                index: index,
+                count: count,
+                onTap: () => context.go(AppRoutes.accounts),
+              );
+            },
+          ),
           if (nsec != null)
             (index, count) =>
                 CopySyncCodeTile(nsec: nsec, index: index, count: count),

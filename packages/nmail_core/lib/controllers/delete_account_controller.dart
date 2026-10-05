@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'auth_controller.dart';
 
@@ -35,7 +35,7 @@ class DeleteAccountController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final request = await Get.find<AuthController>().deleteAccount();
+      final request = await GetIt.I<AuthController>().deleteAccount();
       return request.id;
     } catch (_) {
       if (_isDisposed) return null;

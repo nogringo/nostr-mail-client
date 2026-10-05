@@ -1,6 +1,5 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import '../app/routes/app_router.dart';
@@ -48,7 +47,7 @@ class CreateIdentityController extends ChangeNotifier {
   }
 
   void _loadUserData() {
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
     myHex = auth.publicKey!;
     myNpub = auth.npub!;
     myBase36 = BigInt.parse(myHex, radix: 16).toRadixString(36);

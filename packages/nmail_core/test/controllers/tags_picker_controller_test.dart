@@ -1,6 +1,5 @@
 import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -38,7 +37,6 @@ void main() {
   late MailboxesController mailboxes;
 
   setUp(() {
-    Get.testMode = true;
     ndk = Ndk(
       NdkConfig(
         cache: MemCacheManager(),
@@ -51,7 +49,10 @@ void main() {
     GetIt.I.registerSingleton(StorageService());
     GetIt.I.registerSingleton(NotificationService());
     GetIt.I.registerSingleton(NostrMailService());
-    Get.put(AuthController()).activePubkey.value = 'f' * 64;
+    GetIt.I.registerSingleton(
+      AuthController()..activePubkey.value = 'f' * 64,
+      dispose: (controller) => controller.dispose(),
+    );
     mailboxes = GetIt.I.registerSingleton(
       MailboxesController(),
       dispose: (controller) => controller.dispose(),
@@ -63,7 +64,6 @@ void main() {
   });
 
   tearDown(() async {
-    Get.reset();
     await GetIt.I.reset();
     await ndk.destroy();
   });

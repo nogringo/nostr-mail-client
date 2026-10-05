@@ -2,7 +2,6 @@ import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -104,7 +103,6 @@ void main() {
   late Ndk ndk;
 
   setUp(() {
-    Get.testMode = true;
     // Never log this ndk in: the InboxController constructor would then call
     // activateForCurrentAccount and touch the uninitialised client.
     ndk = Ndk(
@@ -120,7 +118,10 @@ void main() {
     GetIt.I.registerSingleton(NotificationService());
     GetIt.I.registerSingleton(NostrMailService());
     GetIt.I.registerSingleton(AddressBookService());
-    Get.put(AuthController()).activePubkey.value = 'f' * 64;
+    GetIt.I.registerSingleton(
+      AuthController()..activePubkey.value = 'f' * 64,
+      dispose: (controller) => controller.dispose(),
+    );
     GetIt.I.registerSingleton(
       MailboxesController(),
       dispose: (controller) => controller.dispose(),
@@ -132,7 +133,6 @@ void main() {
   });
 
   tearDown(() async {
-    Get.reset();
     await GetIt.I.reset();
     await ndk.destroy();
   });

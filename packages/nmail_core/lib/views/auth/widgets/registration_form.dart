@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
-class RegistrationForm extends GetView<AuthController> {
+class RegistrationForm extends StatelessWidget {
   const RegistrationForm({super.key});
+
+  AuthController get controller => GetIt.I<AuthController>();
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return Obx(
-      () => Column(
+    return ListenableBuilder(
+      listenable: Listenable.merge([controller.isLoading, controller.username]),
+      builder: (context, _) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(

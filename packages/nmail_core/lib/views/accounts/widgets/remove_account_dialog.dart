@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
@@ -17,7 +16,7 @@ class RemoveAccountDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
 
     final metadata = GetIt.I<MetadataService>().of(pubkey).value;
     final name = metadata?.getBestName() ?? getAnonName(pubkey);

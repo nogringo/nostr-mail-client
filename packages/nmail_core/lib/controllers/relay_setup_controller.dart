@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart'
     hide RelayListFound;
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' hide RelaySet;
 import 'package:ndk/ndk.dart' hide RelaySet;
@@ -68,7 +67,7 @@ class RelaySetupController extends ChangeNotifier {
 
   bool get isLeaving => runningAction != null;
 
-  String get pubkey => Get.find<AuthController>().publicKey!;
+  String get pubkey => GetIt.I<AuthController>().publicKey!;
 
   @override
   void dispose() {
@@ -156,7 +155,7 @@ class RelaySetupController extends ChangeNotifier {
   }
 
   Future<void> _continueToInbox() async {
-    await Get.find<AuthController>().completeLogin();
+    await GetIt.I<AuthController>().completeLogin();
     // The router already left this screen, and the user may have moved on.
     if (_isDisposed) return;
     AppRouter.router.go(AppRoutes.inbox);

@@ -1,7 +1,6 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
@@ -17,7 +16,7 @@ import 'auth_controller.dart';
 
 class ProfileController extends ChangeNotifier {
   ProfileController() {
-    final authController = Get.find<AuthController>();
+    final authController = GetIt.I<AuthController>();
     final metadata = authController.userMetadata.value;
     if (metadata != null) {
       _currentMetadata = metadata;
@@ -73,7 +72,7 @@ class ProfileController extends ChangeNotifier {
   }
 
   Future<void> loadMetadata() async {
-    final authController = Get.find<AuthController>();
+    final authController = GetIt.I<AuthController>();
     final pubkey = authController.publicKey;
     if (pubkey == null) {
       isLoading = false;
@@ -169,7 +168,7 @@ class ProfileController extends ChangeNotifier {
   }
 
   Future<void> saveProfile() async {
-    final pubkey = Get.find<AuthController>().publicKey;
+    final pubkey = GetIt.I<AuthController>().publicKey;
     if (pubkey == null) return;
 
     isSaving = true;
@@ -215,11 +214,10 @@ class ProfileController extends ChangeNotifier {
         pubkey: account.pubkey,
       );
 
-      // Refresh metadata in AuthController
-      // Use refresh() to force rebuild even with same object reference
-      final authController = Get.find<AuthController>();
+      // Metadata equality only compares the pubkey: cleared first to notify.
+      final authController = GetIt.I<AuthController>();
+      authController.userMetadata.value = null;
       authController.userMetadata.value = metadata;
-      authController.userMetadata.refresh();
     } catch (e) {
       if (!_isDisposed) {
         isSaving = false;

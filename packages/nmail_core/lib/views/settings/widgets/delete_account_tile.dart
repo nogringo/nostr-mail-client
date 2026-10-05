@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -33,7 +33,7 @@ class DeleteAccountTile extends StatelessWidget {
   }
 
   Future<void> _delete(BuildContext context) async {
-    final pubkey = Get.find<AuthController>().publicKey;
+    final pubkey = GetIt.I<AuthController>().publicKey;
     if (pubkey == null) return;
 
     final requestId = await showDialog<String>(

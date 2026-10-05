@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart' show PrivateSettings;
 
@@ -13,11 +12,11 @@ import 'auth_controller.dart';
 class IdentitiesController extends ChangeNotifier {
   IdentitiesController() {
     _bindCurrentAccount();
-    _accountSubscription = _auth.activePubkey.listen((_) => _rebindAccount());
+    _auth.activePubkey.addListener(_rebindAccount);
   }
 
   final _nostrMailService = GetIt.I<NostrMailService>();
-  final _auth = Get.find<AuthController>();
+  final _auth = GetIt.I<AuthController>();
 
   List<MailAddress> identities = [];
   final markedForDeletion = <int>{};
@@ -30,11 +29,10 @@ class IdentitiesController extends ChangeNotifier {
   List<MailAddress> _original = const [];
   bool _hasLoadedData = false;
   int _accountGeneration = 0;
-  late final StreamSubscription<String?> _accountSubscription;
 
   @override
   void dispose() {
-    _accountSubscription.cancel();
+    _auth.activePubkey.removeListener(_rebindAccount);
     super.dispose();
   }
 

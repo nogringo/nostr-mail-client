@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -128,7 +128,7 @@ class AccountDeletedView extends StatelessWidget {
   }
 
   void _finish(BuildContext context) {
-    final isLoggedIn = Get.find<AuthController>().isLoggedIn.value;
+    final isLoggedIn = GetIt.I<AuthController>().isLoggedIn.value;
     context.go(isLoggedIn ? AppRoutes.inbox : AppRoutes.login);
   }
 }

@@ -181,8 +181,7 @@ class CommunityThemesController extends ChangeNotifier {
               authors: [pubkey],
               limit: 1,
             ),
-            explicitRelays: await GetIt.I<NostrMailService>()
-                .getOutboxRelays(),
+            explicitRelays: await GetIt.I<NostrMailService>().getOutboxRelays(),
             timeout: const Duration(seconds: 5),
             cacheRead: false,
           )

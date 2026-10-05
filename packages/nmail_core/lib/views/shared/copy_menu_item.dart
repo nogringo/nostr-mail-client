@@ -3,26 +3,35 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class CopyMenuItem extends StatelessWidget {
-  CopyMenuItem({super.key, required this.label, required this.value});
+  CopyMenuItem({
+    super.key,
+    required this.label,
+    required this.value,
+    this.listenable,
+  });
 
   final String label;
 
-  /// Read inside [Obx], so it may depend on observables.
+  /// Read again when [listenable] notifies.
   final String? Function() value;
+  final Listenable? listenable;
 
   final _copied = false.obs;
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      final text = value();
-      return MenuItemButton(
-        leadingIcon: Icon(_copied.value ? Icons.check : Icons.copy),
-        closeOnActivate: false,
-        onPressed: text == null ? null : () => _copy(text),
-        child: Text(label),
-      );
-    });
+    return ListenableBuilder(
+      listenable: Listenable.merge([listenable]),
+      builder: (context, _) => Obx(() {
+        final text = value();
+        return MenuItemButton(
+          leadingIcon: Icon(_copied.value ? Icons.check : Icons.copy),
+          closeOnActivate: false,
+          onPressed: text == null ? null : () => _copy(text),
+          child: Text(label),
+        );
+      }),
+    );
   }
 
   void _copy(String text) {

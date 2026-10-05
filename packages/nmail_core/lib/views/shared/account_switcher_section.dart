@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/widgets/nostr_avatar.dart';
@@ -10,17 +10,20 @@ class AccountSwitcherMenuSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Get.find<AuthController>();
-    return Obx(() {
-      final otherPubkeys = auth.otherAccountPubkeys;
-      if (otherPubkeys.isEmpty) return const SizedBox.shrink();
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (final pubkey in otherPubkeys) _AccountMenuItem(pubkey: pubkey),
-        ],
-      );
-    });
+    final auth = GetIt.I<AuthController>();
+    return ListenableBuilder(
+      listenable: Listenable.merge([auth.activePubkey, auth.accountPubkeys]),
+      builder: (context, _) {
+        final otherPubkeys = auth.otherAccountPubkeys;
+        if (otherPubkeys.isEmpty) return const SizedBox.shrink();
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final pubkey in otherPubkeys) _AccountMenuItem(pubkey: pubkey),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -31,7 +34,7 @@ class _AccountMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
     return MenuItemButton(
       leadingIcon: NostrAvatar(pubkey: pubkey, radius: 12),
       onPressed: () => auth.switchAccount(pubkey),

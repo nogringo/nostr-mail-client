@@ -186,9 +186,10 @@ Future<void> _initApp({
   GetIt.I.registerSingleton(pushSubscriptions);
   unawaited(pushSubscriptions.flushPendingDisables());
   GetIt.I.registerSingleton(await NostrMailService().init());
-  final authController = AuthController();
-  await authController.init();
-  Get.put(authController, permanent: true);
+  GetIt.I.registerSingleton(
+    await AuthController().init(),
+    dispose: (controller) => controller.dispose(),
+  );
 
   // Initialize theme service
   GetIt.I.registerSingleton(ThemeService());

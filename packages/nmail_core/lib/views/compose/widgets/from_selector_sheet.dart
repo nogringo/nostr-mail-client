@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 
@@ -224,7 +224,7 @@ class _FromOptionTile extends StatelessWidget {
   }
 
   Widget _buildAvatar(BuildContext context) {
-    final authController = Get.find<AuthController>();
+    final authController = GetIt.I<AuthController>();
     final pubkey = authController.publicKey!;
 
     return NostrAvatar(

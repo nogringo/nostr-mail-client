@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/domain_layer/entities/naddr.dart';
@@ -73,11 +72,17 @@ class AppRouter {
   /// toasts and dialogs.
   static BuildContext? get rootContext => _rootNavigatorKey.currentContext;
 
-  static _AuthRefreshNotifier? _authNotifier;
+  /// The redirect re-runs when `isLoggedIn` or `needsRelayListSetup` flips,
+  /// so gated routes bounce at once.
+  static Listenable? _authNotifier;
 
   /// Must be called from `main()` *after* `AuthController` is registered.
   static GoRouter init() {
-    _authNotifier ??= _AuthRefreshNotifier();
+    final auth = GetIt.I<AuthController>();
+    _authNotifier ??= Listenable.merge([
+      auth.isLoggedIn,
+      auth.needsRelayListSetup,
+    ]);
     _registerOnce(InboxController.new);
     _registerOnce(ContactsController.new);
     return _router;
@@ -527,7 +532,7 @@ class AppRouter {
   static String? _globalRedirect(BuildContext context, GoRouterState state) {
     final loc = state.matchedLocation;
     final storage = GetIt.I<StorageService>();
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
 
     // 1. Onboarding gate
     if (!storage.hasSeenOnboarding && loc != AppRoutes.onboarding) {
@@ -570,26 +575,5 @@ class AppRouter {
     if (!needsSetup && loc == AppRoutes.relaySetup) return AppRoutes.inbox;
 
     return null;
-  }
-}
-
-/// Bridges GetX's `Rx` reactivity to go_router's `refreshListenable`.
-/// When `isLoggedIn` or `needsRelayListSetup` flips, the router re-evaluates
-/// its redirect so gated routes immediately bounce.
-class _AuthRefreshNotifier extends ChangeNotifier {
-  late final Worker _loginWorker;
-  late final Worker _relayListWorker;
-
-  _AuthRefreshNotifier() {
-    final auth = Get.find<AuthController>();
-    _loginWorker = ever(auth.isLoggedIn, (_) => notifyListeners());
-    _relayListWorker = ever(auth.needsRelayListSetup, (_) => notifyListeners());
-  }
-
-  @override
-  void dispose() {
-    _loginWorker.dispose();
-    _relayListWorker.dispose();
-    super.dispose();
   }
 }

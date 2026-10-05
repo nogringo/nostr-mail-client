@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -13,7 +13,7 @@ class AppBarAccountAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
 
     return AccountMenu(
       alignmentOffset: const Offset(
@@ -32,8 +32,12 @@ class AppBarAccountAvatar extends StatelessWidget {
                 menuController.open();
               }
             },
-            child: Obx(
-              () => NostrAvatar(
+            child: ListenableBuilder(
+              listenable: Listenable.merge([
+                auth.activePubkey,
+                auth.userMetadata,
+              ]),
+              builder: (context, _) => NostrAvatar(
                 pubkey: auth.currentPubkey!,
                 metadata: auth.userMetadata.value,
                 radius: 18,

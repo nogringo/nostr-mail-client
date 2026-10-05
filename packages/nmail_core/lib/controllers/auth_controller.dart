@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/data_layer/repositories/signers/nip46_event_signer.dart';
 import 'package:ndk/entities.dart' hide RelaySet;
@@ -26,28 +25,28 @@ import 'inbox_controller.dart';
 import 'scheduled_controller.dart';
 import 'settings_controller.dart';
 
-class AuthController extends GetxController {
+class AuthController {
   final _nostrMailService = GetIt.I<NostrMailService>();
 
-  final isLoading = false.obs;
-  final isLoggedIn = false.obs;
-  final showMoreOptions = false.obs;
-  final isRegistering = false.obs;
-  final showSyncCodeExplanation = false.obs;
+  final isLoading = ValueNotifier(false);
+  final isLoggedIn = ValueNotifier(false);
+  final showMoreOptions = ValueNotifier(false);
+  final isRegistering = ValueNotifier(false);
+  final showSyncCodeExplanation = ValueNotifier(false);
 
   /// The active account has no NIP-65 relay list, so the router keeps it on
   /// RelaySetupView until one is found or created.
-  final needsRelayListSetup = false.obs;
-  final username = ''.obs;
+  final needsRelayListSetup = ValueNotifier(false);
+  final username = ValueNotifier('');
   final usernameController = TextEditingController();
-  final Rxn<Metadata> userMetadata = Rxn<Metadata>();
-  final accountPubkeys = <String>[].obs;
-  final activePubkey = RxnString();
-  final activeNpub = RxnString();
+  final userMetadata = ValueNotifier<Metadata?>(null);
+  final accountPubkeys = ValueNotifier<List<String>>(const []);
+  final activePubkey = ValueNotifier<String?>(null);
+  final activeNpub = ValueNotifier<String?>(null);
 
   /// Account whose switch or removal is running, so the accounts list can show
   /// progress on that row and ignore taps on the others.
-  final pendingAccountPubkey = RxnString();
+  final pendingAccountPubkey = ValueNotifier<String?>(null);
 
   StreamSubscription<Account?>? _authSubscription;
   int _accountSwitchGeneration = 0;
@@ -76,13 +75,6 @@ class AuthController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-    return this;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    // Sync controller with observable
     // TODO: Simplify registration state by reading usernameController.text
     // directly if no UI needs to observe username reactively.
     usernameController.addListener(() {
@@ -91,17 +83,28 @@ class AuthController extends GetxController {
     _authSubscription = ndk.accounts.authStateChanges.listen((_) {
       _refreshAccountsState();
     });
-    // In case it wasn't called in main (testing/standalone)
-    if (!isLoggedIn.value && ndk.accounts.getPublicKey() == null) {
-      init();
-    }
+    return this;
   }
 
-  @override
-  void onClose() {
+  void dispose() {
     _authSubscription?.cancel();
     usernameController.dispose();
-    super.onClose();
+    for (final notifier in <ChangeNotifier>[
+      isLoading,
+      isLoggedIn,
+      showMoreOptions,
+      isRegistering,
+      showSyncCodeExplanation,
+      needsRelayListSetup,
+      username,
+      userMetadata,
+      accountPubkeys,
+      activePubkey,
+      activeNpub,
+      pendingAccountPubkey,
+    ]) {
+      notifier.dispose();
+    }
   }
 
   Future<void> loadUserMetadata() async {
@@ -120,7 +123,8 @@ class AuthController extends GetxController {
     // still watched, so drop its subscriptions before starting the new ones.
     await _nostrMailService.resetForAccountChange();
     // Before the early return below: RelaySetupView reads `publicKey`, which
-    // is this Rx and not ndk, so it would otherwise see the previous account.
+    // is this notifier and not ndk, so it would otherwise see the previous
+    // account.
     _refreshAccountsState();
     userMetadata.value = null;
 
@@ -168,7 +172,7 @@ class AuthController extends GetxController {
     loadUserMetadata();
     // authStateChanges fires before the client is attached to the new account,
     // so SettingsController's listener can't read the synced signature yet.
-    // Now that the private-settings cache is primed, pull it into the Rx.
+    // Now that the private-settings cache is primed, pull it in.
     await GetIt.I<SettingsController>().reloadSyncedSettings();
     final pubkey = publicKey;
     if (pubkey != null && GetIt.I.isRegistered<PushSubscriptionService>()) {
@@ -547,7 +551,7 @@ class AuthController extends GetxController {
       ++_accountSwitchGeneration;
       if (GetIt.I.isRegistered<PushSubscriptionService>()) {
         final pushSubscriptions = GetIt.I<PushSubscriptionService>();
-        for (final pubkey in accountPubkeys.toList(growable: false)) {
+        for (final pubkey in accountPubkeys.value) {
           await pushSubscriptions.forget(pubkey);
         }
       }
@@ -562,7 +566,7 @@ class AuthController extends GetxController {
       }
 
       await _nostrMailService.resetForAccountChange();
-      for (final pubkey in accountPubkeys.toList(growable: false)) {
+      for (final pubkey in accountPubkeys.value) {
         ndk.accounts.removeAccount(pubkey: pubkey);
       }
       await ndkFlutter.saveAccountsState();
@@ -595,11 +599,11 @@ class AuthController extends GetxController {
     );
   }
 
-  bool get hasMultipleAccounts => accountPubkeys.length > 1;
+  bool get hasMultipleAccounts => accountPubkeys.value.length > 1;
 
   List<String> get otherAccountPubkeys {
     final current = activePubkey.value;
-    return accountPubkeys.where((pubkey) => pubkey != current).toList();
+    return accountPubkeys.value.where((pubkey) => pubkey != current).toList();
   }
 
   Account? accountFor(String pubkey) => ndk.accounts.accounts[pubkey];
@@ -620,7 +624,7 @@ class AuthController extends GetxController {
   }
 
   void _refreshAccountsState() {
-    accountPubkeys.assignAll(ndk.accounts.accounts.keys);
+    accountPubkeys.value = ndk.accounts.accounts.keys.toList();
     final pubkey = ndk.accounts.getPublicKey();
     activePubkey.value = pubkey;
     activeNpub.value = pubkey == null ? null : Nip19.encodePubKey(pubkey);

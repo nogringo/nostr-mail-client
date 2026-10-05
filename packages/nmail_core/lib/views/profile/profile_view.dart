@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 
@@ -132,7 +132,7 @@ class ProfileView extends StatelessWidget {
     final pictureUrl = controller.pictureController.text.trim();
     final displayName = controller.displayNameController.text.trim();
     final name = controller.nameController.text.trim();
-    final pubkey = Get.find<AuthController>().publicKey;
+    final pubkey = GetIt.I<AuthController>().publicKey;
 
     final previewMetadata = Metadata(
       pubKey: pubkey ?? '',

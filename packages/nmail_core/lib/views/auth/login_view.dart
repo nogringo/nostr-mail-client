@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../app/routes/app_router.dart';
 import '../../controllers/auth_controller.dart';
@@ -10,8 +10,10 @@ import 'widgets/login_form.dart';
 import 'widgets/registration_form.dart';
 import 'widgets/sync_code_explanation_view.dart';
 
-class LoginView extends GetView<AuthController> {
+class LoginView extends StatelessWidget {
   const LoginView({super.key, this.isAddingAccount = false});
+
+  AuthController get controller => GetIt.I<AuthController>();
 
   /// Reached from `/accounts/add` while already logged in, where the user
   /// needs a way back to the inbox.
@@ -25,9 +27,11 @@ class LoginView extends GetView<AuthController> {
               title: Text(AppLocalizations.of(context).inboxAddAccount),
               // AppBar only centers a leading that is itself an IconButton,
               // so a wrapped one needs its own Center or it fills the 56px slot.
-              leading: Obx(
+              leading: ValueListenableBuilder(
+                valueListenable: controller.showSyncCodeExplanation,
                 // No shortcut past the sync code backup of a fresh account.
-                () => controller.showSyncCodeExplanation.value
+                builder: (context, showSyncCodeExplanation, _) =>
+                    showSyncCodeExplanation
                     ? const SizedBox.shrink()
                     : Center(
                         child: BackButton(onPressed: AppRouter.popOrGoInbox),
@@ -41,51 +45,57 @@ class LoginView extends GetView<AuthController> {
             child: ResponsiveCenter(
               maxWidth: 400,
               padding: const EdgeInsets.all(24),
-              child: Obx(() {
-                // Show sync code explanation after registration
-                if (controller.showSyncCodeExplanation.value) {
-                  return SyncCodeExplanationView();
-                }
+              child: ListenableBuilder(
+                listenable: Listenable.merge([
+                  controller.showSyncCodeExplanation,
+                  controller.isRegistering,
+                ]),
+                builder: (context, _) {
+                  // Show sync code explanation after registration
+                  if (controller.showSyncCodeExplanation.value) {
+                    return SyncCodeExplanationView();
+                  }
 
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    if (!isAddingAccount) ...[
-                      const AuthHeader(),
-                      const SizedBox(height: 48),
-                    ],
-                    Stack(
-                      children: [
-                        // Login Form
-                        AnimatedOpacity(
-                          opacity: controller.isRegistering.value ? 0.0 : 1.0,
-                          duration: const Duration(milliseconds: 300),
-                          child: Visibility(
-                            visible: !controller.isRegistering.value,
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            child: const LoginForm(),
-                          ),
-                        ),
-                        // Registration Form
-                        AnimatedOpacity(
-                          opacity: controller.isRegistering.value ? 1.0 : 0.0,
-                          duration: const Duration(milliseconds: 300),
-                          child: Visibility(
-                            visible: controller.isRegistering.value,
-                            maintainSize: true,
-                            maintainAnimation: true,
-                            maintainState: true,
-                            child: const RegistrationForm(),
-                          ),
-                        ),
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (!isAddingAccount) ...[
+                        const AuthHeader(),
+                        const SizedBox(height: 48),
                       ],
-                    ),
-                  ],
-                );
-              }),
+                      Stack(
+                        children: [
+                          // Login Form
+                          AnimatedOpacity(
+                            opacity: controller.isRegistering.value ? 0.0 : 1.0,
+                            duration: const Duration(milliseconds: 300),
+                            child: Visibility(
+                              visible: !controller.isRegistering.value,
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: const LoginForm(),
+                            ),
+                          ),
+                          // Registration Form
+                          AnimatedOpacity(
+                            opacity: controller.isRegistering.value ? 1.0 : 0.0,
+                            duration: const Duration(milliseconds: 300),
+                            child: Visibility(
+                              visible: controller.isRegistering.value,
+                              maintainSize: true,
+                              maintainAnimation: true,
+                              maintainState: true,
+                              child: const RegistrationForm(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),

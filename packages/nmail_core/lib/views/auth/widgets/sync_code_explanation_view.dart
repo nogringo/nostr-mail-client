@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -13,7 +14,7 @@ class SyncCodeExplanationView extends StatelessWidget {
 
   void _copySyncCode(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final authController = Get.find<AuthController>();
+    final authController = GetIt.I<AuthController>();
     final nsec = authController.getNsec();
 
     if (nsec == null) {
@@ -123,7 +124,7 @@ class SyncCodeExplanationView extends StatelessWidget {
 
         OutlinedButton(
           onPressed: () {
-            final authController = Get.find<AuthController>();
+            final authController = GetIt.I<AuthController>();
             authController.continueToInbox();
           },
           style: OutlinedButton.styleFrom(

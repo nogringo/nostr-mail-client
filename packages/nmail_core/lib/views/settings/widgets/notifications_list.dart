@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'notification_account_tile.dart';
@@ -12,29 +12,32 @@ class NotificationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
 
-    return Obx(() {
-      final active = auth.activePubkey.value;
-      final pubkeys = [
-        ?active,
-        ...auth.accountPubkeys.where((pubkey) => pubkey != active),
-      ];
+    return ListenableBuilder(
+      listenable: Listenable.merge([auth.activePubkey, auth.accountPubkeys]),
+      builder: (context, _) {
+        final active = auth.activePubkey.value;
+        final pubkeys = [
+          ?active,
+          ...auth.accountPubkeys.value.where((pubkey) => pubkey != active),
+        ];
 
-      if (pubkeys.length < 2) return const NotificationsEnabledTile();
+        if (pubkeys.length < 2) return const NotificationsEnabledTile();
 
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (final (index, pubkey) in pubkeys.indexed)
-            NotificationAccountTile(
-              key: ValueKey(pubkey),
-              pubkey: pubkey,
-              index: index,
-              count: pubkeys.length,
-            ),
-        ],
-      );
-    });
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final (index, pubkey) in pubkeys.indexed)
+              NotificationAccountTile(
+                key: ValueKey(pubkey),
+                pubkey: pubkey,
+                index: index,
+                count: pubkeys.length,
+              ),
+          ],
+        );
+      },
+    );
   }
 }

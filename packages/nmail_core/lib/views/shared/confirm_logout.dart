@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'logout_dialog.dart';
 
 Future<void> confirmLogout(BuildContext context) async {
-  final auth = Get.find<AuthController>();
+  final auth = GetIt.I<AuthController>();
   final pubkey = auth.currentPubkey;
   if (pubkey == null) return;
 

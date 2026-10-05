@@ -4,7 +4,6 @@ import 'dart:ui' show Color;
 
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
@@ -20,11 +19,11 @@ import 'auth_controller.dart';
 class MailboxesController extends ChangeNotifier {
   MailboxesController() {
     applyCached();
-    _accountSubscription = _auth.activePubkey.listen((_) => applyCached());
+    _auth.activePubkey.addListener(applyCached);
   }
 
   final _nostrMailService = GetIt.I<NostrMailService>();
-  final _auth = Get.find<AuthController>();
+  final _auth = GetIt.I<AuthController>();
 
   List<MailEntry> folders = const [];
   List<MailEntry> tags = const [];
@@ -34,14 +33,13 @@ class MailboxesController extends ChangeNotifier {
   final pendingSenders = ValueNotifier(0);
 
   final List<StreamSubscription<int>> _unreadSubscriptions = [];
-  late final StreamSubscription<String?> _accountSubscription;
   String? _appliedKey;
 
   NostrMailClient get _client => _nostrMailService.client;
 
   @override
   void dispose() {
-    _accountSubscription.cancel();
+    _auth.activePubkey.removeListener(applyCached);
     _cancelUnread();
     unread.dispose();
     pendingSenders.dispose();

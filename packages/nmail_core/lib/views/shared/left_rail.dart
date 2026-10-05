@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -94,7 +93,7 @@ class _AccountMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final auth = Get.find<AuthController>();
+    final auth = GetIt.I<AuthController>();
 
     return AccountMenu(
       alignmentOffset: const Offset(LayoutConstants.railWidth - 8, -44),
@@ -107,8 +106,12 @@ class _AccountMenuButton extends StatelessWidget {
               menuController.open();
             }
           },
-          icon: Obx(
-            () => NostrAvatar(
+          icon: ListenableBuilder(
+            listenable: Listenable.merge([
+              auth.activePubkey,
+              auth.userMetadata,
+            ]),
+            builder: (context, _) => NostrAvatar(
               pubkey: auth.currentPubkey!,
               metadata: auth.userMetadata.value,
               radius: 14,

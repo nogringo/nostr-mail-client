@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:system_theme/system_theme.dart';
@@ -255,7 +254,7 @@ class SettingsController {
   /// per account, so a second account only goes through the transport step.
   Future<void> setNotificationsEnabledFor(String pubkey, bool value) async {
     if (value) {
-      if (!Get.find<AuthController>().isLoggedIn.value) return;
+      if (!GetIt.I<AuthController>().isLoggedIn.value) return;
 
       final granted = await GetIt.I<NotificationService>().requestPermissions();
       if (!granted) return;
@@ -538,7 +537,7 @@ class SettingsController {
   }
 
   Future<void> resetApplication() async {
-    await Get.find<AuthController>().logoutAll();
+    await GetIt.I<AuthController>().logoutAll();
 
     // Reset in-memory state
     alwaysLoadImages.value = false;

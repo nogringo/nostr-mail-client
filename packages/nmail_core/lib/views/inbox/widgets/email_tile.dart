@@ -2,7 +2,6 @@ import 'package:enough_mail_plus/enough_mail.dart' hide Mailbox;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/utils/format_date.dart';
@@ -67,7 +66,7 @@ class EmailTile extends StatelessWidget {
 
   /// Check if I am the sender of this email
   bool get _isSentByMe {
-    final myPubkey = Get.find<AuthController>().publicKey;
+    final myPubkey = GetIt.I<AuthController>().publicKey;
     return email.senderPubkey == myPubkey;
   }
 
@@ -162,9 +161,8 @@ class EmailTile extends StatelessWidget {
       ? _displayAddresses.map(_personForAddress).toList()
       : [_otherSidePerson];
 
-  // Read inside the Obx that wraps the tile, under a listener on each
-  // person's profile, so the name updates in place once metadata loads or the
-  // contact changes.
+  // Read under the tile's listener on each person, so the name updates in
+  // place once metadata loads or the contact changes.
   String get _displayName => _displayPersons.map(emailPersonName).join(', ');
 
   Widget _buildDisplayNameText(TextStyle style) {
@@ -263,52 +261,51 @@ class EmailTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ListenableBuilder(
-      listenable: Listenable.merge(
-        _displayPersons.map(emailPersonNameListenable),
-      ),
-      builder: (context, _) => Obx(
-        () => Semantics(
-          label: _semanticsLabel(context),
-          button: true,
-          selected: isSelected,
-          excludeSemantics: true,
-          onTap: onTap,
-          onLongPress: onToggleSelect,
-          customSemanticsActions: _semanticsActions(l, mailbox),
-          child: Dismissible(
-            key: ValueKey(email.id),
-            direction: swipeRight == null
-                ? DismissDirection.endToStart
-                : DismissDirection.horizontal,
-            background: Container(
-              color: swipeRight?.color,
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.only(left: 16),
-              child: swipeRight == null
-                  ? null
-                  : Icon(swipeRight.icon, color: Colors.white),
-            ),
-            secondaryBackground: Container(
-              color: colorScheme.error,
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 16),
-              child: Icon(Icons.delete, color: colorScheme.onError),
-            ),
-            onDismissed: (direction) {
-              if (direction == DismissDirection.startToEnd) {
-                swipeRight?.action?.call();
-              } else if (direction == DismissDirection.endToStart) {
-                onDelete?.call();
-              }
-            },
-            child: GestureDetector(
-              onSecondaryTapUp: (details) =>
-                  _showContextMenu(context, position: details.globalPosition),
-              onLongPress: () => _showContextMenu(context),
-              child: isWide
-                  ? _buildCompactTile(context, colorScheme)
-                  : _buildDefaultTile(context),
-            ),
+      listenable: Listenable.merge([
+        GetIt.I<AuthController>().activePubkey,
+        ..._displayPersons.map(emailPersonNameListenable),
+      ]),
+      builder: (context, _) => Semantics(
+        label: _semanticsLabel(context),
+        button: true,
+        selected: isSelected,
+        excludeSemantics: true,
+        onTap: onTap,
+        onLongPress: onToggleSelect,
+        customSemanticsActions: _semanticsActions(l, mailbox),
+        child: Dismissible(
+          key: ValueKey(email.id),
+          direction: swipeRight == null
+              ? DismissDirection.endToStart
+              : DismissDirection.horizontal,
+          background: Container(
+            color: swipeRight?.color,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(left: 16),
+            child: swipeRight == null
+                ? null
+                : Icon(swipeRight.icon, color: Colors.white),
+          ),
+          secondaryBackground: Container(
+            color: colorScheme.error,
+            alignment: Alignment.centerRight,
+            padding: const EdgeInsets.only(right: 16),
+            child: Icon(Icons.delete, color: colorScheme.onError),
+          ),
+          onDismissed: (direction) {
+            if (direction == DismissDirection.startToEnd) {
+              swipeRight?.action?.call();
+            } else if (direction == DismissDirection.endToStart) {
+              onDelete?.call();
+            }
+          },
+          child: GestureDetector(
+            onSecondaryTapUp: (details) =>
+                _showContextMenu(context, position: details.globalPosition),
+            onLongPress: () => _showContextMenu(context),
+            child: isWide
+                ? _buildCompactTile(context, colorScheme)
+                : _buildDefaultTile(context),
           ),
         ),
       ),
@@ -473,240 +470,229 @@ class EmailTile extends StatelessWidget {
 
   Widget _buildCompactTile(BuildContext context, ColorScheme colorScheme) {
     final l = AppLocalizations.of(context);
-    return Obx(() {
-      final isUnread = this.isUnread;
-      final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
-      final attachments = email.attachmentRefs;
-      final tagIds = _visibleTagIds;
+    final isUnread = this.isUnread;
+    final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
+    final attachments = email.attachmentRefs;
+    final tagIds = _visibleTagIds;
 
-      return InkWell(
-        // InkWell defaults to adaptiveClickable, an arrow off the web, while
-        // ListTile always resolves to the hand: without this the cursor would
-        // change with the layout.
-        mouseCursor: WidgetStateMouseCursor.clickable,
-        onTap: () {
-          if (_extendRequested) {
-            onExtendSelect!();
-            return;
-          }
-          onTap();
-        },
-        child: Container(
-          color: isSelected
-              ? colorScheme.primaryContainer.withValues(alpha: 0.3)
-              : null,
-          // The separator belongs to the row: as its own widget it left a strip
-          // the row's cursor and taps never reached. Painted in the foreground
-          // so it costs no height.
-          foregroundDecoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: colorScheme.outlineVariant),
-            ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 200,
-                child: Row(
-                  children: [
-                    SelectableAvatar(
-                      id: email.id,
-                      hoveredId: GetIt.I<InboxController>().hoveredEmailId,
-                      avatar: _buildAvatar(context, compact: true),
-                      radius: 14,
-                      isSelected: isSelected,
-                      onToggle: _onSelectTap,
+    return InkWell(
+      // InkWell defaults to adaptiveClickable, an arrow off the web, while
+      // ListTile always resolves to the hand: without this the cursor would
+      // change with the layout.
+      mouseCursor: WidgetStateMouseCursor.clickable,
+      onTap: () {
+        if (_extendRequested) {
+          onExtendSelect!();
+          return;
+        }
+        onTap();
+      },
+      child: Container(
+        color: isSelected
+            ? colorScheme.primaryContainer.withValues(alpha: 0.3)
+            : null,
+        // The separator belongs to the row: as its own widget it left a strip
+        // the row's cursor and taps never reached. Painted in the foreground
+        // so it costs no height.
+        foregroundDecoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: colorScheme.outlineVariant)),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 200,
+              child: Row(
+                children: [
+                  SelectableAvatar(
+                    id: email.id,
+                    hoveredId: GetIt.I<InboxController>().hoveredEmailId,
+                    avatar: _buildAvatar(context, compact: true),
+                    radius: 14,
+                    isSelected: isSelected,
+                    onToggle: _onSelectTap,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _buildDisplayNameText(
+                      const TextStyle(fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: _buildDisplayNameText(
-                        const TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        if (isUnread) ...[
-                          UnreadIndicator(),
-                          const SizedBox(width: 8),
-                        ],
-                        if (tagIds.isNotEmpty) ...[
-                          TagChips(tagIds: tagIds, maxVisible: 2),
-                          const SizedBox(width: 8),
-                        ],
-                        Flexible(
-                          flex: 2,
-                          child: Text(
-                            subject,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontWeight: isUnread
-                                  ? FontWeight.w700
-                                  : FontWeight.w500,
-                            ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      if (isUnread) ...[
+                        UnreadIndicator(),
+                        const SizedBox(width: 8),
+                      ],
+                      if (tagIds.isNotEmpty) ...[
+                        TagChips(tagIds: tagIds, maxVisible: 2),
+                        const SizedBox(width: 8),
+                      ],
+                      Flexible(
+                        flex: 2,
+                        child: Text(
+                          subject,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontWeight: isUnread
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                           ),
                         ),
-                        if (email.preview.isNotEmpty) ...[
-                          const SizedBox(width: 8),
-                          Text(
-                            '—',
+                      ),
+                      if (email.preview.isNotEmpty) ...[
+                        const SizedBox(width: 8),
+                        Text(
+                          '—',
+                          style: TextStyle(color: colorScheme.onSurfaceVariant),
+                        ),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          flex: 3,
+                          child: Text(
+                            email.preview,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: colorScheme.onSurfaceVariant,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Flexible(
-                            flex: 3,
-                            child: Text(
-                              email.preview,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ],
-                    ),
-                    if (attachments.isNotEmpty) ...[
-                      AttachmentsChipsView(attachments: attachments),
                     ],
+                  ),
+                  if (attachments.isNotEmpty) ...[
+                    AttachmentsChipsView(attachments: attachments),
                   ],
-                ),
+                ],
               ),
-              const SizedBox(width: 16),
-              Text(
-                formatDate(context, email.date),
-                style: TextStyle(
-                  color: colorScheme.onSurfaceVariant,
-                  fontSize: 12,
-                ),
+            ),
+            const SizedBox(width: 16),
+            Text(
+              formatDate(context, email.date),
+              style: TextStyle(
+                color: colorScheme.onSurfaceVariant,
+                fontSize: 12,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
-    });
+      ),
+    );
   }
 
   Widget _buildDefaultTile(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    return Obx(() {
-      final isUnread = this.isUnread;
-      final attachments = email.attachmentRefs;
-      final controller = GetIt.I<InboxController>();
-      final isSelectionMode = controller.hasSelection;
-      final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
-      final hasPreview = email.preview.isNotEmpty;
-      final tagIds = _visibleTagIds;
+    final isUnread = this.isUnread;
+    final attachments = email.attachmentRefs;
+    final controller = GetIt.I<InboxController>();
+    final isSelectionMode = controller.hasSelection;
+    final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
+    final hasPreview = email.preview.isNotEmpty;
+    final tagIds = _visibleTagIds;
 
-      return Container(
-        // See the compact tile: the separator is painted over the row's own
-        // bottom edge so it leaves no strip outside it.
-        foregroundDecoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: colorScheme.outlineVariant)),
-        ),
-        child: ListTile(
-          selected: isSelected,
-          selectedColor: colorScheme.onSurface,
-          selectedTileColor: colorScheme.primaryContainer.withValues(
-            alpha: 0.3,
-          ),
-          onTap: () {
-            if (_extendRequested) {
-              onExtendSelect!();
-            } else if (isSelectionMode) {
-              // In selection mode, toggle selection instead of opening email
-              onToggleSelect?.call();
-            } else {
-              // Normal mode, open email
-              onTap();
-            }
-          },
-          onLongPress: () {
-            // Long press to enter selection mode
+    return Container(
+      // See the compact tile: the separator is painted over the row's own
+      // bottom edge so it leaves no strip outside it.
+      foregroundDecoration: BoxDecoration(
+        border: Border(bottom: BorderSide(color: colorScheme.outlineVariant)),
+      ),
+      child: ListTile(
+        selected: isSelected,
+        selectedColor: colorScheme.onSurface,
+        selectedTileColor: colorScheme.primaryContainer.withValues(alpha: 0.3),
+        onTap: () {
+          if (_extendRequested) {
+            onExtendSelect!();
+          } else if (isSelectionMode) {
+            // In selection mode, toggle selection instead of opening email
             onToggleSelect?.call();
-          },
-          leading: SelectableAvatar(
-            id: email.id,
-            hoveredId: controller.hoveredEmailId,
-            avatar: _buildAvatar(context),
-            isSelected: isSelected,
-            onToggle: _onSelectTap,
-          ),
-          title: Row(
-            children: [
-              if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
-              Expanded(
-                child: _buildDisplayNameText(
-                  TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                formatDate(context, email.date),
-                style: TextStyle(
+          } else {
+            // Normal mode, open email
+            onTap();
+          }
+        },
+        onLongPress: () {
+          // Long press to enter selection mode
+          onToggleSelect?.call();
+        },
+        leading: SelectableAvatar(
+          id: email.id,
+          hoveredId: controller.hoveredEmailId,
+          avatar: _buildAvatar(context),
+          isSelected: isSelected,
+          onToggle: _onSelectTap,
+        ),
+        title: Row(
+          children: [
+            if (isUnread) ...[UnreadIndicator(), const SizedBox(width: 8)],
+            Expanded(
+              child: _buildDisplayNameText(
+                TextStyle(
                   color: colorScheme.onSurfaceVariant,
-                  fontSize: 11,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-            ],
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            ),
+            const SizedBox(width: 8),
+            Text(
+              formatDate(context, email.date),
+              style: TextStyle(
+                color: colorScheme.onSurfaceVariant,
+                fontSize: 11,
+              ),
+            ),
+          ],
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              subject,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: colorScheme.onSurface,
+                fontSize: 13,
+                fontWeight: isUnread ? FontWeight.w600 : FontWeight.w500,
+              ),
+            ),
+            if (hasPreview) ...[
+              const SizedBox(height: 2),
               Text(
-                subject,
+                email.preview,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: colorScheme.onSurface,
+                  color: colorScheme.onSurfaceVariant,
                   fontSize: 13,
-                  fontWeight: isUnread ? FontWeight.w600 : FontWeight.w500,
                 ),
               ),
-              if (hasPreview) ...[
-                const SizedBox(height: 2),
-                Text(
-                  email.preview,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: colorScheme.onSurfaceVariant,
-                    fontSize: 13,
-                  ),
-                ),
-              ],
-              if (tagIds.isNotEmpty) ...[
-                const SizedBox(height: 6),
-                TagChips(tagIds: tagIds, maxVisible: 3),
-              ],
-              if (attachments.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                AttachmentsChipsView(attachments: attachments),
-              ],
             ],
-          ),
-          isThreeLine:
-              hasPreview || attachments.isNotEmpty || tagIds.isNotEmpty,
+            if (tagIds.isNotEmpty) ...[
+              const SizedBox(height: 6),
+              TagChips(tagIds: tagIds, maxVisible: 3),
+            ],
+            if (attachments.isNotEmpty) ...[
+              const SizedBox(height: 8),
+              AttachmentsChipsView(attachments: attachments),
+            ],
+          ],
         ),
-      );
-    });
+        isThreeLine: hasPreview || attachments.isNotEmpty || tagIds.isNotEmpty,
+      ),
+    );
   }
 
   Widget _buildAvatar(BuildContext context, {bool compact = false}) {

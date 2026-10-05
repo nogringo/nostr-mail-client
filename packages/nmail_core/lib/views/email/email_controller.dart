@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
@@ -473,7 +472,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   }
 
   bool get isFromMe =>
-      email?.senderPubkey == Get.find<AuthController>().publicKey;
+      email?.senderPubkey == GetIt.I<AuthController>().publicKey;
 
   /// The email leaves the mailbox it is shown from, along with every other
   /// email of its sender: back to that mailbox's list, past a page listing
