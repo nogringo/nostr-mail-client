@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -14,21 +14,22 @@ class NotificationsEnabledTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(
-        () => SwitchListTile(
+      child: ValueListenableBuilder(
+        valueListenable: settings.notificationsEnabled,
+        builder: (context, notificationsEnabled, _) => SwitchListTile(
           tileColor: colorScheme.surfaceContainerHigh,
           shape: segmentedListShape(index: 0, count: 1),
           minTileHeight: 72,
           secondary: const Icon(Icons.notifications_outlined),
           title: Text(l.settingsEnableNotifications),
-          value: settings.notificationsEnabled.value,
+          value: notificationsEnabled,
           onChanged: settings.setNotificationsEnabled,
         ),
       ),

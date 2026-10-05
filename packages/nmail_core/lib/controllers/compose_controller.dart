@@ -167,7 +167,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   void init() {
     _contactsService.loadContacts();
 
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
     final signature = settings.signature(
       AppLocalizations.of(AppRouter.rootContext!),
     );

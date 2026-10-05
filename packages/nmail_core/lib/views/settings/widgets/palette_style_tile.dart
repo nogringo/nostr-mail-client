@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -15,17 +15,16 @@ class PaletteStyleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<SettingsController>();
+    final controller = GetIt.I<SettingsController>();
 
-    return Obx(
-      () => SettingsBlockTile(
+    return ValueListenableBuilder(
+      valueListenable: controller.paletteStyle,
+      builder: (context, paletteStyle, _) => SettingsBlockTile(
         index: index,
         count: count,
         icon: Icons.palette_outlined,
         label: l.settingsPaletteStyle,
-        subtitle: l.settingsPaletteStyleName(
-          controller.paletteStyle.value.name,
-        ),
+        subtitle: l.settingsPaletteStyleName(paletteStyle.name),
         child: const PaletteStylePicker(),
       ),
     );

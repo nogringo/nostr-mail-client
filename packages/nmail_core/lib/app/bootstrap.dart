@@ -143,7 +143,7 @@ Future<void> _initApp({
   );
   GetIt.I.registerSingleton(
     MailDomainService(
-      dohServer: () => Get.find<SettingsController>().dohServer.value,
+      dohServer: () => GetIt.I<SettingsController>().dohServer.value,
     ),
   );
 
@@ -195,13 +195,16 @@ Future<void> _initApp({
 
   // SettingsController is awaited so the saved theme mode and locale are
   // available before the first frame.
-  await Get.putAsync(() => SettingsController().init(), permanent: true);
+  GetIt.I.registerSingleton(
+    await SettingsController().init(),
+    dispose: (controller) => controller.dispose(),
+  );
 
   GetIt.I.registerSingleton(await NotificationService().init());
   GetIt.I.registerSingleton(
     PushRegistrationService(
       languageProvider: () =>
-          Get.find<SettingsController>().notificationLanguageTag,
+          GetIt.I<SettingsController>().notificationLanguageTag,
     ),
     dispose: (service) => service.dispose(),
   );
@@ -237,11 +240,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsController = Get.find<SettingsController>();
+    final settingsController = GetIt.I<SettingsController>();
 
     return ListenableBuilder(
-      listenable: GetIt.I<ThemeService>(),
-      builder: (context, _) => Obx(() {
+      listenable: Listenable.merge([
+        GetIt.I<ThemeService>(),
+        settingsController.locale,
+        settingsController.themeMode,
+      ]),
+      builder: (context, _) {
         final lightScheme = appLightColorScheme();
         final darkScheme = appDarkColorScheme();
 
@@ -316,7 +323,7 @@ class MainApp extends StatelessWidget {
             },
           ),
         );
-      }),
+      },
     );
   }
 }

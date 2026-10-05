@@ -5,7 +5,6 @@ import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
@@ -25,9 +24,7 @@ class CommunityThemeController extends ChangeNotifier {
     required this.identifier,
     this.relays = const [],
   }) {
-    _appliedSubscription = _settings.communityTheme.listen(
-      (_) => notifyListeners(),
-    );
+    _settings.communityTheme.addListener(notifyListeners);
     theme = _browser?.themes.firstWhereOrNull(
       (theme) => theme.address == address,
     );
@@ -50,9 +47,8 @@ class CommunityThemeController extends ChangeNotifier {
 
   bool _revealed = false;
   bool _isDisposed = false;
-  late final StreamSubscription<String?> _appliedSubscription;
 
-  SettingsController get _settings => Get.find<SettingsController>();
+  SettingsController get _settings => GetIt.I<SettingsController>();
 
   String get address => '${CommunityTheme.kind}:$pubkey:$identifier';
 
@@ -74,7 +70,7 @@ class CommunityThemeController extends ChangeNotifier {
   @override
   void dispose() {
     _isDisposed = true;
-    _appliedSubscription.cancel();
+    _settings.communityTheme.removeListener(notifyListeners);
     super.dispose();
   }
 

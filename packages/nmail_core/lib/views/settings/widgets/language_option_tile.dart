@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
@@ -23,39 +23,42 @@ class LanguageOptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final controller = Get.find<SettingsController>();
+    final controller = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(() {
-        final isSelected = controller.locale.value == locale;
-        final isAlone = count == 1;
-        return ListTile(
-          selected: isSelected,
-          tileColor: colorScheme.surfaceContainerHigh,
-          selectedTileColor: colorScheme.secondaryContainer,
-          selectedColor: colorScheme.onSecondaryContainer,
-          shape: isAlone
-              ? const StadiumBorder()
-              : segmentedListShape(
-                  index: index,
-                  count: count,
-                  isSelected: isSelected,
-                ),
-          contentPadding: isAlone
-              ? const EdgeInsets.symmetric(horizontal: 24)
-              : null,
-          minTileHeight: 56,
-          title: Text(label),
-          onTap: () {
-            if (!isSelected) controller.setLocale(locale);
-            Navigator.pop(context);
-          },
-        );
-      }),
+      child: ValueListenableBuilder(
+        valueListenable: controller.locale,
+        builder: (context, current, _) {
+          final isSelected = current == locale;
+          final isAlone = count == 1;
+          return ListTile(
+            selected: isSelected,
+            tileColor: colorScheme.surfaceContainerHigh,
+            selectedTileColor: colorScheme.secondaryContainer,
+            selectedColor: colorScheme.onSecondaryContainer,
+            shape: isAlone
+                ? const StadiumBorder()
+                : segmentedListShape(
+                    index: index,
+                    count: count,
+                    isSelected: isSelected,
+                  ),
+            contentPadding: isAlone
+                ? const EdgeInsets.symmetric(horizontal: 24)
+                : null,
+            minTileHeight: 56,
+            title: Text(label),
+            onTap: () {
+              if (!isSelected) controller.setLocale(locale);
+              Navigator.pop(context);
+            },
+          );
+        },
+      ),
     );
   }
 }

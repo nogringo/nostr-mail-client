@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:rxdart/rxdart.dart' hide Rx;
@@ -451,7 +450,7 @@ class InboxController extends ChangeNotifier with WidgetsBindingObserver {
   /// Spam never notifies, and requests only for the first email of a sender
   /// waiting there (docs/senders-and-spam.md).
   Future<void> _notifyIncomingEmail(Email email) async {
-    if (!Get.find<SettingsController>().notificationsEnabled.value) return;
+    if (!GetIt.I<SettingsController>().notificationsEnabled.value) return;
     if (_lifecycleState == AppLifecycleState.resumed) return;
 
     final startedAt = _watchStartedAt;

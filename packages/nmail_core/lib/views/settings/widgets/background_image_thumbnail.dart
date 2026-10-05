@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../controllers/backgrounds_controller.dart';
@@ -44,13 +43,14 @@ class BackgroundImageThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
 
-    return Obx(
-      () => BackgroundThumbnail(
+    return ValueListenableBuilder(
+      valueListenable: settings.backgroundImage,
+      builder: (context, backgroundImage, _) => BackgroundThumbnail(
         label: l.settingsBackgroundSelectLabel,
         showLabel: false,
-        isSelected: settings.backgroundImage.value == value,
+        isSelected: backgroundImage == value,
         onTap: () => GetIt.I<BackgroundsController>().select(value),
         onLongPress: () => _confirmDelete(context),
         badge: BackgroundRemoveBadge(

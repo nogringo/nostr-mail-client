@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/backgrounds_controller.dart';
@@ -18,14 +17,14 @@ class BackgroundPresetThumbnail extends StatelessWidget {
   Widget build(BuildContext context) {
     final label = preset.localizedName(AppLocalizations.of(context));
     final brightness = Theme.of(context).brightness;
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
     final controller = GetIt.I<BackgroundsController>();
 
-    return Obx(
-      () => BackgroundThumbnail(
+    return ValueListenableBuilder(
+      valueListenable: settings.backgroundImage,
+      builder: (context, backgroundImage, _) => BackgroundThumbnail(
         label: label,
-        isSelected:
-            BackgroundPreset.resolve(settings.backgroundImage.value) == preset,
+        isSelected: BackgroundPreset.resolve(backgroundImage) == preset,
         onTap: () => controller.select(preset.storageValue),
         child: BackgroundPresetVisual(
           variant: preset.variantForBrightness(brightness),

@@ -3,7 +3,6 @@ import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:get_it/get_it.dart';
 import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
@@ -39,7 +38,7 @@ class ShareThemeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  SettingsController get _settings => Get.find<SettingsController>();
+  SettingsController get _settings => GetIt.I<SettingsController>();
 
   Color get _seedColor => brightness == Brightness.dark
       ? _settings.darkSeedColor.value

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../controllers/settings_controller.dart';
 import '../../models/background_preset.dart';
@@ -18,29 +18,32 @@ class DesktopShell extends StatelessWidget {
   const DesktopShell({super.key, required this.body});
 
   Widget _buildBackground(BuildContext context) {
-    return Obx(() {
-      final image = Get.find<SettingsController>().backgroundImage.value;
-      final preset = BackgroundPreset.resolve(image);
+    return ValueListenableBuilder(
+      valueListenable: GetIt.I<SettingsController>().backgroundImage,
+      builder: (context, image, _) {
+        final preset = BackgroundPreset.resolve(image);
 
-      if (preset != null) {
-        return BackgroundPresetVisual(
-          variant: preset.variantForBrightness(Theme.of(context).brightness),
-        );
-      }
+        if (preset != null) {
+          return BackgroundPresetVisual(
+            variant: preset.variantForBrightness(Theme.of(context).brightness),
+          );
+        }
 
-      if (BackgroundPreset.isCustomImageValue(image)) {
-        return Image(
-          image: BackgroundPreset.customImage(image!),
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
-          errorBuilder: (_, _, _) =>
-              Container(color: Theme.of(context).colorScheme.primaryContainer),
-        );
-      }
+        if (BackgroundPreset.isCustomImageValue(image)) {
+          return Image(
+            image: BackgroundPreset.customImage(image!),
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+            errorBuilder: (_, _, _) => Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+            ),
+          );
+        }
 
-      return Container(color: Theme.of(context).colorScheme.primaryContainer);
-    });
+        return Container(color: Theme.of(context).colorScheme.primaryContainer);
+      },
+    );
   }
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
@@ -23,7 +23,7 @@ class AboutController extends ChangeNotifier {
   }
 
   void onVersionTap(BuildContext context) {
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
     if (settings.debugToolsUnlocked.value) return;
     if (++_versionTaps < _tapsToUnlockDebugTools) return;
 

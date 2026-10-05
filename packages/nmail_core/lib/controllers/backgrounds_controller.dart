@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +26,7 @@ class BackgroundsController extends ChangeNotifier {
 
   bool _isDisposed = false;
 
-  SettingsController get _settings => Get.find<SettingsController>();
+  SettingsController get _settings => GetIt.I<SettingsController>();
 
   @override
   void dispose() {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/controllers/share_theme_controller.dart';
@@ -8,7 +8,7 @@ import 'share_theme_dialog.dart';
 
 /// Publishes the look on screen, unless it already is a community theme.
 Future<void> showShareThemeDialog(BuildContext context) async {
-  final applied = Get.find<SettingsController>().communityTheme.value;
+  final applied = GetIt.I<SettingsController>().communityTheme.value;
   if (applied != null) {
     await showDialog<void>(
       context: context,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -15,22 +15,23 @@ class DynamicThemeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final controller = Get.find<SettingsController>();
+    final controller = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(
-        () => SwitchListTile(
+      child: ValueListenableBuilder(
+        valueListenable: controller.dynamicTheme,
+        builder: (context, dynamicTheme, _) => SwitchListTile(
           tileColor: colorScheme.surfaceContainerHigh,
           shape: segmentedListShape(index: index, count: count),
           minTileHeight: 72,
           secondary: const Icon(Icons.auto_awesome_outlined),
           title: Text(l.settingsDynamicTheme),
           subtitle: Text(l.settingsDynamicThemeSubtitle),
-          value: controller.dynamicTheme.value,
+          value: dynamicTheme,
           onChanged: controller.setDynamicTheme,
         ),
       ),

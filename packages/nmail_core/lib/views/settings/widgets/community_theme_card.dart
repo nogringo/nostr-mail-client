@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,15 +21,19 @@ class CommunityThemeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = GetIt.I<CommunityThemesController>();
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     final author = GetIt.I<MetadataService>().of(theme.pubkey);
 
     return ListenableBuilder(
-      listenable: Listenable.merge([controller, author]),
-      builder: (context, _) => Obx(() {
+      listenable: Listenable.merge([
+        controller,
+        author,
+        settings.communityTheme,
+      ]),
+      builder: (context, _) {
         final isSelected = settings.communityTheme.value == theme.address;
         final isHidden = controller.isHidden(theme);
         final imageUrl = theme.backgroundImageUrl;
@@ -104,7 +107,7 @@ class CommunityThemeCard extends StatelessWidget {
             ),
           ),
         );
-      }),
+      },
     );
   }
 }

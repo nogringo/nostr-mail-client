@@ -22,7 +22,7 @@ import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/seed_color_from_image.dart';
 
-class SettingsController extends GetxController {
+class SettingsController {
   final _storageService = GetIt.I<StorageService>();
   final _themeService = GetIt.I<ThemeService>();
   StreamSubscription? _authSubscription;
@@ -35,35 +35,35 @@ class SettingsController extends GetxController {
   static const localeKey = 'locale';
   static const _debugToolsUnlockedKey = 'debug_tools_unlocked';
 
-  final alwaysLoadImages = false.obs;
-  final dohServer = defaultDohServer.obs;
-  final notificationsEnabled = false.obs;
+  final alwaysLoadImages = ValueNotifier(false);
+  final dohServer = ValueNotifier(defaultDohServer);
+  final notificationsEnabled = ValueNotifier(false);
 
   /// Notification setting of every account on this device, keyed by pubkey.
   /// [notificationsEnabled] mirrors the active account's entry.
-  final notificationsByAccount = <String, bool>{}.obs;
+  final notificationsByAccount = ValueNotifier<Map<String, bool>>(const {});
 
   /// Null until the user writes one: [signature] then shows the default.
-  final emailSignature = RxnString();
-  final backgroundImage = Rxn<String>();
-  final themeMode = ThemeMode.system.obs;
-  final locale = Rxn<Locale>();
-  final dynamicTheme = true.obs;
+  final emailSignature = ValueNotifier<String?>(null);
+  final backgroundImage = ValueNotifier<String?>(null);
+  final themeMode = ValueNotifier(ThemeMode.system);
+  final locale = ValueNotifier<Locale?>(null);
+  final dynamicTheme = ValueNotifier(true);
 
   /// `#RRGGBB` seeding the theme while [dynamicTheme] is off, or null for the
   /// system accent color.
-  final themeColor = RxnString();
+  final themeColor = ValueNotifier<String?>(null);
 
   /// A color from outside the suggested palette, kept while another one is
   /// selected.
-  final customThemeColor = RxnString();
-  final paletteStyle = DynamicSchemeVariant.tonalSpot.obs;
+  final customThemeColor = ValueNotifier<String?>(null);
+  final paletteStyle = ValueNotifier(DynamicSchemeVariant.tonalSpot);
 
   /// Address of the applied community theme, until a theme setting changes.
-  final communityTheme = RxnString();
-  final lightSeedColor = SystemTheme.accentColor.accent.obs;
-  final darkSeedColor = SystemTheme.accentColor.accent.obs;
-  final debugToolsUnlocked = false.obs;
+  final communityTheme = ValueNotifier<String?>(null);
+  final lightSeedColor = ValueNotifier(SystemTheme.accentColor.accent);
+  final darkSeedColor = ValueNotifier(SystemTheme.accentColor.accent);
+  final debugToolsUnlocked = ValueNotifier(false);
 
   NostrMailService get _nostrMailService => GetIt.I<NostrMailService>();
 
@@ -81,29 +81,39 @@ class SettingsController extends GetxController {
     ).toLanguageTag();
   }
 
-  /// Awaitable initialisation. Call this once via `Get.putAsync` before
-  /// `runApp` so the first frame already has the saved theme mode and locale -
-  /// otherwise MaterialApp would briefly render with the defaults before
-  /// `_loadSettings` finishes.
+  /// Awaitable initialisation. Call this once before `runApp` so the first
+  /// frame already has the saved theme mode and locale: otherwise MaterialApp
+  /// would briefly render with the defaults before `_loadSettings` finishes.
   Future<SettingsController> init() async {
     await _loadSettings();
-    return this;
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    // _loadSettings ran in init() above; here we only wire the auth listener
-    // so settings refresh on login/logout.
     _authSubscription = GetIt.I<Ndk>().accounts.authStateChanges.listen(
       (_) => _loadSettings(),
     );
+    return this;
   }
 
-  @override
-  void onClose() {
+  void dispose() {
     _authSubscription?.cancel();
-    super.onClose();
+    for (final notifier in <ChangeNotifier>[
+      alwaysLoadImages,
+      dohServer,
+      notificationsEnabled,
+      notificationsByAccount,
+      emailSignature,
+      backgroundImage,
+      themeMode,
+      locale,
+      dynamicTheme,
+      themeColor,
+      customThemeColor,
+      paletteStyle,
+      communityTheme,
+      lightSeedColor,
+      darkSeedColor,
+      debugToolsUnlocked,
+    ]) {
+      notifier.dispose();
+    }
   }
 
   Future<void> _loadSettings() async {
@@ -257,7 +267,10 @@ class SettingsController extends GetxController {
       }
     }
 
-    notificationsByAccount[pubkey] = value;
+    notificationsByAccount.value = {
+      ...notificationsByAccount.value,
+      pubkey: value,
+    };
     if (pubkey == _pubkey) notificationsEnabled.value = value;
 
     if (GetIt.I.isRegistered<PushSubscriptionService>()) {
@@ -531,7 +544,7 @@ class SettingsController extends GetxController {
     alwaysLoadImages.value = false;
     dohServer.value = defaultDohServer;
     notificationsEnabled.value = false;
-    notificationsByAccount.clear();
+    notificationsByAccount.value = const {};
     emailSignature.value = null;
     backgroundImage.value = null;
     themeMode.value = ThemeMode.system;

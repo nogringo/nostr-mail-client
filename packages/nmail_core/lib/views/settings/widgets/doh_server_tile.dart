@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -13,21 +13,22 @@ class DohServerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(
-        () => ListTile(
+      child: ValueListenableBuilder(
+        valueListenable: settings.dohServer,
+        builder: (context, dohServer, _) => ListTile(
           tileColor: colorScheme.surfaceContainerHigh,
           shape: segmentedListShape(index: 2, count: 3),
           minTileHeight: 72,
           leading: const Icon(Icons.dns_outlined),
           title: Text(l.settingsDohServer),
-          subtitle: Text(settings.dohServer.value),
+          subtitle: Text(dohServer),
           trailing: const Icon(Icons.edit_outlined),
           onTap: () => _edit(context, settings),
         ),

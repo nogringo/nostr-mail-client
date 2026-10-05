@@ -73,7 +73,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   final Map<String, Future<Uint8List?>> _thumbnailLoads = {};
 
   EmailController({required this.eventReference, this.mailbox}) {
-    _showImages = Get.find<SettingsController>().alwaysLoadImages.value;
+    _showImages = GetIt.I<SettingsController>().alwaysLoadImages.value;
     loadEmail();
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -18,12 +19,12 @@ class AccountSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final auth = Get.find<AuthController>();
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
     final nsec = auth.getNsec();
 
-    return Obx(() {
-      final debugToolsUnlocked = settings.debugToolsUnlocked.value;
-      return SettingsGroup(
+    return ValueListenableBuilder(
+      valueListenable: settings.debugToolsUnlocked,
+      builder: (context, debugToolsUnlocked, _) => SettingsGroup(
         rows: [
           (index, count) => Obx(() {
             final total = auth.accountPubkeys.length;
@@ -48,7 +49,7 @@ class AccountSection extends StatelessWidget {
               onTap: () => context.go(AppRoutes.settingsDebugTools),
             ),
         ],
-      );
-    });
+      ),
+    );
   }
 }

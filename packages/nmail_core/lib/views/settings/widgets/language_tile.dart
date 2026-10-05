@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -17,28 +17,32 @@ class LanguageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final controller = Get.find<SettingsController>();
+    final controller = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(() {
-        final current = controller.locale.value;
-        return ListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: index, count: count),
-          minTileHeight: 72,
-          leading: const Icon(Icons.translate),
-          title: Text(l.settingsLanguage),
-          subtitle: Text(
-            current == null ? l.settingsLanguageSystem : languageName(current),
-          ),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => showLanguagePicker(context),
-        );
-      }),
+      child: ValueListenableBuilder(
+        valueListenable: controller.locale,
+        builder: (context, current, _) {
+          return ListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: index, count: count),
+            minTileHeight: 72,
+            leading: const Icon(Icons.translate),
+            title: Text(l.settingsLanguage),
+            subtitle: Text(
+              current == null
+                  ? l.settingsLanguageSystem
+                  : languageName(current),
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => showLanguagePicker(context),
+          );
+        },
+      ),
     );
   }
 }

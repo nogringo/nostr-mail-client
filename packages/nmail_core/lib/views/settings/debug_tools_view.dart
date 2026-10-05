@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../controllers/debug_tools_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
@@ -13,7 +13,7 @@ class DebugToolsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
 
     return ControllerBuilder(
       create: DebugToolsController.new,

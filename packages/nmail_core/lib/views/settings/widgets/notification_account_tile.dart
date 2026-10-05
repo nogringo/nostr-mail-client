@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
@@ -21,21 +21,22 @@ class NotificationAccountTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(
-        () => SwitchListTile(
+      child: ValueListenableBuilder(
+        valueListenable: settings.notificationsByAccount,
+        builder: (context, byAccount, _) => SwitchListTile(
           tileColor: colorScheme.surfaceContainerHigh,
           shape: segmentedListShape(index: index, count: count),
           minTileHeight: 72,
           secondary: NostrAvatar(pubkey: pubkey),
           title: NostrDisplayName(pubkey: pubkey),
-          value: settings.notificationsByAccount[pubkey] ?? false,
+          value: byAccount[pubkey] ?? false,
           onChanged: (value) =>
               settings.setNotificationsEnabledFor(pubkey, value),
         ),

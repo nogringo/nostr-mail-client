@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -13,28 +13,31 @@ class EmailSignatureTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(() {
-        final signature = settings.signature(l);
-        return ListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: 0, count: 3),
-          minTileHeight: 72,
-          leading: const Icon(Icons.edit_note),
-          title: Text(l.settingsEmailSignature),
-          subtitle: Text(
-            signature.isEmpty ? l.settingsEmailSignatureEmpty : signature,
-          ),
-          trailing: const Icon(Icons.edit_outlined),
-          onTap: () => _edit(context, settings),
-        );
-      }),
+      child: ListenableBuilder(
+        listenable: settings.emailSignature,
+        builder: (context, _) {
+          final signature = settings.signature(l);
+          return ListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: 0, count: 3),
+            minTileHeight: 72,
+            leading: const Icon(Icons.edit_note),
+            title: Text(l.settingsEmailSignature),
+            subtitle: Text(
+              signature.isEmpty ? l.settingsEmailSignatureEmpty : signature,
+            ),
+            trailing: const Icon(Icons.edit_outlined),
+            onTap: () => _edit(context, settings),
+          );
+        },
+      ),
     );
   }
 

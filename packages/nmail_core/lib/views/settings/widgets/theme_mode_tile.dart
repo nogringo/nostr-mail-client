@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -23,39 +23,42 @@ class ThemeModeTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final controller = Get.find<SettingsController>();
+    final controller = GetIt.I<SettingsController>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: Obx(() {
-        final isSelected = controller.themeMode.value == mode;
-        return ListTile(
-          selected: isSelected,
-          tileColor: colorScheme.surfaceContainerHigh,
-          selectedTileColor: colorScheme.secondaryContainer,
-          selectedColor: colorScheme.onSecondaryContainer,
-          shape: segmentedListShape(
-            index: index,
-            count: count,
-            isSelected: isSelected,
-          ),
-          minTileHeight: 56,
-          leading: Icon(switch (mode) {
-            ThemeMode.system => Icons.brightness_auto,
-            ThemeMode.light => Icons.light_mode,
-            ThemeMode.dark => Icons.dark_mode,
-          }),
-          title: Text(switch (mode) {
-            ThemeMode.system => l.settingsThemeAuto,
-            ThemeMode.light => l.settingsThemeLight,
-            ThemeMode.dark => l.settingsThemeDark,
-          }),
-          onTap: isSelected ? null : () => controller.setThemeMode(mode),
-        );
-      }),
+      child: ValueListenableBuilder(
+        valueListenable: controller.themeMode,
+        builder: (context, themeMode, _) {
+          final isSelected = themeMode == mode;
+          return ListTile(
+            selected: isSelected,
+            tileColor: colorScheme.surfaceContainerHigh,
+            selectedTileColor: colorScheme.secondaryContainer,
+            selectedColor: colorScheme.onSecondaryContainer,
+            shape: segmentedListShape(
+              index: index,
+              count: count,
+              isSelected: isSelected,
+            ),
+            minTileHeight: 56,
+            leading: Icon(switch (mode) {
+              ThemeMode.system => Icons.brightness_auto,
+              ThemeMode.light => Icons.light_mode,
+              ThemeMode.dark => Icons.dark_mode,
+            }),
+            title: Text(switch (mode) {
+              ThemeMode.system => l.settingsThemeAuto,
+              ThemeMode.light => l.settingsThemeLight,
+              ThemeMode.dark => l.settingsThemeDark,
+            }),
+            onTap: isSelected ? null : () => controller.setThemeMode(mode),
+          );
+        },
+      ),
     );
   }
 }

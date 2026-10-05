@@ -169,7 +169,7 @@ class AuthController extends GetxController {
     // authStateChanges fires before the client is attached to the new account,
     // so SettingsController's listener can't read the synced signature yet.
     // Now that the private-settings cache is primed, pull it into the Rx.
-    await Get.find<SettingsController>().reloadSyncedSettings();
+    await GetIt.I<SettingsController>().reloadSyncedSettings();
     final pubkey = publicKey;
     if (pubkey != null && GetIt.I.isRegistered<PushSubscriptionService>()) {
       await GetIt.I<PushSubscriptionService>().refreshAccount(pubkey);
@@ -352,7 +352,7 @@ class AuthController extends GetxController {
 
       // Not awaited: the cached signature lands before the first await inside,
       // and the relay refresh behind it is best-effort.
-      unawaited(Get.find<SettingsController>().reloadSyncedSettings());
+      unawaited(GetIt.I<SettingsController>().reloadSyncedSettings());
 
       // Catches up on a push transport that changed while this account was in
       // the background.
@@ -500,7 +500,7 @@ class AuthController extends GetxController {
       }
       if (fallbackPubkey != null && fallbackHasRelayList) {
         await _nostrMailService.activateForCurrentAccount();
-        unawaited(Get.find<SettingsController>().reloadSyncedSettings());
+        unawaited(GetIt.I<SettingsController>().reloadSyncedSettings());
         if (GetIt.I.isRegistered<PushSubscriptionService>()) {
           unawaited(
             GetIt.I<PushSubscriptionService>().refreshAccount(fallbackPubkey),

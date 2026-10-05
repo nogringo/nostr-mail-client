@@ -1,6 +1,5 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
@@ -167,7 +166,7 @@ class DebugToolsController extends ChangeNotifier {
   }
 
   Future<void> hideDebugTools(BuildContext context) async {
-    await Get.find<SettingsController>().lockDebugTools();
+    await GetIt.I<SettingsController>().lockDebugTools();
     if (context.mounted) context.go(AppRoutes.settings);
   }
 

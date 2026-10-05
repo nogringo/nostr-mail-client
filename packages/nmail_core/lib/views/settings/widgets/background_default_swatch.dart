@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:system_theme/system_theme.dart';
 
@@ -15,25 +14,31 @@ class BackgroundDefaultSwatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final settings = Get.find<SettingsController>();
+    final settings = GetIt.I<SettingsController>();
 
     final brightness = Theme.of(context).brightness;
 
-    return Obx(() {
-      final current = settings.backgroundImage.value;
-      final systemScheme = ColorScheme.fromSeed(
-        seedColor: SystemTheme.accentColor.accent,
-        brightness: brightness,
-        dynamicSchemeVariant: settings.paletteStyle.value,
-      );
-      return BackgroundThumbnail(
-        label: l.settingsBackgroundDefaultLabel,
-        isSelected: BackgroundPreset.isSystemColorValue(current),
-        onTap: () => GetIt.I<BackgroundsController>().select(
-          BackgroundPreset.systemColorStorageValue,
-        ),
-        child: ColoredBox(color: systemScheme.primaryContainer),
-      );
-    });
+    return ListenableBuilder(
+      listenable: Listenable.merge([
+        settings.backgroundImage,
+        settings.paletteStyle,
+      ]),
+      builder: (context, _) {
+        final current = settings.backgroundImage.value;
+        final systemScheme = ColorScheme.fromSeed(
+          seedColor: SystemTheme.accentColor.accent,
+          brightness: brightness,
+          dynamicSchemeVariant: settings.paletteStyle.value,
+        );
+        return BackgroundThumbnail(
+          label: l.settingsBackgroundDefaultLabel,
+          isSelected: BackgroundPreset.isSystemColorValue(current),
+          onTap: () => GetIt.I<BackgroundsController>().select(
+            BackgroundPreset.systemColorStorageValue,
+          ),
+          child: ColoredBox(color: systemScheme.primaryContainer),
+        );
+      },
+    );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/settings_controller.dart';
 import 'background_tile.dart';
@@ -13,14 +13,15 @@ class BackgroundSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<SettingsController>();
+    final controller = GetIt.I<SettingsController>();
 
-    return Obx(
-      () => SettingsGroup(
+    return ValueListenableBuilder(
+      valueListenable: controller.dynamicTheme,
+      builder: (context, dynamicTheme, _) => SettingsGroup(
         rows: [
           (index, count) => BackgroundTile(index: index, count: count),
           (index, count) => DynamicThemeTile(index: index, count: count),
-          if (!controller.dynamicTheme.value)
+          if (!dynamicTheme)
             (index, count) => ThemeColorTile(index: index, count: count),
           (index, count) => PaletteStyleTile(index: index, count: count),
         ],

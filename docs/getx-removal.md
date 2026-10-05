@@ -131,7 +131,7 @@ Registered in `runNmailApp()` or `InitialBinding`:
 - [x] `NotificationService`
 - [x] `PushRegistrationService`
 - [x] `PushSubscriptionService`
-- [ ] `SettingsController`
+- [x] `SettingsController`
 - [x] `StorageService`
 - [x] `ThemeService`
 

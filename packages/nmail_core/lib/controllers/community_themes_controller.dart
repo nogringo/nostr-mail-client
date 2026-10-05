@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
@@ -61,7 +60,7 @@ class CommunityThemesController extends ChangeNotifier {
   static bool startsHidden(CommunityTheme theme) =>
       theme.contentWarning != null &&
       theme.pubkey != GetIt.I<Ndk>().accounts.getPublicKey() &&
-      theme.address != Get.find<SettingsController>().communityTheme.value;
+      theme.address != GetIt.I<SettingsController>().communityTheme.value;
 
   void reveal(CommunityTheme theme) {
     _revealed.add(theme.address);

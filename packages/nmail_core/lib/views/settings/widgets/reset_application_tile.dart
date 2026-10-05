@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -47,7 +47,7 @@ class ResetApplicationTile extends StatelessWidget {
       builder: (_) => const ResettingDialog(),
     );
     try {
-      await Get.find<SettingsController>().resetApplication();
+      await GetIt.I<SettingsController>().resetApplication();
     } catch (e) {
       // The tile may be gone: the reset leaves for the login screen.
       if (navigator.mounted) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -12,20 +12,22 @@ class PaletteStylePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final brightness = Theme.of(context).brightness;
-    final controller = Get.find<SettingsController>();
+    final controller = GetIt.I<SettingsController>();
 
-    return Obx(() {
-      final seed = brightness == Brightness.dark
-          ? controller.darkSeedColor.value
-          : controller.lightSeedColor.value;
-      return Wrap(
+    final seedColor = brightness == Brightness.dark
+        ? controller.darkSeedColor
+        : controller.lightSeedColor;
+
+    return ListenableBuilder(
+      listenable: Listenable.merge([seedColor, controller.paletteStyle]),
+      builder: (context, _) => Wrap(
         spacing: 8,
         runSpacing: 8,
         children: [
           for (final style in DynamicSchemeVariant.values)
             PaletteStyleSwatch(
               scheme: ColorScheme.fromSeed(
-                seedColor: seed,
+                seedColor: seedColor.value,
                 brightness: brightness,
                 dynamicSchemeVariant: style,
               ),
@@ -34,7 +36,7 @@ class PaletteStylePicker extends StatelessWidget {
               onTap: () => controller.setPaletteStyle(style),
             ),
         ],
-      );
-    });
+      ),
+    );
   }
 }
