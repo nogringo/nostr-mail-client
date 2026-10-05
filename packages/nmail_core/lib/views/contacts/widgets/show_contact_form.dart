@@ -20,8 +20,8 @@ Future<void> showContactForm(
   }
 
   // Mobile: a full-screen go_router route (ContactFormPage owns its
-  // controller via GetBuilder). Desktop: a centered dialog whose controller
-  // is created and disposed locally here.
+  // controller via ControllerBuilder). Desktop: a centered dialog whose
+  // controller is created and disposed locally here.
   if (!ResponsiveHelper.isNotMobile(context)) {
     await context.push<void>(
       AppRoutes.contactForm,
@@ -30,10 +30,9 @@ Future<void> showContactForm(
     return;
   }
 
-  final tag = UniqueKey().toString();
-  final controller = Get.put(
-    ContactFormController(contact: contact, initialForm: initialForm),
-    tag: tag,
+  final controller = ContactFormController(
+    contact: contact,
+    initialForm: initialForm,
   );
   ModalRoute<Object?>? route;
   try {
@@ -55,9 +54,9 @@ Future<void> showContactForm(
     // controllers are disposed once the route is gone, not on pop.
     final shown = route;
     if (shown == null) {
-      Get.delete<ContactFormController>(tag: tag);
+      controller.dispose();
     } else {
-      shown.completed.then((_) => Get.delete<ContactFormController>(tag: tag));
+      shown.completed.then((_) => controller.dispose());
     }
   }
 }

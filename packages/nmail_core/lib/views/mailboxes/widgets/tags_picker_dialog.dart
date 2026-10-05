@@ -49,8 +49,9 @@ class TagsPickerDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           child: Text(l.actionCancel),
         ),
-        Obx(
-          () => FilledButton(
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => FilledButton(
             onPressed: controller.hasChanges
                 ? () => Navigator.pop(context, controller.changes)
                 : null,

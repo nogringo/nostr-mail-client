@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/mail_entry_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -21,8 +20,9 @@ class EntryAttachmentFilter extends StatelessWidget {
           l.mailboxRuleAttachment,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
-        Obx(
-          () => SegmentedButton<bool?>(
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => SegmentedButton<bool?>(
             showSelectedIcon: false,
             segments: [
               ButtonSegment(
@@ -38,9 +38,9 @@ class EntryAttachmentFilter extends StatelessWidget {
                 label: Text(l.mailboxRuleWithoutAttachment),
               ),
             ],
-            selected: {controller.hasAttachment.value},
+            selected: {controller.hasAttachment},
             onSelectionChanged: (selection) =>
-                controller.hasAttachment.value = selection.single,
+                controller.hasAttachment = selection.single,
           ),
         ),
       ],

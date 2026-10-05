@@ -17,10 +17,8 @@ Future<void> showShareThemeDialog(BuildContext context) async {
     return;
   }
 
-  final tag = UniqueKey().toString();
-  final controller = Get.put(
-    ShareThemeController(brightness: Theme.of(context).brightness),
-    tag: tag,
+  final controller = ShareThemeController(
+    brightness: Theme.of(context).brightness,
   );
   ModalRoute<Object?>? route;
   try {
@@ -36,9 +34,9 @@ Future<void> showShareThemeDialog(BuildContext context) async {
     // controller is disposed once the route is gone, not on pop.
     final shown = route;
     if (shown == null) {
-      Get.delete<ShareThemeController>(tag: tag);
+      controller.dispose();
     } else {
-      shown.completed.then((_) => Get.delete<ShareThemeController>(tag: tag));
+      shown.completed.then((_) => controller.dispose());
     }
   }
 }

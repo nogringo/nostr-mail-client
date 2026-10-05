@@ -18,16 +18,26 @@ import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/widgets/background_preset_visual.dart';
 
 /// Publishes the current appearance as a community theme.
-class ShareThemeController extends GetxController {
-  ShareThemeController({required this.brightness});
+class ShareThemeController extends ChangeNotifier {
+  ShareThemeController({required this.brightness}) {
+    titleController.addListener(notifyListeners);
+  }
 
   /// The scheme on screen, the only one a theme can carry.
   final Brightness brightness;
 
   final titleController = TextEditingController();
-  final title = ''.obs;
-  final isNsfw = false.obs;
-  final isPublishing = false.obs;
+  bool isPublishing = false;
+  bool _isNsfw = false;
+  bool _isDisposed = false;
+
+  String get title => titleController.text.trim();
+
+  bool get isNsfw => _isNsfw;
+  set isNsfw(bool value) {
+    _isNsfw = value;
+    notifyListeners();
+  }
 
   SettingsController get _settings => Get.find<SettingsController>();
 
@@ -58,22 +68,16 @@ class ShareThemeController extends GetxController {
   bool get hasBackgroundImage => presetVariant != null || customImage != null;
 
   @override
-  void onInit() {
-    super.onInit();
-    titleController.addListener(
-      () => title.value = titleController.text.trim(),
-    );
-  }
-
-  @override
-  void onClose() {
+  void dispose() {
+    _isDisposed = true;
     titleController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   /// Throws when the background upload or the signature fails.
   Future<void> publish() async {
-    isPublishing.value = true;
+    isPublishing = true;
+    notifyListeners();
     try {
       final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
@@ -81,13 +85,13 @@ class ShareThemeController extends GetxController {
         pubKey: account.pubkey,
         kind: CommunityTheme.kind,
         tags: CommunityTheme.eventTags(
-          identifier: CommunityTheme.newIdentifier(title.value),
-          title: title.value,
+          identifier: CommunityTheme.newIdentifier(title),
+          title: title,
           seedColor: _seedColor,
           variant: _settings.paletteStyle.value,
           brightness: brightness,
           image: await _uploadBackground(),
-          contentWarning: isNsfw.value ? 'NSFW' : null,
+          contentWarning: _isNsfw ? 'NSFW' : null,
         ),
         content: '',
       );
@@ -107,7 +111,10 @@ class ShareThemeController extends GetxController {
       GetIt.I<CommunityThemesController>().showPublished(theme);
       await _settings.markCommunityTheme(theme.address);
     } finally {
-      if (!isClosed) isPublishing.value = false;
+      if (!_isDisposed) {
+        isPublishing = false;
+        notifyListeners();
+      }
     }
   }
 

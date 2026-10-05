@@ -1,52 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'mailboxes_controller.dart';
 
-class CustomColorController extends GetxController {
+class CustomColorController extends ChangeNotifier {
   final Color initial;
 
-  CustomColorController(this.initial);
+  CustomColorController(this.initial)
+    : hexController = TextEditingController(text: _digits(initial)),
+      hue = HSVColor.fromColor(initial).hue,
+      color = initial;
 
-  late final TextEditingController hexController;
-  final hue = 0.0.obs;
+  final TextEditingController hexController;
+  double hue;
 
   /// Null while the typed code is not a color.
-  final color = Rxn<Color>();
+  Color? color;
 
   static Color colorAtHue(double hue) =>
       HSVColor.fromAHSV(1, hue, 0.75, 0.85).toColor();
 
   @override
-  void onInit() {
-    super.onInit();
-    hexController = TextEditingController(text: _digits(initial));
-    color.value = initial;
-    hue.value = HSVColor.fromColor(initial).hue;
-  }
-
-  @override
-  void onClose() {
+  void dispose() {
     hexController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   void setHue(double value) {
     final next = colorAtHue(value);
-    hue.value = value;
-    color.value = next;
+    hue = value;
+    color = next;
     hexController.text = _digits(next);
+    notifyListeners();
   }
 
   void setHexDigits(String digits) {
     final parsed = MailboxesController.parseEntryColor('#$digits');
-    color.value = parsed;
-    if (parsed != null) hue.value = HSVColor.fromColor(parsed).hue;
+    color = parsed;
+    if (parsed != null) hue = HSVColor.fromColor(parsed).hue;
+    notifyListeners();
   }
 
   /// `#RRGGBB`, or null while the typed code is not a color.
   String? get result {
-    final color = this.color.value;
+    final color = this.color;
     return color == null ? null : MailboxesController.formatEntryColor(color);
   }
 

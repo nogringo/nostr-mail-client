@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/controllers/mail_entry_form_controller.dart';
@@ -15,11 +14,7 @@ Future<MailEntry?> showMailEntryForm(
   required MailEntryKind kind,
   MailEntry? entry,
 }) async {
-  final tag = UniqueKey().toString();
-  final controller = Get.put(
-    MailEntryFormController(kind: kind, entry: entry),
-    tag: tag,
-  );
+  final controller = MailEntryFormController(kind: kind, entry: entry);
   ModalRoute<Object?>? route;
   try {
     return await showDialog<MailEntry>(
@@ -44,11 +39,9 @@ Future<MailEntry?> showMailEntryForm(
     // controllers are disposed once the route is gone, not on pop.
     final shown = route;
     if (shown == null) {
-      Get.delete<MailEntryFormController>(tag: tag);
+      controller.dispose();
     } else {
-      shown.completed.then(
-        (_) => Get.delete<MailEntryFormController>(tag: tag),
-      );
+      shown.completed.then((_) => controller.dispose());
     }
   }
 }

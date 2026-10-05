@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/mail_entry_form_controller.dart';
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
@@ -21,35 +20,38 @@ class EntryColorPicker extends StatelessWidget {
       spacing: 12,
       children: [
         Text(l.mailboxColor, style: Theme.of(context).textTheme.titleSmall),
-        Obx(() {
-          final custom = controller.customColor.value;
-          return Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              EntryColorSwatch(
-                color: null,
-                label: l.mailboxColorAuto,
-                selected: controller.color.value == null,
-                onTap: () => controller.color.value = null,
-              ),
-              for (final MapEntry(key: hex, value: name) in palette.entries)
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
+            final custom = controller.customColor;
+            return Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
                 EntryColorSwatch(
-                  color: MailboxesController.parseEntryColor(hex),
-                  label: l.colorName(name),
-                  selected: controller.color.value?.toUpperCase() == hex,
-                  onTap: () => controller.color.value = hex,
+                  color: null,
+                  label: l.mailboxColorAuto,
+                  selected: controller.color == null,
+                  onTap: () => controller.color = null,
                 ),
-              if (custom != null)
-                EntryColorSwatch(
-                  color: MailboxesController.parseEntryColor(custom),
-                  label: l.mailboxColorCustom,
-                  selected: controller.color.value == custom,
-                  onTap: () => controller.color.value = custom,
-                ),
-            ],
-          );
-        }),
+                for (final MapEntry(key: hex, value: name) in palette.entries)
+                  EntryColorSwatch(
+                    color: MailboxesController.parseEntryColor(hex),
+                    label: l.colorName(name),
+                    selected: controller.color?.toUpperCase() == hex,
+                    onTap: () => controller.color = hex,
+                  ),
+                if (custom != null)
+                  EntryColorSwatch(
+                    color: MailboxesController.parseEntryColor(custom),
+                    label: l.mailboxColorCustom,
+                    selected: controller.color == custom,
+                    onTap: () => controller.color = custom,
+                  ),
+              ],
+            );
+          },
+        ),
         TextButton.icon(
           icon: const Icon(Icons.palette_outlined),
           label: Text(l.mailboxColorCustom),

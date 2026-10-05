@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/custom_color_controller.dart';
 import 'custom_color_dialog.dart';
@@ -9,8 +8,7 @@ Future<String?> showCustomColorDialog(
   BuildContext context, {
   required Color initial,
 }) async {
-  final tag = UniqueKey().toString();
-  final controller = Get.put(CustomColorController(initial), tag: tag);
+  final controller = CustomColorController(initial);
   ModalRoute<Object?>? route;
   try {
     return await showDialog<String>(
@@ -24,9 +22,9 @@ Future<String?> showCustomColorDialog(
     // See showMailEntryForm: the hex field outlives the pop.
     final shown = route;
     if (shown == null) {
-      Get.delete<CustomColorController>(tag: tag);
+      controller.dispose();
     } else {
-      shown.completed.then((_) => Get.delete<CustomColorController>(tag: tag));
+      shown.completed.then((_) => controller.dispose());
     }
   }
 }

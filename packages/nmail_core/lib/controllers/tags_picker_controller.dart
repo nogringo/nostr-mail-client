@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
@@ -5,19 +6,10 @@ import 'mailboxes_controller.dart';
 
 typedef TagChanges = ({Set<String> add, Set<String> remove});
 
-class TagsPickerController extends GetxController {
+class TagsPickerController extends ChangeNotifier {
   final List<EmailSummary> emails;
 
-  TagsPickerController(this.emails);
-
-  /// Per tag id: true when every email has it, false when none does, null
-  /// when only some do.
-  final states = <String, bool?>{}.obs;
-  final Map<String, bool?> _initial = {};
-
-  @override
-  void onInit() {
-    super.onInit();
+  TagsPickerController(this.emails) {
     for (final tag in Get.find<MailboxesController>().tags) {
       final holding = emails.where((e) => e.tags.contains(tag.id)).length;
       _initial[tag.id] = holding == 0
@@ -26,10 +18,13 @@ class TagsPickerController extends GetxController {
           ? true
           : null;
     }
-    // A copy: assignAll keeps the map it is given, and toggling would then
-    // rewrite the initial state it is compared against.
-    states.assignAll(Map.of(_initial));
+    states.addAll(_initial);
   }
+
+  /// Per tag id: true when every email has it, false when none does, null
+  /// when only some do.
+  final Map<String, bool?> states = {};
+  final Map<String, bool?> _initial = {};
 
   bool? stateOf(String tagId) =>
       states.containsKey(tagId) ? states[tagId] : false;
@@ -40,9 +35,15 @@ class TagsPickerController extends GetxController {
     (e) => e.tags.contains(tagId) && !e.labels.contains('tag:$tagId'),
   );
 
-  void toggle(String tagId) => states[tagId] = stateOf(tagId) != true;
+  void toggle(String tagId) {
+    states[tagId] = stateOf(tagId) != true;
+    notifyListeners();
+  }
 
-  void check(String tagId) => states[tagId] = true;
+  void check(String tagId) {
+    states[tagId] = true;
+    notifyListeners();
+  }
 
   TagChanges get changes => (
     add: {

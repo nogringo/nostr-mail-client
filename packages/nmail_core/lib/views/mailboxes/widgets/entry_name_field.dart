@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/mail_entry_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -17,8 +16,9 @@ class EntryNameField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return Obx(
-      () => TextField(
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => TextField(
         controller: controller.nameController,
         autofocus: !controller.isEditing,
         maxLength: MailEntryFormController.maxNameLength,
@@ -26,7 +26,7 @@ class EntryNameField extends StatelessWidget {
         onSubmitted: (_) => onSubmitted(),
         decoration: InputDecoration(
           labelText: l.mailboxName,
-          errorText: controller.error.value == MailEntryFormError.nameTaken
+          errorText: controller.error == MailEntryFormError.nameTaken
               ? l.mailboxNameTaken
               : null,
         ),

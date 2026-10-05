@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/mail_entry_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -20,11 +19,12 @@ class MailEntryFormPage extends StatelessWidget {
       appBar: AppBar(
         // AppBar only centers a leading that is itself an IconButton.
         leading: Center(
-          child: Obx(
-            () => IconButton(
+          child: ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) => IconButton(
               icon: const Icon(Icons.close),
               tooltip: MaterialLocalizations.of(context).closeButtonTooltip,
-              onPressed: controller.isSaving.value
+              onPressed: controller.isSaving
                   ? null
                   : () => Navigator.pop(context),
             ),
@@ -33,9 +33,10 @@ class MailEntryFormPage extends StatelessWidget {
         title: Text(mailEntryFormTitle(l, controller)),
         actionsPadding: const EdgeInsets.only(right: 8),
         actions: [
-          Obx(
-            () => FilledButton(
-              onPressed: controller.isSaving.value || !controller.canSave.value
+          ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) => FilledButton(
+              onPressed: controller.isSaving || !controller.canSave
                   ? null
                   : () => _save(context),
               child: Text(l.actionSave),

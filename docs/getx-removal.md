@@ -87,11 +87,11 @@ Created by `GetBuilder(init: ...)` or by a view:
 
 Created in a `show...` helper:
 
-- [ ] `ContactFormController`
-- [ ] `CustomColorController`
-- [ ] `MailEntryFormController`
-- [ ] `ShareThemeController`
-- [ ] `TagsPickerController`
+- [x] `ContactFormController`
+- [x] `CustomColorController`
+- [x] `MailEntryFormController`
+- [x] `ShareThemeController`
+- [x] `TagsPickerController`
 
 ### 4. Route controllers
 

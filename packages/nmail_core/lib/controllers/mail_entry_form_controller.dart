@@ -9,13 +9,26 @@ import 'mailboxes_controller.dart';
 
 enum MailEntryFormError { nameTaken, saveFailed }
 
-class MailEntryFormController extends GetxController {
+class MailEntryFormController extends ChangeNotifier {
   final MailEntryKind kind;
 
   /// The entry being edited, null when creating one.
   final MailEntry? entry;
 
-  MailEntryFormController({required this.kind, this.entry});
+  MailEntryFormController({required this.kind, this.entry}) {
+    final match = entry?.match;
+    nameController = TextEditingController(text: entry?.name ?? '');
+    fromController = TextEditingController(text: formatMatchList(match?.from));
+    subjectController = TextEditingController(
+      text: formatMatchList(match?.subject),
+    );
+    _color = entry?.color;
+    if (_isCustom(entry?.color)) customColor = entry?.color;
+    _hasAttachment = match?.hasAttachment;
+    _rulesExpanded = match != null;
+    nameController.addListener(_onNameChanged);
+    _onNameChanged();
+  }
 
   /// The spec's limit on a trimmed name.
   static const maxNameLength = 64;
@@ -41,43 +54,46 @@ class MailEntryFormController extends GetxController {
   late final TextEditingController subjectController;
 
   /// `#RRGGBB`, or null for the color the spec derives from the id.
-  final color = RxnString();
+  String? get color => _color;
+  set color(String? value) {
+    _color = value;
+    notifyListeners();
+  }
+
+  bool? get hasAttachment => _hasAttachment;
+  set hasAttachment(bool? value) {
+    _hasAttachment = value;
+    notifyListeners();
+  }
+
+  bool get rulesExpanded => _rulesExpanded;
+  set rulesExpanded(bool value) {
+    _rulesExpanded = value;
+    notifyListeners();
+  }
+
+  String? _color;
+  bool? _hasAttachment;
+  bool _rulesExpanded = false;
 
   /// A color from outside [palette], kept while another one is selected.
-  final customColor = RxnString();
-  final hasAttachment = Rxn<bool>();
-  final rulesExpanded = false.obs;
-  final isSaving = false.obs;
-  final canSave = false.obs;
-  final error = Rxn<MailEntryFormError>();
+  String? customColor;
+  bool isSaving = false;
+  bool canSave = false;
+  MailEntryFormError? error;
+  bool _isDisposed = false;
 
   MailboxesController get _mailboxes => Get.find<MailboxesController>();
 
   bool get isEditing => entry != null;
 
   @override
-  void onInit() {
-    super.onInit();
-    final match = entry?.match;
-    nameController = TextEditingController(text: entry?.name ?? '');
-    fromController = TextEditingController(text: formatMatchList(match?.from));
-    subjectController = TextEditingController(
-      text: formatMatchList(match?.subject),
-    );
-    color.value = entry?.color;
-    if (_isCustom(entry?.color)) customColor.value = entry?.color;
-    hasAttachment.value = match?.hasAttachment;
-    rulesExpanded.value = match != null;
-    nameController.addListener(_onNameChanged);
-    _onNameChanged();
-  }
-
-  @override
-  void onClose() {
+  void dispose() {
+    _isDisposed = true;
     nameController.dispose();
     fromController.dispose();
     subjectController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   static bool _isCustom(String? hex) =>
@@ -86,16 +102,17 @@ class MailEntryFormController extends GetxController {
 
   /// Where the custom color dialog opens.
   Color get customColorSeed =>
-      MailboxesController.parseEntryColor(customColor.value) ??
-      MailboxesController.parseEntryColor(color.value) ??
+      MailboxesController.parseEntryColor(customColor) ??
+      MailboxesController.parseEntryColor(_color) ??
       switch (entry) {
         final entry? => getStringColor(entry.id),
         null => MailboxesController.parseEntryColor(palette.keys.first)!,
       };
 
   void pickCustomColor(String hex) {
-    color.value = hex;
-    if (_isCustom(hex)) customColor.value = hex;
+    _color = hex;
+    if (_isCustom(hex)) customColor = hex;
+    notifyListeners();
   }
 
   void _onNameChanged() {
@@ -107,43 +124,43 @@ class MailEntryFormController extends GetxController {
               other.id != entry?.id &&
               other.name.trim().toLowerCase() == name.toLowerCase(),
         );
-    error.value = taken ? MailEntryFormError.nameTaken : null;
-    canSave.value = name.isNotEmpty && !taken;
+    error = taken ? MailEntryFormError.nameTaken : null;
+    canSave = name.isNotEmpty && !taken;
+    notifyListeners();
   }
 
   /// The saved entry, or null when saving failed and [error] says why.
   Future<MailEntry?> save() async {
-    if (!canSave.value || isSaving.value) return null;
-    isSaving.value = true;
-    error.value = null;
+    if (!canSave || isSaving) return null;
+    isSaving = true;
+    error = null;
+    notifyListeners();
     final name = nameController.text.trim();
     final match = buildMailMatch(
       from: fromController.text,
       subject: subjectController.text,
-      hasAttachment: hasAttachment.value,
+      hasAttachment: _hasAttachment,
       original: entry?.match,
     );
     try {
       final existing = entry;
       return existing == null
-          ? await _mailboxes.create(
-              kind,
-              name,
-              color: color.value,
-              match: match,
-            )
+          ? await _mailboxes.create(kind, name, color: _color, match: match)
           : await _mailboxes.edit(
               kind,
               existing.id,
               name: name,
-              color: color.value,
+              color: _color,
               match: match,
             );
     } catch (_) {
-      error.value = MailEntryFormError.saveFailed;
+      error = MailEntryFormError.saveFailed;
       return null;
     } finally {
-      isSaving.value = false;
+      if (!_isDisposed) {
+        isSaving = false;
+        notifyListeners();
+      }
     }
   }
 }

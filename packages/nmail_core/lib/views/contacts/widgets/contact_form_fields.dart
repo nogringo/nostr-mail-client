@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../controllers/contact_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -31,8 +30,9 @@ class ContactFormFields extends StatelessWidget {
         const SizedBox(height: 14),
         ContactBirthdayField(controller: controller),
         const SizedBox(height: 14),
-        Obx(
-          () => ContactMethodsField(
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => ContactMethodsField(
             label: l.contactsEmailsLabel,
             hintText: l.contactsAddEmailHint,
             values: controller.emails.toList(),
@@ -44,8 +44,9 @@ class ContactFormFields extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
-        Obx(
-          () => ContactMethodsField(
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => ContactMethodsField(
             label: l.contactsPhonesLabel,
             hintText: l.contactsAddPhoneHint,
             values: controller.phones.toList(),
@@ -57,8 +58,9 @@ class ContactFormFields extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
-        Obx(
-          () => ContactMethodsField(
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => ContactMethodsField(
             label: l.contactsNostrLabel,
             hintText: l.contactsAddNostrHint,
             values: controller.nostrIdentifiers.toList(),
@@ -74,14 +76,17 @@ class ContactFormFields extends StatelessWidget {
             onRemove: controller.removeNostrIdentifier,
           ),
         ),
-        Obx(() {
-          final error = controller.error.value;
-          if (error == null) return const SizedBox.shrink();
-          return Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: Text(error, style: TextStyle(color: colorScheme.error)),
-          );
-        }),
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) {
+            final error = controller.error;
+            if (error == null) return const SizedBox.shrink();
+            return Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Text(error, style: TextStyle(color: colorScheme.error)),
+            );
+          },
+        ),
       ],
     );
   }

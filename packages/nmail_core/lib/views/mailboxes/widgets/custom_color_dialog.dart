@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/custom_color_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -37,8 +36,9 @@ class CustomColorDialog extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
           child: Text(l.actionCancel),
         ),
-        Obx(
-          () => FilledButton(
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => FilledButton(
             onPressed: controller.result == null
                 ? null
                 : () => _submit(context),

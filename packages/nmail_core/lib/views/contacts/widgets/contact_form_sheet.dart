@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../controllers/contact_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -37,13 +36,14 @@ class ContactFormSheet extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ),
-                  Obx(
-                    () => IconButton(
+                  ListenableBuilder(
+                    listenable: controller,
+                    builder: (context, _) => IconButton(
                       icon: const Icon(Icons.close),
                       tooltip: MaterialLocalizations.of(
                         context,
                       ).closeButtonTooltip,
-                      onPressed: controller.isSaving.value
+                      onPressed: controller.isSaving
                           ? null
                           : () => Navigator.pop(context),
                     ),
@@ -60,19 +60,20 @@ class ContactFormSheet extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Obx(
-                    () => TextButton(
-                      onPressed: controller.isSaving.value
+                  ListenableBuilder(
+                    listenable: controller,
+                    builder: (context, _) => TextButton(
+                      onPressed: controller.isSaving
                           ? null
                           : () => Navigator.pop(context),
                       child: Text(l.contactsCancel),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Obx(
-                    () => FilledButton(
-                      onPressed:
-                          controller.isSaving.value || !controller.canSave.value
+                  ListenableBuilder(
+                    listenable: controller,
+                    builder: (context, _) => FilledButton(
+                      onPressed: controller.isSaving || !controller.canSave
                           ? null
                           : () => _save(context),
                       child: Text(l.contactsSave),

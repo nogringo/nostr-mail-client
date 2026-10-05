@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/mail_entry_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -40,24 +39,28 @@ class EntryRulesSection extends StatelessWidget {
                 ],
               ),
             ),
-            Obx(() {
-              final expanded = controller.rulesExpanded.value;
-              return IconButton(
-                icon: Icon(expanded ? Icons.expand_less : Icons.expand_more),
-                tooltip: expanded
-                    ? materialL.expandedIconTapHint
-                    : materialL.collapsedIconTapHint,
-                onPressed: () => controller.rulesExpanded.value = !expanded,
-              );
-            }),
+            ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) {
+                final expanded = controller.rulesExpanded;
+                return IconButton(
+                  icon: Icon(expanded ? Icons.expand_less : Icons.expand_more),
+                  tooltip: expanded
+                      ? materialL.expandedIconTapHint
+                      : materialL.collapsedIconTapHint,
+                  onPressed: () => controller.rulesExpanded = !expanded,
+                );
+              },
+            ),
           ],
         ),
-        Obx(
-          () => AnimatedSize(
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => AnimatedSize(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeInOut,
             alignment: Alignment.topCenter,
-            child: controller.rulesExpanded.value
+            child: controller.rulesExpanded
                 // The top padding keeps the first field's floating label
                 // inside the clip of the animation.
                 ? Padding(

@@ -6,10 +6,10 @@ void main() {
   late CustomColorController controller;
 
   setUp(() {
-    controller = CustomColorController(const Color(0xFF039BE5))..onInit();
+    controller = CustomColorController(const Color(0xFF039BE5));
   });
 
-  tearDown(() => controller.onClose());
+  tearDown(() => controller.dispose());
 
   test('opens on the initial color', () {
     expect(controller.hexController.text, '039BE5');
@@ -20,7 +20,7 @@ void main() {
     controller.setHue(120);
     final hex = controller.hexController.text;
     expect(controller.result, '#$hex');
-    expect(HSVColor.fromColor(controller.color.value!).hue, closeTo(120, 1));
+    expect(HSVColor.fromColor(controller.color!).hue, closeTo(120, 1));
   });
 
   test('an incomplete hex code picks nothing', () {
@@ -31,6 +31,6 @@ void main() {
   test('a typed hex code moves the hue', () {
     controller.setHexDigits('ff0000');
     expect(controller.result, '#FF0000');
-    expect(controller.hue.value, 0);
+    expect(controller.hue, 0);
   });
 }

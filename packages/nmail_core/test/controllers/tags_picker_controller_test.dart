@@ -70,7 +70,7 @@ void main() {
       final picker = TagsPickerController([
         _email('1', tags: [_urgent]),
         _email('2'),
-      ])..onInit();
+      ]);
 
       expect(picker.stateOf(_urgent), isNull);
       expect(picker.stateOf(_travel), isFalse);
@@ -78,7 +78,7 @@ void main() {
     });
 
     test('checking a tag no email has adds it', () {
-      final picker = TagsPickerController([_email('1')])..onInit();
+      final picker = TagsPickerController([_email('1')]);
 
       picker.toggle(_travel);
 
@@ -89,7 +89,7 @@ void main() {
     test('unchecking a tag every email has removes it', () {
       final picker = TagsPickerController([
         _email('1', tags: [_urgent]),
-      ])..onInit();
+      ]);
 
       picker.toggle(_urgent);
 
@@ -98,7 +98,7 @@ void main() {
     });
 
     test('a tag created from the picker is added once checked', () {
-      final picker = TagsPickerController([_email('1')])..onInit();
+      final picker = TagsPickerController([_email('1')]);
       mailboxes.tags.add(const MailEntry(id: 'cccccccccccccccc', name: 'New'));
 
       picker.check('cccccccccccccccc');

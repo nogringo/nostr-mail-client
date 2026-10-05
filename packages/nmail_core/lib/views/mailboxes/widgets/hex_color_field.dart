@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/custom_color_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -35,11 +34,10 @@ class HexColorField extends StatelessWidget {
         prefixIcon: ExcludeSemantics(
           child: Center(
             widthFactor: 1,
-            child: Obx(
-              () => Material(
-                color:
-                    controller.color.value ??
-                    colorScheme.surfaceContainerHighest,
+            child: ListenableBuilder(
+              listenable: controller,
+              builder: (context, _) => Material(
+                color: controller.color ?? colorScheme.surfaceContainerHighest,
                 shape: CircleBorder(
                   side: BorderSide(color: colorScheme.outlineVariant),
                 ),

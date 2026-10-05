@@ -220,8 +220,8 @@ class AppRouter {
 
           // Contact form (create/edit). Full-screen route on mobile; the
           // desktop dialog path is handled imperatively by showContactForm.
-          // The ContactFormController is owned by ContactFormPage's GetBuilder,
-          // so no onExit cleanup is needed here.
+          // The ContactFormController is owned by ContactFormPage's
+          // ControllerBuilder, so no onExit cleanup is needed here.
           GoRoute(
             path: AppRoutes.contactForm,
             builder: (_, state) {

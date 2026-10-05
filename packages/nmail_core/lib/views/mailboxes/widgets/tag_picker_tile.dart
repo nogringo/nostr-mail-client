@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
@@ -16,8 +15,9 @@ class TagPickerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final heldByRule = controller.isHeldByRule(tag.id);
-    return Obx(
-      () => CheckboxListTile(
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => CheckboxListTile(
         tristate: true,
         value: controller.stateOf(tag.id),
         onChanged: heldByRule ? null : (_) => controller.toggle(tag.id),

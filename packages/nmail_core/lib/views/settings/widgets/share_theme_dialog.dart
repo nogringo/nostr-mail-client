@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/share_theme_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -86,13 +85,13 @@ class ShareThemeDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
           child: Text(l.actionCancel),
         ),
-        Obx(
-          () => FilledButton(
-            onPressed:
-                controller.title.value.isEmpty || controller.isPublishing.value
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => FilledButton(
+            onPressed: controller.title.isEmpty || controller.isPublishing
                 ? null
                 : () => _publish(context),
-            child: controller.isPublishing.value
+            child: controller.isPublishing
                 ? const SizedBox.square(
                     dimension: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
@@ -105,7 +104,7 @@ class ShareThemeDialog extends StatelessWidget {
   }
 
   Future<void> _publish(BuildContext context) async {
-    if (controller.title.value.isEmpty || controller.isPublishing.value) {
+    if (controller.title.isEmpty || controller.isPublishing) {
       return;
     }
     final l = AppLocalizations.of(context);

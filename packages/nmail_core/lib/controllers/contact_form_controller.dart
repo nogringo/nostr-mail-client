@@ -7,37 +7,11 @@ import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/utils/contact_birthday_utils.dart';
 import 'contacts_controller.dart';
 
-class ContactFormController extends GetxController {
+class ContactFormController extends ChangeNotifier {
   final AddressBookContact? contact;
   final AddressBookContactForm? initialForm;
 
-  ContactFormController({this.contact, this.initialForm});
-
-  late final TextEditingController nameController;
-  late final TextEditingController emailInputController;
-  late final TextEditingController nostrInputController;
-  late final TextEditingController phoneInputController;
-  late final TextEditingController birthdayYearController;
-
-  final birthdayMonth = RxnInt();
-  final birthdayDay = RxnInt();
-  final birthdayExpanded = false.obs;
-
-  final isSaving = false.obs;
-  final canSave = false.obs;
-  final error = RxnString();
-  final emails = <String>[].obs;
-  final nostrIdentifiers = <String>[].obs;
-  final phones = <String>[].obs;
-  final List<Worker> _workers = [];
-
-  ContactsController get _contactsController => Get.find<ContactsController>();
-
-  bool get isEditing => contact != null;
-
-  @override
-  void onInit() {
-    super.onInit();
+  ContactFormController({this.contact, this.initialForm}) {
     final form =
         initialForm ??
         (contact == null ? null : _contactsController.formFor(contact!));
@@ -46,52 +20,81 @@ class ContactFormController extends GetxController {
     nostrInputController = TextEditingController();
     phoneInputController = TextEditingController();
     final birthday = form?.birthday;
-    birthdayMonth.value = birthday?.month;
-    birthdayDay.value = birthday?.day;
-    birthdayExpanded.value = birthday != null;
+    _birthdayMonth = birthday?.month;
+    _birthdayDay = birthday?.day;
+    birthdayExpanded = birthday != null;
     birthdayYearController = TextEditingController(
       text: birthday?.year?.toString() ?? '',
     );
-    emails.assignAll(form?.emails ?? const []);
-    nostrIdentifiers.assignAll(
+    emails.addAll(form?.emails ?? const []);
+    nostrIdentifiers.addAll(
       form?.nostrPubkeys.map(Nip19.encodePubKey) ?? const [],
     );
-    phones.assignAll(form?.phones ?? const []);
+    phones.addAll(form?.phones ?? const []);
 
-    nameController.addListener(_refreshCanSave);
-    emailInputController.addListener(_refreshCanSave);
-    phoneInputController.addListener(_refreshCanSave);
-    nostrInputController.addListener(_refreshCanSave);
-    _workers.addAll([
-      ever(emails, (_) => _refreshCanSave()),
-      ever(phones, (_) => _refreshCanSave()),
-      ever(nostrIdentifiers, (_) => _refreshCanSave()),
-    ]);
-    _refreshCanSave();
+    nameController.addListener(notifyListeners);
+    emailInputController.addListener(notifyListeners);
+    phoneInputController.addListener(notifyListeners);
+    nostrInputController.addListener(notifyListeners);
   }
 
+  late final TextEditingController nameController;
+  late final TextEditingController emailInputController;
+  late final TextEditingController nostrInputController;
+  late final TextEditingController phoneInputController;
+  late final TextEditingController birthdayYearController;
+
+  int? get birthdayMonth => _birthdayMonth;
+  set birthdayMonth(int? value) {
+    _birthdayMonth = value;
+    notifyListeners();
+  }
+
+  int? get birthdayDay => _birthdayDay;
+  set birthdayDay(int? value) {
+    _birthdayDay = value;
+    notifyListeners();
+  }
+
+  int? _birthdayMonth;
+  int? _birthdayDay;
+  bool birthdayExpanded = false;
+
+  bool isSaving = false;
+  String? error;
+  final List<String> emails = [];
+  final List<String> nostrIdentifiers = [];
+  final List<String> phones = [];
+  bool _isDisposed = false;
+
+  ContactsController get _contactsController => Get.find<ContactsController>();
+
+  bool get isEditing => contact != null;
+
+  bool get canSave => _hasContent();
+
   @override
-  void onClose() {
-    for (final worker in _workers) {
-      worker.dispose();
-    }
+  void dispose() {
+    _isDisposed = true;
     nameController.dispose();
     emailInputController.dispose();
     nostrInputController.dispose();
     phoneInputController.dispose();
     birthdayYearController.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   void expandBirthday() {
-    birthdayExpanded.value = true;
+    birthdayExpanded = true;
+    notifyListeners();
   }
 
   void clearBirthday() {
-    birthdayMonth.value = null;
-    birthdayDay.value = null;
+    _birthdayMonth = null;
+    _birthdayDay = null;
     birthdayYearController.clear();
-    birthdayExpanded.value = false;
+    birthdayExpanded = false;
+    notifyListeners();
   }
 
   /// Builds the birthday from the day/month/year inputs.
@@ -100,16 +103,12 @@ class ContactFormController extends GetxController {
   /// it is a full 4-digit number, otherwise the birthday is saved without a
   /// year.
   ContactBirthday? _birthdayValue() {
-    final month = birthdayMonth.value;
-    final day = birthdayDay.value;
+    final month = _birthdayMonth;
+    final day = _birthdayDay;
     if (month == null || day == null) return null;
     final yearText = birthdayYearController.text.trim();
     final year = yearText.length == 4 ? int.tryParse(yearText) : null;
     return ContactBirthday(year: year, month: month, day: day);
-  }
-
-  void _refreshCanSave() {
-    canSave.value = _hasContent();
   }
 
   bool _hasContent() {
@@ -141,8 +140,10 @@ class ContactFormController extends GetxController {
     for (final value in pending) {
       final pubkey = await _contactsController.addressBookService
           .resolveNostrIdentifier(value);
+      if (_isDisposed) return false;
       if (pubkey == null) {
-        error.value = 'Invalid Nostr identifier: $value';
+        error = 'Invalid Nostr identifier: $value';
+        notifyListeners();
         return false;
       }
       if (existing.add(pubkey.toLowerCase())) {
@@ -152,26 +153,31 @@ class ContactFormController extends GetxController {
 
     nostrIdentifiers.addAll(resolved);
     nostrInputController.clear();
-    error.value = null;
+    error = null;
+    notifyListeners();
     return true;
   }
 
   void removeEmail(String email) {
     emails.remove(email);
+    notifyListeners();
   }
 
   void removeNostrIdentifier(String identifier) {
     nostrIdentifiers.remove(identifier);
+    notifyListeners();
   }
 
   void removePhone(String phone) {
     phones.remove(phone);
+    notifyListeners();
   }
 
   Future<bool> save() async {
-    if (isSaving.value) return false;
-    isSaving.value = true;
-    error.value = null;
+    if (isSaving) return false;
+    isSaving = true;
+    error = null;
+    notifyListeners();
     try {
       _addMethod(emailInputController, emails);
       _addMethod(phoneInputController, phones);
@@ -189,14 +195,17 @@ class ContactFormController extends GetxController {
       );
       return true;
     } catch (saveError) {
-      error.value = saveError.toString();
+      error = saveError.toString();
       return false;
     } finally {
-      isSaving.value = false;
+      if (!_isDisposed) {
+        isSaving = false;
+        notifyListeners();
+      }
     }
   }
 
-  void _addMethod(TextEditingController input, RxList<String> values) {
+  void _addMethod(TextEditingController input, List<String> values) {
     final pending = _pendingMethods(input);
     if (pending.isEmpty) return;
 
@@ -207,6 +216,7 @@ class ContactFormController extends GetxController {
       }
     }
     input.clear();
+    notifyListeners();
   }
 
   List<String> _pendingMethods(TextEditingController input) {

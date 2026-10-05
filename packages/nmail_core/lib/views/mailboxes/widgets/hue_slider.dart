@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/controllers/custom_color_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -12,15 +11,16 @@ class HueSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    return Obx(
-      () => SliderTheme(
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => SliderTheme(
         data: SliderTheme.of(context).copyWith(
           trackHeight: 12,
           trackShape: const _HueTrackShape(),
-          thumbColor: controller.color.value,
+          thumbColor: controller.color,
         ),
         child: Slider(
-          value: controller.hue.value,
+          value: controller.hue,
           max: 360,
           onChanged: controller.setHue,
           label: l.mailboxColorHue,

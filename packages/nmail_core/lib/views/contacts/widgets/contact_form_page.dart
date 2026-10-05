@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import '../../../controllers/contact_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 import 'contact_form_fields.dart';
 
 class ContactFormPage extends StatelessWidget {
@@ -18,9 +18,10 @@ class ContactFormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<ContactFormController>(
-      init: ContactFormController(contact: contact, initialForm: initialForm),
-      builder: (controller) {
+    return ControllerBuilder(
+      create: () =>
+          ContactFormController(contact: contact, initialForm: initialForm),
+      builder: (context, controller) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -30,13 +31,13 @@ class ContactFormPage extends StatelessWidget {
             ),
             actionsPadding: .only(right: 8),
             actions: [
-              Obx(
-                () => FilledButton(
-                  onPressed:
-                      controller.isSaving.value || !controller.canSave.value
+              ListenableBuilder(
+                listenable: controller,
+                builder: (context, _) => FilledButton(
+                  onPressed: controller.isSaving || !controller.canSave
                       ? null
                       : () => _save(context, controller),
-                  child: controller.isSaving.value
+                  child: controller.isSaving
                       ? const SizedBox(
                           width: 18,
                           height: 18,
