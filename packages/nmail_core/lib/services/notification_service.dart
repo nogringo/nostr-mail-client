@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
@@ -8,7 +7,7 @@ import 'package:nmail_core/utils/platform_helper.dart';
 /// Displays local notifications. This is the presentation layer only; the
 /// wake-up source (FCM on nmail_standard, UnifiedPush on nmail_foss) lives in
 /// the app flavor and calls [show].
-class NotificationService extends GetxService {
+class NotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
 
   static const _channel = AndroidNotificationChannel(

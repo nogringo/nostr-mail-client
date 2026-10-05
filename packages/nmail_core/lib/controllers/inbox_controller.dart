@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:rxdart/rxdart.dart' hide Rx;
 
@@ -29,7 +30,7 @@ class InboxController extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   final _nostrMailService = Get.find<NostrMailService>();
-  final _notifications = Get.find<NotificationService>();
+  final _notifications = GetIt.I<NotificationService>();
 
   List<EmailSummary> emails = [];
   String searchQuery = '';

@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -28,8 +28,8 @@ class UnifiedPushHandler {
       return;
     }
 
-    if (Get.isRegistered<PushRegistrationService>()) {
-      Get.find<PushRegistrationService>().configureTransportLifecycle(
+    if (GetIt.I.isRegistered<PushRegistrationService>()) {
+      GetIt.I<PushRegistrationService>().configureTransportLifecycle(
         requestPermission: () async => true,
         prepareTransport: _prepareTransport,
       );
@@ -38,8 +38,8 @@ class UnifiedPushHandler {
     await _ensureInitialized();
 
     if (await _hasEnabledAccount() &&
-        Get.isRegistered<PushRegistrationService>()) {
-      await Get.find<PushRegistrationService>().prepareCurrentTransport();
+        GetIt.I.isRegistered<PushRegistrationService>()) {
+      await GetIt.I<PushRegistrationService>().prepareCurrentTransport();
       await _syncSubscriptions();
     }
   }
@@ -63,9 +63,9 @@ class UnifiedPushHandler {
   /// A new endpoint invalidates every account subscribed with the old one.
   static void _onNewEndpoint(PushEndpoint endpoint, String instance) {
     final keys = endpoint.pubKeySet;
-    if (!Get.isRegistered<PushRegistrationService>()) return;
+    if (!GetIt.I.isRegistered<PushRegistrationService>()) return;
 
-    Get.find<PushRegistrationService>().setCurrentTransport(
+    GetIt.I<PushRegistrationService>().setCurrentTransport(
       PushTransport.unifiedPush(
         endpoint: endpoint.url,
         p256dh: keys?.pubKey,
@@ -89,7 +89,7 @@ class UnifiedPushHandler {
     return _initializeFuture ??= UnifiedPush.initialize(
       onNewEndpoint: _onNewEndpoint,
       onMessage: (message, instance) =>
-          _showFromMessage(Get.find<NotificationService>(), message),
+          _showFromMessage(GetIt.I<NotificationService>(), message),
       onRegistrationFailed: (reason, instance) {},
       onUnregistered: (instance) {},
     );
@@ -131,12 +131,12 @@ class UnifiedPushHandler {
   }
 
   static Future<void> _syncSubscriptions() async {
-    if (!Get.isRegistered<PushSubscriptionService>()) return;
-    await Get.find<PushSubscriptionService>().syncAll();
+    if (!GetIt.I.isRegistered<PushSubscriptionService>()) return;
+    await GetIt.I<PushSubscriptionService>().syncAll();
   }
 
   static Future<bool> _hasEnabledAccount() async {
-    if (!Get.isRegistered<PushSubscriptionService>()) return false;
-    return Get.find<PushSubscriptionService>().hasEnabledAccount();
+    if (!GetIt.I.isRegistered<PushSubscriptionService>()) return false;
+    return GetIt.I<PushSubscriptionService>().hasEnabledAccount();
   }
 }

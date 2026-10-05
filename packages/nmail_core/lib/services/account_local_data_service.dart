@@ -13,7 +13,7 @@ import 'nostr_mail_service.dart';
 import 'push_subscription_service.dart';
 import 'storage_service.dart';
 
-class AccountLocalDataService extends GetxService {
+class AccountLocalDataService {
   static const _backgroundImageKey = 'background_image';
 
   final _storageService = Get.find<StorageService>();

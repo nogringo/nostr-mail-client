@@ -12,7 +12,7 @@ import 'package:nmail_core/services/storage_service.dart';
 /// notification setting. Every account that has notifications on stays
 /// subscribed, not only the active one, so mail addressed to a background
 /// account still reaches the device.
-class PushSubscriptionService extends GetxService {
+class PushSubscriptionService {
   PushSubscriptionService({
     StorageService? storage,
     Ndk? ndk,
@@ -47,7 +47,7 @@ class PushSubscriptionService extends GetxService {
   StorageService get _storage => _storageOverride ?? Get.find<StorageService>();
   Ndk get _ndk => _ndkOverride ?? GetIt.I<Ndk>();
   PushRegistrationService get _registration =>
-      _registrationOverride ?? Get.find<PushRegistrationService>();
+      _registrationOverride ?? GetIt.I<PushRegistrationService>();
 
   Future<bool> isEnabled(String pubkey) async =>
       await _storage.getSetting<bool>(enabledKey(pubkey)) ?? false;

@@ -171,8 +171,8 @@ class AuthController extends GetxController {
     // Now that the private-settings cache is primed, pull it into the Rx.
     await Get.find<SettingsController>().reloadSyncedSettings();
     final pubkey = publicKey;
-    if (pubkey != null && Get.isRegistered<PushSubscriptionService>()) {
-      await Get.find<PushSubscriptionService>().refreshAccount(pubkey);
+    if (pubkey != null && GetIt.I.isRegistered<PushSubscriptionService>()) {
+      await GetIt.I<PushSubscriptionService>().refreshAccount(pubkey);
     }
   }
 
@@ -356,8 +356,8 @@ class AuthController extends GetxController {
 
       // Catches up on a push transport that changed while this account was in
       // the background.
-      if (Get.isRegistered<PushSubscriptionService>()) {
-        unawaited(Get.find<PushSubscriptionService>().refreshAccount(pubkey));
+      if (GetIt.I.isRegistered<PushSubscriptionService>()) {
+        unawaited(GetIt.I<PushSubscriptionService>().refreshAccount(pubkey));
       }
 
       if (GetIt.I.isRegistered<InboxController>()) {
@@ -443,11 +443,11 @@ class AuthController extends GetxController {
       // tail of a switch that is already in flight.
       final generation = _accountSwitchGeneration;
 
-      if (Get.isRegistered<PushSubscriptionService>()) {
-        await Get.find<PushSubscriptionService>().forget(pubkey);
+      if (GetIt.I.isRegistered<PushSubscriptionService>()) {
+        await GetIt.I<PushSubscriptionService>().forget(pubkey);
       }
 
-      await Get.find<AccountLocalDataService>().clearLocalAccountData(
+      await GetIt.I<AccountLocalDataService>().clearLocalAccountData(
         pubkey: pubkey,
       );
 
@@ -477,8 +477,8 @@ class AuthController extends GetxController {
       ++_accountSwitchGeneration;
       final removedPubkey = publicKey;
       if (removedPubkey != null &&
-          Get.isRegistered<PushSubscriptionService>()) {
-        await Get.find<PushSubscriptionService>().forget(removedPubkey);
+          GetIt.I.isRegistered<PushSubscriptionService>()) {
+        await GetIt.I<PushSubscriptionService>().forget(removedPubkey);
       }
       final fallbackPubkey = otherAccountPubkeys.firstOrNull;
       if (GetIt.I.isRegistered<InboxController>()) {
@@ -488,7 +488,7 @@ class AuthController extends GetxController {
         await GetIt.I.unregister<ScheduledController>();
       }
       if (clearLocalData && removedPubkey != null) {
-        await Get.find<AccountLocalDataService>().clearLocalAccountData(
+        await GetIt.I<AccountLocalDataService>().clearLocalAccountData(
           pubkey: removedPubkey,
         );
       }
@@ -501,9 +501,9 @@ class AuthController extends GetxController {
       if (fallbackPubkey != null && fallbackHasRelayList) {
         await _nostrMailService.activateForCurrentAccount();
         unawaited(Get.find<SettingsController>().reloadSyncedSettings());
-        if (Get.isRegistered<PushSubscriptionService>()) {
+        if (GetIt.I.isRegistered<PushSubscriptionService>()) {
           unawaited(
-            Get.find<PushSubscriptionService>().refreshAccount(fallbackPubkey),
+            GetIt.I<PushSubscriptionService>().refreshAccount(fallbackPubkey),
           );
         }
       }
@@ -545,8 +545,8 @@ class AuthController extends GetxController {
     isLoading.value = true;
     try {
       ++_accountSwitchGeneration;
-      if (Get.isRegistered<PushSubscriptionService>()) {
-        final pushSubscriptions = Get.find<PushSubscriptionService>();
+      if (GetIt.I.isRegistered<PushSubscriptionService>()) {
+        final pushSubscriptions = GetIt.I<PushSubscriptionService>();
         for (final pubkey in accountPubkeys.toList(growable: false)) {
           await pushSubscriptions.forget(pubkey);
         }
@@ -558,7 +558,7 @@ class AuthController extends GetxController {
         await GetIt.I.unregister<ScheduledController>();
       }
       if (clearLocalData) {
-        await Get.find<AccountLocalDataService>().clearAllLocalData();
+        await GetIt.I<AccountLocalDataService>().clearAllLocalData();
       }
 
       await _nostrMailService.resetForAccountChange();

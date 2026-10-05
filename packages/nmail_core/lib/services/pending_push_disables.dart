@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:sembast/sembast.dart';
 
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -23,7 +24,7 @@ class PendingPushDisables {
 
   Database get _db => _dbOverride ?? Get.find<StorageService>().db;
   PushRegistrationService get _registration =>
-      _registrationOverride ?? Get.find<PushRegistrationService>();
+      _registrationOverride ?? GetIt.I<PushRegistrationService>();
 
   Future<void> add({
     required String pubkey,

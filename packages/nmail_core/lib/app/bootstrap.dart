@@ -172,11 +172,11 @@ Future<void> _initApp({
   Get.put(DeviceConnectivityService(), permanent: true);
 
   // Initialize Services and Controllers early for Middlewares
-  Get.put(AccountLocalDataService(), permanent: true);
+  GetIt.I.registerSingleton(AccountLocalDataService());
   // Reads storage only until a transport exists, so it can be registered
   // before SettingsController loads the per-account notification settings.
   final pushSubscriptions = PushSubscriptionService();
-  Get.put(pushSubscriptions, permanent: true);
+  GetIt.I.registerSingleton(pushSubscriptions);
   unawaited(pushSubscriptions.flushPendingDisables());
   await Get.putAsync(() => NostrMailService().init(), permanent: true);
   final authController = AuthController();
@@ -190,13 +190,13 @@ Future<void> _initApp({
   // saved theme mode and locale are available before the first frame.
   await Get.putAsync(() => SettingsController().init(), permanent: true);
 
-  await Get.putAsync(() => NotificationService().init(), permanent: true);
-  Get.put(
+  GetIt.I.registerSingleton(await NotificationService().init());
+  GetIt.I.registerSingleton(
     PushRegistrationService(
       languageProvider: () =>
           Get.find<SettingsController>().notificationLanguageTag,
     ),
-    permanent: true,
+    dispose: (service) => service.dispose(),
   );
   Get.put(AppUpdateService(), permanent: true);
 

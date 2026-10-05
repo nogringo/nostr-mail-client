@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
@@ -105,7 +104,7 @@ typedef PushLanguageProvider = String Function();
 typedef PushTransportPermissionRequester = Future<bool> Function();
 typedef PushTransportPreparer = Future<void> Function();
 
-class PushRegistrationService extends GetxService {
+class PushRegistrationService {
   PushRegistrationService({
     Ndk? ndk,
     http.Client? httpClient,
@@ -283,9 +282,7 @@ class PushRegistrationService extends GetxService {
 
   Ndk _findNdk() => _ndk ?? GetIt.I<Ndk>();
 
-  @override
-  void onClose() {
+  void dispose() {
     if (_ownsHttpClient) _httpClient.close();
-    super.onClose();
   }
 }

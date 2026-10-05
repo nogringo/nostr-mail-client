@@ -151,9 +151,9 @@ class SettingsController extends GetxController {
   /// Covers every account on this device, not only the active one: each carries
   /// its own subscription on the push server.
   Future<void> _loadNotificationSettings() async {
-    if (!Get.isRegistered<PushSubscriptionService>()) return;
+    if (!GetIt.I.isRegistered<PushSubscriptionService>()) return;
 
-    final service = Get.find<PushSubscriptionService>();
+    final service = GetIt.I<PushSubscriptionService>();
     final active = _pubkey;
     final loaded = <String, bool>{};
 
@@ -247,12 +247,11 @@ class SettingsController extends GetxController {
     if (value) {
       if (!Get.find<AuthController>().isLoggedIn.value) return;
 
-      final granted = await Get.find<NotificationService>()
-          .requestPermissions();
+      final granted = await GetIt.I<NotificationService>().requestPermissions();
       if (!granted) return;
 
-      if (Get.isRegistered<PushRegistrationService>()) {
-        final pushService = Get.find<PushRegistrationService>();
+      if (GetIt.I.isRegistered<PushRegistrationService>()) {
+        final pushService = GetIt.I<PushRegistrationService>();
         if (!await pushService.requestTransportPermission()) return;
         await pushService.prepareCurrentTransport();
       }
@@ -261,8 +260,8 @@ class SettingsController extends GetxController {
     notificationsByAccount[pubkey] = value;
     if (pubkey == _pubkey) notificationsEnabled.value = value;
 
-    if (Get.isRegistered<PushSubscriptionService>()) {
-      await Get.find<PushSubscriptionService>().setEnabled(
+    if (GetIt.I.isRegistered<PushSubscriptionService>()) {
+      await GetIt.I<PushSubscriptionService>().setEnabled(
         pubkey: pubkey,
         value: value,
       );
@@ -366,8 +365,8 @@ class SettingsController extends GetxController {
   }
 
   Future<void> _refreshPushRegistrationLanguage() async {
-    if (!Get.isRegistered<PushSubscriptionService>()) return;
-    await Get.find<PushSubscriptionService>().syncAll();
+    if (!GetIt.I.isRegistered<PushSubscriptionService>()) return;
+    await GetIt.I<PushSubscriptionService>().syncAll();
   }
 
   Future<void> setDynamicTheme(bool value) async {

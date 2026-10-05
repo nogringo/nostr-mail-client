@@ -118,7 +118,7 @@ Created on first use and kept:
 
 Registered in `runNmailApp()` or `InitialBinding`:
 
-- [ ] `AccountLocalDataService`
+- [x] `AccountLocalDataService`
 - [ ] `AddressBookService`
 - [ ] `AppUpdateService`
 - [ ] `AuthController`
@@ -128,9 +128,9 @@ Registered in `runNmailApp()` or `InitialBinding`:
 - [ ] `MailDomainService`
 - [ ] `MetadataService`
 - [ ] `NostrMailService`
-- [ ] `NotificationService`
-- [ ] `PushRegistrationService`
-- [ ] `PushSubscriptionService`
+- [x] `NotificationService`
+- [x] `PushRegistrationService`
+- [x] `PushSubscriptionService`
 - [ ] `SettingsController`
 - [ ] `StorageService`
 - [ ] `ThemeService`

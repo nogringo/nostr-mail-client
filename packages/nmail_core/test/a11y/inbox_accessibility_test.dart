@@ -119,7 +119,7 @@ void main() {
     );
     GetIt.I.registerSingleton<Ndk>(ndk);
     Get.put(StorageService());
-    Get.put(NotificationService());
+    GetIt.I.registerSingleton(NotificationService());
     Get.put(NostrMailService());
     Get.put<AddressBookService>(EmptyAddressBookService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;

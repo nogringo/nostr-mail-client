@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
@@ -34,9 +34,9 @@ class FcmPush {
 
   static Future<void> _setup() async {
     final messaging = FirebaseMessaging.instance;
-    if (!Get.isRegistered<PushRegistrationService>()) return;
+    if (!GetIt.I.isRegistered<PushRegistrationService>()) return;
 
-    final pushService = Get.find<PushRegistrationService>();
+    final pushService = GetIt.I<PushRegistrationService>();
     pushService.configureTransportLifecycle(
       requestPermission: () => _requestPermission(messaging),
       prepareTransport: () => _refreshToken(messaging),
@@ -87,21 +87,21 @@ class FcmPush {
 
   static void _setToken(String? token) {
     if (token == null || token.isEmpty) return;
-    if (!Get.isRegistered<PushRegistrationService>()) return;
+    if (!GetIt.I.isRegistered<PushRegistrationService>()) return;
 
-    Get.find<PushRegistrationService>().setCurrentTransport(
+    GetIt.I<PushRegistrationService>().setCurrentTransport(
       PushTransport.fcm(token: token),
     );
   }
 
   static Future<void> _syncSubscriptions() async {
-    if (!Get.isRegistered<PushSubscriptionService>()) return;
-    await Get.find<PushSubscriptionService>().syncAll();
+    if (!GetIt.I.isRegistered<PushSubscriptionService>()) return;
+    await GetIt.I<PushSubscriptionService>().syncAll();
   }
 
   static Future<bool> _hasEnabledAccount() async {
-    if (!Get.isRegistered<PushSubscriptionService>()) return false;
-    return Get.find<PushSubscriptionService>().hasEnabledAccount();
+    if (!GetIt.I.isRegistered<PushSubscriptionService>()) return false;
+    return GetIt.I<PushSubscriptionService>().hasEnabledAccount();
   }
 
   static bool get _isSupportedPlatform {

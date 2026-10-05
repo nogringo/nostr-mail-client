@@ -115,7 +115,7 @@ class DebugToolsController extends ChangeNotifier {
 
   Future<void> triggerTestNotification(BuildContext context) async {
     final l = AppLocalizations.of(context);
-    final notifications = Get.find<NotificationService>();
+    final notifications = GetIt.I<NotificationService>();
 
     final granted = await notifications.requestPermissions();
     if (!granted) {
