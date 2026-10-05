@@ -98,7 +98,10 @@ Created in a `show...` helper:
 Disposed when leaving the route:
 
 - [ ] `ComposeController`
-- [ ] `EmailController`
+
+Kept until the next one opened replaces it:
+
+- [x] `EmailController`
 - [x] `CommunityThemeController`
 
 Created on first use and kept:

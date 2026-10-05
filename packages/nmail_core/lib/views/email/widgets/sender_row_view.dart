@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/format_date_time.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
@@ -14,8 +13,11 @@ class SenderRowView extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
 
-    return GetBuilder<EmailController>(
-      builder: (controller) {
+    final controller = EmailController.to;
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         final email = controller.email!;
 
         final to = email.mime.to ?? [];
@@ -50,11 +52,7 @@ class SenderRowView extends StatelessWidget {
                       ),
                       const SizedBox(width: 12),
                       IconButton(
-                        onPressed: () {
-                          controller.showRecipients =
-                              !controller.showRecipients;
-                          controller.update();
-                        },
+                        onPressed: controller.toggleRecipients,
                         icon: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

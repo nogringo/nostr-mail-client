@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -14,7 +13,7 @@ class SenderVerdictBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<EmailController>();
+    final controller = EmailController.to;
     final mailbox = controller.mailbox;
     if (mailbox == null || !(mailbox.isRequests || mailbox.isSpam)) {
       return const SizedBox.shrink();

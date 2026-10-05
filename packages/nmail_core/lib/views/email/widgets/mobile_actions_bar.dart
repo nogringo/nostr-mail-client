@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../email_controller.dart';
@@ -11,7 +10,7 @@ class MobileActionsBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final emailController = Get.find<EmailController>();
+    final emailController = EmailController.to;
     final actions = buildEmailActions(
       context,
       l,

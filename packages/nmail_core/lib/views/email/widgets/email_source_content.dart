@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -17,8 +16,11 @@ class EmailSourceContent extends StatelessWidget {
       height: 1.4,
     );
 
-    return GetBuilder<EmailController>(
-      builder: (controller) {
+    final controller = EmailController.to;
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         if (controller.isLoadingRawContent) {
           return const Padding(
             padding: EdgeInsets.all(32),

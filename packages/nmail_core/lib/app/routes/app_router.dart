@@ -474,15 +474,18 @@ class AppRouter {
   /// Builders can fire on rebuilds (refreshListenable, theme changes);
   /// we must not nuke an in-flight controller for the same event/mailbox.
   static void _ensureEmailController(String eventReference, Mailbox? mailbox) {
-    if (Get.isRegistered<EmailController>()) {
-      final existing = Get.find<EmailController>();
+    if (GetIt.I.isRegistered<EmailController>()) {
+      final existing = GetIt.I<EmailController>();
       if (existing.eventReference == eventReference &&
           existing.mailbox == mailbox) {
         return;
       }
-      Get.delete<EmailController>();
+      GetIt.I.unregister<EmailController>();
     }
-    Get.put(EmailController(eventReference: eventReference, mailbox: mailbox));
+    GetIt.I.registerSingleton(
+      EmailController(eventReference: eventReference, mailbox: mailbox),
+      dispose: (controller) => controller.dispose(),
+    );
   }
 
   /// One per visit, so each visit reloads. The theme opened from the page

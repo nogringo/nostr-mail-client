@@ -14,8 +14,11 @@ class EmailSourceCopyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<EmailController>(
-      builder: (controller) {
+    final controller = EmailController.to;
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         final source = controller.rawContent;
         return Obx(
           () => IconButton(

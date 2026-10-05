@@ -6,6 +6,7 @@ import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -35,8 +36,8 @@ import 'package:nmail_core/utils/platform_helper.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
-class EmailController extends GetxController implements InlineImageSource {
-  static EmailController get to => Get.find();
+class EmailController extends ChangeNotifier implements InlineImageSource {
+  static EmailController get to => GetIt.I<EmailController>();
 
   /// Nostr event reference this controller renders.
   ///
@@ -59,6 +60,7 @@ class EmailController extends GetxController implements InlineImageSource {
   String? rawContent;
   bool isLoadingRawContent = false;
   EmailHtml? emailHtml;
+  bool _isDisposed = false;
 
   late bool _showImages;
 
@@ -75,6 +77,12 @@ class EmailController extends GetxController implements InlineImageSource {
     loadEmail();
   }
 
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
+
   bool get showImages => _showImages;
 
   set showImages(bool value) {
@@ -83,9 +91,14 @@ class EmailController extends GetxController implements InlineImageSource {
     _buildEmailHtml();
   }
 
+  void toggleRecipients() {
+    showRecipients = !showRecipients;
+    notifyListeners();
+  }
+
   void loadImages() {
     showImages = true;
-    update();
+    notifyListeners();
   }
 
   /// Resolving the stylesheet is too costly to repeat on every rebuild, and it
@@ -202,13 +215,15 @@ class EmailController extends GetxController implements InlineImageSource {
     if (isLoadingRawContent) return null;
 
     isLoadingRawContent = true;
-    update();
+    notifyListeners();
     try {
       final nostrMailService = Get.find<NostrMailService>();
       rawContent = await nostrMailService.client.getRawMimeText(email!);
     } finally {
-      isLoadingRawContent = false;
-      update();
+      if (!_isDisposed) {
+        isLoadingRawContent = false;
+        notifyListeners();
+      }
     }
     return rawContent;
   }
@@ -223,7 +238,7 @@ class EmailController extends GetxController implements InlineImageSource {
     } else {
       await inboxController.markAsRead(email!.id);
     }
-    update();
+    if (!_isDisposed) notifyListeners();
   }
 
   Future<void> loadEmail() async {
@@ -239,7 +254,7 @@ class EmailController extends GetxController implements InlineImageSource {
     email = loaded;
     _buildEmailHtml();
     isLoading = false;
-    update();
+    if (!_isDisposed) notifyListeners();
     if (loaded == null) return;
 
     // Auto-mark as read where unread shows (non-blocking).
@@ -254,7 +269,7 @@ class EmailController extends GetxController implements InlineImageSource {
     final id = email?.id;
     if (id == null) return;
     summary = await Get.find<NostrMailService>().client.getSummary(id);
-    update();
+    if (!_isDisposed) notifyListeners();
   }
 
   Future<void> moveTo(BuildContext context) async {
