@@ -129,6 +129,9 @@ class ComposeController extends GetxController implements InlineImageSource {
   late final TextEditingController subjectController;
   late final QuillController quillController;
   final FocusNode editorFocusNode = FocusNode();
+  final _recipientFocusNodes = {
+    for (final field in RecipientField.values) field: FocusNode(),
+  };
   final ScrollController editorScrollController = ScrollController();
 
   @override
@@ -274,6 +277,8 @@ class ComposeController extends GetxController implements InlineImageSource {
         RecipientField.cc => ccController,
         RecipientField.bcc => bccController,
       };
+
+  FocusNode focusNodeOf(RecipientField field) => _recipientFocusNodes[field]!;
 
   void removeRecipientFrom(RecipientField field, Recipient recipient) {
     final list = recipientsOf(field);
@@ -1330,6 +1335,9 @@ class ComposeController extends GetxController implements InlineImageSource {
     subjectController.dispose();
     quillController.dispose();
     editorFocusNode.dispose();
+    for (final focusNode in _recipientFocusNodes.values) {
+      focusNode.dispose();
+    }
     editorScrollController.dispose();
     super.dispose();
   }

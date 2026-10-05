@@ -46,6 +46,7 @@ class ScrollableContentView extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16, right: 8),
                       child: RecipientAutocomplete(
                         textController: controller.toController,
+                        focusNode: controller.focusNodeOf(RecipientField.to),
                         hintText: controller.recipients.isEmpty
                             ? l.composeTo
                             : l.composeAddMore,
@@ -97,6 +98,7 @@ class ScrollableContentView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: RecipientAutocomplete(
                     textController: controller.ccController,
+                    focusNode: controller.focusNodeOf(RecipientField.cc),
                     hintText: l.composeCc,
                     excludeIds: controller.ccRecipientIds,
                     onContactSelected: controller.addCcRecipientFromContact,
@@ -115,6 +117,7 @@ class ScrollableContentView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: RecipientAutocomplete(
                     textController: controller.bccController,
+                    focusNode: controller.focusNodeOf(RecipientField.bcc),
                     hintText: l.composeBcc,
                     excludeIds: controller.bccRecipientIds,
                     onContactSelected: controller.addBccRecipientFromContact,

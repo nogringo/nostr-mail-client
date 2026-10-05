@@ -79,7 +79,7 @@ Created by `GetBuilder(init: ...)` or by a view:
 - [x] `Nip65RelaysController`
 - [x] `NostrAppsMarqueeController`
 - [x] `PlainTextBodyController`
-- [ ] `RecipientAutocompleteController`
+- [x] `RecipientAutocompleteController`
 - [x] `RelayConnectivityController`
 - [x] `RelaySetupController`
 - [x] `StartupErrorController`

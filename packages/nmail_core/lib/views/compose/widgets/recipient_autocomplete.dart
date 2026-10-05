@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../controllers/recipient_autocomplete_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/contact.dart';
+import 'package:nmail_core/widgets/controller_builder.dart';
 import 'contact_suggestion_tile.dart';
 
 class RecipientAutocomplete extends StatelessWidget {
   final TextEditingController textController;
+  final FocusNode focusNode;
   final String hintText;
   final Set<String> excludeIds;
   final void Function(Contact contact) onContactSelected;
@@ -17,6 +18,7 @@ class RecipientAutocomplete extends StatelessWidget {
   const RecipientAutocomplete({
     super.key,
     required this.textController,
+    required this.focusNode,
     required this.hintText,
     required this.excludeIds,
     required this.onContactSelected,
@@ -24,22 +26,17 @@ class RecipientAutocomplete extends StatelessWidget {
     required this.onSubmitted,
   });
 
-  static String tagFor(TextEditingController textController) =>
-      'recipient-autocomplete-${identityHashCode(textController)}';
-
-  String get _controllerTag => tagFor(textController);
-
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RecipientAutocompleteController>(
-      tag: _controllerTag,
-      init: RecipientAutocompleteController(
+    return ControllerBuilder(
+      create: () => RecipientAutocompleteController(
         textController: textController,
+        focusNode: focusNode,
         excludeIds: excludeIds,
         onContactSelected: onContactSelected,
         onManualInput: onManualInput,
       ),
-      builder: (controller) {
+      builder: (context, controller) {
         controller
           ..updateConfig(
             excludeIds: excludeIds,

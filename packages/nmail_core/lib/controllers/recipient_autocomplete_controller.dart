@@ -9,23 +9,30 @@ import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 
-class RecipientAutocompleteController extends GetxController {
+class RecipientAutocompleteController extends ChangeNotifier {
   RecipientAutocompleteController({
     required this.textController,
+    required this.focusNode,
     required this._excludeIds,
     required this._onContactSelected,
     required this._onManualInput,
-  });
+  }) {
+    focusNode.addListener(_onFocusChanged);
+    textController.addListener(_onTextChanged);
+    _contactsSubscription = _contactsService.contacts.listen(
+      (_) => _refreshSuggestions(),
+    );
+  }
 
   final TextEditingController textController;
+  final FocusNode focusNode;
   final _contactsService = Get.find<ContactsService>();
-  final focusNode = FocusNode();
   final layerLink = LayerLink();
   final tapRegionGroup = Object();
   final textFieldKey = GlobalKey();
 
   Timer? _nip05Timer;
-  Worker? _contactsWorker;
+  late final StreamSubscription<List<Contact>> _contactsSubscription;
   OverlayEntry? _overlayEntry;
   BuildContext? _overlayContext;
   WidgetBuilder? _overlayBuilder;
@@ -33,6 +40,7 @@ class RecipientAutocompleteController extends GetxController {
   void Function(Contact contact) _onContactSelected;
   Future<bool> Function(String input) _onManualInput;
   bool _isCommittingInput = false;
+  bool _isDisposed = false;
   bool _isDismissed = false;
   String _query = '';
   Contact? _nip05Contact;
@@ -44,25 +52,14 @@ class RecipientAutocompleteController extends GetxController {
   bool get isOverlayVisible => _overlayEntry != null;
 
   @override
-  void onInit() {
-    super.onInit();
-    focusNode.addListener(_onFocusChanged);
-    textController.addListener(_onTextChanged);
-    _contactsWorker = ever(
-      _contactsService.contacts,
-      (_) => _refreshSuggestions(),
-    );
-  }
-
-  @override
-  void onClose() {
+  void dispose() {
+    _isDisposed = true;
     _nip05Timer?.cancel();
-    _contactsWorker?.dispose();
+    _contactsSubscription.cancel();
     hideOverlay();
     textController.removeListener(_onTextChanged);
     focusNode.removeListener(_onFocusChanged);
-    focusNode.dispose();
-    super.onClose();
+    super.dispose();
   }
 
   void updateConfig({
@@ -97,7 +94,7 @@ class RecipientAutocompleteController extends GetxController {
 
     if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
       highlightedIndex = (highlightedIndex + 1) % suggestions.length;
-      update();
+      notifyListeners();
       updateOverlay();
       return KeyEventResult.handled;
     }
@@ -105,7 +102,7 @@ class RecipientAutocompleteController extends GetxController {
     if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
       highlightedIndex =
           (highlightedIndex - 1 + suggestions.length) % suggestions.length;
-      update();
+      notifyListeners();
       updateOverlay();
       return KeyEventResult.handled;
     }
@@ -148,7 +145,7 @@ class RecipientAutocompleteController extends GetxController {
       _isCommittingInput = false;
     }
 
-    if (isClosed) return added;
+    if (_isDisposed) return added;
 
     if (added &&
         (expectedText == null || textController.text == expectedText)) {
@@ -156,7 +153,7 @@ class RecipientAutocompleteController extends GetxController {
       hideOverlay();
       suggestions = [];
       highlightedIndex = -1;
-      update();
+      notifyListeners();
     }
 
     return added;
@@ -168,7 +165,7 @@ class RecipientAutocompleteController extends GetxController {
     hideOverlay();
     suggestions = [];
     highlightedIndex = -1;
-    update();
+    notifyListeners();
   }
 
   void hideOverlay() {
@@ -268,7 +265,7 @@ class RecipientAutocompleteController extends GetxController {
 
   Future<void> _resolveNip05(String query) async {
     final contact = await _contactsService.resolveNip05(query);
-    if (isClosed || query != _query) return;
+    if (_isDisposed || query != _query) return;
     _nip05Contact = contact;
     isSearching = false;
     _refreshSuggestions();
@@ -287,7 +284,7 @@ class RecipientAutocompleteController extends GetxController {
     highlightedIndex = highlighted == null
         ? -1
         : suggestions.indexOf(highlighted);
-    update();
+    notifyListeners();
 
     if (suggestions.isNotEmpty || isSearching) {
       _showOverlay();

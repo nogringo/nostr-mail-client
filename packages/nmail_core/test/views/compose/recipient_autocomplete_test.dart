@@ -50,6 +50,7 @@ Future<void> _pumpAutocomplete(
       home: Scaffold(
         body: RecipientAutocomplete(
           textController: TextEditingController(),
+          focusNode: FocusNode(),
           hintText: 'To',
           excludeIds: const {},
           onContactSelected: onContactSelected ?? (_) {},

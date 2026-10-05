@@ -5,7 +5,6 @@ import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';
 
 import 'package:nmail_core/controllers/compose_controller.dart';
-import 'package:nmail_core/controllers/recipient_autocomplete_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/email_person.dart';
@@ -16,8 +15,6 @@ import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/nip05_mail_address.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/person_card_actions.dart';
-
-import 'recipient_autocomplete.dart';
 
 final _keyInput = RegExp(r'^(npub1|nprofile1|naddr1)|^[0-9a-fA-F]{64}$');
 
@@ -142,12 +139,7 @@ Future<void> _sendViaNostr(
 void _edit(RecipientField field, Recipient recipient) {
   final controller = ComposeController.to;
   controller.editRecipient(field, recipient);
-  final tag = RecipientAutocomplete.tagFor(controller.textControllerOf(field));
+  final focusNode = controller.focusNodeOf(field);
   // After the menu closes, or it takes the focus back.
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    if (!Get.isRegistered<RecipientAutocompleteController>(tag: tag)) return;
-    Get.find<RecipientAutocompleteController>(
-      tag: tag,
-    ).focusNode.requestFocus();
-  });
+  WidgetsBinding.instance.addPostFrameCallback((_) => focusNode.requestFocus());
 }
