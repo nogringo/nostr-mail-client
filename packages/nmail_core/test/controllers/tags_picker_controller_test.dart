@@ -48,9 +48,9 @@ void main() {
       ),
     );
     GetIt.I.registerSingleton<Ndk>(ndk);
-    Get.put(StorageService());
+    GetIt.I.registerSingleton(StorageService());
     GetIt.I.registerSingleton(NotificationService());
-    Get.put(NostrMailService());
+    GetIt.I.registerSingleton(NostrMailService());
     Get.put(AuthController()).activePubkey.value = 'f' * 64;
     mailboxes = Get.put(MailboxesController());
     mailboxes.tags.assignAll(const [

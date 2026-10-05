@@ -16,12 +16,12 @@ import 'storage_service.dart';
 class AccountLocalDataService {
   static const _backgroundImageKey = 'background_image';
 
-  final _storageService = Get.find<StorageService>();
+  final _storageService = GetIt.I<StorageService>();
 
   Future<void> clearLocalAccountData({required String pubkey}) async {
     await Future.wait([
-      if (Get.isRegistered<NostrMailService>())
-        Get.find<NostrMailService>().clearLocalAccountData(pubkey: pubkey),
+      if (GetIt.I.isRegistered<NostrMailService>())
+        GetIt.I<NostrMailService>().clearLocalAccountData(pubkey: pubkey),
       if (Get.isRegistered<AddressBookService>())
         Get.find<AddressBookService>().clearLocalAccountData(pubkey: pubkey),
       if (GetIt.I.isRegistered<OfflineBroadcast>())
@@ -65,8 +65,8 @@ class AccountLocalDataService {
 
   Future<void> clearAllLocalData() async {
     await Future.wait([
-      if (Get.isRegistered<NostrMailService>())
-        Get.find<NostrMailService>().clearAllLocalData(),
+      if (GetIt.I.isRegistered<NostrMailService>())
+        GetIt.I<NostrMailService>().clearAllLocalData(),
       if (Get.isRegistered<AddressBookService>())
         Get.find<AddressBookService>().clearAllLocalData(),
       if (GetIt.I.isRegistered<OfflineBroadcast>())

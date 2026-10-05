@@ -526,7 +526,7 @@ class AppRouter {
 
   static String? _globalRedirect(BuildContext context, GoRouterState state) {
     final loc = state.matchedLocation;
-    final storage = Get.find<StorageService>();
+    final storage = GetIt.I<StorageService>();
     final auth = Get.find<AuthController>();
 
     // 1. Onboarding gate

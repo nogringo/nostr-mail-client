@@ -41,7 +41,7 @@ void main() {
     storage = _MemoryStorage();
     cache = await IdbBlossomCache.open(factory: newIdbFactoryMemory());
     GetIt.I.registerSingleton<Ndk>(ndk);
-    Get.put<StorageService>(storage);
+    GetIt.I.registerSingleton<StorageService>(storage);
     GetIt.I.registerSingleton<BlossomCache>(cache);
     service = AccountLocalDataService();
 

@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sembast/sembast.dart';
 
@@ -22,7 +21,7 @@ class PendingPushDisables {
   final PushRegistrationService? _registrationOverride;
   Future<void>? _flushing;
 
-  Database get _db => _dbOverride ?? Get.find<StorageService>().db;
+  Database get _db => _dbOverride ?? GetIt.I<StorageService>().db;
   PushRegistrationService get _registration =>
       _registrationOverride ?? GetIt.I<PushRegistrationService>();
 

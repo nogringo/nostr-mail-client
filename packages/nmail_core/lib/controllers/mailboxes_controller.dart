@@ -4,6 +4,7 @@ import 'dart:ui' show Color;
 
 import 'package:collection/collection.dart';
 import 'package:get/get.dart' hide FirstWhereExt;
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/models/mailbox.dart';
@@ -15,7 +16,7 @@ import 'auth_controller.dart';
 /// The user folders and tags of the active account, as its private settings
 /// name them, and the counts the sidebar shows.
 class MailboxesController extends GetxController {
-  final _nostrMailService = Get.find<NostrMailService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
   final _auth = Get.find<AuthController>();
 
   final RxList<MailEntry> folders = <MailEntry>[].obs;

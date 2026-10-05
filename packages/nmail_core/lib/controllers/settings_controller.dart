@@ -23,7 +23,7 @@ import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/seed_color_from_image.dart';
 
 class SettingsController extends GetxController {
-  final _storageService = Get.find<StorageService>();
+  final _storageService = GetIt.I<StorageService>();
   final _themeService = Get.find<ThemeService>();
   StreamSubscription? _authSubscription;
 
@@ -65,7 +65,7 @@ class SettingsController extends GetxController {
   final darkSeedColor = SystemTheme.accentColor.accent.obs;
   final debugToolsUnlocked = false.obs;
 
-  NostrMailService get _nostrMailService => Get.find<NostrMailService>();
+  NostrMailService get _nostrMailService => GetIt.I<NostrMailService>();
 
   String? get _pubkey => _nostrMailService.getPublicKey();
 

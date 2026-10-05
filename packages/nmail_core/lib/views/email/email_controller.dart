@@ -139,7 +139,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<Uint8List?> thumbnailBytes(Email email, AttachmentRef ref) {
     return _thumbnailLoads.putIfAbsent(
       ref.sha256,
-      () => Get.find<NostrMailService>().client.getAttachmentBytes(email, ref),
+      () => GetIt.I<NostrMailService>().client.getAttachmentBytes(email, ref),
     );
   }
 
@@ -159,7 +159,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     await previous;
 
     try {
-      final bytes = await Get.find<NostrMailService>().client
+      final bytes = await GetIt.I<NostrMailService>().client
           .getAttachmentBytes(email, ref);
       _inlineImages[contentId] = bytes;
       return bytes;
@@ -217,7 +217,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     isLoadingRawContent = true;
     notifyListeners();
     try {
-      final nostrMailService = Get.find<NostrMailService>();
+      final nostrMailService = GetIt.I<NostrMailService>();
       rawContent = await nostrMailService.client.getRawMimeText(email!);
     } finally {
       if (!_isDisposed) {
@@ -242,7 +242,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   }
 
   Future<void> loadEmail() async {
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
     final reference = nostrEventReferenceFromString(eventReference);
     final loaded = reference == null
         ? null
@@ -270,7 +270,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<void> _loadSummary() async {
     final id = email?.id;
     if (id == null) return;
-    summary = await Get.find<NostrMailService>().client.getSummary(id);
+    summary = await GetIt.I<NostrMailService>().client.getSummary(id);
     if (!_isDisposed) notifyListeners();
   }
 
@@ -342,7 +342,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<void> showNip59Events() async {
     if (email == null) return;
 
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
 
     final giftWrap = await nostrMailService.client.getGiftWrap(email!.id);
     final seal = await nostrMailService.client.getSeal(email!.id);
@@ -424,7 +424,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
     final l = AppLocalizations.of(AppRouter.rootContext!);
     try {
-      final nostrMailService = Get.find<NostrMailService>();
+      final nostrMailService = GetIt.I<NostrMailService>();
       final rumor = await nostrMailService.client.getRumor(email!.id);
 
       if (rumor == null) {
@@ -507,7 +507,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
     final filename = ref.filename ?? 'attachment';
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
     final fileData = await nostrMailService.client.getAttachmentBytes(
       email!,
       ref,
@@ -559,7 +559,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     if (email == null) return;
     int successCount = 0;
     int failureCount = 0;
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
 
     for (final ref in attachments) {
       final filename = ref.filename ?? 'attachment';
@@ -628,7 +628,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     showImageViewerPage(
       AppRouter.rootContext!,
       filename: ref.filename ?? 'image',
-      imageData: Get.find<NostrMailService>().client.getAttachmentBytes(
+      imageData: GetIt.I<NostrMailService>().client.getAttachmentBytes(
         email!,
         ref,
       ),
@@ -640,7 +640,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
     final filename = ref.filename ?? 'document.pdf';
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
     final pdfData = await nostrMailService.client.getAttachmentBytes(
       email!,
       ref,

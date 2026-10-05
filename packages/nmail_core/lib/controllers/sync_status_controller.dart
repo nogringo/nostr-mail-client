@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
@@ -16,7 +15,7 @@ class SyncStatusController extends ChangeNotifier {
   bool _isDisposed = false;
 
   Future<void> loadData() async {
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
     syncStatus = await nostrMailService.getEmailSyncStatus();
     if (_isDisposed) return;
     isLoading = false;
@@ -30,7 +29,7 @@ class SyncStatusController extends ChangeNotifier {
     try {
       await GetIt.I<SyncEngine>().clearAllLocalData();
       // Waits for the walk from scratch the clear just started.
-      await Get.find<NostrMailService>().client.fetchRecent();
+      await GetIt.I<NostrMailService>().client.fetchRecent();
       await loadData();
     } finally {
       if (!_isDisposed) {

@@ -119,7 +119,7 @@ class ProfileController extends ChangeNotifier {
 
     try {
       final ndk = GetIt.I<Ndk>();
-      final nostrMailService = Get.find<NostrMailService>();
+      final nostrMailService = GetIt.I<NostrMailService>();
 
       // Check if user has configured servers, otherwise use defaults
       final userServers = await nostrMailService.getBlossomServers();

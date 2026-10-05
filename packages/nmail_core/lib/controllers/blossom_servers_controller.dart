@@ -1,6 +1,5 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
@@ -29,7 +28,7 @@ class BlossomServersController extends ChangeNotifier {
   }
 
   Future<void> loadData() async {
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
     final blossomServers = await nostrMailService.getBlossomServers();
     if (_isDisposed) return;
 

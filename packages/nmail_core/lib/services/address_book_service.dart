@@ -41,7 +41,7 @@ class AddressBookService extends GetxService {
         _injectedBook ??
         NostrAddressBook(
           ndk: _ndk,
-          database: Get.find<StorageService>().db,
+          database: GetIt.I<StorageService>().db,
           broadcastQueue: GetIt.I<OfflineBroadcast>(),
           syncEngine: GetIt.I<SyncEngine>(),
         );

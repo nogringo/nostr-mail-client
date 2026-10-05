@@ -128,7 +128,7 @@ class ShareThemeController extends ChangeNotifier {
       throw StateError('Unknown background image type');
     }
 
-    final userServers = await Get.find<NostrMailService>().getBlossomServers();
+    final userServers = await GetIt.I<NostrMailService>().getBlossomServers();
     final results = await GetIt.I<Ndk>().blossom.uploadBlob(
       data: data,
       contentType: type,

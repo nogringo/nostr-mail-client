@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:nmail_core/services/storage_service.dart';
@@ -17,7 +18,7 @@ class MailDomainService extends GetxService {
     StorageService? storage,
     http.Client? client,
     DateTime Function()? now,
-  }) : _storage = storage ?? Get.find<StorageService>(),
+  }) : _storage = storage ?? GetIt.I<StorageService>(),
        _client = client ?? http.Client(),
        _now = now ?? DateTime.now;
 

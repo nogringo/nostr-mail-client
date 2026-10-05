@@ -127,12 +127,12 @@ Registered in `runNmailApp()` or `InitialBinding`:
 - [ ] `MailboxesController`
 - [ ] `MailDomainService`
 - [ ] `MetadataService`
-- [ ] `NostrMailService`
+- [x] `NostrMailService`
 - [x] `NotificationService`
 - [x] `PushRegistrationService`
 - [x] `PushSubscriptionService`
 - [ ] `SettingsController`
-- [ ] `StorageService`
+- [x] `StorageService`
 - [ ] `ThemeService`
 
 ### 6. Removal

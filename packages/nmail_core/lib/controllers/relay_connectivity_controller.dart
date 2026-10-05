@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart';
 
 import 'package:nmail_core/services/device_connectivity_service.dart';
@@ -37,7 +38,7 @@ class RelayConnectivityController extends ChangeNotifier {
   }
 
   void _subscribeToConnectivity() {
-    final nostrMailService = Get.find<NostrMailService>();
+    final nostrMailService = GetIt.I<NostrMailService>();
     _subscription = nostrMailService.relayConnectivityChanges.listen((
       connections,
     ) {

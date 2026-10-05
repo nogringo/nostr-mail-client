@@ -27,7 +27,7 @@ import 'scheduled_controller.dart';
 import 'settings_controller.dart';
 
 class AuthController extends GetxController {
-  final _nostrMailService = Get.find<NostrMailService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
 
   final isLoading = false.obs;
   final isLoggedIn = false.obs;

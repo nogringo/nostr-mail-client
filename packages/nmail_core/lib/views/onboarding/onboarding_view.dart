@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -13,7 +13,7 @@ class OnboardingView extends StatelessWidget {
   const OnboardingView({super.key});
 
   Future<void> _onDone(BuildContext context) async {
-    final storage = Get.find<StorageService>();
+    final storage = GetIt.I<StorageService>();
     await storage.saveSetting('has_seen_onboarding', true);
     if (context.mounted) context.go(AppRoutes.login);
   }

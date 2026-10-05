@@ -119,7 +119,7 @@ Future<void> _initApp({
   // Initialize storage service
   final storageService = StorageService();
   await storageService.init();
-  Get.put(storageService, permanent: true);
+  GetIt.I.registerSingleton(storageService);
 
   // Initialize NDK with event verification enabled.
   final cacheManager = await NdkCacheService.createCacheManager(storageService);
@@ -178,7 +178,7 @@ Future<void> _initApp({
   final pushSubscriptions = PushSubscriptionService();
   GetIt.I.registerSingleton(pushSubscriptions);
   unawaited(pushSubscriptions.flushPendingDisables());
-  await Get.putAsync(() => NostrMailService().init(), permanent: true);
+  GetIt.I.registerSingleton(await NostrMailService().init());
   final authController = AuthController();
   await authController.init();
   Get.put(authController, permanent: true);

@@ -1,7 +1,6 @@
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
@@ -39,10 +38,10 @@ class EmailSyncStatus {
 /// agnostic: its managers read the logged account from ndk on every call and
 /// its settings cache is keyed by pubkey, so an account change only detaches
 /// and re-attaches it. Never dispose it: that closes the scheduler for good.
-class NostrMailService extends GetxService {
+class NostrMailService {
   late final NostrMailClient client;
 
-  final _storageService = Get.find<StorageService>();
+  final _storageService = GetIt.I<StorageService>();
   final _ndk = GetIt.I<Ndk>();
 
   bool get hasAccount => _ndk.accounts.getPublicKey() != null;

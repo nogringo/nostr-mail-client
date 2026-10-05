@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -18,7 +18,7 @@ class ScheduledController extends ChangeNotifier {
     }
   }
 
-  final _nostrMailService = Get.find<NostrMailService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
 
   List<ScheduledEmail> scheduled = [];
   bool isLoading = false;

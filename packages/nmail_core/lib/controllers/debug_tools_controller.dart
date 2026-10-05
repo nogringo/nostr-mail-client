@@ -16,8 +16,8 @@ import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/storage_service.dart';
 
 class DebugToolsController extends ChangeNotifier {
-  final _nostrMailService = Get.find<NostrMailService>();
-  final _storageService = Get.find<StorageService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
+  final _storageService = GetIt.I<StorageService>();
   bool isClearingSyncCoverage = false;
   bool _isDisposed = false;
 

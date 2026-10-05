@@ -29,7 +29,7 @@ class InboxController extends ChangeNotifier with WidgetsBindingObserver {
     }
   }
 
-  final _nostrMailService = Get.find<NostrMailService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
   final _notifications = GetIt.I<NotificationService>();
 
   List<EmailSummary> emails = [];

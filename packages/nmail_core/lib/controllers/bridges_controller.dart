@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
@@ -27,7 +27,7 @@ class BridgesController extends ChangeNotifier {
 
   Future<void> loadData() async {
     try {
-      final nostrMailService = Get.find<NostrMailService>();
+      final nostrMailService = GetIt.I<NostrMailService>();
       final settings = await nostrMailService.client.getLocalPrivateSettings();
       final loadedBridges = settings?.bridges ?? [];
       if (_isDisposed) return;
@@ -74,7 +74,7 @@ class BridgesController extends ChangeNotifier {
     isSaving = true;
     notifyListeners();
     try {
-      final nostrMailService = Get.find<NostrMailService>();
+      final nostrMailService = GetIt.I<NostrMailService>();
       final bridgesToSave = bridges!
           .where((bridge) => !markedForDeletion.contains(bridge))
           .toList();

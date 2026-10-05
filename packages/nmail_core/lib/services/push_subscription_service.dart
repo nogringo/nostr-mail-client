@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
@@ -44,7 +43,7 @@ class PushSubscriptionService {
   final PushRegistrationService? _registrationOverride;
   final PendingPushDisables _pending;
 
-  StorageService get _storage => _storageOverride ?? Get.find<StorageService>();
+  StorageService get _storage => _storageOverride ?? GetIt.I<StorageService>();
   Ndk get _ndk => _ndkOverride ?? GetIt.I<Ndk>();
   PushRegistrationService get _registration =>
       _registrationOverride ?? GetIt.I<PushRegistrationService>();

@@ -11,6 +11,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:get/get.dart' hide FirstWhereExt;
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
@@ -88,7 +89,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
     notifyListeners();
   }
 
-  final _nostrMailService = Get.find<NostrMailService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
   final _contactsService = Get.find<ContactsService>();
   final _metadataService = Get.find<MetadataService>();
 

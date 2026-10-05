@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:sembast_web/sembast_web.dart';
 
 import 'storage_service_io.dart'
     if (dart.library.html) 'storage_service_stub.dart'
     as io;
 
-class StorageService extends GetxService {
+class StorageService {
   late final Database db;
   bool _hasSeenOnboarding = false;
 

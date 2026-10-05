@@ -15,7 +15,7 @@ import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
 class ContactsService extends GetxService {
-  final _nostrMailService = Get.find<NostrMailService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
   final _ndk = GetIt.I<Ndk>();
   AddressBookService? get _addressBookService =>
       Get.isRegistered<AddressBookService>()

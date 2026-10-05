@@ -78,7 +78,7 @@ class BackgroundsController extends ChangeNotifier {
   Future<List<String>> _listCachedGallery() async {
     final cache = GetIt.I<BlossomCache>();
     final stored =
-        await Get.find<StorageService>().getSetting<List>(_cachedGalleryKey) ??
+        await GetIt.I<StorageService>().getSetting<List>(_cachedGalleryKey) ??
         const [];
 
     // Removing an account deletes its background from the cache, not from
@@ -175,7 +175,7 @@ class BackgroundsController extends ChangeNotifier {
   }
 
   Future<void> _saveCachedGallery() {
-    return Get.find<StorageService>().saveSetting(
+    return GetIt.I<StorageService>().saveSetting(
       _cachedGalleryKey,
       savedImages.toList(),
     );

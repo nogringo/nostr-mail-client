@@ -1,6 +1,7 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../app/routes/app_router.dart';
 import '../controllers/auth_controller.dart';
@@ -32,7 +33,7 @@ class CreateIdentityController extends ChangeNotifier {
   bool isSaving = false;
   bool _isDisposed = false;
 
-  final _nostrMailService = Get.find<NostrMailService>();
+  final _nostrMailService = GetIt.I<NostrMailService>();
 
   @override
   void dispose() {
