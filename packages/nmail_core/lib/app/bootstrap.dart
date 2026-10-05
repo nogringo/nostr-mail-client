@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
@@ -87,11 +86,6 @@ Future<void> _initApp({
   UnifiedPushDistributorChecker? hasUnifiedPushDistributor,
   String? unifiedPushDistributorInstallUrl,
 }) async {
-  // Navigation is go_router's, so GetX never sees a route change and its
-  // route-linked disposal would delete controllers at the wrong time.
-  // onlyBuilder disables it.
-  Get.smartManagement = SmartManagement.onlyBuilder;
-
   GetIt.I.registerSingleton(
     DistributionConfig(
       distribution: distribution,
