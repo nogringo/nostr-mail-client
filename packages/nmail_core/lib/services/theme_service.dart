@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
-class ThemeService extends GetxService {
+class ThemeService extends ChangeNotifier {
   static const dynamicThemeKey = 'dynamic_theme';
   static const themeColorKey = 'theme_color';
   static const paletteStyleKey = 'palette_style';
   static const backgroundSeedColorKeyPrefix = 'background_seed_color:';
   static const communityThemeKey = 'community_theme';
 
-  final lightColorScheme = Rxn<ColorScheme>();
-  final darkColorScheme = Rxn<ColorScheme>();
+  ColorScheme? _lightColorScheme;
+  ColorScheme? _darkColorScheme;
+
+  ColorScheme? get lightColorScheme => _lightColorScheme;
+  ColorScheme? get darkColorScheme => _darkColorScheme;
 
   void setColorSchemes(ColorScheme? light, ColorScheme? dark) {
-    lightColorScheme.value = light;
-    darkColorScheme.value = dark;
+    if (light == _lightColorScheme && dark == _darkColorScheme) return;
+    _lightColorScheme = light;
+    _darkColorScheme = dark;
+    notifyListeners();
   }
 
-  void clear() {
-    lightColorScheme.value = null;
-    darkColorScheme.value = null;
-  }
+  void clear() => setColorSchemes(null, null);
 }

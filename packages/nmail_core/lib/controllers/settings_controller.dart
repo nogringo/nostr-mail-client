@@ -24,7 +24,7 @@ import 'package:nmail_core/utils/seed_color_from_image.dart';
 
 class SettingsController extends GetxController {
   final _storageService = GetIt.I<StorageService>();
-  final _themeService = Get.find<ThemeService>();
+  final _themeService = GetIt.I<ThemeService>();
   StreamSubscription? _authSubscription;
 
   static const _alwaysLoadImagesKey = 'always_load_images';

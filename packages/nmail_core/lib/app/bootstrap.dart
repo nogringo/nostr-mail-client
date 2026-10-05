@@ -184,7 +184,7 @@ Future<void> _initApp({
   Get.put(authController, permanent: true);
 
   // Initialize theme service
-  Get.put(ThemeService(), permanent: true);
+  GetIt.I.registerSingleton(ThemeService());
 
   // SettingsController is awaited (not put inside InitialBinding) so the
   // saved theme mode and locale are available before the first frame.
@@ -221,81 +221,84 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsController = Get.find<SettingsController>();
 
-    return Obx(() {
-      final lightScheme = appLightColorScheme();
-      final darkScheme = appDarkColorScheme();
+    return ListenableBuilder(
+      listenable: GetIt.I<ThemeService>(),
+      builder: (context, _) => Obx(() {
+        final lightScheme = appLightColorScheme();
+        final darkScheme = appDarkColorScheme();
 
-      final sharedInputDecorationTheme = InputDecorationTheme(
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-      );
+        final sharedInputDecorationTheme = InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+        );
 
-      return ToastificationWrapper(
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'Nmail',
-          locale: settingsController.locale.value,
-          theme: ThemeData.from(
-            colorScheme: lightScheme,
-          ).copyWith(inputDecorationTheme: sharedInputDecorationTheme),
-          darkTheme: ThemeData.from(
-            colorScheme: darkScheme,
-          ).copyWith(inputDecorationTheme: sharedInputDecorationTheme),
-          themeMode: settingsController.themeMode.value,
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            ndk_flutter.AppLocalizations.delegate,
-            FlutterQuillLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales.toList()
-            ..remove(const Locale('en'))
-            ..insert(0, const Locale('en')),
-          routerConfig: AppRouter.init(),
-          builder: (context, child) {
-            if (PlatformHelper.isDesktop) {
-              final shell = ColoredBox(
-                color: Theme.of(context).colorScheme.surface,
-                child: Stack(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: ResponsiveHelper.isMobile(context) ? 32 : 0,
+        return ToastificationWrapper(
+          child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: 'Nmail',
+            locale: settingsController.locale.value,
+            theme: ThemeData.from(
+              colorScheme: lightScheme,
+            ).copyWith(inputDecorationTheme: sharedInputDecorationTheme),
+            darkTheme: ThemeData.from(
+              colorScheme: darkScheme,
+            ).copyWith(inputDecorationTheme: sharedInputDecorationTheme),
+            themeMode: settingsController.themeMode.value,
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              ndk_flutter.AppLocalizations.delegate,
+              FlutterQuillLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales.toList()
+              ..remove(const Locale('en'))
+              ..insert(0, const Locale('en')),
+            routerConfig: AppRouter.init(),
+            builder: (context, child) {
+              if (PlatformHelper.isDesktop) {
+                final shell = ColoredBox(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: ResponsiveHelper.isMobile(context) ? 32 : 0,
+                        ),
+                        child: child!,
                       ),
-                      child: child!,
-                    ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 32,
-                      child: Row(
-                        children: [
-                          Expanded(child: DragToMoveArea(child: Container())),
-                          if (!PlatformHelper.isMacOS)
-                            SizedBox(
-                              width: 154,
-                              child: WindowCaption(
-                                brightness: Theme.of(context).brightness,
-                                backgroundColor: Colors.transparent,
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: 32,
+                        child: Row(
+                          children: [
+                            Expanded(child: DragToMoveArea(child: Container())),
+                            if (!PlatformHelper.isMacOS)
+                              SizedBox(
+                                width: 154,
+                                child: WindowCaption(
+                                  brightness: Theme.of(context).brightness,
+                                  backgroundColor: Colors.transparent,
+                                ),
                               ),
-                            ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const PendingRequestsOverlay(),
-                  ],
-                ),
-              );
+                      const PendingRequestsOverlay(),
+                    ],
+                  ),
+                );
 
-              if (PlatformHelper.isMacOS) return shell;
-              return DragToResizeArea(child: shell);
-            }
-            return Stack(children: [child!, const PendingRequestsOverlay()]);
-          },
-        ),
-      );
-    });
+                if (PlatformHelper.isMacOS) return shell;
+                return DragToResizeArea(child: shell);
+              }
+              return Stack(children: [child!, const PendingRequestsOverlay()]);
+            },
+          ),
+        );
+      }),
+    );
   }
 }

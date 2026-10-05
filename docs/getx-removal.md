@@ -133,7 +133,7 @@ Registered in `runNmailApp()` or `InitialBinding`:
 - [x] `PushSubscriptionService`
 - [ ] `SettingsController`
 - [x] `StorageService`
-- [ ] `ThemeService`
+- [x] `ThemeService`
 
 ### 6. Removal
 
