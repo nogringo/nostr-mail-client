@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:ndk/ndk.dart';
 
 /// Get the best sender name for outgoing emails.
@@ -11,13 +10,22 @@ String? getSenderName(Metadata? metadata) {
   }
 
   if (metadata.name != null && metadata.name!.isNotEmpty) {
-    return GetUtils.capitalize(metadata.name!);
+    return _capitalize(metadata.name!);
   }
 
   final nip05 = metadata.nip05;
   if (nip05 != null && nip05.contains('@')) {
-    return GetUtils.capitalize(nip05.split('@').first);
+    return _capitalize(nip05.split('@').first);
   }
 
   return null;
 }
+
+String _capitalize(String value) => value
+    .split(' ')
+    .map(
+      (word) => word.isEmpty
+          ? word
+          : word[0].toUpperCase() + word.substring(1).toLowerCase(),
+    )
+    .join(' ');

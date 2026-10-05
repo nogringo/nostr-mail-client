@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_address_book/nostr_address_book.dart';

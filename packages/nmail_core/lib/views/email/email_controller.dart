@@ -193,7 +193,7 @@ class EmailController extends GetxController implements InlineImageSource {
     if (email == null) return;
 
     _ensureRawContent();
-    await showEmailSourceDialog(Get.context!);
+    await showEmailSourceDialog(AppRouter.rootContext!);
   }
 
   Future<String?> _ensureRawContent() async {
@@ -332,7 +332,7 @@ class EmailController extends GetxController implements InlineImageSource {
     final rumor = await nostrMailService.client.getRumor(email!.id);
 
     await showNip59EventsDialog(
-      context: Get.context!,
+      context: AppRouter.rootContext!,
       giftWrap: giftWrap,
       seal: seal,
       rumor: rumor,
@@ -363,7 +363,7 @@ class EmailController extends GetxController implements InlineImageSource {
   Future<void> downloadEmail() async {
     if (email == null) return;
 
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     try {
       final subject = (email!.subject?.isEmpty ?? true)
           ? l.emailDefaultFilename
@@ -372,7 +372,7 @@ class EmailController extends GetxController implements InlineImageSource {
 
       final raw = await _ensureRawContent();
       if (raw == null) {
-        ToastHelper.error(Get.context!, l.emailRawContentUnavailable);
+        ToastHelper.error(AppRouter.rootContext!, l.emailRawContentUnavailable);
         return;
       }
       final bytes = utf8.encode(raw);
@@ -393,29 +393,35 @@ class EmailController extends GetxController implements InlineImageSource {
         );
       }
 
-      ToastHelper.success(Get.context!, l.emailSaved(result));
+      ToastHelper.success(AppRouter.rootContext!, l.emailSaved(result));
     } catch (e) {
-      ToastHelper.error(Get.context!, l.emailSaveFailed(e.toString()));
+      ToastHelper.error(
+        AppRouter.rootContext!,
+        l.emailSaveFailed(e.toString()),
+      );
     }
   }
 
   Future<void> repostEmail() async {
     if (email == null) return;
 
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     try {
       final nostrMailService = Get.find<NostrMailService>();
       final rumor = await nostrMailService.client.getRumor(email!.id);
 
       if (rumor == null) {
-        ToastHelper.error(Get.context!, l.emailRepostFailedEvent);
+        ToastHelper.error(AppRouter.rootContext!, l.emailRepostFailedEvent);
         return;
       }
 
       await nostrMailService.client.repost(rumor);
-      ToastHelper.success(Get.context!, l.emailRepostSuccess);
+      ToastHelper.success(AppRouter.rootContext!, l.emailRepostSuccess);
     } catch (e) {
-      ToastHelper.error(Get.context!, l.emailRepostFailed(e.toString()));
+      ToastHelper.error(
+        AppRouter.rootContext!,
+        l.emailRepostFailed(e.toString()),
+      );
     }
   }
 
@@ -481,7 +487,7 @@ class EmailController extends GetxController implements InlineImageSource {
   }
 
   Future<void> downloadAttachment({required AttachmentRef ref}) async {
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
     final filename = ref.filename ?? 'attachment';
     final nostrMailService = Get.find<NostrMailService>();
@@ -490,7 +496,7 @@ class EmailController extends GetxController implements InlineImageSource {
       ref,
     );
     if (fileData == null) {
-      ToastHelper.error(Get.context!, l.emailAttachmentLoadFailed);
+      ToastHelper.error(AppRouter.rootContext!, l.emailAttachmentLoadFailed);
       return;
     }
 
@@ -522,14 +528,17 @@ class EmailController extends GetxController implements InlineImageSource {
         );
       }
 
-      ToastHelper.success(Get.context!, l.emailFileSaved);
+      ToastHelper.success(AppRouter.rootContext!, l.emailFileSaved);
     } catch (e) {
-      ToastHelper.error(Get.context!, l.emailFileSaveFailed(e.toString()));
+      ToastHelper.error(
+        AppRouter.rootContext!,
+        l.emailFileSaveFailed(e.toString()),
+      );
     }
   }
 
   Future<void> downloadAllAttachments(List<AttachmentRef> attachments) async {
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
     int successCount = 0;
     int failureCount = 0;
@@ -581,14 +590,17 @@ class EmailController extends GetxController implements InlineImageSource {
 
     if (failureCount == 0) {
       ToastHelper.success(
-        Get.context!,
+        AppRouter.rootContext!,
         l.emailDownloadedAllSuccess(successCount),
       );
     } else if (successCount == 0) {
-      ToastHelper.error(Get.context!, l.emailDownloadedAllFailed(failureCount));
+      ToastHelper.error(
+        AppRouter.rootContext!,
+        l.emailDownloadedAllFailed(failureCount),
+      );
     } else {
       ToastHelper.info(
-        Get.context!,
+        AppRouter.rootContext!,
         l.emailDownloadedMixed(successCount, failureCount),
       );
     }
@@ -597,7 +609,7 @@ class EmailController extends GetxController implements InlineImageSource {
   void showImageViewer({required AttachmentRef ref}) {
     if (email == null) return;
     showImageViewerPage(
-      Get.context!,
+      AppRouter.rootContext!,
       filename: ref.filename ?? 'image',
       imageData: Get.find<NostrMailService>().client.getAttachmentBytes(
         email!,
@@ -608,7 +620,7 @@ class EmailController extends GetxController implements InlineImageSource {
   }
 
   Future<void> showPdfViewer({required AttachmentRef ref}) async {
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
     final filename = ref.filename ?? 'document.pdf';
     final nostrMailService = Get.find<NostrMailService>();
@@ -617,7 +629,7 @@ class EmailController extends GetxController implements InlineImageSource {
       ref,
     );
     if (pdfData != null) {
-      Navigator.of(Get.context!).push(
+      Navigator.of(AppRouter.rootContext!).push(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) =>
               WindowCaptionInset(
@@ -648,7 +660,7 @@ class EmailController extends GetxController implements InlineImageSource {
         ),
       );
     } else {
-      ToastHelper.error(Get.context!, l.emailPdfLoadFailed);
+      ToastHelper.error(AppRouter.rootContext!, l.emailPdfLoadFailed);
     }
   }
 

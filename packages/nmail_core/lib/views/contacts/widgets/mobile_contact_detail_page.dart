@@ -1,5 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FirstWhereExt;
 
 import '../../../controllers/contacts_controller.dart';
 import 'contact_actions.dart';

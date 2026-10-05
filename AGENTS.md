@@ -204,7 +204,7 @@ Current route model:
 - Legacy `/email/:id` redirects through the root NIP-19 dispatcher.
 - Root `/:nostrId` dispatches `npub`, `nprofile`, `nevent`, and note/event references.
 
-GetX is still used for DI, reactivity, dialogs/snackbars, and controller ownership. `AppRouter` aliases its root navigator key to `Get.key` so legacy `Get.context`, `Get.dialog`, and `Get.snackbar` calls continue to work. There is an inline TODO to eventually remove the remaining GetX navigation coupling.
+GetX is still used for DI, reactivity, and controller ownership. Controllers, which have no `BuildContext`, show toasts and dialogs through `AppRouter.rootContext`.
 
 When adding routes:
 
@@ -330,7 +330,6 @@ Android release workflows build:
 
 Inline TODOs currently mention:
 
-- Finish removing remaining GetX navigation/context coupling after replacing `Get.dialog`, `Get.snackbar`, and context reads.
 - Debounce inbox listeners during bulk sync.
 - Allow attachment renaming.
 - Enforce attachment file size limits.

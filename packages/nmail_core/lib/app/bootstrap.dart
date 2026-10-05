@@ -273,7 +273,7 @@ class MainApp extends StatelessWidget {
                       child: Row(
                         children: [
                           Expanded(child: DragToMoveArea(child: Container())),
-                          if (!GetPlatform.isMacOS)
+                          if (!PlatformHelper.isMacOS)
                             SizedBox(
                               width: 154,
                               child: WindowCaption(
@@ -289,7 +289,7 @@ class MainApp extends StatelessWidget {
                 ),
               );
 
-              if (GetPlatform.isMacOS) return shell;
+              if (PlatformHelper.isMacOS) return shell;
               return DragToResizeArea(child: shell);
             }
             return Stack(children: [child!, const PendingRequestsOverlay()]);

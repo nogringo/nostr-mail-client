@@ -177,7 +177,7 @@ class AuthController extends GetxController {
 
   Future<void> register() async {
     final isEmpty = username.value.trim().isEmpty;
-    final context = Get.context;
+    final context = AppRouter.rootContext;
 
     if (isEmpty && context != null) {
       ToastHelper.error(

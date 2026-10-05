@@ -73,8 +73,8 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       if (!isClosed) {
-        final l = AppLocalizations.of(Get.context!);
-        ToastHelper.error(Get.context!, l.profileLoadFailed);
+        final l = AppLocalizations.of(AppRouter.rootContext!);
+        ToastHelper.error(AppRouter.rootContext!, l.profileLoadFailed);
       }
     } finally {
       if (!isClosed) {
@@ -201,8 +201,8 @@ class ProfileController extends GetxController {
       if (!isClosed) {
         isSaving.value = false;
         update();
-        final l = AppLocalizations.of(Get.context!);
-        ToastHelper.error(Get.context!, l.profileUpdateFailed);
+        final l = AppLocalizations.of(AppRouter.rootContext!);
+        ToastHelper.error(AppRouter.rootContext!, l.profileUpdateFailed);
       }
       return;
     }

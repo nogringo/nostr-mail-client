@@ -24,10 +24,10 @@ The `get` package is removed from `nmail_core`, `nmail_standard` and `nmail_foss
 | `Get.delete<T>()` | `GetIt.I.unregister<T>()` |
 | `Get.reset()` | `GetIt.I.reset()` |
 | `Get.put(x, tag: ...)` | No registration: the `show...` helper creates the controller, passes it to the dialog and disposes it in `finally` |
-| `Get.context` | `BuildContext` passed by the caller |
+| `Get.context` | The widget's `BuildContext`; `AppRouter.rootContext` in controllers |
 | `Get.key` | `GlobalKey<NavigatorState>()` |
 | `GetUtils.isEmail`, `GetUtils.capitalize` | Helpers in `utils/` |
-| `GetPlatform.isMacOS` | `!kIsWeb && defaultTargetPlatform == TargetPlatform.macOS` |
+| `GetPlatform.isMacOS` | `PlatformHelper.isMacOS` |
 | `firstWhereOrNull` | `package:collection` |
 | `GetSingleTickerProviderStateMixin` | `SingleTickerProviderStateMixin` on the `State` that owns the animation |
 | `Bindings` | Registrations in `runNmailApp()` |
@@ -46,11 +46,11 @@ The `get` package is removed from `nmail_core`, `nmail_standard` and `nmail_foss
 
 ### 1. Utilities and context
 
-- [ ] `GetUtils.isEmail` in `compose_controller.dart`, `GetUtils.capitalize` in `sender_name_helper.dart`
-- [ ] `GetPlatform.isMacOS` in `bootstrap.dart`
-- [ ] `firstWhereOrNull` imports
-- [ ] `Get.context` in `compose_controller.dart`, `email_controller.dart`, `profile_controller.dart`, `create_identity_controller.dart`, `auth_controller.dart`, `selection_actions_bar.dart`
-- [ ] `Get.key` in `app_router.dart`
+- [x] `GetUtils.isEmail` in `compose_controller.dart`, `GetUtils.capitalize` in `sender_name_helper.dart`
+- [x] `GetPlatform.isMacOS` in `bootstrap.dart`
+- [x] `firstWhereOrNull` imports
+- [x] `Get.context` in `compose_controller.dart`, `email_controller.dart`, `profile_controller.dart`, `create_identity_controller.dart`, `auth_controller.dart`, `selection_actions_bar.dart`
+- [x] `Get.key` in `app_router.dart`
 
 ### 2. Plain objects
 

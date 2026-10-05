@@ -3,19 +3,21 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:collection/collection.dart';
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 import 'package:nostr_mail/nostr_mail.dart' as mail show Recipient;
+import 'package:nmail_core/utils/is_email.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
@@ -135,7 +137,9 @@ class ComposeController extends GetxController implements InlineImageSource {
     _contactsService.loadContacts();
 
     final settings = Get.find<SettingsController>();
-    final signature = settings.signature(AppLocalizations.of(Get.context!));
+    final signature = settings.signature(
+      AppLocalizations.of(AppRouter.rootContext!),
+    );
     showQuotedImages.value = settings.alwaysLoadImages.value;
 
     toController = TextEditingController();
@@ -418,7 +422,7 @@ class ComposeController extends GetxController implements InlineImageSource {
 
   /// Pick files and add them as attachments
   Future<void> pickAttachments() async {
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     try {
       // TODO: limit file size
       final files = await FilePicker.pickFiles(
@@ -435,8 +439,11 @@ class ComposeController extends GetxController implements InlineImageSource {
         );
       }
     } catch (e) {
-      if (Get.context != null) {
-        ToastHelper.error(Get.context!, l.composePickFilesFailed(e.toString()));
+      if (AppRouter.rootContext != null) {
+        ToastHelper.error(
+          AppRouter.rootContext!,
+          l.composePickFilesFailed(e.toString()),
+        );
       }
     }
   }
@@ -490,8 +497,8 @@ class ComposeController extends GetxController implements InlineImageSource {
       if (image != null) return await _insertPastedImage(image);
       await quillController.clipboardPaste();
     } catch (_) {
-      final l = AppLocalizations.of(Get.context!);
-      ToastHelper.error(Get.context!, l.composePasteFailed);
+      final l = AppLocalizations.of(AppRouter.rootContext!);
+      ToastHelper.error(AppRouter.rootContext!, l.composePasteFailed);
     }
   }
 
@@ -541,7 +548,7 @@ class ComposeController extends GetxController implements InlineImageSource {
       );
     }
 
-    if (GetUtils.isEmail(input)) {
+    if (isEmail(input)) {
       return Recipient(
         input: input,
         mailAddress: MailAddress(null, input),
@@ -1084,8 +1091,8 @@ class ComposeController extends GetxController implements InlineImageSource {
     }
 
     if (!complete && !isClosed && _quotedHtml != null) {
-      final l = AppLocalizations.of(Get.context!);
-      ToastHelper.error(Get.context!, l.composeForwardPartsFailed);
+      final l = AppLocalizations.of(AppRouter.rootContext!);
+      ToastHelper.error(AppRouter.rootContext!, l.composeForwardPartsFailed);
     }
   }
 
@@ -1349,8 +1356,8 @@ class ComposeController extends GetxController implements InlineImageSource {
       if (added) {
         controller.clear();
       } else {
-        final l = AppLocalizations.of(Get.context!);
-        ToastHelper.error(Get.context!, l.composeInvalidRecipient);
+        final l = AppLocalizations.of(AppRouter.rootContext!);
+        ToastHelper.error(AppRouter.rootContext!, l.composeInvalidRecipient);
       }
     }
   }
@@ -1363,8 +1370,8 @@ class ComposeController extends GetxController implements InlineImageSource {
 
     final at = scheduledAt.value;
     if (at != null && !at.isAfter(DateTime.now())) {
-      final l = AppLocalizations.of(Get.context!);
-      ToastHelper.error(Get.context!, l.composeScheduleTimePast);
+      final l = AppLocalizations.of(AppRouter.rootContext!);
+      ToastHelper.error(AppRouter.rootContext!, l.composeScheduleTimePast);
       return;
     }
 
@@ -1385,12 +1392,12 @@ class ComposeController extends GetxController implements InlineImageSource {
             mode: sendMode.value,
           );
 
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     if (success) {
       AppRouter.router.pop();
     } else {
       ToastHelper.error(
-        Get.context!,
+        AppRouter.rootContext!,
         at != null ? l.composeScheduleFailed : l.composeSendFailed,
       );
     }
@@ -1408,8 +1415,8 @@ class ComposeController extends GetxController implements InlineImageSource {
       _originalCancelled = true;
       return true;
     } catch (_) {
-      final l = AppLocalizations.of(Get.context!);
-      ToastHelper.error(Get.context!, l.scheduledCancelFailed);
+      final l = AppLocalizations.of(AppRouter.rootContext!);
+      ToastHelper.error(AppRouter.rootContext!, l.scheduledCancelFailed);
       return false;
     }
   }
@@ -1440,9 +1447,9 @@ class ComposeController extends GetxController implements InlineImageSource {
       isSending.value = false;
     }
 
-    final l = AppLocalizations.of(Get.context!);
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     if (recipients.isEmpty) {
-      ToastHelper.error(Get.context!, l.composeAddRecipient);
+      ToastHelper.error(AppRouter.rootContext!, l.composeAddRecipient);
       return false;
     }
 

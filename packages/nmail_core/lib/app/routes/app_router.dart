@@ -60,16 +60,14 @@ import 'app_routes.dart';
 class AppRouter {
   AppRouter._();
 
-  /// Shared with GetX so `Get.context` keeps working without a
-  /// `GetMaterialApp`: it reads `Get.key.currentContext`.
-  ///
-  /// TODO: drop GetX for navigation entirely by passing `BuildContext`
-  /// through controllers instead of reading `Get.context!`. Once those are
-  /// gone, this aliasing line can be deleted and `_rootNavigatorKey` can
-  /// become a plain `GlobalKey<NavigatorState>()`.
-  static final GlobalKey<NavigatorState> _rootNavigatorKey = Get.key;
+  static final GlobalKey<NavigatorState> _rootNavigatorKey =
+      GlobalKey<NavigatorState>();
   static final GlobalKey<NavigatorState> _shellNavigatorKey =
       GlobalKey<NavigatorState>();
+
+  /// For controllers, which have no `BuildContext` of their own to show
+  /// toasts and dialogs.
+  static BuildContext? get rootContext => _rootNavigatorKey.currentContext;
 
   static _AuthRefreshNotifier? _authNotifier;
 

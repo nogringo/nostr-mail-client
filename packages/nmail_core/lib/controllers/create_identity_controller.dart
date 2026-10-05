@@ -181,9 +181,12 @@ class CreateIdentityController extends GetxController {
 
       AppRouter.router.pop();
     } catch (e) {
-      if (Get.context != null) {
-        final l = AppLocalizations.of(Get.context!);
-        ToastHelper.error(Get.context!, l.createIdentityFailed(e.toString()));
+      if (AppRouter.rootContext != null) {
+        final l = AppLocalizations.of(AppRouter.rootContext!);
+        ToastHelper.error(
+          AppRouter.rootContext!,
+          l.createIdentityFailed(e.toString()),
+        );
       }
     } finally {
       _stopSaving();

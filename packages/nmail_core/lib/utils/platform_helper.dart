@@ -15,4 +15,9 @@ abstract class PlatformHelper {
     if (kIsWeb) return false;
     return defaultTargetPlatform == TargetPlatform.android;
   }
+
+  static bool get isMacOS {
+    if (kIsWeb) return false;
+    return defaultTargetPlatform == TargetPlatform.macOS;
+  }
 }

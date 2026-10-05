@@ -1,5 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FirstWhereExt;
 
 import '../../../controllers/contacts_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';

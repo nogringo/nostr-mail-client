@@ -195,7 +195,7 @@ class SelectionActionsBar extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ...primaryActions.map((action) => _buildActionButton(action)),
-              _buildMoreMenu(l, secondaryActions),
+              _buildMoreMenu(context, l, secondaryActions),
             ],
           );
         }
@@ -233,7 +233,7 @@ class SelectionActionsBar extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ...displayActions.map((action) => _buildActionButton(action)),
-            _buildMoreMenu(l, menuActions),
+            _buildMoreMenu(context, l, menuActions),
           ],
         );
       },
@@ -248,7 +248,11 @@ class SelectionActionsBar extends StatelessWidget {
     );
   }
 
-  Widget _buildMoreMenu(AppLocalizations l, List<_ActionItem> actions) {
+  Widget _buildMoreMenu(
+    BuildContext context,
+    AppLocalizations l,
+    List<_ActionItem> actions,
+  ) {
     return MenuAnchor(
       alignmentOffset: const Offset(-8, 0),
       style: MenuStyle(
@@ -257,7 +261,7 @@ class SelectionActionsBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             side: BorderSide(
               width: 2,
-              color: Theme.of(Get.context!).colorScheme.outlineVariant,
+              color: Theme.of(context).colorScheme.outlineVariant,
             ),
           ),
         ),

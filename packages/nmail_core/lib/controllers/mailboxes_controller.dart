@@ -2,7 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui' show Color;
 
-import 'package:get/get.dart';
+import 'package:collection/collection.dart';
+import 'package:get/get.dart' hide FirstWhereExt;
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/models/mailbox.dart';
