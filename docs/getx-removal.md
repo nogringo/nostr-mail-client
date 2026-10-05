@@ -99,7 +99,7 @@ Disposed when leaving the route:
 
 - [ ] `ComposeController`
 - [ ] `EmailController`
-- [ ] `CommunityThemeController`
+- [x] `CommunityThemeController`
 
 Created on first use and kept:
 

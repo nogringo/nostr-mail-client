@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -18,7 +19,7 @@ class CommunityThemeMuteDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
-    final controller = Get.find<CommunityThemeController>();
+    final controller = GetIt.I<CommunityThemeController>();
 
     return AlertDialog(
       title: Obx(() {
@@ -35,10 +36,11 @@ class CommunityThemeMuteDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
           child: Text(l.actionCancel),
         ),
-        Obx(
-          () => FilledButton(
-            onPressed: controller.isMuting.value ? null : () => _mute(context),
-            child: controller.isMuting.value
+        ListenableBuilder(
+          listenable: controller,
+          builder: (context, _) => FilledButton(
+            onPressed: controller.isMuting ? null : () => _mute(context),
+            child: controller.isMuting
                 ? const SizedBox.square(
                     dimension: 18,
                     child: CircularProgressIndicator(strokeWidth: 2),
@@ -54,7 +56,7 @@ class CommunityThemeMuteDialog extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final router = GoRouter.of(context);
     try {
-      await Get.find<CommunityThemeController>().muteAuthor();
+      await GetIt.I<CommunityThemeController>().muteAuthor();
     } catch (_) {
       if (context.mounted) {
         ToastHelper.error(context, l.communityThemeMuteError);

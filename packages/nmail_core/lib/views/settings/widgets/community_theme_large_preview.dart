@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_theme_controller.dart';
 import 'package:nmail_core/models/community_theme.dart';
@@ -16,45 +16,49 @@ class CommunityThemeLargePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<CommunityThemeController>();
+    final controller = GetIt.I<CommunityThemeController>();
     final imageUrl = theme.backgroundImageUrl;
 
     return AspectRatio(
       aspectRatio: _cardSize.aspectRatio,
-      child: Obx(() {
-        final isHidden = controller.isHidden;
-        return Stack(
-          fit: StackFit.expand,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: FittedBox(
-                child: SizedBox.fromSize(
-                  size: _cardSize,
-                  child: CommunityThemePreview(
-                    colorScheme: theme.colorScheme,
-                    background: imageUrl == null || isHidden
-                        ? null
-                        : Image(
-                            image: ResizeImage(
-                              NetworkImage(imageUrl),
-                              width: 1600,
+      child: ListenableBuilder(
+        listenable: controller,
+        builder: (context, _) {
+          final isHidden = controller.isHidden;
+          return Stack(
+            fit: StackFit.expand,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: FittedBox(
+                  child: SizedBox.fromSize(
+                    size: _cardSize,
+                    child: CommunityThemePreview(
+                      colorScheme: theme.colorScheme,
+                      background: imageUrl == null || isHidden
+                          ? null
+                          : Image(
+                              image: ResizeImage(
+                                NetworkImage(imageUrl),
+                                width: 1600,
+                              ),
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, _, _) =>
+                                  const SizedBox.shrink(),
                             ),
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, _, _) => const SizedBox.shrink(),
-                          ),
+                    ),
                   ),
                 ),
               ),
-            ),
-            if (isHidden)
-              CommunityThemeWarning(
-                reason: theme.contentWarning!,
-                onShow: controller.reveal,
-              ),
-          ],
-        );
-      }),
+              if (isHidden)
+                CommunityThemeWarning(
+                  reason: theme.contentWarning!,
+                  onShow: controller.reveal,
+                ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

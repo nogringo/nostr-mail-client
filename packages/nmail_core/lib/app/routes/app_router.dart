@@ -500,19 +500,20 @@ class AppRouter {
     required String identifier,
     List<String> relays = const [],
   }) {
-    if (Get.isRegistered<CommunityThemeController>()) {
-      final existing = Get.find<CommunityThemeController>();
+    if (GetIt.I.isRegistered<CommunityThemeController>()) {
+      final existing = GetIt.I<CommunityThemeController>();
       if (existing.pubkey == pubkey && existing.identifier == identifier) {
         return;
       }
-      Get.delete<CommunityThemeController>();
+      GetIt.I.unregister<CommunityThemeController>();
     }
-    Get.put(
+    GetIt.I.registerSingleton(
       CommunityThemeController(
         pubkey: pubkey,
         identifier: identifier,
         relays: relays,
       ),
+      dispose: (controller) => controller.dispose(),
     );
   }
 

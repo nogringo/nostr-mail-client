@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_theme_controller.dart';
 
@@ -19,15 +19,18 @@ class CommunityThemeCopyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<CommunityThemeController>();
+    final controller = GetIt.I<CommunityThemeController>();
 
-    return Obx(() {
-      final isCopied = controller.copied.value == text;
-      return TextButton.icon(
-        onPressed: () => controller.copy(text),
-        icon: Icon(isCopied ? Icons.check : icon),
-        label: Text(isCopied ? copiedLabel : label),
-      );
-    });
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final isCopied = controller.copied == text;
+        return TextButton.icon(
+          onPressed: () => controller.copy(text),
+          icon: Icon(isCopied ? Icons.check : icon),
+          label: Text(isCopied ? copiedLabel : label),
+        );
+      },
+    );
   }
 }

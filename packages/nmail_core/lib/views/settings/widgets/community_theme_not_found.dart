@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/community_theme_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -11,7 +11,7 @@ class CommunityThemeNotFound extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final controller = Get.find<CommunityThemeController>();
+    final controller = GetIt.I<CommunityThemeController>();
 
     return Center(
       child: Padding(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
@@ -18,12 +19,20 @@ import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 
-class CommunityThemeController extends GetxController {
+class CommunityThemeController extends ChangeNotifier {
   CommunityThemeController({
     required this.pubkey,
     required this.identifier,
     this.relays = const [],
-  });
+  }) {
+    _appliedSubscription = _settings.communityTheme.listen(
+      (_) => notifyListeners(),
+    );
+    theme = _browser?.themes.firstWhereOrNull(
+      (theme) => theme.address == address,
+    );
+    if (theme == null) load();
+  }
 
   final String pubkey;
   final String identifier;
@@ -31,17 +40,23 @@ class CommunityThemeController extends GetxController {
   /// Hints of the link that opened the theme.
   final List<String> relays;
 
-  final theme = Rxn<CommunityTheme>();
-  final isLoading = false.obs;
-  final isApplying = false.obs;
-  final isMuting = false.obs;
+  CommunityTheme? theme;
+  bool isLoading = false;
+  bool isApplying = false;
+  bool isMuting = false;
 
   /// The text copied in the last two seconds.
-  final copied = RxnString();
+  String? copied;
 
-  final _revealed = false.obs;
+  bool _revealed = false;
+  bool _isDisposed = false;
+  late final StreamSubscription<String?> _appliedSubscription;
+
+  SettingsController get _settings => Get.find<SettingsController>();
 
   String get address => '${CommunityTheme.kind}:$pubkey:$identifier';
+
+  bool get isApplied => _settings.communityTheme.value == address;
 
   /// Registered when the theme opens from the themes page.
   CommunityThemesController? get _browser =>
@@ -50,34 +65,34 @@ class CommunityThemeController extends GetxController {
       : null;
 
   bool get isHidden {
-    final theme = this.theme.value;
-    if (theme == null || _revealed.value) return false;
+    final theme = this.theme;
+    if (theme == null || _revealed) return false;
     return _browser?.isHidden(theme) ??
         CommunityThemesController.startsHidden(theme);
   }
 
   @override
-  void onInit() {
-    super.onInit();
-    theme.value = _browser?.themes.firstWhereOrNull(
-      (theme) => theme.address == address,
-    );
-    if (theme.value == null) load();
+  void dispose() {
+    _isDisposed = true;
+    _appliedSubscription.cancel();
+    super.dispose();
   }
 
   void reveal() {
-    _revealed.value = true;
-    if (theme.value case final theme?) _browser?.reveal(theme);
+    _revealed = true;
+    if (theme case final theme?) _browser?.reveal(theme);
+    notifyListeners();
   }
 
   Future<void> load() async {
-    isLoading.value = true;
+    isLoading = true;
+    notifyListeners();
     final ndk = GetIt.I<Ndk>();
     try {
       final cached = await ndk.config.cache
           .loadEvents(pubKeys: [pubkey], kinds: [CommunityTheme.kind])
           .catchError((_) => <Nip01Event>[]);
-      if (isClosed) return;
+      if (_isDisposed) return;
       _show(cached);
 
       final fetched = await ndk.requests
@@ -93,36 +108,40 @@ class CommunityThemeController extends GetxController {
             cacheRead: false,
           )
           .future;
-      if (isClosed) return;
+      if (_isDisposed) return;
       _show([...cached, ...fetched]);
     } catch (_) {
       // A cached version stays on screen.
     } finally {
-      if (!isClosed) isLoading.value = false;
+      if (!_isDisposed) {
+        isLoading = false;
+        notifyListeners();
+      }
     }
   }
 
   Future<void> apply(BuildContext context) async {
-    final theme = this.theme.value;
-    if (theme == null || isApplying.value) return;
+    final theme = this.theme;
+    if (theme == null || isApplying) return;
     final l = AppLocalizations.of(context);
-    isApplying.value = true;
+    isApplying = true;
+    notifyListeners();
 
     try {
       final imageUrl = theme.backgroundImageUrl;
       final background = imageUrl != null
           ? await Get.find<BackgroundsController>().downloadToGallery(imageUrl)
           : BackgroundPreset.systemColorStorageValue;
-      await Get.find<SettingsController>().applyCommunityTheme(
-        theme,
-        background: background,
-      );
+      await _settings.applyCommunityTheme(theme, background: background);
     } catch (_) {
       if (context.mounted) {
         ToastHelper.error(context, l.communityThemesImageError);
       }
     } finally {
-      if (!isClosed) isApplying.value = false;
+      if (!_isDisposed) {
+        isApplying = false;
+        notifyListeners();
+      }
     }
   }
 
@@ -131,7 +150,8 @@ class CommunityThemeController extends GetxController {
   /// Throws when no relay answers or the signer fails, so a list it could not
   /// read is never replaced by an old copy or an empty one.
   Future<void> muteAuthor() async {
-    isMuting.value = true;
+    isMuting = true;
+    notifyListeners();
     try {
       final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
@@ -207,15 +227,21 @@ class CommunityThemeController extends GetxController {
 
       _browser?.hideAuthor(pubkey);
     } finally {
-      if (!isClosed) isMuting.value = false;
+      if (!_isDisposed) {
+        isMuting = false;
+        notifyListeners();
+      }
     }
   }
 
   void copy(String text) {
     Clipboard.setData(ClipboardData(text: text));
-    copied.value = text;
+    copied = text;
+    notifyListeners();
     Future.delayed(const Duration(seconds: 2), () {
-      if (!isClosed && copied.value == text) copied.value = null;
+      if (_isDisposed || copied != text) return;
+      copied = null;
+      notifyListeners();
     });
   }
 
@@ -223,6 +249,8 @@ class CommunityThemeController extends GetxController {
     final latest = CommunityTheme.latest(
       events,
     ).firstWhereOrNull((theme) => theme.address == address);
-    if (latest != null) theme.value = latest;
+    if (latest == null) return;
+    theme = latest;
+    notifyListeners();
   }
 }
