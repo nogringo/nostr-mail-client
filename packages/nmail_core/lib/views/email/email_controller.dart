@@ -158,8 +158,10 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     await previous;
 
     try {
-      final bytes = await GetIt.I<NostrMailService>().client
-          .getAttachmentBytes(email, ref);
+      final bytes = await GetIt.I<NostrMailService>().client.getAttachmentBytes(
+        email,
+        ref,
+      );
       _inlineImages[contentId] = bytes;
       return bytes;
     } catch (_) {

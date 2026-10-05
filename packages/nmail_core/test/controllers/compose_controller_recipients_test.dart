@@ -209,7 +209,9 @@ void main() {
       GetIt.I.registerSingleton<Ndk>(ndk);
       GetIt.I.registerSingleton(StorageService());
       mailClient = _FakeMailClient();
-      GetIt.I.registerSingleton<NostrMailService>(_FakeNostrMailService(mailClient));
+      GetIt.I.registerSingleton<NostrMailService>(
+        _FakeNostrMailService(mailClient),
+      );
       metadataService = FakeMetadataService();
       GetIt.I.registerSingleton<MetadataService>(metadataService);
       GetIt.I.registerSingleton(

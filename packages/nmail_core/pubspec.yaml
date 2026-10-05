@@ -24,7 +24,6 @@ dependencies:
   file_saver: ^0.6.0
   flutter:
     sdk: flutter
-  flutter_highlight: ^0.7.0
   flutter_local_notifications: ^22.3.0
   flutter_localizations:
     sdk: flutter

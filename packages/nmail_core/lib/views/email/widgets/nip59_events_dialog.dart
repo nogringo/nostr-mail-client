@@ -2,9 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_highlight/flutter_highlight.dart';
-import 'package:flutter_highlight/themes/a11y-light.dart';
-import 'package:flutter_highlight/themes/a11y-dark.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -189,7 +186,6 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       decoration: BoxDecoration(
@@ -202,17 +198,19 @@ class EventCard extends StatelessWidget {
           _buildHeaderRow(context),
           if (event != null) ...[
             const Divider(height: 1),
-            HighlightView(
-              const JsonEncoder.withIndent(
-                '  ',
-              ).convert(Nip01EventModel.fromEntity(event!).toJson()),
-              language: 'json',
-              theme: isDark ? a11yDarkTheme : a11yLightTheme,
-              padding: const EdgeInsets.all(12),
-              textStyle: const TextStyle(
-                fontSize: 12,
-                fontFamily: 'monospace',
-                height: 1.4,
+            SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: SelectableText(
+                  const JsonEncoder.withIndent(
+                    '  ',
+                  ).convert(Nip01EventModel.fromEntity(event!).toJson()),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontFamily: 'monospace',
+                    height: 1.4,
+                  ),
+                ),
               ),
             ),
             const Divider(height: 1),

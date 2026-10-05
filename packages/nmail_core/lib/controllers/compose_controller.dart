@@ -270,11 +270,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   }
 
   /// Keeps the legacy address so the user can switch back to SMTP.
-  void _promoteToNostr(
-    List<Recipient> list,
-    Recipient legacy,
-    String pubkey,
-  ) {
+  void _promoteToNostr(List<Recipient> list, Recipient legacy, String pubkey) {
     final index = list.indexOf(legacy);
     if (index == -1) return;
 
