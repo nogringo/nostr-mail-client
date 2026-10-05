@@ -1,4 +1,5 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' hide RelaySet;
@@ -7,12 +8,17 @@ import 'package:ndk/ndk.dart' hide RelaySet;
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
-class Nip65RelaysController extends GetxController {
+class Nip65RelaysController extends ChangeNotifier {
+  Nip65RelaysController() {
+    loadData();
+  }
+
   Map<String, ReadWriteMarker>? originalRelays;
   Map<String, ReadWriteMarker>? relays;
   final Set<String> markedForDeletion = {};
   bool isLoading = true;
   bool isSaving = false;
+  bool _isDisposed = false;
 
   bool get hasChanges {
     if (originalRelays == null || relays == null) return false;
@@ -25,27 +31,21 @@ class Nip65RelaysController extends GetxController {
     return false;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadData();
-  }
-
   Future<void> loadData() async {
     final nostrMailService = Get.find<NostrMailService>();
     final nip65Relays = await nostrMailService.getNip65Relays();
-    if (isClosed) return;
+    if (_isDisposed) return;
 
     originalRelays = Map.from(nip65Relays);
     relays = Map.from(nip65Relays);
     isLoading = false;
-    update();
+    notifyListeners();
   }
 
   void addRelay(String relay, ReadWriteMarker marker) {
     if (relays == null || relays!.containsKey(relay)) return;
     relays![relay] = marker;
-    update();
+    notifyListeners();
   }
 
   void addRecommendedRelay(String relay) {
@@ -65,14 +65,14 @@ class Nip65RelaysController extends GetxController {
     } else {
       markedForDeletion.add(relayUrl);
     }
-    update();
+    notifyListeners();
   }
 
   void discardChanges() {
     if (originalRelays == null) return;
     relays = Map.from(originalRelays!);
     markedForDeletion.clear();
-    update();
+    notifyListeners();
   }
 
   void cycleMarker(String relayUrl) {
@@ -83,13 +83,13 @@ class Nip65RelaysController extends GetxController {
       ReadWriteMarker.readOnly => ReadWriteMarker.writeOnly,
       ReadWriteMarker.writeOnly => ReadWriteMarker.readWrite,
     };
-    update();
+    notifyListeners();
   }
 
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving) return;
     isSaving = true;
-    update();
+    notifyListeners();
     try {
       final relaysToSave = Map<String, ReadWriteMarker>.from(relays!)
         ..removeWhere((key, _) => markedForDeletion.contains(key));
@@ -129,16 +129,22 @@ class Nip65RelaysController extends GetxController {
         ]),
         pubkey: account.pubkey,
       );
-      if (isClosed) return;
+      if (_isDisposed) return;
 
       relays = relaysToSave;
       originalRelays = Map.from(relaysToSave);
       markedForDeletion.clear();
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         isSaving = false;
-        update();
+        notifyListeners();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 }

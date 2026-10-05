@@ -1,16 +1,22 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
-class DmRelaysController extends GetxController {
+class DmRelaysController extends ChangeNotifier {
+  DmRelaysController() {
+    loadData();
+  }
+
   List<String>? originalDmRelays;
   List<String>? dmRelays;
   final Set<String> markedForDeletion = {};
   bool isLoading = true;
   bool isSaving = false;
+  bool _isDisposed = false;
 
   bool get hasChanges {
     if (originalDmRelays == null || dmRelays == null) return false;
@@ -22,27 +28,21 @@ class DmRelaysController extends GetxController {
     return false;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadData();
-  }
-
   Future<void> loadData() async {
     final nostrMailService = Get.find<NostrMailService>();
     final relays = await nostrMailService.getDmRelays();
-    if (isClosed) return;
+    if (_isDisposed) return;
 
     originalDmRelays = List.from(relays);
     dmRelays = List.from(relays);
     isLoading = false;
-    update();
+    notifyListeners();
   }
 
   void addRelay(String relay) {
     if (dmRelays == null || dmRelays!.contains(relay)) return;
     dmRelays!.add(relay);
-    update();
+    notifyListeners();
   }
 
   void toggleRelayDeletion(String relayUrl) {
@@ -51,20 +51,20 @@ class DmRelaysController extends GetxController {
     } else {
       markedForDeletion.add(relayUrl);
     }
-    update();
+    notifyListeners();
   }
 
   void discardChanges() {
     if (originalDmRelays == null) return;
     dmRelays = List.from(originalDmRelays!);
     markedForDeletion.clear();
-    update();
+    notifyListeners();
   }
 
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving) return;
     isSaving = true;
-    update();
+    notifyListeners();
     try {
       final relaysToSave = dmRelays!
           .where((relay) => !markedForDeletion.contains(relay))
@@ -87,16 +87,22 @@ class DmRelaysController extends GetxController {
         relaySet: RelaySet.outbox(account.pubkey),
         pubkey: account.pubkey,
       );
-      if (isClosed) return;
+      if (_isDisposed) return;
 
       dmRelays = relaysToSave;
       originalDmRelays = List.from(relaysToSave);
       markedForDeletion.clear();
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         isSaving = false;
-        update();
+        notifyListeners();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 }

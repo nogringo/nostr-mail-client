@@ -1,16 +1,22 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
-class BlossomServersController extends GetxController {
+class BlossomServersController extends ChangeNotifier {
+  BlossomServersController() {
+    loadData();
+  }
+
   List<String>? originalServers;
   List<String>? servers;
   final Set<String> markedForDeletion = {};
   bool isLoading = true;
   bool isSaving = false;
+  bool _isDisposed = false;
 
   bool get hasChanges {
     if (originalServers == null || servers == null) return false;
@@ -22,27 +28,21 @@ class BlossomServersController extends GetxController {
     return false;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadData();
-  }
-
   Future<void> loadData() async {
     final nostrMailService = Get.find<NostrMailService>();
     final blossomServers = await nostrMailService.getBlossomServers();
-    if (isClosed) return;
+    if (_isDisposed) return;
 
     originalServers = List.from(blossomServers);
     servers = List.from(blossomServers);
     isLoading = false;
-    update();
+    notifyListeners();
   }
 
   void addServer(String server) {
     if (servers == null || servers!.contains(server)) return;
     servers!.add(server);
-    update();
+    notifyListeners();
   }
 
   void toggleServerDeletion(String serverUrl) {
@@ -51,20 +51,20 @@ class BlossomServersController extends GetxController {
     } else {
       markedForDeletion.add(serverUrl);
     }
-    update();
+    notifyListeners();
   }
 
   void discardChanges() {
     if (originalServers == null) return;
     servers = List.from(originalServers!);
     markedForDeletion.clear();
-    update();
+    notifyListeners();
   }
 
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving) return;
     isSaving = true;
-    update();
+    notifyListeners();
     try {
       final serversToSave = servers!
           .where((server) => !markedForDeletion.contains(server))
@@ -89,16 +89,22 @@ class BlossomServersController extends GetxController {
         relaySet: RelaySet.outbox(account.pubkey),
         pubkey: account.pubkey,
       );
-      if (isClosed) return;
+      if (_isDisposed) return;
 
       servers = serversToSave;
       originalServers = List.from(serversToSave);
       markedForDeletion.clear();
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         isSaving = false;
-        update();
+        notifyListeners();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 }

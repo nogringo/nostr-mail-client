@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/bridges_controller.dart';
@@ -81,9 +81,11 @@ class BridgesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<BridgesController>(
-      init: BridgesController(),
-      builder: (controller) {
+    final controller = GetIt.I<BridgesController>();
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         final bridges = controller.bridges ?? const <String>[];
 
         return Column(

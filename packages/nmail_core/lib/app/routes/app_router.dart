@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/domain_layer/entities/naddr.dart';
 import 'package:ndk/ndk.dart';
@@ -9,12 +10,16 @@ import 'package:nostr_mail/nostr_mail.dart' hide Recipient;
 import '../../controllers/about_controller.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/backgrounds_controller.dart';
+import '../../controllers/blossom_servers_controller.dart';
+import '../../controllers/bridges_controller.dart';
 import '../../controllers/community_theme_controller.dart';
 import '../../controllers/compose_controller.dart';
 import '../../controllers/contacts_controller.dart';
+import '../../controllers/dm_relays_controller.dart';
 import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../models/mailbox.dart';
+import '../../controllers/nip65_relays_controller.dart';
 import '../../controllers/profile_controller.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
@@ -324,8 +329,17 @@ class AppRouter {
               ),
               GoRoute(
                 path: 'hosting',
-                onExit: (context, _) => confirmDiscardHostingChanges(context),
-                builder: (_, _) => const HostingSettingsView(),
+                onExit: (context, _) async {
+                  if (!await confirmDiscardHostingChanges(context)) {
+                    return false;
+                  }
+                  _disposeHostingControllers();
+                  return true;
+                },
+                builder: (_, _) {
+                  _ensureHostingControllers();
+                  return const HostingSettingsView();
+                },
               ),
               GoRoute(
                 path: 'debug-tools',
@@ -417,6 +431,37 @@ class AppRouter {
         editingScheduled: editingScheduled,
       ),
     );
+  }
+
+  /// One set per entry to the hosting route, shared by the save button, the
+  /// sections and the exit guard.
+  static void _ensureHostingControllers() {
+    if (GetIt.I.isRegistered<Nip65RelaysController>()) return;
+    GetIt.I
+      ..registerLazySingleton(
+        Nip65RelaysController.new,
+        dispose: (controller) => controller.dispose(),
+      )
+      ..registerLazySingleton(
+        DmRelaysController.new,
+        dispose: (controller) => controller.dispose(),
+      )
+      ..registerLazySingleton(
+        BlossomServersController.new,
+        dispose: (controller) => controller.dispose(),
+      )
+      ..registerLazySingleton(
+        BridgesController.new,
+        dispose: (controller) => controller.dispose(),
+      );
+  }
+
+  static void _disposeHostingControllers() {
+    GetIt.I
+      ..unregister<Nip65RelaysController>()
+      ..unregister<DmRelaysController>()
+      ..unregister<BlossomServersController>()
+      ..unregister<BridgesController>();
   }
 
   /// (Re)register EmailController for `eventReference` only when needed.

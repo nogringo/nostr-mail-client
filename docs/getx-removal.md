@@ -69,14 +69,14 @@ Objects registered with `Get.put` that are not GetX classes.
 Created by `GetBuilder(init: ...)` or by a view:
 
 - [x] `AccountDeletedController`
-- [ ] `BlossomServersController`
-- [ ] `BridgesController`
+- [x] `BlossomServersController`
+- [x] `BridgesController`
 - [ ] `CommunityThemesController`
 - [x] `CreateIdentityController`
 - [x] `DebugToolsController`
 - [x] `DeleteAccountController`
-- [ ] `DmRelaysController`
-- [ ] `Nip65RelaysController`
+- [x] `DmRelaysController`
+- [x] `Nip65RelaysController`
 - [x] `NostrAppsMarqueeController`
 - [x] `PlainTextBodyController`
 - [ ] `RecipientAutocompleteController`

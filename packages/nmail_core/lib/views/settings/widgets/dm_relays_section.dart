@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/dm_relays_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -105,9 +105,11 @@ class DmRelaysSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<DmRelaysController>(
-      init: DmRelaysController(),
-      builder: (controller) {
+    final controller = GetIt.I<DmRelaysController>();
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         final relays = controller.dmRelays ?? const <String>[];
 
         return Column(

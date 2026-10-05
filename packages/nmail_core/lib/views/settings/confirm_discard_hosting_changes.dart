@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../controllers/blossom_servers_controller.dart';
 import '../../controllers/bridges_controller.dart';
@@ -13,17 +13,12 @@ import 'widgets/discard_changes_dialog.dart';
 /// Wired as the route's `onExit` rather than a [PopScope] so it also covers the
 /// browser back button, which changes the URL instead of popping the navigator.
 Future<bool> confirmDiscardHostingChanges(BuildContext context) async {
-  final isReady =
-      Get.isRegistered<Nip65RelaysController>() &&
-      Get.isRegistered<DmRelaysController>() &&
-      Get.isRegistered<BlossomServersController>() &&
-      Get.isRegistered<BridgesController>();
-  if (!isReady) return true;
+  if (!GetIt.I.isRegistered<Nip65RelaysController>()) return true;
 
-  final nip65Relays = Get.find<Nip65RelaysController>();
-  final dmRelays = Get.find<DmRelaysController>();
-  final blossomServers = Get.find<BlossomServersController>();
-  final bridges = Get.find<BridgesController>();
+  final nip65Relays = GetIt.I<Nip65RelaysController>();
+  final dmRelays = GetIt.I<DmRelaysController>();
+  final blossomServers = GetIt.I<BlossomServersController>();
+  final bridges = GetIt.I<BridgesController>();
 
   final discards = <VoidCallback>[
     if (nip65Relays.hasChanges) nip65Relays.discardChanges,

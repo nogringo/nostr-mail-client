@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import '../../../controllers/blossom_servers_controller.dart';
@@ -105,9 +105,11 @@ class BlossomServersSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<BlossomServersController>(
-      init: BlossomServersController(),
-      builder: (controller) {
+    final controller = GetIt.I<BlossomServersController>();
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         final servers = controller.servers ?? const <String>[];
 
         return Column(

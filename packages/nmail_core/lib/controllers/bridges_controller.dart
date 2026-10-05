@@ -1,13 +1,19 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
-class BridgesController extends GetxController {
+class BridgesController extends ChangeNotifier {
+  BridgesController() {
+    loadData();
+  }
+
   List<String>? originalBridges;
   List<String>? bridges;
   final Set<String> markedForDeletion = {};
   bool isLoading = true;
   bool isSaving = false;
+  bool _isDisposed = false;
 
   bool get hasChanges {
     if (originalBridges == null || bridges == null) return false;
@@ -19,30 +25,24 @@ class BridgesController extends GetxController {
     return false;
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadData();
-  }
-
   Future<void> loadData() async {
     try {
       final nostrMailService = Get.find<NostrMailService>();
       final settings = await nostrMailService.client.getLocalPrivateSettings();
       final loadedBridges = settings?.bridges ?? [];
-      if (isClosed) return;
+      if (_isDisposed) return;
 
       originalBridges = List.from(loadedBridges);
       bridges = List.from(loadedBridges);
     } catch (_) {
-      if (isClosed) return;
+      if (_isDisposed) return;
 
       originalBridges = [];
       bridges = [];
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         isLoading = false;
-        update();
+        notifyListeners();
       }
     }
   }
@@ -50,7 +50,7 @@ class BridgesController extends GetxController {
   void addBridge(String bridge) {
     if (bridges == null || bridges!.contains(bridge)) return;
     bridges!.add(bridge);
-    update();
+    notifyListeners();
   }
 
   void toggleBridgeDeletion(String bridge) {
@@ -59,20 +59,20 @@ class BridgesController extends GetxController {
     } else {
       markedForDeletion.add(bridge);
     }
-    update();
+    notifyListeners();
   }
 
   void discardChanges() {
     if (originalBridges == null) return;
     bridges = List.from(originalBridges!);
     markedForDeletion.clear();
-    update();
+    notifyListeners();
   }
 
   Future<void> saveChanges() async {
     if (!hasChanges || isSaving) return;
     isSaving = true;
-    update();
+    notifyListeners();
     try {
       final nostrMailService = Get.find<NostrMailService>();
       final bridgesToSave = bridges!
@@ -81,16 +81,22 @@ class BridgesController extends GetxController {
       await nostrMailService.client.updatePrivateSettings(
         bridges: bridgesToSave,
       );
-      if (isClosed) return;
+      if (_isDisposed) return;
 
       bridges = bridgesToSave;
       originalBridges = List.from(bridgesToSave);
       markedForDeletion.clear();
     } finally {
-      if (!isClosed) {
+      if (!_isDisposed) {
         isSaving = false;
-        update();
+        notifyListeners();
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 }

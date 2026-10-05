@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
@@ -139,9 +139,11 @@ class Nip65RelaysSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
 
-    return GetBuilder<Nip65RelaysController>(
-      init: Nip65RelaysController(),
-      builder: (controller) {
+    final controller = GetIt.I<Nip65RelaysController>();
+
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
         final relays = controller.relays ?? const <String, ReadWriteMarker>{};
 
         return Column(
