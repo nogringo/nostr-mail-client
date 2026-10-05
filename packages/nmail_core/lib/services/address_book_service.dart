@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:enough_mail_plus/enough_mail.dart' as mail;
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' show Nip05Found;
 import 'package:ndk/ndk.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
@@ -35,14 +36,14 @@ class AddressBookService extends GetxService {
   @override
   void onInit() {
     super.onInit();
-    _ndk = Get.find<Ndk>();
+    _ndk = GetIt.I<Ndk>();
     _book =
         _injectedBook ??
         NostrAddressBook(
           ndk: _ndk,
           database: Get.find<StorageService>().db,
-          broadcastQueue: Get.find<OfflineBroadcast>(),
-          syncEngine: Get.find<SyncEngine>(),
+          broadcastQueue: GetIt.I<OfflineBroadcast>(),
+          syncEngine: GetIt.I<SyncEngine>(),
         );
     _watchSubscription = _book.watchAll().listen(_setVisibleContacts);
     _authSubscription = _ndk.accounts.authStateChanges.listen((_) {

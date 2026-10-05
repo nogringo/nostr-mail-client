@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide FirstWhereExt;
+import 'package:get_it/get_it.dart';
 import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
@@ -74,7 +75,7 @@ class ShareThemeController extends GetxController {
   Future<void> publish() async {
     isPublishing.value = true;
     try {
-      final ndk = Get.find<Ndk>();
+      final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
       final unsigned = Nip01Event(
         pubKey: account.pubkey,
@@ -93,7 +94,7 @@ class ShareThemeController extends GetxController {
       final signed = await account.signer.sign(unsigned);
       await ndk.config.cache.saveEvent(signed);
       // The outbox alone would miss the relays the themes page reads.
-      await Get.find<OfflineBroadcast>().broadcast(
+      await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
         relaySet: RelaySet.union([
           RelaySet.explicit(NostrConfig.communityThemeRelays),
@@ -121,7 +122,7 @@ class ShareThemeController extends GetxController {
     }
 
     final userServers = await Get.find<NostrMailService>().getBlossomServers();
-    final results = await Get.find<Ndk>().blossom.uploadBlob(
+    final results = await GetIt.I<Ndk>().blossom.uploadBlob(
       data: data,
       contentType: type,
       serverUrls: userServers.isNotEmpty
@@ -138,7 +139,7 @@ class ShareThemeController extends GetxController {
   Future<Uint8List?> _backgroundBytes() async {
     final sha256 = BackgroundPreset.cachedImageSha256(_background);
     if (sha256 != null) {
-      final bytes = await Get.find<BlossomCache>().get(sha256);
+      final bytes = await GetIt.I<BlossomCache>().get(sha256);
       if (bytes == null) throw StateError('Background image not in cache');
       return bytes;
     }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/services/pending_push_disables.dart';
@@ -44,7 +45,7 @@ class PushSubscriptionService extends GetxService {
   final PendingPushDisables _pending;
 
   StorageService get _storage => _storageOverride ?? Get.find<StorageService>();
-  Ndk get _ndk => _ndkOverride ?? Get.find<Ndk>();
+  Ndk get _ndk => _ndkOverride ?? GetIt.I<Ndk>();
   PushRegistrationService get _registration =>
       _registrationOverride ?? Get.find<PushRegistrationService>();
 

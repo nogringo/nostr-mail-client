@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:nmail_core/app/config/distribution_config.dart';
@@ -40,7 +40,7 @@ class _UnifiedPushDistributorHelpTileState
   }
 
   void _refreshDistributorState() {
-    final config = Get.find<DistributionConfig>();
+    final config = GetIt.I<DistributionConfig>();
     _hasDistributorFuture =
         config.hasUnifiedPushDistributor?.call() ?? Future<bool>.value(true);
   }
@@ -49,7 +49,7 @@ class _UnifiedPushDistributorHelpTileState
   Widget build(BuildContext context) {
     if (!PlatformHelper.isAndroid) return const SizedBox.shrink();
 
-    final config = Get.find<DistributionConfig>();
+    final config = GetIt.I<DistributionConfig>();
     if (!config.canCheckUnifiedPushDistributor) {
       return const SizedBox.shrink();
     }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/utils/relay_utils.dart';
 
@@ -37,7 +38,7 @@ class AccountDeletedController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _subscription = Get.find<OfflineBroadcast>().watch(requestId).listen((
+    _subscription = GetIt.I<OfflineBroadcast>().watch(requestId).listen((
       record,
     ) {
       if (isClosed) return;

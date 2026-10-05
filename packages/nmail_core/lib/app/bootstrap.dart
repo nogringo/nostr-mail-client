@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
 import 'package:ndk_flutter/l10n/app_localizations.dart' as ndk_flutter;
@@ -89,14 +90,13 @@ Future<void> _initApp({
   // onlyBuilder disables it.
   Get.smartManagement = SmartManagement.onlyBuilder;
 
-  Get.put(
+  GetIt.I.registerSingleton(
     DistributionConfig(
       distribution: distribution,
       privacyPolicyUrl: privacyPolicyUrl,
       hasUnifiedPushDistributor: hasUnifiedPushDistributor,
       unifiedPushDistributorInstallUrl: unifiedPushDistributorInstallUrl,
     ),
-    permanent: true,
   );
 
   // Initialize window manager for desktop
@@ -131,9 +131,8 @@ Future<void> _initApp({
       bootstrapRelays: NostrConfig.bootstrapRelays,
     ),
   );
-  Get.put(ndk, permanent: true);
-  final ndkFlutter = NdkFlutter(ndk: ndk);
-  Get.put(ndkFlutter, permanent: true);
+  GetIt.I.registerSingleton(ndk);
+  GetIt.I.registerSingleton(NdkFlutter(ndk: ndk));
 
   // Reactive in-RAM metadata cache so avatars/names resolve without flashing.
   Get.put(MetadataService(), permanent: true);
@@ -147,25 +146,26 @@ Future<void> _initApp({
   // Initialize Blossom cache and offline queues as app-level singletons.
   // These persist across login/logout — they hold pending work in storageService.db.
   final blossomCache = await blossom_cache_factory.createBlossomCache();
-  Get.put<BlossomCache>(blossomCache, permanent: true);
+  GetIt.I.registerSingleton<BlossomCache>(blossomCache);
 
-  final broadcastQueue = OfflineBroadcast.withNdk(ndk, db: storageService.db)
-    ..start();
-  Get.put(broadcastQueue, permanent: true);
+  GetIt.I.registerSingleton(
+    OfflineBroadcast.withNdk(ndk, db: storageService.db)..start(),
+  );
 
-  final blossomUploadQueue = OfflineBlossomUpload.withNdk(
-    ndk,
-    cache: blossomCache,
-    db: storageService.db,
-  )..start();
-  Get.put(blossomUploadQueue, permanent: true);
+  GetIt.I.registerSingleton(
+    OfflineBlossomUpload.withNdk(
+      ndk,
+      cache: blossomCache,
+      db: storageService.db,
+    )..start(),
+  );
 
   // Fills the ndk cache from the relays. NostrMailClient.create() starts it and
   // declares what the active account needs, but never stops nor disposes it.
-  Get.put(SyncEngine(ndk, db: storageService.db), permanent: true);
+  GetIt.I.registerSingleton(SyncEngine(ndk, db: storageService.db));
 
   final mailDatabase = openMailDatabase();
-  Get.put(mailDatabase, permanent: true);
+  GetIt.I.registerSingleton(mailDatabase);
   // Before NostrMailService opens the store and runs its migration.
   reloadOnNewerSchema(mailDatabase.schemaVersion);
 

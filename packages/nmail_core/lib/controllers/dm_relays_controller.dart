@@ -1,5 +1,6 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -69,7 +70,7 @@ class DmRelaysController extends GetxController {
           .where((relay) => !markedForDeletion.contains(relay))
           .toList();
 
-      final ndk = Get.find<Ndk>();
+      final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
       final unsigned = Nip01Event(
         pubKey: account.pubkey,
@@ -81,7 +82,7 @@ class DmRelaysController extends GetxController {
       await ndk.config.cache.saveEvent(signed);
       // Only read once the NIP-65 list has been found, so the outbox relays it
       // names are enough.
-      await Get.find<OfflineBroadcast>().broadcast(
+      await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
         relaySet: RelaySet.outbox(account.pubkey),
         pubkey: account.pubkey,

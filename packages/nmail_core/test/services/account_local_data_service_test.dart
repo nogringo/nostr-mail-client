@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:idb_shim/idb_client_memory.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nmail_core/models/background_preset.dart';
@@ -39,9 +40,9 @@ void main() {
 
     storage = _MemoryStorage();
     cache = await IdbBlossomCache.open(factory: newIdbFactoryMemory());
-    Get.put<Ndk>(ndk);
+    GetIt.I.registerSingleton<Ndk>(ndk);
     Get.put<StorageService>(storage);
-    Get.put<BlossomCache>(cache);
+    GetIt.I.registerSingleton<BlossomCache>(cache);
     service = AccountLocalDataService();
 
     final blob = await cache.put(
@@ -55,6 +56,7 @@ void main() {
   tearDown(() async {
     await ndk.destroy();
     Get.reset();
+    await GetIt.I.reset();
   });
 
   test('removing an account keeps a background another one shows', () async {

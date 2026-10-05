@@ -1,5 +1,6 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' hide RelaySet;
 import 'package:ndk/ndk.dart' hide RelaySet;
 
@@ -93,7 +94,7 @@ class Nip65RelaysController extends GetxController {
       final relaysToSave = Map<String, ReadWriteMarker>.from(relays!)
         ..removeWhere((key, _) => markedForDeletion.contains(key));
 
-      final ndk = Get.find<Ndk>();
+      final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
       final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
       final userRelayList = UserRelayList(
@@ -115,7 +116,7 @@ class Nip65RelaysController extends GetxController {
       // the cached signed events rather than re-signing, as `adopt()` does.
       // Not the emails: they belong to the DM relay list and moving them is a
       // migration of its own.
-      await Get.find<OfflineBroadcast>().broadcast(
+      await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
         relaySet: RelaySet.union([
           RelaySet.explicit(

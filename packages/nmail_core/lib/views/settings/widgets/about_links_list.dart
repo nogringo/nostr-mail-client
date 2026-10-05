@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../app/config/app_config.dart';
 import '../../../app/config/distribution_config.dart';
@@ -14,7 +14,7 @@ class AboutLinksList extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final distributionConfig = Get.find<DistributionConfig>();
+    final distributionConfig = GetIt.I<DistributionConfig>();
     final hasPrivacyPolicy = distributionConfig.hasPrivacyPolicyUrl;
     final count = hasPrivacyPolicy ? 3 : 2;
 

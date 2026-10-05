@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:ndk/ndk.dart';
 
@@ -280,7 +281,7 @@ class PushRegistrationService extends GetxService {
     return _findNdk().accounts.getLoggedAccount();
   }
 
-  Ndk _findNdk() => _ndk ?? Get.find<Ndk>();
+  Ndk _findNdk() => _ndk ?? GetIt.I<Ndk>();
 
   @override
   void onClose() {

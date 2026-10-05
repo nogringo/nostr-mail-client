@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:ndk/ndk.dart';
@@ -82,7 +83,7 @@ void main() {
         logLevel: LogLevel.off,
       ),
     );
-    Get.put<Ndk>(ndk);
+    GetIt.I.registerSingleton<Ndk>(ndk);
     Get.put(StorageService());
     Get.put(NostrMailService());
     metadataService = FakeMetadataService();
@@ -92,6 +93,7 @@ void main() {
 
   tearDown(() async {
     Get.reset();
+    await GetIt.I.reset();
     await ndk.destroy();
   });
 

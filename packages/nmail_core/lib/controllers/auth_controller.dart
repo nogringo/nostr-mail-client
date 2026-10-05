@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/data_layer/repositories/signers/nip46_event_signer.dart';
 import 'package:ndk/entities.dart' hide RelaySet;
 import 'package:ndk/ndk.dart' hide RelaySet;
@@ -51,8 +52,8 @@ class AuthController extends GetxController {
   StreamSubscription<Account?>? _authSubscription;
   int _accountSwitchGeneration = 0;
 
-  Ndk get ndk => Get.find();
-  NdkFlutter get ndkFlutter => Get.find();
+  Ndk get ndk => GetIt.I<Ndk>();
+  NdkFlutter get ndkFlutter => GetIt.I<NdkFlutter>();
 
   Future<AuthController> init() async {
     isLoading.value = true;
@@ -215,7 +216,7 @@ class AuthController extends GetxController {
     };
 
     final account = ndk.accounts.getLoggedAccount()!;
-    final broadcastQueue = Get.find<OfflineBroadcast>();
+    final broadcastQueue = GetIt.I<OfflineBroadcast>();
 
     final now = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     final userRelayList = UserRelayList(
@@ -415,7 +416,7 @@ class AuthController extends GetxController {
       content: reason,
     );
     final signedVanish = await account.signer.sign(unsignedVanish);
-    final queued = await Get.find<OfflineBroadcast>().broadcast(
+    final queued = await GetIt.I<OfflineBroadcast>().broadcast(
       signedVanish,
       relaySet: targets,
     );

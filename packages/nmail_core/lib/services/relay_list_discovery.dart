@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart'
     hide RelayListFound;
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' hide RelaySet;
 import 'package:ndk/ndk.dart' hide RelaySet;
 
@@ -173,7 +173,7 @@ class RelayListDiscovery {
   Future<void> adopt(RelayListFound found) async {
     final userRelayList = UserRelayList.fromNip65(Nip65.fromEvent(found.event));
     await _ndk.config.cache.saveUserRelayList(userRelayList);
-    await Get.find<OfflineBroadcast>().broadcast(
+    await GetIt.I<OfflineBroadcast>().broadcast(
       found.event,
       relaySet: RelaySet.explicit(
         {...NostrConfig.popularRelays, ...NostrConfig.discoveryRelays}.toList(),

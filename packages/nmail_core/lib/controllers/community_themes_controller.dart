@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
@@ -36,7 +37,7 @@ class CommunityThemesController extends GetxController {
   /// Behind its content warning, unless it is the user's own or applied.
   static bool startsHidden(CommunityTheme theme) =>
       theme.contentWarning != null &&
-      theme.pubkey != Get.find<Ndk>().accounts.getPublicKey() &&
+      theme.pubkey != GetIt.I<Ndk>().accounts.getPublicKey() &&
       theme.address != Get.find<SettingsController>().communityTheme.value;
 
   void reveal(CommunityTheme theme) => _revealed.add(theme.address);
@@ -76,7 +77,7 @@ class CommunityThemesController extends GetxController {
 
   Future<void> load() async {
     isLoading.value = true;
-    final ndk = Get.find<Ndk>();
+    final ndk = GetIt.I<Ndk>();
     try {
       await _readMuted(ndk);
       final cached = await ndk.config.cache

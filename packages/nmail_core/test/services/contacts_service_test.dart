@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
@@ -26,7 +27,7 @@ void main() {
         logLevel: LogLevel.off,
       ),
     );
-    Get.put<Ndk>(ndk);
+    GetIt.I.registerSingleton<Ndk>(ndk);
     Get.put(StorageService());
     Get.put(NostrMailService());
     metadataService = FakeMetadataService();
@@ -36,6 +37,7 @@ void main() {
 
   tearDown(() async {
     Get.reset();
+    await GetIt.I.reset();
     await ndk.destroy();
   });
 

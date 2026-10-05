@@ -56,12 +56,12 @@ The `get` package is removed from `nmail_core`, `nmail_standard` and `nmail_foss
 
 Objects registered with `Get.put` that are not GetX classes.
 
-- [ ] `DistributionConfig`
-- [ ] `Ndk`, `NdkFlutter`
-- [ ] `BlossomCache`
-- [ ] `OfflineBroadcast`, `OfflineBlossomUpload`
-- [ ] `SyncEngine`
-- [ ] `NostrMailDatabase`
+- [x] `DistributionConfig`
+- [x] `Ndk`, `NdkFlutter`
+- [x] `BlossomCache`
+- [x] `OfflineBroadcast`, `OfflineBlossomUpload`
+- [x] `SyncEngine`
+- [x] `NostrMailDatabase`
 
 ### 3. Widget and dialog controllers
 

@@ -4,6 +4,7 @@ import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart'
     hide RelayListFound;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' hide RelaySet;
 import 'package:ndk/ndk.dart' hide RelaySet;
 
@@ -38,7 +39,7 @@ class RelaySetupController extends GetxController {
   final hintController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  final _ndk = Get.find<Ndk>();
+  final _ndk = GetIt.I<Ndk>();
   final _device = Get.find<DeviceConnectivityService>();
   late final RelayListDiscovery _discovery = RelayListDiscovery(
     _ndk,
@@ -269,7 +270,7 @@ class RelaySetupController extends GetxController {
         userRelayList.toNip65().toEvent(),
       );
       await _ndk.config.cache.saveUserRelayList(userRelayList);
-      await Get.find<OfflineBroadcast>().broadcast(
+      await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
         relaySet: RelaySet.union([
           RelaySet.explicit(

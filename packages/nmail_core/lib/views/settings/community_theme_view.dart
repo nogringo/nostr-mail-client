@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/controllers/community_theme_controller.dart';
@@ -22,7 +23,7 @@ class CommunityThemeView extends StatelessWidget {
           actionsPadding: .only(right: 8),
           actions: [
             if (theme != null &&
-                theme.pubkey != Get.find<Ndk>().accounts.getPublicKey())
+                theme.pubkey != GetIt.I<Ndk>().accounts.getPublicKey())
               CommunityThemeMenu(theme: theme),
           ],
         ),

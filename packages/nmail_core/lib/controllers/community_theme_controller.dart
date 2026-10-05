@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart' hide FirstWhereExt;
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/config/nostr_config.dart';
@@ -71,7 +72,7 @@ class CommunityThemeController extends GetxController {
 
   Future<void> load() async {
     isLoading.value = true;
-    final ndk = Get.find<Ndk>();
+    final ndk = GetIt.I<Ndk>();
     try {
       final cached = await ndk.config.cache
           .loadEvents(pubKeys: [pubkey], kinds: [CommunityTheme.kind])
@@ -132,7 +133,7 @@ class CommunityThemeController extends GetxController {
   Future<void> muteAuthor() async {
     isMuting.value = true;
     try {
-      final ndk = Get.find<Ndk>();
+      final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
       final response = ndk.requests.query(
         name: 'mute-list',
@@ -197,7 +198,7 @@ class CommunityThemeController extends GetxController {
         );
         final signed = await account.signer.sign(unsigned);
         await ndk.config.cache.saveEvent(signed);
-        await Get.find<OfflineBroadcast>().broadcast(
+        await GetIt.I<OfflineBroadcast>().broadcast(
           signed,
           relaySet: RelaySet.outbox(account.pubkey),
           pubkey: account.pubkey,

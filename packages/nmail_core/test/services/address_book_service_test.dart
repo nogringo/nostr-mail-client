@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart' show Nip05;
 import 'package:ndk/ndk.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
@@ -32,7 +33,7 @@ void main() {
     const factory = Bip340EventSignerFactory();
     final (privateKey, pubkey) = factory.generateKeyPair();
     ndk.accounts.loginPrivateKey(pubkey: pubkey, privkey: privateKey);
-    Get.put<Ndk>(ndk);
+    GetIt.I.registerSingleton<Ndk>(ndk);
     broadcastQueue = OfflineBroadcast.withNdk(ndk, db: db);
     syncEngine = SyncEngine(ndk, db: db);
     book = NostrAddressBook(
@@ -52,6 +53,7 @@ void main() {
     await ndk.destroy();
     await db.close();
     Get.reset();
+    await GetIt.I.reset();
   });
 
   test('saves active contacts for the current account', () async {

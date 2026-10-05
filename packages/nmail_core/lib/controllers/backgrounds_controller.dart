@@ -4,6 +4,7 @@ import 'package:blossom_cache/blossom_cache.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:nmail_core/controllers/settings_controller.dart';
@@ -65,7 +66,7 @@ class BackgroundsController extends GetxController {
   }
 
   Future<List<String>> _listCachedGallery() async {
-    final cache = Get.find<BlossomCache>();
+    final cache = GetIt.I<BlossomCache>();
     final stored =
         await Get.find<StorageService>().getSetting<List>(_cachedGalleryKey) ??
         const [];
@@ -134,7 +135,7 @@ class BackgroundsController extends GetxController {
   }
 
   Future<String> _addToCachedGallery(Uint8List bytes, String? type) async {
-    final blob = await Get.find<BlossomCache>().put(
+    final blob = await GetIt.I<BlossomCache>().put(
       bytes,
       type: type,
       pinBy: BlossomCache.defaultHolder,
@@ -148,7 +149,7 @@ class BackgroundsController extends GetxController {
 
   Future<void> _deleteCachedImage(String value) async {
     final sha256 = BackgroundPreset.cachedImageSha256(value);
-    if (sha256 != null) await Get.find<BlossomCache>().delete(sha256);
+    if (sha256 != null) await GetIt.I<BlossomCache>().delete(sha256);
     savedImages.remove(value);
     await _saveCachedGallery();
   }

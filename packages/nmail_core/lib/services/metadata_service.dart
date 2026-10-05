@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/models/ndk_data_response.dart';
@@ -19,7 +20,7 @@ import 'package:nmail_core/services/relay_list_discovery.dart';
 ///
 /// Read [of] inside an `Obx` to rebuild when the metadata arrives.
 class MetadataService extends GetxService {
-  final Ndk _ndk = Get.find<Ndk>();
+  final Ndk _ndk = GetIt.I<Ndk>();
 
   late final RelayListDiscovery _discovery = RelayListDiscovery(
     _ndk,

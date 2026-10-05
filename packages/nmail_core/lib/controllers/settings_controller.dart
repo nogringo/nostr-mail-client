@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:system_theme/system_theme.dart';
 
@@ -94,7 +95,7 @@ class SettingsController extends GetxController {
     super.onInit();
     // _loadSettings ran in init() above; here we only wire the auth listener
     // so settings refresh on login/logout.
-    _authSubscription = Get.find<Ndk>().accounts.authStateChanges.listen(
+    _authSubscription = GetIt.I<Ndk>().accounts.authStateChanges.listen(
       (_) => _loadSettings(),
     );
   }
@@ -156,7 +157,7 @@ class SettingsController extends GetxController {
     final active = _pubkey;
     final loaded = <String, bool>{};
 
-    for (final pubkey in Get.find<Ndk>().accounts.accounts.keys) {
+    for (final pubkey in GetIt.I<Ndk>().accounts.accounts.keys) {
       loaded[pubkey] = pubkey == active
           ? await service.resolveEnabled(pubkey)
           : await service.isEnabled(pubkey);

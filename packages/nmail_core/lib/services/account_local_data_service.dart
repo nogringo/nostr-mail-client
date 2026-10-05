@@ -2,6 +2,7 @@ import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:sync_engine_shim_for_ndk/sync_engine_shim_for_ndk.dart';
 
@@ -23,10 +24,10 @@ class AccountLocalDataService extends GetxService {
         Get.find<NostrMailService>().clearLocalAccountData(pubkey: pubkey),
       if (Get.isRegistered<AddressBookService>())
         Get.find<AddressBookService>().clearLocalAccountData(pubkey: pubkey),
-      if (Get.isRegistered<OfflineBroadcast>())
-        Get.find<OfflineBroadcast>().clearLocalAccountData(pubkey: pubkey),
-      if (Get.isRegistered<OfflineBlossomUpload>())
-        Get.find<OfflineBlossomUpload>().clearLocalAccountData(pubkey: pubkey),
+      if (GetIt.I.isRegistered<OfflineBroadcast>())
+        GetIt.I<OfflineBroadcast>().clearLocalAccountData(pubkey: pubkey),
+      if (GetIt.I.isRegistered<OfflineBlossomUpload>())
+        GetIt.I<OfflineBlossomUpload>().clearLocalAccountData(pubkey: pubkey),
       _clearNdkCache(pubkey),
       _clearAccountSettings(pubkey),
     ]);
@@ -38,9 +39,9 @@ class AccountLocalDataService extends GetxService {
   /// its removal and are served straight back from cache the next time the
   /// same key logs in.
   Future<void> _clearNdkCache(String pubkey) async {
-    if (!Get.isRegistered<Ndk>()) return;
+    if (!GetIt.I.isRegistered<Ndk>()) return;
 
-    final cache = Get.find<Ndk>().config.cache;
+    final cache = GetIt.I<Ndk>().config.cache;
     await Future.wait([
       cache.removeAllEventsByPubKey(pubkey),
       // Gift wraps carry an ephemeral author, so the recipient p tag is the
@@ -68,20 +69,20 @@ class AccountLocalDataService extends GetxService {
         Get.find<NostrMailService>().clearAllLocalData(),
       if (Get.isRegistered<AddressBookService>())
         Get.find<AddressBookService>().clearAllLocalData(),
-      if (Get.isRegistered<OfflineBroadcast>())
-        Get.find<OfflineBroadcast>().clearAllLocalData(),
-      if (Get.isRegistered<OfflineBlossomUpload>())
-        Get.find<OfflineBlossomUpload>().clearAllLocalData(),
-      if (Get.isRegistered<BlossomCache>())
-        Get.find<BlossomCache>().clearAllLocalData(),
+      if (GetIt.I.isRegistered<OfflineBroadcast>())
+        GetIt.I<OfflineBroadcast>().clearAllLocalData(),
+      if (GetIt.I.isRegistered<OfflineBlossomUpload>())
+        GetIt.I<OfflineBlossomUpload>().clearAllLocalData(),
+      if (GetIt.I.isRegistered<BlossomCache>())
+        GetIt.I<BlossomCache>().clearAllLocalData(),
     ]);
     // After the packages: they release their sync requests, which the engine
     // would otherwise walk straight back into the cache being cleared.
-    if (Get.isRegistered<SyncEngine>()) {
-      await Get.find<SyncEngine>().clearAllLocalData();
+    if (GetIt.I.isRegistered<SyncEngine>()) {
+      await GetIt.I<SyncEngine>().clearAllLocalData();
     }
-    if (Get.isRegistered<Ndk>()) {
-      await Get.find<Ndk>().config.cache.clearAll();
+    if (GetIt.I.isRegistered<Ndk>()) {
+      await GetIt.I<Ndk>().config.cache.clearAll();
     }
     await _storageService.clearAll();
   }
@@ -90,15 +91,15 @@ class AccountLocalDataService extends GetxService {
   /// device shows it anymore.
   Future<void> _releaseCachedBackground(String? value) async {
     final sha256 = BackgroundPreset.cachedImageSha256(value);
-    if (sha256 == null || !Get.isRegistered<BlossomCache>()) return;
+    if (sha256 == null || !GetIt.I.isRegistered<BlossomCache>()) return;
 
-    for (final pubkey in Get.find<Ndk>().accounts.accounts.keys) {
+    for (final pubkey in GetIt.I<Ndk>().accounts.accounts.keys) {
       final background = await _storageService.getSetting<String>(
         '${_backgroundImageKey}_$pubkey',
       );
       if (background == value) return;
     }
-    await Get.find<BlossomCache>().delete(sha256);
+    await GetIt.I<BlossomCache>().delete(sha256);
   }
 
   Future<void> _clearAccountSettings(String pubkey) async {

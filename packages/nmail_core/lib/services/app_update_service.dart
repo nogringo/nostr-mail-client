@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -34,7 +35,7 @@ class AppUpdateService extends GetxService {
 
   UpdateSource get source {
     if (kIsWeb) return UpdateSource.web;
-    if (Get.find<DistributionConfig>().distribution == Distribution.zapstore) {
+    if (GetIt.I<DistributionConfig>().distribution == Distribution.zapstore) {
       return UpdateSource.zapStore;
     }
     if (_packageInfo?.installerStore == 'com.android.vending') {

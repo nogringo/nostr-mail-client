@@ -2,6 +2,7 @@ import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/domain_layer/entities/filter.dart' as ndk_filter;
@@ -42,7 +43,7 @@ class NostrMailService extends GetxService {
   late final NostrMailClient client;
 
   final _storageService = Get.find<StorageService>();
-  final _ndk = Get.find<Ndk>();
+  final _ndk = GetIt.I<Ndk>();
 
   bool get hasAccount => _ndk.accounts.getPublicKey() != null;
 
@@ -54,12 +55,12 @@ class NostrMailService extends GetxService {
   Future<NostrMailService> init() async {
     client = await NostrMailClient.create(
       ndk: _ndk,
-      database: Get.find<NostrMailDatabase>(),
+      database: GetIt.I<NostrMailDatabase>(),
       db: _storageService.db,
-      blossomCache: Get.find<BlossomCache>(),
-      syncEngine: Get.find<SyncEngine>(),
-      broadcastQueue: Get.find<OfflineBroadcast>(),
-      blossomUploadQueue: Get.find<OfflineBlossomUpload>(),
+      blossomCache: GetIt.I<BlossomCache>(),
+      syncEngine: GetIt.I<SyncEngine>(),
+      broadcastQueue: GetIt.I<OfflineBroadcast>(),
+      blossomUploadQueue: GetIt.I<OfflineBlossomUpload>(),
       schedulerDvm: NostrConfig.schedulerDvm,
       defaultDmRelays: NostrConfig.recommendedDmRelays,
     );
@@ -172,7 +173,7 @@ class NostrMailService extends GetxService {
 
     // Must match nostr_mail's emailFilter, the engine files coverage under its
     // fingerprint.
-    final states = await Get.find<SyncEngine>().coverageOfFilter(
+    final states = await GetIt.I<SyncEngine>().coverageOfFilter(
       ndk_filter.Filter(kinds: [GiftWrap.kGiftWrapEventkind], pTags: [pubkey]),
       authPubkey: pubkey,
     );

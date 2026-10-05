@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../controllers/about_controller.dart';
 import 'package:nmail_core/app/config/distribution_config.dart';
@@ -15,7 +16,7 @@ class AboutAppTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final controller = Get.find<AboutController>();
-    final distribution = Get.find<DistributionConfig>().distribution;
+    final distribution = GetIt.I<DistributionConfig>().distribution;
 
     return Padding(
       padding: const EdgeInsets.symmetric(

@@ -1,6 +1,7 @@
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
@@ -140,7 +141,7 @@ class DebugToolsController extends GetxController {
     final l = AppLocalizations.of(context);
     isClearingSyncCoverage.value = true;
     try {
-      await Get.find<SyncEngine>().clearAllLocalData();
+      await GetIt.I<SyncEngine>().clearAllLocalData();
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,

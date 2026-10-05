@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
@@ -103,7 +104,7 @@ void main() {
         logLevel: LogLevel.off,
       ),
     );
-    Get.put<Ndk>(ndk);
+    GetIt.I.registerSingleton<Ndk>(ndk);
     Get.put(StorageService());
     Get.put(NotificationService());
     Get.put(NostrMailService());
@@ -115,6 +116,7 @@ void main() {
 
   tearDown(() async {
     Get.reset();
+    await GetIt.I.reset();
     await ndk.destroy();
   });
 

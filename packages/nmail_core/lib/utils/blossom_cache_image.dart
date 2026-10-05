@@ -3,7 +3,7 @@ import 'dart:ui' as ui;
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
-import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 
 /// Decodes an image from the local Blossom cache, never from a server.
 class BlossomCacheImage extends ImageProvider<BlossomCacheImage> {
@@ -32,7 +32,7 @@ class BlossomCacheImage extends ImageProvider<BlossomCacheImage> {
     BlossomCacheImage key,
     ImageDecoderCallback decode,
   ) async {
-    final bytes = await Get.find<BlossomCache>().get(key.sha256);
+    final bytes = await GetIt.I<BlossomCache>().get(key.sha256);
     if (bytes == null) {
       throw StateError('${key.sha256} is not in the Blossom cache');
     }

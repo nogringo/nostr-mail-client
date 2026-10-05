@@ -2,6 +2,7 @@ import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart' hide RelaySet;
 
 import 'package:nmail_core/config/nostr_config.dart';
@@ -96,7 +97,7 @@ class ProfileController extends GetxController {
     update();
 
     try {
-      final ndk = Get.find<Ndk>();
+      final ndk = GetIt.I<Ndk>();
       final nostrMailService = Get.find<NostrMailService>();
 
       // Check if user has configured servers, otherwise use defaults
@@ -173,12 +174,12 @@ class ProfileController extends GetxController {
 
       metadata.updatedAt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-      final ndk = Get.find<Ndk>();
+      final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
       final signed = await account.signer.sign(metadata.toEvent());
       await ndk.config.cache.saveEvent(signed);
       // Signaling event: broadcast widely (popular + indexers + outbox).
-      await Get.find<OfflineBroadcast>().broadcast(
+      await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
         relaySet: RelaySet.union([
           RelaySet.explicit(

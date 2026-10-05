@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 
 /// What the OS says about the device's network, and the one place that acts on
@@ -136,7 +137,7 @@ class DeviceConnectivityService extends GetxService {
   /// lets a throw from one relay abandon the rest of its serial loop.
   Future<void> _runPass() async {
     try {
-      await Get.find<Ndk>().connectivity.tryReconnect();
+      await GetIt.I<Ndk>().connectivity.tryReconnect();
     } catch (_) {
       //
     }
