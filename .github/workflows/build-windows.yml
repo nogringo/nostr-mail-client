@@ -1,0 +1,45 @@
+name: Build Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    env:
+      APP_DIR: apps/nmail_standard
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - uses: ./.github/actions/inject-nmail-standard-firebase-options
+        with:
+          firebase-options-base64: ${{ secrets.NMAIL_STANDARD_FIREBASE_OPTIONS_BASE64 }}
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: ${{ env.APP_DIR }}
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install packaging tools
+        run: |
+          choco install innosetup --no-progress -y
+          dart pub global activate fastforge
+
+      - name: Build Windows packages
+        run: fastforge package --platform windows --targets exe,zip --artifact-name 'nmail-{{build_name}}-{{platform}}{{#is_installer}}-setup{{/is_installer}}.{{ext}}'
+        working-directory: ${{ env.APP_DIR }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: nmail-windows
+          path: |
+            ${{ env.APP_DIR }}/dist/**/*.exe
+            ${{ env.APP_DIR }}/dist/**/*.zip

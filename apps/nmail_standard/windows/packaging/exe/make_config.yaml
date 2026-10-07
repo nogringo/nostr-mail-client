@@ -1,0 +1,18 @@
+# Never change app_id: Windows uses it to upgrade an existing install.
+app_id: 68FBA81E-57F3-4263-80AD-2AD7964AA88A
+publisher_name: Nmail
+publisher_url: https://github.com/nogringo/nostr-mail-client
+display_name: Nmail
+create_desktop_icon: true
+setup_icon_file: windows\runner\resources\app_icon.ico
+locales:
+  - en
+  - de
+  - es
+  - fi
+  - fr
+  - it
+  - ja
+  - pt
+  - ru
+  - zh

@@ -314,7 +314,8 @@ Workflows live in `.github/workflows/`.
 | `build-android.yml` | Manual Android build for standard, FOSS, and ZapStore artifacts |
 | `build-linux.yml` | Manual Linux packaging from `apps/nmail_standard` via Fastforge |
 | `build-macos.yml` | Manual macOS packaging, signing, and notarization |
-| `release.yml` | Tag/manual release across Android, Linux, macOS, then GitHub Release |
+| `build-windows.yml` | Manual Windows packaging (Inno Setup installer + zip) from `apps/nmail_standard` via Fastforge |
+| `release.yml` | Tag/manual release across Android, Linux, macOS, Windows, then GitHub Release |
 | `deploy-redirect.yml` | Deploys redirect content to GitHub Pages |
 
 CI uses `.github/actions/inject-nmail-standard-firebase-options` to inject Firebase options for the standard app from secrets. The standard app has `apps/nmail_standard/firebase.json`; the root `firebase.json` points hosting at `build/web`.
