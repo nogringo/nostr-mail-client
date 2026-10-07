@@ -489,10 +489,26 @@ void main() {
       expect(styleOf(out, 'td'), 'width:auto');
     });
 
-    test('leaves a table with a width attribute alone', () {
+    test('declares the percent width a table attribute sets', () {
       final out = inlined('<table width="100%"><tr><td>x</td></tr></table>');
-      expect(styleOf(out, 'table'), '');
+      expect(styleOf(out, 'table'), 'width:100%');
       expect(styleOf(out, 'td'), '');
+    });
+
+    test('declares the pixel width a table attribute sets', () {
+      const html = '<table width="600"><tr><td>x</td></tr></table>';
+      expect(styleOf(inlined(html), 'table'), 'width:600px');
+    });
+
+    test('lets a declared width beat the width attribute', () {
+      const html =
+          '<table width="600" style="width:100%"><tr><td>x</td></tr></table>';
+      expect(styleOf(inlined(html), 'table'), 'width:100%');
+    });
+
+    test('leaves a table with an unreadable width attribute alone', () {
+      const html = '<table width="auto"><tr><td>x</td></tr></table>';
+      expect(styleOf(inlined(html), 'table'), '');
     });
 
     test('leaves a table with a declared width alone', () {
@@ -547,6 +563,9 @@ void main() {
     test('applies the table hints only once', () {
       final once = inlined('<table align="center"><tr><td>x</td></tr></table>');
       expect(inlined(once), once);
+
+      final sized = inlined('<table width="600"><tr><td>x</td></tr></table>');
+      expect(inlined(sized), sized);
     });
   });
 

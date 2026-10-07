@@ -65,6 +65,8 @@ final _colorDeclaration = RegExp(
 
 final _widthDeclaration = RegExp(r'(^|;)\s*width\s*:', caseSensitive: false);
 
+final _widthAttribute = RegExp(r'^(\d+(\.\d+)?)(%|px)?$', caseSensitive: false);
+
 final _textAlignDeclaration = RegExp(
   r'(^|;)\s*text-align\s*:',
   caseSensitive: false,
@@ -145,6 +147,7 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
     }
     final bgcolorApplied = _applyBgcolor(elements);
     final tableAlignApplied = _applyTableAlign(elements);
+    final tableWidthAttributeApplied = _applyTableWidthAttribute(elements);
     final tableWidthApplied = _applyTableWidth(elements);
     final declaresColors = _declaresColors(elements);
 
@@ -160,6 +163,7 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
         pageDeclarations.isNotEmpty ||
         bgcolorApplied ||
         tableAlignApplied ||
+        tableWidthAttributeApplied ||
         tableWidthApplied;
     return EmailHtml(
       html: rewritten ? fragment.outerHtml : html,
@@ -376,6 +380,27 @@ bool _applyTableAlign(List<dom.Element> elements) {
     }
 
     _prependStyle(element, margins);
+    applied = true;
+  }
+  return applied;
+}
+
+/// `HtmlWidget` ignores the `width` attribute of a table. Such a table is laid
+/// out again under each pass of the table around it, so a newsletter nesting
+/// them ten deep takes seconds to lay out, while a declared width takes
+/// milliseconds.
+bool _applyTableWidthAttribute(List<dom.Element> elements) {
+  var applied = false;
+  for (final table in elements) {
+    if (table.localName != 'table' || _declares(table, _widthDeclaration)) {
+      continue;
+    }
+    final match = _widthAttribute.firstMatch(
+      table.attributes['width']?.trim() ?? '',
+    );
+    if (match == null) continue;
+
+    _prependStyle(table, 'width:${match.group(1)}${match.group(3) ?? 'px'}');
     applied = true;
   }
   return applied;
