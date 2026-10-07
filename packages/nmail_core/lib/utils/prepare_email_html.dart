@@ -132,6 +132,7 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
 
   try {
     final fragment = html_parser.parseFragment(html);
+    final titleRemoved = _removeTitle(fragment);
     final styleElements = fragment.querySelectorAll('style');
     final cssText = _collectCss(styleElements);
     final sheet = cssText.isEmpty || cssText.length > _maxCssLength
@@ -154,6 +155,7 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
     }
 
     final rewritten =
+        titleRemoved ||
         styleElements.isNotEmpty ||
         pageDeclarations.isNotEmpty ||
         bgcolorApplied ||
@@ -218,6 +220,16 @@ String prepareQuotedHtml(String html) {
   } catch (_) {
     return html;
   }
+}
+
+/// A fragment parse keeps the `<title>` of the head, which `HtmlWidget` would
+/// print above the email.
+bool _removeTitle(dom.DocumentFragment fragment) {
+  final titles = fragment.querySelectorAll('title');
+  for (final title in titles) {
+    title.remove();
+  }
+  return titles.isNotEmpty;
 }
 
 String _collectCss(List<dom.Element> styleElements) {

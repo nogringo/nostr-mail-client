@@ -248,6 +248,17 @@ void main() {
     });
   });
 
+  group('prepareEmailHtml head', () {
+    test('drops the title so it is not printed above the email', () {
+      const html =
+          '<html><head><title>Subject</title></head>'
+          '<body><p>x</p></body></html>';
+      final out = inlined(html);
+      expect(out, isNot(contains('Subject')));
+      expect(out, contains('<p>x</p>'));
+    });
+  });
+
   group('prepareEmailHtml filtering', () {
     test('drops properties HtmlWidget cannot render', () {
       const html =
