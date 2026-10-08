@@ -13,7 +13,7 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
-## [Unreleased]
+## [0.18.0]
 
 ### Added
 
@@ -39,6 +39,8 @@ Releases prior to 0.13.0 are listed on the
 - Unlock the debug tools in a release build by tapping the Nmail tile in About
   seven times, and hide them again from their page.
 - Install Nmail on Windows, with an installer or a zip from the releases page.
+- Add a company, a job title, and notes to a contact. They are kept when you
+  import or export it as a vCard.
 
 ### Changed
 
@@ -69,6 +71,8 @@ Releases prior to 0.13.0 are listed on the
 - Keep the last item of a list clear of the compose button on Android with
   three-button navigation.
 - Keep the right-click menu of an email on screen on desktop.
+- Keep the add button and the search field of the contacts sidebar from being
+  cut off.
 
 ## [0.17.0]
 
