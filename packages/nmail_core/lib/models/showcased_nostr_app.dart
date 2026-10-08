@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 class ShowcasedNostrApp {
@@ -54,11 +55,13 @@ class ShowcasedNostrApp {
       assetPath: 'assets/nostr_apps/primal.webp',
       usage: (l) => l.onboardingAppUsageSocial,
     ),
-    ShowcasedNostrApp(
-      name: 'Zapstore',
-      assetPath: 'assets/nostr_apps/zapstore.webp',
-      usage: (l) => l.onboardingAppUsageAppStore,
-    ),
+    // Android-only store: App Review rejects mentions of other platforms (2.3.10).
+    if (defaultTargetPlatform != TargetPlatform.iOS)
+      ShowcasedNostrApp(
+        name: 'Zapstore',
+        assetPath: 'assets/nostr_apps/zapstore.webp',
+        usage: (l) => l.onboardingAppUsageAppStore,
+      ),
     ShowcasedNostrApp(
       name: 'zap.stream',
       assetPath: 'assets/nostr_apps/zap_stream.webp',
