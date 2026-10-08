@@ -1454,6 +1454,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsAddPhoneHint => 'Добавить номер телефона';
 
   @override
+  String get contactsMoreFields => 'Другие поля';
+
+  @override
+  String get contactsOrganizationLabel => 'Компания';
+
+  @override
+  String get contactsJobTitleLabel => 'Должность';
+
+  @override
   String get contactsBirthdayLabel => 'День рождения';
 
   @override
@@ -1474,6 +1483,9 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get contactsAddNostrHint =>
       'Добавить npub, nprofile, hex-публичный ключ или NIP-05';
+
+  @override
+  String get contactsNoteLabel => 'Заметки';
 
   @override
   String get contactsCancel => 'Отмена';
@@ -1511,6 +1523,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsNoteTitle => 'Заметки';
 
   @override
   String get contactsCall => 'Позвонить';

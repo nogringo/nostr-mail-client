@@ -39,6 +39,7 @@ class ContactNostrSection extends StatelessWidget {
             index: i,
             count: pubkeys.length,
           ),
+        const SizedBox(height: 24),
       ],
     );
   }

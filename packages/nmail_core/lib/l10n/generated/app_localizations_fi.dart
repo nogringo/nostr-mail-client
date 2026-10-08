@@ -1430,6 +1430,15 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsAddPhoneHint => 'Lisää puhelinnumero';
 
   @override
+  String get contactsMoreFields => 'Lisää kenttiä';
+
+  @override
+  String get contactsOrganizationLabel => 'Yritys';
+
+  @override
+  String get contactsJobTitleLabel => 'Tehtävänimike';
+
+  @override
   String get contactsBirthdayLabel => 'Syntymäpäivä';
 
   @override
@@ -1450,6 +1459,9 @@ class AppLocalizationsFi extends AppLocalizations {
   @override
   String get contactsAddNostrHint =>
       'Lisää npub, nprofile, hex-julkinen avain tai NIP-05';
+
+  @override
+  String get contactsNoteLabel => 'Muistiinpanot';
 
   @override
   String get contactsCancel => 'Peruuta';
@@ -1487,6 +1499,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsNoteTitle => 'Muistiinpanot';
 
   @override
   String get contactsCall => 'Soita';

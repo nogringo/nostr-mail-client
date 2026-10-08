@@ -16,6 +16,14 @@ class ContactFormController extends ChangeNotifier {
         initialForm ??
         (contact == null ? null : _contactsController.formFor(contact!));
     nameController = TextEditingController(text: form?.displayName ?? '');
+    organizationController = TextEditingController(
+      text: form?.organization ?? '',
+    );
+    jobTitleController = TextEditingController(text: form?.jobTitle ?? '');
+    noteController = TextEditingController(text: form?.note ?? '');
+    moreFieldsExpanded =
+        organizationController.text.isNotEmpty ||
+        jobTitleController.text.isNotEmpty;
     emailInputController = TextEditingController();
     nostrInputController = TextEditingController();
     phoneInputController = TextEditingController();
@@ -39,6 +47,9 @@ class ContactFormController extends ChangeNotifier {
   }
 
   late final TextEditingController nameController;
+  late final TextEditingController organizationController;
+  late final TextEditingController jobTitleController;
+  late final TextEditingController noteController;
   late final TextEditingController emailInputController;
   late final TextEditingController nostrInputController;
   late final TextEditingController phoneInputController;
@@ -59,6 +70,7 @@ class ContactFormController extends ChangeNotifier {
   int? _birthdayMonth;
   int? _birthdayDay;
   bool birthdayExpanded = false;
+  bool moreFieldsExpanded = false;
 
   bool isSaving = false;
   String? error;
@@ -77,6 +89,9 @@ class ContactFormController extends ChangeNotifier {
   void dispose() {
     _isDisposed = true;
     nameController.dispose();
+    organizationController.dispose();
+    jobTitleController.dispose();
+    noteController.dispose();
     emailInputController.dispose();
     nostrInputController.dispose();
     phoneInputController.dispose();
@@ -86,6 +101,11 @@ class ContactFormController extends ChangeNotifier {
 
   void expandBirthday() {
     birthdayExpanded = true;
+    notifyListeners();
+  }
+
+  void expandMoreFields() {
+    moreFieldsExpanded = true;
     notifyListeners();
   }
 
@@ -186,6 +206,9 @@ class ContactFormController extends ChangeNotifier {
         AddressBookContactForm(
           uid: contact?.uid ?? initialForm?.uid,
           displayName: nameController.text,
+          organization: organizationController.text,
+          jobTitle: jobTitleController.text,
+          note: noteController.text,
           emails: emails.toList(),
           nostrPubkeys: nostrIdentifiers.toList(),
           phones: phones.toList(),

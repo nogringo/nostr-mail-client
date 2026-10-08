@@ -1345,6 +1345,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsAddPhoneHint => '電話番号を追加';
 
   @override
+  String get contactsMoreFields => 'その他の項目';
+
+  @override
+  String get contactsOrganizationLabel => '会社';
+
+  @override
+  String get contactsJobTitleLabel => '役職';
+
+  @override
   String get contactsBirthdayLabel => '誕生日';
 
   @override
@@ -1364,6 +1373,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contactsAddNostrHint => 'npub、nprofile、hex 公開鍵、または NIP-05 を追加';
+
+  @override
+  String get contactsNoteLabel => 'メモ';
 
   @override
   String get contactsCancel => 'キャンセル';
@@ -1400,6 +1412,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsNoteTitle => 'メモ';
 
   @override
   String get contactsCall => '発信';

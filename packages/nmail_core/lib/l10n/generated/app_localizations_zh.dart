@@ -1333,6 +1333,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsAddPhoneHint => '添加电话号码';
 
   @override
+  String get contactsMoreFields => '更多字段';
+
+  @override
+  String get contactsOrganizationLabel => '公司';
+
+  @override
+  String get contactsJobTitleLabel => '职位';
+
+  @override
   String get contactsBirthdayLabel => '生日';
 
   @override
@@ -1352,6 +1361,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contactsAddNostrHint => '添加 npub、nprofile、hex 公钥或 NIP-05';
+
+  @override
+  String get contactsNoteLabel => '备注';
 
   @override
   String get contactsCancel => '取消';
@@ -1388,6 +1400,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsNoteTitle => '备注';
 
   @override
   String get contactsCall => '拨打电话';

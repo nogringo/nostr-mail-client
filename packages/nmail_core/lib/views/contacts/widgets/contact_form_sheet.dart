@@ -5,6 +5,8 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'contact_form_fields.dart';
 
 class ContactFormSheet extends StatelessWidget {
+  static const _gutter = EdgeInsets.symmetric(horizontal: 24);
+
   final ContactFormController controller;
 
   const ContactFormSheet({super.key, required this.controller});
@@ -15,8 +17,6 @@ class ContactFormSheet extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.only(
-          left: 24,
-          right: 24,
           top: 20,
           bottom: MediaQuery.of(context).viewInsets.bottom + 20,
         ),
@@ -26,60 +26,67 @@ class ContactFormSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      controller.isEditing
-                          ? l.contactsEditTitle
-                          : l.contactsCreateTitle,
-                      style: Theme.of(context).textTheme.titleLarge,
+              Padding(
+                padding: _gutter,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        controller.isEditing
+                            ? l.contactsEditTitle
+                            : l.contactsCreateTitle,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
                     ),
-                  ),
-                  ListenableBuilder(
-                    listenable: controller,
-                    builder: (context, _) => IconButton(
-                      icon: const Icon(Icons.close),
-                      tooltip: MaterialLocalizations.of(
-                        context,
-                      ).closeButtonTooltip,
-                      onPressed: controller.isSaving
-                          ? null
-                          : () => Navigator.pop(context),
+                    ListenableBuilder(
+                      listenable: controller,
+                      builder: (context, _) => IconButton(
+                        icon: const Icon(Icons.close),
+                        tooltip: MaterialLocalizations.of(
+                          context,
+                        ).closeButtonTooltip,
+                        onPressed: controller.isSaving
+                            ? null
+                            : () => Navigator.pop(context),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 18),
               Flexible(
                 child: SingleChildScrollView(
+                  padding: _gutter,
                   child: ContactFormFields(controller: controller),
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ListenableBuilder(
-                    listenable: controller,
-                    builder: (context, _) => TextButton(
-                      onPressed: controller.isSaving
-                          ? null
-                          : () => Navigator.pop(context),
-                      child: Text(l.contactsCancel),
+              Padding(
+                padding: _gutter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ListenableBuilder(
+                      listenable: controller,
+                      builder: (context, _) => TextButton(
+                        onPressed: controller.isSaving
+                            ? null
+                            : () => Navigator.pop(context),
+                        child: Text(l.contactsCancel),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  ListenableBuilder(
-                    listenable: controller,
-                    builder: (context, _) => FilledButton(
-                      onPressed: controller.isSaving || !controller.canSave
-                          ? null
-                          : () => _save(context),
-                      child: Text(l.contactsSave),
+                    const SizedBox(width: 8),
+                    ListenableBuilder(
+                      listenable: controller,
+                      builder: (context, _) => FilledButton(
+                        onPressed: controller.isSaving || !controller.canSave
+                            ? null
+                            : () => _save(context),
+                        child: Text(l.contactsSave),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

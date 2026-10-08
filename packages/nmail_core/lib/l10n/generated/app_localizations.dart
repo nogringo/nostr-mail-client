@@ -2581,6 +2581,24 @@ abstract class AppLocalizations {
   /// **'Add phone number'**
   String get contactsAddPhoneHint;
 
+  /// Button revealing the optional company and job title fields in the contact form
+  ///
+  /// In en, this message translates to:
+  /// **'More fields'**
+  String get contactsMoreFields;
+
+  /// Label for the contact company field
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get contactsOrganizationLabel;
+
+  /// Label for the contact job title field
+  ///
+  /// In en, this message translates to:
+  /// **'Job title'**
+  String get contactsJobTitleLabel;
+
   /// Label for the contact birthday field
   ///
   /// In en, this message translates to:
@@ -2622,6 +2640,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add npub, nprofile, hex pubkey, or NIP-05'**
   String get contactsAddNostrHint;
+
+  /// Label for the free-text notes field in the contact form
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get contactsNoteLabel;
 
   /// Cancel button in contact dialogs
   ///
@@ -2694,6 +2718,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Nostr'**
   String get contactsNostrTitle;
+
+  /// Section title for contact notes
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get contactsNoteTitle;
 
   /// Tooltip for the button that calls a contact's phone number
   ///

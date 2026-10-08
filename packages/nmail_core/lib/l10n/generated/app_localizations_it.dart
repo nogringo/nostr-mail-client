@@ -1439,6 +1439,15 @@ class AppLocalizationsIt extends AppLocalizations {
   String get contactsAddPhoneHint => 'Aggiungi numero di telefono';
 
   @override
+  String get contactsMoreFields => 'Altri campi';
+
+  @override
+  String get contactsOrganizationLabel => 'Azienda';
+
+  @override
+  String get contactsJobTitleLabel => 'Ruolo';
+
+  @override
   String get contactsBirthdayLabel => 'Compleanno';
 
   @override
@@ -1459,6 +1468,9 @@ class AppLocalizationsIt extends AppLocalizations {
   @override
   String get contactsAddNostrHint =>
       'Aggiungi npub, nprofile, chiave pubblica hex o NIP-05';
+
+  @override
+  String get contactsNoteLabel => 'Note';
 
   @override
   String get contactsCancel => 'Annulla';
@@ -1496,6 +1508,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsNoteTitle => 'Note';
 
   @override
   String get contactsCall => 'Chiama';

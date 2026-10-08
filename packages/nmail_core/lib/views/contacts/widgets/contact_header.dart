@@ -9,12 +9,14 @@ import 'contact_copy_feedback.dart';
 
 class ContactHeader extends StatelessWidget {
   final AddressBookContact contact;
+  final String? subtitle;
 
-  const ContactHeader({super.key, required this.contact});
+  const ContactHeader({super.key, required this.contact, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     final name = contact.index.formattedName;
     final copy = _copyNameAction(context, name);
     final label = Padding(
@@ -23,7 +25,7 @@ class ContactHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       child: Text(
         name,
-        style: Theme.of(context).textTheme.headlineSmall,
+        style: theme.textTheme.headlineSmall,
         // One line, so the pill stays a pill: a wrapped name would make it
         // two lines tall and as wide as the row.
         maxLines: 1,
@@ -36,23 +38,36 @@ class ContactHeader extends StatelessWidget {
         ContactAvatar(contact: contact, radius: 32),
         const SizedBox(width: 8),
         Expanded(
-          child: copy == null
-              ? label
-              : Align(
-                  alignment: Alignment.centerLeft,
-                  child: Tooltip(
-                    message: l.actionCopy,
-                    triggerMode: TooltipTriggerMode.manual,
-                    child: Semantics(
-                      button: true,
-                      child: InkWell(
-                        onTap: copy,
-                        customBorder: const StadiumBorder(),
-                        child: label,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              copy == null
+                  ? label
+                  : Tooltip(
+                      message: l.actionCopy,
+                      triggerMode: TooltipTriggerMode.manual,
+                      child: Semantics(
+                        button: true,
+                        child: InkWell(
+                          onTap: copy,
+                          customBorder: const StadiumBorder(),
+                          child: label,
+                        ),
                       ),
+                    ),
+              if (subtitle != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    subtitle!,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ),
+            ],
+          ),
         ),
       ],
     );

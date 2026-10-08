@@ -36,6 +36,9 @@ class AddressBookVCardMapper {
     return AddressBookContactForm(
       uid: uid,
       displayName: parsed.formattedName,
+      organization: parsed.organization?.toFormattedString() ?? '',
+      jobTitle: parsed.title ?? '',
+      note: parsed.note ?? '',
       emails: parsed.emails.map((email) => email.address).toList(),
       nostrPubkeys: _nostrPubkeys(parsed).toList(),
       phones: parsed.telephones.map((phone) => phone.number).toList(),
@@ -44,7 +47,8 @@ class AddressBookVCardMapper {
   }
 
   /// Merges an incoming (imported) contact into an existing one, taking the
-  /// union of emails, phones, and Nostr identities (like a contacts merge).
+  /// union of emails, phones, Nostr identities and notes (like a contacts
+  /// merge).
   static AddressBookContactForm mergeForms(
     AddressBookContactForm base,
     AddressBookContactForm incoming,
@@ -53,6 +57,13 @@ class AddressBookVCardMapper {
       displayName: base.displayName.trim().isNotEmpty
           ? base.displayName
           : incoming.displayName,
+      organization: base.organization.trim().isNotEmpty
+          ? base.organization
+          : incoming.organization,
+      jobTitle: base.jobTitle.trim().isNotEmpty
+          ? base.jobTitle
+          : incoming.jobTitle,
+      note: _mergeNotes(base.note, incoming.note),
       emails: _unique([...base.emails, ...incoming.emails]),
       phones: _unique([...base.phones, ...incoming.phones]),
       nostrPubkeys: _unique([...base.nostrPubkeys, ...incoming.nostrPubkeys]),
@@ -65,6 +76,9 @@ class AddressBookVCardMapper {
     String? existingVCard,
   }) {
     final name = form.displayName.trim();
+    final organization = form.organization.trim();
+    final jobTitle = form.jobTitle.trim();
+    final note = form.note.trim();
     final emails = _unique(form.emails.map((email) => email.trim()));
     final phones = _unique(form.phones.map((phone) => phone.trim()));
     final birthday = _parseBirthday(form.birthday);
@@ -100,6 +114,14 @@ class AddressBookVCardMapper {
     parsed.uid = form.uid ?? parsed.uid;
     parsed.formattedName = name;
     parsed.name = vcard.StructuredName.raw(name);
+    // An unchanged value keeps the imported departments and SORT-AS.
+    if (parsed.organization?.toFormattedString() != organization) {
+      parsed.organization = organization.isEmpty
+          ? null
+          : vcard.Organization.raw(organization);
+    }
+    parsed.title = jobTitle.isEmpty ? null : jobTitle;
+    parsed.note = note.isEmpty ? null : note;
     parsed.emails
       ..clear()
       ..addAll([
@@ -162,6 +184,13 @@ class AddressBookVCardMapper {
   static String? _pubkeyFromNostrImpp(String uri) {
     if (!uri.toLowerCase().startsWith('nostr:')) return null;
     return normalizeNostrPubkey(uri.substring('nostr:'.length));
+  }
+
+  static String _mergeNotes(String base, String incoming) {
+    final added = incoming.trim();
+    if (added.isEmpty || base.contains(added)) return base;
+    if (base.trim().isEmpty) return added;
+    return '$base\n\n$added';
   }
 
   static List<String> _unique(Iterable<String> values) {

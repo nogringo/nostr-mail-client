@@ -8,6 +8,7 @@ import 'package:nmail_core/utils/contact_birthday_utils.dart';
 import 'contact_action_row.dart';
 import 'contact_header.dart';
 import 'contact_nostr_section.dart';
+import 'contact_note_tile.dart';
 import 'contact_section_title.dart';
 import 'phone_action_buttons.dart';
 
@@ -34,10 +35,18 @@ class ContactDetailPane extends StatelessWidget {
         }
         final form = controller.formFor(displayedContact);
         final birthday = form.birthday;
+        final work = [form.jobTitle, form.organization]
+            .map((value) => value.trim())
+            .where((value) => value.isNotEmpty)
+            .join(', ');
+        final note = form.note.trim();
         return ListView(
           padding: const EdgeInsets.all(24),
           children: [
-            ContactHeader(contact: displayedContact),
+            ContactHeader(
+              contact: displayedContact,
+              subtitle: work.isEmpty ? null : work,
+            ),
             const SizedBox(height: 24),
             if (birthday != null) ...[
               ContactSectionTitle(l.contactsBirthdayTitle),
@@ -83,6 +92,11 @@ class ContactDetailPane extends StatelessWidget {
               const SizedBox(height: 24),
             ],
             ContactNostrSection(contact: displayedContact),
+            if (note.isNotEmpty) ...[
+              ContactSectionTitle(l.contactsNoteTitle),
+              const SizedBox(height: 8),
+              ContactNoteTile(note: note),
+            ],
           ],
         );
       },

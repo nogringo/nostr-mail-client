@@ -6,6 +6,7 @@ import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import '../../../widgets/nostr_avatar.dart';
 import 'contact_birthday_field.dart';
 import 'contact_methods_field.dart';
+import 'contact_more_fields.dart';
 import 'nostr_identity_label.dart';
 import 'quiet_field.dart';
 
@@ -75,6 +76,16 @@ class ContactFormFields extends StatelessWidget {
             onAdd: controller.addNostrFromInput,
             onRemove: controller.removeNostrIdentifier,
           ),
+        ),
+        const SizedBox(height: 14),
+        ContactMoreFields(controller: controller),
+        const SizedBox(height: 14),
+        QuietField(
+          label: l.contactsNoteLabel,
+          controller: controller.noteController,
+          keyboardType: TextInputType.multiline,
+          minLines: 3,
+          maxLines: 8,
         ),
         ListenableBuilder(
           listenable: controller,

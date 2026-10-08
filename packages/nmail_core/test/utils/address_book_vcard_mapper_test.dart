@@ -182,6 +182,104 @@ END:VCARD
     );
   });
 
+  test('creates vCard with company, job title and notes', () {
+    final text = AddressBookVCardMapper.buildVCard(
+      const AddressBookContactForm(
+        displayName: 'Work Friend',
+        organization: ' Acme ',
+        jobTitle: 'Engineer',
+        note: 'Met at FOSDEM\nLikes tea',
+      ),
+    );
+
+    final card = parser.parseSingle(text);
+    expect(card.organization?.toFormattedString(), 'Acme');
+    expect(card.title, 'Engineer');
+    expect(card.note, 'Met at FOSDEM\nLikes tea');
+  });
+
+  test('parses company, job title and notes from vCard', () {
+    const text = '''
+BEGIN:VCARD
+VERSION:4.0
+FN:Dana
+ORG:Acme;R&D
+TITLE:Engineer
+NOTE:Met at FOSDEM
+END:VCARD
+''';
+
+    final form = AddressBookVCardMapper.formsFromVCardText(text).single;
+    expect(form.organization, 'Acme, R&D');
+    expect(form.jobTitle, 'Engineer');
+    expect(form.note, 'Met at FOSDEM');
+  });
+
+  test('editing keeps an unchanged company and drops cleared fields', () {
+    const existing = '''
+BEGIN:VCARD
+VERSION:4.0
+UID:urn:uuid:dana
+FN:Dana
+ORG:Acme;R&D
+TITLE:Engineer
+NOTE:Met at FOSDEM
+END:VCARD
+''';
+
+    final unchanged = parser.parseSingle(
+      AddressBookVCardMapper.buildVCard(
+        const AddressBookContactForm(
+          displayName: 'Dana',
+          organization: 'Acme, R&D',
+        ),
+        existingVCard: existing,
+      ),
+    );
+    expect(unchanged.organization?.name, 'Acme');
+    expect(unchanged.organization?.units, ['R&D']);
+    expect(unchanged.title, isNull);
+    expect(unchanged.note, isNull);
+
+    final renamed = parser.parseSingle(
+      AddressBookVCardMapper.buildVCard(
+        const AddressBookContactForm(
+          displayName: 'Dana',
+          organization: 'Globex',
+        ),
+        existingVCard: existing,
+      ),
+    );
+    expect(renamed.organization?.toFormattedString(), 'Globex');
+  });
+
+  test('mergeForms keeps existing company and appends new notes', () {
+    const base = AddressBookContactForm(
+      displayName: 'Alice',
+      organization: 'Acme',
+      note: 'Met at FOSDEM',
+    );
+
+    final merged = AddressBookVCardMapper.mergeForms(
+      base,
+      const AddressBookContactForm(
+        displayName: 'Alice',
+        organization: 'Globex',
+        jobTitle: 'Engineer',
+        note: 'Likes tea',
+      ),
+    );
+    expect(merged.organization, 'Acme');
+    expect(merged.jobTitle, 'Engineer');
+    expect(merged.note, 'Met at FOSDEM\n\nLikes tea');
+
+    final reimported = AddressBookVCardMapper.mergeForms(
+      merged,
+      const AddressBookContactForm(displayName: 'Alice', note: 'Likes tea'),
+    );
+    expect(reimported.note, merged.note);
+  });
+
   test('rejects invalid forms', () {
     expect(
       () => AddressBookVCardMapper.buildVCard(

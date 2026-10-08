@@ -1437,6 +1437,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsAddPhoneHint => 'Adicionar número de telefone';
 
   @override
+  String get contactsMoreFields => 'Mais campos';
+
+  @override
+  String get contactsOrganizationLabel => 'Empresa';
+
+  @override
+  String get contactsJobTitleLabel => 'Cargo';
+
+  @override
   String get contactsBirthdayLabel => 'Aniversário';
 
   @override
@@ -1457,6 +1466,9 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get contactsAddNostrHint =>
       'Adicionar npub, nprofile, chave pública hex ou NIP-05';
+
+  @override
+  String get contactsNoteLabel => 'Notas';
 
   @override
   String get contactsCancel => 'Cancelar';
@@ -1494,6 +1506,9 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsNoteTitle => 'Notas';
 
   @override
   String get contactsCall => 'Ligar';
@@ -3667,6 +3682,15 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get contactsAddPhoneHint => 'Adicionar número de telefone';
 
   @override
+  String get contactsMoreFields => 'Mais campos';
+
+  @override
+  String get contactsOrganizationLabel => 'Empresa';
+
+  @override
+  String get contactsJobTitleLabel => 'Cargo';
+
+  @override
   String get contactsBirthdayLabel => 'Aniversário';
 
   @override
@@ -3687,6 +3711,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get contactsAddNostrHint =>
       'Adicionar npub, nprofile, chave pública hex ou NIP-05';
+
+  @override
+  String get contactsNoteLabel => 'Notas';
 
   @override
   String get contactsCancel => 'Cancelar';
@@ -3724,6 +3751,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get contactsNostrTitle => 'Nostr';
+
+  @override
+  String get contactsNoteTitle => 'Notas';
 
   @override
   String get contactsCall => 'Ligar';
