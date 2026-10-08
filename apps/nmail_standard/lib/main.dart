@@ -4,8 +4,7 @@ import 'package:nmail_core/app/config/distribution_config.dart';
 
 import 'push/fcm_push.dart';
 
-const _appleAppStorePrivacyPolicyUrl =
-    'https://legal.nostrmail.org/privacy/apple-app-store';
+const _appleAppStorePrivacyPolicyUrl = 'https://nostrmail.org/privacy/';
 
 String? get _privacyPolicyUrl {
   if (kIsWeb || defaultTargetPlatform != TargetPlatform.iOS) return null;
