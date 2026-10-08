@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
@@ -13,6 +15,9 @@ import 'package:nmail_core/services/storage_service.dart';
 
 const dmRelayListKind = 10050;
 const blossomServerListKind = 10063;
+
+/// NIP-37 relays for private content, listed encrypted in the content.
+const privateRelayListKind = 10013;
 
 /// NIP-62 request to vanish.
 const vanishRequestKind = 62;
@@ -137,6 +142,70 @@ class NostrMailService {
     }
 
     return relays;
+  }
+
+  /// Get the user's private relay list (kind 10013) from the outbox relays,
+  /// falling back to the cache when none answers.
+  ///
+  /// Throws when the list cannot be known, so an edit never overwrites relays
+  /// that were not read.
+  Future<List<String>> getPrivateRelays() async {
+    final account = _ndk.accounts.getLoggedAccount();
+    if (account == null) return [];
+
+    final response = _ndk.requests.query(
+      name: 'private-relays',
+      filter: ndk_filter.Filter(
+        kinds: [privateRelayListKind],
+        authors: [account.pubkey],
+        limit: 1,
+      ),
+      explicitRelays: await getOutboxRelays(),
+      timeout: const Duration(seconds: 5),
+      cacheRead: false,
+    );
+    await response.future;
+    final outcomes = await response.relayOutcomesDone;
+    final anyRelayAnswered = outcomes.values.any(
+      (outcome) => outcome.status == RelayRequestStatus.eose,
+    );
+
+    final events = await _ndk.config.cache.loadEvents(
+      pubKeys: [account.pubkey],
+      kinds: [privateRelayListKind],
+    );
+    if (events.isEmpty) {
+      if (!anyRelayAnswered) {
+        throw StateError('No relay answered the private relay list query');
+      }
+      return [];
+    }
+
+    final latestEvent = events.reduce(
+      (a, b) => a.createdAt > b.createdAt ? a : b,
+    );
+    // The plaintext is kept per event id, so the signer is asked once per
+    // version of the list.
+    final privateTags = latestEvent.content.isEmpty
+        ? const []
+        : jsonDecode(
+                (await _ndk.decryptedEventPayloads.loadOrDecrypt(
+                  event: latestEvent,
+                  viewerPubKey: account.pubkey,
+                  scheme: DecryptedPayloadScheme.nip44,
+                  decrypt: () => account.signer.decryptNip44(
+                    ciphertext: latestEvent.content,
+                    senderPubKey: account.pubkey,
+                  ),
+                ))!,
+              )
+              as List<dynamic>;
+
+    return [
+      for (final tag in [...latestEvent.tags, ...privateTags])
+        if (tag is List && tag.length > 1 && tag[0] == 'relay')
+          tag[1] as String,
+    ];
   }
 
   /// Get the user's Blossom server list

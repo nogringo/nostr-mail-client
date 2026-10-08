@@ -1081,6 +1081,42 @@ abstract class AppLocalizations {
   /// **'No DM relays configured'**
   String get dmRelayEmpty;
 
+  /// Dialog title for adding a NIP-37 private relay
+  ///
+  /// In en, this message translates to:
+  /// **'Add Private Relay'**
+  String get privateRelayAddTitle;
+
+  /// Section header for NIP-37 private relays (kind 10013)
+  ///
+  /// In en, this message translates to:
+  /// **'Private Relays'**
+  String get privateRelaySectionTitle;
+
+  /// One-line explanation under the private relays section header
+  ///
+  /// In en, this message translates to:
+  /// **'Relays that store your private data, such as drafts.'**
+  String get privateRelayDescription;
+
+  /// Label of the row that opens the add-private-relay dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Add private relay'**
+  String get privateRelayAdd;
+
+  /// Empty-state message shown when no private relays are configured
+  ///
+  /// In en, this message translates to:
+  /// **'No private relays configured'**
+  String get privateRelayEmpty;
+
+  /// Shown in place of the private relays list when it could not be fetched or decrypted
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t read your private relays. Reopen this page to try again.'**
+  String get privateRelayLoadFailed;
+
   /// Dialog title and IconButton tooltip for adding a bridge domain
   ///
   /// In en, this message translates to:

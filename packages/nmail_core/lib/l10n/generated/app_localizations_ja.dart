@@ -527,6 +527,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dmRelayEmpty => 'DM リレーが設定されていません';
 
   @override
+  String get privateRelayAddTitle => 'プライベートリレーを追加';
+
+  @override
+  String get privateRelaySectionTitle => 'プライベートリレー';
+
+  @override
+  String get privateRelayDescription => '下書きなどの個人データを保存するリレーです。';
+
+  @override
+  String get privateRelayAdd => 'プライベートリレーを追加';
+
+  @override
+  String get privateRelayEmpty => 'プライベートリレーが設定されていません';
+
+  @override
+  String get privateRelayLoadFailed =>
+      'プライベートリレーを読み込めませんでした。このページを開き直して再試行してください。';
+
+  @override
   String get bridgeAddTitle => 'ブリッジを追加';
 
   @override

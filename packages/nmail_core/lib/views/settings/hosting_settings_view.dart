@@ -7,6 +7,7 @@ import 'widgets/bridges_section.dart';
 import 'widgets/dm_relays_section.dart';
 import 'widgets/hosting_save_button.dart';
 import 'widgets/nip65_relays_section.dart';
+import 'widgets/private_relays_section.dart';
 import 'widgets/relay_connectivity_section.dart';
 import 'widgets/sync_status_section.dart';
 
@@ -33,6 +34,7 @@ class HostingSettingsView extends StatelessWidget {
               children: [
                 Nip65RelaysSection(),
                 DmRelaysSection(),
+                PrivateRelaysSection(),
                 BlossomServersSection(),
                 BridgesSection(),
                 RelayConnectivitySection(),

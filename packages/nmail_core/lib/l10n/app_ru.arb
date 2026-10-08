@@ -187,6 +187,12 @@
   "dmRelayDescription": "Реле, которые принимают ваши зашифрованные сообщения.",
   "dmRelayAdd": "Добавить DM-реле",
   "dmRelayEmpty": "DM-реле не настроены",
+  "privateRelayAddTitle": "Добавить приватное реле",
+  "privateRelaySectionTitle": "Приватные реле",
+  "privateRelayDescription": "Реле, которые хранят ваши личные данные, например черновики.",
+  "privateRelayAdd": "Добавить приватное реле",
+  "privateRelayEmpty": "Приватные реле не настроены",
+  "privateRelayLoadFailed": "Не удалось прочитать ваши приватные реле. Откройте эту страницу снова, чтобы повторить попытку.",
 
   "bridgeAddTitle": "Добавить мост",
   "bridgeDomainLabel": "Домен моста",

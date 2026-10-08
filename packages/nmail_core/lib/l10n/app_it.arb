@@ -187,6 +187,12 @@
   "dmRelayDescription": "Relay che ricevono i tuoi messaggi cifrati.",
   "dmRelayAdd": "Aggiungi relay DM",
   "dmRelayEmpty": "Nessun relay DM configurato",
+  "privateRelayAddTitle": "Aggiungi relay privato",
+  "privateRelaySectionTitle": "Relay privati",
+  "privateRelayDescription": "Relay che conservano i tuoi dati privati, come le bozze.",
+  "privateRelayAdd": "Aggiungi relay privato",
+  "privateRelayEmpty": "Nessun relay privato configurato",
+  "privateRelayLoadFailed": "Impossibile leggere i tuoi relay privati. Riapri questa pagina per riprovare.",
 
   "bridgeAddTitle": "Aggiungi bridge",
   "bridgeDomainLabel": "Dominio del bridge",

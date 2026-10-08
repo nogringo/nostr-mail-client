@@ -522,6 +522,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get dmRelayEmpty => '未配置 DM 中继';
 
   @override
+  String get privateRelayAddTitle => '添加私有中继';
+
+  @override
+  String get privateRelaySectionTitle => '私有中继';
+
+  @override
+  String get privateRelayDescription => '存储草稿等私人数据的中继。';
+
+  @override
+  String get privateRelayAdd => '添加私有中继';
+
+  @override
+  String get privateRelayEmpty => '未配置私有中继';
+
+  @override
+  String get privateRelayLoadFailed => '无法读取你的私有中继。请重新打开此页面重试。';
+
+  @override
   String get bridgeAddTitle => '添加桥接';
 
   @override

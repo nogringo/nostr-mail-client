@@ -187,6 +187,12 @@
   "dmRelayDescription": "接收加密消息的中继。",
   "dmRelayAdd": "添加 DM 中继",
   "dmRelayEmpty": "未配置 DM 中继",
+  "privateRelayAddTitle": "添加私有中继",
+  "privateRelaySectionTitle": "私有中继",
+  "privateRelayDescription": "存储草稿等私人数据的中继。",
+  "privateRelayAdd": "添加私有中继",
+  "privateRelayEmpty": "未配置私有中继",
+  "privateRelayLoadFailed": "无法读取你的私有中继。请重新打开此页面重试。",
 
   "bridgeAddTitle": "添加桥接",
   "bridgeDomainLabel": "桥接域名",

@@ -550,6 +550,26 @@ class AppLocalizationsFr extends AppLocalizations {
   String get dmRelayEmpty => 'Aucun relais DM configuré';
 
   @override
+  String get privateRelayAddTitle => 'Ajouter un relais privé';
+
+  @override
+  String get privateRelaySectionTitle => 'Relais privés';
+
+  @override
+  String get privateRelayDescription =>
+      'Relais qui stockent vos données privées, comme les brouillons.';
+
+  @override
+  String get privateRelayAdd => 'Ajouter un relais privé';
+
+  @override
+  String get privateRelayEmpty => 'Aucun relais privé configuré';
+
+  @override
+  String get privateRelayLoadFailed =>
+      'Impossible de lire vos relais privés. Rouvrez cette page pour réessayer.';
+
+  @override
   String get bridgeAddTitle => 'Ajouter un bridge';
 
   @override

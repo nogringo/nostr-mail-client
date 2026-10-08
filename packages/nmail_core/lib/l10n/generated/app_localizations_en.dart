@@ -544,6 +544,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dmRelayEmpty => 'No DM relays configured';
 
   @override
+  String get privateRelayAddTitle => 'Add Private Relay';
+
+  @override
+  String get privateRelaySectionTitle => 'Private Relays';
+
+  @override
+  String get privateRelayDescription =>
+      'Relays that store your private data, such as drafts.';
+
+  @override
+  String get privateRelayAdd => 'Add private relay';
+
+  @override
+  String get privateRelayEmpty => 'No private relays configured';
+
+  @override
+  String get privateRelayLoadFailed =>
+      'Couldn\'t read your private relays. Reopen this page to try again.';
+
+  @override
   String get bridgeAddTitle => 'Add bridge';
 
   @override

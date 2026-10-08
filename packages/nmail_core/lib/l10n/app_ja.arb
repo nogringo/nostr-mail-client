@@ -187,6 +187,12 @@
   "dmRelayDescription": "暗号化されたメッセージを受け取るリレーです。",
   "dmRelayAdd": "DM リレーを追加",
   "dmRelayEmpty": "DM リレーが設定されていません",
+  "privateRelayAddTitle": "プライベートリレーを追加",
+  "privateRelaySectionTitle": "プライベートリレー",
+  "privateRelayDescription": "下書きなどの個人データを保存するリレーです。",
+  "privateRelayAdd": "プライベートリレーを追加",
+  "privateRelayEmpty": "プライベートリレーが設定されていません",
+  "privateRelayLoadFailed": "プライベートリレーを読み込めませんでした。このページを開き直して再試行してください。",
 
   "bridgeAddTitle": "ブリッジを追加",
   "bridgeDomainLabel": "ブリッジドメイン",

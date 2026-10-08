@@ -545,6 +545,26 @@ class AppLocalizationsFi extends AppLocalizations {
   String get dmRelayEmpty => 'Yksityisviestien palvelimia ei ole asetettu';
 
   @override
+  String get privateRelayAddTitle => 'Lisää yksityinen palvelin';
+
+  @override
+  String get privateRelaySectionTitle => 'Yksityiset palvelimet';
+
+  @override
+  String get privateRelayDescription =>
+      'Palvelimet, jotka tallentavat yksityiset tietosi, kuten luonnokset.';
+
+  @override
+  String get privateRelayAdd => 'Lisää yksityinen palvelin';
+
+  @override
+  String get privateRelayEmpty => 'Yksityisiä palvelimia ei ole asetettu';
+
+  @override
+  String get privateRelayLoadFailed =>
+      'Yksityisiä palvelimiasi ei voitu lukea. Avaa tämä sivu uudelleen yrittääksesi uudestaan.';
+
+  @override
   String get bridgeAddTitle => 'Lisää silta';
 
   @override

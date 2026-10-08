@@ -187,6 +187,12 @@
   "dmRelayDescription": "Relays, die deine verschlüsselten Nachrichten empfangen.",
   "dmRelayAdd": "DM-Relay hinzufügen",
   "dmRelayEmpty": "Keine DM-Relays konfiguriert",
+  "privateRelayAddTitle": "Privates Relay hinzufügen",
+  "privateRelaySectionTitle": "Private Relays",
+  "privateRelayDescription": "Relays, die deine privaten Daten wie Entwürfe speichern.",
+  "privateRelayAdd": "Privates Relay hinzufügen",
+  "privateRelayEmpty": "Keine privaten Relays konfiguriert",
+  "privateRelayLoadFailed": "Deine privaten Relays konnten nicht gelesen werden. Öffne diese Seite erneut, um es noch einmal zu versuchen.",
 
   "bridgeAddTitle": "Bridge hinzufügen",
   "bridgeDomainLabel": "Bridge-Domain",

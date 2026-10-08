@@ -5,6 +5,7 @@ import '../../controllers/blossom_servers_controller.dart';
 import '../../controllers/bridges_controller.dart';
 import '../../controllers/dm_relays_controller.dart';
 import '../../controllers/nip65_relays_controller.dart';
+import '../../controllers/private_relays_controller.dart';
 import 'widgets/discard_changes_dialog.dart';
 
 /// Asks before leaving the hosting page with staged edits, and throws them away
@@ -17,12 +18,14 @@ Future<bool> confirmDiscardHostingChanges(BuildContext context) async {
 
   final nip65Relays = GetIt.I<Nip65RelaysController>();
   final dmRelays = GetIt.I<DmRelaysController>();
+  final privateRelays = GetIt.I<PrivateRelaysController>();
   final blossomServers = GetIt.I<BlossomServersController>();
   final bridges = GetIt.I<BridgesController>();
 
   final discards = <VoidCallback>[
     if (nip65Relays.hasChanges) nip65Relays.discardChanges,
     if (dmRelays.hasChanges) dmRelays.discardChanges,
+    if (privateRelays.hasChanges) privateRelays.discardChanges,
     if (blossomServers.hasChanges) blossomServers.discardChanges,
     if (bridges.hasChanges) bridges.discardChanges,
   ];

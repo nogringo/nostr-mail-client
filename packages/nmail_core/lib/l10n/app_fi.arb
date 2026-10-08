@@ -187,6 +187,12 @@
   "dmRelayDescription": "Palvelimet, jotka vastaanottavat salatut viestisi.",
   "dmRelayAdd": "Lisää yksityisviestien palvelin",
   "dmRelayEmpty": "Yksityisviestien palvelimia ei ole asetettu",
+  "privateRelayAddTitle": "Lisää yksityinen palvelin",
+  "privateRelaySectionTitle": "Yksityiset palvelimet",
+  "privateRelayDescription": "Palvelimet, jotka tallentavat yksityiset tietosi, kuten luonnokset.",
+  "privateRelayAdd": "Lisää yksityinen palvelin",
+  "privateRelayEmpty": "Yksityisiä palvelimia ei ole asetettu",
+  "privateRelayLoadFailed": "Yksityisiä palvelimiasi ei voitu lukea. Avaa tämä sivu uudelleen yrittääksesi uudestaan.",
 
   "bridgeAddTitle": "Lisää silta",
   "bridgeDomainLabel": "Sillan verkko-osoite",

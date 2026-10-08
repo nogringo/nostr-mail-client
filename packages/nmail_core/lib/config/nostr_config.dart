@@ -84,6 +84,8 @@ class NostrConfig {
     'wss://auth.nostr1.com',
   ];
 
+  static const recommendedPrivateRelays = ['wss://private.nmail.li'];
+
   static const recommendedBlossomServers = [
     'https://blossom.nmail.li',
     'https://blossom.ditto.pub',

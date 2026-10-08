@@ -187,6 +187,12 @@
   "dmRelayDescription": "Relais qui reçoivent vos messages chiffrés.",
   "dmRelayAdd": "Ajouter un relais DM",
   "dmRelayEmpty": "Aucun relais DM configuré",
+  "privateRelayAddTitle": "Ajouter un relais privé",
+  "privateRelaySectionTitle": "Relais privés",
+  "privateRelayDescription": "Relais qui stockent vos données privées, comme les brouillons.",
+  "privateRelayAdd": "Ajouter un relais privé",
+  "privateRelayEmpty": "Aucun relais privé configuré",
+  "privateRelayLoadFailed": "Impossible de lire vos relais privés. Rouvrez cette page pour réessayer.",
 
   "bridgeAddTitle": "Ajouter un bridge",
   "bridgeDomainLabel": "Domaine du bridge",

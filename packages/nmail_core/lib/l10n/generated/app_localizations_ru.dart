@@ -549,6 +549,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dmRelayEmpty => 'DM-реле не настроены';
 
   @override
+  String get privateRelayAddTitle => 'Добавить приватное реле';
+
+  @override
+  String get privateRelaySectionTitle => 'Приватные реле';
+
+  @override
+  String get privateRelayDescription =>
+      'Реле, которые хранят ваши личные данные, например черновики.';
+
+  @override
+  String get privateRelayAdd => 'Добавить приватное реле';
+
+  @override
+  String get privateRelayEmpty => 'Приватные реле не настроены';
+
+  @override
+  String get privateRelayLoadFailed =>
+      'Не удалось прочитать ваши приватные реле. Откройте эту страницу снова, чтобы повторить попытку.';
+
+  @override
   String get bridgeAddTitle => 'Добавить мост';
 
   @override

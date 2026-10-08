@@ -19,6 +19,7 @@ import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../models/mailbox.dart';
 import '../../controllers/nip65_relays_controller.dart';
+import '../../controllers/private_relays_controller.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/community_theme.dart';
@@ -420,6 +421,10 @@ class AppRouter {
         dispose: (controller) => controller.dispose(),
       )
       ..registerLazySingleton(
+        PrivateRelaysController.new,
+        dispose: (controller) => controller.dispose(),
+      )
+      ..registerLazySingleton(
         BlossomServersController.new,
         dispose: (controller) => controller.dispose(),
       )
@@ -433,6 +438,7 @@ class AppRouter {
     GetIt.I
       ..unregister<Nip65RelaysController>()
       ..unregister<DmRelaysController>()
+      ..unregister<PrivateRelaysController>()
       ..unregister<BlossomServersController>()
       ..unregister<BridgesController>();
   }

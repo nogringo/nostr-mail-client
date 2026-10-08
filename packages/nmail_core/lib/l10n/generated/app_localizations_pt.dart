@@ -550,6 +550,26 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dmRelayEmpty => 'Nenhum relay DM configurado';
 
   @override
+  String get privateRelayAddTitle => 'Adicionar relay privado';
+
+  @override
+  String get privateRelaySectionTitle => 'Relays privados';
+
+  @override
+  String get privateRelayDescription =>
+      'Relays que guardam os seus dados privados, como os rascunhos.';
+
+  @override
+  String get privateRelayAdd => 'Adicionar relay privado';
+
+  @override
+  String get privateRelayEmpty => 'Nenhum relay privado configurado';
+
+  @override
+  String get privateRelayLoadFailed =>
+      'Não foi possível ler os seus relays privados. Volte a abrir esta página para tentar novamente.';
+
+  @override
   String get bridgeAddTitle => 'Adicionar bridge';
 
   @override
@@ -2759,6 +2779,26 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get dmRelayEmpty => 'Nenhum relay DM configurado';
+
+  @override
+  String get privateRelayAddTitle => 'Adicionar relay privado';
+
+  @override
+  String get privateRelaySectionTitle => 'Relays privados';
+
+  @override
+  String get privateRelayDescription =>
+      'Relays que armazenam seus dados privados, como rascunhos.';
+
+  @override
+  String get privateRelayAdd => 'Adicionar relay privado';
+
+  @override
+  String get privateRelayEmpty => 'Nenhum relay privado configurado';
+
+  @override
+  String get privateRelayLoadFailed =>
+      'Não foi possível ler seus relays privados. Abra esta página de novo para tentar novamente.';
 
   @override
   String get bridgeAddTitle => 'Adicionar bridge';
