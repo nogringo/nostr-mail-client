@@ -39,7 +39,7 @@ class ContactsSidebar extends StatelessWidget {
                     child: FilledButton.icon(
                       onPressed: () => _showForm(context),
                       icon: const Icon(Icons.person_add),
-                      label: Text(l.contactsAdd),
+                      label: Text(l.contactsAddButton),
                     ),
                   ),
                   const SizedBox(width: 8),

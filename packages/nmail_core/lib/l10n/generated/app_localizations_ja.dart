@@ -1289,6 +1289,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsAdd => '連絡先を追加';
 
   @override
+  String get contactsAddButton => '追加';
+
+  @override
   String get contactsAddToContacts => '連絡先に追加';
 
   @override

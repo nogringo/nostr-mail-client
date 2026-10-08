@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -17,6 +19,8 @@ class ContactDetailPane extends StatelessWidget {
   final VoidCallback? onDeleted;
 
   const ContactDetailPane({super.key, this.uid, this.onDeleted});
+
+  static const _maxWidth = 600.0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,64 +44,69 @@ class ContactDetailPane extends StatelessWidget {
             .where((value) => value.isNotEmpty)
             .join(', ');
         final note = form.note.trim();
-        return ListView(
-          padding: const EdgeInsets.all(24),
-          children: [
-            ContactHeader(
-              contact: displayedContact,
-              subtitle: work.isEmpty ? null : work,
+        return LayoutBuilder(
+          builder: (context, constraints) => ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: max(24.0, (constraints.maxWidth - _maxWidth) / 2),
+              vertical: 24,
             ),
-            const SizedBox(height: 24),
-            if (birthday != null) ...[
-              ContactSectionTitle(l.contactsBirthdayTitle),
-              const SizedBox(height: 8),
-              ContactActionRow(
-                icon: Icons.cake_outlined,
-                title: Text(
-                  formatContactBirthdayForDisplay(context, birthday),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                copyValue: formatContactBirthdayForDisplay(context, birthday),
-                index: 0,
-                count: 1,
+            children: [
+              ContactHeader(
+                contact: displayedContact,
+                subtitle: work.isEmpty ? null : work,
               ),
               const SizedBox(height: 24),
-            ],
-            if (displayedContact.index.emails.isNotEmpty) ...[
-              ContactSectionTitle(l.contactsEmailsTitle),
-              const SizedBox(height: 8),
-              for (final (i, email) in displayedContact.index.emails.indexed)
+              if (birthday != null) ...[
+                ContactSectionTitle(l.contactsBirthdayTitle),
+                const SizedBox(height: 8),
                 ContactActionRow(
-                  icon: Icons.alternate_email,
-                  title: Text(email, overflow: TextOverflow.ellipsis),
-                  copyValue: email,
-                  onCompose: () => controller.composeToEmail(context, email),
-                  index: i,
-                  count: displayedContact.index.emails.length,
+                  icon: Icons.cake_outlined,
+                  title: Text(
+                    formatContactBirthdayForDisplay(context, birthday),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  copyValue: formatContactBirthdayForDisplay(context, birthday),
+                  index: 0,
+                  count: 1,
                 ),
-              const SizedBox(height: 24),
+                const SizedBox(height: 24),
+              ],
+              if (displayedContact.index.emails.isNotEmpty) ...[
+                ContactSectionTitle(l.contactsEmailsTitle),
+                const SizedBox(height: 8),
+                for (final (i, email) in displayedContact.index.emails.indexed)
+                  ContactActionRow(
+                    icon: Icons.alternate_email,
+                    title: Text(email, overflow: TextOverflow.ellipsis),
+                    copyValue: email,
+                    onCompose: () => controller.composeToEmail(context, email),
+                    index: i,
+                    count: displayedContact.index.emails.length,
+                  ),
+                const SizedBox(height: 24),
+              ],
+              if (form.phones.isNotEmpty) ...[
+                ContactSectionTitle(l.contactsPhonesTitle),
+                const SizedBox(height: 8),
+                for (final (i, phone) in form.phones.indexed)
+                  ContactActionRow(
+                    icon: Icons.phone_outlined,
+                    title: Text(phone, overflow: TextOverflow.ellipsis),
+                    copyValue: phone,
+                    trailing: PhoneActionButtons(phone: phone),
+                    index: i,
+                    count: form.phones.length,
+                  ),
+                const SizedBox(height: 24),
+              ],
+              ContactNostrSection(contact: displayedContact),
+              if (note.isNotEmpty) ...[
+                ContactSectionTitle(l.contactsNoteTitle),
+                const SizedBox(height: 8),
+                ContactNoteTile(note: note),
+              ],
             ],
-            if (form.phones.isNotEmpty) ...[
-              ContactSectionTitle(l.contactsPhonesTitle),
-              const SizedBox(height: 8),
-              for (final (i, phone) in form.phones.indexed)
-                ContactActionRow(
-                  icon: Icons.phone_outlined,
-                  title: Text(phone, overflow: TextOverflow.ellipsis),
-                  copyValue: phone,
-                  trailing: PhoneActionButtons(phone: phone),
-                  index: i,
-                  count: form.phones.length,
-                ),
-              const SizedBox(height: 24),
-            ],
-            ContactNostrSection(contact: displayedContact),
-            if (note.isNotEmpty) ...[
-              ContactSectionTitle(l.contactsNoteTitle),
-              const SizedBox(height: 8),
-              ContactNoteTile(note: note),
-            ],
-          ],
+          ),
         );
       },
     );

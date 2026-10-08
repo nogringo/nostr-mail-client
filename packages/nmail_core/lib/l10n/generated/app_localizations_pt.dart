@@ -1381,6 +1381,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get contactsAdd => 'Adicionar contacto';
 
   @override
+  String get contactsAddButton => 'Adicionar';
+
+  @override
   String get contactsAddToContacts => 'Adicionar aos contactos';
 
   @override
@@ -3624,6 +3627,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get contactsAdd => 'Adicionar contato';
+
+  @override
+  String get contactsAddButton => 'Adicionar';
 
   @override
   String get contactsAddToContacts => 'Adicionar aos contatos';

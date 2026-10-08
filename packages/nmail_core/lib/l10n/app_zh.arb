@@ -516,6 +516,7 @@
   "contactSourceNip05Verified": "已验证 NIP-05",
   "contactsTitle": "联系人",
   "contactsAdd": "添加联系人",
+  "contactsAddButton": "添加",
   "contactsAddToContacts": "添加到联系人",
   "personCardCompose": "写邮件",
   "personCardViewContact": "查看联系人",

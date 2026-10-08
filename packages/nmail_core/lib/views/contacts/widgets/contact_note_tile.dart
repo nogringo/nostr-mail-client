@@ -14,6 +14,9 @@ class ContactNoteTile extends StatelessWidget {
       child: ListTile(
         tileColor: Theme.of(context).colorScheme.surfaceContainerHigh,
         shape: segmentedListShape(index: 0, count: 1),
+        // At 16 the title sits 16 px down on one line or many, like the icon.
+        minVerticalPadding: 16,
+        titleAlignment: ListTileTitleAlignment.top,
         leading: const Icon(Icons.notes),
         title: SelectableText(note),
       ),

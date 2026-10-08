@@ -524,6 +524,7 @@
   "contactSourceNip05Verified": "Verificado NIP-05",
   "contactsTitle": "Contatos",
   "contactsAdd": "Adicionar contato",
+  "contactsAddButton": "Adicionar",
   "contactsAddToContacts": "Adicionar aos contatos",
   "personCardCompose": "Escrever um e-mail",
   "personCardViewContact": "Ver contato",

@@ -1380,6 +1380,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contactsAdd => 'Añadir contacto';
 
   @override
+  String get contactsAddButton => 'Añadir';
+
+  @override
   String get contactsAddToContacts => 'Añadir a contactos';
 
   @override

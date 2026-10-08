@@ -1373,6 +1373,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsAdd => 'Lisää yhteystieto';
 
   @override
+  String get contactsAddButton => 'Lisää';
+
+  @override
   String get contactsAddToContacts => 'Lisää yhteystietoihin';
 
   @override

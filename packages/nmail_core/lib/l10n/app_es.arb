@@ -516,6 +516,7 @@
   "contactSourceNip05Verified": "Verificado NIP-05",
   "contactsTitle": "Contactos",
   "contactsAdd": "Añadir contacto",
+  "contactsAddButton": "Añadir",
   "contactsAddToContacts": "Añadir a contactos",
   "personCardCompose": "Escribir un correo",
   "personCardViewContact": "Ver contacto",

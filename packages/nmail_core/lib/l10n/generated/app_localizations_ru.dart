@@ -1398,6 +1398,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsAdd => 'Добавить контакт';
 
   @override
+  String get contactsAddButton => 'Добавить';
+
+  @override
   String get contactsAddToContacts => 'Добавить в контакты';
 
   @override

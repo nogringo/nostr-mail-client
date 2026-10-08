@@ -1385,6 +1385,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get contactsAdd => 'Ajouter un contact';
 
   @override
+  String get contactsAddButton => 'Ajouter';
+
+  @override
   String get contactsAddToContacts => 'Ajouter aux contacts';
 
   @override
@@ -1408,7 +1411,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get contactsRetry => 'Réessayer les mises à jour en attente';
 
   @override
-  String get contactsSearchHint => 'Rechercher des contacts';
+  String get contactsSearchHint => 'Rechercher';
 
   @override
   String get contactsEmpty => 'Aucun contact pour l\'instant';

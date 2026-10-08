@@ -2467,11 +2467,17 @@ abstract class AppLocalizations {
   /// **'Contacts'**
   String get contactsTitle;
 
-  /// Button label to add a new contact
+  /// Tooltip of the add-contact icon button on mobile
   ///
   /// In en, this message translates to:
   /// **'Add contact'**
   String get contactsAdd;
+
+  /// Label of the add-contact button in the contacts sidebar, next to a person icon. One short word so it fits on one line.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get contactsAddButton;
 
   /// Tooltip or action label to save a sender/recipient to contacts
   ///

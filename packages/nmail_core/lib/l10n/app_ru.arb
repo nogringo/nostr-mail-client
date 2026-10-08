@@ -516,6 +516,7 @@
   "contactSourceNip05Verified": "Подтверждён NIP-05",
   "contactsTitle": "Контакты",
   "contactsAdd": "Добавить контакт",
+  "contactsAddButton": "Добавить",
   "contactsAddToContacts": "Добавить в контакты",
   "personCardCompose": "Написать письмо",
   "personCardViewContact": "Открыть контакт",

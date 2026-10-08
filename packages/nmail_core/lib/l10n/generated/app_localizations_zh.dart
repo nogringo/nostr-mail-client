@@ -1277,6 +1277,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsAdd => '添加联系人';
 
   @override
+  String get contactsAddButton => '添加';
+
+  @override
   String get contactsAddToContacts => '添加到联系人';
 
   @override

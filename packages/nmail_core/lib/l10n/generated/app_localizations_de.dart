@@ -1382,6 +1382,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get contactsAdd => 'Kontakt hinzufügen';
 
   @override
+  String get contactsAddButton => 'Hinzufügen';
+
+  @override
   String get contactsAddToContacts => 'Zu Kontakten hinzufügen';
 
   @override

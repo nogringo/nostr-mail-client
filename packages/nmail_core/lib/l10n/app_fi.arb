@@ -521,6 +521,7 @@
   "contactSourceNip05Verified": "NIP-05 vahvistettu",
   "contactsTitle": "Yhteystiedot",
   "contactsAdd": "Lisää yhteystieto",
+  "contactsAddButton": "Lisää",
   "contactsAddToContacts": "Lisää yhteystietoihin",
   "personCardCompose": "Kirjoita sähköposti",
   "personCardViewContact": "Näytä yhteystieto",

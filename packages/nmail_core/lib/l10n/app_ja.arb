@@ -516,6 +516,7 @@
   "contactSourceNip05Verified": "NIP-05 認証済み",
   "contactsTitle": "連絡先",
   "contactsAdd": "連絡先を追加",
+  "contactsAddButton": "追加",
   "contactsAddToContacts": "連絡先に追加",
   "personCardCompose": "メールを書く",
   "personCardViewContact": "連絡先を表示",
