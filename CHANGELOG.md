@@ -13,6 +13,63 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [Unreleased]
+
+### Added
+
+- Receive the emails of new senders in Requests, and those of blocked senders
+  in Spam. Accept or block a sender from Requests, or block one from any
+  email. A verdict moves all the emails of that sender at once, and follows
+  you on all your devices. The inbox shows how many senders are waiting.
+- Empty the spam in one tap from the banner at the top of Spam.
+- Stay silent for an email routed to Spam, and notify a request only when its
+  sender has nothing else waiting in Requests.
+- Browse the themes shared by other Nostr users from the appearance settings,
+  search them by name, filter them by color or background image, and apply
+  one in a tap. Each theme has its own page and a link to share it.
+- Share your current look as a community theme, marked NSFW if needed. The
+  image of a sensitive theme stays hidden behind a warning until you show it.
+- Mute the author of a community theme to hide all of their themes.
+- Manage your private relays, which store private data such as drafts, from
+  the hosting settings.
+- Confirm before logging out, with what leaves the device and what stays on
+  your relays.
+- Ask for the device lock before copying the sync code, on Android, iOS,
+  macOS, and Windows.
+- Unlock the debug tools in a release build by tapping the Nmail tile in About
+  seven times, and hide them again from their page.
+- Install Nmail on Windows, with an installer or a zip from the releases page.
+
+### Changed
+
+- Move the emails already in your inbox to Requests until you accept their
+  sender. Accept all, in Requests, brings them back to the inbox at once.
+- Reply from the address the email reached: an email received on one of your
+  identities is answered from that identity.
+- Write to an email address from the address the account menu copies, your
+  first identity or your first bridge, instead of a guess based on your past
+  emails. Reorder your identities in the settings to change it.
+
+### Fixed
+
+- Open long newsletters built from nested tables, which froze the app.
+- Stop showing the title of an email as the first line of its body.
+- Keep a cleared email signature empty, instead of bringing back the default
+  one on the next launch.
+- Write the default email signature in the language of the app.
+- Fetch all your emails again when you log back in after a logout or a reset
+  of the application, instead of leaving the mailbox empty.
+- Close the progress dialog of a failed application reset and show the error,
+  instead of spinning forever.
+- Keep your folders from emptying on web while a tab still runs the previous
+  version. That tab now reloads.
+- Show the move and label actions of an open email as soon as it loads, and
+  its read state right after you change it.
+- Show in the hosting settings the period actually synced from each relay.
+- Keep the last item of a list clear of the compose button on Android with
+  three-button navigation.
+- Keep the right-click menu of an email on screen on desktop.
+
 ## [0.17.0]
 
 ### Added
