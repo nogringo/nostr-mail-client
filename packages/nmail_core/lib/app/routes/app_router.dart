@@ -20,6 +20,7 @@ import '../../controllers/inbox_controller.dart';
 import '../../models/mailbox.dart';
 import '../../controllers/nip65_relays_controller.dart';
 import '../../controllers/private_relays_controller.dart';
+import '../../controllers/profile_controller.dart';
 import '../../controllers/scheduled_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/community_theme.dart';
@@ -40,6 +41,7 @@ import '../../views/inbox/inbox_view.dart';
 import '../../views/inbox/request_sender_view.dart';
 import '../../views/nostr/profile_share_view.dart';
 import '../../views/onboarding/onboarding_view.dart';
+import '../../views/profile/confirm_discard_profile_changes.dart';
 import '../../views/profile/profile_view.dart';
 import '../../views/relay_setup/relay_setup_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
@@ -248,7 +250,15 @@ class AppRouter {
           // Profile
           GoRoute(
             path: AppRoutes.profile,
-            builder: (_, _) => const ProfileView(),
+            onExit: (context, _) async {
+              if (!await confirmDiscardProfileChanges(context)) return false;
+              GetIt.I.unregister<ProfileController>();
+              return true;
+            },
+            builder: (_, _) {
+              _registerOnce(ProfileController.new);
+              return const ProfileView();
+            },
           ),
 
           // Settings tree

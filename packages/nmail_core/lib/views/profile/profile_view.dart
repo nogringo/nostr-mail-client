@@ -9,7 +9,6 @@ import '../../controllers/auth_controller.dart';
 import '../../controllers/profile_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
-import 'package:nmail_core/widgets/controller_builder.dart';
 import '../../widgets/nostr_avatar.dart';
 
 class ProfileView extends StatelessWidget {
@@ -21,10 +20,11 @@ class ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
+    final controller = GetIt.I<ProfileController>();
 
-    return ControllerBuilder(
-      create: ProfileController.new,
-      builder: (context, controller) => Scaffold(
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           leading: BackButton(

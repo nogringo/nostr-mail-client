@@ -48,12 +48,10 @@ class ProfileController extends ChangeNotifier {
 
   bool get hasChanges {
     final metadata = _currentMetadata;
-    if (metadata == null) return true;
-
-    return nameController.text.trim() != (metadata.name ?? '') ||
-        displayNameController.text.trim() != (metadata.displayName ?? '') ||
-        pictureController.text.trim() != (metadata.picture ?? '') ||
-        aboutController.text.trim() != (metadata.about ?? '');
+    return nameController.text.trim() != (metadata?.name ?? '') ||
+        displayNameController.text.trim() != (metadata?.displayName ?? '') ||
+        pictureController.text.trim() != (metadata?.picture ?? '') ||
+        aboutController.text.trim() != (metadata?.about ?? '');
   }
 
   @override
@@ -218,6 +216,7 @@ class ProfileController extends ChangeNotifier {
       final authController = GetIt.I<AuthController>();
       authController.userMetadata.value = null;
       authController.userMetadata.value = metadata;
+      _currentMetadata = metadata;
     } catch (e) {
       if (!_isDisposed) {
         isSaving = false;

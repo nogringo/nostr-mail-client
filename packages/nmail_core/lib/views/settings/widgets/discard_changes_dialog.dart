@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
-/// Asks before leaving a settings screen that still holds unsaved edits.
+/// Asks before leaving a screen that still holds unsaved edits.
 /// Pops `true` when the edits should be thrown away.
 class DiscardChangesDialog extends StatelessWidget {
   const DiscardChangesDialog({super.key});
