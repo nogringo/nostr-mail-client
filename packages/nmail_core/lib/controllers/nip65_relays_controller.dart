@@ -1,8 +1,8 @@
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ndk/entities.dart' hide RelaySet;
-import 'package:ndk/ndk.dart' hide RelaySet;
+import 'package:ndk/entities.dart';
+import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -117,14 +117,14 @@ class Nip65RelaysController extends ChangeNotifier {
       // migration of its own.
       await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
-        relaySet: RelaySet.union([
-          RelaySet.explicit(
+        relaySet: UrlSet.union([
+          UrlSet.explicit(
             {
               ...NostrConfig.popularRelays,
               ...NostrConfig.discoveryRelays,
             }.toList(),
           ),
-          RelaySet.outbox(account.pubkey),
+          UrlSet.outbox(account.pubkey),
         ]),
         pubkey: account.pubkey,
       );

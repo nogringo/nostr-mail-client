@@ -365,10 +365,10 @@ packages:
     dependency: "direct main"
     description:
       name: ndk
-      sha256: "83b50ce9bc2663e676be72ba617c956c2479d3aa6c6d049cd5558d1e59bb510f"
+      sha256: "446c29cfe0e5e8ac66cc047c4b2977b08bfa692c2f1018bafbe4b77d5973dfaa"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.0-dev.5"
+    version: "0.10.1"
   nostr_address_book:
     dependency: "direct main"
     description:

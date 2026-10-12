@@ -1,0 +1,16 @@
+name: nmail_cli
+description: "Nmail from the command line: email over Nostr."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.2
+
+resolution: workspace
+
+executables:
+  nmail: nmail
+dependencies:
+  args: ^2.7.0
+dev_dependencies:
+  lints: ^6.1.0

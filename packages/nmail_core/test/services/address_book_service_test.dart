@@ -33,7 +33,7 @@ void main() {
     ndk.accounts.loginPrivateKey(pubkey: pubkey, privkey: privateKey);
     GetIt.I.registerSingleton<Ndk>(ndk);
     broadcastQueue = OfflineBroadcast.withNdk(ndk, db: db);
-    syncEngine = SyncEngine(ndk, db: db);
+    syncEngine = SyncEngine(ndk, store: SembastSyncStore(db));
     book = NostrAddressBook(
       ndk: ndk,
       database: db,

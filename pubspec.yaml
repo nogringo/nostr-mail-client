@@ -7,3 +7,5 @@ environment:
 workspace:
   - packages/*
   - apps/*
+dependency_overrides:
+  equatable: ^3.0.0

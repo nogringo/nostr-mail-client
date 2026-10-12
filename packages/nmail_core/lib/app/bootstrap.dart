@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:blossom_cache/blossom_cache.dart';
 import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
+import 'package:blossom_upload_queue_shim_for_ndk/sembast_store.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -157,13 +158,15 @@ Future<void> _initApp({
     OfflineBlossomUpload.withNdk(
       ndk,
       cache: blossomCache,
-      db: storageService.db,
+      store: SembastUploadQueueStore(storageService.db),
     )..start(),
   );
 
   // Fills the ndk cache from the relays. NostrMailClient.create() starts it and
   // declares what the active account needs, but never stops nor disposes it.
-  GetIt.I.registerSingleton(SyncEngine(ndk, db: storageService.db));
+  GetIt.I.registerSingleton(
+    SyncEngine(ndk, store: SembastSyncStore(storageService.db)),
+  );
 
   final mailDatabase = openMailDatabase();
   GetIt.I.registerSingleton(mailDatabase);

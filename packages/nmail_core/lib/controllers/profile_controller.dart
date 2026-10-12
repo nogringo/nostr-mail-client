@@ -2,7 +2,7 @@ import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ndk/ndk.dart' hide RelaySet;
+import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import '../app/routes/app_router.dart';
@@ -200,14 +200,14 @@ class ProfileController extends ChangeNotifier {
       // Signaling event: broadcast widely (popular + indexers + outbox).
       await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
-        relaySet: RelaySet.union([
-          RelaySet.explicit(
+        relaySet: UrlSet.union([
+          UrlSet.explicit(
             {
               ...NostrConfig.popularRelays,
               ...NostrConfig.discoveryRelays,
             }.toList(),
           ),
-          RelaySet.outbox(account.pubkey),
+          UrlSet.outbox(account.pubkey),
         ]),
         pubkey: account.pubkey,
       );

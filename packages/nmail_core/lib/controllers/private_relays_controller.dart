@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ndk/ndk.dart' hide RelaySet;
+import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
@@ -100,7 +100,7 @@ class PrivateRelaysController extends ChangeNotifier {
       );
       await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
-        relaySet: RelaySet.outbox(account.pubkey),
+        relaySet: UrlSet.outbox(account.pubkey),
         pubkey: account.pubkey,
       );
       if (_isDisposed) return;

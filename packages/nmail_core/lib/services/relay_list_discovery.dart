@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart'
-    hide RelayListFound;
+import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ndk/entities.dart' hide RelaySet;
-import 'package:ndk/ndk.dart' hide RelaySet;
+import 'package:ndk/entities.dart';
+import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/models/relay_list_discovery_result.dart';
@@ -175,7 +174,7 @@ class RelayListDiscovery {
     await _ndk.config.cache.saveUserRelayList(userRelayList);
     await GetIt.I<OfflineBroadcast>().broadcast(
       found.event,
-      relaySet: RelaySet.explicit(
+      relaySet: UrlSet.explicit(
         {...NostrConfig.popularRelays, ...NostrConfig.discoveryRelays}.toList(),
       ),
       pubkey: found.event.pubKey,

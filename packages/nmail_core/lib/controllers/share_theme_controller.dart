@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mime/mime.dart';
-import 'package:ndk/ndk.dart' hide RelaySet;
+import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/controllers/community_themes_controller.dart';
@@ -99,9 +99,9 @@ class ShareThemeController extends ChangeNotifier {
       // The outbox alone would miss the relays the themes page reads.
       await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
-        relaySet: RelaySet.union([
-          RelaySet.explicit(NostrConfig.communityThemeRelays),
-          RelaySet.outbox(account.pubkey),
+        relaySet: UrlSet.union([
+          UrlSet.explicit(NostrConfig.communityThemeRelays),
+          UrlSet.outbox(account.pubkey),
         ]),
         pubkey: account.pubkey,
       );

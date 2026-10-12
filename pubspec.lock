@@ -109,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: "236389cc639108e39dceef357b79ac0cf0f7abdd21240388c636cfecd576301e"
+      sha256: "9bba43c773d6bb00c1809b566beb592705f9ed688dcca117648b9955c2085ca9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.0"
+    version: "0.11.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -125,10 +125,10 @@ packages:
     dependency: transitive
     description:
       name: broadcast_queue_shim_for_ndk
-      sha256: "363638b1196d3b68a6a439ce2aec75b43c42e939faeeb16517bbbbe57332dad9"
+      sha256: a38f3753659d299039b757c7c1593e74d149dc9524e6365820878b97672dd933
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.8.1"
   bs58check:
     dependency: transitive
     description:
@@ -145,14 +145,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.5.1"
-  change_case:
-    dependency: transitive
-    description:
-      name: change_case
-      sha256: e41ef3df58521194ef8d7649928954805aeb08061917cf658322305e61568003
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
   characters:
     dependency: transitive
     description:
@@ -197,10 +189,10 @@ packages:
     dependency: transitive
     description:
       name: code_assets
-      sha256: "83ccdaa064c980b5596c35dd64a8d3ecc68620174ab9b90b6343b753aa721687"
+      sha256: "828110d598123b5ea96c00c9f3c72105bf79f8ee36c20a39b26209ade421ec57"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "2.1.0"
   collection:
     dependency: transitive
     description:
@@ -325,10 +317,10 @@ packages:
     dependency: transitive
     description:
       name: elliptic
-      sha256: "67931d408faa353bdebac9f7a1df0c3f6f828f4e8439cdf084573cd1601a2f4b"
+      sha256: "03a7c29e3b7c952cf4612fec0496188e9ae686bd00195f784568aefc24894d99"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.12"
+    version: "0.4.0"
   encrypter_plus:
     dependency: transitive
     description:
@@ -354,13 +346,13 @@ packages:
     source: hosted
     version: "2.2.4"
   equatable:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: equatable
-      sha256: "3bce007a596ff8b3119c45d68aaef631272537c03d30e5d4534dd24bf4c5eaa2"
+      sha256: ea36e500cbf0ec18361deabca755434f73e42fe53c5130021c7e2d6b5ebe1702
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "3.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -769,10 +761,10 @@ packages:
     dependency: transitive
     description:
       name: hooks
-      sha256: "025f060e86d2d4c3c47b56e33caf7f93bf9283340f26d23424ebcfccf34f621e"
+      sha256: eaac480a35ec0814146c2c48d96aaa829e0e44a7662c88ae84c9edf4bc35651f
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "2.2.0"
   html:
     dependency: transitive
     description:
@@ -1017,50 +1009,42 @@ packages:
     dependency: transitive
     description:
       name: native_toolchain_c
-      sha256: "8aaead321425bd3f03bd5894aa27c8ea6993eab95531da7e59f5d39c6e5708ec"
+      sha256: "90eaad8059ebc2004a63810a4696ea9acdb02473e47ed3b6b3bafb100ac77e31"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.0"
-  native_toolchain_cmake:
-    dependency: transitive
-    description:
-      name: native_toolchain_cmake
-      sha256: de90e8952bad0684bdcff4d674c53d961f5cd1fdcf3a0255a669a35986c4ac1d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.7"
+    version: "0.19.5"
   native_toolchain_rust:
     dependency: transitive
     description:
       name: native_toolchain_rust
-      sha256: "26d4dcae954328af4ebfa8fc56cca0bf74b9ae8b4a6132de5da2071ac3d237b3"
+      sha256: dc8e5f20c0cb7052372bc302f075607086d86354b37199e89ec9d3d35589e519
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.7"
   ndk:
     dependency: transitive
     description:
       name: ndk
-      sha256: "3b3112f0e0a6603138181bf2a603157a61fa5278707ecf1a5ec7a09344031f50"
+      sha256: "0b6ef5ad40483b05c2c9069d9519a42094957c2165b6340a3a622187365d42fe"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.1-dev.1"
+    version: "0.11.0-dev.1"
   ndk_drift:
     dependency: transitive
     description:
       name: ndk_drift
-      sha256: "4abc7be3ca153cb7a09280a99724cfb0930431ed7984de7f01499f2345cb6e56"
+      sha256: b28bf5ee28da362f50f9349bda2d30e20901a6439d02b15f2b1aebbebe51af52
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0-dev.1"
+    version: "0.2.1-dev.0"
   ndk_flutter:
     dependency: transitive
     description:
       name: ndk_flutter
-      sha256: "7455b0d0686e8e781b4e52e8e4f74d4eb52aa0fcbd0095621df7ce946824f441"
+      sha256: "2c1973d97a2ad399035c1751a6a5f2c7d68c807c177d26b45cf2bb8cd6a91d5b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.10.1-dev.1"
+    version: "0.10.3-dev.1"
   nm:
     dependency: transitive
     description:
@@ -1073,25 +1057,24 @@ packages:
     dependency: transitive
     description:
       name: nostr_address_book
-      sha256: "47ed260636333290ef69d2414892fd7148bdbbb6fa990000e28c2e1d474a259d"
+      sha256: "777b88e86d9d052e07aaaceba90465a5e5c0114086bdf8792dc0a44c8f0c7f8e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.0"
+    version: "0.6.0"
   nostr_event_scheduler:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: e8e56e97cdd2b64d75fea89386d76977bc988cbea1194a3b6c328a611b6b8885
+      sha256: "29322c6120080a2dd02280d977783c03e98f4d6384cb6b8159e6d71d94125076"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.4"
+    version: "0.6.0"
   nostr_mail:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: nostr_mail
-      sha256: "4cdda30a7d96ce37cbd77f1aabdd9f7a6d0773f54637419bac652580d352588f"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../nostr-mail-dart"
+      relative: true
+    source: path
     version: "6.0.1"
   package_config:
     dependency: transitive
@@ -1277,6 +1260,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.0"
+  process:
+    dependency: transitive
+    description:
+      name: process
+      sha256: "4242ba3508d37e01808bdf71ad1d5bb93a8d671bf2e7450e6b1b353fb0808891"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.6"
   pub_semver:
     dependency: transitive
     description:
@@ -1369,10 +1360,10 @@ packages:
     dependency: transitive
     description:
       name: record_use
-      sha256: "2551bd8eecfe95d14ae75f6021ad0248be5c27f138c2ec12fcb52b500b3ba1ed"
+      sha256: "1cb8564af8d43b464294411db9217f5ec04891c6f22ee2c32d73ae05e88a6bd2"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "1.1.1"
   rxdart:
     dependency: transitive
     description:
@@ -1606,10 +1597,10 @@ packages:
     dependency: transitive
     description:
       name: sync_engine_shim_for_ndk
-      sha256: ce995e780b781b070c2827ef2abe11954305b9c60adda99b927bd5a40c7fc28b
+      sha256: d44796eca31da71d665d05ee943df174d42f01aa618402fb7152ee26d2463706
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.1"
+    version: "0.8.1"
   synchronized:
     dependency: transitive
     description:
@@ -1802,6 +1793,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.6"
+  url_set_for_ndk:
+    dependency: transitive
+    description:
+      name: url_set_for_ndk
+      sha256: a9192e8d8ac4b22158a03a13b95da8739e9be45938c233cb6bf041a12f36f782
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   uuid:
     dependency: transitive
     description:
@@ -1894,10 +1893,10 @@ packages:
     dependency: transitive
     description:
       name: webcrypto
-      sha256: "9885ed99a846191542dd6ca820c83a098117df56be57453832233a3fef68f3f2"
+      sha256: "6b43001c4110856ff7fa5e5e65e7b2d44bec1d8b54a4d84d5fa2c7622267c5c1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1"
+    version: "0.6.0"
   webpush_encryption:
     dependency: transitive
     description:

@@ -10,7 +10,7 @@ dependencies:
   broadcast_queue_shim_for_ndk: ^0.6.0
   drift: ^2.34.4
   enough_mail_plus: ^2.2.4
-  ndk: ^0.10.0-dev.5
+  ndk: '>=0.10.0-dev.7 <0.12.0'
   nostr_address_book: ^0.5.0
   nostr_mail: ^3.2.1
   path: ^1.9.1

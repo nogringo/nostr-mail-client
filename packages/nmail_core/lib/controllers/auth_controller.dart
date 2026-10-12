@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ndk/data_layer/repositories/signers/nip46_event_signer.dart';
-import 'package:ndk/entities.dart' hide RelaySet;
-import 'package:ndk/ndk.dart' hide RelaySet;
+import 'package:ndk/entities.dart';
+import 'package:ndk/ndk.dart';
 import 'package:ndk/shared/nips/nip01/bip340.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
 
@@ -231,15 +231,15 @@ class AuthController {
     );
     // Kinds 0 and 10002 are what every other app bootstraps from, so they go
     // wide: popular + indexers + outbox.
-    final signalingTargets = RelaySet.union([
-      RelaySet.explicit(
+    final signalingTargets = UrlSet.union([
+      UrlSet.explicit(
         {...NostrConfig.popularRelays, ...NostrConfig.discoveryRelays}.toList(),
       ),
-      RelaySet.outbox(account.pubkey),
+      UrlSet.outbox(account.pubkey),
     ]);
     // Kinds 10050 and 10063 are only ever read once the 10002 above has been
     // found, so the outbox relays it names are enough.
-    final outboxTargets = RelaySet.outbox(account.pubkey);
+    final outboxTargets = UrlSet.outbox(account.pubkey);
 
     // The queue resolves the outbox sets from the cache, so the list must be
     // there before the first broadcast.
@@ -402,7 +402,7 @@ class AuthController {
     final dmRelays = await _nostrMailService.getDmRelays();
     // A relay only honours a request it receives, so aim at every relay this
     // account could have reached: read and write alike, not just the outbox.
-    final targets = RelaySet.explicit(
+    final targets = UrlSet.explicit(
       {
         ...NostrConfig.popularRelays,
         ...NostrConfig.bootstrapRelays,

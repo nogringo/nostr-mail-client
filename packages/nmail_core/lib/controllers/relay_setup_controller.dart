@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart'
-    hide RelayListFound;
+import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:ndk/entities.dart' hide RelaySet;
-import 'package:ndk/ndk.dart' hide RelaySet;
+import 'package:ndk/entities.dart';
+import 'package:ndk/ndk.dart';
 
 import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
@@ -270,14 +269,14 @@ class RelaySetupController extends ChangeNotifier {
       await _ndk.config.cache.saveUserRelayList(userRelayList);
       await GetIt.I<OfflineBroadcast>().broadcast(
         signed,
-        relaySet: RelaySet.union([
-          RelaySet.explicit(
+        relaySet: UrlSet.union([
+          UrlSet.explicit(
             {
               ...NostrConfig.popularRelays,
               ...NostrConfig.discoveryRelays,
             }.toList(),
           ),
-          RelaySet.outbox(account.pubkey),
+          UrlSet.outbox(account.pubkey),
         ]),
         pubkey: account.pubkey,
       );
