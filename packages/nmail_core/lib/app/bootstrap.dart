@@ -5,6 +5,7 @@ import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -61,6 +62,8 @@ Future<void> runNmailApp({
   WidgetsFlutterBinding.ensureInitialized();
   // web/index.html already blocks the browser menu; without this Flutter shows none either.
   if (kIsWeb) await BrowserContextMenu.disableContextMenu();
+  // Flutter web hides the semantics tree until a screen reader clicks its placeholder.
+  if (kIsWeb) SemanticsBinding.instance.ensureSemantics();
 
   try {
     await _initApp(
