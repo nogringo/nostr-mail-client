@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -91,6 +92,8 @@ class LoginForm extends StatelessWidget {
                   },
                   enableNsecLogin: false,
                   enablePubkeyLogin: false,
+                  // ndk_flutter shows it in Android browsers, where NIP-55 intents can't run.
+                  enableSignerAppLogin: !kIsWeb,
                   enableAccountCreation: false,
                   clientMetadata: NostrConfig.nip46ClientMetadata,
                   nostrConnect: NostrConnect(
