@@ -52,7 +52,7 @@ class SeederRuntime {
 
     final broadcastQueue = OfflineBroadcast.withNdk(ndk, db: db)..start();
     final blossomCache = MemoryBlossomCache();
-    final syncEngine = SyncEngine(ndk, db: db);
+    final syncEngine = SyncEngine(ndk, store: SembastSyncStore(db));
     final database = mail.NostrMailDatabase(
       NativeDatabase(File('$databasePath.sqlite')),
     );

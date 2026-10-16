@@ -1,0 +1,35 @@
+<p>Today, your email address belongs to a big company. It can read your mail to show you ads, or close your account. Nmail gives you a mailbox that belongs only to you, on an open network that no company controls.</p>
+
+<p>It looks and works like the email you already know.</p>
+
+<p><b>Your address is yours</b></p>
+<ul>
+<li>Nobody can take your address away or lock you out of it.</li>
+<li>Create your account in the app, or sign in with the one you already use in other Nostr apps.</li>
+<li>Use several accounts on the same phone.</li>
+</ul>
+
+<p><b>Private</b></p>
+<ul>
+<li>Emails between Nmail users are encrypted: only you and the person you write to can read them.</li>
+<li>Location and device details are removed from the photos you attach.</li>
+<li>No ads, no tracking, no Google services.</li>
+</ul>
+
+<p><b>Write to anyone</b></p>
+<ul>
+<li>Send to and receive from any regular email address, like Gmail or Outlook.</li>
+<li>Emails from someone new wait in Requests until you accept them, so spam stays out of your inbox.</li>
+</ul>
+
+<p><b>Everything you expect from email</b></p>
+<ul>
+<li>Inbox, archive, trash, and your own folders and labels.</li>
+<li>Text formatting, pictures, attachments and signatures.</li>
+<li>Schedule an email to send it later.</li>
+<li>Contacts that follow you on all your devices.</li>
+<li>Notifications for new emails.</li>
+<li>Themes and colors to make it your own.</li>
+</ul>
+
+<p>Nmail is free and open source.</p>

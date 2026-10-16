@@ -46,10 +46,34 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
 
-        // 16KB page alignment for Android 15+ compatibility
+        // The Flutter plugin pre-fills all its ABIs, so plugin .so files of
+        // other ABIs would otherwise leak into a --target-platform build.
         ndk {
-            abiFilters += listOf("arm64-v8a", "x86_64")
+            abiFilters.clear()
+            abiFilters += (project.findProperty("target-platform") as String?)
+                ?.split(",")
+                ?.map {
+                    mapOf(
+                        "android-arm" to "armeabi-v7a",
+                        "android-arm64" to "arm64-v8a",
+                        "android-x64" to "x86_64",
+                    ).getValue(it)
+                }
+                ?: listOf("armeabi-v7a", "arm64-v8a", "x86_64")
         }
+    }
+
+    // IzzyOnDroid caps an APK at about 30 MB; compressed .so files halve ours.
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
+    // IzzyOnDroid rejects this signing block: it is encrypted with a Google key.
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 
     flavorDimensions += "distribution"
