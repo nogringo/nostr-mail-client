@@ -68,15 +68,6 @@ When the MIME text is 32 KiB or more, it is stored as an encrypted Blossom blob,
 
 The blob is uploaded to the account's Blossom servers (`kind:10063`). Each save of a large draft uploads a new blob.
 
-## Relays
-
-Draft wraps are published to and read from:
-
-1. the account's private relays (`kind:10013`), when it publishes one;
-2. otherwise, the account's NIP-65 write relays.
-
-Never both.
-
 ## Reading Drafts
 
 Filter:

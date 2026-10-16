@@ -12,7 +12,10 @@ import 'delete_permanently_dialog.dart';
 /// Adaptive widget that manages selection actions intelligently
 /// Shows actions directly if possible, otherwise puts them in a "more_vert" menu
 class SelectionActionsBar extends StatelessWidget {
-  const SelectionActionsBar({super.key});
+  const SelectionActionsBar({super.key, required this.toolbarWidth});
+
+  /// AppBar gives its actions unbounded width, so the caller measures it.
+  final double toolbarWidth;
 
   /// Determines available actions based on current folder
   List<_ActionItem> _getActions(
@@ -20,37 +23,14 @@ class SelectionActionsBar extends StatelessWidget {
     AppLocalizations l,
     InboxController controller,
   ) {
-    final actions = <_ActionItem>[
-      _ActionItem(
-        icon: const Icon(Icons.select_all),
-        label: l.inboxSelectAll,
-        onPressed: controller.selectAll,
-        isPrimary: true,
-      ),
-    ];
-
     final mailbox = controller.currentMailbox;
     final canRestore = mailbox.isTrash || mailbox.isArchive;
     final isScreened = mailbox.isRequests || mailbox.isSpam;
+    final hasUnread = controller.selectedIds.any(
+      (id) => !controller.isEmailRead(id),
+    );
 
-    if (mailbox.showsUnread) {
-      actions.addAll([
-        _ActionItem(
-          icon: const Icon(Icons.mark_email_read),
-          label: l.emailMarkAsRead,
-          onPressed: controller.markSelectedAsRead,
-          isPrimary: true,
-        ),
-        _ActionItem(
-          icon: const Icon(Icons.mark_email_unread),
-          label: l.emailMarkAsUnread,
-          onPressed: controller.markSelectedAsUnread,
-          isPrimary: true,
-        ),
-      ]);
-    }
-
-    actions.addAll([
+    return [
       if (mailbox.isRequests) ...[
         _ActionItem(
           icon: const Icon(Icons.how_to_reg),
@@ -80,6 +60,28 @@ class SelectionActionsBar extends StatelessWidget {
               : controller.archiveSelected,
           isPrimary: true,
         ),
+      _ActionItem(
+        icon: const Icon(Icons.delete_outline),
+        label: l.actionDelete,
+        onPressed: mailbox.isTrash
+            ? () => _confirmDeleteSelected(context, l, controller)
+            : controller.deleteSelected,
+        isPrimary: true,
+      ),
+      if (mailbox.showsUnread)
+        hasUnread
+            ? _ActionItem(
+                icon: const Icon(Icons.mark_email_read),
+                label: l.emailMarkAsRead,
+                onPressed: controller.markSelectedAsRead,
+                isPrimary: true,
+              )
+            : _ActionItem(
+                icon: const Icon(Icons.mark_email_unread),
+                label: l.emailMarkAsUnread,
+                onPressed: controller.markSelectedAsUnread,
+                isPrimary: true,
+              ),
       if (!mailbox.isTrash && !isScreened) ...[
         _ActionItem(
           icon: const Icon(Icons.drive_file_move_outlined),
@@ -94,6 +96,12 @@ class SelectionActionsBar extends StatelessWidget {
           isPrimary: true,
         ),
       ],
+      _ActionItem(
+        icon: const Icon(Icons.select_all),
+        label: l.inboxSelectAll,
+        onPressed: controller.selectAll,
+        isPrimary: false,
+      ),
       if (!isScreened && !mailbox.isSent)
         _ActionItem(
           icon: const Icon(Icons.block),
@@ -101,17 +109,7 @@ class SelectionActionsBar extends StatelessWidget {
           onPressed: () => _judgeSelected(context, SenderVerdict.block),
           isPrimary: false,
         ),
-      _ActionItem(
-        icon: const Icon(Icons.delete_outline),
-        label: l.actionDelete,
-        onPressed: mailbox.isTrash
-            ? () => _confirmDeleteSelected(context, l, controller)
-            : controller.deleteSelected,
-        isPrimary: true,
-      ),
-    ]);
-
-    return actions;
+    ];
   }
 
   Future<void> _moveSelected(
@@ -163,77 +161,35 @@ class SelectionActionsBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     final controller = GetIt.I<InboxController>();
-    final actions = _getActions(context, l, controller);
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final availableWidth = constraints.maxWidth;
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) {
+        final actions = _getActions(context, l, controller);
         final primaryActions = actions.where((a) => a.isPrimary).toList();
         final secondaryActions = actions.where((a) => !a.isPrimary).toList();
 
-        // Calculate required space for primary actions
-        const iconButtonWidth = 56.0; // 48px + 8px margin
-        final primaryActionsWidth = primaryActions.length * iconButtonWidth;
+        const buttonWidth = kMinInteractiveDimension;
+        const reservedWidth =
+            kToolbarHeight + NavigationToolbar.kMiddleSpacing + buttonWidth;
+        final slots = ((toolbarWidth - reservedWidth) / buttonWidth)
+            .floor()
+            .clamp(1, actions.length);
 
-        // Determine if we can show all primary actions
-        final canShowAllPrimary = primaryActionsWidth <= availableWidth;
+        final shownCount = primaryActions.length < slots
+            ? primaryActions.length
+            : slots - 1;
+        final shown = primaryActions.take(shownCount);
+        final menu = [...primaryActions.skip(shownCount), ...secondaryActions];
 
-        // If we can show all primary actions
-        if (canShowAllPrimary) {
-          // If no secondary actions, return just the buttons
-          if (secondaryActions.isEmpty) {
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: primaryActions
-                  .map((action) => _buildActionButton(action))
-                  .toList(),
-            );
-          }
-
-          // If there are secondary actions, show menu with only those
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ...primaryActions.map((action) => _buildActionButton(action)),
-              _buildMoreMenu(context, l, secondaryActions),
-            ],
-          );
-        }
-
-        // Otherwise, move some primary actions to the menu
-        final overflowActions = <_ActionItem>[];
-        final displayActions = <_ActionItem>[];
-
-        for (final action in primaryActions) {
-          if (displayActions.length * iconButtonWidth <= availableWidth) {
-            displayActions.add(action);
-          } else {
-            overflowActions.add(action);
-          }
-        }
-
-        // If the menu will have less than 2 items, don't show more_vert
-        if (overflowActions.length + secondaryActions.length < 2) {
-          final allActions = [
-            ...displayActions,
-            ...overflowActions,
-            ...secondaryActions,
-          ];
-          return Row(
-            mainAxisSize: MainAxisSize.min,
-            children: allActions
-                .map((action) => _buildActionButton(action))
-                .toList(),
-          );
-        }
-
-        // Otherwise show buttons + menu
-        final menuActions = [...overflowActions, ...secondaryActions];
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ...displayActions.map((action) => _buildActionButton(action)),
-            _buildMoreMenu(context, l, menuActions),
+            ...shown.map(_buildActionButton),
+            if (menu.length == 1)
+              _buildActionButton(menu.single)
+            else if (menu.isNotEmpty)
+              _buildMoreMenu(context, l, menu),
           ],
         );
       },

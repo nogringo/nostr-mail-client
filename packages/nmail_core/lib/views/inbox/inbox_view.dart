@@ -181,64 +181,66 @@ class InboxView extends StatelessWidget {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: ListenableBuilder(
-          listenable: controller,
-          builder: (context, _) {
-            final isSearching =
-                controller.isSearchMode && !controller.hasSelection;
-            return AppBar(
-              scrolledUnderElevation: 0,
-              backgroundColor: colorScheme.surface,
-              automaticallyImplyLeading: false,
-              titleSpacing: isSearching ? 8 : null,
-              title: Builder(
-                builder: (context) {
+        child: LayoutBuilder(
+          builder: (context, constraints) => ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) {
+              final isSearching =
+                  controller.isSearchMode && !controller.hasSelection;
+              return AppBar(
+                scrolledUnderElevation: 0,
+                backgroundColor: colorScheme.surface,
+                automaticallyImplyLeading: false,
+                titleSpacing: isSearching ? 8 : null,
+                title: Builder(
+                  builder: (context) {
+                    if (controller.hasSelection) {
+                      return Text('${controller.selectedIds.length}');
+                    }
+                    if (controller.isSearchMode) {
+                      return SearchField();
+                    }
+                    return Text(controller.currentMailbox.title(l));
+                  },
+                ),
+                leading: () {
+                  if (isSearching) {
+                    return null;
+                  }
                   if (controller.hasSelection) {
-                    return Text('${controller.selectedIds.length}');
+                    return IconButton(
+                      icon: const Icon(Icons.close),
+                      tooltip: l.inboxClearSelection,
+                      onPressed: controller.clearSelection,
+                    );
                   }
-                  if (controller.isSearchMode) {
-                    return SearchField();
-                  }
-                  return Text(controller.currentMailbox.title(l));
-                },
-              ),
-              leading: () {
-                if (isSearching) {
-                  return null;
-                }
-                if (controller.hasSelection) {
-                  return IconButton(
-                    icon: const Icon(Icons.close),
-                    tooltip: l.inboxClearSelection,
-                    onPressed: controller.clearSelection,
-                  );
-                }
-                // AppBar only centers a leading that is itself an IconButton,
-                // so a wrapped one needs its own Center or it fills the 56px slot.
-                return const Center(child: DrawerMenuButton());
-              }(),
-              actionsPadding: .only(right: 8),
-              actions: [
-                if (controller.isSearchMode)
-                  const SizedBox.shrink()
-                else if (controller.hasSelection)
-                  const SelectionActionsBar()
-                else
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.search),
-                        tooltip: l.inboxSearch,
-                        onPressed: () => controller.enterSearchMode(),
-                      ),
-                      const SizedBox(width: 8),
-                      const AppBarAccountAvatar(),
-                    ],
-                  ),
-              ],
-            );
-          },
+                  // AppBar only centers a leading that is itself an IconButton,
+                  // so a wrapped one needs its own Center or it fills the 56px slot.
+                  return const Center(child: DrawerMenuButton());
+                }(),
+                actionsPadding: .only(right: 8),
+                actions: [
+                  if (controller.isSearchMode)
+                    const SizedBox.shrink()
+                  else if (controller.hasSelection)
+                    SelectionActionsBar(toolbarWidth: constraints.maxWidth)
+                  else
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.search),
+                          tooltip: l.inboxSearch,
+                          onPressed: () => controller.enterSearchMode(),
+                        ),
+                        const SizedBox(width: 8),
+                        const AppBarAccountAvatar(),
+                      ],
+                    ),
+                ],
+              );
+            },
+          ),
         ),
       ),
       drawer: const AppDrawer(),

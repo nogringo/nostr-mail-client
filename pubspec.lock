@@ -109,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: "9bba43c773d6bb00c1809b566beb592705f9ed688dcca117648b9955c2085ca9"
+      sha256: c4182dfd73513c2d78faf19d515091e1c120eeae03cfc727f507a28ea8c1649f
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.0"
+    version: "0.11.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -125,10 +125,10 @@ packages:
     dependency: transitive
     description:
       name: broadcast_queue_shim_for_ndk
-      sha256: a38f3753659d299039b757c7c1593e74d149dc9524e6365820878b97672dd933
+      sha256: d2b19904c26568f0902536791e146afa7ce5dbe95cdd8040c36c909c3ebb65b9
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.1"
+    version: "0.8.2"
   bs58check:
     dependency: transitive
     description:
@@ -1057,25 +1057,25 @@ packages:
     dependency: transitive
     description:
       name: nostr_address_book
-      sha256: "777b88e86d9d052e07aaaceba90465a5e5c0114086bdf8792dc0a44c8f0c7f8e"
+      sha256: d54050f68508f6adc2d706554809d9694b44586b1a71dae6d5070f5c04f8e178
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.7.0"
   nostr_event_scheduler:
     dependency: transitive
     description:
       name: nostr_event_scheduler
-      sha256: "29322c6120080a2dd02280d977783c03e98f4d6384cb6b8159e6d71d94125076"
+      sha256: "459b3f8a7c106fa3b1ae2813358ce05b10a09acee7fe7fed58ffe9f42532e2a5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.7.1"
   nostr_mail:
     dependency: "direct overridden"
     description:
       path: "../nostr-mail-dart"
       relative: true
     source: path
-    version: "6.0.1"
+    version: "6.0.2"
   package_config:
     dependency: transitive
     description:
@@ -1597,10 +1597,10 @@ packages:
     dependency: transitive
     description:
       name: sync_engine_shim_for_ndk
-      sha256: d44796eca31da71d665d05ee943df174d42f01aa618402fb7152ee26d2463706
+      sha256: "7252b038ab50eba53bf3e41d191454bf5703fa16c63bd1d7f0075c43d0e57545"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.1"
+    version: "0.9.1"
   synchronized:
     dependency: transitive
     description:
@@ -1797,10 +1797,10 @@ packages:
     dependency: transitive
     description:
       name: url_set_for_ndk
-      sha256: a9192e8d8ac4b22158a03a13b95da8739e9be45938c233cb6bf041a12f36f782
+      sha256: "17c26f8ae1afa7067531033b08f62f64d736dcaae73b32bfe5d688a5ef02c3b1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0"
   uuid:
     dependency: transitive
     description:

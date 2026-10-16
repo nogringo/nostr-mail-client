@@ -18,54 +18,56 @@ class InboxDesktopAppBar extends StatelessWidget {
 
     return ListenableBuilder(
       listenable: controller,
-      builder: (context, _) {
-        final hasSelection = controller.hasSelection;
-        final isSearching = controller.isSearchMode;
+      builder: (context, _) => LayoutBuilder(
+        builder: (context, constraints) {
+          final hasSelection = controller.hasSelection;
+          final isSearching = controller.isSearchMode;
 
-        return AppBar(
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-          leading: hasSelection
-              ? IconButton(
-                  icon: const Icon(Icons.close),
-                  tooltip: l.inboxClearSelection,
-                  onPressed: controller.clearSelection,
-                )
-              : null,
-          title: hasSelection
-              ? Text(l.inboxSelectedCount(controller.selectedIds.length))
-              : isSearching
-              ? ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 600),
-                  child: const SearchField(),
-                )
-              : Text(controller.currentMailbox.title(l)),
-          actionsPadding: .only(right: 8),
-          actions: [
-            if (hasSelection)
-              const SelectionActionsBar()
-            else ...[
-              if (!isSearching)
+          return AppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: false,
+            leading: hasSelection
+                ? IconButton(
+                    icon: const Icon(Icons.close),
+                    tooltip: l.inboxClearSelection,
+                    onPressed: controller.clearSelection,
+                  )
+                : null,
+            title: hasSelection
+                ? Text(l.inboxSelectedCount(controller.selectedIds.length))
+                : isSearching
+                ? ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 600),
+                    child: const SearchField(),
+                  )
+                : Text(controller.currentMailbox.title(l)),
+            actionsPadding: .only(right: 8),
+            actions: [
+              if (hasSelection)
+                SelectionActionsBar(toolbarWidth: constraints.maxWidth)
+              else ...[
+                if (!isSearching)
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    tooltip: l.inboxSearch,
+                    onPressed: controller.enterSearchMode,
+                  ),
                 IconButton(
-                  icon: const Icon(Icons.search),
-                  tooltip: l.inboxSearch,
-                  onPressed: controller.enterSearchMode,
+                  icon: controller.isSyncing
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(Icons.refresh),
+                  tooltip: l.inboxSync,
+                  onPressed: controller.isSyncing ? null : controller.sync,
                 ),
-              IconButton(
-                icon: controller.isSyncing
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.refresh),
-                tooltip: l.inboxSync,
-                onPressed: controller.isSyncing ? null : controller.sync,
-              ),
+              ],
             ],
-          ],
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
