@@ -519,6 +519,7 @@
   "composePlaceholder": "Rédigez votre e-mail",
   "composeFrom": "De",
   "composeSendAs": "Envoyer en tant que",
+  "composeFromNostrOnly": "Nostr uniquement",
   "composeCreateNewIdentity": "Créer une nouvelle identité",
   "composeRemoveAttachment": "Retirer la pièce jointe",
   "composeRenameAttachment": "Renommer la pièce jointe",

@@ -2491,6 +2491,12 @@ abstract class AppLocalizations {
   /// **'Send as'**
   String get composeSendAs;
 
+  /// Shown instead of the npub@nostr address in the From picker: the sender is reachable over Nostr only, not by email
+  ///
+  /// In en, this message translates to:
+  /// **'Nostr only'**
+  String get composeFromNostrOnly;
+
   /// Entry in the From-address picker that opens the create-identity flow
   ///
   /// In en, this message translates to:

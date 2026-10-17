@@ -519,6 +519,7 @@
   "composePlaceholder": "Componi email",
   "composeFrom": "Da",
   "composeSendAs": "Invia come",
+  "composeFromNostrOnly": "Solo Nostr",
   "composeCreateNewIdentity": "Crea nuova identità",
   "composeRemoveAttachment": "Rimuovi allegato",
   "composeRenameAttachment": "Rinomina allegato",

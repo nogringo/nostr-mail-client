@@ -519,6 +519,7 @@
   "composePlaceholder": "撰写邮件",
   "composeFrom": "发件人",
   "composeSendAs": "发送身份",
+  "composeFromNostrOnly": "仅限 Nostr",
   "composeCreateNewIdentity": "创建新身份",
   "composeRemoveAttachment": "移除附件",
   "composeRenameAttachment": "重命名附件",

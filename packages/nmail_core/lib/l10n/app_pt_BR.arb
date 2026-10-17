@@ -527,6 +527,7 @@
   "composePlaceholder": "Escreva seu e-mail",
   "composeFrom": "De",
   "composeSendAs": "Enviar como",
+  "composeFromNostrOnly": "Apenas Nostr",
   "composeCreateNewIdentity": "Criar nova identidade",
   "composeRemoveAttachment": "Remover anexo",
   "composeRenameAttachment": "Renomear anexo",

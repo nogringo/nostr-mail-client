@@ -1388,6 +1388,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeSendAs => 'Lähetä henkilöllisyydellä';
 
   @override
+  String get composeFromNostrOnly => 'Vain Nostr';
+
+  @override
   String get composeCreateNewIdentity => 'Luo henkilöllisyys';
 
   @override

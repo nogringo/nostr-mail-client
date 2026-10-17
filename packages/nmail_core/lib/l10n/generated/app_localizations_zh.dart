@@ -1292,6 +1292,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeSendAs => '发送身份';
 
   @override
+  String get composeFromNostrOnly => '仅限 Nostr';
+
+  @override
   String get composeCreateNewIdentity => '创建新身份';
 
   @override

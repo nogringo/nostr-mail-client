@@ -519,6 +519,7 @@
   "composePlaceholder": "Напишите письмо",
   "composeFrom": "От",
   "composeSendAs": "Отправить от",
+  "composeFromNostrOnly": "Только Nostr",
   "composeCreateNewIdentity": "Создать новую идентичность",
   "composeRemoveAttachment": "Удалить вложение",
   "composeRenameAttachment": "Переименовать вложение",

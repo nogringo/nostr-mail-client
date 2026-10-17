@@ -519,6 +519,7 @@
   "composePlaceholder": "E-Mail verfassen",
   "composeFrom": "Von",
   "composeSendAs": "Senden als",
+  "composeFromNostrOnly": "Nur Nostr",
   "composeCreateNewIdentity": "Neue Identität erstellen",
   "composeRemoveAttachment": "Anhang entfernen",
   "composeRenameAttachment": "Anhang umbenennen",

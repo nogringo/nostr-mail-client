@@ -519,6 +519,7 @@
   "composePlaceholder": "メールを作成",
   "composeFrom": "送信元",
   "composeSendAs": "送信元として",
+  "composeFromNostrOnly": "Nostrのみ",
   "composeCreateNewIdentity": "新しいアイデンティティを作成",
   "composeRemoveAttachment": "添付を削除",
   "composeRenameAttachment": "添付の名前を変更",

@@ -947,6 +947,8 @@
   "@composeFrom": { "description": "Label of the From-address selector row" },
   "composeSendAs": "Send as",
   "@composeSendAs": { "description": "Title of the From-address picker bottom sheet" },
+  "composeFromNostrOnly": "Nostr only",
+  "@composeFromNostrOnly": { "description": "Shown instead of the npub@nostr address in the From picker: the sender is reachable over Nostr only, not by email" },
   "composeCreateNewIdentity": "Create new identity",
   "@composeCreateNewIdentity": { "description": "Entry in the From-address picker that opens the create-identity flow" },
   "composeRemoveAttachment": "Remove attachment",

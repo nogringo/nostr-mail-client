@@ -1395,6 +1395,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get composeSendAs => 'Enviar como';
 
   @override
+  String get composeFromNostrOnly => 'Solo Nostr';
+
+  @override
   String get composeCreateNewIdentity => 'Crear nueva identidad';
 
   @override

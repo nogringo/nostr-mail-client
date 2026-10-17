@@ -519,6 +519,7 @@
   "composePlaceholder": "Redacta tu correo",
   "composeFrom": "De",
   "composeSendAs": "Enviar como",
+  "composeFromNostrOnly": "Solo Nostr",
   "composeCreateNewIdentity": "Crear nueva identidad",
   "composeRemoveAttachment": "Quitar adjunto",
   "composeRenameAttachment": "Cambiar nombre del adjunto",

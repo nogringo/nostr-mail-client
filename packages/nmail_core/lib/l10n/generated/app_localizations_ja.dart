@@ -1301,6 +1301,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeSendAs => '送信元として';
 
   @override
+  String get composeFromNostrOnly => 'Nostrのみ';
+
+  @override
   String get composeCreateNewIdentity => '新しいアイデンティティを作成';
 
   @override

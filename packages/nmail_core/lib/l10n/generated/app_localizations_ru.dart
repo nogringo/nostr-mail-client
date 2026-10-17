@@ -1413,6 +1413,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeSendAs => 'Отправить от';
 
   @override
+  String get composeFromNostrOnly => 'Только Nostr';
+
+  @override
   String get composeCreateNewIdentity => 'Создать новую идентичность';
 
   @override

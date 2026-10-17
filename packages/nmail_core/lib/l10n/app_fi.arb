@@ -524,6 +524,7 @@
   "composePlaceholder": "Kirjoita viesti",
   "composeFrom": "Lähettäjä",
   "composeSendAs": "Lähetä henkilöllisyydellä",
+  "composeFromNostrOnly": "Vain Nostr",
   "composeCreateNewIdentity": "Luo henkilöllisyys",
   "composeRemoveAttachment": "Poista liite",
   "composeRenameAttachment": "Nimeä liite uudelleen",

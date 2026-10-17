@@ -1397,6 +1397,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeSendAs => 'Enviar como';
 
   @override
+  String get composeFromNostrOnly => 'Apenas Nostr';
+
+  @override
   String get composeCreateNewIdentity => 'Criar nova identidade';
 
   @override
@@ -3724,6 +3727,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeSendAs => 'Enviar como';
+
+  @override
+  String get composeFromNostrOnly => 'Apenas Nostr';
 
   @override
   String get composeCreateNewIdentity => 'Criar nova identidade';
