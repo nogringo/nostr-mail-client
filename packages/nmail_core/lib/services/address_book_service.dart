@@ -72,14 +72,14 @@ class AddressBookService {
       isLoading.value = false;
     }
     if (sync && _currentPubkey != null) {
-      unawaited(startSync());
+      startSync();
     }
   }
 
-  Future<void> startSync() async {
+  void startSync() {
     if (_currentPubkey == null) return;
     try {
-      await _book.sync();
+      _book.sync();
     } catch (error) {
       lastError.value = error.toString();
     }

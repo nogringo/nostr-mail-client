@@ -12,7 +12,7 @@ class MemoryBlossomCache implements blossom.BlossomCache {
     Uint8List bytes, {
     String? sha256,
     String? type,
-    bool pinned = false,
+    String? pinBy,
   }) async {
     final key = sha256 ?? base64Url.encode(bytes);
     final now = DateTime.now().toUtc();
@@ -22,7 +22,7 @@ class MemoryBlossomCache implements blossom.BlossomCache {
       type: type,
       uploadedAt: now,
       lastAccessedAt: now,
-      pinned: pinned,
+      pinnedBy: {...?_descriptors[key]?.pinnedBy, ?pinBy},
     );
     _bytes[key] = bytes;
     _descriptors[key] = descriptor;
@@ -44,10 +44,37 @@ class MemoryBlossomCache implements blossom.BlossomCache {
   }
 
   @override
-  Future<bool> pin(String sha256) async => _setPinned(sha256, true);
+  Future<bool> pin(
+    String sha256, {
+    String by = blossom.BlossomCache.defaultHolder,
+  }) async {
+    final current = _descriptors[sha256];
+    if (current == null || current.pinnedBy.contains(by)) return false;
+    _setHolders(current, {...current.pinnedBy, by});
+    return true;
+  }
 
   @override
-  Future<bool> unpin(String sha256) async => _setPinned(sha256, false);
+  Future<bool> unpin(
+    String sha256, {
+    String by = blossom.BlossomCache.defaultHolder,
+  }) async {
+    final current = _descriptors[sha256];
+    if (current == null || !current.pinnedBy.contains(by)) return false;
+    _setHolders(current, {...current.pinnedBy}..remove(by));
+    return true;
+  }
+
+  @override
+  Future<int> unpinAll(String by) async {
+    var released = 0;
+    for (final current in _descriptors.values.toList()) {
+      if (!current.pinnedBy.contains(by)) continue;
+      _setHolders(current, {...current.pinnedBy}..remove(by));
+      released++;
+    }
+    return released;
+  }
 
   @override
   Future<List<blossom.BlobDescriptor>> list() async =>
@@ -59,17 +86,14 @@ class MemoryBlossomCache implements blossom.BlossomCache {
     _descriptors.clear();
   }
 
-  Future<bool> _setPinned(String sha256, bool pinned) async {
-    final current = _descriptors[sha256];
-    if (current == null || current.pinned == pinned) return false;
-    _descriptors[sha256] = blossom.BlobDescriptor(
+  void _setHolders(blossom.BlobDescriptor current, Set<String> holders) {
+    _descriptors[current.sha256] = blossom.BlobDescriptor(
       sha256: current.sha256,
       size: current.size,
       type: current.type,
       uploadedAt: current.uploadedAt,
       lastAccessedAt: current.lastAccessedAt,
-      pinned: pinned,
+      pinnedBy: holders,
     );
-    return true;
   }
 }
