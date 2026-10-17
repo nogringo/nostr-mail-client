@@ -1188,11 +1188,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get authInvalidSyncCode => 'Código de sincronización no válido';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'Estamos comprobando tu código mientras escribes. Cuando sea válido, iniciarás sesión automáticamente.';
+  String get authLogIn => 'Iniciar sesión';
 
   @override
-  String get authLogIn => 'Iniciar sesión';
+  String get authPasswordLabel => 'Contraseña';
+
+  @override
+  String get authWrongPassword => 'Contraseña incorrecta';
+
+  @override
+  String get authBunkerConnectionFailed => 'No se pudo conectar con el bunker';
+
+  @override
+  String get authBunkerApprovalRequired =>
+      'Aprueba este inicio de sesión en tu bunker';
+
+  @override
+  String get authBunkerOpenApproval => 'Abrir';
 
   @override
   String get authCreateAccount => 'Crear una cuenta';

@@ -9,7 +9,7 @@ import '../../../app/routes/app_routes.dart';
 import '../../../controllers/auth_controller.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
-import 'package:nmail_core/utils/toast_helper.dart';
+import 'sync_code_login.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -24,8 +24,7 @@ class LoginForm extends StatelessWidget {
       builder: (context, showMoreOptions, _) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          NLogin(
-            ndkFlutter: controller.ndkFlutter,
+          SyncCodeLogin(
             onLoggedIn: () async {
               await controller.onLoggedIn();
               if (!context.mounted) return;
@@ -35,23 +34,6 @@ class LoginForm extends StatelessWidget {
                     : AppRoutes.inbox,
               );
             },
-            nsecLabelText: l.authSyncCodeLabel,
-            enableNip07Login: false,
-            enablePubkeyLogin: false,
-            enableBunkerLogin: false,
-            enableSignerAppLogin: false,
-            enableAccountCreation: false,
-          ),
-          OutlinedButton.icon(
-            onPressed: () {
-              ToastHelper.error(
-                context,
-                l.authInvalidSyncCode,
-                description: l.authInvalidSyncCodeDescription,
-              );
-            },
-            icon: const Icon(Icons.login),
-            label: Text(l.authLogIn),
           ),
           const SizedBox(height: 8),
           OutlinedButton.icon(
@@ -92,6 +74,7 @@ class LoginForm extends StatelessWidget {
                   },
                   enableNsecLogin: false,
                   enablePubkeyLogin: false,
+                  enableBunkerLogin: false,
                   // ndk_flutter shows it in Android browsers, where NIP-55 intents can't run.
                   enableSignerAppLogin: !kIsWeb,
                   enableAccountCreation: false,

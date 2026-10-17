@@ -1182,11 +1182,23 @@ class AppLocalizationsFi extends AppLocalizations {
   String get authInvalidSyncCode => 'Kelvoton synkronointikoodi';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'Koodi tarkistetaan kirjoitettaessa. Kun koodi kelpaa, sinut kirjataan välittömästi sisään.';
+  String get authLogIn => 'Kirjaudu';
 
   @override
-  String get authLogIn => 'Kirjaudu';
+  String get authPasswordLabel => 'Salasana';
+
+  @override
+  String get authWrongPassword => 'Väärä salasana';
+
+  @override
+  String get authBunkerConnectionFailed => 'Yhteys bunkeriin epäonnistui';
+
+  @override
+  String get authBunkerApprovalRequired =>
+      'Hyväksy tämä kirjautuminen bunkerissasi';
+
+  @override
+  String get authBunkerOpenApproval => 'Avaa';
 
   @override
   String get authCreateAccount => 'Luo tili';

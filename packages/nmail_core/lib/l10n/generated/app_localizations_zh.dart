@@ -1095,10 +1095,22 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authInvalidSyncCode => '无效的同步码';
 
   @override
-  String get authInvalidSyncCodeDescription => '我们会在您输入时检查代码。一旦有效,您将自动登录。';
+  String get authLogIn => '登录';
 
   @override
-  String get authLogIn => '登录';
+  String get authPasswordLabel => '密码';
+
+  @override
+  String get authWrongPassword => '密码错误';
+
+  @override
+  String get authBunkerConnectionFailed => '无法连接到 bunker';
+
+  @override
+  String get authBunkerApprovalRequired => '请在您的 bunker 中批准此次登录';
+
+  @override
+  String get authBunkerOpenApproval => '打开';
 
   @override
   String get authCreateAccount => '创建账户';

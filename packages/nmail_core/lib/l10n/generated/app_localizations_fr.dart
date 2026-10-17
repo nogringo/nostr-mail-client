@@ -1193,11 +1193,24 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authInvalidSyncCode => 'Code de synchronisation invalide';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'Nous vérifions votre code à mesure que vous le saisissez. Une fois valide, vous serez connecté automatiquement.';
+  String get authLogIn => 'Connexion';
 
   @override
-  String get authLogIn => 'Connexion';
+  String get authPasswordLabel => 'Mot de passe';
+
+  @override
+  String get authWrongPassword => 'Mot de passe incorrect';
+
+  @override
+  String get authBunkerConnectionFailed =>
+      'Impossible de se connecter au bunker';
+
+  @override
+  String get authBunkerApprovalRequired =>
+      'Approuvez cette connexion dans votre bunker';
+
+  @override
+  String get authBunkerOpenApproval => 'Ouvrir';
 
   @override
   String get authCreateAccount => 'Créer un compte';

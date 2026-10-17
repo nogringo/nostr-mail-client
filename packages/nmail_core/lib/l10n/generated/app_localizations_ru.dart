@@ -1208,11 +1208,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authInvalidSyncCode => 'Недействительный код синхронизации';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'Мы проверяем ваш код по мере ввода. Как только он станет действительным, вы войдёте автоматически.';
+  String get authLogIn => 'Войти';
 
   @override
-  String get authLogIn => 'Войти';
+  String get authPasswordLabel => 'Пароль';
+
+  @override
+  String get authWrongPassword => 'Неверный пароль';
+
+  @override
+  String get authBunkerConnectionFailed => 'Не удалось подключиться к bunker';
+
+  @override
+  String get authBunkerApprovalRequired =>
+      'Подтвердите этот вход в вашем bunker';
+
+  @override
+  String get authBunkerOpenApproval => 'Открыть';
 
   @override
   String get authCreateAccount => 'Создать аккаунт';

@@ -1181,11 +1181,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authInvalidSyncCode => 'Invalid sync code';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'We\'re checking your code as you type. Once valid, you\'ll be signed in without having to click anything.';
+  String get authLogIn => 'Log in';
 
   @override
-  String get authLogIn => 'Log in';
+  String get authPasswordLabel => 'Password';
+
+  @override
+  String get authWrongPassword => 'Wrong password';
+
+  @override
+  String get authBunkerConnectionFailed => 'Couldn\'t connect to the bunker';
+
+  @override
+  String get authBunkerApprovalRequired => 'Approve this login in your bunker';
+
+  @override
+  String get authBunkerOpenApproval => 'Open';
 
   @override
   String get authCreateAccount => 'Create an account';

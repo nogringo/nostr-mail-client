@@ -2119,23 +2119,47 @@ abstract class AppLocalizations {
   /// **'Sync code'**
   String get authSyncCodeLabel;
 
-  /// Toast title when the user submits the login form before the code is validated
+  /// Error under the sync code field when the code is not an nsec, ncryptsec or bunker URL
   ///
   /// In en, this message translates to:
   /// **'Invalid sync code'**
   String get authInvalidSyncCode;
-
-  /// Toast description explaining that login is automatic once the code is valid
-  ///
-  /// In en, this message translates to:
-  /// **'We\'re checking your code as you type. Once valid, you\'ll be signed in without having to click anything.'**
-  String get authInvalidSyncCodeDescription;
 
   /// Primary log-in button label
   ///
   /// In en, this message translates to:
   /// **'Log in'**
   String get authLogIn;
+
+  /// Label of the password field shown when the sync code is a NIP-49 ncryptsec
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPasswordLabel;
+
+  /// Error under the password field when the ncryptsec can't be decrypted
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password'**
+  String get authWrongPassword;
+
+  /// Error under the sync code field when the NIP-46 bunker connection fails
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t connect to the bunker'**
+  String get authBunkerConnectionFailed;
+
+  /// Shown while a NIP-46 bunker waits for the user to approve the login on a web page
+  ///
+  /// In en, this message translates to:
+  /// **'Approve this login in your bunker'**
+  String get authBunkerApprovalRequired;
+
+  /// Button that opens the bunker's approval page
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get authBunkerOpenApproval;
 
   /// Secondary button label that switches to the registration form
   ///

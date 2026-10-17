@@ -1103,11 +1103,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authInvalidSyncCode => '無効な同期コード';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      '入力中にコードを確認しています。有効になると自動的にログインされます。';
+  String get authLogIn => 'ログイン';
 
   @override
-  String get authLogIn => 'ログイン';
+  String get authPasswordLabel => 'パスワード';
+
+  @override
+  String get authWrongPassword => 'パスワードが正しくありません';
+
+  @override
+  String get authBunkerConnectionFailed => 'bunker に接続できませんでした';
+
+  @override
+  String get authBunkerApprovalRequired => 'bunker でこのログインを承認してください';
+
+  @override
+  String get authBunkerOpenApproval => '開く';
 
   @override
   String get authCreateAccount => 'アカウントを作成';

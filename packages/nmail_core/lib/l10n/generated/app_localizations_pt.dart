@@ -1189,11 +1189,23 @@ class AppLocalizationsPt extends AppLocalizations {
   String get authInvalidSyncCode => 'Código de sincronização inválido';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'Estamos a verificar o seu código enquanto escreve. Assim que for válido, a sessão será iniciada automaticamente.';
+  String get authLogIn => 'Iniciar sessão';
 
   @override
-  String get authLogIn => 'Iniciar sessão';
+  String get authPasswordLabel => 'Palavra-passe';
+
+  @override
+  String get authWrongPassword => 'Palavra-passe incorreta';
+
+  @override
+  String get authBunkerConnectionFailed => 'Não foi possível ligar ao bunker';
+
+  @override
+  String get authBunkerApprovalRequired =>
+      'Aprove este início de sessão no seu bunker';
+
+  @override
+  String get authBunkerOpenApproval => 'Abrir';
 
   @override
   String get authCreateAccount => 'Criar uma conta';
@@ -3438,11 +3450,23 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get authInvalidSyncCode => 'Código de sincronização inválido';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'Estamos verificando seu código enquanto você digita. Assim que for válido, você será conectado automaticamente.';
+  String get authLogIn => 'Entrar';
 
   @override
-  String get authLogIn => 'Entrar';
+  String get authPasswordLabel => 'Senha';
+
+  @override
+  String get authWrongPassword => 'Senha incorreta';
+
+  @override
+  String get authBunkerConnectionFailed =>
+      'Não foi possível conectar ao bunker';
+
+  @override
+  String get authBunkerApprovalRequired => 'Aprove este login no seu bunker';
+
+  @override
+  String get authBunkerOpenApproval => 'Abrir';
 
   @override
   String get authCreateAccount => 'Criar uma conta';

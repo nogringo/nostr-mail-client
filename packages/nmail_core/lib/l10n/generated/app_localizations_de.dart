@@ -1191,11 +1191,24 @@ class AppLocalizationsDe extends AppLocalizations {
   String get authInvalidSyncCode => 'Ungültiger Sync-Code';
 
   @override
-  String get authInvalidSyncCodeDescription =>
-      'Wir prüfen deinen Code, während du tippst. Sobald er gültig ist, wirst du automatisch angemeldet.';
+  String get authLogIn => 'Anmelden';
 
   @override
-  String get authLogIn => 'Anmelden';
+  String get authPasswordLabel => 'Passwort';
+
+  @override
+  String get authWrongPassword => 'Falsches Passwort';
+
+  @override
+  String get authBunkerConnectionFailed =>
+      'Verbindung zum Bunker fehlgeschlagen';
+
+  @override
+  String get authBunkerApprovalRequired =>
+      'Bestätige diese Anmeldung in deinem Bunker';
+
+  @override
+  String get authBunkerOpenApproval => 'Öffnen';
 
   @override
   String get authCreateAccount => 'Konto erstellen';
