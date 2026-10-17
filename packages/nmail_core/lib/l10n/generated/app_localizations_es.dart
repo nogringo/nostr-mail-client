@@ -1833,6 +1833,11 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'No se pudo adjuntar $files: los adjuntos están limitados a $limit por correo';
+  }
+
+  @override
   String get composePasteFailed => 'No se pudo leer el portapapeles';
 
   @override

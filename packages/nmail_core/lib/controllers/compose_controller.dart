@@ -34,6 +34,7 @@ import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/browser_image_paste/browser_image_paste.dart';
+import 'package:nmail_core/utils/get_attachements.dart';
 import 'package:nmail_core/utils/html_image_scan.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
@@ -47,6 +48,8 @@ import 'auth_controller.dart';
 import 'settings_controller.dart';
 
 const Duration _nip05Timeout = Duration(seconds: 5);
+
+const _maxAttachmentsBytes = 25 * 1024 * 1024;
 
 final _quoteDateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
 
@@ -447,12 +450,22 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   Future<void> pickAttachments() async {
     final l = AppLocalizations.of(AppRouter.rootContext!);
     try {
-      // TODO: limit file size
       final files = await FilePicker.pickFiles(
         dialogTitle: l.composeSelectAttachments,
       );
 
+      var totalBytes = [
+        ...attachments,
+        ...inlineImages.values,
+      ].fold<int>(0, (sum, a) => sum + a.size);
+      final rejected = <String>[];
       for (final file in files) {
+        final length = await file.length();
+        if (totalBytes + length > _maxAttachmentsBytes) {
+          rejected.add(file.name);
+          continue;
+        }
+        totalBytes += length;
         attachments.add(
           ComposeAttachment(
             filename: file.name,
@@ -461,6 +474,16 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
           ),
         );
         notifyListeners();
+      }
+
+      if (rejected.isNotEmpty && AppRouter.rootContext != null) {
+        ToastHelper.error(
+          AppRouter.rootContext!,
+          l.composeAttachmentsTooLarge(
+            rejected.join(', '),
+            formatFileSize(_maxAttachmentsBytes),
+          ),
+        );
       }
     } catch (e) {
       if (AppRouter.rootContext != null) {

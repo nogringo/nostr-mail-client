@@ -1837,6 +1837,11 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'Impossibile allegare $files: gli allegati sono limitati a $limit per email';
+  }
+
+  @override
   String get composePasteFailed => 'Impossibile leggere gli appunti';
 
   @override

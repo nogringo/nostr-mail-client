@@ -672,6 +672,13 @@
       "error": { "type": "String" }
     }
   },
+  "composeAttachmentsTooLarge": "无法附加 {files}: 每封邮件的附件总大小上限为 {limit}",
+  "@composeAttachmentsTooLarge": {
+    "placeholders": {
+      "files": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
   "composePasteFailed": "无法读取剪贴板",
   "composeForwardPartsFailed": "部分图片或附件无法加载",
   "composeOriginalMessage": "原始邮件",

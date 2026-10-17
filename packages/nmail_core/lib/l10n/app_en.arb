@@ -1258,6 +1258,14 @@
       "error": { "type": "String" }
     }
   },
+  "composeAttachmentsTooLarge": "Couldn't attach {files}: attachments are limited to {limit} per email",
+  "@composeAttachmentsTooLarge": {
+    "description": "Error toast when picked files would push the email's attachments over the size limit",
+    "placeholders": {
+      "files": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
   "composePasteFailed": "Couldn't read the clipboard",
   "@composePasteFailed": { "description": "Error toast when the right-click Paste in the compose editor cannot read the clipboard, e.g. the browser denied access" },
   "composeForwardPartsFailed": "Some images or attachments couldn't be loaded",

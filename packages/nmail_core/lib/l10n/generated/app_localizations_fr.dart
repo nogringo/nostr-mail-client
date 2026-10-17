@@ -1839,6 +1839,11 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'Impossible de joindre $files : les pièces jointes sont limitées à $limit par e-mail';
+  }
+
+  @override
   String get composePasteFailed => 'Impossible de lire le presse-papiers';
 
   @override

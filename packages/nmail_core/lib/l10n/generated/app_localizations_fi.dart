@@ -1828,6 +1828,11 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'Tiedostoa $files ei voitu liittää: liitteiden enimmäiskoko on $limit viestiä kohden';
+  }
+
+  @override
   String get composePasteFailed => 'Leikepöydän lukeminen epäonnistui';
 
   @override

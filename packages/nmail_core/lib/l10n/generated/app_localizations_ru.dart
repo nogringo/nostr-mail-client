@@ -1851,6 +1851,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'Не удалось прикрепить $files: вложения ограничены $limit на письмо';
+  }
+
+  @override
   String get composePasteFailed => 'Не удалось прочитать буфер обмена';
 
   @override

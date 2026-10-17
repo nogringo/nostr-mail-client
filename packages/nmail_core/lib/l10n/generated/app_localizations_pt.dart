@@ -1835,6 +1835,11 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'Não foi possível anexar $files: os anexos estão limitados a $limit por email';
+  }
+
+  @override
   String get composePasteFailed =>
       'Não foi possível ler a área de transferência';
 
@@ -4164,6 +4169,11 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String composePickFilesFailed(String error) {
     return 'Falha ao selecionar arquivos: $error';
+  }
+
+  @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'Não foi possível anexar $files: os anexos são limitados a $limit por e-mail';
   }
 
   @override

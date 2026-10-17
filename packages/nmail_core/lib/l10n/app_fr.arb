@@ -672,6 +672,13 @@
       "error": { "type": "String" }
     }
   },
+  "composeAttachmentsTooLarge": "Impossible de joindre {files} : les pièces jointes sont limitées à {limit} par e-mail",
+  "@composeAttachmentsTooLarge": {
+    "placeholders": {
+      "files": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
   "composePasteFailed": "Impossible de lire le presse-papiers",
   "composeForwardPartsFailed": "Certaines images ou pièces jointes n'ont pas pu être chargées",
   "composeOriginalMessage": "Message d'origine",

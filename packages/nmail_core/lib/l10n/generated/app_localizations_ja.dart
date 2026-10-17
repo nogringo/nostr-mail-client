@@ -1733,6 +1733,11 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return '$files を添付できませんでした: 添付ファイルはメール1通あたり $limit までです';
+  }
+
+  @override
   String get composePasteFailed => 'クリップボードを読み取れませんでした';
 
   @override

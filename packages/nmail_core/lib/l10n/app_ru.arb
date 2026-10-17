@@ -672,6 +672,13 @@
       "error": { "type": "String" }
     }
   },
+  "composeAttachmentsTooLarge": "Не удалось прикрепить {files}: вложения ограничены {limit} на письмо",
+  "@composeAttachmentsTooLarge": {
+    "placeholders": {
+      "files": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
   "composePasteFailed": "Не удалось прочитать буфер обмена",
   "composeForwardPartsFailed": "Не удалось загрузить некоторые изображения или вложения",
   "composeOriginalMessage": "Исходное сообщение",

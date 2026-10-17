@@ -677,6 +677,13 @@
       "error": { "type": "String" }
     }
   },
+  "composeAttachmentsTooLarge": "Tiedostoa {files} ei voitu liittää: liitteiden enimmäiskoko on {limit} viestiä kohden",
+  "@composeAttachmentsTooLarge": {
+    "placeholders": {
+      "files": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
   "composePasteFailed": "Leikepöydän lukeminen epäonnistui",
   "composeForwardPartsFailed": "Joitakin kuvia tai liitteitä ei voitu ladata",
   "composeOriginalMessage": "Alkuperäinen viesti",

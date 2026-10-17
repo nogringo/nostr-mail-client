@@ -1838,6 +1838,11 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return '$files konnte nicht angehängt werden: Anhänge sind auf $limit pro E-Mail begrenzt';
+  }
+
+  @override
   String get composePasteFailed =>
       'Die Zwischenablage konnte nicht gelesen werden';
 

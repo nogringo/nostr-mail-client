@@ -672,6 +672,13 @@
       "error": { "type": "String" }
     }
   },
+  "composeAttachmentsTooLarge": "No se pudo adjuntar {files}: los adjuntos están limitados a {limit} por correo",
+  "@composeAttachmentsTooLarge": {
+    "placeholders": {
+      "files": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
   "composePasteFailed": "No se pudo leer el portapapeles",
   "composeForwardPartsFailed": "No se pudieron cargar algunas imágenes o archivos adjuntos",
   "composeOriginalMessage": "Mensaje original",

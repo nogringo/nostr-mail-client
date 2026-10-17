@@ -677,6 +677,13 @@
       }
     }
   },
+  "composeAttachmentsTooLarge": "Não foi possível anexar {files}: os anexos são limitados a {limit} por e-mail",
+  "@composeAttachmentsTooLarge": {
+    "placeholders": {
+      "files": { "type": "String" },
+      "limit": { "type": "String" }
+    }
+  },
   "composePasteFailed": "Não foi possível ler a área de transferência",
   "composeForwardPartsFailed": "Não foi possível carregar algumas imagens ou anexos",
   "composeOriginalMessage": "Mensagem original",

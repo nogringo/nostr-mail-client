@@ -3307,6 +3307,12 @@ abstract class AppLocalizations {
   /// **'Failed to pick files: {error}'**
   String composePickFilesFailed(String error);
 
+  /// Error toast when picked files would push the email's attachments over the size limit
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t attach {files}: attachments are limited to {limit} per email'**
+  String composeAttachmentsTooLarge(String files, String limit);
+
   /// Error toast when the right-click Paste in the compose editor cannot read the clipboard, e.g. the browser denied access
   ///
   /// In en, this message translates to:

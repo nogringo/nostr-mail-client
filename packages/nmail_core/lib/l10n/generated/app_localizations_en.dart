@@ -1821,6 +1821,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return 'Couldn\'t attach $files: attachments are limited to $limit per email';
+  }
+
+  @override
   String get composePasteFailed => 'Couldn\'t read the clipboard';
 
   @override

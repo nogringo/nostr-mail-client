@@ -1719,6 +1719,11 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String composeAttachmentsTooLarge(String files, String limit) {
+    return '无法附加 $files: 每封邮件的附件总大小上限为 $limit';
+  }
+
+  @override
   String get composePasteFailed => '无法读取剪贴板';
 
   @override
