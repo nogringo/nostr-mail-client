@@ -149,16 +149,85 @@ class AppLocalizationsRu extends AppLocalizations {
   String get settingsIdentities => 'Идентичности';
 
   @override
-  String get settingsEmailSignature => 'Подпись письма';
-
-  @override
-  String get settingsEmailSignatureEmpty => 'Подпись не настроена';
-
-  @override
-  String get settingsEmailSignatureHint => 'Введите вашу подпись...';
-
-  @override
   String get settingsEmailSignatureDefault => 'Отправлено через Nmail';
+
+  @override
+  String get signaturesTitle => 'Подписи';
+
+  @override
+  String get signaturesListHeader => 'Ваши подписи';
+
+  @override
+  String signaturesEmptyDescription(String text) {
+    return 'Пока вы не создадите подпись, письма заканчиваются строкой «$text».';
+  }
+
+  @override
+  String get signaturesLegacyName => 'Подпись';
+
+  @override
+  String get signaturesNew => 'Новая подпись';
+
+  @override
+  String get signaturesEdit => 'Изменить подпись';
+
+  @override
+  String get signaturesDefaultHeader => 'По умолчанию';
+
+  @override
+  String get signaturesDefaultDescription =>
+      'Для адресов без собственного выбора.';
+
+  @override
+  String get signatureUseNew => 'Новые письма';
+
+  @override
+  String get signatureUseReply => 'Ответы и пересылки';
+
+  @override
+  String get signatureNone => 'Без подписи';
+
+  @override
+  String signatureInheritDefault(String name) {
+    return 'По умолчанию ($name)';
+  }
+
+  @override
+  String get signatureName => 'Название';
+
+  @override
+  String get signatureNameHint => 'Например: Работа, Личное';
+
+  @override
+  String get signatureNameTaken => 'Подпись с таким названием уже есть';
+
+  @override
+  String get signatureContent => 'Содержимое';
+
+  @override
+  String get signatureContentHint => 'Ваше имя, должность, ссылки...';
+
+  @override
+  String get signatureAddImage => 'Добавить изображение';
+
+  @override
+  String get signatureImageFailed => 'Не удалось добавить изображение.';
+
+  @override
+  String get signatureSaveFailed => 'Не удалось сохранить. Попробуйте ещё раз.';
+
+  @override
+  String signatureDeleteTitle(String name) {
+    return 'Удалить «$name»?';
+  }
+
+  @override
+  String get signatureDeleteMessage =>
+      'Адреса, которые её используют, будут отправлять письма без подписи.';
+
+  @override
+  String get composeSignatureImagesFailed =>
+      'Не удалось загрузить изображения подписи. Письмо уйдёт без них.';
 
   @override
   String get settingsDohServer => 'Сервер DNS-over-HTTPS';

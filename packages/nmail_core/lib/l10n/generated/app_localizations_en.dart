@@ -149,16 +149,85 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsIdentities => 'Identities';
 
   @override
-  String get settingsEmailSignature => 'Email signature';
-
-  @override
-  String get settingsEmailSignatureEmpty => 'No signature configured';
-
-  @override
-  String get settingsEmailSignatureHint => 'Enter your signature...';
-
-  @override
   String get settingsEmailSignatureDefault => 'Sent with Nmail';
+
+  @override
+  String get signaturesTitle => 'Signatures';
+
+  @override
+  String get signaturesListHeader => 'Your signatures';
+
+  @override
+  String signaturesEmptyDescription(String text) {
+    return 'Until you create one, emails end with \"$text\".';
+  }
+
+  @override
+  String get signaturesLegacyName => 'Signature';
+
+  @override
+  String get signaturesNew => 'New signature';
+
+  @override
+  String get signaturesEdit => 'Edit signature';
+
+  @override
+  String get signaturesDefaultHeader => 'Default';
+
+  @override
+  String get signaturesDefaultDescription =>
+      'For addresses without a choice of their own.';
+
+  @override
+  String get signatureUseNew => 'New emails';
+
+  @override
+  String get signatureUseReply => 'Replies and forwards';
+
+  @override
+  String get signatureNone => 'No signature';
+
+  @override
+  String signatureInheritDefault(String name) {
+    return 'Default ($name)';
+  }
+
+  @override
+  String get signatureName => 'Name';
+
+  @override
+  String get signatureNameHint => 'For example: Work, Personal';
+
+  @override
+  String get signatureNameTaken => 'Another signature has this name';
+
+  @override
+  String get signatureContent => 'Content';
+
+  @override
+  String get signatureContentHint => 'Your name, title, links...';
+
+  @override
+  String get signatureAddImage => 'Add an image';
+
+  @override
+  String get signatureImageFailed => 'Could not add the image.';
+
+  @override
+  String get signatureSaveFailed => 'Could not save. Try again.';
+
+  @override
+  String signatureDeleteTitle(String name) {
+    return 'Delete \"$name\"?';
+  }
+
+  @override
+  String get signatureDeleteMessage =>
+      'Addresses that use it will send without a signature.';
+
+  @override
+  String get composeSignatureImagesFailed =>
+      'The signature images could not be loaded. The email goes without them.';
 
   @override
   String get settingsDohServer => 'DNS-over-HTTPS server';

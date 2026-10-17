@@ -22,6 +22,7 @@ import '../../controllers/nip65_relays_controller.dart';
 import '../../controllers/private_relays_controller.dart';
 import '../../controllers/profile_controller.dart';
 import '../../controllers/scheduled_controller.dart';
+import '../../controllers/signatures_controller.dart';
 import 'package:nmail_core/models/address_book_contact_form.dart';
 import 'package:nmail_core/models/community_theme.dart';
 import 'package:nmail_core/models/compose_mode.dart';
@@ -58,6 +59,7 @@ import '../../views/settings/mailboxes_settings_view.dart';
 import '../../views/settings/messages_settings_view.dart';
 import '../../views/settings/notifications_settings_view.dart';
 import '../../views/settings/settings_view.dart';
+import '../../views/settings/signatures_view.dart';
 import '../../views/shared/auth_shell.dart';
 import '../../views/shared/not_found_view.dart';
 import '../../views/shared/window_caption_inset.dart';
@@ -319,6 +321,19 @@ class AppRouter {
               GoRoute(
                 path: 'messages',
                 builder: (_, _) => const MessagesSettingsView(),
+                routes: [
+                  GoRoute(
+                    path: 'signatures',
+                    onExit: (_, _) {
+                      GetIt.I.unregister<SignaturesController>();
+                      return true;
+                    },
+                    builder: (_, _) {
+                      _registerOnce(SignaturesController.new);
+                      return const SignaturesView();
+                    },
+                  ),
+                ],
               ),
               GoRoute(
                 path: 'notifications',

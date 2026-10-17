@@ -144,16 +144,82 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsIdentities => '身份';
 
   @override
-  String get settingsEmailSignature => '邮件签名';
-
-  @override
-  String get settingsEmailSignatureEmpty => '未配置签名';
-
-  @override
-  String get settingsEmailSignatureHint => '输入您的签名...';
-
-  @override
   String get settingsEmailSignatureDefault => '通过 Nmail 发送';
+
+  @override
+  String get signaturesTitle => '签名';
+
+  @override
+  String get signaturesListHeader => '你的签名';
+
+  @override
+  String signaturesEmptyDescription(String text) {
+    return '在你创建签名之前,邮件末尾会附上“$text”。';
+  }
+
+  @override
+  String get signaturesLegacyName => '签名';
+
+  @override
+  String get signaturesNew => '新建签名';
+
+  @override
+  String get signaturesEdit => '编辑签名';
+
+  @override
+  String get signaturesDefaultHeader => '默认';
+
+  @override
+  String get signaturesDefaultDescription => '用于没有单独选择的地址。';
+
+  @override
+  String get signatureUseNew => '新邮件';
+
+  @override
+  String get signatureUseReply => '回复和转发';
+
+  @override
+  String get signatureNone => '无签名';
+
+  @override
+  String signatureInheritDefault(String name) {
+    return '默认($name)';
+  }
+
+  @override
+  String get signatureName => '名称';
+
+  @override
+  String get signatureNameHint => '例如:工作、个人';
+
+  @override
+  String get signatureNameTaken => '已有签名使用此名称';
+
+  @override
+  String get signatureContent => '内容';
+
+  @override
+  String get signatureContentHint => '你的姓名、职位、链接等';
+
+  @override
+  String get signatureAddImage => '添加图片';
+
+  @override
+  String get signatureImageFailed => '无法添加图片。';
+
+  @override
+  String get signatureSaveFailed => '无法保存,请重试。';
+
+  @override
+  String signatureDeleteTitle(String name) {
+    return '删除“$name”?';
+  }
+
+  @override
+  String get signatureDeleteMessage => '使用此签名的地址将不带签名发送。';
+
+  @override
+  String get composeSignatureImagesFailed => '无法加载签名图片,邮件将不含图片发送。';
 
   @override
   String get settingsDohServer => 'DNS-over-HTTPS 服务器';

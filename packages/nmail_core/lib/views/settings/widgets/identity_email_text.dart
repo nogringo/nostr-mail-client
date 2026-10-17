@@ -34,6 +34,8 @@ class IdentityEmailText extends StatelessWidget {
       );
     }
 
+    // TODO: show the format as a KeyFormatPill, as the signatures screen does:
+    // colored text alone reads as the literal local part.
     final accentColor = isMarked
         ? disabledColor
         : Theme.of(context).colorScheme.primary;

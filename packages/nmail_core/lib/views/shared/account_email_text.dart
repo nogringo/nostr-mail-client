@@ -23,6 +23,8 @@ class AccountEmailText extends StatelessWidget {
         final pubkey = auth.currentPubkey;
         if (email == null || pubkey == null) return const SizedBox.shrink();
 
+        // TODO: show the format as a KeyFormatPill, as the signatures screen
+        // does: colored text alone reads as the literal local part.
         final keyMatch = matchKeyAddress(email, pubkey);
         final atIndex = email.lastIndexOf('@');
         final localPart =

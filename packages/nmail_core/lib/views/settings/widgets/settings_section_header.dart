@@ -5,24 +5,35 @@ import 'package:flutter/material.dart';
 class SettingsSectionHeader extends StatelessWidget {
   const SettingsSectionHeader({
     super.key,
-    required this.title,
+    required String this.title,
     this.description,
-  });
+  }) : titleSpan = null,
+       descriptionSpan = null;
 
-  final String title;
+  const SettingsSectionHeader.rich({
+    super.key,
+    required InlineSpan this.titleSpan,
+    this.descriptionSpan,
+  }) : title = null,
+       description = null;
+
+  final String? title;
   final String? description;
+  final InlineSpan? titleSpan;
+  final InlineSpan? descriptionSpan;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final description = descriptionSpan ?? _span(this.description);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
+          Text.rich(
+            titleSpan ?? TextSpan(text: title),
             style: theme.textTheme.labelLarge?.copyWith(
               color: theme.colorScheme.primary,
             ),
@@ -30,8 +41,8 @@ class SettingsSectionHeader extends StatelessWidget {
           if (description != null)
             Padding(
               padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                description!,
+              child: Text.rich(
+                description,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -41,4 +52,7 @@ class SettingsSectionHeader extends StatelessWidget {
       ),
     );
   }
+
+  static InlineSpan? _span(String? text) =>
+      text == null ? null : TextSpan(text: text);
 }

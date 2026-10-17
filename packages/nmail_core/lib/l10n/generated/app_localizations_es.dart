@@ -149,16 +149,85 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsIdentities => 'Identidades';
 
   @override
-  String get settingsEmailSignature => 'Firma de correo';
-
-  @override
-  String get settingsEmailSignatureEmpty => 'Sin firma configurada';
-
-  @override
-  String get settingsEmailSignatureHint => 'Introduce tu firma...';
-
-  @override
   String get settingsEmailSignatureDefault => 'Enviado con Nmail';
+
+  @override
+  String get signaturesTitle => 'Firmas';
+
+  @override
+  String get signaturesListHeader => 'Tus firmas';
+
+  @override
+  String signaturesEmptyDescription(String text) {
+    return 'Hasta que crees una, los correos terminan con \"$text\".';
+  }
+
+  @override
+  String get signaturesLegacyName => 'Firma';
+
+  @override
+  String get signaturesNew => 'Nueva firma';
+
+  @override
+  String get signaturesEdit => 'Editar firma';
+
+  @override
+  String get signaturesDefaultHeader => 'Predeterminada';
+
+  @override
+  String get signaturesDefaultDescription =>
+      'Para las direcciones sin elección propia.';
+
+  @override
+  String get signatureUseNew => 'Correos nuevos';
+
+  @override
+  String get signatureUseReply => 'Respuestas y reenvíos';
+
+  @override
+  String get signatureNone => 'Sin firma';
+
+  @override
+  String signatureInheritDefault(String name) {
+    return 'Predeterminada ($name)';
+  }
+
+  @override
+  String get signatureName => 'Nombre';
+
+  @override
+  String get signatureNameHint => 'Por ejemplo: Trabajo, Personal';
+
+  @override
+  String get signatureNameTaken => 'Otra firma tiene este nombre';
+
+  @override
+  String get signatureContent => 'Contenido';
+
+  @override
+  String get signatureContentHint => 'Tu nombre, cargo, enlaces...';
+
+  @override
+  String get signatureAddImage => 'Añadir una imagen';
+
+  @override
+  String get signatureImageFailed => 'No se pudo añadir la imagen.';
+
+  @override
+  String get signatureSaveFailed => 'No se pudo guardar. Inténtalo de nuevo.';
+
+  @override
+  String signatureDeleteTitle(String name) {
+    return '¿Eliminar \"$name\"?';
+  }
+
+  @override
+  String get signatureDeleteMessage =>
+      'Las direcciones que la usan enviarán sin firma.';
+
+  @override
+  String get composeSignatureImagesFailed =>
+      'No se pudieron cargar las imágenes de la firma. El correo se envía sin ellas.';
 
   @override
   String get settingsDohServer => 'Servidor DNS-over-HTTPS';

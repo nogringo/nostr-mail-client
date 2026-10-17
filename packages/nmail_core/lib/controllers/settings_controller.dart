@@ -280,19 +280,6 @@ class SettingsController {
     }
   }
 
-  /// Set the email signature and sync to Nostr.
-  Future<void> setEmailSignature(String value) async {
-    emailSignature.value = value;
-
-    if (_nostrMailService.hasAccount) {
-      try {
-        await _nostrMailService.client.updatePrivateSettings(signature: value);
-      } catch (_) {
-        return;
-      }
-    }
-  }
-
   Future<void> setBackgroundImage(String? value) async {
     await _saveBackgroundImage(value);
     await _forgetCommunityTheme();

@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:nmail_core/controllers/compose_controller.dart';
 
 class QuillToolbarView extends StatelessWidget {
-  const QuillToolbarView({super.key, required this.controller});
+  const QuillToolbarView({
+    super.key,
+    required this.controller,
+    this.customButtons = const [],
+    this.color,
+  });
 
-  final ComposeController controller;
+  final QuillController controller;
+  final List<QuillToolbarCustomButtonOptions> customButtons;
+
+  /// The theme's canvas color when null.
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +28,10 @@ class QuillToolbarView extends StatelessWidget {
     );
 
     return QuillSimpleToolbar(
-      controller: controller.quillController,
+      controller: controller,
       config: QuillSimpleToolbarConfig(
+        customButtons: customButtons,
+        color: color,
         buttonOptions: QuillSimpleToolbarButtonOptions(
           bold: _toggleOptions(
             label: (loc) => loc.bold,

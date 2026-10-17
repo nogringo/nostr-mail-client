@@ -152,7 +152,7 @@ class ScrollableContentView extends StatelessWidget {
           ),
         ),
         const Divider(height: 1),
-        QuillToolbarView(controller: controller),
+        QuillToolbarView(controller: controller.quillController),
         const Divider(height: 1),
         Container(
           constraints: const BoxConstraints(minHeight: 200),

@@ -355,29 +355,149 @@ abstract class AppLocalizations {
   /// **'Identities'**
   String get settingsIdentities;
 
-  /// Settings tile title and dialog title for editing the email signature
-  ///
-  /// In en, this message translates to:
-  /// **'Email signature'**
-  String get settingsEmailSignature;
-
-  /// Subtitle shown when no email signature is configured
-  ///
-  /// In en, this message translates to:
-  /// **'No signature configured'**
-  String get settingsEmailSignatureEmpty;
-
-  /// Placeholder text in the email signature input
-  ///
-  /// In en, this message translates to:
-  /// **'Enter your signature...'**
-  String get settingsEmailSignatureHint;
-
   /// Line of the default email signature, between the "--" delimiter and the Nmail website URL
   ///
   /// In en, this message translates to:
   /// **'Sent with Nmail'**
   String get settingsEmailSignatureDefault;
+
+  /// Title of the signatures settings screen and of its row in the Messages settings
+  ///
+  /// In en, this message translates to:
+  /// **'Signatures'**
+  String get signaturesTitle;
+
+  /// Header above the list of the user's signatures
+  ///
+  /// In en, this message translates to:
+  /// **'Your signatures'**
+  String get signaturesListHeader;
+
+  /// Line under the signatures header while the user has none; text is the default signature line
+  ///
+  /// In en, this message translates to:
+  /// **'Until you create one, emails end with \"{text}\".'**
+  String signaturesEmptyDescription(String text);
+
+  /// Name given to the plain text signature of earlier versions when it becomes a signature
+  ///
+  /// In en, this message translates to:
+  /// **'Signature'**
+  String get signaturesLegacyName;
+
+  /// Row adding a signature, and title of the form creating one
+  ///
+  /// In en, this message translates to:
+  /// **'New signature'**
+  String get signaturesNew;
+
+  /// Title of the form editing a signature
+  ///
+  /// In en, this message translates to:
+  /// **'Edit signature'**
+  String get signaturesEdit;
+
+  /// Header above the signatures used when an address has no choice of its own
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get signaturesDefaultHeader;
+
+  /// Line under the default signatures header
+  ///
+  /// In en, this message translates to:
+  /// **'For addresses without a choice of their own.'**
+  String get signaturesDefaultDescription;
+
+  /// Which signature goes on a new email
+  ///
+  /// In en, this message translates to:
+  /// **'New emails'**
+  String get signatureUseNew;
+
+  /// Which signature goes on a reply or a forward
+  ///
+  /// In en, this message translates to:
+  /// **'Replies and forwards'**
+  String get signatureUseReply;
+
+  /// Choice of no signature
+  ///
+  /// In en, this message translates to:
+  /// **'No signature'**
+  String get signatureNone;
+
+  /// Choice of an identity that falls back to the default signature; name is that default
+  ///
+  /// In en, this message translates to:
+  /// **'Default ({name})'**
+  String signatureInheritDefault(String name);
+
+  /// Label of the signature name field
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get signatureName;
+
+  /// Helper under the signature name field
+  ///
+  /// In en, this message translates to:
+  /// **'For example: Work, Personal'**
+  String get signatureNameHint;
+
+  /// Error under the name field when another signature has that name
+  ///
+  /// In en, this message translates to:
+  /// **'Another signature has this name'**
+  String get signatureNameTaken;
+
+  /// Label of the signature rich text editor
+  ///
+  /// In en, this message translates to:
+  /// **'Content'**
+  String get signatureContent;
+
+  /// Placeholder of the empty signature editor
+  ///
+  /// In en, this message translates to:
+  /// **'Your name, title, links...'**
+  String get signatureContentHint;
+
+  /// Tooltip of the toolbar button adding an image to a signature
+  ///
+  /// In en, this message translates to:
+  /// **'Add an image'**
+  String get signatureAddImage;
+
+  /// Error when a picked image could not be added to a signature
+  ///
+  /// In en, this message translates to:
+  /// **'Could not add the image.'**
+  String get signatureImageFailed;
+
+  /// Error when a signature or a signature choice could not be saved
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save. Try again.'**
+  String get signatureSaveFailed;
+
+  /// Title of the dialog confirming the deletion of a signature
+  ///
+  /// In en, this message translates to:
+  /// **'Delete \"{name}\"?'**
+  String signatureDeleteTitle(String name);
+
+  /// Body of the dialog confirming the deletion of a signature
+  ///
+  /// In en, this message translates to:
+  /// **'Addresses that use it will send without a signature.'**
+  String get signatureDeleteMessage;
+
+  /// Error toast when the images of the signature could not be loaded in compose
+  ///
+  /// In en, this message translates to:
+  /// **'The signature images could not be loaded. The email goes without them.'**
+  String get composeSignatureImagesFailed;
 
   /// Title of the setting holding the DNS-over-HTTPS server URL
   ///

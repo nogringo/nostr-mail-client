@@ -144,16 +144,82 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsIdentities => 'アイデンティティ';
 
   @override
-  String get settingsEmailSignature => 'メール署名';
-
-  @override
-  String get settingsEmailSignatureEmpty => '署名が設定されていません';
-
-  @override
-  String get settingsEmailSignatureHint => '署名を入力...';
-
-  @override
   String get settingsEmailSignatureDefault => 'Nmail から送信';
+
+  @override
+  String get signaturesTitle => '署名';
+
+  @override
+  String get signaturesListHeader => 'あなたの署名';
+
+  @override
+  String signaturesEmptyDescription(String text) {
+    return '署名を作成するまで、メールの末尾には「$text」が入ります。';
+  }
+
+  @override
+  String get signaturesLegacyName => '署名';
+
+  @override
+  String get signaturesNew => '新しい署名';
+
+  @override
+  String get signaturesEdit => '署名を編集';
+
+  @override
+  String get signaturesDefaultHeader => 'デフォルト';
+
+  @override
+  String get signaturesDefaultDescription => '個別の選択がないアドレスに使われます。';
+
+  @override
+  String get signatureUseNew => '新規メール';
+
+  @override
+  String get signatureUseReply => '返信と転送';
+
+  @override
+  String get signatureNone => '署名なし';
+
+  @override
+  String signatureInheritDefault(String name) {
+    return 'デフォルト($name)';
+  }
+
+  @override
+  String get signatureName => '名前';
+
+  @override
+  String get signatureNameHint => '例: 仕事、個人';
+
+  @override
+  String get signatureNameTaken => '同じ名前の署名がすでにあります';
+
+  @override
+  String get signatureContent => '内容';
+
+  @override
+  String get signatureContentHint => '名前、役職、リンクなど';
+
+  @override
+  String get signatureAddImage => '画像を追加';
+
+  @override
+  String get signatureImageFailed => '画像を追加できませんでした。';
+
+  @override
+  String get signatureSaveFailed => '保存できませんでした。もう一度お試しください。';
+
+  @override
+  String signatureDeleteTitle(String name) {
+    return '「$name」を削除しますか?';
+  }
+
+  @override
+  String get signatureDeleteMessage => 'この署名を使うアドレスは署名なしで送信します。';
+
+  @override
+  String get composeSignatureImagesFailed => '署名の画像を読み込めませんでした。画像なしで送信されます。';
 
   @override
   String get settingsDohServer => 'DNS-over-HTTPS サーバー';

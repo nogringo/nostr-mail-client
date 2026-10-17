@@ -149,16 +149,85 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settingsIdentities => 'Identités';
 
   @override
-  String get settingsEmailSignature => 'Signature e-mail';
-
-  @override
-  String get settingsEmailSignatureEmpty => 'Aucune signature configurée';
-
-  @override
-  String get settingsEmailSignatureHint => 'Saisissez votre signature...';
-
-  @override
   String get settingsEmailSignatureDefault => 'Envoyé avec Nmail';
+
+  @override
+  String get signaturesTitle => 'Signatures';
+
+  @override
+  String get signaturesListHeader => 'Vos signatures';
+
+  @override
+  String signaturesEmptyDescription(String text) {
+    return 'Tant que vous n\'en créez pas, vos e-mails se terminent par « $text ».';
+  }
+
+  @override
+  String get signaturesLegacyName => 'Signature';
+
+  @override
+  String get signaturesNew => 'Nouvelle signature';
+
+  @override
+  String get signaturesEdit => 'Modifier la signature';
+
+  @override
+  String get signaturesDefaultHeader => 'Par défaut';
+
+  @override
+  String get signaturesDefaultDescription =>
+      'Pour les adresses sans choix propre.';
+
+  @override
+  String get signatureUseNew => 'Nouveaux e-mails';
+
+  @override
+  String get signatureUseReply => 'Réponses et transferts';
+
+  @override
+  String get signatureNone => 'Aucune signature';
+
+  @override
+  String signatureInheritDefault(String name) {
+    return 'Par défaut ($name)';
+  }
+
+  @override
+  String get signatureName => 'Nom';
+
+  @override
+  String get signatureNameHint => 'Par exemple : Travail, Perso';
+
+  @override
+  String get signatureNameTaken => 'Une autre signature porte ce nom';
+
+  @override
+  String get signatureContent => 'Contenu';
+
+  @override
+  String get signatureContentHint => 'Votre nom, votre poste, vos liens...';
+
+  @override
+  String get signatureAddImage => 'Ajouter une image';
+
+  @override
+  String get signatureImageFailed => 'Impossible d\'ajouter l\'image.';
+
+  @override
+  String get signatureSaveFailed => 'Impossible d\'enregistrer. Réessayez.';
+
+  @override
+  String signatureDeleteTitle(String name) {
+    return 'Supprimer « $name » ?';
+  }
+
+  @override
+  String get signatureDeleteMessage =>
+      'Les adresses qui l\'utilisent enverront sans signature.';
+
+  @override
+  String get composeSignatureImagesFailed =>
+      'Les images de la signature n\'ont pas pu être chargées. L\'e-mail part sans elles.';
 
   @override
   String get settingsDohServer => 'Serveur DNS-over-HTTPS';

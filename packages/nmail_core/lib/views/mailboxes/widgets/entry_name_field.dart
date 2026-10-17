@@ -22,6 +22,9 @@ class EntryNameField extends StatelessWidget {
         controller: controller.nameController,
         autofocus: !controller.isEditing,
         maxLength: MailEntryFormController.maxNameLength,
+        buildCounter:
+            (_, {required currentLength, required isFocused, maxLength}) =>
+                null,
         textInputAction: TextInputAction.done,
         onSubmitted: (_) => onSubmitted(),
         decoration: InputDecoration(

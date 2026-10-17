@@ -148,16 +148,86 @@ class AppLocalizationsFi extends AppLocalizations {
   String get settingsIdentities => 'Henkilöllisyydet';
 
   @override
-  String get settingsEmailSignature => 'Sähköpostin allekirjoitus';
-
-  @override
-  String get settingsEmailSignatureEmpty => 'Ei allekirjoitusta';
-
-  @override
-  String get settingsEmailSignatureHint => 'Luo allekirjoitus...';
-
-  @override
   String get settingsEmailSignatureDefault => 'Lähetetty Nmaililla';
+
+  @override
+  String get signaturesTitle => 'Allekirjoitukset';
+
+  @override
+  String get signaturesListHeader => 'Allekirjoituksesi';
+
+  @override
+  String signaturesEmptyDescription(String text) {
+    return 'Kunnes luot oman, sähköpostit päättyvät tekstiin \"$text\".';
+  }
+
+  @override
+  String get signaturesLegacyName => 'Allekirjoitus';
+
+  @override
+  String get signaturesNew => 'Uusi allekirjoitus';
+
+  @override
+  String get signaturesEdit => 'Muokkaa allekirjoitusta';
+
+  @override
+  String get signaturesDefaultHeader => 'Oletus';
+
+  @override
+  String get signaturesDefaultDescription =>
+      'Osoitteille, joilla ei ole omaa valintaa.';
+
+  @override
+  String get signatureUseNew => 'Uudet sähköpostit';
+
+  @override
+  String get signatureUseReply => 'Vastaukset ja edelleenlähetykset';
+
+  @override
+  String get signatureNone => 'Ei allekirjoitusta';
+
+  @override
+  String signatureInheritDefault(String name) {
+    return 'Oletus ($name)';
+  }
+
+  @override
+  String get signatureName => 'Nimi';
+
+  @override
+  String get signatureNameHint => 'Esimerkiksi: Työ, Oma';
+
+  @override
+  String get signatureNameTaken =>
+      'Toisella allekirjoituksella on jo tämä nimi';
+
+  @override
+  String get signatureContent => 'Sisältö';
+
+  @override
+  String get signatureContentHint => 'Nimesi, tehtävänimikkeesi, linkit...';
+
+  @override
+  String get signatureAddImage => 'Lisää kuva';
+
+  @override
+  String get signatureImageFailed => 'Kuvan lisääminen epäonnistui.';
+
+  @override
+  String get signatureSaveFailed => 'Tallennus epäonnistui. Yritä uudelleen.';
+
+  @override
+  String signatureDeleteTitle(String name) {
+    return 'Poistetaanko \"$name\"?';
+  }
+
+  @override
+  String get signatureDeleteMessage =>
+      'Sitä käyttävät osoitteet lähettävät ilman allekirjoitusta.';
+
+  @override
+  String get composeSignatureImagesFailed =>
+      'Allekirjoituksen kuvia ei voitu ladata. Sähköposti lähetetään ilman niitä.';
 
   @override
   String get settingsDohServer => 'DNS-over-HTTPS-palvelin';

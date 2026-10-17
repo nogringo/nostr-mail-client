@@ -42,6 +42,7 @@ import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/utils/primary_email.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
+import 'package:nmail_core/utils/signature_html.dart';
 import 'auth_controller.dart';
 import 'settings_controller.dart';
 
@@ -104,6 +105,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   set selectedFrom(FromOption? value) {
     _selectedFrom = value;
     notifyListeners();
+    _updateSignature();
   }
 
   List<FromOption> get fromOptions => _fromOptions;
@@ -169,11 +171,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       (_) => _contactsService.loadContacts(),
     );
 
-    final settings = GetIt.I<SettingsController>();
-    final signature = settings.signature(
-      AppLocalizations.of(AppRouter.rootContext!),
-    );
-    showQuotedImages = settings.alwaysLoadImages.value;
+    showQuotedImages = GetIt.I<SettingsController>().alwaysLoadImages.value;
 
     toController = TextEditingController();
     ccController = TextEditingController();
@@ -183,16 +181,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
     final editorConfig = QuillControllerConfig(
       clipboardConfig: QuillClipboardConfig(onImagePaste: addInlineImage),
     );
-    if (signature.isEmpty) {
-      quillController = QuillController.basic(config: editorConfig);
-    } else {
-      final doc = Document()..insert(0, '\n\n$signature');
-      quillController = QuillController(
-        document: doc,
-        selection: const TextSelection.collapsed(offset: 0),
-        config: editorConfig,
-      );
-    }
+    quillController = QuillController.basic(config: editorConfig);
     _browserImagePaste = listenToBrowserImagePaste(
       accepts: () => editorFocusNode.hasFocus,
       onImage: _insertPastedImage,
@@ -211,6 +200,8 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
         _autoSelectBridgeForLegacy();
       }
     }
+    _followsSignature = !isEditingScheduled;
+    _updateSignature();
   }
 
   Future<bool> addRecipient(String input) =>
@@ -535,6 +526,109 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       final l = AppLocalizations.of(AppRouter.rootContext!);
       ToastHelper.error(AppRouter.rootContext!, l.composePasteFailed);
     }
+  }
+
+  /// The signature at the end of the document as last inserted, after its
+  /// blank line. Null while the document has none.
+  Delta? _signatureBlock;
+
+  /// The id of the signature in [_signatureBlock], or [_plainSignatureKey].
+  String? _signatureKey;
+  static const _plainSignatureKey = '';
+  int _signatureGeneration = 0;
+
+  /// Off for a schedule being edited, whose body already has its signature,
+  /// and once the user edited the signature.
+  bool _followsSignature = false;
+
+  bool get _isReplyOrForward => sourceEmail != null && sourceMode != null;
+
+  /// Puts the signature the From and the kind of email take at the end of the
+  /// document, replacing the one there while the user left it untouched.
+  void _updateSignature() {
+    if (!_followsSignature) return;
+    if (!_signatureIntact) {
+      _followsSignature = false;
+      return;
+    }
+    final settings = _nostrMailService.client.cachedPrivateSettings();
+    if (settings == null || settings.signatures == null) {
+      if (_signatureKey != null) return;
+      final text = GetIt.I<SettingsController>().signature(
+        AppLocalizations.of(AppRouter.rootContext!),
+      );
+      if (text.isEmpty) return;
+      _signatureKey = _plainSignatureKey;
+      _replaceSignature(Delta()..insert('$text\n'));
+      return;
+    }
+    final from = selectedFrom?.mailAddress;
+    if (from == null) return;
+    final signature = settings.signatureFor(from, reply: _isReplyOrForward);
+    if (signature?.id == _signatureKey) return;
+    unawaited(_applySignature(signature));
+  }
+
+  Future<void> _applySignature(Signature? signature) async {
+    final generation = ++_signatureGeneration;
+    final delta = signature == null ? null : await _signatureDelta(signature);
+    if (_isDisposed || generation != _signatureGeneration) return;
+    if (!_signatureIntact) {
+      _followsSignature = false;
+      return;
+    }
+    _signatureKey = signature?.id;
+    _replaceSignature(delta);
+  }
+
+  /// Its images become inline parts of the email. When they cannot be
+  /// loaded, the signature goes without them.
+  Future<Delta> _signatureDelta(Signature signature) async {
+    try {
+      final inline = await _nostrMailService.client.inlineSignature(signature);
+      for (final image in inline.images) {
+        inlineImages[normalizeContentId(image.contentId)!] = ComposeAttachment(
+          filename: 'signature.${extensionFromMime(image.mimeType) ?? 'png'}',
+          data: image.bytes,
+          mimeType: image.mimeType,
+        );
+      }
+      return signatureDeltaFromHtml(inline.html);
+    } catch (_) {
+      final context = AppRouter.rootContext;
+      if (context != null && context.mounted) {
+        ToastHelper.error(
+          context,
+          AppLocalizations.of(context).composeSignatureImagesFailed,
+        );
+      }
+      return signatureDeltaFromHtml(signatureHtmlWithoutImages(signature.html));
+    }
+  }
+
+  bool get _signatureIntact {
+    final block = _signatureBlock;
+    return block == null ||
+        endsWithSignature(quillController.document.toDelta(), block);
+  }
+
+  void _replaceSignature(Delta? signature) {
+    final selection = quillController.selection;
+    final replaced = replaceSignature(
+      quillController.document.toDelta(),
+      block: _signatureBlock,
+      signature: signature,
+    );
+    quillController.document = replaced.document;
+    _signatureBlock = replaced.block;
+    final end = replaced.document.length - 1;
+    quillController.updateSelection(
+      TextSelection(
+        baseOffset: selection.baseOffset.clamp(0, end),
+        extentOffset: selection.extentOffset.clamp(0, end),
+      ),
+      ChangeSource.local,
+    );
   }
 
   String _newContentId() {
