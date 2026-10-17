@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../controllers/identities_controller.dart';
+import 'package:nmail_core/views/shared/key_format_pill.dart';
 
 class IdentityEmailText extends StatelessWidget {
   final MailAddress identity;
@@ -34,22 +35,17 @@ class IdentityEmailText extends StatelessWidget {
       );
     }
 
-    // TODO: show the format as a KeyFormatPill, as the signatures screen does:
-    // colored text alone reads as the literal local part.
-    final accentColor = isMarked
-        ? disabledColor
-        : Theme.of(context).colorScheme.primary;
     return Tooltip(
       message: '${match.localPart}@${match.domain}',
       triggerMode: TooltipTriggerMode.tap,
       child: Text.rich(
         TextSpan(
           children: [
-            TextSpan(
-              text: match.format.name,
-              style: baseStyle.copyWith(
-                color: accentColor,
-                fontWeight: FontWeight.w600,
+            WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Opacity(
+                opacity: isMarked ? 0.38 : 1,
+                child: KeyFormatPill(format: match.format),
               ),
             ),
             TextSpan(text: '@${match.domain}', style: baseStyle),

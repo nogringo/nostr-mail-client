@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import 'package:nmail_core/controllers/auth_controller.dart';
 import 'package:nmail_core/utils/key_address.dart';
+import 'package:nmail_core/views/shared/key_format_pill.dart';
 
 /// Shows a key local part by its format name and never truncates the domain.
 class AccountEmailText extends StatelessWidget {
@@ -23,28 +24,24 @@ class AccountEmailText extends StatelessWidget {
         final pubkey = auth.currentPubkey;
         if (email == null || pubkey == null) return const SizedBox.shrink();
 
-        // TODO: show the format as a KeyFormatPill, as the signatures screen
-        // does: colored text alone reads as the literal local part.
         final keyMatch = matchKeyAddress(email, pubkey);
         final atIndex = email.lastIndexOf('@');
-        final localPart =
-            keyMatch?.format.name ??
-            (atIndex < 0 ? email : email.substring(0, atIndex));
         final domain = atIndex < 0 ? '' : email.substring(atIndex);
 
         return Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(
-              child: Text(
-                localPart,
-                style: keyMatch == null
-                    ? textStyle
-                    : textStyle?.copyWith(color: colorScheme.primary),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            if (keyMatch == null)
+              Flexible(
+                child: Text(
+                  atIndex < 0 ? email : email.substring(0, atIndex),
+                  style: textStyle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            else
+              KeyFormatPill(format: keyMatch.format),
             Text(domain, style: textStyle, maxLines: 1),
           ],
         );

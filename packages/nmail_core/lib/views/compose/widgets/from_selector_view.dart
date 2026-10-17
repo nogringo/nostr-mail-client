@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
+import 'from_address_text.dart';
 import 'from_avatar_view.dart';
 import 'from_selector_sheet.dart';
 
@@ -15,6 +16,7 @@ class FromSelectorView extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final selected = controller.selectedFrom;
+    final hasName = selected?.displayName?.isNotEmpty ?? false;
 
     return Semantics(
       button: true,
@@ -47,20 +49,23 @@ class FromSelectorView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(
-                                  selected.label,
-                                  style: const TextStyle(fontSize: 16),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                if (selected.displayName != null &&
-                                    selected.displayName!.isNotEmpty)
+                                if (hasName) ...[
                                   Text(
-                                    selected.shortAddress,
+                                    selected.displayName!,
+                                    style: const TextStyle(fontSize: 16),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  FromAddressText(
+                                    address: selected.address,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: colorScheme.onSurfaceVariant,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ] else
+                                  FromAddressText(
+                                    address: selected.address,
+                                    style: const TextStyle(fontSize: 16),
                                   ),
                               ],
                             ),

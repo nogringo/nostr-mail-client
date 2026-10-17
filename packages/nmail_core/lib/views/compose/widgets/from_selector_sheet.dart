@@ -9,6 +9,7 @@ import '../../../controllers/compose_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/from_option.dart';
 import '../../../widgets/nostr_avatar.dart';
+import 'from_address_text.dart';
 
 class FromSelectorSheet extends StatelessWidget {
   const FromSelectorSheet({super.key, required this.controller});
@@ -206,8 +207,8 @@ class _FromOptionTile extends StatelessWidget {
                       ),
                       const SizedBox(height: 2),
                     ],
-                    Text(
-                      option.shortAddress,
+                    FromAddressText(
+                      address: option.address,
                       style: TextStyle(
                         fontSize: 13,
                         color: colorScheme.onSurfaceVariant,

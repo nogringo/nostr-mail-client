@@ -9,7 +9,7 @@ import 'package:nmail_core/utils/key_address.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'settings_group.dart';
 import 'settings_section_header.dart';
-import 'key_format_pill.dart';
+import 'package:nmail_core/views/shared/key_format_pill.dart';
 import 'show_signature_picker.dart';
 import 'signature_choice_labels.dart';
 import 'signature_choice_tile.dart';
