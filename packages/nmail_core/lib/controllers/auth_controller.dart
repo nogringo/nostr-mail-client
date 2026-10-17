@@ -143,12 +143,6 @@ class AuthController {
   }
 
   /// Second half of [onLoggedIn], deferred while the relay list is missing.
-  ///
-  /// TODO: the two awaits at the end are best-effort refreshes that nothing on
-  /// screen needs, yet callers navigate only once they resolve. Offline that
-  /// costs ~28s (two relay round trips, then the push server's 20s HTTP
-  /// timeout). Mirror `switchAccount`, which navigates first and fires both
-  /// with `unawaited`.
   Future<void> completeLogin() async {
     await _nostrMailService.activateForCurrentAccount();
     if (GetIt.I.isRegistered<InboxController>()) {
@@ -166,10 +160,10 @@ class AuthController {
     // authStateChanges fires before the client is attached to the new account,
     // so SettingsController's listener can't read the synced signature yet.
     // Now that the private-settings cache is primed, pull it in.
-    await GetIt.I<SettingsController>().reloadSyncedSettings();
+    unawaited(GetIt.I<SettingsController>().reloadSyncedSettings());
     final pubkey = publicKey;
     if (pubkey != null && GetIt.I.isRegistered<PushSubscriptionService>()) {
-      await GetIt.I<PushSubscriptionService>().refreshAccount(pubkey);
+      unawaited(GetIt.I<PushSubscriptionService>().refreshAccount(pubkey));
     }
   }
 
