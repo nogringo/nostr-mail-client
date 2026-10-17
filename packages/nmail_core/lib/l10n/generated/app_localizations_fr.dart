@@ -822,7 +822,7 @@ class AppLocalizationsFr extends AppLocalizations {
       'Permission de notification refusée.';
 
   @override
-  String get folderInbox => 'Boîte de réception';
+  String get folderInbox => 'Réception';
 
   @override
   String get folderSent => 'Envoyés';

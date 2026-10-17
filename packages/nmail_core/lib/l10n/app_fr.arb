@@ -285,7 +285,7 @@
   "debugToolsHideDescription": "Retire les outils de débogage des paramètres. Pour les afficher à nouveau, appuyez 7 fois sur la tuile Nmail dans « À propos ».",
   "debugNotificationPermissionDenied": "Permission de notification refusée.",
 
-  "folderInbox": "Boîte de réception",
+  "folderInbox": "Réception",
   "folderSent": "Envoyés",
   "folderTrash": "Corbeille",
   "folderArchive": "Archives",
