@@ -13,7 +13,10 @@ class RegistrationForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context);
     return ListenableBuilder(
-      listenable: Listenable.merge([controller.isLoading, controller.username]),
+      listenable: Listenable.merge([
+        controller.isLoading,
+        controller.usernameController,
+      ]),
       builder: (context, _) => Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -40,7 +43,8 @@ class RegistrationForm extends StatelessWidget {
           const SizedBox(height: 24),
           OutlinedButton(
             onPressed:
-                controller.username.value.isEmpty || controller.isLoading.value
+                controller.usernameController.text.isEmpty ||
+                    controller.isLoading.value
                 ? null
                 : controller.register,
             child: Text(l.actionContinue),

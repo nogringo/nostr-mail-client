@@ -37,7 +37,6 @@ class AuthController {
   /// The active account has no NIP-65 relay list, so the router keeps it on
   /// RelaySetupView until one is found or created.
   final needsRelayListSetup = ValueNotifier(false);
-  final username = ValueNotifier('');
   final usernameController = TextEditingController();
   final userMetadata = ValueNotifier<Metadata?>(null);
   final accountPubkeys = ValueNotifier<List<String>>(const []);
@@ -75,11 +74,6 @@ class AuthController {
     } finally {
       isLoading.value = false;
     }
-    // TODO: Simplify registration state by reading usernameController.text
-    // directly if no UI needs to observe username reactively.
-    usernameController.addListener(() {
-      username.value = usernameController.text;
-    });
     _authSubscription = ndk.accounts.authStateChanges.listen((_) {
       _refreshAccountsState();
     });
@@ -96,7 +90,6 @@ class AuthController {
       isRegistering,
       showSyncCodeExplanation,
       needsRelayListSetup,
-      username,
       userMetadata,
       accountPubkeys,
       activePubkey,
@@ -181,7 +174,7 @@ class AuthController {
   }
 
   Future<void> register() async {
-    final isEmpty = username.value.trim().isEmpty;
+    final isEmpty = usernameController.text.trim().isEmpty;
     final context = AppRouter.rootContext;
 
     if (isEmpty && context != null) {
@@ -205,7 +198,7 @@ class AuthController {
 
     await ndkFlutter.saveAccountsState();
 
-    final rawName = username.value.trim();
+    final rawName = usernameController.text.trim();
     final formattedName = rawName.toLowerCase().replaceAll(' ', '');
 
     final metadata = Metadata(
@@ -305,7 +298,6 @@ class AuthController {
     await onLoggedIn();
 
     // Clear registration state
-    username.value = '';
     usernameController.clear();
     isRegistering.value = false;
 
@@ -519,7 +511,6 @@ class AuthController {
       userMetadata.value = null;
 
       isRegistering.value = false;
-      username.value = '';
       usernameController.clear();
       showMoreOptions.value = false;
 
@@ -574,7 +565,6 @@ class AuthController {
       userMetadata.value = null;
 
       isRegistering.value = false;
-      username.value = '';
       usernameController.clear();
       showMoreOptions.value = false;
       isLoggedIn.value = false;
