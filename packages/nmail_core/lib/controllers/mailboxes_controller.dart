@@ -153,27 +153,21 @@ class MailboxesController extends ChangeNotifier {
     return entry;
   }
 
-  /// Publishes the new order in one settings event, not one per moved entry.
   Future<void> reorder(MailEntryKind kind, int oldIndex, int newIndex) async {
     final entries = [...entriesOf(kind)];
-    entries.insert(newIndex, entries.removeAt(oldIndex));
-    final positioned = [
-      for (final (index, entry) in entries.indexed)
-        entry.copyWith(position: index),
-    ];
+    final moved = entries.removeAt(oldIndex);
+    entries.insert(newIndex, moved);
     switch (kind) {
       case MailEntryKind.folder:
-        folders = positioned;
+        folders = entries;
       case MailEntryKind.tag:
-        tags = positioned;
+        tags = entries;
     }
     notifyListeners();
     try {
       await switch (kind) {
-        MailEntryKind.folder => _client.updatePrivateSettings(
-          folders: positioned,
-        ),
-        MailEntryKind.tag => _client.updatePrivateSettings(tags: positioned),
+        MailEntryKind.folder => _client.reorderFolder(moved.id, newIndex),
+        MailEntryKind.tag => _client.reorderTag(moved.id, newIndex),
       };
     } finally {
       _appliedKey = null;

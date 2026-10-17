@@ -1083,7 +1083,7 @@ packages:
       path: "../nostr-mail-dart"
       relative: true
     source: path
-    version: "6.0.2"
+    version: "7.0.0"
   package_config:
     dependency: transitive
     description:

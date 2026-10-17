@@ -67,6 +67,7 @@ class NostrMailService {
       blossomUploadQueue: GetIt.I<OfflineBlossomUpload>(),
       schedulerDvm: NostrConfig.schedulerDvm,
       defaultDmRelays: NostrConfig.recommendedDmRelays,
+      defaultNip65Relays: NostrConfig.recommendedInboxOutboxRelays,
     );
     return this;
   }
