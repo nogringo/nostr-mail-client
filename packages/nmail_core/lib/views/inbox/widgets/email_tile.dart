@@ -17,7 +17,8 @@ import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
-import 'package:nmail_core/views/shared/show_context_menu.dart';
+import 'package:nmail_core/views/inbox/widgets/email_move_to_submenu.dart';
+import 'package:nmail_core/views/inbox/widgets/email_tags_submenu.dart';
 import '../../../widgets/selectable_avatar.dart';
 import '../../../widgets/tag_chips.dart';
 
@@ -299,13 +300,48 @@ class EmailTile extends StatelessWidget {
               onDelete?.call();
             }
           },
-          child: GestureDetector(
-            onSecondaryTapUp: (details) =>
-                _showContextMenu(context, position: details.globalPosition),
-            onLongPress: () => _showContextMenu(context),
-            child: isWide
-                ? _buildCompactTile(context, colorScheme)
-                : _buildDefaultTile(context),
+          // A theme rather than the anchor's style, so submenus share it.
+          child: MenuTheme(
+            data: MenuThemeData(
+              style: MenuStyle(
+                elevation: const WidgetStatePropertyAll(8),
+                shape: WidgetStatePropertyAll(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
+            child: MenuAnchor(
+              menuChildren: [
+                for (final action in _offeredActions(context, mailbox)) ...[
+                  if (action.startsGroup) const Divider(height: 1),
+                  action.submenu ??
+                      MenuItemButton(
+                        leadingIcon: Icon(
+                          action.icon,
+                          color: _colorOf(action, colorScheme),
+                        ),
+                        onPressed: action.onPressed,
+                        child: Text(
+                          action.label,
+                          style: TextStyle(
+                            color: _colorOf(action, colorScheme),
+                          ),
+                        ),
+                      ),
+                ],
+              ],
+              builder: (context, menuController, child) => GestureDetector(
+                onSecondaryTapUp: (details) =>
+                    menuController.open(position: details.localPosition),
+                onLongPress: () => _showActionsSheet(context, mailbox),
+                child: child,
+              ),
+              child: isWide
+                  ? _buildCompactTile(context, colorScheme)
+                  : _buildDefaultTile(context),
+            ),
           ),
         ),
       ),
@@ -313,7 +349,8 @@ class EmailTile extends StatelessWidget {
   }
 
   /// The context menu of a row in [mailbox], grouped as dividers show them.
-  List<_MenuAction> _menuActions(AppLocalizations l, Mailbox mailbox) {
+  List<_MenuAction> _menuActions(BuildContext context, Mailbox mailbox) {
+    final l = AppLocalizations.of(context);
     final inbox = GetIt.I<InboxController>();
     final readToggle = !mailbox.showsUnread
         ? null
@@ -392,56 +429,37 @@ class EmailTile extends StatelessWidget {
           onArchive,
           startsGroup: true,
         ),
-      _MenuAction(Icons.drive_file_move_outlined, l.mailboxMoveTo, onMoveTo),
-      // TODO: open the labels as a hover submenu of checkboxes that apply
-      // on click, which needs this menu to become a MenuAnchor.
-      _MenuAction(Icons.label_outline, l.mailboxTags, onTag),
+      _MenuAction(
+        Icons.drive_file_move_outlined,
+        l.mailboxMoveTo,
+        onMoveTo,
+        submenu: EmailMoveToSubmenu(email: email, actionContext: context),
+      ),
+      _MenuAction(
+        Icons.label_outline,
+        l.mailboxTags,
+        onTag,
+        submenu: EmailTagsSubmenu(email: email, actionContext: context),
+      ),
       ?readToggle,
       ?block,
       moveToTrash,
     ];
   }
 
-  /// Right-click (desktop) opens a menu at the cursor, a long press (mobile)
-  /// a bottom sheet.
-  void _showContextMenu(BuildContext context, {Offset? position}) {
-    final l = AppLocalizations.of(context);
+  /// A list that wires no callback for an action does not offer it.
+  List<_MenuAction> _offeredActions(BuildContext context, Mailbox mailbox) => [
+    for (final action in _menuActions(context, mailbox))
+      if (action.onPressed != null) action,
+  ];
+
+  Color? _colorOf(_MenuAction action, ColorScheme colorScheme) =>
+      action.isDestructive ? colorScheme.error : null;
+
+  /// The long press counterpart of the right-click menu.
+  void _showActionsSheet(BuildContext context, Mailbox mailbox) {
     final colorScheme = Theme.of(context).colorScheme;
-    // A list that wires no callback for an action does not offer it.
-    final actions = [
-      for (final action in _menuActions(
-        l,
-        GetIt.I<InboxController>().currentMailbox,
-      ))
-        if (action.onPressed != null) action,
-    ];
-    Color? colorOf(_MenuAction action) =>
-        action.isDestructive ? colorScheme.error : null;
-
-    if (position != null) {
-      showContextMenu<void>(
-        context,
-        position: position,
-        children: (menuContext) => [
-          for (final action in actions) ...[
-            if (action.startsGroup) const Divider(height: 1),
-            MenuItemButton(
-              leadingIcon: Icon(action.icon, color: colorOf(action)),
-              onPressed: () {
-                Navigator.of(menuContext).pop();
-                action.onPressed?.call();
-              },
-              child: Text(
-                action.label,
-                style: TextStyle(color: colorOf(action)),
-              ),
-            ),
-          ],
-        ],
-      );
-      return;
-    }
-
+    final actions = _offeredActions(context, mailbox);
     showModalBottomSheet(
       context: context,
       showDragHandle: true,
@@ -451,10 +469,13 @@ class EmailTile extends StatelessWidget {
             for (final action in actions) ...[
               if (action.startsGroup) const Divider(height: 1),
               ListTile(
-                leading: Icon(action.icon, color: colorOf(action)),
+                leading: Icon(
+                  action.icon,
+                  color: _colorOf(action, colorScheme),
+                ),
                 title: Text(
                   action.label,
-                  style: TextStyle(color: colorOf(action)),
+                  style: TextStyle(color: _colorOf(action, colorScheme)),
                 ),
                 onTap: () {
                   Navigator.pop(sheetContext);
@@ -732,11 +753,15 @@ class _MenuAction {
   /// Draws a divider above, opening a new group.
   final bool startsGroup;
 
+  /// Replaces the item in the right-click menu.
+  final Widget? submenu;
+
   const _MenuAction(
     this.icon,
     this.label,
     this.onPressed, {
     this.isDestructive = false,
     this.startsGroup = false,
+    this.submenu,
   });
 }
