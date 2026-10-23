@@ -13,6 +13,39 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [Unreleased]
+
+### Added
+
+- Write several signatures, with images, and choose the one each of your
+  addresses uses for new emails and for replies and forwards. A default
+  signature covers the addresses without a choice of their own, and your
+  signatures follow you on all your devices.
+- Log in by pasting an nsec, an ncryptsec with its password, or a bunker URL
+  in the same field. When the bunker asks for approval, open it from the login
+  screen.
+- Move an email to a folder or tag it from its menu in the email list.
+
+### Changed
+
+- Pick the sender from a menu on wide screens. The npub@nostr address now
+  reads "Nostr only", since nobody can reply to it by email.
+- Limit attachments to 25 MB per email. Files that would go over are left out,
+  and a message names them.
+- Follow a change of your DM, inbox and outbox, or private relays without
+  logging in again.
+- Reach the inbox sooner after logging in, especially when offline.
+- Use Nmail on the web with a screen reader right away, without turning
+  accessibility on first.
+
+### Fixed
+
+- Notify an email only once when it arrives while the mailbox syncs.
+- Ask before leaving the profile editor with unsaved changes.
+- Keep the selection bar inside the app bar when emails are selected.
+- Hide the signer app login on the web, where it did nothing in Android
+  browsers.
+
 ## [0.18.0]
 
 ### Added

@@ -388,10 +388,11 @@ packages:
   nostr_mail:
     dependency: "direct main"
     description:
-      path: "../../../nostr-mail-dart"
-      relative: true
-    source: path
-    version: "6.0.2"
+      name: nostr_mail
+      sha256: e5e08934ed93a4e5baaaf05082f3edde1ac2377672770ca2a13721a6f344e895
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   path:
     dependency: "direct main"
     description:
