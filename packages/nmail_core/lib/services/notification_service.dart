@@ -33,6 +33,12 @@ class NotificationService {
         requestSoundPermission: false,
       ),
       linux: LinuxInitializationSettings(defaultActionName: 'Open'),
+      windows: WindowsInitializationSettings(
+        appName: 'Nmail',
+        appUserModelId: 'Org.Nostrmail.App',
+        // Never change: Windows registers notification activation under it.
+        guid: 'acf19ad1-c4c1-43a8-8e51-8df54898ea0b',
+      ),
       web: WebInitializationSettings(),
     );
 
