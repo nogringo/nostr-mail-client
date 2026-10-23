@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:window_manager/window_manager.dart';
 
+import 'package:nmail_core/app/widgets/window_caption_bar.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/utils/platform_helper.dart';
 import 'startup_error_view.dart';
 
 /// Stands in for `MainApp` when the bootstrap throws: no service, theme or
@@ -38,6 +41,21 @@ class StartupErrorApp extends StatelessWidget {
         ..remove(const Locale('en'))
         ..insert(0, const Locale('en')),
       home: StartupErrorView(error: error, stackTrace: stackTrace),
+      builder: (context, child) {
+        if (!PlatformHelper.isDesktop) return child!;
+        final window = ColoredBox(
+          color: Theme.of(context).colorScheme.surface,
+          child: Column(
+            children: [
+              const WindowCaptionBar(),
+              Expanded(child: child!),
+            ],
+          ),
+        );
+
+        if (PlatformHelper.isMacOS) return window;
+        return DragToResizeArea(child: window);
+      },
     );
   }
 }

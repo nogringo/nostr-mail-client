@@ -23,6 +23,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'package:nmail_core/app/config/distribution_config.dart';
 import 'package:nmail_core/app/widgets/pending_requests_overlay.dart';
+import 'package:nmail_core/app/widgets/window_caption_bar.dart';
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -293,24 +294,11 @@ class MainApp extends StatelessWidget {
                         ),
                         child: child!,
                       ),
-                      Positioned(
+                      const Positioned(
                         top: 0,
                         left: 0,
                         right: 0,
-                        height: 32,
-                        child: Row(
-                          children: [
-                            Expanded(child: DragToMoveArea(child: Container())),
-                            if (!PlatformHelper.isMacOS)
-                              SizedBox(
-                                width: 154,
-                                child: WindowCaption(
-                                  brightness: Theme.of(context).brightness,
-                                  backgroundColor: Colors.transparent,
-                                ),
-                              ),
-                          ],
-                        ),
+                        child: WindowCaptionBar(),
                       ),
                       const PendingRequestsOverlay(),
                     ],
