@@ -677,6 +677,8 @@
       }
     }
   },
+  "composeFilePickerMissingTitle": "Seletor de ficheiros indisponível",
+  "composeFilePickerMissingDescription": "Ative a app de sistema Ficheiros ou instale um gestor de ficheiros.",
   "composeAttachmentsTooLarge": "Não foi possível anexar {files}: os anexos estão limitados a {limit} por email",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

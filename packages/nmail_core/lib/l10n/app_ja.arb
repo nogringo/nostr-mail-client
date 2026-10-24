@@ -672,6 +672,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "ファイル選択を利用できません",
+  "composeFilePickerMissingDescription": "システムの「ファイル」アプリを有効にするか、ファイルマネージャーをインストールしてください。",
   "composeAttachmentsTooLarge": "{files} を添付できませんでした: 添付ファイルはメール1通あたり {limit} までです",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

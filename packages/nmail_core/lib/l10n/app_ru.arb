@@ -672,6 +672,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "Выбор файлов недоступен",
+  "composeFilePickerMissingDescription": "Включите системное приложение Файлы или установите файловый менеджер.",
   "composeAttachmentsTooLarge": "Не удалось прикрепить {files}: вложения ограничены {limit} на письмо",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

@@ -672,6 +672,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "文件选择器不可用",
+  "composeFilePickerMissingDescription": "请启用系统自带的文件应用，或安装文件管理器。",
   "composeAttachmentsTooLarge": "无法附加 {files}: 每封邮件的附件总大小上限为 {limit}",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

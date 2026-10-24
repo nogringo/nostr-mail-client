@@ -1833,6 +1833,14 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle =>
+      'Selector de archivos no disponible';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Activa la app del sistema Archivos o instala un gestor de archivos.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return 'No se pudo adjuntar $files: los adjuntos están limitados a $limit por correo';
   }

@@ -3307,6 +3307,18 @@ abstract class AppLocalizations {
   /// **'Failed to pick files: {error}'**
   String composePickFilesFailed(String error);
 
+  /// Error toast title when the device has no app that can pick files (Android system Files app disabled or removed)
+  ///
+  /// In en, this message translates to:
+  /// **'File picker unavailable'**
+  String get composeFilePickerMissingTitle;
+
+  /// Error toast body telling the user how to get a file picker back
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on the system Files app or install a file manager.'**
+  String get composeFilePickerMissingDescription;
+
   /// Error toast when picked files would push the email's attachments over the size limit
   ///
   /// In en, this message translates to:

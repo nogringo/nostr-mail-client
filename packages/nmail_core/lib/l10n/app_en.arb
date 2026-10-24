@@ -1258,6 +1258,10 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "File picker unavailable",
+  "@composeFilePickerMissingTitle": { "description": "Error toast title when the device has no app that can pick files (Android system Files app disabled or removed)" },
+  "composeFilePickerMissingDescription": "Turn on the system Files app or install a file manager.",
+  "@composeFilePickerMissingDescription": { "description": "Error toast body telling the user how to get a file picker back" },
   "composeAttachmentsTooLarge": "Couldn't attach {files}: attachments are limited to {limit} per email",
   "@composeAttachmentsTooLarge": {
     "description": "Error toast when picked files would push the email's attachments over the size limit",

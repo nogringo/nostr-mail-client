@@ -677,6 +677,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "Tiedostonvalitsin ei ole käytettävissä",
+  "composeFilePickerMissingDescription": "Ota käyttöön järjestelmän Tiedostot-sovellus tai asenna tiedostonhallintasovellus.",
   "composeAttachmentsTooLarge": "Tiedostoa {files} ei voitu liittää: liitteiden enimmäiskoko on {limit} viestiä kohden",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

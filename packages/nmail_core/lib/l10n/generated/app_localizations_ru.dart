@@ -1851,6 +1851,13 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle => 'Выбор файлов недоступен';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Включите системное приложение Файлы или установите файловый менеджер.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return 'Не удалось прикрепить $files: вложения ограничены $limit на письмо';
   }

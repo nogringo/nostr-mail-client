@@ -1828,6 +1828,14 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle =>
+      'Tiedostonvalitsin ei ole käytettävissä';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Ota käyttöön järjestelmän Tiedostot-sovellus tai asenna tiedostonhallintasovellus.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return 'Tiedostoa $files ei voitu liittää: liitteiden enimmäiskoko on $limit viestiä kohden';
   }

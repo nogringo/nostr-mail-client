@@ -1733,6 +1733,13 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle => 'ファイル選択を利用できません';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'システムの「ファイル」アプリを有効にするか、ファイルマネージャーをインストールしてください。';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return '$files を添付できませんでした: 添付ファイルはメール1通あたり $limit までです';
   }

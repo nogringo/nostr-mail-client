@@ -672,6 +672,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "Dateiauswahl nicht verfügbar",
+  "composeFilePickerMissingDescription": "Aktiviere die System-App Dateien oder installiere einen Dateimanager.",
   "composeAttachmentsTooLarge": "{files} konnte nicht angehängt werden: Anhänge sind auf {limit} pro E-Mail begrenzt",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

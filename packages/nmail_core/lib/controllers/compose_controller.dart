@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
@@ -487,9 +488,16 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       }
     } catch (e) {
       if (AppRouter.rootContext != null) {
+        final noFilePicker =
+            e is PlatformException && e.code == 'explorer_not_found';
         ToastHelper.error(
           AppRouter.rootContext!,
-          l.composePickFilesFailed(e.toString()),
+          noFilePicker
+              ? l.composeFilePickerMissingTitle
+              : l.composePickFilesFailed(e.toString()),
+          description: noFilePicker
+              ? l.composeFilePickerMissingDescription
+              : null,
         );
       }
     }

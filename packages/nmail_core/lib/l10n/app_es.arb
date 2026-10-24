@@ -672,6 +672,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "Selector de archivos no disponible",
+  "composeFilePickerMissingDescription": "Activa la app del sistema Archivos o instala un gestor de archivos.",
   "composeAttachmentsTooLarge": "No se pudo adjuntar {files}: los adjuntos están limitados a {limit} por correo",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

@@ -672,6 +672,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "Sélecteur de fichiers indisponible",
+  "composeFilePickerMissingDescription": "Activez l'app système Fichiers ou installez un gestionnaire de fichiers.",
   "composeAttachmentsTooLarge": "Impossible de joindre {files} : les pièces jointes sont limitées à {limit} par e-mail",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

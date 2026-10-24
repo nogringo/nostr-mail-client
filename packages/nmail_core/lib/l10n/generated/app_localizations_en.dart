@@ -1821,6 +1821,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle => 'File picker unavailable';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Turn on the system Files app or install a file manager.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return 'Couldn\'t attach $files: attachments are limited to $limit per email';
   }

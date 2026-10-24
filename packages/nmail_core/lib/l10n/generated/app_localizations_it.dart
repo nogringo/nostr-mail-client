@@ -1837,6 +1837,14 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle =>
+      'Selettore di file non disponibile';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Attiva l\'app di sistema File o installa un gestore di file.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return 'Impossibile allegare $files: gli allegati sono limitati a $limit per email';
   }

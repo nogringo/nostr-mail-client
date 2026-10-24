@@ -1839,6 +1839,14 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle =>
+      'Sélecteur de fichiers indisponible';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Activez l\'app système Fichiers ou installez un gestionnaire de fichiers.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return 'Impossible de joindre $files : les pièces jointes sont limitées à $limit par e-mail';
   }

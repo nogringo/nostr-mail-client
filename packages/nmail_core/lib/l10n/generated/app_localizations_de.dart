@@ -1838,6 +1838,13 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle => 'Dateiauswahl nicht verfügbar';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Aktiviere die System-App Dateien oder installiere einen Dateimanager.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return '$files konnte nicht angehängt werden: Anhänge sind auf $limit pro E-Mail begrenzt';
   }

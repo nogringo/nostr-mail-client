@@ -1719,6 +1719,12 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle => '文件选择器不可用';
+
+  @override
+  String get composeFilePickerMissingDescription => '请启用系统自带的文件应用，或安装文件管理器。';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return '无法附加 $files: 每封邮件的附件总大小上限为 $limit';
   }

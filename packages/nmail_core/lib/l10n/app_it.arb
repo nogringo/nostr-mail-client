@@ -672,6 +672,8 @@
       "error": { "type": "String" }
     }
   },
+  "composeFilePickerMissingTitle": "Selettore di file non disponibile",
+  "composeFilePickerMissingDescription": "Attiva l'app di sistema File o installa un gestore di file.",
   "composeAttachmentsTooLarge": "Impossibile allegare {files}: gli allegati sono limitati a {limit} per email",
   "@composeAttachmentsTooLarge": {
     "placeholders": {

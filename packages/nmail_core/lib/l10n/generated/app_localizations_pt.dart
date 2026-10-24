@@ -1835,6 +1835,14 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
+  String get composeFilePickerMissingTitle =>
+      'Seletor de ficheiros indisponível';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Ative a app de sistema Ficheiros ou instale um gestor de ficheiros.';
+
+  @override
   String composeAttachmentsTooLarge(String files, String limit) {
     return 'Não foi possível anexar $files: os anexos estão limitados a $limit por email';
   }
@@ -4170,6 +4178,14 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String composePickFilesFailed(String error) {
     return 'Falha ao selecionar arquivos: $error';
   }
+
+  @override
+  String get composeFilePickerMissingTitle =>
+      'Seletor de arquivos indisponível';
+
+  @override
+  String get composeFilePickerMissingDescription =>
+      'Ative o app do sistema Arquivos ou instale um gerenciador de arquivos.';
 
   @override
   String composeAttachmentsTooLarge(String files, String limit) {
