@@ -13,7 +13,7 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
-## [Unreleased]
+## [0.19.0]
 
 ### Added
 
@@ -45,6 +45,8 @@ Releases prior to 0.13.0 are listed on the
 - Keep the selection bar inside the app bar when emails are selected.
 - Hide the signer app login on the web, where it did nothing in Android
   browsers.
+- Start Nmail on Windows, where it stopped with an error at launch.
+- Use the window controls on the startup error screen on desktop.
 
 ## [0.18.0]
 
