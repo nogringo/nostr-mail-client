@@ -16,6 +16,14 @@ subprojects {
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
 subprojects {
+    // Plugins without an ndkVersion (webcrypto 0.6.0) fall back to AGP's NDK r27, which emits 4KB-aligned .so files.
+    plugins.withId("com.android.library") {
+        extensions.configure<com.android.build.api.dsl.LibraryExtension> {
+            ndkVersion = "28.2.13676358"
+        }
+    }
+}
+subprojects {
     project.evaluationDependsOn(":app")
 }
 
