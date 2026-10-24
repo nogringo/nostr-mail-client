@@ -19,6 +19,8 @@ Future<MailEntry?> showMailEntryForm(
   try {
     return await showDialog<MailEntry>(
       context: context,
+      // The full-screen page pads the system bars itself.
+      useSafeArea: ResponsiveHelper.isNotMobile(context),
       builder: (dialogContext) {
         route = ModalRoute.of(dialogContext);
         return ResponsiveHelper.isNotMobile(context)

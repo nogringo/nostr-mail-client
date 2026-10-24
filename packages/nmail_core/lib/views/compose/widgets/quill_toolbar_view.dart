@@ -7,6 +7,9 @@ class QuillToolbarView extends StatelessWidget {
     required this.controller,
     this.customButtons = const [],
     this.color,
+    this.showUnderline = true,
+    this.showStrikeThrough = true,
+    this.showLists = true,
   });
 
   final QuillController controller;
@@ -14,6 +17,9 @@ class QuillToolbarView extends StatelessWidget {
 
   /// The theme's canvas color when null.
   final Color? color;
+  final bool showUnderline;
+  final bool showStrikeThrough;
+  final bool showLists;
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +84,17 @@ class QuillToolbarView extends StatelessWidget {
         showInlineCode: false,
         showJustifyAlignment: false,
         showLeftAlignment: false,
-        showListBullets: true,
+        showListBullets: showLists,
         showListCheck: false,
-        showListNumbers: true,
+        showListNumbers: showLists,
         showQuote: false,
         showRightAlignment: false,
         showSearchButton: false,
         showSmallButton: false,
-        showStrikeThrough: true,
+        showStrikeThrough: showStrikeThrough,
         showSubscript: false,
         showSuperscript: false,
+        showUnderLineButton: showUnderline,
         showUndo: false,
         showRedo: false,
         showClipboardCopy: false,

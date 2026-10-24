@@ -3,6 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import 'package:nmail_core/controllers/signature_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import '../../compose/widgets/quill_editor_styles.dart';
 import '../../compose/widgets/quill_toolbar_view.dart';
 import 'signature_image_embed_builder.dart';
 
@@ -33,6 +34,9 @@ class SignatureContentField extends StatelessWidget {
               QuillToolbarView(
                 controller: controller.quillController,
                 color: Colors.transparent,
+                showUnderline: false,
+                showStrikeThrough: false,
+                showLists: false,
                 customButtons: [
                   QuillToolbarCustomButtonOptions(
                     icon: const Icon(Icons.image_outlined),
@@ -50,6 +54,7 @@ class SignatureContentField extends StatelessWidget {
                   config: QuillEditorConfig(
                     scrollable: false,
                     placeholder: l.signatureContentHint,
+                    customStyles: quillEditorStyles(context),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
                       vertical: 8,

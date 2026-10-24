@@ -26,6 +26,8 @@ Future<Signature?> showSignatureForm(
   try {
     return await showDialog<Signature>(
       context: context,
+      // The full-screen page pads the system bars itself.
+      useSafeArea: ResponsiveHelper.isNotMobile(context),
       builder: (dialogContext) {
         route = ModalRoute.of(dialogContext);
         return ResponsiveHelper.isNotMobile(context)
