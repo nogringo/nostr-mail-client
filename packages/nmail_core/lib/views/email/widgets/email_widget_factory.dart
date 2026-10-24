@@ -39,6 +39,7 @@ class EmailWidgetFactory extends WidgetFactory {
     Widget child, {
     BoxBorder? border,
     BorderRadius? borderRadius,
+    List<BoxShadow>? boxShadow,
     Color? color,
     DecorationImage? image,
   }) => super.buildDecoration(
@@ -46,6 +47,7 @@ class EmailWidgetFactory extends WidgetFactory {
     child,
     border: border,
     borderRadius: borderRadius ?? _tableBorderRadius(tree),
+    boxShadow: boxShadow,
     color: color,
     image: image,
   );

@@ -28,7 +28,7 @@ dev_dependencies:
   crypto: ^3.0.7
   drift: ^2.35.0
   enough_mail_plus: ^2.2.4
-  flutter_secure_storage: ^10.3.4
+  flutter_secure_storage: ^11.2.0
   idb_shim: ^2.9.2
   ndk: ">=0.10.0-dev.7 <0.12.0"
   ndk_flutter: ^0.10.1-dev.1

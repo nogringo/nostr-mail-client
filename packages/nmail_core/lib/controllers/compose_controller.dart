@@ -461,7 +461,8 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       ].fold<int>(0, (sum, a) => sum + a.size);
       final rejected = <String>[];
       for (final file in files) {
-        final length = await file.length();
+        final length =
+            await file.length() ?? (await file.readAsBytes()).length;
         if (totalBytes + length > _maxAttachmentsBytes) {
           rejected.add(file.name);
           continue;
