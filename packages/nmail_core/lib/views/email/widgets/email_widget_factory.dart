@@ -1,4 +1,3 @@
-import 'package:csslib/visitor.dart' as css;
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
@@ -29,40 +28,6 @@ class EmailWidgetFactory extends WidgetFactory {
       initial: images.resolvedInlineImage(contentId),
       alt: image?.alt ?? image?.title,
     );
-  }
-
-  /// The table op skips the border op for tables and cells, and with it their
-  /// `border-radius`, so their backgrounds would come out square.
-  @override
-  Widget? buildDecoration(
-    BuildTree tree,
-    Widget child, {
-    BoxBorder? border,
-    BorderRadius? borderRadius,
-    List<BoxShadow>? boxShadow,
-    Color? color,
-    DecorationImage? image,
-  }) => super.buildDecoration(
-    tree,
-    child,
-    border: border,
-    borderRadius: borderRadius ?? _tableBorderRadius(tree),
-    boxShadow: boxShadow,
-    color: color,
-    image: image,
-  );
-
-  BorderRadius? _tableBorderRadius(BuildTree tree) {
-    if (!const {'table', 'td', 'th'}.contains(tree.element.localName)) {
-      return null;
-    }
-
-    final value = tree.getStyle('border-radius')?.value;
-    if (value is! css.LengthTerm || value.unitToString() != 'px') return null;
-    final radius = value.value;
-    return radius is num && radius > 0
-        ? BorderRadius.circular(radius.toDouble())
-        : null;
   }
 
   @override

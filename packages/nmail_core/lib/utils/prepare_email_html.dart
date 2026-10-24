@@ -46,13 +46,6 @@ const _supportedPrefixes = [
 
 const _backgroundProperties = {'background', 'background-color'};
 
-const _bgcolorTags = {'table', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th'};
-
-final _bgcolorValue = RegExp(
-  r'^(#[0-9a-f]{3,8}|[a-z]+)$',
-  caseSensitive: false,
-);
-
 final _bodyBgcolor = RegExp(
   '''<body[^>]*\\sbgcolor\\s*=\\s*["']?([^"'\\s>]+)''',
   caseSensitive: false,
@@ -64,8 +57,6 @@ final _colorDeclaration = RegExp(
 );
 
 final _widthDeclaration = RegExp(r'(^|;)\s*width\s*:', caseSensitive: false);
-
-final _widthAttribute = RegExp(r'^(\d+(\.\d+)?)(%|px)?$', caseSensitive: false);
 
 final _textAlignDeclaration = RegExp(
   r'(^|;)\s*text-align\s*:',
@@ -134,7 +125,6 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
 
   try {
     final fragment = html_parser.parseFragment(html);
-    final titleRemoved = _removeTitle(fragment);
     final styleElements = fragment.querySelectorAll('style');
     final cssText = _collectCss(styleElements);
     final sheet = cssText.isEmpty || cssText.length > _maxCssLength
@@ -145,9 +135,7 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
     if (sheet != null) {
       _applyRules(fragment, elements, sheet, allowRemoteImages);
     }
-    final bgcolorApplied = _applyBgcolor(elements);
-    final tableAlignApplied = _applyTableAlign(elements);
-    final tableWidthAttributeApplied = _applyTableWidthAttribute(elements);
+    final tableAlignApplied = _applyTableAlignRight(elements);
     final tableWidthApplied = _applyTableWidth(elements);
     final declaresColors = _declaresColors(elements);
 
@@ -158,12 +146,9 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
     }
 
     final rewritten =
-        titleRemoved ||
         styleElements.isNotEmpty ||
         pageDeclarations.isNotEmpty ||
-        bgcolorApplied ||
         tableAlignApplied ||
-        tableWidthAttributeApplied ||
         tableWidthApplied;
     return EmailHtml(
       html: rewritten ? fragment.outerHtml : html,
@@ -224,16 +209,6 @@ String prepareQuotedHtml(String html) {
   } catch (_) {
     return html;
   }
-}
-
-/// A fragment parse keeps the `<title>` of the head, which `HtmlWidget` would
-/// print above the email.
-bool _removeTitle(dom.DocumentFragment fragment) {
-  final titles = fragment.querySelectorAll('title');
-  for (final title in titles) {
-    title.remove();
-  }
-  return titles.isNotEmpty;
 }
 
 String _collectCss(List<dom.Element> styleElements) {
@@ -348,67 +323,28 @@ void _applyRules(
   });
 }
 
-/// `HtmlWidget` ignores `bgcolor`. Written as the first declaration, it loses
-/// to any authored style, as a presentational hint does in a browser.
-bool _applyBgcolor(List<dom.Element> elements) {
+/// `HtmlWidget` reads a table's `align="right"` as a `text-align`, so it
+/// becomes the auto margin that right-aligns the table.
+bool _applyTableAlignRight(List<dom.Element> elements) {
   var applied = false;
   for (final element in elements) {
-    if (!_bgcolorTags.contains(element.localName)) continue;
-    final color = element.attributes['bgcolor']?.trim();
-    if (color == null || !_bgcolorValue.hasMatch(color)) continue;
-
-    element.attributes.remove('bgcolor');
-    _prependStyle(element, 'background-color:$color');
-    applied = true;
-  }
-  return applied;
-}
-
-/// `HtmlWidget` does not position a table by its `align`, so it becomes the
-/// auto margins that center or right-align the table.
-bool _applyTableAlign(List<dom.Element> elements) {
-  var applied = false;
-  for (final element in elements) {
-    if (element.localName != 'table') continue;
-    final margins = switch (element.attributes['align']?.trim().toLowerCase()) {
-      'center' => 'margin-left:auto;margin-right:auto',
-      'right' => 'margin-left:auto',
-      _ => null,
-    };
-    if (margins == null || _declares(element, _horizontalMarginDeclaration)) {
+    if (element.localName != 'table' ||
+        element.attributes['align']?.trim().toLowerCase() != 'right' ||
+        _declares(element, _horizontalMarginDeclaration)) {
       continue;
     }
 
-    _prependStyle(element, margins);
+    _prependStyle(element, 'margin-left:auto');
     applied = true;
   }
   return applied;
 }
 
-/// `HtmlWidget` ignores the `width` attribute of a table. Such a table is laid
-/// out again under each pass of the table around it, so a newsletter nesting
-/// them ten deep takes seconds to lay out, while a declared width takes
-/// milliseconds.
-bool _applyTableWidthAttribute(List<dom.Element> elements) {
-  var applied = false;
-  for (final table in elements) {
-    if (table.localName != 'table' || _declares(table, _widthDeclaration)) {
-      continue;
-    }
-    final match = _widthAttribute.firstMatch(
-      table.attributes['width']?.trim() ?? '',
-    );
-    if (match == null) continue;
-
-    _prependStyle(table, 'width:${match.group(1)}${match.group(3) ?? 'px'}');
-    applied = true;
-  }
-  return applied;
-}
-
-/// A browser fits a table with no width to its content. `HtmlWidget` measures
-/// each cell as a 100% wide block and treats `align="center"` like `<center>`:
-/// a 100% width, and a `Center` that fills the width it is measured against.
+/// Fits a table with no width, and its cells, to their content. Without a
+/// width, `HtmlWidget` lays a nested table out again under each pass of the
+/// table around it: twelve levels take a second instead of milliseconds. A
+/// centered cell gets `text-align` over the `-webkit-center` of its `align`,
+/// whose `Center` fills the width it is measured against.
 bool _applyTableWidth(List<dom.Element> elements) {
   var applied = false;
   for (final table in elements) {
