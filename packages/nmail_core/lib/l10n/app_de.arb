@@ -427,7 +427,7 @@
       "count": { "type": "int" }
     }
   },
-  "emailDownloadedMixed": "{success} Dateien heruntergeladen, {failed} fehlgeschlagen",
+  "emailDownloadedMixed": "{success, plural, one{{success} Datei heruntergeladen} other{{success} Dateien heruntergeladen}}, {failed} fehlgeschlagen",
   "@emailDownloadedMixed": {
     "placeholders": {
       "success": { "type": "int" },

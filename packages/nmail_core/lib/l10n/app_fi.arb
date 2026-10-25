@@ -432,7 +432,7 @@
       "count": { "type": "int" }
     }
   },
-  "emailDownloadedMixed": "Ladattiin {success} tiedostoa, {failed} epäonnistui",
+  "emailDownloadedMixed": "{success, plural, one{Ladattiin {success} tiedosto} other{Ladattiin {success} tiedostoa}}, {failed} epäonnistui",
   "@emailDownloadedMixed": {
     "placeholders": {
       "success": { "type": "int" },

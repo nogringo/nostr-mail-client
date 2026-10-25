@@ -2017,10 +2017,10 @@ abstract class AppLocalizations {
   /// **'{count, plural, one{Failed to download {count} file} other{Failed to download {count} files}}'**
   String emailDownloadedAllFailed(int count);
 
-  /// Info toast when downloading attachments partially succeeded
+  /// Info toast when downloading attachments partially succeeded. Plural-aware on `success` and `failed`.
   ///
   /// In en, this message translates to:
-  /// **'Downloaded {success} files, {failed} failed'**
+  /// **'{success, plural, one{Downloaded {success} file} other{Downloaded {success} files}}, {failed} failed'**
   String emailDownloadedMixed(int success, int failed);
 
   /// Tooltip on the download icon in the image/PDF viewer

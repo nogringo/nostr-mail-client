@@ -289,7 +289,7 @@
   "inboxSync": "Atualizar",
   "inboxMenu": "Menu",
   "inboxClearSelection": "Limpar seleção",
-  "inboxSelectedCount": "{count} selecionado(s)",
+  "inboxSelectedCount": "{count, plural, one{{count} selecionado} other{{count} selecionados}}",
   "@inboxSelectedCount": {
     "placeholders": {
       "count": {
@@ -431,7 +431,7 @@
       }
     }
   },
-  "emailDownloadedMixed": "{success} ficheiros transferidos, {failed} falharam",
+  "emailDownloadedMixed": "{success, plural, one{{success} ficheiro transferido} other{{success} ficheiros transferidos}}, {failed, plural, one{{failed} falhou} other{{failed} falharam}}",
   "@emailDownloadedMixed": {
     "placeholders": {
       "success": {

@@ -1135,7 +1135,13 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String emailDownloadedMixed(int success, int failed) {
-    return 'Ladattiin $success tiedostoa, $failed epäonnistui';
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: 'Ladattiin $success tiedostoa',
+      one: 'Ladattiin $success tiedosto',
+    );
+    return '$_temp0, $failed epäonnistui';
   }
 
   @override

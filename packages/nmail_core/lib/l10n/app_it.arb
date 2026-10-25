@@ -303,7 +303,7 @@
   "inboxSync": "Aggiorna",
   "inboxMenu": "Menu",
   "inboxClearSelection": "Deseleziona",
-  "inboxSelectedCount": "{count} selezionate",
+  "inboxSelectedCount": "{count, plural, one{{count} selezionata} other{{count} selezionate}}",
   "@inboxSelectedCount": {
     "placeholders": {
       "count": { "type": "int" }
@@ -427,7 +427,7 @@
       "count": { "type": "int" }
     }
   },
-  "emailDownloadedMixed": "Scaricati {success} file, {failed} non riusciti",
+  "emailDownloadedMixed": "{success, plural, one{Scaricato {success} file} other{Scaricati {success} file}}, {failed, plural, one{{failed} non riuscito} other{{failed} non riusciti}}",
   "@emailDownloadedMixed": {
     "placeholders": {
       "success": { "type": "int" },

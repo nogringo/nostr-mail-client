@@ -877,7 +877,13 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String inboxSelectedCount(int count) {
-    return '$count sélectionné(s)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sélectionnés',
+      one: '$count sélectionné',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1145,7 +1151,19 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String emailDownloadedMixed(int success, int failed) {
-    return '$success fichiers téléchargés, $failed échec(s)';
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: '$success fichiers téléchargés',
+      one: '$success fichier téléchargé',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      failed,
+      locale: localeName,
+      other: '$failed échecs',
+      one: '$failed échec',
+    );
+    return '$_temp0, $_temp1';
   }
 
   @override

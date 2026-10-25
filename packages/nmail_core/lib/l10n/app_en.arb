@@ -756,9 +756,9 @@
       "count": { "type": "int" }
     }
   },
-  "emailDownloadedMixed": "Downloaded {success} files, {failed} failed",
+  "emailDownloadedMixed": "{success, plural, one{Downloaded {success} file} other{Downloaded {success} files}}, {failed} failed",
   "@emailDownloadedMixed": {
-    "description": "Info toast when downloading attachments partially succeeded",
+    "description": "Info toast when downloading attachments partially succeeded. Plural-aware on `success` and `failed`.",
     "placeholders": {
       "success": { "type": "int" },
       "failed": { "type": "int" }

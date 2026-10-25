@@ -876,7 +876,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String inboxSelectedCount(int count) {
-    return '$count selecionado(s)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count selecionados',
+      one: '$count selecionado',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -1142,7 +1148,19 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String emailDownloadedMixed(int success, int failed) {
-    return '$success ficheiros transferidos, $failed falharam';
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: '$success ficheiros transferidos',
+      one: '$success ficheiro transferido',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      failed,
+      locale: localeName,
+      other: '$failed falharam',
+      one: '$failed falhou',
+    );
+    return '$_temp0, $_temp1';
   }
 
   @override
@@ -3261,7 +3279,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String inboxSelectedCount(int count) {
-    return '$count selecionado(s)';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count selecionados',
+      one: '$count selecionado',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -3528,7 +3552,19 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String emailDownloadedMixed(int success, int failed) {
-    return '$success arquivos baixados, $failed falharam';
+    String _temp0 = intl.Intl.pluralLogic(
+      success,
+      locale: localeName,
+      other: '$success arquivos baixados',
+      one: '$success arquivo baixado',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      failed,
+      locale: localeName,
+      other: '$failed falharam',
+      one: '$failed falhou',
+    );
+    return '$_temp0, $_temp1';
   }
 
   @override
