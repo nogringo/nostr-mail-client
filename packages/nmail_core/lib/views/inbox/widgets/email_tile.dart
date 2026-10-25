@@ -1,3 +1,5 @@
+import 'dart:ui' show SemanticsHitTestBehavior;
+
 import 'package:enough_mail_plus/enough_mail.dart' hide Mailbox;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
@@ -271,6 +273,9 @@ class EmailTile extends StatelessWidget {
         button: true,
         selected: isSelected,
         excludeSemantics: true,
+        // Without it, the web engine turns a click anywhere on the row into
+        // this node's tap, and the avatar never gets its own.
+        hitTestBehavior: SemanticsHitTestBehavior.transparent,
         onTap: onTap,
         onLongPress: onToggleSelect,
         customSemanticsActions: _semanticsActions(l, mailbox),
