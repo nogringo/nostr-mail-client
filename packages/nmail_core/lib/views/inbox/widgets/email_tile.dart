@@ -340,7 +340,8 @@ class EmailTile extends StatelessWidget {
               builder: (context, menuController, child) => GestureDetector(
                 onSecondaryTapUp: (details) =>
                     menuController.open(position: details.localPosition),
-                onLongPress: () => _showActionsSheet(context, mailbox),
+                onLongPressStart: (details) =>
+                    menuController.open(position: details.localPosition),
                 child: child,
               ),
               child: isWide
@@ -361,13 +362,13 @@ class EmailTile extends StatelessWidget {
         ? null
         : isUnread
         ? _MenuAction(
-            Icons.mark_email_read,
+            Icons.mark_email_read_outlined,
             l.emailMarkAsRead,
             () => inbox.markAsRead(email.id),
             startsGroup: true,
           )
         : _MenuAction(
-            Icons.mark_email_unread,
+            Icons.mark_email_unread_outlined,
             l.emailMarkAsUnread,
             () => inbox.markAsUnread(email.id),
             startsGroup: true,
@@ -383,10 +384,14 @@ class EmailTile extends StatelessWidget {
 
     if (mailbox.isTrash) {
       return [
-        _MenuAction(Icons.restore_from_trash, l.emailRestore, onRestore),
+        _MenuAction(
+          Icons.restore_from_trash_outlined,
+          l.emailRestore,
+          onRestore,
+        ),
         ?block,
         _MenuAction(
-          Icons.delete_forever,
+          Icons.delete_forever_outlined,
           l.emailDeletePermanently,
           onDelete,
           isDestructive: true,
@@ -396,13 +401,18 @@ class EmailTile extends StatelessWidget {
     if (mailbox.isRequests) {
       return [
         _MenuAction(
-          Icons.how_to_reg,
+          Icons.how_to_reg_outlined,
           l.senderAccept,
           _verdict(SenderVerdict.allow),
         ),
         _MenuAction(Icons.block, l.senderBlock, _verdict(SenderVerdict.block)),
-        _MenuAction(Icons.reply, l.emailReply, onReply, startsGroup: true),
-        _MenuAction(Icons.forward, l.emailForward, onForward),
+        _MenuAction(
+          Icons.reply_outlined,
+          l.emailReply,
+          onReply,
+          startsGroup: true,
+        ),
+        _MenuAction(Icons.forward_outlined, l.emailForward, onForward),
         ?readToggle,
         moveToTrash,
       ];
@@ -410,7 +420,7 @@ class EmailTile extends StatelessWidget {
     if (mailbox.isSpam) {
       return [
         _MenuAction(
-          Icons.how_to_reg,
+          Icons.how_to_reg_outlined,
           l.senderUnblock,
           _verdict(SenderVerdict.allow),
         ),
@@ -418,18 +428,18 @@ class EmailTile extends StatelessWidget {
       ];
     }
     return [
-      _MenuAction(Icons.reply, l.emailReply, onReply),
-      _MenuAction(Icons.forward, l.emailForward, onForward),
+      _MenuAction(Icons.reply_outlined, l.emailReply, onReply),
+      _MenuAction(Icons.forward_outlined, l.emailForward, onForward),
       if (mailbox.isArchive)
         _MenuAction(
-          Icons.unarchive,
+          Icons.unarchive_outlined,
           l.emailUnarchive,
           onRestore,
           startsGroup: true,
         )
       else
         _MenuAction(
-          Icons.archive,
+          Icons.archive_outlined,
           l.emailArchive,
           onArchive,
           startsGroup: true,
@@ -460,39 +470,6 @@ class EmailTile extends StatelessWidget {
 
   Color? _colorOf(_MenuAction action, ColorScheme colorScheme) =>
       action.isDestructive ? colorScheme.error : null;
-
-  /// The long press counterpart of the right-click menu.
-  void _showActionsSheet(BuildContext context, Mailbox mailbox) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final actions = _offeredActions(context, mailbox);
-    showModalBottomSheet(
-      context: context,
-      showDragHandle: true,
-      builder: (sheetContext) => SafeArea(
-        child: Wrap(
-          children: [
-            for (final action in actions) ...[
-              if (action.startsGroup) const Divider(height: 1),
-              ListTile(
-                leading: Icon(
-                  action.icon,
-                  color: _colorOf(action, colorScheme),
-                ),
-                title: Text(
-                  action.label,
-                  style: TextStyle(color: _colorOf(action, colorScheme)),
-                ),
-                onTap: () {
-                  Navigator.pop(sheetContext);
-                  action.onPressed?.call();
-                },
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildCompactTile(BuildContext context, ColorScheme colorScheme) {
     final l = AppLocalizations.of(context);
