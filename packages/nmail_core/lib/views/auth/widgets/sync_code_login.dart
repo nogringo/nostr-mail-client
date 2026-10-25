@@ -20,6 +20,7 @@ class SyncCodeLogin extends StatelessWidget {
       builder: (context, controller) {
         final error = controller.error;
         final isLoggingIn = controller.isLoggingIn;
+        final isCodeVisible = controller.isCodeVisible;
         final submit = controller.canLogIn ? () => _logIn(controller) : null;
 
         return Column(
@@ -32,11 +33,23 @@ class SyncCodeLogin extends StatelessWidget {
             TextField(
               controller: controller.code,
               enabled: !isLoggingIn,
+              obscureText: !isCodeVisible,
               autocorrect: false,
               enableSuggestions: false,
               onSubmitted: (_) => submit?.call(),
               decoration: InputDecoration(
                 hintText: 'nsec1, ncryptsec1, bunker://',
+                suffixIcon: IconButton(
+                  onPressed: controller.toggleCodeVisibility,
+                  tooltip: isCodeVisible
+                      ? l.authHideSyncCode
+                      : l.authShowSyncCode,
+                  icon: Icon(
+                    isCodeVisible
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                  ),
+                ),
                 errorText: switch (error) {
                   SyncCodeLoginError.invalidCode => l.authInvalidSyncCode,
                   SyncCodeLoginError.bunkerFailed =>

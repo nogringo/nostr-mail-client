@@ -477,6 +477,8 @@
   "authHeaderTitle": "Bei Nmail anmelden",
   "authSyncCodeLabel": "Sync-Code",
   "authInvalidSyncCode": "Ungültiger Sync-Code",
+  "authShowSyncCode": "Sync-Code anzeigen",
+  "authHideSyncCode": "Sync-Code verbergen",
   "authLogIn": "Anmelden",
   "authPasswordLabel": "Passwort",
   "authWrongPassword": "Falsches Passwort",

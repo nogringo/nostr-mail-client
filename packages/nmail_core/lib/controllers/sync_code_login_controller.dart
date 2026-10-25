@@ -22,6 +22,7 @@ class SyncCodeLoginController extends ChangeNotifier {
   final password = TextEditingController();
 
   bool isLoggingIn = false;
+  bool isCodeVisible = false;
   SyncCodeLoginError? error;
 
   /// Set when the bunker asks the user to approve the login on a web page.
@@ -38,6 +39,11 @@ class SyncCodeLoginController extends ChangeNotifier {
       !isLoggingIn &&
       code.text.trim().isNotEmpty &&
       (kind != SyncCodeKind.ncryptsec || password.text.isNotEmpty);
+
+  void toggleCodeVisibility() {
+    isCodeVisible = !isCodeVisible;
+    notifyListeners();
+  }
 
   @override
   void dispose() {

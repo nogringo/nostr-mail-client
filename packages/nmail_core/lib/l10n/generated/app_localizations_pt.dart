@@ -1259,6 +1259,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get authInvalidSyncCode => 'Código de sincronização inválido';
 
   @override
+  String get authShowSyncCode => 'Mostrar código de sincronização';
+
+  @override
+  String get authHideSyncCode => 'Ocultar código de sincronização';
+
+  @override
   String get authLogIn => 'Iniciar sessão';
 
   @override
@@ -3603,6 +3609,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get authInvalidSyncCode => 'Código de sincronização inválido';
+
+  @override
+  String get authShowSyncCode => 'Mostrar código de sincronização';
+
+  @override
+  String get authHideSyncCode => 'Ocultar código de sincronização';
 
   @override
   String get authLogIn => 'Entrar';

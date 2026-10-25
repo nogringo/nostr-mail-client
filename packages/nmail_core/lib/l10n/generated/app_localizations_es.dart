@@ -1257,6 +1257,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get authInvalidSyncCode => 'Código de sincronización no válido';
 
   @override
+  String get authShowSyncCode => 'Mostrar código de sincronización';
+
+  @override
+  String get authHideSyncCode => 'Ocultar código de sincronización';
+
+  @override
   String get authLogIn => 'Iniciar sesión';
 
   @override

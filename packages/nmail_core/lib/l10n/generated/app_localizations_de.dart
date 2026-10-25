@@ -1262,6 +1262,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get authInvalidSyncCode => 'Ungültiger Sync-Code';
 
   @override
+  String get authShowSyncCode => 'Sync-Code anzeigen';
+
+  @override
+  String get authHideSyncCode => 'Sync-Code verbergen';
+
+  @override
   String get authLogIn => 'Anmelden';
 
   @override

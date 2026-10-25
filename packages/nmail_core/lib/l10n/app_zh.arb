@@ -477,6 +477,8 @@
   "authHeaderTitle": "登录 Nmail",
   "authSyncCodeLabel": "同步码",
   "authInvalidSyncCode": "无效的同步码",
+  "authShowSyncCode": "显示同步码",
+  "authHideSyncCode": "隐藏同步码",
   "authLogIn": "登录",
   "authPasswordLabel": "密码",
   "authWrongPassword": "密码错误",

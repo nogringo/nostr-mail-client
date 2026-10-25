@@ -1161,6 +1161,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get authInvalidSyncCode => '无效的同步码';
 
   @override
+  String get authShowSyncCode => '显示同步码';
+
+  @override
+  String get authHideSyncCode => '隐藏同步码';
+
+  @override
   String get authLogIn => '登录';
 
   @override

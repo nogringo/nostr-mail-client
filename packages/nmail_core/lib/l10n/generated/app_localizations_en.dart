@@ -1250,6 +1250,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authInvalidSyncCode => 'Invalid sync code';
 
   @override
+  String get authShowSyncCode => 'Show sync code';
+
+  @override
+  String get authHideSyncCode => 'Hide sync code';
+
+  @override
   String get authLogIn => 'Log in';
 
   @override

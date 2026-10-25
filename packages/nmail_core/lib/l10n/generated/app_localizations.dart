@@ -2245,6 +2245,18 @@ abstract class AppLocalizations {
   /// **'Invalid sync code'**
   String get authInvalidSyncCode;
 
+  /// Tooltip of the eye button that reveals the masked sync code field
+  ///
+  /// In en, this message translates to:
+  /// **'Show sync code'**
+  String get authShowSyncCode;
+
+  /// Tooltip of the eye button that masks the sync code field again
+  ///
+  /// In en, this message translates to:
+  /// **'Hide sync code'**
+  String get authHideSyncCode;
+
   /// Primary log-in button label
   ///
   /// In en, this message translates to:

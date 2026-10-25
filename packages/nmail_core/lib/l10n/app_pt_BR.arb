@@ -486,6 +486,8 @@
   "authHeaderTitle": "Entrar no Nmail",
   "authSyncCodeLabel": "Código de sincronização",
   "authInvalidSyncCode": "Código de sincronização inválido",
+  "authShowSyncCode": "Mostrar código de sincronização",
+  "authHideSyncCode": "Ocultar código de sincronização",
   "authLogIn": "Entrar",
   "authPasswordLabel": "Senha",
   "authWrongPassword": "Senha incorreta",

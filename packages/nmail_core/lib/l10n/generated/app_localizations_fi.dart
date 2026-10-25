@@ -1252,6 +1252,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get authInvalidSyncCode => 'Kelvoton synkronointikoodi';
 
   @override
+  String get authShowSyncCode => 'Näytä synkronointikoodi';
+
+  @override
+  String get authHideSyncCode => 'Piilota synkronointikoodi';
+
+  @override
   String get authLogIn => 'Kirjaudu';
 
   @override

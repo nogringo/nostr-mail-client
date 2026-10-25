@@ -482,6 +482,8 @@
   "authHeaderTitle": "Kirjaudu Nmailiin",
   "authSyncCodeLabel": "Synkronointikoodi",
   "authInvalidSyncCode": "Kelvoton synkronointikoodi",
+  "authShowSyncCode": "Näytä synkronointikoodi",
+  "authHideSyncCode": "Piilota synkronointikoodi",
   "authLogIn": "Kirjaudu",
   "authPasswordLabel": "Salasana",
   "authWrongPassword": "Väärä salasana",

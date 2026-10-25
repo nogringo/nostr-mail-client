@@ -477,6 +477,8 @@
   "authHeaderTitle": "Вход в Nmail",
   "authSyncCodeLabel": "Код синхронизации",
   "authInvalidSyncCode": "Недействительный код синхронизации",
+  "authShowSyncCode": "Показать код синхронизации",
+  "authHideSyncCode": "Скрыть код синхронизации",
   "authLogIn": "Войти",
   "authPasswordLabel": "Пароль",
   "authWrongPassword": "Неверный пароль",

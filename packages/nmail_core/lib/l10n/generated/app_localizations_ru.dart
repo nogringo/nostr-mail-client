@@ -1277,6 +1277,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authInvalidSyncCode => 'Недействительный код синхронизации';
 
   @override
+  String get authShowSyncCode => 'Показать код синхронизации';
+
+  @override
+  String get authHideSyncCode => 'Скрыть код синхронизации';
+
+  @override
   String get authLogIn => 'Войти';
 
   @override

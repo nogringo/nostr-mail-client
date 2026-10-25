@@ -477,6 +477,8 @@
   "authHeaderTitle": "Nmail にログイン",
   "authSyncCodeLabel": "同期コード",
   "authInvalidSyncCode": "無効な同期コード",
+  "authShowSyncCode": "同期コードを表示",
+  "authHideSyncCode": "同期コードを隠す",
   "authLogIn": "ログイン",
   "authPasswordLabel": "パスワード",
   "authWrongPassword": "パスワードが正しくありません",

@@ -1169,6 +1169,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authInvalidSyncCode => '無効な同期コード';
 
   @override
+  String get authShowSyncCode => '同期コードを表示';
+
+  @override
+  String get authHideSyncCode => '同期コードを隠す';
+
+  @override
   String get authLogIn => 'ログイン';
 
   @override
