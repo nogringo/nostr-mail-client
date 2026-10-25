@@ -3,6 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import 'package:nmail_core/controllers/signature_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import '../../compose/widgets/quill_editor_semantics.dart';
 import '../../compose/widgets/quill_editor_styles.dart';
 import '../../compose/widgets/quill_toolbar_view.dart';
 import 'signature_image_embed_builder.dart';
@@ -48,18 +49,22 @@ class SignatureContentField extends StatelessWidget {
               const Divider(height: 1),
               ConstrainedBox(
                 constraints: const BoxConstraints(minHeight: 120),
-                child: QuillEditor.basic(
+                child: QuillEditorSemantics(
                   controller: controller.quillController,
                   focusNode: controller.editorFocusNode,
-                  config: QuillEditorConfig(
-                    scrollable: false,
-                    placeholder: l.signatureContentHint,
-                    customStyles: quillEditorStyles(context),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 8,
+                  child: QuillEditor.basic(
+                    controller: controller.quillController,
+                    focusNode: controller.editorFocusNode,
+                    config: QuillEditorConfig(
+                      scrollable: false,
+                      placeholder: l.signatureContentHint,
+                      customStyles: quillEditorStyles(context),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 8,
+                      ),
+                      embedBuilders: [SignatureImageEmbedBuilder(controller)],
                     ),
-                    embedBuilders: [SignatureImageEmbedBuilder(controller)],
                   ),
                 ),
               ),

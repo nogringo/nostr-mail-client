@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:nmail_core/widgets/keeps_text_field_focus.dart';
 
 class QuillToolbarView extends StatelessWidget {
   const QuillToolbarView({
@@ -33,74 +34,76 @@ class QuillToolbarView extends StatelessWidget {
       iconButtonUnselectedData: const IconButtonData(),
     );
 
-    return QuillSimpleToolbar(
-      controller: controller,
-      config: QuillSimpleToolbarConfig(
-        customButtons: customButtons,
-        color: color,
-        buttonOptions: QuillSimpleToolbarButtonOptions(
-          bold: _toggleOptions(
-            label: (loc) => loc.bold,
-            icon: Icons.format_bold,
-            iconTheme: iconTheme,
+    return KeepsTextFieldFocus(
+      child: QuillSimpleToolbar(
+        controller: controller,
+        config: QuillSimpleToolbarConfig(
+          customButtons: customButtons,
+          color: color,
+          buttonOptions: QuillSimpleToolbarButtonOptions(
+            bold: _toggleOptions(
+              label: (loc) => loc.bold,
+              icon: Icons.format_bold,
+              iconTheme: iconTheme,
+            ),
+            italic: _toggleOptions(
+              label: (loc) => loc.italic,
+              icon: Icons.format_italic,
+              iconTheme: iconTheme,
+            ),
+            underLine: _toggleOptions(
+              label: (loc) => loc.underline,
+              icon: Icons.format_underline,
+              iconTheme: iconTheme,
+            ),
+            strikeThrough: _toggleOptions(
+              label: (loc) => loc.strikeThrough,
+              icon: Icons.format_strikethrough,
+              iconTheme: iconTheme,
+            ),
+            listNumbers: _toggleOptions(
+              label: (loc) => loc.numberedList,
+              icon: Icons.format_list_numbered,
+              iconTheme: iconTheme,
+            ),
+            listBullets: _toggleOptions(
+              label: (loc) => loc.bulletList,
+              icon: Icons.format_list_bulleted,
+              iconTheme: iconTheme,
+            ),
           ),
-          italic: _toggleOptions(
-            label: (loc) => loc.italic,
-            icon: Icons.format_italic,
-            iconTheme: iconTheme,
-          ),
-          underLine: _toggleOptions(
-            label: (loc) => loc.underline,
-            icon: Icons.format_underline,
-            iconTheme: iconTheme,
-          ),
-          strikeThrough: _toggleOptions(
-            label: (loc) => loc.strikeThrough,
-            icon: Icons.format_strikethrough,
-            iconTheme: iconTheme,
-          ),
-          listNumbers: _toggleOptions(
-            label: (loc) => loc.numberedList,
-            icon: Icons.format_list_numbered,
-            iconTheme: iconTheme,
-          ),
-          listBullets: _toggleOptions(
-            label: (loc) => loc.bulletList,
-            icon: Icons.format_list_bulleted,
-            iconTheme: iconTheme,
-          ),
+          showAlignmentButtons: false,
+          showBackgroundColorButton: false,
+          showCenterAlignment: false,
+          showClearFormat: false,
+          showCodeBlock: false,
+          showColorButton: false,
+          showDirection: false,
+          showFontFamily: false,
+          showFontSize: false,
+          showHeaderStyle: false,
+          showIndent: false,
+          showInlineCode: false,
+          showJustifyAlignment: false,
+          showLeftAlignment: false,
+          showListBullets: showLists,
+          showListCheck: false,
+          showListNumbers: showLists,
+          showQuote: false,
+          showRightAlignment: false,
+          showSearchButton: false,
+          showSmallButton: false,
+          showStrikeThrough: showStrikeThrough,
+          showSubscript: false,
+          showSuperscript: false,
+          showUnderLineButton: showUnderline,
+          showUndo: false,
+          showRedo: false,
+          showClipboardCopy: false,
+          showClipboardCut: false,
+          showClipboardPaste: false,
+          multiRowsDisplay: false,
         ),
-        showAlignmentButtons: false,
-        showBackgroundColorButton: false,
-        showCenterAlignment: false,
-        showClearFormat: false,
-        showCodeBlock: false,
-        showColorButton: false,
-        showDirection: false,
-        showFontFamily: false,
-        showFontSize: false,
-        showHeaderStyle: false,
-        showIndent: false,
-        showInlineCode: false,
-        showJustifyAlignment: false,
-        showLeftAlignment: false,
-        showListBullets: showLists,
-        showListCheck: false,
-        showListNumbers: showLists,
-        showQuote: false,
-        showRightAlignment: false,
-        showSearchButton: false,
-        showSmallButton: false,
-        showStrikeThrough: showStrikeThrough,
-        showSubscript: false,
-        showSuperscript: false,
-        showUnderLineButton: showUnderline,
-        showUndo: false,
-        showRedo: false,
-        showClipboardCopy: false,
-        showClipboardCut: false,
-        showClipboardPaste: false,
-        multiRowsDisplay: false,
       ),
     );
   }

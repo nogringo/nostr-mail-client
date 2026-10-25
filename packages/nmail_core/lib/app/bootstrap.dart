@@ -51,6 +51,7 @@ import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/app_color_schemes.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
 import 'package:nmail_core/utils/reload_on_newer_schema/reload_on_newer_schema.dart';
+import 'package:nmail_core/utils/semantics_focus/semantics_focus.dart';
 import 'package:nmail_core/views/startup_error/startup_error_app.dart';
 
 Future<void> runNmailApp({
@@ -66,6 +67,7 @@ Future<void> runNmailApp({
   if (kIsWeb) await BrowserContextMenu.disableContextMenu();
   // Flutter web hides the semantics tree until a screen reader clicks its placeholder.
   if (kIsWeb) SemanticsBinding.instance.ensureSemantics();
+  keepSemanticsTextFieldFocus();
 
   try {
     await _initApp(
