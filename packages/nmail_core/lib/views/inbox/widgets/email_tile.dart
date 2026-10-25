@@ -18,7 +18,9 @@ import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'package:nmail_core/utils/run_sender_verdict.dart';
 import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
+import 'package:nmail_core/views/inbox/widgets/delete_permanently_dialog.dart';
 import 'package:nmail_core/views/inbox/widgets/email_move_to_submenu.dart';
 import 'package:nmail_core/views/inbox/widgets/email_tags_submenu.dart';
 import '../../../widgets/selectable_avatar.dart';
@@ -203,9 +205,6 @@ class EmailTile extends StatelessWidget {
     return () => onSenderVerdict(verdict);
   }
 
-  /// The account's own mail is never routed by a verdict.
-  bool get _canBlockSender => onSenderVerdict != null && !_isSentByMe;
-
   /// What a swipe to the right does in [mailbox]. Trash only swipes to
   /// delete.
   ({IconData icon, Color color, String label, VoidCallback? action})?
@@ -319,8 +318,11 @@ class EmailTile extends StatelessWidget {
             ),
             child: MenuAnchor(
               menuChildren: [
-                for (final action in _offeredActions(context, mailbox)) ...[
-                  if (action.startsGroup) const Divider(height: 1),
+                for (final (i, action) in _offeredActions(
+                  context,
+                  mailbox,
+                ).indexed) ...[
+                  if (action.startsGroup && i > 0) const Divider(height: 1),
                   action.submenu ??
                       MenuItemButton(
                         leadingIcon: Icon(
@@ -355,31 +357,52 @@ class EmailTile extends StatelessWidget {
   }
 
   /// The context menu of a row in [mailbox], grouped as dividers show them.
+  /// On a row of a multiple selection, it acts on the whole selection, as the
+  /// selection bar does.
   List<_MenuAction> _menuActions(BuildContext context, Mailbox mailbox) {
     final l = AppLocalizations.of(context);
     final inbox = GetIt.I<InboxController>();
+    final ofSelection = isSelected && inbox.selectedIds.length > 1;
+    final targets = ofSelection ? inbox.selectedEmails : [email];
+
+    // An action the list does not wire stays off for a selection too.
+    VoidCallback? pick(VoidCallback? own, VoidCallback forSelection) =>
+        ofSelection && own != null ? forSelection : own;
+    VoidCallback? verdict(SenderVerdict verdict) => pick(
+      _verdict(verdict),
+      () => runSenderVerdict(
+        context,
+        () => inbox.setSelectedSendersVerdict(verdict),
+      ),
+    );
+
     final readToggle = !mailbox.showsUnread
         ? null
-        : isUnread
+        : targets.any((e) => !inbox.isEmailRead(e.id))
         ? _MenuAction(
             Icons.mark_email_read_outlined,
             l.emailMarkAsRead,
-            () => inbox.markAsRead(email.id),
+            pick(() => inbox.markAsRead(email.id), inbox.markSelectedAsRead),
             startsGroup: true,
           )
         : _MenuAction(
             Icons.mark_email_unread_outlined,
             l.emailMarkAsUnread,
-            () => inbox.markAsUnread(email.id),
+            pick(
+              () => inbox.markAsUnread(email.id),
+              inbox.markSelectedAsUnread,
+            ),
             startsGroup: true,
           );
-    final block = _canBlockSender
-        ? _MenuAction(Icons.block, l.senderBlock, _verdict(SenderVerdict.block))
+    // The account's own mail is never routed by a verdict.
+    final me = GetIt.I<AuthController>().publicKey;
+    final block = targets.any((e) => e.senderPubkey != me)
+        ? _MenuAction(Icons.block, l.senderBlock, verdict(SenderVerdict.block))
         : null;
     final moveToTrash = _MenuAction(
       Icons.delete_outline,
       l.emailMoveToTrash,
-      onDelete,
+      pick(onDelete, inbox.deleteSelected),
     );
 
     if (mailbox.isTrash) {
@@ -387,13 +410,22 @@ class EmailTile extends StatelessWidget {
         _MenuAction(
           Icons.restore_from_trash_outlined,
           l.emailRestore,
-          onRestore,
+          pick(onRestore, inbox.restoreSelected),
         ),
         ?block,
         _MenuAction(
           Icons.delete_forever_outlined,
           l.emailDeletePermanently,
-          onDelete,
+          pick(
+            onDelete,
+            () => DeletePermanentlyDialog.confirmAndDelete(
+              context,
+              title: l.emailDeletePermanentlyTitle,
+              message: l.inboxDeleteSelectedMessage(targets.length),
+              confirmLabel: l.actionDelete,
+              delete: inbox.deleteSelected,
+            ),
+          ),
           isDestructive: true,
         ),
       ];
@@ -403,16 +435,20 @@ class EmailTile extends StatelessWidget {
         _MenuAction(
           Icons.how_to_reg_outlined,
           l.senderAccept,
-          _verdict(SenderVerdict.allow),
+          verdict(SenderVerdict.allow),
         ),
-        _MenuAction(Icons.block, l.senderBlock, _verdict(SenderVerdict.block)),
+        _MenuAction(Icons.block, l.senderBlock, verdict(SenderVerdict.block)),
         _MenuAction(
           Icons.reply_outlined,
           l.emailReply,
-          onReply,
+          ofSelection ? null : onReply,
           startsGroup: true,
         ),
-        _MenuAction(Icons.forward_outlined, l.emailForward, onForward),
+        _MenuAction(
+          Icons.forward_outlined,
+          l.emailForward,
+          ofSelection ? null : onForward,
+        ),
         ?readToggle,
         moveToTrash,
       ];
@@ -422,39 +458,52 @@ class EmailTile extends StatelessWidget {
         _MenuAction(
           Icons.how_to_reg_outlined,
           l.senderUnblock,
-          _verdict(SenderVerdict.allow),
+          verdict(SenderVerdict.allow),
         ),
         moveToTrash,
       ];
     }
     return [
-      _MenuAction(Icons.reply_outlined, l.emailReply, onReply),
-      _MenuAction(Icons.forward_outlined, l.emailForward, onForward),
+      _MenuAction(
+        Icons.reply_outlined,
+        l.emailReply,
+        ofSelection ? null : onReply,
+      ),
+      _MenuAction(
+        Icons.forward_outlined,
+        l.emailForward,
+        ofSelection ? null : onForward,
+      ),
       if (mailbox.isArchive)
         _MenuAction(
           Icons.unarchive_outlined,
           l.emailUnarchive,
-          onRestore,
+          pick(onRestore, inbox.restoreSelected),
           startsGroup: true,
         )
       else
         _MenuAction(
           Icons.archive_outlined,
           l.emailArchive,
-          onArchive,
+          pick(onArchive, inbox.archiveSelected),
           startsGroup: true,
         ),
       _MenuAction(
         Icons.drive_file_move_outlined,
         l.mailboxMoveTo,
         onMoveTo,
-        submenu: EmailMoveToSubmenu(email: email, actionContext: context),
+        submenu: EmailMoveToSubmenu(
+          onMove: ofSelection
+              ? inbox.moveSelectedTo
+              : (folder) => inbox.moveTo([email.id], folder),
+          actionContext: context,
+        ),
       ),
       _MenuAction(
         Icons.label_outline,
         l.mailboxTags,
         onTag,
-        submenu: EmailTagsSubmenu(email: email, actionContext: context),
+        submenu: EmailTagsSubmenu(emails: targets, actionContext: context),
       ),
       ?readToggle,
       ?block,

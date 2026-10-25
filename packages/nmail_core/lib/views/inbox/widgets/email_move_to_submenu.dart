@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/controllers/inbox_controller.dart';
 import 'package:nmail_core/controllers/mailboxes_controller.dart';
@@ -8,16 +7,17 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_mail_entry_form.dart';
 
-/// The folders [email] can move to, the one it is listed in left out.
+/// The folders the menu's emails can move to, the one listed left out.
 class EmailMoveToSubmenu extends StatelessWidget {
-  final EmailSummary email;
+  /// Moves the menu's emails to a reserved folder or a user folder id.
+  final Future<void> Function(String folder) onMove;
 
   /// Outlives the menu, to open the new folder form once it closes.
   final BuildContext actionContext;
 
   const EmailMoveToSubmenu({
     super.key,
-    required this.email,
+    required this.onMove,
     required this.actionContext,
   });
 
@@ -26,8 +26,7 @@ class EmailMoveToSubmenu extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final mailboxes = GetIt.I<MailboxesController>();
-    final inbox = GetIt.I<InboxController>();
-    final current = inbox.currentMailbox;
+    final current = GetIt.I<InboxController>().currentMailbox;
     return ListenableBuilder(
       listenable: mailboxes,
       builder: (context, _) => SubmenuButton(
@@ -37,7 +36,7 @@ class EmailMoveToSubmenu extends StatelessWidget {
           if (current != Mailbox.inbox && !current.isArchive)
             MenuItemButton(
               leadingIcon: const Icon(Icons.inbox_outlined),
-              onPressed: () => inbox.moveTo([email.id], 'inbox'),
+              onPressed: () => onMove('inbox'),
               child: Text(l.folderInbox),
             ),
           for (final folder in mailboxes.folders)
@@ -50,7 +49,7 @@ class EmailMoveToSubmenu extends StatelessWidget {
                     on: colorScheme.surfaceContainer,
                   ),
                 ),
-                onPressed: () => inbox.moveTo([email.id], folder.id),
+                onPressed: () => onMove(folder.id),
                 child: Text(folder.name),
               ),
           const Divider(height: 1),
@@ -71,6 +70,6 @@ class EmailMoveToSubmenu extends StatelessWidget {
       kind: MailEntryKind.folder,
     );
     if (created == null) return;
-    await GetIt.I<InboxController>().moveTo([email.id], created.id);
+    await onMove(created.id);
   }
 }

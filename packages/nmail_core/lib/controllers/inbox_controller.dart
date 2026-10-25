@@ -397,6 +397,8 @@ class InboxController extends ChangeNotifier with WidgetsBindingObserver {
 
   void _applyLoaded(List<EmailSummary> loaded) {
     emails = loaded;
+    // A selected email that left the list would still take the bulk actions.
+    selectedIds.retainAll({for (final email in loaded) email.id});
     readEmailIds
       ..clear()
       ..addAll([

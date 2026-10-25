@@ -10,16 +10,16 @@ import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_mail_entry_form.dart';
 import 'package:nmail_core/widgets/controller_builder.dart';
 
-/// The labels of [email] as checkboxes, applied together.
+/// The labels of [emails] as checkboxes, applied together.
 class EmailTagsSubmenu extends StatelessWidget {
-  final EmailSummary email;
+  final List<EmailSummary> emails;
 
   /// Outlives the menu, to open the new label form once it closes.
   final BuildContext actionContext;
 
   const EmailTagsSubmenu({
     super.key,
-    required this.email,
+    required this.emails,
     required this.actionContext,
   });
 
@@ -29,7 +29,7 @@ class EmailTagsSubmenu extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final mailboxes = GetIt.I<MailboxesController>();
     return ControllerBuilder(
-      create: () => TagsPickerController([email]),
+      create: () => TagsPickerController(emails),
       builder: (context, picker) {
         // Read now: menu items run their action once the menu has closed
         // and disposed the picker.
@@ -84,7 +84,7 @@ class EmailTagsSubmenu extends StatelessWidget {
   }
 
   Future<void> _apply(TagChanges changes) => GetIt.I<InboxController>()
-      .applyTags([email], add: changes.add, remove: changes.remove);
+      .applyTags(emails, add: changes.add, remove: changes.remove);
 
   /// Keeps the boxes checked so far, which the form would otherwise drop.
   Future<void> _createTag(TagChanges changes) async {
