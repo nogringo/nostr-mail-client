@@ -1852,6 +1852,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get composeRemoveQuote => 'Remove';
 
   @override
+  String composeQuoteAttribution(String date, String time, String sender) {
+    return 'On $date at $time, $sender wrote:';
+  }
+
+  @override
+  String get composeForwardedMessage =>
+      '---------- Forwarded message ----------';
+
+  @override
+  String composeForwardFrom(String sender) {
+    return 'From: $sender';
+  }
+
+  @override
+  String composeForwardDate(String date, String time) {
+    return 'Date: $date at $time';
+  }
+
+  @override
+  String composeForwardSubject(String subject) {
+    return 'Subject: $subject';
+  }
+
+  @override
+  String composeForwardTo(String recipients) {
+    return 'To: $recipients';
+  }
+
+  @override
+  String composeForwardCc(String recipients) {
+    return 'Cc: $recipients';
+  }
+
+  @override
   String get composeInvalidRecipient => 'Invalid recipient format';
 
   @override

@@ -3,15 +3,18 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:enough_mail_plus/enough_mail.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_quill/flutter_quill.dart' show BlockEmbed, Document;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:ndk/ndk.dart';
 import 'package:nostr_mail/nostr_mail.dart'
     show AttachmentRef, Email, NostrMailClient;
 import 'package:nmail_core/controllers/compose_controller.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_core/models/recipient.dart';
@@ -43,6 +46,8 @@ class _FakeNostrMailService extends NostrMailService {
   @override
   NostrMailClient get client => _client;
 }
+
+final _en = lookupAppLocalizations(const Locale('en'));
 
 final _logo = Uint8List.fromList([1, 2, 3]);
 final _photo = Uint8List.fromList([4, 5, 6]);
@@ -499,6 +504,7 @@ void main() {
     });
 
     group('quote', () {
+      setUpAll(initializeDateFormatting);
       setUp(() => mailClient.blobs.addAll({'photo': _photo, 'pdf': _pdf}));
 
       MimeMessage send(String body) => MimeMessage.parseFromText(
@@ -513,7 +519,7 @@ void main() {
       test(
         'a forward loads the images it shows, then the attachments',
         () async {
-          await controller.quoteForward(_quotedEmail());
+          await controller.quoteForward(_quotedEmail(), _en);
 
           expect(await controller.inlineImageBytes('logo@x'), _logo);
           expect(await controller.inlineImageBytes('photo@x'), _photo);
@@ -527,7 +533,7 @@ void main() {
       test(
         'a forward sends the quote below the body, with its images',
         () async {
-          await controller.quoteForward(_quotedEmail());
+          await controller.quoteForward(_quotedEmail(), _en);
 
           final sent = send('FYI');
 
@@ -554,7 +560,7 @@ void main() {
       );
 
       test('a reply sends the images it quotes, not the attachments', () async {
-        await controller.quoteReply(_quotedEmail());
+        await controller.quoteReply(_quotedEmail(), _en);
 
         final sent = send('Thanks');
 
@@ -571,8 +577,23 @@ void main() {
         expect(sent.findContentInfo(), isEmpty);
       });
 
+      test('a reply quote speaks the language of the interface', () async {
+        await controller.quoteReply(
+          _quotedEmail(),
+          lookupAppLocalizations(const Locale('fr')),
+        );
+
+        expect(
+          controller.quotedEmailHtml!.html,
+          contains(
+            'Le dim. 27 sept. 2026 à 00:00, '
+            'André &lt;andre@example.com&gt; a écrit :',
+          ),
+        );
+      });
+
       test('a reply quote starts folded and can be left out', () async {
-        await controller.quoteReply(_quotedEmail());
+        await controller.quoteReply(_quotedEmail(), _en);
         expect(controller.quoteIsReply, isTrue);
         expect(controller.quoteExpanded, isFalse);
 
@@ -590,7 +611,7 @@ void main() {
       });
 
       test('a forward quote cannot be folded away', () async {
-        await controller.quoteForward(_quotedEmail());
+        await controller.quoteForward(_quotedEmail(), _en);
 
         expect(controller.quoteIsReply, isFalse);
       });

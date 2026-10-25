@@ -52,8 +52,6 @@ const Duration _nip05Timeout = Duration(seconds: 5);
 
 const _maxAttachmentsBytes = 25 * 1024 * 1024;
 
-final _quoteDateFormat = DateFormat('EEE, MMM d, yyyy \'at\' h:mm a');
-
 /// As a reader writes them: [MailAddress.encode] MIME-encodes a non-ASCII name.
 String _readableAddresses(Iterable<MailAddress> addresses) => addresses
     .map((address) {
@@ -1104,9 +1102,10 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
     // Set subject from builder
     subjectController.text = builder.subject ?? '';
 
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     _quotedParts = switch (mode) {
-      ComposeMode.reply || ComposeMode.replyAll => quoteReply(email),
-      ComposeMode.forward => quoteForward(email),
+      ComposeMode.reply || ComposeMode.replyAll => quoteReply(email, l),
+      ComposeMode.forward => quoteForward(email, l),
     };
 
     addReplyRecipients(
@@ -1138,11 +1137,14 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
 
   /// Quotes [email] below the editor and loads the images it shows.
   @visibleForTesting
-  Future<void> quoteReply(Email email) => _quote(
+  Future<void> quoteReply(Email email, AppLocalizations l) => _quote(
     email,
     header: [
-      'On ${_quoteDateFormat.format(email.date)}, '
-          '${_readableAddresses([?email.sender])} wrote:',
+      l.composeQuoteAttribution(
+        DateFormat.yMMMEd(l.localeName).format(email.date),
+        DateFormat.jm(l.localeName).format(email.date),
+        _readableAddresses([?email.sender]),
+      ),
     ],
     asReply: true,
   );
@@ -1150,17 +1152,20 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   /// Quotes [email] below the editor and loads the images and attachments it
   /// carries.
   @visibleForTesting
-  Future<void> quoteForward(Email email) => _quote(
+  Future<void> quoteForward(Email email, AppLocalizations l) => _quote(
     email,
     header: [
-      '---------- Forwarded message ----------',
-      'From: ${_readableAddresses([?email.sender])}',
-      'Date: ${_quoteDateFormat.format(email.date)}',
-      'Subject: ${email.subject ?? ''}',
+      l.composeForwardedMessage,
+      l.composeForwardFrom(_readableAddresses([?email.sender])),
+      l.composeForwardDate(
+        DateFormat.yMMMEd(l.localeName).format(email.date),
+        DateFormat.jm(l.localeName).format(email.date),
+      ),
+      l.composeForwardSubject(email.subject ?? ''),
       if (email.mime.to case final to? when to.isNotEmpty)
-        'To: ${_readableAddresses(to)}',
+        l.composeForwardTo(_readableAddresses(to)),
       if (email.mime.cc case final cc? when cc.isNotEmpty)
-        'Cc: ${_readableAddresses(cc)}',
+        l.composeForwardCc(_readableAddresses(cc)),
     ],
     asReply: false,
   );

@@ -1868,6 +1868,40 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeRemoveQuote => 'Remover';
 
   @override
+  String composeQuoteAttribution(String date, String time, String sender) {
+    return 'A $date, às $time, $sender escreveu:';
+  }
+
+  @override
+  String get composeForwardedMessage =>
+      '---------- Mensagem reencaminhada ----------';
+
+  @override
+  String composeForwardFrom(String sender) {
+    return 'De: $sender';
+  }
+
+  @override
+  String composeForwardDate(String date, String time) {
+    return 'Data: $date, às $time';
+  }
+
+  @override
+  String composeForwardSubject(String subject) {
+    return 'Assunto: $subject';
+  }
+
+  @override
+  String composeForwardTo(String recipients) {
+    return 'Para: $recipients';
+  }
+
+  @override
+  String composeForwardCc(String recipients) {
+    return 'Cc: $recipients';
+  }
+
+  @override
   String get composeInvalidRecipient => 'Formato de destinatário inválido';
 
   @override
@@ -4217,6 +4251,40 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeRemoveQuote => 'Remover';
+
+  @override
+  String composeQuoteAttribution(String date, String time, String sender) {
+    return 'Em $date às $time, $sender escreveu:';
+  }
+
+  @override
+  String get composeForwardedMessage =>
+      '---------- Mensagem encaminhada ----------';
+
+  @override
+  String composeForwardFrom(String sender) {
+    return 'De: $sender';
+  }
+
+  @override
+  String composeForwardDate(String date, String time) {
+    return 'Data: $date às $time';
+  }
+
+  @override
+  String composeForwardSubject(String subject) {
+    return 'Assunto: $subject';
+  }
+
+  @override
+  String composeForwardTo(String recipients) {
+    return 'Para: $recipients';
+  }
+
+  @override
+  String composeForwardCc(String recipients) {
+    return 'Cc: $recipients';
+  }
 
   @override
   String get composeInvalidRecipient => 'Formato de destinatário inválido';

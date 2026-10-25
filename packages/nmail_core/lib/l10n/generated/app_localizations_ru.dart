@@ -1882,6 +1882,40 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeRemoveQuote => 'Убрать';
 
   @override
+  String composeQuoteAttribution(String date, String time, String sender) {
+    return '$date в $time, $sender пишет:';
+  }
+
+  @override
+  String get composeForwardedMessage =>
+      '---------- Пересылаемое сообщение ----------';
+
+  @override
+  String composeForwardFrom(String sender) {
+    return 'От: $sender';
+  }
+
+  @override
+  String composeForwardDate(String date, String time) {
+    return 'Дата: $date в $time';
+  }
+
+  @override
+  String composeForwardSubject(String subject) {
+    return 'Тема: $subject';
+  }
+
+  @override
+  String composeForwardTo(String recipients) {
+    return 'Кому: $recipients';
+  }
+
+  @override
+  String composeForwardCc(String recipients) {
+    return 'Копия: $recipients';
+  }
+
+  @override
   String get composeInvalidRecipient => 'Неверный формат получателя';
 
   @override

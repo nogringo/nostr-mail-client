@@ -1748,6 +1748,39 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeRemoveQuote => '移除';
 
   @override
+  String composeQuoteAttribution(String date, String time, String sender) {
+    return '$sender 于 $date $time 写道：';
+  }
+
+  @override
+  String get composeForwardedMessage => '---------- 转发的邮件 ----------';
+
+  @override
+  String composeForwardFrom(String sender) {
+    return '发件人：$sender';
+  }
+
+  @override
+  String composeForwardDate(String date, String time) {
+    return '日期：$date $time';
+  }
+
+  @override
+  String composeForwardSubject(String subject) {
+    return '主题：$subject';
+  }
+
+  @override
+  String composeForwardTo(String recipients) {
+    return '收件人：$recipients';
+  }
+
+  @override
+  String composeForwardCc(String recipients) {
+    return '抄送：$recipients';
+  }
+
+  @override
   String get composeInvalidRecipient => '收件人格式无效';
 
   @override

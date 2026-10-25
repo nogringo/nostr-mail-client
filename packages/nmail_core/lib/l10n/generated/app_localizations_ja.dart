@@ -1763,6 +1763,39 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeRemoveQuote => '削除';
 
   @override
+  String composeQuoteAttribution(String date, String time, String sender) {
+    return '$date $time $sender:';
+  }
+
+  @override
+  String get composeForwardedMessage => '---------- 転送されたメッセージ ----------';
+
+  @override
+  String composeForwardFrom(String sender) {
+    return '差出人: $sender';
+  }
+
+  @override
+  String composeForwardDate(String date, String time) {
+    return '日付: $date $time';
+  }
+
+  @override
+  String composeForwardSubject(String subject) {
+    return '件名: $subject';
+  }
+
+  @override
+  String composeForwardTo(String recipients) {
+    return '宛先: $recipients';
+  }
+
+  @override
+  String composeForwardCc(String recipients) {
+    return 'Cc: $recipients';
+  }
+
+  @override
   String get composeInvalidRecipient => '宛先の形式が無効です';
 
   @override

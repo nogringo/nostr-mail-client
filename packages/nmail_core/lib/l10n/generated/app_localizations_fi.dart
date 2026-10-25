@@ -1860,6 +1860,40 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeRemoveQuote => 'Poista';
 
   @override
+  String composeQuoteAttribution(String date, String time, String sender) {
+    return '$date klo $time $sender kirjoitti:';
+  }
+
+  @override
+  String get composeForwardedMessage =>
+      '---------- Välitetty viesti ----------';
+
+  @override
+  String composeForwardFrom(String sender) {
+    return 'Lähettäjä: $sender';
+  }
+
+  @override
+  String composeForwardDate(String date, String time) {
+    return 'Päivämäärä: $date klo $time';
+  }
+
+  @override
+  String composeForwardSubject(String subject) {
+    return 'Aihe: $subject';
+  }
+
+  @override
+  String composeForwardTo(String recipients) {
+    return 'Vastaanottaja: $recipients';
+  }
+
+  @override
+  String composeForwardCc(String recipients) {
+    return 'Kopio: $recipients';
+  }
+
+  @override
   String get composeInvalidRecipient => 'Vastaanottajan osoite ei kelpaa';
 
   @override

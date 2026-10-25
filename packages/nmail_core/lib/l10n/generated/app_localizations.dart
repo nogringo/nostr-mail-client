@@ -3361,6 +3361,48 @@ abstract class AppLocalizations {
   /// **'Remove'**
   String get composeRemoveQuote;
 
+  /// Line above the original message quoted in a reply, sent in the email; date and time are already formatted for the locale, sender is a name and address
+  ///
+  /// In en, this message translates to:
+  /// **'On {date} at {time}, {sender} wrote:'**
+  String composeQuoteAttribution(String date, String time, String sender);
+
+  /// First line above the original message quoted in a forward, sent in the email
+  ///
+  /// In en, this message translates to:
+  /// **'---------- Forwarded message ----------'**
+  String get composeForwardedMessage;
+
+  /// Sender line above the original message quoted in a forward, sent in the email
+  ///
+  /// In en, this message translates to:
+  /// **'From: {sender}'**
+  String composeForwardFrom(String sender);
+
+  /// Date line above the original message quoted in a forward, sent in the email; date and time are already formatted for the locale
+  ///
+  /// In en, this message translates to:
+  /// **'Date: {date} at {time}'**
+  String composeForwardDate(String date, String time);
+
+  /// Subject line above the original message quoted in a forward, sent in the email
+  ///
+  /// In en, this message translates to:
+  /// **'Subject: {subject}'**
+  String composeForwardSubject(String subject);
+
+  /// To line above the original message quoted in a forward, sent in the email
+  ///
+  /// In en, this message translates to:
+  /// **'To: {recipients}'**
+  String composeForwardTo(String recipients);
+
+  /// Cc line above the original message quoted in a forward, sent in the email
+  ///
+  /// In en, this message translates to:
+  /// **'Cc: {recipients}'**
+  String composeForwardCc(String recipients);
+
   /// Error toast when a submitted recipient string can't be parsed
   ///
   /// In en, this message translates to:
