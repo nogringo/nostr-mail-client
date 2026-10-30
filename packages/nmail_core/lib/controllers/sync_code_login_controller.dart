@@ -3,7 +3,6 @@ import 'package:get_it/get_it.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/shared/nips/nip01/bip340.dart';
 import 'package:ndk_flutter/ndk_flutter.dart';
-import 'package:nip49/nip49.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/models/sync_code_kind.dart';

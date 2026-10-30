@@ -132,6 +132,12 @@ Future<void> _initApp({
       eventSignerFactory: NdkEventSignerFactory(),
       cache: cacheManager,
       bootstrapRelays: NostrConfig.bootstrapRelays,
+      // The broadcast queue passes no `auth`, and DM relays refuse gift wraps
+      // from an unauthenticated connection.
+      // TODO: ask before authenticating on a relay or Blossom server outside
+      // the account's own lists (10002, 10050, 10013, 10063), and remember the
+      // answer per server.
+      authHandler: (_, _) async => true,
     ),
   );
   GetIt.I.registerSingleton(ndk);

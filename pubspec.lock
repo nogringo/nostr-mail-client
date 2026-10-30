@@ -1026,10 +1026,10 @@ packages:
     dependency: transitive
     description:
       name: ndk
-      sha256: "0b6ef5ad40483b05c2c9069d9519a42094957c2165b6340a3a622187365d42fe"
+      sha256: "256fc2f64048341444662ab6a810959f78b39553bf1e1543e9700f6dc0aad84e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.0-dev.1"
+    version: "0.11.0-dev.2"
   ndk_drift:
     dependency: transitive
     description:
@@ -1046,14 +1046,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.3-dev.1"
-  nip49:
-    dependency: transitive
-    description:
-      name: nip49
-      sha256: "096a8316bc989be8abaf18f47f6fa6ae4eaba1ad68d74716f02e9c33fa25d200"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0"
   nm:
     dependency: transitive
     description:
