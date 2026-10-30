@@ -13,6 +13,35 @@ list of merged pull requests below it.
 Releases prior to 0.13.0 are listed on the
 [GitHub releases page](https://github.com/nogringo/nostr-mail-client/releases).
 
+## [0.19.1]
+
+### Changed
+
+- Fit the signature toolbar on phone screens, image button included, by
+  dropping underline, strikethrough, and lists.
+
+### Fixed
+
+- Send emails between Nostr accounts on relays that ask for authentication,
+  such as the default DM relays, where they stayed queued.
+- Type and copy in the compose and signature editors on the web, and keep
+  typing after using their formatting toolbar.
+- Apply the menu of a selected email to the whole selection, and stop
+  counting emails that left the list.
+- Open the email menu with a long press on wide screens, where you pressed.
+- Select an email on the web by clicking its avatar, instead of opening it.
+- Hide the sync code on the login screen, with a button to show it.
+- Write the reply and forward headers in the language of the app, with its
+  date and time format.
+- Give the columns of email tables the widths the email sets.
+- Explain how to get a file picker back on Android when the device has none.
+- Use the right singular or plural for the number of selected emails and
+  downloaded files.
+- Stop dimming the status and navigation bars behind full-screen forms, such
+  as the signature, folder, and tag forms.
+- Show the placeholders of the compose and signature editors at the size of
+  the text, in the hint color of the theme.
+
 ## [0.19.0]
 
 ### Added
