@@ -1242,6 +1242,55 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailDownloadAll => 'Скачать всё';
 
   @override
+  String get emailDeliverySending => 'Отправляется';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Не доставлено $count получателям',
+      many: 'Не доставлено $count получателям',
+      few: 'Не доставлено $count получателям',
+      one: 'Не доставлено $count получателю',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailDeliveryDetails => 'Подробнее';
+
+  @override
+  String get emailDeliveryRetry => 'Повторить';
+
+  @override
+  String get emailDeliveryTitle => 'Статус доставки';
+
+  @override
+  String get emailDeliveryDelivered => 'Доставлено';
+
+  @override
+  String get emailDeliveryNotDelivered => 'Не доставлено';
+
+  @override
+  String get emailDeliveryHandedToBridge => 'Передано мосту';
+
+  @override
+  String get emailDeliveryAccepted => 'Принято';
+
+  @override
+  String get emailDeliveryWaiting => 'Ожидание';
+
+  @override
+  String get emailDeliveryRefused => 'Отклонено';
+
+  @override
+  String get emailDeliveryBlob => 'Зашифрованное содержимое';
+
+  @override
+  String get emailDeliverySelfCopy => 'Ваша копия для других устройств';
+
+  @override
   String get emailNip59Dismiss => 'Закрыть';
 
   @override

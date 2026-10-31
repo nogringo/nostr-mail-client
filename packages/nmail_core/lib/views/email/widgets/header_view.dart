@@ -3,6 +3,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/widgets/tag_chips.dart';
 
+import 'delivery_pending_line.dart';
 import 'person_anchor.dart';
 import 'recipients_list_view.dart';
 import 'sender_row_view.dart';
@@ -55,6 +56,7 @@ class HeaderView extends StatelessWidget {
             ),
           ),
         ),
+        const DeliveryPendingLine(),
         if (controller.showRecipients) ...[
           const SizedBox(height: 4),
           const RecipientsListView(),

@@ -1244,6 +1244,53 @@ class AppLocalizationsIt extends AppLocalizations {
   String get emailDownloadAll => 'Scarica tutto';
 
   @override
+  String get emailDeliverySending => 'Invio in corso';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Non consegnato a $count destinatari',
+      one: 'Non consegnato a $count destinatario',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailDeliveryDetails => 'Dettagli';
+
+  @override
+  String get emailDeliveryRetry => 'Riprova';
+
+  @override
+  String get emailDeliveryTitle => 'Stato dell\'invio';
+
+  @override
+  String get emailDeliveryDelivered => 'Consegnato';
+
+  @override
+  String get emailDeliveryNotDelivered => 'Non consegnato';
+
+  @override
+  String get emailDeliveryHandedToBridge => 'Consegnato al bridge';
+
+  @override
+  String get emailDeliveryAccepted => 'Accettato';
+
+  @override
+  String get emailDeliveryWaiting => 'In attesa';
+
+  @override
+  String get emailDeliveryRefused => 'Rifiutato';
+
+  @override
+  String get emailDeliveryBlob => 'Contenuto cifrato';
+
+  @override
+  String get emailDeliverySelfCopy => 'La tua copia, per gli altri dispositivi';
+
+  @override
   String get emailNip59Dismiss => 'Chiudi';
 
   @override

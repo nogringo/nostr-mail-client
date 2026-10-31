@@ -109,10 +109,10 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: c4182dfd73513c2d78faf19d515091e1c120eeae03cfc727f507a28ea8c1649f
+      sha256: c775a2cdbc979fb69769a5e80909c9f85a6a26d969f97061d2e9ede9a9e13746
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.1"
+    version: "0.12.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -1071,12 +1071,11 @@ packages:
     source: hosted
     version: "0.7.1"
   nostr_mail:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: nostr_mail
-      sha256: e5e08934ed93a4e5baaaf05082f3edde1ac2377672770ca2a13721a6f344e895
-      url: "https://pub.dev"
-    source: hosted
+      path: "../nostr-mail-dart"
+      relative: true
+    source: path
     version: "7.0.0"
   objective_c:
     dependency: transitive

@@ -7,6 +7,7 @@ import '../../app/routes/app_routes.dart';
 import '../../controllers/auth_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
+import 'widgets/delivery_banner.dart';
 import 'widgets/desktop_actions_bar.dart';
 import 'widgets/email_body_view.dart';
 import 'widgets/header_view.dart';
@@ -71,6 +72,7 @@ class EmailView extends StatelessWidget {
             child: Column(
               children: [
                 const SenderVerdictBanner(),
+                const DeliveryBanner(),
                 Expanded(
                   child: SingleChildScrollView(
                     child: ResponsiveCenter(

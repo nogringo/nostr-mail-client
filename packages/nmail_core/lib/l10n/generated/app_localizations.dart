@@ -2179,6 +2179,84 @@ abstract class AppLocalizations {
   /// **'Download all'**
   String get emailDownloadAll;
 
+  /// Shown on a sent email, in the list and above its body, while a recipient has not received it yet
+  ///
+  /// In en, this message translates to:
+  /// **'Sending'**
+  String get emailDeliverySending;
+
+  /// Shown on a sent email, in the list and in a banner above its body, when some recipients did not receive it
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Not delivered to {count} recipient} other{Not delivered to {count} recipients}}'**
+  String emailDeliveryNotDeliveredCount(int count);
+
+  /// Button opening the delivery details of a sent email
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get emailDeliveryDetails;
+
+  /// Button sending again a sent email that some recipients did not receive
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get emailDeliveryRetry;
+
+  /// Title of the sheet listing, recipient by recipient, which relays and servers accepted a sent email
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery status'**
+  String get emailDeliveryTitle;
+
+  /// Status of a recipient who can read the email
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get emailDeliveryDelivered;
+
+  /// Status of a recipient whose relays or servers all refused the email
+  ///
+  /// In en, this message translates to:
+  /// **'Not delivered'**
+  String get emailDeliveryNotDelivered;
+
+  /// Status of email-address recipients once the bridge relaying to them has the email. What happens after the bridge is not known
+  ///
+  /// In en, this message translates to:
+  /// **'Handed to the bridge'**
+  String get emailDeliveryHandedToBridge;
+
+  /// Status of a relay or Blossom server that accepted the email
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get emailDeliveryAccepted;
+
+  /// Status of a relay or Blossom server that has not answered yet
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get emailDeliveryWaiting;
+
+  /// Status of a relay or Blossom server that refused the email for good
+  ///
+  /// In en, this message translates to:
+  /// **'Refused'**
+  String get emailDeliveryRefused;
+
+  /// Heading above the Blossom servers holding the encrypted body of a large email
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted content'**
+  String get emailDeliveryBlob;
+
+  /// Heading of the sender's own copy, the one the sender's other devices sync
+  ///
+  /// In en, this message translates to:
+  /// **'Your copy, for your other devices'**
+  String get emailDeliverySelfCopy;
+
   /// Barrier label for the NIP-59 events dialog (accessibility)
   ///
   /// In en, this message translates to:

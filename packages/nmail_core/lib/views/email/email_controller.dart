@@ -10,6 +10,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
+import 'package:nmail_core/controllers/email_delivery_controller.dart';
 import 'package:nmail_core/controllers/inbox_controller.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/email_person.dart';
@@ -59,6 +60,9 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   String? rawContent;
   bool isLoadingRawContent = false;
   EmailHtml? emailHtml;
+
+  /// Null unless this account sent [email].
+  EmailDeliveryController? delivery;
   bool _isDisposed = false;
 
   late bool _showImages;
@@ -79,6 +83,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   @override
   void dispose() {
     _isDisposed = true;
+    delivery?.dispose();
     super.dispose();
   }
 
@@ -255,6 +260,11 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     email = loaded;
     _buildEmailHtml();
     isLoading = false;
+    if (!_isDisposed &&
+        loaded != null &&
+        loaded.senderPubkey == GetIt.I<AuthController>().publicKey) {
+      delivery = EmailDeliveryController(emailId: loaded.id);
+    }
     if (!_isDisposed) notifyListeners();
     if (loaded == null) return;
 

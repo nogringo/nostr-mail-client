@@ -1245,6 +1245,53 @@ class AppLocalizationsFr extends AppLocalizations {
   String get emailDownloadAll => 'Tout télécharger';
 
   @override
+  String get emailDeliverySending => 'Envoi en cours';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pas remis à $count destinataires',
+      one: 'Pas remis à $count destinataire',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailDeliveryDetails => 'Détails';
+
+  @override
+  String get emailDeliveryRetry => 'Réessayer';
+
+  @override
+  String get emailDeliveryTitle => 'État de l\'envoi';
+
+  @override
+  String get emailDeliveryDelivered => 'Remis';
+
+  @override
+  String get emailDeliveryNotDelivered => 'Pas remis';
+
+  @override
+  String get emailDeliveryHandedToBridge => 'Transmis au pont';
+
+  @override
+  String get emailDeliveryAccepted => 'Accepté';
+
+  @override
+  String get emailDeliveryWaiting => 'En attente';
+
+  @override
+  String get emailDeliveryRefused => 'Refusé';
+
+  @override
+  String get emailDeliveryBlob => 'Contenu chiffré';
+
+  @override
+  String get emailDeliverySelfCopy => 'Votre copie, pour vos autres appareils';
+
+  @override
   String get emailNip59Dismiss => 'Fermer';
 
   @override

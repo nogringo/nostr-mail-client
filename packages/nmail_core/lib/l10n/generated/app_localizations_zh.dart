@@ -1126,6 +1126,47 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailDownloadAll => '全部下载';
 
   @override
+  String get emailDeliverySending => '正在发送';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    return '$count 位收件人未收到';
+  }
+
+  @override
+  String get emailDeliveryDetails => '详情';
+
+  @override
+  String get emailDeliveryRetry => '重试';
+
+  @override
+  String get emailDeliveryTitle => '投递状态';
+
+  @override
+  String get emailDeliveryDelivered => '已送达';
+
+  @override
+  String get emailDeliveryNotDelivered => '未送达';
+
+  @override
+  String get emailDeliveryHandedToBridge => '已交给网桥';
+
+  @override
+  String get emailDeliveryAccepted => '已接受';
+
+  @override
+  String get emailDeliveryWaiting => '等待中';
+
+  @override
+  String get emailDeliveryRefused => '已拒绝';
+
+  @override
+  String get emailDeliveryBlob => '加密内容';
+
+  @override
+  String get emailDeliverySelfCopy => '您的副本，供您的其他设备使用';
+
+  @override
   String get emailNip59Dismiss => '关闭';
 
   @override

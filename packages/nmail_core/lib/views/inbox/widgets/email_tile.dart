@@ -11,18 +11,22 @@ import 'package:nmail_core/views/inbox/widgets/attachments_chips_view.dart';
 import 'package:nmail_core/views/inbox/widgets/unread_indicator.dart';
 
 import '../../../controllers/auth_controller.dart';
+import '../../../controllers/email_delivery_controller.dart';
 import '../../../controllers/inbox_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/models/mailbox.dart';
+import 'package:nmail_core/utils/email_delivery_summary.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/utils/run_sender_verdict.dart';
 import 'package:nmail_core/views/email/widgets/bridged_person_avatar.dart';
 import 'package:nmail_core/views/inbox/widgets/delete_permanently_dialog.dart';
+import 'package:nmail_core/views/inbox/widgets/delivery_status_line.dart';
 import 'package:nmail_core/views/inbox/widgets/email_move_to_submenu.dart';
 import 'package:nmail_core/views/inbox/widgets/email_tags_submenu.dart';
+import '../../../widgets/controller_builder.dart';
 import '../../../widgets/selectable_avatar.dart';
 import '../../../widgets/tag_chips.dart';
 
@@ -185,7 +189,10 @@ class EmailTile extends StatelessWidget {
   /// The row as one sentence, for screen readers. The visual tile spreads the
   /// same facts over an avatar, a dot, four text runs and a chip, none of
   /// which announce their role on their own.
-  String _semanticsLabel(BuildContext context) {
+  String _semanticsLabel(
+    BuildContext context,
+    EmailDeliveryController? delivery,
+  ) {
     final l = AppLocalizations.of(context);
     final attachmentCount = email.attachmentRefs.length;
 
@@ -196,6 +203,7 @@ class EmailTile extends StatelessWidget {
       email.preview,
       formatDate(context, email.date),
       if (attachmentCount > 0) l.emailAttachmentCount(attachmentCount),
+      if (delivery != null) ?emailDeliverySummary(l, delivery),
     ].where((part) => part.isNotEmpty).join(', ');
   }
 
@@ -256,6 +264,15 @@ class EmailTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!_isSentByMe) return _buildRow(context, null);
+    return ControllerBuilder(
+      key: ValueKey(email.id),
+      create: () => EmailDeliveryController(emailId: email.id),
+      builder: _buildRow,
+    );
+  }
+
+  Widget _buildRow(BuildContext context, EmailDeliveryController? delivery) {
     final l = AppLocalizations.of(context);
     final isWide = ResponsiveHelper.isDesktop(context);
     final mailbox = GetIt.I<InboxController>().currentMailbox;
@@ -268,7 +285,7 @@ class EmailTile extends StatelessWidget {
         ..._displayPersons.map(emailPersonNameListenable),
       ]),
       builder: (context, _) => Semantics(
-        label: _semanticsLabel(context),
+        label: _semanticsLabel(context, delivery),
         button: true,
         selected: isSelected,
         excludeSemantics: true,
@@ -347,8 +364,8 @@ class EmailTile extends StatelessWidget {
                 child: child,
               ),
               child: isWide
-                  ? _buildCompactTile(context, colorScheme)
-                  : _buildDefaultTile(context),
+                  ? _buildCompactTile(context, colorScheme, delivery)
+                  : _buildDefaultTile(context, delivery),
             ),
           ),
         ),
@@ -520,7 +537,11 @@ class EmailTile extends StatelessWidget {
   Color? _colorOf(_MenuAction action, ColorScheme colorScheme) =>
       action.isDestructive ? colorScheme.error : null;
 
-  Widget _buildCompactTile(BuildContext context, ColorScheme colorScheme) {
+  Widget _buildCompactTile(
+    BuildContext context,
+    ColorScheme colorScheme,
+    EmailDeliveryController? delivery,
+  ) {
     final l = AppLocalizations.of(context);
     final isUnread = this.isUnread;
     final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
@@ -622,6 +643,7 @@ class EmailTile extends StatelessWidget {
                       ],
                     ],
                   ),
+                  if (delivery != null) DeliveryStatusLine(delivery: delivery),
                   if (attachments.isNotEmpty) ...[
                     AttachmentsChipsView(attachments: attachments),
                   ],
@@ -642,7 +664,10 @@ class EmailTile extends StatelessWidget {
     );
   }
 
-  Widget _buildDefaultTile(BuildContext context) {
+  Widget _buildDefaultTile(
+    BuildContext context,
+    EmailDeliveryController? delivery,
+  ) {
     final l = AppLocalizations.of(context);
     final colorScheme = Theme.of(context).colorScheme;
     final isUnread = this.isUnread;
@@ -652,6 +677,8 @@ class EmailTile extends StatelessWidget {
     final subject = email.subject.isEmpty ? l.emailNoSubject : email.subject;
     final hasPreview = email.preview.isNotEmpty;
     final tagIds = _visibleTagIds;
+    final hasDeliveryLine =
+        delivery != null && emailDeliverySummary(l, delivery) != null;
 
     return Container(
       // See the compact tile: the separator is painted over the row's own
@@ -732,6 +759,10 @@ class EmailTile extends StatelessWidget {
                 ),
               ),
             ],
+            if (hasDeliveryLine) ...[
+              const SizedBox(height: 2),
+              DeliveryStatusLine(delivery: delivery),
+            ],
             if (tagIds.isNotEmpty) ...[
               const SizedBox(height: 6),
               TagChips(tagIds: tagIds, maxVisible: 3),
@@ -742,7 +773,11 @@ class EmailTile extends StatelessWidget {
             ],
           ],
         ),
-        isThreeLine: hasPreview || attachments.isNotEmpty || tagIds.isNotEmpty,
+        isThreeLine:
+            hasPreview ||
+            hasDeliveryLine ||
+            attachments.isNotEmpty ||
+            tagIds.isNotEmpty,
       ),
     );
   }

@@ -1242,6 +1242,54 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emailDownloadAll => 'Transferir todos';
 
   @override
+  String get emailDeliverySending => 'A enviar';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Não entregue a $count destinatários',
+      one: 'Não entregue a $count destinatário',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailDeliveryDetails => 'Detalhes';
+
+  @override
+  String get emailDeliveryRetry => 'Tentar novamente';
+
+  @override
+  String get emailDeliveryTitle => 'Estado do envio';
+
+  @override
+  String get emailDeliveryDelivered => 'Entregue';
+
+  @override
+  String get emailDeliveryNotDelivered => 'Não entregue';
+
+  @override
+  String get emailDeliveryHandedToBridge => 'Entregue à ponte';
+
+  @override
+  String get emailDeliveryAccepted => 'Aceite';
+
+  @override
+  String get emailDeliveryWaiting => 'Pendente';
+
+  @override
+  String get emailDeliveryRefused => 'Recusado';
+
+  @override
+  String get emailDeliveryBlob => 'Conteúdo encriptado';
+
+  @override
+  String get emailDeliverySelfCopy =>
+      'A sua cópia, para os seus outros dispositivos';
+
+  @override
   String get emailNip59Dismiss => 'Fechar';
 
   @override
@@ -3644,6 +3692,54 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get emailDownloadAll => 'Baixar todos';
+
+  @override
+  String get emailDeliverySending => 'Enviando';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Não entregue a $count destinatários',
+      one: 'Não entregue a $count destinatário',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailDeliveryDetails => 'Detalhes';
+
+  @override
+  String get emailDeliveryRetry => 'Tentar novamente';
+
+  @override
+  String get emailDeliveryTitle => 'Status do envio';
+
+  @override
+  String get emailDeliveryDelivered => 'Entregue';
+
+  @override
+  String get emailDeliveryNotDelivered => 'Não entregue';
+
+  @override
+  String get emailDeliveryHandedToBridge => 'Entregue à ponte';
+
+  @override
+  String get emailDeliveryAccepted => 'Aceito';
+
+  @override
+  String get emailDeliveryWaiting => 'Pendente';
+
+  @override
+  String get emailDeliveryRefused => 'Recusado';
+
+  @override
+  String get emailDeliveryBlob => 'Conteúdo criptografado';
+
+  @override
+  String get emailDeliverySelfCopy =>
+      'Sua cópia, para seus outros dispositivos';
 
   @override
   String get emailNip59Dismiss => 'Fechar';

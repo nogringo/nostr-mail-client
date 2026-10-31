@@ -4,6 +4,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import '../email_controller.dart';
+import 'delivery_details_sheet.dart';
 
 class EmailAction {
   final IconData icon;
@@ -42,6 +43,7 @@ EmailActions buildEmailActions(
       (mailbox?.isRequests ?? false) || (mailbox?.isSpam ?? false);
   final canFile = !isInTrash && !isScreened && controller.summary != null;
   final canBlockSender = !isUnknown && !isScreened && !controller.isFromMe;
+  final delivery = controller.delivery;
 
   return EmailActions(
     primary: [
@@ -107,6 +109,12 @@ EmailActions buildEmailActions(
           label: l.senderBlock,
           onPressed: () =>
               controller.setSenderVerdict(context, SenderVerdict.block),
+        ),
+      if (delivery != null && delivery.delivery != null)
+        EmailAction(
+          icon: Icons.outbox_outlined,
+          label: l.emailDeliveryTitle,
+          onPressed: () => showDeliveryDetails(context, delivery),
         ),
       EmailAction(
         icon: Icons.info_outline,

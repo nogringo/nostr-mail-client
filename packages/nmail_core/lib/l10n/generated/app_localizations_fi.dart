@@ -1223,6 +1223,53 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailDownloadAll => 'Lataa kaikki';
 
   @override
+  String get emailDeliverySending => 'Lähetetään';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ei toimitettu $count vastaanottajalle',
+      one: 'Ei toimitettu $count vastaanottajalle',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get emailDeliveryDetails => 'Tiedot';
+
+  @override
+  String get emailDeliveryRetry => 'Yritä uudelleen';
+
+  @override
+  String get emailDeliveryTitle => 'Toimituksen tila';
+
+  @override
+  String get emailDeliveryDelivered => 'Toimitettu';
+
+  @override
+  String get emailDeliveryNotDelivered => 'Ei toimitettu';
+
+  @override
+  String get emailDeliveryHandedToBridge => 'Välitetty sillalle';
+
+  @override
+  String get emailDeliveryAccepted => 'Hyväksytty';
+
+  @override
+  String get emailDeliveryWaiting => 'Odottaa';
+
+  @override
+  String get emailDeliveryRefused => 'Hylätty';
+
+  @override
+  String get emailDeliveryBlob => 'Salattu sisältö';
+
+  @override
+  String get emailDeliverySelfCopy => 'Oma kopiosi muille laitteillesi';
+
+  @override
   String get emailNip59Dismiss => 'Unohda';
 
   @override

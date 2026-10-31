@@ -1134,6 +1134,47 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailDownloadAll => 'すべてダウンロード';
 
   @override
+  String get emailDeliverySending => '送信中';
+
+  @override
+  String emailDeliveryNotDeliveredCount(int count) {
+    return '$count 人の受信者に届いていません';
+  }
+
+  @override
+  String get emailDeliveryDetails => '詳細';
+
+  @override
+  String get emailDeliveryRetry => '再試行';
+
+  @override
+  String get emailDeliveryTitle => '配信状況';
+
+  @override
+  String get emailDeliveryDelivered => '配信済み';
+
+  @override
+  String get emailDeliveryNotDelivered => '未配信';
+
+  @override
+  String get emailDeliveryHandedToBridge => 'ブリッジに引き渡し済み';
+
+  @override
+  String get emailDeliveryAccepted => '受理済み';
+
+  @override
+  String get emailDeliveryWaiting => '待機中';
+
+  @override
+  String get emailDeliveryRefused => '拒否';
+
+  @override
+  String get emailDeliveryBlob => '暗号化されたコンテンツ';
+
+  @override
+  String get emailDeliverySelfCopy => 'ほかの端末用のコピー';
+
+  @override
   String get emailNip59Dismiss => '閉じる';
 
   @override

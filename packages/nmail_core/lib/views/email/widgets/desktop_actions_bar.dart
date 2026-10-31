@@ -13,7 +13,11 @@ class DesktopActionsBar extends StatelessWidget {
     final emailController = EmailController.to;
 
     return ListenableBuilder(
-      listenable: emailController,
+      // The delivery action waits for the queues to tell what this device sent.
+      listenable: Listenable.merge([
+        emailController,
+        ?emailController.delivery,
+      ]),
       builder: (context, _) {
         final actions = buildEmailActions(
           context,
