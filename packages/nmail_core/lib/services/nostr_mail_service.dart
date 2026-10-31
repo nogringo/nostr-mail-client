@@ -66,7 +66,6 @@ class NostrMailService {
       broadcastQueue: GetIt.I<OfflineBroadcast>(),
       blossomUploadQueue: GetIt.I<OfflineBlossomUpload>(),
       schedulerDvm: NostrConfig.schedulerDvm,
-      defaultDmRelays: NostrConfig.recommendedDmRelays,
       defaultNip65Relays: NostrConfig.recommendedInboxOutboxRelays,
     );
     return this;
@@ -106,6 +105,7 @@ class NostrMailService {
   /// Returns the current user's NIP-65 outbox (write/readWrite) relays,
   /// falling back to [NostrConfig.bootstrapRelays] when none are set yet.
   Future<List<String>> getOutboxRelays() async {
+    // TODO: use no bootstrap relays, as fallback or for the NIP-65 lookup.
     final pubkey = _ndk.accounts.getPublicKey();
     if (pubkey == null) return List<String>.from(NostrConfig.bootstrapRelays);
 

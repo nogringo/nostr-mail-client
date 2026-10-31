@@ -1956,6 +1956,36 @@ class AppLocalizationsFi extends AppLocalizations {
   String get composeSendFailed => 'Viestin lähetys epäonnistui';
 
   @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Käyttäjillä $names ei ole releluetteloa, joten he eivät voi vastaanottaa viestejä',
+      one:
+          'Käyttäjällä $names ei ole releluetteloa, joten hän ei voi vastaanottaa viestejä',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ei voitu tarkistaa, voivatko $names vastaanottaa viestejä. Tarkista yhteytesi.',
+      one:
+          'Ei voitu tarkistaa, voiko $names vastaanottaa viestejä. Tarkista yhteytesi.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable =>
+      'Tililläsi ei ole releluetteloa. Lisää se asetuksissa, jotta voit lähettää viestejä.';
+
+  @override
   String get composeScheduleSend => 'Ajasta lähetys';
 
   @override

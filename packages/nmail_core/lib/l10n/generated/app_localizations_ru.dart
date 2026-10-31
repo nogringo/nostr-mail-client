@@ -1974,6 +1974,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String get composeSendFailed => 'Не удалось отправить письмо';
 
   @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names: нет списка реле, получение писем невозможно',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Не удалось проверить, могут ли $names получать письма. Проверьте подключение.',
+      one:
+          'Не удалось проверить, может ли $names получать письма. Проверьте подключение.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable =>
+      'У вашего аккаунта нет списка реле. Добавьте его в настройках, чтобы отправлять письма.';
+
+  @override
   String get composeScheduleSend => 'Запланировать отправку';
 
   @override

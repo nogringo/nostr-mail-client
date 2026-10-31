@@ -3499,6 +3499,24 @@ abstract class AppLocalizations {
   /// **'Failed to send email'**
   String get composeSendFailed;
 
+  /// Inline text under the recipient chips, and error toast when sending, naming the Nostr recipients without NIP-65 read relays. `names` is a comma-separated list of display names, `count` how many there are.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{names} has no relay list and can\'t receive emails} other{{names} have no relay list and can\'t receive emails}}'**
+  String composeRecipientsUnreachable(int count, String names);
+
+  /// Inline text under the recipient chips, and error toast when sending, naming the Nostr recipients whose relay list lookup got no answer (offline). `names` is a comma-separated list of display names, `count` how many there are.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Couldn\'t check whether {names} can receive emails. Check your connection.} other{Couldn\'t check whether {names} can receive emails. Check your connection.}}'**
+  String composeRecipientsUnchecked(int count, String names);
+
+  /// Error toast when sending fails because the sender's own account has no relay list to keep its copy on
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has no relay list. Add one in Settings to send emails.'**
+  String get composeSenderUnreachable;
+
   /// Tooltip for the button that schedules an email for later delivery
   ///
   /// In en, this message translates to:

@@ -1977,6 +1977,34 @@ class AppLocalizationsPt extends AppLocalizations {
   String get composeSendFailed => 'Falha ao enviar o email';
 
   @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names não têm lista de relés e não podem receber emails',
+      one: '$names não tem lista de relés e não pode receber emails',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Não foi possível verificar se $names podem receber emails. Verifique a sua ligação.',
+      one:
+          'Não foi possível verificar se $names pode receber emails. Verifique a sua ligação.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable =>
+      'A sua conta não tem lista de relés. Adicione uma nas definições para enviar emails.';
+
+  @override
   String get composeScheduleSend => 'Agendar envio';
 
   @override
@@ -4426,6 +4454,34 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get composeSendFailed => 'Falha ao enviar o e-mail';
+
+  @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names não têm lista de relays e não podem receber e-mails',
+      one: '$names não tem lista de relays e não pode receber e-mails',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Não foi possível verificar se $names podem receber e-mails. Verifique sua conexão.',
+      one:
+          'Não foi possível verificar se $names pode receber e-mails. Verifique sua conexão.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable =>
+      'Sua conta não tem lista de relays. Adicione uma nas configurações para enviar e-mails.';
 
   @override
   String get composeScheduleSend => 'Agendar envio';

@@ -391,6 +391,7 @@ class AuthController {
     final targets = UrlSet.explicit(
       {
         ...NostrConfig.popularRelays,
+        // TODO: drop the bootstrap relays, never a place the account writes to.
         ...NostrConfig.bootstrapRelays,
         ...?userRelayList?.relays.keys,
         ...dmRelays,

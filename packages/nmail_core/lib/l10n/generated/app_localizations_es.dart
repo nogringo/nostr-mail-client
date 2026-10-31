@@ -1967,6 +1967,34 @@ class AppLocalizationsEs extends AppLocalizations {
   String get composeSendFailed => 'Error al enviar el correo';
 
   @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names no tienen lista de relés y no pueden recibir correos',
+      one: '$names no tiene lista de relés y no puede recibir correos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'No se pudo comprobar si $names pueden recibir correos. Revisa tu conexión.',
+      one:
+          'No se pudo comprobar si $names puede recibir correos. Revisa tu conexión.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable =>
+      'Tu cuenta no tiene lista de relés. Añade una en Ajustes para enviar correos.';
+
+  @override
   String get composeScheduleSend => 'Programar envío';
 
   @override

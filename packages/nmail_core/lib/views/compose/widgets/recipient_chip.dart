@@ -68,35 +68,47 @@ class RecipientChip extends StatelessWidget {
   Widget _buildNostrChip(BuildContext context, VoidCallback onPressed) {
     final colorScheme = Theme.of(context).colorScheme;
     final profile = _profile;
-    return InputChip(
-      onPressed: onPressed,
-      shape: const StadiumBorder(),
-      backgroundColor: colorScheme.primaryContainer,
-      side: BorderSide(color: colorScheme.primary.withValues(alpha: 0.3)),
-      avatar: _buildAvatar(context),
-      label: ListenableBuilder(
-        listenable: Listenable.merge([profile]),
-        builder: (context, _) {
-          // Warms the MX lookup so the card has the SMTP action on open.
-          recipientSmtpAddress(recipient);
-          final contactName = recipient.displayName;
-          return Text(
+    final reachability = controller.reachabilityOf(recipient);
+    return ListenableBuilder(
+      listenable: Listenable.merge([profile, reachability]),
+      builder: (context, _) {
+        // Warms the MX lookup so the card has the SMTP action on open.
+        recipientSmtpAddress(recipient);
+        final blocked = switch (reachability?.value) {
+          RecipientReachability.unreachable ||
+          RecipientReachability.unknown => true,
+          _ => false,
+        };
+        final foreground = blocked
+            ? colorScheme.onErrorContainer
+            : colorScheme.primary;
+        final contactName = recipient.displayName;
+        return InputChip(
+          onPressed: onPressed,
+          shape: const StadiumBorder(),
+          backgroundColor: blocked
+              ? colorScheme.errorContainer
+              : colorScheme.primaryContainer,
+          side: BorderSide(
+            color: blocked
+                ? colorScheme.error
+                : colorScheme.primary.withValues(alpha: 0.3),
+          ),
+          avatar: _buildAvatar(context),
+          label: Text(
             contactName?.isNotEmpty == true
                 ? contactName!
                 : profile?.value?.realName ?? recipient.label,
-            style: TextStyle(
-              color: colorScheme.primary,
-              fontWeight: FontWeight.w500,
-            ),
-          );
-        },
-      ),
-      deleteIcon: Icon(
-        Icons.close,
-        size: 18,
-        color: colorScheme.primary.withValues(alpha: 0.6),
-      ),
-      onDeleted: onDelete,
+            style: TextStyle(color: foreground, fontWeight: FontWeight.w500),
+          ),
+          deleteIcon: Icon(
+            Icons.close,
+            size: 18,
+            color: foreground.withValues(alpha: 0.6),
+          ),
+          onDeleted: onDelete,
+        );
+      },
     );
   }
 

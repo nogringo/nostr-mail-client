@@ -1831,6 +1831,29 @@ class AppLocalizationsZh extends AppLocalizations {
   String get composeSendFailed => '发送邮件失败';
 
   @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names 没有中继列表，无法接收邮件',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '无法确认 $names 能否接收邮件。请检查网络连接。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable => '你的账户没有中继列表。请在设置中添加一个以发送邮件。';
+
+  @override
   String get composeScheduleSend => '定时发送';
 
   @override

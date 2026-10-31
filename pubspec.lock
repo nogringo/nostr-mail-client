@@ -1806,10 +1806,10 @@ packages:
     dependency: transitive
     description:
       name: url_set_for_ndk
-      sha256: "17c26f8ae1afa7067531033b08f62f64d736dcaae73b32bfe5d688a5ef02c3b1"
+      sha256: "6098b3c6c0b327c0520714df994123d0e594eb7cb34f7ee7b4f7dd4b10592b2a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   uuid:
     dependency: transitive
     description:

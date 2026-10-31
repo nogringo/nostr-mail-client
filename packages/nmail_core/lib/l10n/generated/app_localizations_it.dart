@@ -1977,6 +1977,34 @@ class AppLocalizationsIt extends AppLocalizations {
   String get composeSendFailed => 'Impossibile inviare l\'email';
 
   @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names non hanno un elenco di relay e non possono ricevere email',
+      one: '$names non ha un elenco di relay e non può ricevere email',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Impossibile verificare se $names possono ricevere email. Controlla la connessione.',
+      one:
+          'Impossibile verificare se $names può ricevere email. Controlla la connessione.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable =>
+      'Il tuo account non ha un elenco di relay. Aggiungine uno nelle impostazioni per inviare email.';
+
+  @override
   String get composeScheduleSend => 'Pianifica invio';
 
   @override

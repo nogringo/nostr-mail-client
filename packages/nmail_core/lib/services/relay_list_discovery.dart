@@ -56,6 +56,7 @@ class RelayListDiscovery {
     return searchOn(
       pubkey,
       {
+        // TODO: drop the bootstrap relays, never a place to look a list up.
         ...NostrConfig.bootstrapRelays,
         ...NostrConfig.popularRelays,
         ...NostrConfig.discoveryRelays,
@@ -121,6 +122,7 @@ class RelayListDiscovery {
     if (pubkeys.isEmpty) return const {};
 
     final relays = {
+      // TODO: drop the bootstrap relays, never a place to look a list up.
       ...NostrConfig.bootstrapRelays,
       ...NostrConfig.popularRelays,
       ...NostrConfig.discoveryRelays,

@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:collection/collection.dart';
 import 'package:enough_mail_plus/enough_mail.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show PlatformException;
 import 'package:flutter_quill/flutter_quill.dart';
@@ -28,6 +28,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/compose_attachment.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/contact.dart';
+import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/models/send_mode.dart';
@@ -35,6 +36,7 @@ import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/browser_image_paste/browser_image_paste.dart';
+import 'package:nmail_core/utils/email_person_utils.dart';
 import 'package:nmail_core/utils/get_attachements.dart';
 import 'package:nmail_core/utils/html_image_scan.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
@@ -295,6 +297,93 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       };
 
   FocusNode focusNodeOf(RecipientField field) => _recipientFocusNodes[field]!;
+
+  final _reachability = <String, ValueNotifier<RecipientReachability>>{};
+  final _reachabilityChecks = <String, Future<void>>{};
+
+  /// The first call for a pubkey starts its lookup. Null for a recipient sent
+  /// through SMTP: the send checks its bridge.
+  ValueListenable<RecipientReachability>? reachabilityOf(Recipient recipient) {
+    final pubkey = recipient.pubkey;
+    if (!recipient.isNostr || pubkey == null) return null;
+    return _reachability[pubkey] ?? _checkReachability(pubkey);
+  }
+
+  ValueNotifier<RecipientReachability> _checkReachability(String pubkey) {
+    final notifier = _reachability[pubkey] ??= ValueNotifier(
+      RecipientReachability.checking,
+    );
+    notifier.value = RecipientReachability.checking;
+    _reachabilityChecks[pubkey] = () async {
+      RecipientReachability result;
+      try {
+        final relays = await _nostrMailService.client.getReadRelays(pubkey);
+        result = relays.isEmpty
+            ? RecipientReachability.unreachable
+            : RecipientReachability.reachable;
+      } catch (_) {
+        result = RecipientReachability.unknown;
+      }
+      if (!_isDisposed) notifier.value = result;
+    }();
+    return notifier;
+  }
+
+  /// Looks again at every recipient not known to be reachable, since a list
+  /// published meanwhile or a connection back decides it now.
+  Future<bool> _recipientsReachable() async {
+    final pubkeys = {
+      for (final r in [...recipients, ...ccRecipients, ...bccRecipients])
+        if (r.isNostr) ?r.pubkey,
+    };
+    for (final pubkey in pubkeys) {
+      final state = _reachability[pubkey]?.value;
+      if (state == RecipientReachability.reachable ||
+          state == RecipientReachability.checking) {
+        continue;
+      }
+      _checkReachability(pubkey);
+    }
+
+    final pending = [
+      for (final p in pubkeys)
+        if (_reachability[p]!.value == RecipientReachability.checking)
+          ?_reachabilityChecks[p],
+    ];
+    if (pending.isNotEmpty) {
+      isSending = true;
+      await Future.wait(pending);
+      if (_isDisposed) return false;
+      isSending = false;
+    }
+
+    List<String> namesOf(RecipientReachability state) => [
+      for (final p in pubkeys)
+        if (_reachability[p]!.value == state)
+          emailPersonName(EmailPerson.nostr(p)),
+    ];
+    final l = AppLocalizations.of(AppRouter.rootContext!);
+    final unreachable = namesOf(RecipientReachability.unreachable);
+    if (unreachable.isNotEmpty) {
+      ToastHelper.error(
+        AppRouter.rootContext!,
+        l.composeRecipientsUnreachable(
+          unreachable.length,
+          unreachable.join(', '),
+        ),
+      );
+      return false;
+    }
+    final unknown = namesOf(RecipientReachability.unknown);
+    if (unknown.isNotEmpty) {
+      ToastHelper.error(
+        AppRouter.rootContext!,
+        l.composeRecipientsUnchecked(unknown.length, unknown.join(', ')),
+      );
+      return false;
+    }
+    return true;
+  }
 
   void removeRecipientFrom(RecipientField field, Recipient recipient) {
     final list = recipientsOf(field);
@@ -774,8 +863,6 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       );
 
       return true;
-    } catch (e) {
-      return false;
     } finally {
       isSending = false;
     }
@@ -810,8 +897,6 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       );
 
       return true;
-    } catch (e) {
-      return false;
     } finally {
       isSending = false;
     }
@@ -1494,6 +1579,9 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   @override
   void dispose() {
     _isDisposed = true;
+    for (final notifier in _reachability.values) {
+      notifier.dispose();
+    }
     _browserImagePaste?.cancel();
     toController.dispose();
     ccController.dispose();
@@ -1553,30 +1641,53 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
 
     if (!await _cancelEditedOriginal()) return;
 
-    final success = at != null
-        ? await scheduleSend(
-            from: selectedFrom?.address,
-            subject: subjectController.text,
-            document: quillController.document,
-            at: at,
-            mode: sendMode,
-          )
-        : await send(
-            from: selectedFrom?.address,
-            subject: subjectController.text,
-            document: quillController.document,
-            mode: sendMode,
-          );
-
     final l = AppLocalizations.of(AppRouter.rootContext!);
-    if (success) {
-      AppRouter.router.pop();
-    } else {
-      ToastHelper.error(
-        AppRouter.rootContext!,
-        at != null ? l.composeScheduleFailed : l.composeSendFailed,
-      );
-    }
+    try {
+      final success = at != null
+          ? await scheduleSend(
+              from: selectedFrom?.address,
+              subject: subjectController.text,
+              document: quillController.document,
+              at: at,
+              mode: sendMode,
+            )
+          : await send(
+              from: selectedFrom?.address,
+              subject: subjectController.text,
+              document: quillController.document,
+              mode: sendMode,
+            );
+      if (success) {
+        AppRouter.router.pop();
+        return;
+      }
+    } on UnreachableRecipientsException catch (e) {
+      ToastHelper.error(AppRouter.rootContext!, _unreachableMessage(l, e));
+      return;
+    } catch (_) {}
+    ToastHelper.error(
+      AppRouter.rootContext!,
+      at != null ? l.composeScheduleFailed : l.composeSendFailed,
+    );
+  }
+
+  /// A recipient that lost its relay list since the compose checked it, an
+  /// SMTP bridge without one, or the sender's own account.
+  String _unreachableMessage(
+    AppLocalizations l,
+    UnreachableRecipientsException e,
+  ) {
+    if (e.recipients.isEmpty) return l.composeSenderUnreachable;
+    final names = [
+      for (final r in e.recipients)
+        switch (r) {
+          NostrRecipient(:final pubkey) => emailPersonName(
+            EmailPerson.nostr(pubkey),
+          ),
+          SmtpRecipient(:final email) => email,
+        },
+    ];
+    return l.composeRecipientsUnreachable(names.length, names.join(', '));
   }
 
   /// When editing a scheduled email, cancel the original before (re)sending so
@@ -1628,6 +1739,8 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       ToastHelper.error(AppRouter.rootContext!, l.composeAddRecipient);
       return false;
     }
+
+    if (!await _recipientsReachable()) return false;
 
     if (selectedFrom == null && fromOptions.isNotEmpty) {
       selectedFrom = fromOptions.first;

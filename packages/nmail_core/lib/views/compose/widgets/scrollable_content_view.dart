@@ -16,6 +16,7 @@ import 'quill_toolbar_view.dart';
 import 'quoted_email_view.dart';
 import 'recipient_autocomplete.dart';
 import 'schedule_banner.dart';
+import 'unreachable_recipients_text.dart';
 
 class ScrollableContentView extends StatelessWidget {
   const ScrollableContentView({super.key, required this.controller});
@@ -34,13 +35,18 @@ class ScrollableContentView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (controller.recipients.isNotEmpty)
+            if (controller.recipients.isNotEmpty) ...[
               RecipientChipsRow(
                 controller: controller,
                 field: RecipientField.to,
                 recipients: controller.recipients,
                 onDelete: controller.removeRecipient,
               ),
+              UnreachableRecipientsText(
+                controller: controller,
+                recipients: controller.recipients,
+              ),
+            ],
             Row(
               children: [
                 Expanded(
@@ -90,13 +96,18 @@ class ScrollableContentView extends StatelessWidget {
             ),
             if (controller.showExpandedFields) ...[
               const Divider(height: 1),
-              if (controller.ccRecipients.isNotEmpty)
+              if (controller.ccRecipients.isNotEmpty) ...[
                 RecipientChipsRow(
                   controller: controller,
                   field: RecipientField.cc,
                   recipients: controller.ccRecipients,
                   onDelete: controller.removeCcRecipient,
                 ),
+                UnreachableRecipientsText(
+                  controller: controller,
+                  recipients: controller.ccRecipients,
+                ),
+              ],
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: RecipientAutocomplete(
@@ -110,13 +121,18 @@ class ScrollableContentView extends StatelessWidget {
                 ),
               ),
               const Divider(height: 1),
-              if (controller.bccRecipients.isNotEmpty)
+              if (controller.bccRecipients.isNotEmpty) ...[
                 RecipientChipsRow(
                   controller: controller,
                   field: RecipientField.bcc,
                   recipients: controller.bccRecipients,
                   onDelete: controller.removeBccRecipient,
                 ),
+                UnreachableRecipientsText(
+                  controller: controller,
+                  recipients: controller.bccRecipients,
+                ),
+              ],
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: RecipientAutocomplete(

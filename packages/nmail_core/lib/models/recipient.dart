@@ -6,6 +6,10 @@ enum RecipientType { nostr, legacy }
 
 enum RecipientField { to, cc, bcc }
 
+/// Whether a Nostr recipient has NIP-65 read relays, which every email to it
+/// needs. [unknown] when no relay answered the lookup.
+enum RecipientReachability { checking, reachable, unreachable, unknown }
+
 class Recipient {
   final String input;
   final String? pubkey;

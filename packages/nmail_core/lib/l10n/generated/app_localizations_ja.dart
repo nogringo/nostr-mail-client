@@ -1846,6 +1846,30 @@ class AppLocalizationsJa extends AppLocalizations {
   String get composeSendFailed => 'メールの送信に失敗しました';
 
   @override
+  String composeRecipientsUnreachable(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names にはリレーリストがないため、メールを受信できません',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUnchecked(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names がメールを受信できるか確認できませんでした。接続を確認してください。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get composeSenderUnreachable =>
+      'アカウントにリレーリストがありません。メールを送信するには設定で追加してください。';
+
+  @override
   String get composeScheduleSend => '送信を予約';
 
   @override
