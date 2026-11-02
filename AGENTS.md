@@ -199,6 +199,7 @@ Current route model:
 - Folder routes are URL-driven: `/inbox`, `/sent`, `/archive`, `/trash`.
 - Email details are nested under folders as `/<folder>/email/:id`.
 - Scheduled mail: `/scheduled`.
+- Drafts: `/drafts`; a draft reopens in `/compose`.
 - Contacts: `/contacts`, `/contacts/form`.
 - Compose: `/compose`; `ComposeView` owns its `ComposeController` through `ControllerBuilder`, which disposes it with the page.
 - Settings tree: `/settings`, `/settings/identities`, `/settings/identities/new`, `/settings/hosting`, `/settings/debug-tools`.

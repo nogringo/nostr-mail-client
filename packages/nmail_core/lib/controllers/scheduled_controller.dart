@@ -6,6 +6,7 @@ import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/utils/scheduled_email_extensions.dart';
+import 'package:nmail_core/utils/selection_range.dart';
 
 class ScheduledController extends ChangeNotifier {
   ScheduledController() {
@@ -25,6 +26,9 @@ class ScheduledController extends ChangeNotifier {
   bool isSyncing = false;
   final selectedIds = <String>{};
   final hoveredId = ValueNotifier<String?>(null);
+
+  String? _selectionAnchorId;
+  bool _selectionAnchorChecked = false;
 
   /// Ticks so an email turns overdue on screen without waiting for feedback.
   DateTime now = DateTime.now();
@@ -82,6 +86,27 @@ class ScheduledController extends ChangeNotifier {
     } else {
       selectedIds.add(id);
     }
+    _selectionAnchorId = id;
+    _selectionAnchorChecked = selectedIds.contains(id);
+    notifyListeners();
+  }
+
+  /// Applies the anchor's own state to every row between it and [id], as in
+  /// [InboxController.extendSelectionTo].
+  void extendSelectionTo(String id) {
+    final anchor = _selectionAnchorId;
+    final range = anchor == null
+        ? const <String>[]
+        : idsInRange(scheduled.map((e) => e.packageId).toList(), anchor, id);
+    if (range.isEmpty) {
+      toggleSelection(id);
+      return;
+    }
+    if (_selectionAnchorChecked) {
+      selectedIds.addAll(range);
+    } else {
+      selectedIds.removeAll(range);
+    }
     notifyListeners();
   }
 
@@ -89,11 +114,13 @@ class ScheduledController extends ChangeNotifier {
     selectedIds
       ..clear()
       ..addAll(scheduled.map((e) => e.packageId));
+    _selectionAnchorId = null;
     notifyListeners();
   }
 
   void clearSelection() {
     selectedIds.clear();
+    _selectionAnchorId = null;
     notifyListeners();
   }
 

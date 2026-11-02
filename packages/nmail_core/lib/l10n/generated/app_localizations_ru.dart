@@ -839,6 +839,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get folderScheduled => 'Запланированные';
 
   @override
+  String get folderDrafts => 'Черновики';
+
+  @override
   String get inboxEmptyInbox => 'Писем пока нет';
 
   @override
@@ -2044,6 +2047,31 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Отклонено';
+
+  @override
+  String get draftsEmpty => 'Нет черновиков';
+
+  @override
+  String get draftsNoRecipients => 'Нет получателей';
+
+  @override
+  String get draftsDeleteFailed => 'Не удалось удалить черновик';
+
+  @override
+  String get draftOpenFailed => 'Не удалось открыть черновик';
+
+  @override
+  String get draftSaveFailed => 'Не удалось сохранить черновик';
+
+  @override
+  String get composeDiscardDraft => 'Удалить черновик';
+
+  @override
+  String get composeDiscardDraftTitle => 'Удалить этот черновик?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Он будет удалён со всех ваших устройств.';
 
   @override
   String get profileLoadFailed => 'Не удалось загрузить данные профиля';

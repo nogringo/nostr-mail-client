@@ -834,6 +834,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get folderScheduled => 'Scheduled';
 
   @override
+  String get folderDrafts => 'Drafts';
+
+  @override
   String get inboxEmptyInbox => 'No emails yet';
 
   @override
@@ -2018,6 +2021,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Rejected';
+
+  @override
+  String get draftsEmpty => 'No drafts';
+
+  @override
+  String get draftsNoRecipients => 'No recipients';
+
+  @override
+  String get draftsDeleteFailed => 'Failed to delete draft';
+
+  @override
+  String get draftOpenFailed => 'Failed to open draft';
+
+  @override
+  String get draftSaveFailed => 'Failed to save draft';
+
+  @override
+  String get composeDiscardDraft => 'Discard draft';
+
+  @override
+  String get composeDiscardDraftTitle => 'Discard this draft?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'It will be deleted from all your devices.';
 
   @override
   String get profileLoadFailed => 'Failed to load profile data';

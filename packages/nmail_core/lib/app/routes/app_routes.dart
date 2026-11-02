@@ -39,6 +39,7 @@ class AppRoutes {
   static const spam = '/spam';
   static const trash = '/trash';
   static const scheduled = '/scheduled';
+  static const drafts = '/drafts';
 
   // User folders and tags, by the id their private-settings entry carries.
   // The UI calls tags labels, and so does the URL.

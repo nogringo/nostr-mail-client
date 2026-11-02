@@ -292,6 +292,7 @@
   "folderRequests": "Pyynnöt",
   "folderSpam": "Roskaposti",
   "folderScheduled": "Ajastetut",
+  "folderDrafts": "Luonnokset",
   "inboxEmptyInbox": "Ei sähköpostia",
   "inboxEmptySent": "Ei lähetettyjä viestejä",
   "inboxEmptyTrash": "Roskakori on tyhjä",
@@ -732,6 +733,15 @@
   "scheduledStatusOverdue": "Myöhässä",
   "scheduledStatusFailed": "Epäonnistui",
   "scheduledStatusError": "Hylätty",
+
+  "draftsEmpty": "Ei luonnoksia",
+  "draftsNoRecipients": "Ei vastaanottajia",
+  "draftsDeleteFailed": "Luonnoksen poistaminen epäonnistui",
+  "draftOpenFailed": "Luonnoksen avaaminen epäonnistui",
+  "draftSaveFailed": "Luonnoksen tallentaminen epäonnistui",
+  "composeDiscardDraft": "Hylkää luonnos",
+  "composeDiscardDraftTitle": "Hylätäänkö tämä luonnos?",
+  "composeDiscardDraftMessage": "Se poistetaan kaikilta laitteiltasi.",
 
   "profileLoadFailed": "Profiilitietojen haku epäonnistui",
   "profileSelectPicture": "Valitse profiilikuva",

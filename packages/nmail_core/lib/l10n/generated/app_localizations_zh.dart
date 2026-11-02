@@ -800,6 +800,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get folderScheduled => '定时邮件';
 
   @override
+  String get folderDrafts => '草稿';
+
+  @override
   String get inboxEmptyInbox => '暂无邮件';
 
   @override
@@ -1896,6 +1899,30 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get scheduledStatusError => '已拒绝';
+
+  @override
+  String get draftsEmpty => '没有草稿';
+
+  @override
+  String get draftsNoRecipients => '无收件人';
+
+  @override
+  String get draftsDeleteFailed => '无法删除草稿';
+
+  @override
+  String get draftOpenFailed => '无法打开草稿';
+
+  @override
+  String get draftSaveFailed => '无法保存草稿';
+
+  @override
+  String get composeDiscardDraft => '舍弃草稿';
+
+  @override
+  String get composeDiscardDraftTitle => '舍弃此草稿?';
+
+  @override
+  String get composeDiscardDraftMessage => '它将从您的所有设备中删除。';
 
   @override
   String get profileLoadFailed => '加载个人资料失败';

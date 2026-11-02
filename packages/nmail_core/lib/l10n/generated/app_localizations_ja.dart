@@ -808,6 +808,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get folderScheduled => '予約済み';
 
   @override
+  String get folderDrafts => '下書き';
+
+  @override
   String get inboxEmptyInbox => 'メールはまだありません';
 
   @override
@@ -1912,6 +1915,30 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get scheduledStatusError => '拒否';
+
+  @override
+  String get draftsEmpty => '下書きはありません';
+
+  @override
+  String get draftsNoRecipients => '宛先なし';
+
+  @override
+  String get draftsDeleteFailed => '下書きを削除できませんでした';
+
+  @override
+  String get draftOpenFailed => '下書きを開けませんでした';
+
+  @override
+  String get draftSaveFailed => '下書きを保存できませんでした';
+
+  @override
+  String get composeDiscardDraft => '下書きを破棄';
+
+  @override
+  String get composeDiscardDraftTitle => 'この下書きを破棄しますか?';
+
+  @override
+  String get composeDiscardDraftMessage => 'すべてのデバイスから削除されます。';
 
   @override
   String get profileLoadFailed => 'プロフィールデータの読み込みに失敗しました';

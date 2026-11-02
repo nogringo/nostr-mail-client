@@ -842,6 +842,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get folderScheduled => 'Geplant';
 
   @override
+  String get folderDrafts => 'Entwürfe';
+
+  @override
   String get inboxEmptyInbox => 'Noch keine E-Mails';
 
   @override
@@ -2038,6 +2041,31 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Abgelehnt';
+
+  @override
+  String get draftsEmpty => 'Keine Entwürfe';
+
+  @override
+  String get draftsNoRecipients => 'Keine Empfänger';
+
+  @override
+  String get draftsDeleteFailed => 'Entwurf konnte nicht gelöscht werden';
+
+  @override
+  String get draftOpenFailed => 'Entwurf konnte nicht geöffnet werden';
+
+  @override
+  String get draftSaveFailed => 'Entwurf konnte nicht gespeichert werden';
+
+  @override
+  String get composeDiscardDraft => 'Entwurf verwerfen';
+
+  @override
+  String get composeDiscardDraftTitle => 'Diesen Entwurf verwerfen?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Er wird von allen deinen Geräten gelöscht.';
 
   @override
   String get profileLoadFailed => 'Profildaten konnten nicht geladen werden';

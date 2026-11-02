@@ -292,6 +292,7 @@
   "folderRequests": "Richieste",
   "folderSpam": "Spam",
   "folderScheduled": "Programmate",
+  "folderDrafts": "Bozze",
   "inboxEmptyInbox": "Nessuna email",
   "inboxEmptySent": "Nessuna email inviata",
   "inboxEmptyTrash": "Il cestino è vuoto",
@@ -727,6 +728,15 @@
   "scheduledStatusOverdue": "In ritardo",
   "scheduledStatusFailed": "Non riuscito",
   "scheduledStatusError": "Rifiutato",
+
+  "draftsEmpty": "Nessuna bozza",
+  "draftsNoRecipients": "Nessun destinatario",
+  "draftsDeleteFailed": "Impossibile eliminare la bozza",
+  "draftOpenFailed": "Impossibile aprire la bozza",
+  "draftSaveFailed": "Impossibile salvare la bozza",
+  "composeDiscardDraft": "Elimina bozza",
+  "composeDiscardDraftTitle": "Eliminare questa bozza?",
+  "composeDiscardDraftMessage": "Verrà eliminata da tutti i tuoi dispositivi.",
 
   "profileLoadFailed": "Impossibile caricare i dati del profilo",
   "profileSelectPicture": "Seleziona foto profilo",

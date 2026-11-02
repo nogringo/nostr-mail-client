@@ -292,6 +292,7 @@
   "folderRequests": "Запросы",
   "folderSpam": "Спам",
   "folderScheduled": "Запланированные",
+  "folderDrafts": "Черновики",
   "inboxEmptyInbox": "Писем пока нет",
   "inboxEmptySent": "Нет отправленных писем",
   "inboxEmptyTrash": "Корзина пуста",
@@ -727,6 +728,15 @@
   "scheduledStatusOverdue": "Просрочено",
   "scheduledStatusFailed": "Не удалось",
   "scheduledStatusError": "Отклонено",
+
+  "draftsEmpty": "Нет черновиков",
+  "draftsNoRecipients": "Нет получателей",
+  "draftsDeleteFailed": "Не удалось удалить черновик",
+  "draftOpenFailed": "Не удалось открыть черновик",
+  "draftSaveFailed": "Не удалось сохранить черновик",
+  "composeDiscardDraft": "Удалить черновик",
+  "composeDiscardDraftTitle": "Удалить этот черновик?",
+  "composeDiscardDraftMessage": "Он будет удалён со всех ваших устройств.",
 
   "profileLoadFailed": "Не удалось загрузить данные профиля",
   "profileSelectPicture": "Выбрать фото профиля",

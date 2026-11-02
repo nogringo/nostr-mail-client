@@ -15,6 +15,7 @@ import '../../controllers/community_theme_controller.dart';
 import '../../controllers/community_themes_controller.dart';
 import '../../controllers/contacts_controller.dart';
 import '../../controllers/dm_relays_controller.dart';
+import '../../controllers/drafts_controller.dart';
 import '../../controllers/identities_controller.dart';
 import '../../controllers/inbox_controller.dart';
 import '../../models/mailbox.dart';
@@ -35,6 +36,7 @@ import '../../views/auth/login_view.dart';
 import '../../views/compose/compose_view.dart';
 import '../../views/contacts/contacts_view.dart';
 import '../../views/contacts/widgets/contact_form_page.dart';
+import '../../views/drafts/drafts_view.dart';
 import '../../views/email/email_controller.dart';
 import '../../views/email/email_view.dart';
 import '../../views/identity/create_identity_view.dart';
@@ -220,6 +222,17 @@ class AppRouter {
             },
           ),
 
+          GoRoute(
+            path: AppRoutes.drafts,
+            pageBuilder: (_, state) {
+              _registerOnce(DraftsController.new);
+              return NoTransitionPage(
+                key: state.pageKey,
+                child: const DraftsView(),
+              );
+            },
+          ),
+
           // Contact form (create/edit). Full-screen route on mobile; the
           // desktop dialog path is handled imperatively by showContactForm.
           // The ContactFormController is owned by ContactFormPage's
@@ -236,6 +249,8 @@ class AppRouter {
           ),
 
           // Compose
+          // TODO: give the composer a URL (`/compose?draft=<id>` once its draft
+          // is saved, as Gmail does), opened with `go()` instead of `push()`.
           GoRoute(
             path: AppRoutes.compose,
             builder: (_, state) {
@@ -245,6 +260,7 @@ class AppRouter {
                 sourceMode: extra?['mode'] as ComposeMode?,
                 initialRecipient: extra?['recipient'] as Recipient?,
                 editingScheduled: extra?['scheduledEmail'] as ScheduledEmail?,
+                editingDraft: extra?['draft'] as Draft?,
               );
             },
           ),

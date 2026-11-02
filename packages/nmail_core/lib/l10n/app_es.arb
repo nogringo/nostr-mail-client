@@ -292,6 +292,7 @@
   "folderRequests": "Solicitudes",
   "folderSpam": "Spam",
   "folderScheduled": "Programados",
+  "folderDrafts": "Borradores",
   "inboxEmptyInbox": "Aún no hay correos",
   "inboxEmptySent": "No hay correos enviados",
   "inboxEmptyTrash": "La papelera está vacía",
@@ -727,6 +728,15 @@
   "scheduledStatusOverdue": "Con retraso",
   "scheduledStatusFailed": "Fallido",
   "scheduledStatusError": "Rechazado",
+
+  "draftsEmpty": "No hay borradores",
+  "draftsNoRecipients": "Sin destinatarios",
+  "draftsDeleteFailed": "No se pudo eliminar el borrador",
+  "draftOpenFailed": "No se pudo abrir el borrador",
+  "draftSaveFailed": "No se pudo guardar el borrador",
+  "composeDiscardDraft": "Descartar borrador",
+  "composeDiscardDraftTitle": "¿Descartar este borrador?",
+  "composeDiscardDraftMessage": "Se eliminará de todos tus dispositivos.",
 
   "profileLoadFailed": "Error al cargar los datos del perfil",
   "profileSelectPicture": "Seleccionar foto de perfil",

@@ -842,6 +842,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get folderScheduled => 'Agendados';
 
   @override
+  String get folderDrafts => 'Rascunhos';
+
+  @override
   String get inboxEmptyInbox => 'Ainda não há emails';
 
   @override
@@ -2047,6 +2050,31 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Rejeitado';
+
+  @override
+  String get draftsEmpty => 'Sem rascunhos';
+
+  @override
+  String get draftsNoRecipients => 'Sem destinatários';
+
+  @override
+  String get draftsDeleteFailed => 'Falha ao eliminar o rascunho';
+
+  @override
+  String get draftOpenFailed => 'Falha ao abrir o rascunho';
+
+  @override
+  String get draftSaveFailed => 'Falha ao guardar o rascunho';
+
+  @override
+  String get composeDiscardDraft => 'Descartar rascunho';
+
+  @override
+  String get composeDiscardDraftTitle => 'Descartar este rascunho?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Será eliminado de todos os seus dispositivos.';
 
   @override
   String get profileLoadFailed => 'Falha ao carregar dados do perfil';
@@ -3315,6 +3343,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get folderScheduled => 'Agendados';
 
   @override
+  String get folderDrafts => 'Rascunhos';
+
+  @override
   String get inboxEmptyInbox => 'Nenhum e-mail ainda';
 
   @override
@@ -4520,6 +4551,31 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get scheduledStatusError => 'Rejeitado';
+
+  @override
+  String get draftsEmpty => 'Nenhum rascunho';
+
+  @override
+  String get draftsNoRecipients => 'Sem destinatários';
+
+  @override
+  String get draftsDeleteFailed => 'Falha ao excluir o rascunho';
+
+  @override
+  String get draftOpenFailed => 'Falha ao abrir o rascunho';
+
+  @override
+  String get draftSaveFailed => 'Falha ao salvar o rascunho';
+
+  @override
+  String get composeDiscardDraft => 'Descartar rascunho';
+
+  @override
+  String get composeDiscardDraftTitle => 'Descartar este rascunho?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Ele será excluído de todos os seus dispositivos.';
 
   @override
   String get profileLoadFailed => 'Falha ao carregar dados do perfil';

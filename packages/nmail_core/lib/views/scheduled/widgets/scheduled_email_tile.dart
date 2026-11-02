@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show HardwareKeyboard;
 import 'package:nostr_mail/nostr_mail.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
@@ -19,6 +20,10 @@ class ScheduledEmailTile extends StatelessWidget {
   final bool isSelected;
   final bool selectionMode;
   final VoidCallback onToggleSelect;
+
+  /// Selects everything between the last toggled row and this one, on
+  /// shift-click.
+  final VoidCallback onExtendSelect;
   final VoidCallback onCancel;
   final VoidCallback onOpen;
 
@@ -29,9 +34,15 @@ class ScheduledEmailTile extends StatelessWidget {
     required this.isSelected,
     required this.selectionMode,
     required this.onToggleSelect,
+    required this.onExtendSelect,
     required this.onCancel,
     required this.onOpen,
   });
+
+  VoidCallback _unlessShift(VoidCallback action) =>
+      () => HardwareKeyboard.instance.isShiftPressed
+      ? onExtendSelect()
+      : action();
 
   bool get _canCancel => email.canEdit;
 
@@ -52,7 +63,8 @@ class ScheduledEmailTile extends StatelessWidget {
     final sendTime = formatAbsoluteDateTime(context, email.scheduleAt);
     final status = email.displayStatus(now);
 
-    final onOpen = _canEdit ? this.onOpen : null;
+    final onToggleSelect = _unlessShift(this.onToggleSelect);
+    final onOpen = _canEdit ? _unlessShift(this.onOpen) : null;
     final tile = ResponsiveHelper.isDesktop(context)
         ? ScheduledEmailCompactTile(
             email: email,

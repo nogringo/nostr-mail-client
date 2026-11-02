@@ -838,6 +838,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get folderScheduled => 'Programados';
 
   @override
+  String get folderDrafts => 'Borradores';
+
+  @override
   String get inboxEmptyInbox => 'Aún no hay correos';
 
   @override
@@ -2037,6 +2040,31 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Rechazado';
+
+  @override
+  String get draftsEmpty => 'No hay borradores';
+
+  @override
+  String get draftsNoRecipients => 'Sin destinatarios';
+
+  @override
+  String get draftsDeleteFailed => 'No se pudo eliminar el borrador';
+
+  @override
+  String get draftOpenFailed => 'No se pudo abrir el borrador';
+
+  @override
+  String get draftSaveFailed => 'No se pudo guardar el borrador';
+
+  @override
+  String get composeDiscardDraft => 'Descartar borrador';
+
+  @override
+  String get composeDiscardDraftTitle => '¿Descartar este borrador?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Se eliminará de todos tus dispositivos.';
 
   @override
   String get profileLoadFailed => 'Error al cargar los datos del perfil';

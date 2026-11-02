@@ -843,6 +843,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get folderScheduled => 'Programmés';
 
   @override
+  String get folderDrafts => 'Brouillons';
+
+  @override
   String get inboxEmptyInbox => 'Aucun e-mail';
 
   @override
@@ -2052,6 +2055,31 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Rejeté';
+
+  @override
+  String get draftsEmpty => 'Aucun brouillon';
+
+  @override
+  String get draftsNoRecipients => 'Aucun destinataire';
+
+  @override
+  String get draftsDeleteFailed => 'Échec de la suppression du brouillon';
+
+  @override
+  String get draftOpenFailed => 'Échec de l\'ouverture du brouillon';
+
+  @override
+  String get draftSaveFailed => 'Échec de l\'enregistrement du brouillon';
+
+  @override
+  String get composeDiscardDraft => 'Supprimer le brouillon';
+
+  @override
+  String get composeDiscardDraftTitle => 'Supprimer ce brouillon ?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Il sera supprimé de tous vos appareils.';
 
   @override
   String get profileLoadFailed => 'Échec du chargement du profil';

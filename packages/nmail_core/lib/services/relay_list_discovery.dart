@@ -58,10 +58,7 @@ class RelayListDiscovery {
   Future<RelayListDiscoveryResult> searchEverywhere(String pubkey) {
     return searchOn(
       pubkey,
-      {
-        ...NostrConfig.popularRelays,
-        ...NostrConfig.discoveryRelays,
-      }.toList(),
+      {...NostrConfig.popularRelays, ...NostrConfig.discoveryRelays}.toList(),
     );
   }
 

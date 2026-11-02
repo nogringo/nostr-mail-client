@@ -90,6 +90,8 @@ class ScheduledList extends StatelessWidget {
                       selectionMode: controller.hasSelection,
                       onToggleSelect: () =>
                           controller.toggleSelection(email.packageId),
+                      onExtendSelect: () =>
+                          controller.extendSelectionTo(email.packageId),
                       onCancel: () => _cancel(context, email),
                       onOpen: () => context.push(
                         AppRoutes.compose,

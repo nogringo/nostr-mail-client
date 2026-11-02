@@ -841,6 +841,9 @@ class AppLocalizationsIt extends AppLocalizations {
   String get folderScheduled => 'Programmate';
 
   @override
+  String get folderDrafts => 'Bozze';
+
+  @override
   String get inboxEmptyInbox => 'Nessuna email';
 
   @override
@@ -2048,6 +2051,31 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Rifiutato';
+
+  @override
+  String get draftsEmpty => 'Nessuna bozza';
+
+  @override
+  String get draftsNoRecipients => 'Nessun destinatario';
+
+  @override
+  String get draftsDeleteFailed => 'Impossibile eliminare la bozza';
+
+  @override
+  String get draftOpenFailed => 'Impossibile aprire la bozza';
+
+  @override
+  String get draftSaveFailed => 'Impossibile salvare la bozza';
+
+  @override
+  String get composeDiscardDraft => 'Elimina bozza';
+
+  @override
+  String get composeDiscardDraftTitle => 'Eliminare questa bozza?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Verrà eliminata da tutti i tuoi dispositivi.';
 
   @override
   String get profileLoadFailed => 'Impossibile caricare i dati del profilo';

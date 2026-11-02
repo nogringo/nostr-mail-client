@@ -292,6 +292,7 @@
   "folderRequests": "リクエスト",
   "folderSpam": "迷惑メール",
   "folderScheduled": "予約済み",
+  "folderDrafts": "下書き",
   "inboxEmptyInbox": "メールはまだありません",
   "inboxEmptySent": "送信済みメールはありません",
   "inboxEmptyTrash": "ゴミ箱は空です",
@@ -727,6 +728,15 @@
   "scheduledStatusOverdue": "遅延",
   "scheduledStatusFailed": "失敗",
   "scheduledStatusError": "拒否",
+
+  "draftsEmpty": "下書きはありません",
+  "draftsNoRecipients": "宛先なし",
+  "draftsDeleteFailed": "下書きを削除できませんでした",
+  "draftOpenFailed": "下書きを開けませんでした",
+  "draftSaveFailed": "下書きを保存できませんでした",
+  "composeDiscardDraft": "下書きを破棄",
+  "composeDiscardDraftTitle": "この下書きを破棄しますか?",
+  "composeDiscardDraftMessage": "すべてのデバイスから削除されます。",
 
   "profileLoadFailed": "プロフィールデータの読み込みに失敗しました",
   "profileSelectPicture": "プロフィール画像を選択",

@@ -292,6 +292,7 @@
   "folderRequests": "Anfragen",
   "folderSpam": "Spam",
   "folderScheduled": "Geplant",
+  "folderDrafts": "Entwürfe",
   "inboxEmptyInbox": "Noch keine E-Mails",
   "inboxEmptySent": "Keine gesendeten E-Mails",
   "inboxEmptyTrash": "Papierkorb ist leer",
@@ -727,6 +728,15 @@
   "scheduledStatusOverdue": "Überfällig",
   "scheduledStatusFailed": "Fehlgeschlagen",
   "scheduledStatusError": "Abgelehnt",
+
+  "draftsEmpty": "Keine Entwürfe",
+  "draftsNoRecipients": "Keine Empfänger",
+  "draftsDeleteFailed": "Entwurf konnte nicht gelöscht werden",
+  "draftOpenFailed": "Entwurf konnte nicht geöffnet werden",
+  "draftSaveFailed": "Entwurf konnte nicht gespeichert werden",
+  "composeDiscardDraft": "Entwurf verwerfen",
+  "composeDiscardDraftTitle": "Diesen Entwurf verwerfen?",
+  "composeDiscardDraftMessage": "Er wird von allen deinen Geräten gelöscht.",
 
   "profileLoadFailed": "Profildaten konnten nicht geladen werden",
   "profileSelectPicture": "Profilbild auswählen",

@@ -80,6 +80,13 @@ class AppSidebar extends StatelessWidget {
                     currentLocation: loc,
                   ),
                   SidebarFolderItem(
+                    icon: Icons.insert_drive_file_outlined,
+                    selectedIcon: Icons.insert_drive_file,
+                    label: l.folderDrafts,
+                    path: AppRoutes.drafts,
+                    currentLocation: loc,
+                  ),
+                  SidebarFolderItem(
                     icon: Icons.schedule_outlined,
                     selectedIcon: Icons.schedule,
                     label: l.folderScheduled,

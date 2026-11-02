@@ -77,11 +77,15 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
   /// its fields are pre-filled and (re)sending cancels the original schedule.
   final ScheduledEmail? editingScheduled;
 
+  /// When set, compose opens this draft, and saving writes over it.
+  final Draft? editingDraft;
+
   ComposeController({
     this.sourceEmail,
     this.sourceMode,
     this.initialRecipient,
     this.editingScheduled,
+    this.editingDraft,
   });
 
   bool get isEditingScheduled => editingScheduled != null;
@@ -194,8 +198,14 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
     // Load from options
     loadFromOptions();
 
+    _draftAccount = _nostrMailService.getPublicKey();
+    _draftId = editingDraft?.draftId;
+    _lifecycle = AppLifecycleListener(onHide: saveDraft);
+
     if (editingScheduled != null) {
       initFromScheduled(editingScheduled!);
+    } else if (editingDraft != null) {
+      initFromDraft(editingDraft!);
     } else if (sourceEmail != null && sourceMode != null) {
       initFromEmail(sourceEmail!, sourceMode!);
     } else if (initialRecipient != null) {
@@ -204,8 +214,9 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
         _autoSelectBridgeForLegacy();
       }
     }
-    _followsSignature = !isEditingScheduled;
+    _followsSignature = !isEditingScheduled && editingDraft == null;
     _updateSignature();
+    if (!isEditingScheduled && editingDraft == null) _openDraft();
   }
 
   Future<bool> addRecipient(String input) =>
@@ -730,7 +741,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
         endsWithSignature(quillController.document.toDelta(), block);
   }
 
-  void _replaceSignature(Delta? signature) {
+  void _replaceSignature(Delta? signature) => _prefill(() {
     final selection = quillController.selection;
     final replaced = replaceSignature(
       quillController.document.toDelta(),
@@ -747,7 +758,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       ),
       ChangeSource.local,
     );
-  }
+  });
 
   String _newContentId() {
     final random = Random.secure();
@@ -1075,9 +1086,11 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       );
     }
 
-    fromOptions = options;
-    selectedFrom ??= options.first;
-    _autoSelectBridgeForLegacy();
+    _prefill(() {
+      fromOptions = options;
+      selectedFrom ??= options.first;
+      _autoSelectBridgeForLegacy();
+    });
 
     // 4. Check if user's NIP-05 domain is a bridge
     final nip05 = metadata?.nip05;
@@ -1333,11 +1346,13 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
         complete = false;
         continue;
       }
-      attachments.add(
-        ComposeAttachment(
-          filename: ref.filename ?? 'attachment',
-          data: bytes,
-          mimeType: ref.contentType,
+      _prefill(
+        () => attachments.add(
+          ComposeAttachment(
+            filename: ref.filename ?? 'attachment',
+            data: bytes,
+            mimeType: ref.contentType,
+          ),
         ),
       );
       notifyListeners();
@@ -1476,6 +1491,169 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
     notifyListeners();
   }
 
+  /// Pre-fill the composer from [draft], which saving then writes over. A
+  /// draft that cannot be loaded closes the composer, so nothing replaces it.
+  Future<void> initFromDraft(Draft draft) async {
+    MimeMessage? mime;
+    try {
+      mime = await _nostrMailService.client.getDraftMime(draft.draftId);
+    } catch (_) {}
+    if (_isDisposed) return;
+    if (mime == null) {
+      final context = AppRouter.rootContext;
+      if (context != null && context.mounted) {
+        ToastHelper.error(
+          context,
+          AppLocalizations.of(context).draftOpenFailed,
+        );
+      }
+      AppRouter.popOrGoInbox();
+      return;
+    }
+
+    subjectController.text = mime.decodeSubject() ?? '';
+    // Each recipient keeps the transport it was saved with: an address is not
+    // looked up again, since the user may have chosen SMTP for it.
+    for (final (addresses, list) in [
+      (mime.to, recipients),
+      (mime.cc, ccRecipients),
+      (mime.bcc, bccRecipients),
+    ]) {
+      for (final address in addresses ?? const <MailAddress>[]) {
+        if (_parseRecipient(address.email) case final recipient?) {
+          _addUnique(recipient, list);
+        }
+      }
+    }
+    if (ccRecipients.isNotEmpty || bccRecipients.isNotEmpty) {
+      showExpandedFields = true;
+    }
+    _autoSelectBridgeForLegacy();
+    _applyFrom([?mime.fromEmail]);
+
+    _loadAttachmentsFromMime(mime);
+    _setBodyFromMime(mime);
+    _openDraft();
+    notifyListeners();
+  }
+
+  late final String? _draftAccount;
+  String? _draftId;
+  AppLifecycleListener? _lifecycle;
+
+  /// [_draftState] as the draft holds it: as opened, or as last saved.
+  String? _savedDraftState;
+
+  /// False while a draft loads, and for good when it fails to.
+  bool _canSaveDraft = false;
+
+  /// Sent, scheduled or discarded.
+  bool _draftClosed = false;
+
+  Future<void> _draftSaves = Future.value();
+
+  /// What the draft of this composer holds.
+  String _draftState() => jsonEncode([
+    selectedFrom?.address,
+    for (final field in RecipientField.values)
+      [
+        for (final r in recipientsOf(field)) [r.input, r.type.name],
+      ],
+    subjectController.text,
+    quillController.document.toDelta().toJson(),
+    _quotedHtml,
+    [
+      for (final a in attachments) [a.filename, a.size],
+    ],
+  ]);
+
+  void _openDraft() {
+    _savedDraftState = _draftState();
+    _canSaveDraft = true;
+  }
+
+  bool get hasDraftChanges =>
+      _canSaveDraft && _draftState() != _savedDraftState;
+
+  /// Whether discarding loses anything.
+  bool get hasDraft => _draftId != null || hasDraftChanges;
+
+  /// Applies a change the user did not make, so that it alone never makes
+  /// the composer a draft.
+  void _prefill(VoidCallback change) {
+    if (_isDisposed) {
+      change();
+      return;
+    }
+    final untouched = _canSaveDraft && _draftState() == _savedDraftState;
+    change();
+    if (untouched) _savedDraftState = _draftState();
+  }
+
+  /// Saves the composer as its draft when it changed since it was opened or
+  /// last saved. Runs when the composer is left and when the app is hidden.
+  Future<void> saveDraft() {
+    if (!_canSaveDraft || _draftClosed || isSending) return _draftSaves;
+    final canSign =
+        GetIt.I<Ndk>().accounts.getLoggedAccount()?.signer.canSign() ?? false;
+    if (!canSign) return _draftSaves;
+    final state = _draftState();
+    if (state == _savedDraftState) return _draftSaves;
+
+    // Built now: the composer may be disposed by the time the save runs.
+    final message = buildMimeMessage(
+      from: selectedFrom?.address,
+      subject: subjectController.text,
+      document: quillController.document,
+    );
+    _savedDraftState = state;
+    return _draftSaves = _draftSaves.then((_) => _writeDraft(message, state));
+  }
+
+  Future<void> _writeDraft(MimeMessage message, String state) async {
+    if (_nostrMailService.getPublicKey() != _draftAccount) return;
+    try {
+      final draft = await _nostrMailService.client.saveDraft(
+        message,
+        draftId: _draftId,
+      );
+      _draftId = draft.draftId;
+    } catch (_) {
+      if (_savedDraftState == state) _savedDraftState = null;
+      final context = AppRouter.rootContext;
+      if (context != null && context.mounted) {
+        ToastHelper.error(
+          context,
+          AppLocalizations.of(context).draftSaveFailed,
+        );
+      }
+    }
+  }
+
+  /// Deletes the draft once its email is sent, scheduled or discarded.
+  Future<void> _closeDraft() async {
+    _draftClosed = true;
+    await _draftSaves;
+    final draftId = _draftId;
+    if (draftId == null) return;
+    try {
+      await _nostrMailService.client.deleteDraft(draftId);
+    } catch (_) {
+      final context = AppRouter.rootContext;
+      if (context != null && context.mounted) {
+        ToastHelper.error(
+          context,
+          AppLocalizations.of(context).draftsDeleteFailed,
+        );
+      }
+    }
+  }
+
+  void discard() {
+    unawaited(_closeDraft());
+    AppRouter.popOrGoInbox();
+  }
+
   /// Select the From option of the first of [addresses] that has one, as soon
   /// as the options are loaded (they load asynchronously in [init]).
   void _applyFrom(List<String> addresses) {
@@ -1578,7 +1756,9 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
 
   @override
   void dispose() {
+    unawaited(saveDraft());
     _isDisposed = true;
+    _lifecycle?.dispose();
     for (final notifier in _reachability.values) {
       notifier.dispose();
     }
@@ -1658,6 +1838,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
               mode: sendMode,
             );
       if (success) {
+        unawaited(_closeDraft());
         AppRouter.router.pop();
         return;
       }

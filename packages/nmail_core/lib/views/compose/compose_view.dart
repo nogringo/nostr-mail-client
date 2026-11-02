@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_mail/nostr_mail.dart' show Email, ScheduledEmail;
+import 'package:nostr_mail/nostr_mail.dart' show Draft, Email, ScheduledEmail;
 import 'package:nmail_core/controllers/compose_controller.dart';
 import 'package:nmail_core/models/compose_mode.dart';
 import 'package:nmail_core/models/recipient.dart';
 import 'package:nmail_core/views/compose/widgets/bottom_toolbar_view.dart';
+import 'package:nmail_core/views/compose/widgets/discard_draft_button.dart';
 import 'package:nmail_core/views/compose/widgets/schedule_send_button.dart';
 import 'package:nmail_core/views/compose/widgets/scrollable_content_view.dart';
 import 'package:nmail_core/views/compose/widgets/send_button_menu.dart';
@@ -19,12 +20,14 @@ class ComposeView extends StatelessWidget {
     this.sourceMode,
     this.initialRecipient,
     this.editingScheduled,
+    this.editingDraft,
   });
 
   final Email? sourceEmail;
   final ComposeMode? sourceMode;
   final Recipient? initialRecipient;
   final ScheduledEmail? editingScheduled;
+  final Draft? editingDraft;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +40,7 @@ class ComposeView extends StatelessWidget {
         sourceMode: sourceMode,
         initialRecipient: initialRecipient,
         editingScheduled: editingScheduled,
+        editingDraft: editingDraft,
       )..init(),
       builder: (context, controller) => Scaffold(
         appBar: AppBar(
@@ -44,6 +48,8 @@ class ComposeView extends StatelessWidget {
           actionsPadding: .only(right: 8),
           actions: [
             if (!isWide) ...[
+              if (!controller.isEditingScheduled)
+                DiscardDraftButton(controller: controller),
               ScheduleSendButton(controller: controller),
               const SizedBox(width: 4),
               SendButtonMenu(controller: controller, isMobile: true),

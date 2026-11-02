@@ -292,6 +292,7 @@
   "folderRequests": "Demandes",
   "folderSpam": "Spam",
   "folderScheduled": "Programmés",
+  "folderDrafts": "Brouillons",
   "inboxEmptyInbox": "Aucun e-mail",
   "inboxEmptySent": "Aucun e-mail envoyé",
   "inboxEmptyTrash": "La corbeille est vide",
@@ -727,6 +728,15 @@
   "scheduledStatusOverdue": "En retard",
   "scheduledStatusFailed": "Échec",
   "scheduledStatusError": "Rejeté",
+
+  "draftsEmpty": "Aucun brouillon",
+  "draftsNoRecipients": "Aucun destinataire",
+  "draftsDeleteFailed": "Échec de la suppression du brouillon",
+  "draftOpenFailed": "Échec de l'ouverture du brouillon",
+  "draftSaveFailed": "Échec de l'enregistrement du brouillon",
+  "composeDiscardDraft": "Supprimer le brouillon",
+  "composeDiscardDraftTitle": "Supprimer ce brouillon ?",
+  "composeDiscardDraftMessage": "Il sera supprimé de tous vos appareils.",
 
   "profileLoadFailed": "Échec du chargement du profil",
   "profileSelectPicture": "Sélectionner une photo de profil",

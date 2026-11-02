@@ -1609,6 +1609,12 @@ abstract class AppLocalizations {
   /// **'Scheduled'**
   String get folderScheduled;
 
+  /// Folder name: Drafts (emails being written, not sent yet)
+  ///
+  /// In en, this message translates to:
+  /// **'Drafts'**
+  String get folderDrafts;
+
   /// Empty-state message when the inbox folder is empty
   ///
   /// In en, this message translates to:
@@ -3600,6 +3606,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rejected'**
   String get scheduledStatusError;
+
+  /// Empty-state message when there are no drafts
+  ///
+  /// In en, this message translates to:
+  /// **'No drafts'**
+  String get draftsEmpty;
+
+  /// Shown in a draft row in place of the recipient when the draft has none yet
+  ///
+  /// In en, this message translates to:
+  /// **'No recipients'**
+  String get draftsNoRecipients;
+
+  /// Error toast when deleting a draft fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete draft'**
+  String get draftsDeleteFailed;
+
+  /// Error toast when a draft cannot be loaded into the composer
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to open draft'**
+  String get draftOpenFailed;
+
+  /// Error toast when the email being written cannot be saved as a draft
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save draft'**
+  String get draftSaveFailed;
+
+  /// Tooltip on the composer button that throws the email being written away
+  ///
+  /// In en, this message translates to:
+  /// **'Discard draft'**
+  String get composeDiscardDraft;
+
+  /// Title of the dialog confirming that the email being written is thrown away
+  ///
+  /// In en, this message translates to:
+  /// **'Discard this draft?'**
+  String get composeDiscardDraftTitle;
+
+  /// Body of the dialog confirming that the email being written is thrown away
+  ///
+  /// In en, this message translates to:
+  /// **'It will be deleted from all your devices.'**
+  String get composeDiscardDraftMessage;
 
   /// Error toast when the user's profile metadata can't be loaded
   ///

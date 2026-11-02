@@ -21,6 +21,7 @@ import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/utils/primary_email.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:flutter/material.dart';
+import 'drafts_controller.dart';
 import 'inbox_controller.dart';
 import 'scheduled_controller.dart';
 import 'settings_controller.dart';
@@ -152,6 +153,9 @@ class AuthController {
     }
     if (GetIt.I.isRegistered<ScheduledController>()) {
       await GetIt.I.unregister<ScheduledController>();
+    }
+    if (GetIt.I.isRegistered<DraftsController>()) {
+      await GetIt.I.unregister<DraftsController>();
     }
     isLoggedIn.value = true;
     // After the activation above: the router leaves RelaySetupView on this flip.
@@ -321,6 +325,10 @@ class AuthController {
         await GetIt.I.unregister<ScheduledController>();
         if (generation != _accountSwitchGeneration) return;
       }
+      if (GetIt.I.isRegistered<DraftsController>()) {
+        await GetIt.I.unregister<DraftsController>();
+        if (generation != _accountSwitchGeneration) return;
+      }
 
       ndk.accounts.switchAccount(pubkey: pubkey);
       _refreshAccountsState();
@@ -476,6 +484,9 @@ class AuthController {
       if (GetIt.I.isRegistered<ScheduledController>()) {
         await GetIt.I.unregister<ScheduledController>();
       }
+      if (GetIt.I.isRegistered<DraftsController>()) {
+        await GetIt.I.unregister<DraftsController>();
+      }
       if (clearLocalData && removedPubkey != null) {
         await GetIt.I<AccountLocalDataService>().clearLocalAccountData(
           pubkey: removedPubkey,
@@ -544,6 +555,9 @@ class AuthController {
       }
       if (GetIt.I.isRegistered<ScheduledController>()) {
         await GetIt.I.unregister<ScheduledController>();
+      }
+      if (GetIt.I.isRegistered<DraftsController>()) {
+        await GetIt.I.unregister<DraftsController>();
       }
       if (clearLocalData) {
         await GetIt.I<AccountLocalDataService>().clearAllLocalData();

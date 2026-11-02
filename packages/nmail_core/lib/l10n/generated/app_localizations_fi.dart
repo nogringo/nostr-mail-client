@@ -835,6 +835,9 @@ class AppLocalizationsFi extends AppLocalizations {
   String get folderScheduled => 'Ajastetut';
 
   @override
+  String get folderDrafts => 'Luonnokset';
+
+  @override
   String get inboxEmptyInbox => 'Ei sähköpostia';
 
   @override
@@ -2028,6 +2031,31 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get scheduledStatusError => 'Hylätty';
+
+  @override
+  String get draftsEmpty => 'Ei luonnoksia';
+
+  @override
+  String get draftsNoRecipients => 'Ei vastaanottajia';
+
+  @override
+  String get draftsDeleteFailed => 'Luonnoksen poistaminen epäonnistui';
+
+  @override
+  String get draftOpenFailed => 'Luonnoksen avaaminen epäonnistui';
+
+  @override
+  String get draftSaveFailed => 'Luonnoksen tallentaminen epäonnistui';
+
+  @override
+  String get composeDiscardDraft => 'Hylkää luonnos';
+
+  @override
+  String get composeDiscardDraftTitle => 'Hylätäänkö tämä luonnos?';
+
+  @override
+  String get composeDiscardDraftMessage =>
+      'Se poistetaan kaikilta laitteiltasi.';
 
   @override
   String get profileLoadFailed => 'Profiilitietojen haku epäonnistui';
