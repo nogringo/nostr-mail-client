@@ -27,7 +27,9 @@ class DeliveryPendingLine extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  l.emailDeliverySending,
+                  delivery.isDeviceOffline
+                      ? l.emailDeliveryWaitingForNetwork
+                      : l.emailDeliverySending,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

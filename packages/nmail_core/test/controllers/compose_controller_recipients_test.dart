@@ -18,6 +18,7 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/models/contact.dart';
 import 'package:nmail_core/models/from_option.dart';
 import 'package:nmail_core/models/recipient.dart';
+import 'package:nmail_core/models/send_mode.dart';
 import 'package:nmail_core/services/contacts_service.dart';
 import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
@@ -297,6 +298,24 @@ void main() {
       controller.removeRecipientFrom(RecipientField.cc, remove);
 
       expect(controller.ccRecipients.single, same(keep));
+    });
+
+    group('sendsUncheckedRecipients', () {
+      test('lets an immediate private email go', () {
+        expect(controller.sendsUncheckedRecipients, isTrue);
+        controller.sendMode = SendMode.signed;
+        expect(controller.sendsUncheckedRecipients, isTrue);
+      });
+
+      test('holds a scheduled email', () {
+        controller.scheduledAt = DateTime(2030);
+        expect(controller.sendsUncheckedRecipients, isFalse);
+      });
+
+      test('holds a public email', () {
+        controller.sendMode = SendMode.public;
+        expect(controller.sendsUncheckedRecipients, isFalse);
+      });
     });
 
     group('addReplyRecipients', () {

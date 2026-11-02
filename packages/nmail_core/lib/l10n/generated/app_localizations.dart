@@ -2197,11 +2197,17 @@ abstract class AppLocalizations {
   /// **'Sending'**
   String get emailDeliverySending;
 
-  /// Shown on a sent email, in the list and in a banner above its body, when some recipients did not receive it
+  /// Status of a sent email, or of one of its recipients, still to send while the device is offline
   ///
   /// In en, this message translates to:
-  /// **'{count, plural, one{Not delivered to {count} recipient} other{Not delivered to {count} recipients}}'**
-  String emailDeliveryNotDeliveredCount(int count);
+  /// **'Waiting for network'**
+  String get emailDeliveryWaitingForNetwork;
+
+  /// Shown on a sent email, in the list and in a banner above its body, when some recipients did not receive it. `names` is a comma-separated list of their display names, or email addresses
+  ///
+  /// In en, this message translates to:
+  /// **'Not delivered to {names}'**
+  String emailDeliveryNotDeliveredTo(String names);
 
   /// Button opening the delivery details of a sent email
   ///
@@ -2268,6 +2274,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your copy, for your other devices'**
   String get emailDeliverySelfCopy;
+
+  /// Under a recipient of a sent email whose relays, looked up after the send, turned out to be none
+  ///
+  /// In en, this message translates to:
+  /// **'No relay list to receive emails'**
+  String get emailDeliveryNoRelayList;
 
   /// Barrier label for the NIP-59 events dialog (accessibility)
   ///
@@ -3522,6 +3534,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, one{Couldn\'t check whether {names} can receive emails. Check your connection.} other{Couldn\'t check whether {names} can receive emails. Check your connection.}}'**
   String composeRecipientsUnchecked(int count, String names);
+
+  /// Inline text under the recipient chips naming the Nostr recipients whose relay list lookup got no answer (offline), when the email can still be sent and will look them up later. `names` is a comma-separated list of display names, `count` how many there are.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Couldn\'t check whether {names} can receive emails yet. Your email will go out once you\'re back online.} other{Couldn\'t check whether {names} can receive emails yet. Your email will go out once you\'re back online.}}'**
+  String composeRecipientsUncheckedQueued(int count, String names);
 
   /// Error toast when sending fails because the sender's own account has no relay list to keep its copy on
   ///

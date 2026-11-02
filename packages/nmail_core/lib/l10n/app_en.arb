@@ -822,11 +822,13 @@
   "@emailDownloadAll": { "description": "Button label to download every attachment of the current email" },
   "emailDeliverySending": "Sending",
   "@emailDeliverySending": { "description": "Shown on a sent email, in the list and above its body, while a recipient has not received it yet" },
-  "emailDeliveryNotDeliveredCount": "{count, plural, one{Not delivered to {count} recipient} other{Not delivered to {count} recipients}}",
-  "@emailDeliveryNotDeliveredCount": {
-    "description": "Shown on a sent email, in the list and in a banner above its body, when some recipients did not receive it",
+  "emailDeliveryWaitingForNetwork": "Waiting for network",
+  "@emailDeliveryWaitingForNetwork": { "description": "Status of a sent email, or of one of its recipients, still to send while the device is offline" },
+  "emailDeliveryNotDeliveredTo": "Not delivered to {names}",
+  "@emailDeliveryNotDeliveredTo": {
+    "description": "Shown on a sent email, in the list and in a banner above its body, when some recipients did not receive it. `names` is a comma-separated list of their display names, or email addresses",
     "placeholders": {
-      "count": { "type": "int" }
+      "names": { "type": "String" }
     }
   },
   "emailDeliveryDetails": "Details",
@@ -851,6 +853,8 @@
   "@emailDeliveryBlob": { "description": "Heading above the Blossom servers holding the encrypted body of a large email" },
   "emailDeliverySelfCopy": "Your copy, for your other devices",
   "@emailDeliverySelfCopy": { "description": "Heading of the sender's own copy, the one the sender's other devices sync" },
+  "emailDeliveryNoRelayList": "No relay list to receive emails",
+  "@emailDeliveryNoRelayList": { "description": "Under a recipient of a sent email whose relays, looked up after the send, turned out to be none" },
   "emailNip59Dismiss": "Dismiss",
   "@emailNip59Dismiss": { "description": "Barrier label for the NIP-59 events dialog (accessibility)" },
   "emailNip59Title": "NIP-59 Events",
@@ -1348,6 +1352,14 @@
   "composeRecipientsUnchecked": "{count, plural, one{Couldn't check whether {names} can receive emails. Check your connection.} other{Couldn't check whether {names} can receive emails. Check your connection.}}",
   "@composeRecipientsUnchecked": {
     "description": "Inline text under the recipient chips, and error toast when sending, naming the Nostr recipients whose relay list lookup got no answer (offline). `names` is a comma-separated list of display names, `count` how many there are.",
+    "placeholders": {
+      "count": { "type": "int" },
+      "names": { "type": "String" }
+    }
+  },
+  "composeRecipientsUncheckedQueued": "{count, plural, one{Couldn't check whether {names} can receive emails yet. Your email will go out once you're back online.} other{Couldn't check whether {names} can receive emails yet. Your email will go out once you're back online.}}",
+  "@composeRecipientsUncheckedQueued": {
+    "description": "Inline text under the recipient chips naming the Nostr recipients whose relay list lookup got no answer (offline), when the email can still be sent and will look them up later. `names` is a comma-separated list of display names, `count` how many there are.",
     "placeholders": {
       "count": { "type": "int" },
       "names": { "type": "String" }

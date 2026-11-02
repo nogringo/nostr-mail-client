@@ -10,7 +10,7 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 class RelayConnectivityController extends ChangeNotifier {
   RelayConnectivityController() {
     _subscribeToConnectivity();
-    _device.isOffline.addListener(notifyListeners);
+    _device.isDeviceOffline.addListener(notifyListeners);
   }
 
   final _device = GetIt.I<DeviceConnectivityService>();
@@ -24,14 +24,12 @@ class RelayConnectivityController extends ChangeNotifier {
   int get connectedCount =>
       relays.values.where((isConnected) => isConnected).length;
 
-  /// Only claimed alongside dead relays: the OS verdict comes from an internet
-  /// probe on Linux and Windows, which a firewall can fail on a working network.
-  bool get isDeviceOffline => _device.isOffline.value && connectedCount == 0;
+  bool get isDeviceOffline => _device.isDeviceOffline.value;
 
   @override
   void dispose() {
     _subscription?.cancel();
-    _device.isOffline.removeListener(notifyListeners);
+    _device.isDeviceOffline.removeListener(notifyListeners);
     super.dispose();
   }
 

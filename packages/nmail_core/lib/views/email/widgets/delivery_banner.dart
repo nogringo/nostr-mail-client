@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/utils/email_delivery_summary.dart';
 import 'package:nmail_core/utils/responsive_helper.dart';
 import '../email_controller.dart';
 import 'delivery_details_sheet.dart';
@@ -39,8 +40,10 @@ class DeliveryBanner extends StatelessWidget {
 
             return MaterialBanner(
               leading: Icon(Icons.error_outline, color: colorScheme.error),
-              content: Text(
-                l.emailDeliveryNotDeliveredCount(delivery.failedCount),
+              content: ListenableBuilder(
+                listenable: emailDeliverySummaryListenable(delivery),
+                builder: (context, _) =>
+                    Text(emailNotDeliveredSummary(l, delivery)),
               ),
               // MaterialBanner stays on one row only with a single action.
               actions: isWide

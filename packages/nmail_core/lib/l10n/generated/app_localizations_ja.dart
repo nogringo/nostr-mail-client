@@ -1144,8 +1144,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailDeliverySending => '送信中';
 
   @override
-  String emailDeliveryNotDeliveredCount(int count) {
-    return '$count 人の受信者に届いていません';
+  String get emailDeliveryWaitingForNetwork => 'ネットワーク接続待ち';
+
+  @override
+  String emailDeliveryNotDeliveredTo(String names) {
+    return '$names に届いていません';
   }
 
   @override
@@ -1180,6 +1183,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get emailDeliverySelfCopy => 'ほかの端末用のコピー';
+
+  @override
+  String get emailDeliveryNoRelayList => 'メールを受信するリレーリストがありません';
 
   @override
   String get emailNip59Dismiss => '閉じる';
@@ -1868,6 +1874,16 @@ class AppLocalizationsJa extends AppLocalizations {
       count,
       locale: localeName,
       other: '$names がメールを受信できるか確認できませんでした。接続を確認してください。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUncheckedQueued(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$names がメールを受信できるかまだ確認できていません。オンラインに戻るとメールが送信されます。',
     );
     return '$_temp0';
   }

@@ -70,13 +70,13 @@ class RecipientChip extends StatelessWidget {
     final profile = _profile;
     final reachability = controller.reachabilityOf(recipient);
     return ListenableBuilder(
-      listenable: Listenable.merge([profile, reachability]),
+      listenable: Listenable.merge([profile, reachability, controller]),
       builder: (context, _) {
         // Warms the MX lookup so the card has the SMTP action on open.
         recipientSmtpAddress(recipient);
         final blocked = switch (reachability?.value) {
-          RecipientReachability.unreachable ||
-          RecipientReachability.unknown => true,
+          RecipientReachability.unreachable => true,
+          RecipientReachability.unknown => !controller.sendsUncheckedRecipients,
           _ => false,
         };
         final foreground = blocked

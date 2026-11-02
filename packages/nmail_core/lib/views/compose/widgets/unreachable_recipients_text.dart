@@ -9,7 +9,8 @@ import 'package:nmail_core/services/metadata_service.dart';
 import 'package:nmail_core/utils/email_person_utils.dart';
 
 /// Names, under the chips of one address field, the recipients the email
-/// cannot reach: the colour of their chip alone does not say why.
+/// cannot reach, or could not check yet: the colour of their chip alone does
+/// not say why.
 class UnreachableRecipientsText extends StatelessWidget {
   const UnreachableRecipientsText({
     super.key,
@@ -29,6 +30,7 @@ class UnreachableRecipientsText extends StatelessWidget {
 
     return ListenableBuilder(
       listenable: Listenable.merge([
+        controller,
         ...reachability.values,
         for (final pubkey in reachability.keys) metadata.of(pubkey),
       ]),
@@ -49,6 +51,7 @@ class UnreachableRecipientsText extends StatelessWidget {
         final style = theme.textTheme.bodySmall?.copyWith(
           color: theme.colorScheme.error,
         );
+        final queued = controller.sendsUncheckedRecipients;
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
           child: Column(
@@ -62,7 +65,17 @@ class UnreachableRecipientsText extends StatelessWidget {
                   ),
                   style: style,
                 ),
-              if (unknown.isNotEmpty)
+              if (unknown.isNotEmpty && queued)
+                Text(
+                  l.composeRecipientsUncheckedQueued(
+                    unknown.length,
+                    unknown.join(', '),
+                  ),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                )
+              else if (unknown.isNotEmpty)
                 Text(
                   l.composeRecipientsUnchecked(
                     unknown.length,

@@ -1233,14 +1233,11 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailDeliverySending => 'Lähetetään';
 
   @override
-  String emailDeliveryNotDeliveredCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Ei toimitettu $count vastaanottajalle',
-      one: 'Ei toimitettu $count vastaanottajalle',
-    );
-    return '$_temp0';
+  String get emailDeliveryWaitingForNetwork => 'Odottaa verkkoyhteyttä';
+
+  @override
+  String emailDeliveryNotDeliveredTo(String names) {
+    return 'Ei toimitettu: $names';
   }
 
   @override
@@ -1275,6 +1272,10 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get emailDeliverySelfCopy => 'Oma kopiosi muille laitteillesi';
+
+  @override
+  String get emailDeliveryNoRelayList =>
+      'Ei releluetteloa viestien vastaanottamiseen';
 
   @override
   String get emailNip59Dismiss => 'Unohda';
@@ -1984,6 +1985,19 @@ class AppLocalizationsFi extends AppLocalizations {
           'Ei voitu tarkistaa, voivatko $names vastaanottaa viestejä. Tarkista yhteytesi.',
       one:
           'Ei voitu tarkistaa, voiko $names vastaanottaa viestejä. Tarkista yhteytesi.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUncheckedQueued(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Ei vielä voitu tarkistaa, voivatko $names vastaanottaa viestejä. Viestisi lähtee, kun olet taas verkossa.',
+      one:
+          'Ei vielä voitu tarkistaa, voiko $names vastaanottaa viestejä. Viestisi lähtee, kun olet taas verkossa.',
     );
     return '$_temp0';
   }

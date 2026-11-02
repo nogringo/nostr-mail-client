@@ -340,6 +340,12 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
     return notifier;
   }
 
+  /// Whether a recipient no relay answered for still lets the email go: an
+  /// immediate private send leaves its lookup to the broadcast queue, while a
+  /// schedule or a public email needs its relays now.
+  bool get sendsUncheckedRecipients =>
+      scheduledAt == null && sendMode != SendMode.public;
+
   /// Looks again at every recipient not known to be reachable, since a list
   /// published meanwhile or a connection back decides it now.
   Future<bool> _recipientsReachable() async {
@@ -386,7 +392,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       return false;
     }
     final unknown = namesOf(RecipientReachability.unknown);
-    if (unknown.isNotEmpty) {
+    if (unknown.isNotEmpty && !sendsUncheckedRecipients) {
       ToastHelper.error(
         AppRouter.rootContext!,
         l.composeRecipientsUnchecked(unknown.length, unknown.join(', ')),

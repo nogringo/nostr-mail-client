@@ -14,10 +14,12 @@ class RecipientDeliverySection extends StatelessWidget {
     super.key,
     required this.recipient,
     this.isSelfCopy = false,
+    this.isDeviceOffline = false,
   });
 
   final RecipientDelivery recipient;
   final bool isSelfCopy;
+  final bool isDeviceOffline;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,9 @@ class RecipientDeliverySection extends StatelessWidget {
         colorScheme.primary,
       ),
       DeliveryStatus.pending => (
-        l.emailDeliverySending,
+        isDeviceOffline
+            ? l.emailDeliveryWaitingForNetwork
+            : l.emailDeliverySending,
         colorScheme.onSurfaceVariant,
       ),
       DeliveryStatus.failed => (l.emailDeliveryNotDelivered, colorScheme.error),
@@ -66,6 +70,16 @@ class RecipientDeliverySection extends StatelessWidget {
             ],
           ),
         ),
+        if (recipient.unreachable)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: Text(
+              l.emailDeliveryNoRelayList,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.error,
+              ),
+            ),
+          ),
         for (final (index, relay) in recipient.relays.indexed)
           DeliveryUrlRow(
             label: formatRelayUrl(relay.url),

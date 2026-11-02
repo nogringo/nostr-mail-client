@@ -1252,16 +1252,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailDeliverySending => 'Отправляется';
 
   @override
-  String emailDeliveryNotDeliveredCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Не доставлено $count получателям',
-      many: 'Не доставлено $count получателям',
-      few: 'Не доставлено $count получателям',
-      one: 'Не доставлено $count получателю',
-    );
-    return '$_temp0';
+  String get emailDeliveryWaitingForNetwork => 'Ожидание сети';
+
+  @override
+  String emailDeliveryNotDeliveredTo(String names) {
+    return 'Не доставлено: $names';
   }
 
   @override
@@ -1296,6 +1291,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get emailDeliverySelfCopy => 'Ваша копия для других устройств';
+
+  @override
+  String get emailDeliveryNoRelayList => 'Нет списка реле для получения писем';
 
   @override
   String get emailNip59Dismiss => 'Закрыть';
@@ -1999,6 +1997,19 @@ class AppLocalizationsRu extends AppLocalizations {
           'Не удалось проверить, могут ли $names получать письма. Проверьте подключение.',
       one:
           'Не удалось проверить, может ли $names получать письма. Проверьте подключение.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUncheckedQueued(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Пока не удалось проверить, могут ли $names получать письма. Письмо уйдёт, как только вы снова будете в сети.',
+      one:
+          'Пока не удалось проверить, может ли $names получать письма. Письмо уйдёт, как только вы снова будете в сети.',
     );
     return '$_temp0';
   }

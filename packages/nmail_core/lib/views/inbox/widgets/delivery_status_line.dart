@@ -13,22 +13,27 @@ class DeliveryStatusLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final summary = emailDeliverySummary(
-      AppLocalizations.of(context),
-      delivery,
-    );
-    if (summary == null) return const SizedBox.shrink();
-    final theme = Theme.of(context);
+    return ListenableBuilder(
+      listenable: emailDeliverySummaryListenable(delivery),
+      builder: (context, _) {
+        final summary = emailDeliverySummary(
+          AppLocalizations.of(context),
+          delivery,
+        );
+        if (summary == null) return const SizedBox.shrink();
+        final theme = Theme.of(context);
 
-    return Text(
-      summary,
-      maxLines: 1,
-      overflow: TextOverflow.ellipsis,
-      style: theme.textTheme.bodySmall?.copyWith(
-        color: delivery.hasFailed
-            ? theme.colorScheme.error
-            : theme.colorScheme.onSurfaceVariant,
-      ),
+        return Text(
+          summary,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: delivery.hasFailed
+                ? theme.colorScheme.error
+                : theme.colorScheme.onSurfaceVariant,
+          ),
+        );
+      },
     );
   }
 }

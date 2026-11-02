@@ -165,7 +165,7 @@ The shared entry point is `packages/nmail_core/lib/app/bootstrap.dart`.
 - Loads `system_theme` accent color.
 - Initializes `StorageService`.
 - Creates `Ndk` with `NdkEventVerifier`, `NdkEventSignerFactory`, and cache. It gets no bootstrap relays: every request names its relays.
-- Registers `Ndk`, `NdkFlutter`, `MetadataService`, `NostrMailService`, `AuthController`, `ThemeService`, `SettingsController`, `NotificationService`, and `PushRegistrationService`.
+- Registers `Ndk`, `NdkFlutter`, `MetadataService`, `NostrMailService`, `DeliveryAlertService`, `AuthController`, `ThemeService`, `SettingsController`, `NotificationService`, and `PushRegistrationService`.
 - Initializes Blossom cache plus offline broadcast/upload queues as singletons.
 - Registers `DeviceConnectivityService`, which forces NDK relays past their connect backoff when the OS regains a network.
 - Registers `AddressBookService`, `ContactsService` (lazily) and `MailboxesController`.

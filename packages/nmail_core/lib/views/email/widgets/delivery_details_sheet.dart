@@ -88,11 +88,15 @@ class DeliveryDetailsSheet extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 16),
                 children: [
                   for (final recipient in delivery.recipients)
-                    RecipientDeliverySection(recipient: recipient),
+                    RecipientDeliverySection(
+                      recipient: recipient,
+                      isDeviceOffline: delivery.isDeviceOffline,
+                    ),
                   if (selfCopy != null)
                     RecipientDeliverySection(
                       recipient: selfCopy,
                       isSelfCopy: true,
+                      isDeviceOffline: delivery.isDeviceOffline,
                     ),
                 ],
               ),

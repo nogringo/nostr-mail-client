@@ -1135,8 +1135,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailDeliverySending => '正在发送';
 
   @override
-  String emailDeliveryNotDeliveredCount(int count) {
-    return '$count 位收件人未收到';
+  String get emailDeliveryWaitingForNetwork => '等待网络连接';
+
+  @override
+  String emailDeliveryNotDeliveredTo(String names) {
+    return '$names 未收到';
   }
 
   @override
@@ -1171,6 +1174,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get emailDeliverySelfCopy => '您的副本，供您的其他设备使用';
+
+  @override
+  String get emailDeliveryNoRelayList => '没有用于接收邮件的中继列表';
 
   @override
   String get emailNip59Dismiss => '关闭';
@@ -1852,6 +1858,16 @@ class AppLocalizationsZh extends AppLocalizations {
       count,
       locale: localeName,
       other: '无法确认 $names 能否接收邮件。请检查网络连接。',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUncheckedQueued(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '暂时无法确认 $names 能否接收邮件。恢复联网后，邮件将自动发出。',
     );
     return '$_temp0';
   }

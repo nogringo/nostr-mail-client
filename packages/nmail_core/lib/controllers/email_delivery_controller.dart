@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 
+import 'package:nmail_core/services/device_connectivity_service.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
 
 /// Follows a Sent email through the queues, recipient by recipient. Says
@@ -14,6 +15,7 @@ class EmailDeliveryController extends ChangeNotifier {
       delivery = value;
       notifyListeners();
     });
+    _device.isDeviceOffline.addListener(notifyListeners);
   }
 
   final String emailId;
@@ -21,12 +23,19 @@ class EmailDeliveryController extends ChangeNotifier {
   late final StreamSubscription<EmailDelivery?> _subscription;
   EmailDelivery? delivery;
 
+  final _device = GetIt.I<DeviceConnectivityService>();
+
   NostrMailClient get _client => GetIt.I<NostrMailService>().client;
+
+  /// Nothing still sending leaves before the network is back.
+  bool get isDeviceOffline => _device.isDeviceOffline.value;
 
   List<RecipientDelivery> get recipients => delivery?.recipients ?? const [];
 
-  int get failedCount =>
-      recipients.where((r) => r.status == DeliveryStatus.failed).length;
+  List<RecipientDelivery> get failedRecipients =>
+      recipients.where((r) => r.status == DeliveryStatus.failed).toList();
+
+  int get failedCount => failedRecipients.length;
 
   int get pendingCount =>
       recipients.where((r) => r.status == DeliveryStatus.pending).length;
@@ -41,6 +50,7 @@ class EmailDeliveryController extends ChangeNotifier {
   @override
   void dispose() {
     _subscription.cancel();
+    _device.isDeviceOffline.removeListener(notifyListeners);
     super.dispose();
   }
 }

@@ -1231,14 +1231,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailDeliverySending => 'Sending';
 
   @override
-  String emailDeliveryNotDeliveredCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'Not delivered to $count recipients',
-      one: 'Not delivered to $count recipient',
-    );
-    return '$_temp0';
+  String get emailDeliveryWaitingForNetwork => 'Waiting for network';
+
+  @override
+  String emailDeliveryNotDeliveredTo(String names) {
+    return 'Not delivered to $names';
   }
 
   @override
@@ -1273,6 +1270,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailDeliverySelfCopy => 'Your copy, for your other devices';
+
+  @override
+  String get emailDeliveryNoRelayList => 'No relay list to receive emails';
 
   @override
   String get emailNip59Dismiss => 'Dismiss';
@@ -1974,6 +1974,19 @@ class AppLocalizationsEn extends AppLocalizations {
           'Couldn\'t check whether $names can receive emails. Check your connection.',
       one:
           'Couldn\'t check whether $names can receive emails. Check your connection.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String composeRecipientsUncheckedQueued(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Couldn\'t check whether $names can receive emails yet. Your email will go out once you\'re back online.',
+      one:
+          'Couldn\'t check whether $names can receive emails yet. Your email will go out once you\'re back online.',
     );
     return '$_temp0';
   }

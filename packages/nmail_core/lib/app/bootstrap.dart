@@ -36,6 +36,7 @@ import 'package:nmail_core/services/blossom_cache_factory_io.dart'
     if (dart.library.html) 'package:nmail_core/services/blossom_cache_factory_web.dart'
     as blossom_cache_factory;
 import 'package:nmail_core/services/contacts_service.dart';
+import 'package:nmail_core/services/delivery_alert_service.dart';
 import 'package:nmail_core/services/device_connectivity_service.dart';
 import 'package:nmail_core/services/mail_database.dart';
 import 'package:nmail_core/services/mail_domain_service.dart';
@@ -196,6 +197,10 @@ Future<void> _initApp({
   GetIt.I.registerSingleton(pushSubscriptions);
   unawaited(pushSubscriptions.flushPendingDisables());
   GetIt.I.registerSingleton(await NostrMailService().init());
+  GetIt.I.registerSingleton(
+    DeliveryAlertService()..start(),
+    dispose: (service) => service.dispose(),
+  );
   GetIt.I.registerSingleton(
     await AuthController().init(),
     dispose: (controller) => controller.dispose(),

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 
 /// What the OS says about the device's network, and the one place that acts on
@@ -14,12 +15,22 @@ import 'package:ndk/ndk.dart';
 /// comes back. `tryReconnect` passes `force: true`, which is the only way
 /// through.
 class DeviceConnectivityService {
-  DeviceConnectivityService({Connectivity? connectivity})
-    : _connectivity = connectivity ?? Connectivity() {
+  DeviceConnectivityService({
+    Connectivity? connectivity,
+    Stream<List<RelayConnectivity>>? relayConnectivityChanges,
+  }) : _connectivity = connectivity ?? Connectivity() {
     _subscription = _connectivity.onConnectivityChanged.listen(
       (results) => _setOffline(!results.hasConnectivity),
       onError: (_) => _setOffline(false),
     );
+    _relaySubscription =
+        (relayConnectivityChanges ??
+                GetIt.I<Ndk>().connectivity.relayConnectivityChanges)
+            .listen((connections) {
+              _anyRelayConnected = connections.any((c) => c.isConnected);
+              _updateDeviceOffline();
+            });
+    isOffline.addListener(_updateDeviceOffline);
     _lifecycle = AppLifecycleListener(onResume: _handleResume);
     unawaited(_refresh());
   }
@@ -35,9 +46,15 @@ class DeviceConnectivityService {
   /// alongside relay connectivity, never alone.
   final isOffline = ValueNotifier(false);
 
+  /// [isOffline] with no relay connected either: the one offline verdict to
+  /// show the user.
+  final isDeviceOffline = ValueNotifier(false);
+  bool _anyRelayConnected = false;
+
   static const _debounce = Duration(seconds: 3);
 
   late final StreamSubscription<List<ConnectivityResult>> _subscription;
+  late final StreamSubscription<List<RelayConnectivity>> _relaySubscription;
   late final AppLifecycleListener _lifecycle;
   Timer? _debounceTimer;
   Completer<void>? _scheduled;
@@ -46,12 +63,14 @@ class DeviceConnectivityService {
 
   void dispose() {
     _subscription.cancel();
+    _relaySubscription.cancel();
     _lifecycle.dispose();
     _debounceTimer?.cancel();
     // Release anyone awaiting a pass that will now never run.
     _scheduled?.complete();
     _rerun?.complete();
     isOffline.dispose();
+    isDeviceOffline.dispose();
   }
 
   /// Reconnects every relay right away. For an explicit user action; anything
@@ -113,6 +132,9 @@ class DeviceConnectivityService {
     isOffline.value = offline;
     if (!offline) unawaited(reconnectSoon());
   }
+
+  void _updateDeviceOffline() =>
+      isDeviceOffline.value = isOffline.value && !_anyRelayConnected;
 
   Future<void> _startPass() {
     final pass = _runPass();
