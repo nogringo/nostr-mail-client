@@ -298,6 +298,7 @@
   "inboxEmptyTrash": "Корзина пуста",
   "inboxEmptyArchive": "Архив пуст",
   "inboxEmptyRequests": "Запросов нет",
+  "inboxEmptyRequestsHint": "Сюда приходят письма от новых отправителей. Примите отправителя, чтобы получать его письма во Входящие.",
   "inboxEmptySpam": "Спама нет",
   "inboxSyncFromRelays": "Обновить",
   "inboxSearch": "Поиск",

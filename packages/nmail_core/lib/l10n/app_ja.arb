@@ -298,6 +298,7 @@
   "inboxEmptyTrash": "ゴミ箱は空です",
   "inboxEmptyArchive": "アーカイブは空です",
   "inboxEmptyRequests": "リクエストはありません",
+  "inboxEmptyRequestsHint": "新しい送信者からのメールはここに届きます。送信者を承認すると、メールが受信トレイに届きます。",
   "inboxEmptySpam": "迷惑メールはありません",
   "inboxSyncFromRelays": "更新",
   "inboxSearch": "検索",

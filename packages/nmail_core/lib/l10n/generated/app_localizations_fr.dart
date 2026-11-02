@@ -834,7 +834,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get folderArchive => 'Archives';
 
   @override
-  String get folderRequests => 'Demandes';
+  String get folderRequests => 'À approuver';
 
   @override
   String get folderSpam => 'Spam';
@@ -858,7 +858,11 @@ class AppLocalizationsFr extends AppLocalizations {
   String get inboxEmptyArchive => 'Les archives sont vides';
 
   @override
-  String get inboxEmptyRequests => 'Aucune demande';
+  String get inboxEmptyRequests => 'Aucun expéditeur à approuver';
+
+  @override
+  String get inboxEmptyRequestsHint =>
+      'Les e-mails des nouveaux expéditeurs arrivent ici. Acceptez un expéditeur pour recevoir ses e-mails dans la boîte de réception.';
 
   @override
   String get inboxEmptySpam => 'Aucun spam';
@@ -905,7 +909,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get inboxAccount => 'Compte';
 
   @override
-  String get inboxCompose => 'Composer';
+  String get inboxCompose => 'Nouveau message';
 
   @override
   String get inboxEditProfile => 'Modifier le profil';
@@ -2466,9 +2470,9 @@ class AppLocalizationsFr extends AppLocalizations {
       count,
       locale: localeName,
       other:
-          'Les $count expéditeurs des Demandes seront acceptés et leurs e-mails déplacés dans la boîte de réception.',
+          'Les $count expéditeurs en attente seront acceptés et leurs e-mails déplacés dans la boîte de réception.',
       one:
-          'L\'expéditeur des Demandes sera accepté et ses e-mails déplacés dans la boîte de réception.',
+          'L\'expéditeur en attente sera accepté et ses e-mails déplacés dans la boîte de réception.',
     );
     return '$_temp0';
   }
@@ -2485,8 +2489,8 @@ class AppLocalizationsFr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count nouveaux expéditeurs attendent dans les Demandes',
-      one: '$count nouvel expéditeur attend dans les Demandes',
+      other: '$count nouveaux expéditeurs attendent votre approbation',
+      one: '$count nouvel expéditeur attend votre approbation',
     );
     return '$_temp0';
   }

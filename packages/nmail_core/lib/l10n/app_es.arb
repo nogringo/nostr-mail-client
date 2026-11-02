@@ -298,6 +298,7 @@
   "inboxEmptyTrash": "La papelera está vacía",
   "inboxEmptyArchive": "No hay correos archivados",
   "inboxEmptyRequests": "No hay solicitudes",
+  "inboxEmptyRequestsHint": "Los correos de remitentes nuevos llegan aquí. Acepta a un remitente para recibir sus correos en la bandeja de entrada.",
   "inboxEmptySpam": "No hay spam",
   "inboxSyncFromRelays": "Actualizar",
   "inboxSearch": "Buscar",

@@ -298,6 +298,7 @@
   "inboxEmptyTrash": "Roskakori on tyhjä",
   "inboxEmptyArchive": "Arkisto on tyhjä",
   "inboxEmptyRequests": "Ei pyyntöjä",
+  "inboxEmptyRequestsHint": "Uusien lähettäjien viestit tulevat tänne. Hyväksy lähettäjä, niin sen viestit tulevat Saapuneisiin.",
   "inboxEmptySpam": "Ei roskapostia",
   "inboxSyncFromRelays": "Päivitä",
   "inboxSearch": "Hae",

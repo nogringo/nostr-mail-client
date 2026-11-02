@@ -857,6 +857,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get inboxEmptyRequests => 'Запросов нет';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      'Сюда приходят письма от новых отправителей. Примите отправителя, чтобы получать его письма во Входящие.';
+
+  @override
   String get inboxEmptySpam => 'Спама нет';
 
   @override

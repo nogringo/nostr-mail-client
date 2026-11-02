@@ -818,6 +818,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get inboxEmptyRequests => '没有请求';
 
   @override
+  String get inboxEmptyRequestsHint => '新发件人的邮件会出现在这里。接受发件人后，其邮件将进入收件箱。';
+
+  @override
   String get inboxEmptySpam => '没有垃圾邮件';
 
   @override

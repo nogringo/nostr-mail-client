@@ -859,6 +859,10 @@ class AppLocalizationsIt extends AppLocalizations {
   String get inboxEmptyRequests => 'Nessuna richiesta';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      'Le email dei nuovi mittenti arrivano qui. Accetta un mittente per ricevere le sue email in Posta in arrivo.';
+
+  @override
   String get inboxEmptySpam => 'Nessuno spam';
 
   @override
@@ -903,7 +907,7 @@ class AppLocalizationsIt extends AppLocalizations {
   String get inboxAccount => 'Account';
 
   @override
-  String get inboxCompose => 'Componi';
+  String get inboxCompose => 'Scrivi';
 
   @override
   String get inboxEditProfile => 'Modifica profilo';

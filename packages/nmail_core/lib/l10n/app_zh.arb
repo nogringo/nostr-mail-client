@@ -298,6 +298,7 @@
   "inboxEmptyTrash": "回收站为空",
   "inboxEmptyArchive": "归档为空",
   "inboxEmptyRequests": "没有请求",
+  "inboxEmptyRequestsHint": "新发件人的邮件会出现在这里。接受发件人后，其邮件将进入收件箱。",
   "inboxEmptySpam": "没有垃圾邮件",
   "inboxSyncFromRelays": "刷新",
   "inboxSearch": "搜索",

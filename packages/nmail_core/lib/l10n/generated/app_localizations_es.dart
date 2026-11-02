@@ -856,6 +856,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get inboxEmptyRequests => 'No hay solicitudes';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      'Los correos de remitentes nuevos llegan aquí. Acepta a un remitente para recibir sus correos en la bandeja de entrada.';
+
+  @override
   String get inboxEmptySpam => 'No hay spam';
 
   @override

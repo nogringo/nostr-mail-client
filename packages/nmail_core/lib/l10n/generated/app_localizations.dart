@@ -1645,13 +1645,19 @@ abstract class AppLocalizations {
   /// **'No requests'**
   String get inboxEmptyRequests;
 
+  /// Explains the requests folder below its empty-state message
+  ///
+  /// In en, this message translates to:
+  /// **'Emails from new senders land here. Accept a sender to get their emails in your Inbox.'**
+  String get inboxEmptyRequestsHint;
+
   /// Empty-state message when the spam folder is empty
   ///
   /// In en, this message translates to:
   /// **'No spam'**
   String get inboxEmptySpam;
 
-  /// Button shown below empty-state to refresh the mailbox
+  /// Button shown below the empty inbox to refresh it
   ///
   /// In en, this message translates to:
   /// **'Refresh'**

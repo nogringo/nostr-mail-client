@@ -860,6 +860,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get inboxEmptyRequests => 'Sem pedidos';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      'Os emails de novos remetentes chegam aqui. Aceite um remetente para receber os emails dele na caixa de entrada.';
+
+  @override
   String get inboxEmptySpam => 'Sem spam';
 
   @override
@@ -904,7 +908,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get inboxAccount => 'Conta';
 
   @override
-  String get inboxCompose => 'Compor';
+  String get inboxCompose => 'Escrever';
 
   @override
   String get inboxEditProfile => 'Editar perfil';
@@ -3361,6 +3365,10 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get inboxEmptyRequests => 'Nenhuma solicitação';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      'Os e-mails de novos remetentes chegam aqui. Aceite um remetente para receber os e-mails dele na caixa de entrada.';
+
+  @override
   String get inboxEmptySpam => 'Nenhum spam';
 
   @override
@@ -3405,7 +3413,7 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   String get inboxAccount => 'Conta';
 
   @override
-  String get inboxCompose => 'Compor';
+  String get inboxCompose => 'Escrever';
 
   @override
   String get inboxEditProfile => 'Editar perfil';

@@ -826,6 +826,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get inboxEmptyRequests => 'リクエストはありません';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      '新しい送信者からのメールはここに届きます。送信者を承認すると、メールが受信トレイに届きます。';
+
+  @override
   String get inboxEmptySpam => '迷惑メールはありません';
 
   @override

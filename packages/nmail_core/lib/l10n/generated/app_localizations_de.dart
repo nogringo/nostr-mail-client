@@ -860,6 +860,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get inboxEmptyRequests => 'Keine Anfragen';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      'E-Mails von neuen Absendern landen hier. Akzeptiere einen Absender, um seine E-Mails im Posteingang zu erhalten.';
+
+  @override
   String get inboxEmptySpam => 'Kein Spam';
 
   @override
@@ -898,7 +902,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get inboxAccount => 'Konto';
 
   @override
-  String get inboxCompose => 'Verfassen';
+  String get inboxCompose => 'Schreiben';
 
   @override
   String get inboxEditProfile => 'Profil bearbeiten';

@@ -42,6 +42,7 @@ class SidebarSectionHeader extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.add),
+            iconSize: 18,
             tooltip: addLabel,
             visualDensity: VisualDensity.compact,
             onPressed: onAdd,

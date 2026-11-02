@@ -853,6 +853,10 @@ class AppLocalizationsFi extends AppLocalizations {
   String get inboxEmptyRequests => 'Ei pyyntöjä';
 
   @override
+  String get inboxEmptyRequestsHint =>
+      'Uusien lähettäjien viestit tulevat tänne. Hyväksy lähettäjä, niin sen viestit tulevat Saapuneisiin.';
+
+  @override
   String get inboxEmptySpam => 'Ei roskapostia';
 
   @override
