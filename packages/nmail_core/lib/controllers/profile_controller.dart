@@ -1,7 +1,10 @@
+import 'package:blossom_cache/blossom_cache.dart';
+import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mime/mime.dart';
 import 'package:ndk/ndk.dart';
 
 import 'package:nmail_core/config/nostr_config.dart';
@@ -9,7 +12,8 @@ import '../app/routes/app_router.dart';
 import '../app/routes/app_routes.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/services/metadata_service.dart';
-import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/blossom_cache_image.dart';
+import 'package:nmail_core/utils/blossom_utils.dart';
 import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'auth_controller.dart';
@@ -41,10 +45,19 @@ class ProfileController extends ChangeNotifier {
   Metadata? _currentMetadata;
   bool isLoading = true;
   bool isSaving = false;
-  bool isUploadingPicture = false;
   bool showMoreOptions = false;
+  ({String url, String sha256})? _pickedPicture;
 
   bool _isDisposed = false;
+
+  /// Read from the cache: its upload may not be delivered yet.
+  ImageProvider? get pickedPicture {
+    final picked = _pickedPicture;
+    if (picked == null || pictureController.text.trim() != picked.url) {
+      return null;
+    }
+    return BlossomCacheImage(picked.sha256);
+  }
 
   bool get hasChanges {
     final metadata = _currentMetadata;
@@ -111,56 +124,44 @@ class ProfileController extends ChangeNotifier {
     );
     if (file == null || _isDisposed) return;
 
-    isUploadingPicture = true;
-    notifyListeners();
-
     try {
-      final ndk = GetIt.I<Ndk>();
-      final nostrMailService = GetIt.I<NostrMailService>();
+      final data = stripMediaMetadata(await file.readAsBytes());
+      final type = lookupMimeType('', headerBytes: data);
+      if (type == null || !type.startsWith('image/')) {
+        throw StateError('Unknown picture type');
+      }
 
-      // Check if user has configured servers, otherwise use defaults
-      final userServers = await nostrMailService.getBlossomServers();
-      final serverUrls = userServers.isNotEmpty
-          ? userServers
-          : NostrConfig.recommendedBlossomServers;
-
-      final uploadResults = await ndk.blossom.uploadBlob(
-        data: stripMediaMetadata(await file.readAsBytes()),
-        contentType: file.extension != null ? 'image/${file.extension}' : null,
-        serverUrls: serverUrls,
+      final pubkey = GetIt.I<AuthController>().publicKey!;
+      final serverSet = UrlSet.fallback([
+        UrlSet.blossom(pubkey),
+        UrlSet.explicit(NostrConfig.recommendedBlossomServers),
+      ]);
+      // Cache only: the queue resolves the set again when it uploads.
+      final server = switch (await resolveUrlSet(
+        serverSet,
+        ndkUrlListFn(GetIt.I<Ndk>(), offline: true),
+      )) {
+        UrlsResolved(:final urls) when urls.isNotEmpty => urls.first,
+        _ => NostrConfig.recommendedBlossomServers.first,
+      };
+      final blob = await GetIt.I<BlossomCache>().put(data, type: type);
+      await GetIt.I<OfflineBlossomUpload>().upload(
+        sha256: blob.sha256,
+        serverSet: UrlSet.union([
+          serverSet,
+          UrlSet.explicit([server]),
+        ]),
+        contentType: type,
+        pubkey: pubkey,
       );
       if (_isDisposed) return;
 
-      if (uploadResults.isEmpty) {
-        if (context.mounted) {
-          ToastHelper.error(context, l.profileUploadNoServers);
-        }
-        return;
-      }
-
-      final successResult = uploadResults.firstWhere(
-        (r) => r.success && r.descriptor != null,
-        orElse: () => uploadResults.first,
-      );
-
-      if (successResult.success && successResult.descriptor != null) {
-        pictureController.text = successResult.descriptor!.url;
-      } else {
-        if (context.mounted) {
-          ToastHelper.error(
-            context,
-            successResult.error ?? l.profileUploadFailed,
-          );
-        }
-      }
+      final url = blossomBlobUrl(server, blob.sha256, type);
+      _pickedPicture = (url: url, sha256: blob.sha256);
+      pictureController.text = url;
     } catch (e) {
       if (context.mounted) {
         ToastHelper.error(context, l.profileUploadError);
-      }
-    } finally {
-      if (!_isDisposed) {
-        isUploadingPicture = false;
-        notifyListeners();
       }
     }
   }

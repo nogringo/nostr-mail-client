@@ -133,6 +133,7 @@ class ProfileView extends StatelessWidget {
     final displayName = controller.displayNameController.text.trim();
     final name = controller.nameController.text.trim();
     final pubkey = GetIt.I<AuthController>().publicKey;
+    final pickedPicture = controller.pickedPicture;
 
     final previewMetadata = Metadata(
       pubKey: pubkey ?? '',
@@ -144,54 +145,41 @@ class ProfileView extends StatelessWidget {
     return Semantics(
       label: l.profileChangePicture,
       button: true,
-      enabled: !controller.isUploadingPicture,
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
-          onTap: controller.isUploadingPicture
-              ? null
-              : () => controller.pickAndUploadPicture(context),
+          onTap: () => controller.pickAndUploadPicture(context),
           child: Stack(
             alignment: Alignment.center,
             children: [
-              NostrAvatar(
-                pubkey: pubkey ?? '',
-                metadata: previewMetadata,
-                radius: 60,
-              ),
-              if (controller.isUploadingPicture)
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Colors.black45,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: CircularProgressIndicator(color: Colors.white),
-                  ),
-                )
+              if (pickedPicture != null)
+                CircleAvatar(radius: 60, backgroundImage: pickedPicture)
               else
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primary,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Theme.of(context).scaffoldBackgroundColor,
-                        width: 3,
-                      ),
+                NostrAvatar(
+                  pubkey: pubkey ?? '',
+                  metadata: previewMetadata,
+                  radius: 60,
+                ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      width: 3,
                     ),
-                    child: Icon(
-                      Icons.camera_alt,
-                      size: 20,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
+                  ),
+                  child: Icon(
+                    Icons.camera_alt,
+                    size: 20,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                 ),
+              ),
             ],
           ),
         ),

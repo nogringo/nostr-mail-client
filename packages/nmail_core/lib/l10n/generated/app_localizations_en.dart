@@ -2026,12 +2026,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSelectPicture => 'Select profile picture';
 
   @override
-  String get profileUploadNoServers => 'No servers responded';
-
-  @override
-  String get profileUploadFailed => 'Upload failed';
-
-  @override
   String get profileUploadError => 'An error occurred during upload';
 
   @override

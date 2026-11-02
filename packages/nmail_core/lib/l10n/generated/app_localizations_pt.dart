@@ -2055,12 +2055,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get profileSelectPicture => 'Selecionar fotografia de perfil';
 
   @override
-  String get profileUploadNoServers => 'Nenhum servidor respondeu';
-
-  @override
-  String get profileUploadFailed => 'Falha no envio';
-
-  @override
   String get profileUploadError => 'Ocorreu um erro durante o envio';
 
   @override
@@ -4532,12 +4526,6 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get profileSelectPicture => 'Selecionar foto de perfil';
-
-  @override
-  String get profileUploadNoServers => 'Nenhum servidor respondeu';
-
-  @override
-  String get profileUploadFailed => 'Falha no envio';
 
   @override
   String get profileUploadError => 'Ocorreu um erro durante o envio';

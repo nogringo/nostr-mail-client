@@ -1,3 +1,5 @@
+import 'package:mime/mime.dart';
+
 /// Format blossom server URL for display by removing protocols and trailing slashes
 String formatBlossomUrl(String url) {
   return url
@@ -33,4 +35,11 @@ bool isValidBlossomUrl(String url) {
   if (!uri.host.contains('.') && uri.host != 'localhost') return false;
 
   return true;
+}
+
+/// URL of a blob on a Blossom server, as BUD-01 serves it (`/<sha256>.<ext>`)
+String blossomBlobUrl(String server, String sha256, String mimeType) {
+  final base = server.replaceFirst(RegExp(r'/$'), '');
+  final extension = extensionFromMime(mimeType);
+  return extension == null ? '$base/$sha256' : '$base/$sha256.$extension';
 }

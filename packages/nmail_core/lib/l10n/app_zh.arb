@@ -730,8 +730,6 @@
 
   "profileLoadFailed": "加载个人资料失败",
   "profileSelectPicture": "选择头像",
-  "profileUploadNoServers": "没有服务器响应",
-  "profileUploadFailed": "上传失败",
   "profileUploadError": "上传过程中发生错误",
   "profileUpdateFailed": "更新个人资料失败",
   "authEnterUsername": "请输入用户名",

@@ -730,8 +730,6 @@
 
   "profileLoadFailed": "Échec du chargement du profil",
   "profileSelectPicture": "Sélectionner une photo de profil",
-  "profileUploadNoServers": "Aucun serveur n'a répondu",
-  "profileUploadFailed": "Échec de l'envoi",
   "profileUploadError": "Une erreur s'est produite lors de l'envoi",
   "profileUpdateFailed": "Échec de la mise à jour du profil",
   "authEnterUsername": "Veuillez saisir un nom d'utilisateur",

@@ -2052,12 +2052,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileSelectPicture => 'Выбрать фото профиля';
 
   @override
-  String get profileUploadNoServers => 'Серверы не ответили';
-
-  @override
-  String get profileUploadFailed => 'Ошибка загрузки';
-
-  @override
   String get profileUploadError => 'Во время загрузки произошла ошибка';
 
   @override

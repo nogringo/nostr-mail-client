@@ -3613,18 +3613,6 @@ abstract class AppLocalizations {
   /// **'Select profile picture'**
   String get profileSelectPicture;
 
-  /// Error toast when the Blossom upload returns no results
-  ///
-  /// In en, this message translates to:
-  /// **'No servers responded'**
-  String get profileUploadNoServers;
-
-  /// Generic upload-failure toast used as a fallback when no error message is available
-  ///
-  /// In en, this message translates to:
-  /// **'Upload failed'**
-  String get profileUploadFailed;
-
   /// Error toast when an exception is thrown during profile picture upload
   ///
   /// In en, this message translates to:

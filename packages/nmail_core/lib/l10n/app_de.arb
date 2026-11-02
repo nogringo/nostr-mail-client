@@ -730,8 +730,6 @@
 
   "profileLoadFailed": "Profildaten konnten nicht geladen werden",
   "profileSelectPicture": "Profilbild auswählen",
-  "profileUploadNoServers": "Keine Server haben geantwortet",
-  "profileUploadFailed": "Upload fehlgeschlagen",
   "profileUploadError": "Beim Upload ist ein Fehler aufgetreten",
   "profileUpdateFailed": "Profil konnte nicht aktualisiert werden",
   "authEnterUsername": "Bitte einen Benutzernamen eingeben",

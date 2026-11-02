@@ -2060,12 +2060,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get profileSelectPicture => 'Sélectionner une photo de profil';
 
   @override
-  String get profileUploadNoServers => 'Aucun serveur n\'a répondu';
-
-  @override
-  String get profileUploadFailed => 'Échec de l\'envoi';
-
-  @override
   String get profileUploadError =>
       'Une erreur s\'est produite lors de l\'envoi';
 

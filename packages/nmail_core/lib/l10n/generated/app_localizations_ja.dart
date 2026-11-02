@@ -1920,12 +1920,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get profileSelectPicture => 'プロフィール画像を選択';
 
   @override
-  String get profileUploadNoServers => '応答するサーバーがありません';
-
-  @override
-  String get profileUploadFailed => 'アップロードに失敗しました';
-
-  @override
   String get profileUploadError => 'アップロード中にエラーが発生しました';
 
   @override

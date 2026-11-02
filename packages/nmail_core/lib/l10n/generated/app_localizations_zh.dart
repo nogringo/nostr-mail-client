@@ -1904,12 +1904,6 @@ class AppLocalizationsZh extends AppLocalizations {
   String get profileSelectPicture => '选择头像';
 
   @override
-  String get profileUploadNoServers => '没有服务器响应';
-
-  @override
-  String get profileUploadFailed => '上传失败';
-
-  @override
   String get profileUploadError => '上传过程中发生错误';
 
   @override

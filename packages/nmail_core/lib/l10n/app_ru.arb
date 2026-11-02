@@ -730,8 +730,6 @@
 
   "profileLoadFailed": "Не удалось загрузить данные профиля",
   "profileSelectPicture": "Выбрать фото профиля",
-  "profileUploadNoServers": "Серверы не ответили",
-  "profileUploadFailed": "Ошибка загрузки",
   "profileUploadError": "Во время загрузки произошла ошибка",
   "profileUpdateFailed": "Не удалось обновить профиль",
   "authEnterUsername": "Введите имя пользователя",

@@ -1,6 +1,6 @@
 import 'package:blossom_cache/blossom_cache.dart';
+import 'package:blossom_upload_queue_shim_for_ndk/blossom_upload_queue_shim_for_ndk.dart';
 import 'package:broadcast_queue_shim_for_ndk/broadcast_queue_shim_for_ndk.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -12,7 +12,7 @@ import 'package:nmail_core/controllers/community_themes_controller.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/models/background_preset.dart';
 import 'package:nmail_core/models/community_theme.dart';
-import 'package:nmail_core/services/nostr_mail_service.dart';
+import 'package:nmail_core/utils/blossom_utils.dart';
 import 'package:nmail_core/utils/media_metadata/strip_media_metadata.dart';
 import 'package:nmail_core/widgets/background_preset_visual.dart';
 
@@ -73,7 +73,7 @@ class ShareThemeController extends ChangeNotifier {
     super.dispose();
   }
 
-  /// Throws when the background upload or the signature fails.
+  /// Throws when the background cannot be queued or the signature fails.
   Future<void> publish() async {
     isPublishing = true;
     notifyListeners();
@@ -89,7 +89,7 @@ class ShareThemeController extends ChangeNotifier {
           seedColor: _seedColor,
           variant: _settings.paletteStyle.value,
           brightness: brightness,
-          image: await _uploadBackground(),
+          image: await _uploadBackground(account.pubkey),
           contentWarning: _isNsfw ? 'NSFW' : null,
         ),
         content: '',
@@ -117,7 +117,7 @@ class ShareThemeController extends ChangeNotifier {
     }
   }
 
-  Future<({String url, String type})?> _uploadBackground() async {
+  Future<({String url, String type})?> _uploadBackground(String pubkey) async {
     final bytes = await _backgroundBytes();
     if (bytes == null) return null;
 
@@ -127,19 +127,29 @@ class ShareThemeController extends ChangeNotifier {
       throw StateError('Unknown background image type');
     }
 
-    final userServers = await GetIt.I<NostrMailService>().getBlossomServers();
-    final results = await GetIt.I<Ndk>().blossom.uploadBlob(
-      data: data,
+    final serverSet = UrlSet.fallback([
+      UrlSet.blossom(pubkey),
+      UrlSet.explicit(NostrConfig.recommendedBlossomServers),
+    ]);
+    // Cache only: the queue resolves the set again when it uploads.
+    final server = switch (await resolveUrlSet(
+      serverSet,
+      ndkUrlListFn(GetIt.I<Ndk>(), offline: true),
+    )) {
+      UrlsResolved(:final urls) when urls.isNotEmpty => urls.first,
+      _ => NostrConfig.recommendedBlossomServers.first,
+    };
+    final blob = await GetIt.I<BlossomCache>().put(data, type: type);
+    await GetIt.I<OfflineBlossomUpload>().upload(
+      sha256: blob.sha256,
+      serverSet: UrlSet.union([
+        serverSet,
+        UrlSet.explicit([server]),
+      ]),
       contentType: type,
-      serverUrls: userServers.isNotEmpty
-          ? userServers
-          : NostrConfig.recommendedBlossomServers,
+      pubkey: pubkey,
     );
-    final uploaded = results.firstWhereOrNull(
-      (result) => result.success && result.descriptor != null,
-    );
-    if (uploaded == null) throw StateError('Background upload failed');
-    return (url: uploaded.descriptor!.url, type: type);
+    return (url: blossomBlobUrl(server, blob.sha256, type), type: type);
   }
 
   Future<Uint8List?> _backgroundBytes() async {

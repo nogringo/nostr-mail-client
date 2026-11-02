@@ -2036,12 +2036,6 @@ class AppLocalizationsFi extends AppLocalizations {
   String get profileSelectPicture => 'Valitse profiilikuva';
 
   @override
-  String get profileUploadNoServers => 'Yksikään palvelin ei vastaa';
-
-  @override
-  String get profileUploadFailed => 'Palvelimelle tallentaminen epäonnistui';
-
-  @override
   String get profileUploadError =>
       'Palvelimelle tallentamisessa tapahtui virhe';
 

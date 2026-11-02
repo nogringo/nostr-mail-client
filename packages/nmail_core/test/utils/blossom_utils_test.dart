@@ -80,5 +80,31 @@ void main() {
         expect(isValidBlossomUrl('https://localhost'), isTrue);
       });
     });
+
+    group('blossomBlobUrl', () {
+      const sha256 =
+          'b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553';
+
+      test('should append the extension of the mime type', () {
+        expect(
+          blossomBlobUrl('https://blossom.example.com', sha256, 'image/png'),
+          'https://blossom.example.com/$sha256.png',
+        );
+      });
+
+      test('should strip the trailing slash of the server', () {
+        expect(
+          blossomBlobUrl('https://blossom.example.com/', sha256, 'image/jpeg'),
+          'https://blossom.example.com/$sha256.jpg',
+        );
+      });
+
+      test('should leave the extension out for an unknown mime type', () {
+        expect(
+          blossomBlobUrl('https://blossom.example.com', sha256, 'image/x-nope'),
+          'https://blossom.example.com/$sha256',
+        );
+      });
+    });
   });
 }

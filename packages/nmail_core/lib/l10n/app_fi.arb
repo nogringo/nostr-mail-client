@@ -735,8 +735,6 @@
 
   "profileLoadFailed": "Profiilitietojen haku epäonnistui",
   "profileSelectPicture": "Valitse profiilikuva",
-  "profileUploadNoServers": "Yksikään palvelin ei vastaa",
-  "profileUploadFailed": "Palvelimelle tallentaminen epäonnistui",
   "profileUploadError": "Palvelimelle tallentamisessa tapahtui virhe",
   "profileUpdateFailed": "Profiilin päivitys epäonnistui",
   "authEnterUsername": "Anna käyttäjänimi",

@@ -730,8 +730,6 @@
 
   "profileLoadFailed": "Error al cargar los datos del perfil",
   "profileSelectPicture": "Seleccionar foto de perfil",
-  "profileUploadNoServers": "Ningún servidor respondió",
-  "profileUploadFailed": "Error al subir",
   "profileUploadError": "Se produjo un error durante la subida",
   "profileUpdateFailed": "Error al actualizar el perfil",
   "authEnterUsername": "Introduce un nombre de usuario",
