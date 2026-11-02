@@ -4,6 +4,7 @@ import 'package:ndk/entities.dart';
 import 'package:ndk/ndk.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/models/ndk_data_response.dart';
 import 'package:nmail_core/models/relay_list_discovery_result.dart';
 import 'package:nmail_core/services/relay_list_discovery.dart';
@@ -21,15 +22,21 @@ class MetadataUnreachable implements Exception {
 /// Reads a profile (kind 0) from the author's own NIP-65 write relays.
 ///
 /// Deliberately bypasses `ndk.metadata`: the RELAY_SETS engine, NDK's default,
-/// does no NIP-65 routing on its read path, so without explicit relays a query
-/// reaches the bootstrap relays only and a profile published on the author's
-/// write relays is never found.
+/// does no NIP-65 routing on its read path, so a profile published on the
+/// author's write relays is never found.
 /// See https://github.com/relaystr/ndk/pull/698
 class MetadataReader {
   MetadataReader(this._ndk, this._discovery);
 
   final Ndk _ndk;
   final RelayListDiscovery _discovery;
+
+  /// Where kind 0 is also published, read when the author's write relays are
+  /// unknown.
+  static final _fallbackRelays = {
+    ...NostrConfig.popularRelays,
+    ...NostrConfig.discoveryRelays,
+  }.toList();
 
   NdkDataResponse<Metadata> read(String pubkey, {Duration? timeout}) {
     final subject = BehaviorSubject<NdkValue<Metadata>>();
@@ -79,7 +86,7 @@ class MetadataReader {
       for (final entry in routed.byRelay.entries)
         _collect(entry.value, [entry.key], timeout, consider),
       if (routed.unrouted.isNotEmpty)
-        _collect(routed.unrouted, null, timeout, consider),
+        _collect(routed.unrouted, _fallbackRelays, timeout, consider),
     ]);
 
     for (final entry in winners.entries) {
@@ -91,7 +98,7 @@ class MetadataReader {
 
   Future<void> _collect(
     List<String> pubkeys,
-    List<String>? relays,
+    List<String> relays,
     Duration? timeout,
     void Function(Nip01Event) consider,
   ) async {
@@ -225,19 +232,18 @@ class MetadataReader {
     await _ndk.config.cache.saveEvent(event);
   }
 
-  /// Null falls back to NDK's own routing, which is the bootstrap relays.
-  Future<List<String>?> _writeRelays(String pubkey) async {
+  Future<List<String>> _writeRelays(String pubkey) async {
     final cached = await _ndk.config.cache.loadUserRelayList(pubkey);
     final known = _writeUrls(cached?.relays);
     if (known != null) return known;
 
     final found = await _discovery.searchEverywhere(pubkey);
-    if (found is! RelayListFound) return null;
+    if (found is! RelayListFound) return _fallbackRelays;
 
     await _ndk.config.cache.saveUserRelayList(
       UserRelayList.fromNip65(Nip65.fromEvent(found.event)),
     );
-    return _writeUrls(found.relays);
+    return _writeUrls(found.relays) ?? _fallbackRelays;
   }
 
   List<String>? _writeUrls(Map<String, ReadWriteMarker>? relays) {

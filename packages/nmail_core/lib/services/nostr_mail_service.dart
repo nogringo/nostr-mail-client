@@ -102,20 +102,16 @@ class NostrMailService {
     return client.clearAllLocalData();
   }
 
-  /// Returns the current user's NIP-65 outbox (write/readWrite) relays,
-  /// falling back to [NostrConfig.bootstrapRelays] when none are set yet.
+  /// Returns the current user's NIP-65 outbox (write/readWrite) relays from
+  /// the cache, empty when there are none.
+  ///
+  /// Login waits for a NIP-65 list in the cache, so there is no network lookup.
   Future<List<String>> getOutboxRelays() async {
-    // TODO: use no bootstrap relays, as fallback or for the NIP-65 lookup.
     final pubkey = _ndk.accounts.getPublicKey();
-    if (pubkey == null) return List<String>.from(NostrConfig.bootstrapRelays);
+    if (pubkey == null) return [];
 
-    final userRelayList = await _ndk.userRelayLists.getSingleUserRelayList(
-      pubkey,
-    );
-    final outbox = userRelayList?.writeUrls.toList() ?? const [];
-    return outbox.isNotEmpty
-        ? outbox
-        : List<String>.from(NostrConfig.bootstrapRelays);
+    final userRelayList = await _ndk.config.cache.loadUserRelayList(pubkey);
+    return userRelayList?.writeUrls.toList() ?? [];
   }
 
   /// Get the user's DM relay list (kind 10050) from local cache
@@ -146,7 +142,7 @@ class NostrMailService {
   }
 
   /// Get the user's private relay list (kind 10013) from the outbox relays,
-  /// falling back to the cache when none answers.
+  /// falling back to the cache when there are none or none answers.
   ///
   /// Throws when the list cannot be known, so an edit never overwrites relays
   /// that were not read.
@@ -154,22 +150,26 @@ class NostrMailService {
     final account = _ndk.accounts.getLoggedAccount();
     if (account == null) return [];
 
-    final response = _ndk.requests.query(
-      name: 'private-relays',
-      filter: ndk_filter.Filter(
-        kinds: [privateRelayListKind],
-        authors: [account.pubkey],
-        limit: 1,
-      ),
-      explicitRelays: await getOutboxRelays(),
-      timeout: const Duration(seconds: 5),
-      cacheRead: false,
-    );
-    await response.future;
-    final outcomes = await response.relayOutcomesDone;
-    final anyRelayAnswered = outcomes.values.any(
-      (outcome) => outcome.status == RelayRequestStatus.eose,
-    );
+    final outbox = await getOutboxRelays();
+    var anyRelayAnswered = false;
+    if (outbox.isNotEmpty) {
+      final response = _ndk.requests.query(
+        name: 'private-relays',
+        filter: ndk_filter.Filter(
+          kinds: [privateRelayListKind],
+          authors: [account.pubkey],
+          limit: 1,
+        ),
+        explicitRelays: outbox,
+        timeout: const Duration(seconds: 5),
+        cacheRead: false,
+      );
+      await response.future;
+      final outcomes = await response.relayOutcomesDone;
+      anyRelayAnswered = outcomes.values.any(
+        (outcome) => outcome.status == RelayRequestStatus.eose,
+      );
+    }
 
     final events = await _ndk.config.cache.loadEvents(
       pubKeys: [account.pubkey],

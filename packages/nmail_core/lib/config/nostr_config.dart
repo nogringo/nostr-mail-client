@@ -1,13 +1,6 @@
 import 'package:ndk/ndk.dart';
 
 class NostrConfig {
-  static const bootstrapRelays = [
-    'wss://relay.nmail.li',
-    'wss://nostr-01.yakihonne.com',
-    'wss://nos.lol',
-    'wss://relay.primal.net',
-  ];
-
   /// Popular relays used to broadcast signaling events (kinds 0, 10002,
   /// 10050, 10063) widely for maximum discoverability.
   static const popularRelays = [
@@ -18,8 +11,7 @@ class NostrConfig {
     'wss://relay.primal.net',
   ];
 
-  /// Relays that index kind 0 / 10002 for the whole network, queried when the
-  /// user's NIP-65 list is not on the bootstrap relays.
+  /// Relays that index kind 0 / 10002 for the whole network.
   static const discoveryRelays = [
     'wss://purplepag.es',
     'wss://user.kindpag.es',

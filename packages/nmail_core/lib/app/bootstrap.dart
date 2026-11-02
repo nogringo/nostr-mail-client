@@ -24,7 +24,6 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:nmail_core/app/config/distribution_config.dart';
 import 'package:nmail_core/app/widgets/pending_requests_overlay.dart';
 import 'package:nmail_core/app/widgets/window_caption_bar.dart';
-import 'package:nmail_core/config/nostr_config.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/controllers/auth_controller.dart';
@@ -131,7 +130,9 @@ Future<void> _initApp({
       eventVerifier: NdkEventVerifier(),
       eventSignerFactory: NdkEventSignerFactory(),
       cache: cacheManager,
-      bootstrapRelays: NostrConfig.bootstrapRelays,
+      // Every request names its relays. Omitted, NDK connects to its own
+      // default relays.
+      bootstrapRelays: [],
       // The broadcast queue passes no `auth`, and DM relays refuse gift wraps
       // from an unauthenticated connection.
       // TODO: ask before authenticating on a relay or Blossom server outside

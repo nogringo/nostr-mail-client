@@ -171,23 +171,26 @@ class CommunityThemesController extends ChangeNotifier {
   Future<void> _refreshMuted(Ndk ndk) async {
     final pubkey = ndk.accounts.getPublicKey();
     if (pubkey == null) return;
-    try {
-      // The query writes the list to the cache [_readMuted] reads.
-      await ndk.requests
-          .query(
-            name: 'mute-list',
-            filter: Filter(
-              kinds: [Nip51List.kMute],
-              authors: [pubkey],
-              limit: 1,
-            ),
-            explicitRelays: await GetIt.I<NostrMailService>().getOutboxRelays(),
-            timeout: const Duration(seconds: 5),
-            cacheRead: false,
-          )
-          .future;
-    } catch (_) {
-      // The cached list stays in use.
+    final outbox = await GetIt.I<NostrMailService>().getOutboxRelays();
+    if (outbox.isNotEmpty) {
+      try {
+        // The query writes the list to the cache [_readMuted] reads.
+        await ndk.requests
+            .query(
+              name: 'mute-list',
+              filter: Filter(
+                kinds: [Nip51List.kMute],
+                authors: [pubkey],
+                limit: 1,
+              ),
+              explicitRelays: outbox,
+              timeout: const Duration(seconds: 5),
+              cacheRead: false,
+            )
+            .future;
+      } catch (_) {
+        // The cached list stays in use.
+      }
     }
     await _readMuted(ndk);
   }

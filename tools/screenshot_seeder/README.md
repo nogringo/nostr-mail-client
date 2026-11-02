@@ -49,8 +49,8 @@ The primary account's `kind:10063` server list points to
 Every contact with a `key` in the seed data gets a `kind:0` profile on the data
 relay and its own `kind:10002` on the bootstrap relay, so the app can route the
 profile lookup to the data relay. The bridge account gets the same pair. Without
-the relay list, the app queries its own bootstrap relays and never finds the
-profile.
+the relay list, the app looks the profile up on its popular and indexer relays
+and never finds it.
 
 Each contact vCard carries a `UID` derived from the locale and the contact key,
 so re-running the seeder replaces the address-book entries instead of adding a

@@ -108,7 +108,7 @@ void main() {
     final accounts = await tester.runAsync(
       () => _publishSeed(relay, seed, attachment),
     );
-    await tester.runAsync(() => _startApp(relay, accounts!.primary));
+    await tester.runAsync(() => _startApp(relay));
     await tester.pumpWidget(
       RepaintBoundary(key: boundary, child: const MainApp()),
     );
@@ -458,7 +458,7 @@ class _SenderRuntime {
       db: db,
       blossomCache: await IdbBlossomCache.open(factory: newIdbFactoryMemory()),
       syncEngine: syncEngine,
-      defaultDmRelays: [relay],
+      indexerRelays: [relay],
     );
     return _SenderRuntime._(ndk, database, syncEngine, client);
   }
@@ -472,7 +472,7 @@ class _SenderRuntime {
 }
 
 /// The singletons of runNmailApp, kept in memory and on the test relay.
-Future<void> _startApp(_Relay relay, _Account primary) async {
+Future<void> _startApp(_Relay relay) async {
   GetIt.I.registerSingleton(
     const DistributionConfig(distribution: Distribution.foss),
   );
@@ -532,15 +532,18 @@ Future<void> _startApp(_Relay relay, _Account primary) async {
   GetIt.I.registerLazySingleton(ContactsService.new);
   GetIt.I.registerSingleton(MailboxesController());
 
-  // The relay list the login looks for, as a returning user has it.
-  await ndk.config.cache.saveUserRelayList(
-    UserRelayList(
-      pubKey: primary.pubkey,
-      relays: {relay.url: ReadWriteMarker.readWrite},
-      createdAt: _now(),
-      refreshedTimestamp: _now(),
-    ),
-  );
+  // The relay lists a returning user has cached, its own and its
+  // correspondents'. nostr_mail reads the events, the app the NIP-65 lists.
+  for (final json in relay._events) {
+    final event = Nip01EventModel.fromJson(json);
+    if (event.kind != Nip65.kKind && event.kind != dmRelayListKind) continue;
+    await ndk.config.cache.saveEvent(event);
+    if (event.kind == Nip65.kKind) {
+      await ndk.config.cache.saveUserRelayList(
+        UserRelayList.fromNip65(Nip65.fromEvent(event)),
+      );
+    }
+  }
 }
 
 Future<void> _login(_Account primary) async {

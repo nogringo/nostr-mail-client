@@ -36,12 +36,15 @@ class RelayListDiscovery {
     _connectivitySub = null;
   }
 
-  /// Observed at least once, and nothing was up. A list still unset means "not
-  /// known yet", which is not the same as "nothing is connected": NDK fills it
-  /// the moment it starts dialling, so waiting for it costs nothing.
+  /// Observed at least once, and nothing was up. A list still unset or empty
+  /// means "not known yet", which is not the same as "nothing is connected":
+  /// NDK fills it the moment it starts dialling, so waiting for it costs
+  /// nothing.
   bool get relaysProvenDown {
     final observed = _connectivity;
-    return observed != null && !observed.any((c) => c.isConnected);
+    return observed != null &&
+        observed.isNotEmpty &&
+        !observed.any((c) => c.isConnected);
   }
 
   static const _relayListKind = 10002;
@@ -56,8 +59,6 @@ class RelayListDiscovery {
     return searchOn(
       pubkey,
       {
-        // TODO: drop the bootstrap relays, never a place to look a list up.
-        ...NostrConfig.bootstrapRelays,
         ...NostrConfig.popularRelays,
         ...NostrConfig.discoveryRelays,
       }.toList(),
@@ -122,8 +123,6 @@ class RelayListDiscovery {
     if (pubkeys.isEmpty) return const {};
 
     final relays = {
-      // TODO: drop the bootstrap relays, never a place to look a list up.
-      ...NostrConfig.bootstrapRelays,
       ...NostrConfig.popularRelays,
       ...NostrConfig.discoveryRelays,
     }.toList();

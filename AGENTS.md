@@ -73,7 +73,7 @@ Current package metadata:
 |       |-- lib/app/bootstrap.dart       # Shared initialization and MainApp
 |       |-- lib/app/routes/              # go_router route tree and route constants
 |       |-- lib/app/config/              # App/distribution config
-|       |-- lib/config/nostr_config.dart # Bootstrap relays and recommended defaults
+|       |-- lib/config/nostr_config.dart # Popular, discovery and recommended relays
 |       |-- lib/controllers/             # ChangeNotifier controllers
 |       |-- lib/models/                  # Plain Dart models
 |       |-- lib/services/                # Long-lived services and platform abstractions
@@ -164,7 +164,7 @@ The shared entry point is `packages/nmail_core/lib/app/bootstrap.dart`.
 - Initializes `window_manager` on desktop with hidden title bar style.
 - Loads `system_theme` accent color.
 - Initializes `StorageService`.
-- Creates `Ndk` with `NdkEventVerifier`, `NdkEventSignerFactory`, cache, bootstrap relays, and fetched ranges.
+- Creates `Ndk` with `NdkEventVerifier`, `NdkEventSignerFactory`, and cache. It gets no bootstrap relays: every request names its relays.
 - Registers `Ndk`, `NdkFlutter`, `MetadataService`, `NostrMailService`, `AuthController`, `ThemeService`, `SettingsController`, `NotificationService`, and `PushRegistrationService`.
 - Initializes Blossom cache plus offline broadcast/upload queues as singletons.
 - Registers `DeviceConnectivityService`, which forces NDK relays past their connect backoff when the OS regains a network.

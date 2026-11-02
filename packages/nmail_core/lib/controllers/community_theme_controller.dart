@@ -151,6 +151,10 @@ class CommunityThemeController extends ChangeNotifier {
     try {
       final ndk = GetIt.I<Ndk>();
       final account = ndk.accounts.getLoggedAccount()!;
+      final outbox = await GetIt.I<NostrMailService>().getOutboxRelays();
+      if (outbox.isEmpty) {
+        throw StateError('No outbox relay to read the mute list from');
+      }
       final response = ndk.requests.query(
         name: 'mute-list',
         filter: Filter(
@@ -158,7 +162,7 @@ class CommunityThemeController extends ChangeNotifier {
           authors: [account.pubkey],
           limit: 1,
         ),
-        explicitRelays: await GetIt.I<NostrMailService>().getOutboxRelays(),
+        explicitRelays: outbox,
         timeout: const Duration(seconds: 5),
         cacheRead: false,
       );
