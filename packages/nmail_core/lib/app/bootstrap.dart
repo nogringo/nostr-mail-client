@@ -21,6 +21,7 @@ import 'package:toastification/toastification.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
+import 'package:nmail_core/app/auth_consent.dart';
 import 'package:nmail_core/app/config/distribution_config.dart';
 import 'package:nmail_core/app/widgets/pending_requests_overlay.dart';
 import 'package:nmail_core/app/widgets/window_caption_bar.dart';
@@ -126,6 +127,18 @@ Future<void> _initApp({
 
   // Initialize NDK with event verification enabled.
   final cacheManager = await NdkCacheService.createCacheManager(storageService);
+  // Consent gate for NIP-42 / Blossom auth: only hosts from the account's own
+  // lists (10002, 10050, 10063, 10013) and the app's defaults may see the
+  // pubkey. See AuthConsent; this replaces the previous blanket-true handler
+  // that authenticated on every relay and server a mail happened to name.
+  final authConsent = AuthConsent(
+    loadOwnLists: AuthConsent.loaderFor(() => GetIt.I<Ndk>()),
+    defaults: {
+      ...NostrConfig.bootstrapRelays,
+      ...NostrConfig.discoveryRelays,
+      ...NostrConfig.recommendedBlossomServers,
+    },
+  );
   final ndk = Ndk(
     NdkConfig(
       eventVerifier: NdkEventVerifier(),
@@ -133,11 +146,9 @@ Future<void> _initApp({
       cache: cacheManager,
       bootstrapRelays: NostrConfig.bootstrapRelays,
       // The broadcast queue passes no `auth`, and DM relays refuse gift wraps
-      // from an unauthenticated connection.
-      // TODO: ask before authenticating on a relay or Blossom server outside
-      // the account's own lists (10002, 10050, 10013, 10063), and remember the
-      // answer per server.
-      authHandler: (_, _) async => true,
+      // from an unauthenticated connection. The handler answers yes only for
+      // the account's own hosts; everything else stays anonymous.
+      authHandler: authConsent.allow,
     ),
   );
   GetIt.I.registerSingleton(ndk);
