@@ -7,3 +7,13 @@ environment:
 workspace:
   - packages/*
   - apps/*
+
+# The mail HTML renderer is a fork of flutter_widget_from_html_core on the
+# mutable `apps` branch; its lockfile entry can drift with any `pub upgrade`.
+# Pin the audited commit. Bump deliberately after reviewing upstream changes.
+dependency_overrides:
+  flutter_widget_from_html_core:
+    git:
+      url: https://github.com/nogringo/flutter_widget_from_html.git
+      path: packages/core
+      ref: 89404a544f32799490c2413819a7cc185173922b # was: branch apps
