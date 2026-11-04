@@ -32,7 +32,7 @@ dev_dependencies:
   idb_shim: ^2.9.2
   ndk: ^0.11.0-dev.2
   ndk_flutter: ^0.10.1-dev.1
-  nostr_mail: ^7.0.0
+  nostr_mail: ^8.0.0
   sembast: ^3.8.9+1
   sync_engine_shim_for_ndk: ^0.9.1
 

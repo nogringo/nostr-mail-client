@@ -49,7 +49,7 @@ class ScreenshotSeeder {
       privateKey: keys.primary.privateKey,
       databasePath: p.join(workDir.path, 'primary.db'),
       bootstrapRelays: [config.bootstrapRelay, config.dataRelay],
-      defaultDmRelays: [config.dataRelay],
+      indexerRelays: [config.bootstrapRelay],
       blossomServers: [config.blossomServer],
     );
 
@@ -311,7 +311,7 @@ class ScreenshotSeeder {
           '${email.from.hashCode}.db',
         ),
         bootstrapRelays: [config.dataRelay],
-        defaultDmRelays: [config.dataRelay],
+        indexerRelays: [config.bootstrapRelay],
         blossomServers: [config.blossomServer],
       );
       try {

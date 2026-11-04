@@ -85,10 +85,10 @@ packages:
     dependency: transitive
     description:
       name: blossom_upload_queue_shim_for_ndk
-      sha256: c4182dfd73513c2d78faf19d515091e1c120eeae03cfc727f507a28ea8c1649f
+      sha256: c775a2cdbc979fb69769a5e80909c9f85a6a26d969f97061d2e9ede9a9e13746
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.1"
+    version: "0.12.0"
   broadcast_queue_shim_for_ndk:
     dependency: "direct main"
     description:
@@ -389,10 +389,10 @@ packages:
     dependency: "direct main"
     description:
       name: nostr_mail
-      sha256: e5e08934ed93a4e5baaaf05082f3edde1ac2377672770ca2a13721a6f344e895
+      sha256: "55d4d1ad12f36512bcc9ada34fbadfd5a5a5663fdaf42d30f16ee07c27635445"
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "8.0.0"
   path:
     dependency: "direct main"
     description:
@@ -557,10 +557,10 @@ packages:
     dependency: transitive
     description:
       name: url_set_for_ndk
-      sha256: "17c26f8ae1afa7067531033b08f62f64d736dcaae73b32bfe5d688a5ef02c3b1"
+      sha256: "6098b3c6c0b327c0520714df994123d0e594eb7cb34f7ee7b4f7dd4b10592b2a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.1"
   uuid:
     dependency: transitive
     description:

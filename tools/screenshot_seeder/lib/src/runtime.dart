@@ -34,7 +34,7 @@ class SeederRuntime {
     required String privateKey,
     required String databasePath,
     required List<String> bootstrapRelays,
-    required List<String> defaultDmRelays,
+    required List<String> indexerRelays,
     required List<String> blossomServers,
   }) async {
     final db = await databaseFactoryIo.openDatabase(databasePath);
@@ -52,7 +52,11 @@ class SeederRuntime {
 
     final broadcastQueue = OfflineBroadcast.withNdk(ndk, db: db)..start();
     final blossomCache = MemoryBlossomCache();
-    final syncEngine = SyncEngine(ndk, store: SembastSyncStore(db));
+    final syncEngine = SyncEngine(
+      ndk,
+      store: SembastSyncStore(db),
+      discoveryRelays: indexerRelays,
+    );
     final database = mail.NostrMailDatabase(
       NativeDatabase(File('$databasePath.sqlite')),
     );
@@ -62,7 +66,7 @@ class SeederRuntime {
       db: db,
       blossomCache: blossomCache,
       syncEngine: syncEngine,
-      defaultDmRelays: defaultDmRelays,
+      indexerRelays: indexerRelays,
       broadcastQueue: broadcastQueue,
       defaultBlossomServers: blossomServers,
     );
