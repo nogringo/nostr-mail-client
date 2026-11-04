@@ -11,6 +11,16 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterFragmentActivity() {
+    // Decrypted mail sits on screen; keep it out of screenshots and the
+    // recents thumbnail.
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        super.onCreate(savedInstanceState)
+        window.setFlags(
+            android.view.WindowManager.LayoutParams.FLAG_SECURE,
+            android.view.WindowManager.LayoutParams.FLAG_SECURE
+        )
+    }
+
     private val CHANNEL = "app.nostrmail.client/native"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
