@@ -10,6 +10,12 @@ import 'package:local_auth_android/local_auth_android.dart';
 abstract class DeviceAuth {
   static final _auth = LocalAuthentication();
 
+  /// Whether the platform can actually verify the user. False on web and
+  /// Linux, and `confirm` then returns true unconditionally — callers that
+  /// guard something highly sensitive should say so explicitly (see
+  /// CopySyncCodeTile).
+  static bool get isSupported => _isSupported;
+
   static bool get _isSupported {
     if (kIsWeb) return false;
     return switch (defaultTargetPlatform) {
