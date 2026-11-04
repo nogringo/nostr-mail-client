@@ -50,6 +50,13 @@ bool isLocalRelayUrl(String url) {
   return !host.contains('.');
 }
 
+/// Whether adding [url] deserves an unencrypted-transport warning: plain
+/// ws:// to a host outside the local machine/LAN sends everything — auth
+/// challenges, events, the fact of the subscription — in cleartext across
+/// the public internet.
+bool needsPlainTransportWarning(String url) =>
+    url.startsWith('ws://') && !isLocalRelayUrl(url);
+
 /// Validate if the URL is a valid Nostr relay URL (ws:// or wss://)
 bool isValidRelayUrl(String url) {
   if (url.isEmpty || url.contains(' ')) return false;
