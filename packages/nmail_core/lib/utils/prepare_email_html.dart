@@ -105,6 +105,18 @@ class EmailHtml {
   });
 }
 
+
+/// The oversized-input fallback: drop `<style>` blocks and `style` attributes
+/// wholesale. The regex is deliberately simple — this path exists so a huge
+/// message cannot push arbitrary CSS into the renderer, not to be pretty.
+final _styleBlock = RegExp(r'<style\b[^>]*>[\s\S]*?</style\s*>|<style\b[^>]*/?>',
+    caseSensitive: false);
+final _styleAttr =
+    RegExp(r"""\sstyle\s*=\s*("[^"]*"|'[^']*')""", caseSensitive: false);
+
+String _stripStyles(String html) =>
+    html.replaceAll(_styleBlock, '').replaceAll(_styleAttr, '');
+
 /// Resolves `<style>` blocks into inline `style` attributes.
 ///
 /// `HtmlWidget` only reads the `style` attribute and discards `<style>`
@@ -115,8 +127,11 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
   final inlineImageCids = htmlInlineImageCids(html);
 
   if (html.length > _maxHtmlLength) {
+    // Past the size limit the cascade pass is skipped, so the renderer would
+    // see unbounded CSS. Strip styles outright instead: the mail stays
+    // readable, only its styling is dropped.
     return EmailHtml(
-      html: html,
+      html: _stripStyles(html),
       declaresColors: false,
       hasRemoteImages: hasRemoteImages,
       inlineImageCids: inlineImageCids,
@@ -173,7 +188,7 @@ EmailHtml prepareEmailHtml(String html, {required bool allowRemoteImages}) {
 /// `style` attributes, which cannot restyle the email around the quote, and its
 /// `cid:` URLs take the normalized form the Content-ID headers are written in.
 String prepareQuotedHtml(String html) {
-  if (html.length > _maxHtmlLength) return html;
+  if (html.length > _maxHtmlLength) return _stripStyles(html);
 
   try {
     final fragment = html_parser.parseFragment(html);
