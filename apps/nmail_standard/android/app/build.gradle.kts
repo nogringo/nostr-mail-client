@@ -59,6 +59,13 @@ android {
         release {
             signingConfig = if (keystorePropertiesFile.exists()) {
                 signingConfigs.getByName("release")
+            } else if (System.getenv("CI") != null) {
+                // A CI run without the keystore secret must not quietly ship
+                // a debug-signed release.
+                throw GradleException(
+                    "key.properties is missing: refusing a debug-signed " +
+                        "release build; set the keystore secrets"
+                )
             } else {
                 signingConfigs.getByName("debug")
             }
