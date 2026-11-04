@@ -3,20 +3,23 @@ name: Build Android
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build-android:
     runs-on: ubuntu-latest
     env:
       ANDROID_NDK_VERSION: 28.2.13676358
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
         with:
           channel: 'stable'
           cache: true
@@ -47,12 +50,17 @@ jobs:
         working-directory: apps/nmail_standard
 
       - name: Prepare Signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         run: |
           for APP_DIR in apps/nmail_foss apps/nmail_standard; do
-            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > "${APP_DIR}/android/app/russel.p12"
-            echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > "${APP_DIR}/android/key.properties"
-            echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> "${APP_DIR}/android/key.properties"
-            echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> "${APP_DIR}/android/key.properties"
+            echo "$KEYSTORE_BASE64" | base64 --decode > "${APP_DIR}/android/app/russel.p12"
+            echo "storePassword=$KEYSTORE_PASSWORD" > "${APP_DIR}/android/key.properties"
+            echo "keyPassword=$KEY_PASSWORD" >> "${APP_DIR}/android/key.properties"
+            echo "keyAlias=$KEY_ALIAS" >> "${APP_DIR}/android/key.properties"
             echo "storeFile=russel.p12" >> "${APP_DIR}/android/key.properties"
           done
 
@@ -138,7 +146,7 @@ jobs:
         run: scripts/check_android_16kb_alignment.sh release-artifacts/*.apk
 
       - name: Upload Android artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: nmail-android
           path: release-artifacts/*
