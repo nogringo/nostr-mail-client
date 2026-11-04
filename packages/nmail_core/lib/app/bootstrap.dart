@@ -63,7 +63,7 @@ Future<void> runNmailApp({
 }) async {
   usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
-  // web/index.html already blocks the browser menu; without this Flutter shows none either.
+  // Flutter shows its own context menu only once the browser's is disabled.
   if (kIsWeb) await BrowserContextMenu.disableContextMenu();
   // Flutter web hides the semantics tree until a screen reader clicks its placeholder.
   if (kIsWeb) SemanticsBinding.instance.ensureSemantics();
