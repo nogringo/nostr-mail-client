@@ -10,11 +10,45 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 
 object DownloadsFileSaver {
+    // Bidi overrides can make "fodne.pdf" render as "note.pdf"; controls and
+    // separators never belong in a name.
+    private val unsuitableChars = Regex(
+        "[\\u0000-\\u001f\\u007f\\u202a-\\u202e\\u2066-\\u2069\\u200e\\u200f\\u2028\\u2029]"
+    )
+    private val reservedWindowsNames = setOf(
+        "CON", "PRN", "AUX", "NUL",
+        "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9",
+        "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"
+    )
+
+    /// Attachment names come from outside; make them safe before any File()
+    /// or MediaStore DISPLAY_NAME sees them.
+    private fun sanitizeFileName(name: String): String {
+        var s = unsuitableChars.replace(name, "")
+        s = s.replace(Regex("[/\\\\]"), "_").trim()
+        if (s.isEmpty() || s == "." || s == "..") s = "attachment"
+        val ext = s.substringAfterLast('.', "")
+        if (s.length > 255) {
+            // A pathological extension can alone exceed the cap; truncate the
+            // whole name then, extension and all.
+            s = if (ext.length >= 252) {
+                s.take(255)
+            } else {
+                val stem = s.take(254 - ext.length)
+                if (ext.isNotEmpty()) "$stem.$ext" else stem
+            }
+        }
+        val stem = s.substringBeforeLast('.').uppercase()
+        if (stem in reservedWindowsNames) s = "_$s"
+        return s
+    }
+
     fun saveToDownloads(context: Context, fileName: String, bytes: ByteArray, mimeType: String): String {
+        val safe = sanitizeFileName(fileName)
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            saveWithMediaStoreApi(context, fileName, bytes, mimeType)
+            saveWithMediaStoreApi(context, safe, bytes, mimeType)
         } else {
-            saveDirectly(fileName, bytes)
+            saveDirectly(safe, bytes)
         }
     }
 
