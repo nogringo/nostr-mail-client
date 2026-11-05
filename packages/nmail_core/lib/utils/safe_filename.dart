@@ -29,8 +29,12 @@ String safeFilename(String name, {String fallback = 'attachment'}) {
   s = s.replaceAll(RegExp(r'^\.\.+'), '_');
   final ext = p.extension(s);
   if (s.length > 255) {
-    final stem = s.substring(0, (255 - ext.length).clamp(1, 255).toInt());
-    s = '$stem$ext';
+    // A pathological extension can alone exceed the cap; then the whole
+    // name is truncated and the extension is lost, which still beats a
+    // name that stays over the limit.
+    s = ext.length >= 254
+        ? s.substring(0, 255)
+        : '${s.substring(0, 255 - ext.length)}$ext';
   }
   if (_windowsReserved.contains(p.basenameWithoutExtension(s).toUpperCase())) {
     s = '_$s';

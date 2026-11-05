@@ -29,6 +29,7 @@ import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_move_to_picker.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_tags_picker.dart';
 import 'package:nmail_core/views/shared/window_caption_inset.dart';
+import 'package:nmail_core/utils/safe_filename.dart';
 import 'package:path/path.dart' as p;
 import 'package:pdfrx/pdfrx.dart';
 import 'package:nmail_core/services/android_file_saver.dart';
@@ -539,7 +540,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
       MimeType mimeType = getMimeType(extension);
 
       // Clean filename (remove path if any)
-      final cleanName = p.basename(filename);
+      final cleanName = safeFilename(filename);
 
       if (PlatformHelper.isAndroid) {
         await AndroidFileSaver.saveToDownloads(
@@ -594,7 +595,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
         MimeType mimeType = getMimeType(extension);
 
         // Clean filename (remove path if any)
-        final cleanName = p.basename(filename);
+        final cleanName = safeFilename(filename);
 
         if (PlatformHelper.isAndroid) {
           await AndroidFileSaver.saveToDownloads(

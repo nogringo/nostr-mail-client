@@ -50,4 +50,10 @@ void main() {
       expect(safeFilename('report.txt'), isNot(startsWith('_')));
     });
   });
+  test('caps output when the extension alone exceeds the limit', () {
+    final out = safeFilename('${'a' * 10}.${'b' * 300}');
+    expect(out.length, lessThanOrEqualTo(255),
+        reason: 'a >255-char extension must not defeat the length cap');
+    expect(out, startsWith('a'));
+  });
 }

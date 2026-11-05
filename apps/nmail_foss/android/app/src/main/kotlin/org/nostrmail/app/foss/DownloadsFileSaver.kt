@@ -29,8 +29,14 @@ object DownloadsFileSaver {
         if (s.isEmpty() || s == "." || s == "..") s = "attachment"
         val ext = s.substringAfterLast('.', "")
         if (s.length > 255) {
-            val stem = s.take((255 - ext.length - 1).coerceAtLeast(1))
-            s = if (ext.isNotEmpty()) "$stem.$ext" else stem
+            // A pathological extension can alone exceed the cap; truncate the
+            // whole name then, extension and all.
+            s = if (ext.length >= 252) {
+                s.take(255)
+            } else {
+                val stem = s.take(254 - ext.length)
+                if (ext.isNotEmpty()) "$stem.$ext" else stem
+            }
         }
         val stem = s.substringBeforeLast('.').uppercase()
         if (stem in reservedWindowsNames) s = "_$s"
