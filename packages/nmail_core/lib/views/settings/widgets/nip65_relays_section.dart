@@ -107,12 +107,38 @@ class Nip65RelaysSection extends StatelessWidget {
               child: Text(l.actionCancel),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 final url = normalizeRelayUrl(inputController.text.trim());
                 if (!isValidRelayUrl(url)) {
                   setDialogState(() => errorText = l.relayInvalidUrl);
                   return;
                 }
+
+    if (needsPlainTransportWarning(url)) {
+      // TODO(l10n): localize alongside the other relay strings.
+      final proceed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Unencrypted relay'),
+          content: Text(
+            '$url uses plain ws:// over the public internet. Everything you '
+            'send or fetch through it travels unencrypted. Add it anyway?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text(l.actionCancel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text(l.actionAdd),
+            ),
+          ],
+        ),
+      );
+      if (proceed != true) return;
+      if (!context.mounted) return; // use_build_context_synchronously
+    }
                 Navigator.pop(context, MapEntry(url, marker));
               },
               child: Text(l.actionAdd),
