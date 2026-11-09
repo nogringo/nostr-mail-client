@@ -17,17 +17,20 @@ class HostingLoadingTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: 0, count: 1),
-        minTileHeight: 56,
-        textColor: colorScheme.onSurfaceVariant,
-        leading: const SizedBox(
-          width: 24,
-          height: 24,
-          child: CircularProgressIndicator(strokeWidth: 2),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: 0, count: 1),
+          minTileHeight: 56,
+          textColor: colorScheme.onSurfaceVariant,
+          leading: const SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(strokeWidth: 2),
+          ),
+          title: Text(l.stateLoadingEllipsis),
         ),
-        title: Text(l.stateLoadingEllipsis),
       ),
     );
   }

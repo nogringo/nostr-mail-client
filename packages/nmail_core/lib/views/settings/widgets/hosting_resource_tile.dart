@@ -41,27 +41,30 @@ class HostingResourceTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: theme.colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: subtitle == null ? 56 : 72,
-        iconColor: staged,
-        textColor: staged,
-        leading: Icon(icon),
-        title: Text(
-          label,
-          overflow: TextOverflow.ellipsis,
-          style: isMarkedForDeletion
-              ? const TextStyle(decoration: TextDecoration.lineThrough)
-              : null,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: theme.colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: subtitle == null ? 56 : 72,
+          iconColor: staged,
+          textColor: staged,
+          leading: Icon(icon),
+          title: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: isMarkedForDeletion
+                ? const TextStyle(decoration: TextDecoration.lineThrough)
+                : null,
+          ),
+          subtitle: subtitle == null ? null : Text(subtitle!),
+          trailing: IconButton(
+            icon: Icon(isMarkedForDeletion ? Icons.undo : Icons.close),
+            tooltip: isMarkedForDeletion ? l.actionUndo : removeTooltip,
+            onPressed: onToggleDeletion,
+          ),
+          onTap: isMarkedForDeletion ? null : onTap,
         ),
-        subtitle: subtitle == null ? null : Text(subtitle!),
-        trailing: IconButton(
-          icon: Icon(isMarkedForDeletion ? Icons.undo : Icons.close),
-          tooltip: isMarkedForDeletion ? l.actionUndo : removeTooltip,
-          onPressed: onToggleDeletion,
-        ),
-        onTap: isMarkedForDeletion ? null : onTap,
       ),
     );
   }

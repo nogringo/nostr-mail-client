@@ -30,21 +30,24 @@ class SignatureTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 72,
-        leading: const Icon(Icons.draw_outlined),
-        title: Text(signature.name, overflow: TextOverflow.ellipsis),
-        subtitle: preview.isEmpty
-            ? null
-            : Text(preview, maxLines: 2, overflow: TextOverflow.ellipsis),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete_outline),
-          tooltip: l.actionDelete,
-          onPressed: () => confirmDeleteSignature(context, signature),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 72,
+          leading: const Icon(Icons.draw_outlined),
+          title: Text(signature.name, overflow: TextOverflow.ellipsis),
+          subtitle: preview.isEmpty
+              ? null
+              : Text(preview, maxLines: 2, overflow: TextOverflow.ellipsis),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete_outline),
+            tooltip: l.actionDelete,
+            onPressed: () => confirmDeleteSignature(context, signature),
+          ),
+          onTap: () => showSignatureForm(context, signature: signature),
         ),
-        onTap: () => showSignatureForm(context, signature: signature),
       ),
     );
   }

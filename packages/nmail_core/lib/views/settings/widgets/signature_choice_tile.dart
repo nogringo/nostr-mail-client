@@ -32,18 +32,21 @@ class SignatureChoiceTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 72,
-        leading: Icon(switch (use) {
-          SignatureUse.newEmail => Icons.edit_outlined,
-          SignatureUse.reply => Icons.reply,
-        }),
-        title: Text(signatureUseLabel(l, use)),
-        subtitle: Text(value, overflow: TextOverflow.ellipsis),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: onTap,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 72,
+          leading: Icon(switch (use) {
+            SignatureUse.newEmail => Icons.edit_outlined,
+            SignatureUse.reply => Icons.reply,
+          }),
+          title: Text(signatureUseLabel(l, use)),
+          subtitle: Text(value, overflow: TextOverflow.ellipsis),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: onTap,
+        ),
       ),
     );
   }

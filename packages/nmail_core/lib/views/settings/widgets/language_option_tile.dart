@@ -35,27 +35,30 @@ class LanguageOptionTile extends StatelessWidget {
         builder: (context, current, _) {
           final isSelected = current == locale;
           final isAlone = count == 1;
-          return ListTile(
-            selected: isSelected,
-            tileColor: colorScheme.surfaceContainerHigh,
-            selectedTileColor: colorScheme.secondaryContainer,
-            selectedColor: colorScheme.onSecondaryContainer,
-            shape: isAlone
-                ? const StadiumBorder()
-                : segmentedListShape(
-                    index: index,
-                    count: count,
-                    isSelected: isSelected,
-                  ),
-            contentPadding: isAlone
-                ? const EdgeInsets.symmetric(horizontal: 24)
-                : null,
-            minTileHeight: 56,
-            title: Text(label),
-            onTap: () {
-              if (!isSelected) controller.setLocale(locale);
-              Navigator.pop(context);
-            },
+          return Material(
+            type: MaterialType.transparency,
+            child: ListTile(
+              selected: isSelected,
+              tileColor: colorScheme.surfaceContainerHigh,
+              selectedTileColor: colorScheme.secondaryContainer,
+              selectedColor: colorScheme.onSecondaryContainer,
+              shape: isAlone
+                  ? const StadiumBorder()
+                  : segmentedListShape(
+                      index: index,
+                      count: count,
+                      isSelected: isSelected,
+                    ),
+              contentPadding: isAlone
+                  ? const EdgeInsets.symmetric(horizontal: 24)
+                  : null,
+              minTileHeight: 56,
+              title: Text(label),
+              onTap: () {
+                if (!isSelected) controller.setLocale(locale);
+                Navigator.pop(context);
+              },
+            ),
           );
         },
       ),

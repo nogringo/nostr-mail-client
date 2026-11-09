@@ -31,15 +31,18 @@ class SettingsActionTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 56,
-        iconColor: foreground,
-        textColor: foreground,
-        leading: Icon(icon),
-        title: Text(title),
-        onTap: onTap,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 56,
+          iconColor: foreground,
+          textColor: foreground,
+          leading: Icon(icon),
+          title: Text(title),
+          onTap: onTap,
+        ),
       ),
     );
   }

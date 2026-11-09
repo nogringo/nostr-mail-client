@@ -27,19 +27,22 @@ class LanguageTile extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: controller.locale,
         builder: (context, current, _) {
-          return ListTile(
-            tileColor: colorScheme.surfaceContainerHigh,
-            shape: segmentedListShape(index: index, count: count),
-            minTileHeight: 72,
-            leading: const Icon(Icons.translate),
-            title: Text(l.settingsLanguage),
-            subtitle: Text(
-              current == null
-                  ? l.settingsLanguageSystem
-                  : languageName(current),
+          return Material(
+            type: MaterialType.transparency,
+            child: ListTile(
+              tileColor: colorScheme.surfaceContainerHigh,
+              shape: segmentedListShape(index: index, count: count),
+              minTileHeight: 72,
+              leading: const Icon(Icons.translate),
+              title: Text(l.settingsLanguage),
+              subtitle: Text(
+                current == null
+                    ? l.settingsLanguageSystem
+                    : languageName(current),
+              ),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => showLanguagePicker(context),
             ),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: () => showLanguagePicker(context),
           );
         },
       ),

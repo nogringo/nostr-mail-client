@@ -24,15 +24,18 @@ class DynamicThemeTile extends StatelessWidget {
       ),
       child: ValueListenableBuilder(
         valueListenable: controller.dynamicTheme,
-        builder: (context, dynamicTheme, _) => SwitchListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: index, count: count),
-          minTileHeight: 72,
-          secondary: const Icon(Icons.auto_awesome_outlined),
-          title: Text(l.settingsDynamicTheme),
-          subtitle: Text(l.settingsDynamicThemeSubtitle),
-          value: dynamicTheme,
-          onChanged: controller.setDynamicTheme,
+        builder: (context, dynamicTheme, _) => Material(
+          type: MaterialType.transparency,
+          child: SwitchListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: index, count: count),
+            minTileHeight: 72,
+            secondary: const Icon(Icons.auto_awesome_outlined),
+            title: Text(l.settingsDynamicTheme),
+            subtitle: Text(l.settingsDynamicThemeSubtitle),
+            value: dynamicTheme,
+            onChanged: controller.setDynamicTheme,
+          ),
         ),
       ),
     );

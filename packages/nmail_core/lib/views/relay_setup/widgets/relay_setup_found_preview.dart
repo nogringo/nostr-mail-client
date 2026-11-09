@@ -51,20 +51,23 @@ class RelaySetupFoundPreview extends StatelessWidget {
         for (var i = 0; i < relays.length; i++)
           Padding(
             padding: const EdgeInsets.only(bottom: segmentedListGap),
-            child: ListTile(
-              tileColor: theme.colorScheme.surfaceContainerHigh,
-              shape: segmentedListShape(index: i, count: relays.length),
-              minTileHeight: 56,
-              leading: const Icon(Icons.dns_outlined),
-              title: Text(
-                formatRelayUrl(relays[i].key),
-                overflow: TextOverflow.ellipsis,
+            child: Material(
+              type: MaterialType.transparency,
+              child: ListTile(
+                tileColor: theme.colorScheme.surfaceContainerHigh,
+                shape: segmentedListShape(index: i, count: relays.length),
+                minTileHeight: 56,
+                leading: const Icon(Icons.dns_outlined),
+                title: Text(
+                  formatRelayUrl(relays[i].key),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: Icon(switch (relays[i].value) {
+                  ReadWriteMarker.readOnly => Icons.south,
+                  ReadWriteMarker.writeOnly => Icons.north,
+                  ReadWriteMarker.readWrite => Icons.swap_vert,
+                }, color: theme.colorScheme.onSurfaceVariant),
               ),
-              trailing: Icon(switch (relays[i].value) {
-                ReadWriteMarker.readOnly => Icons.south,
-                ReadWriteMarker.writeOnly => Icons.north,
-                ReadWriteMarker.readWrite => Icons.swap_vert,
-              }, color: theme.colorScheme.onSurfaceVariant),
             ),
           ),
         const SizedBox(height: 24),

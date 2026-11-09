@@ -30,24 +30,27 @@ class SignatureOptionTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        selected: isSelected,
-        tileColor: colorScheme.surfaceContainerHigh,
-        selectedTileColor: colorScheme.secondaryContainer,
-        selectedColor: colorScheme.onSecondaryContainer,
-        shape: isAlone
-            ? const StadiumBorder()
-            : segmentedListShape(
-                index: index,
-                count: count,
-                isSelected: isSelected,
-              ),
-        contentPadding: isAlone
-            ? const EdgeInsets.symmetric(horizontal: 24)
-            : null,
-        minTileHeight: 56,
-        title: Text(label, overflow: TextOverflow.ellipsis),
-        onTap: () => Navigator.pop(context, (id: id)),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          selected: isSelected,
+          tileColor: colorScheme.surfaceContainerHigh,
+          selectedTileColor: colorScheme.secondaryContainer,
+          selectedColor: colorScheme.onSecondaryContainer,
+          shape: isAlone
+              ? const StadiumBorder()
+              : segmentedListShape(
+                  index: index,
+                  count: count,
+                  isSelected: isSelected,
+                ),
+          contentPadding: isAlone
+              ? const EdgeInsets.symmetric(horizontal: 24)
+              : null,
+          minTileHeight: 56,
+          title: Text(label, overflow: TextOverflow.ellipsis),
+          onTap: () => Navigator.pop(context, (id: id)),
+        ),
       ),
     );
   }

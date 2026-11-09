@@ -28,15 +28,18 @@ class AlwaysLoadImagesTile extends StatelessWidget {
       ),
       child: ValueListenableBuilder(
         valueListenable: settings.alwaysLoadImages,
-        builder: (context, alwaysLoadImages, _) => SwitchListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: index, count: count),
-          minTileHeight: 72,
-          secondary: const Icon(Icons.image_outlined),
-          title: Text(l.settingsAlwaysLoadImages),
-          subtitle: Text(l.settingsAlwaysLoadImagesSubtitle),
-          value: alwaysLoadImages,
-          onChanged: settings.setAlwaysLoadImages,
+        builder: (context, alwaysLoadImages, _) => Material(
+          type: MaterialType.transparency,
+          child: SwitchListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: index, count: count),
+            minTileHeight: 72,
+            secondary: const Icon(Icons.image_outlined),
+            title: Text(l.settingsAlwaysLoadImages),
+            subtitle: Text(l.settingsAlwaysLoadImagesSubtitle),
+            value: alwaysLoadImages,
+            onChanged: settings.setAlwaysLoadImages,
+          ),
         ),
       ),
     );

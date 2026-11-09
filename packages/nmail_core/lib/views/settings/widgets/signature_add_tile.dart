@@ -20,13 +20,16 @@ class SignatureAddTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 56,
-        leading: const Icon(Icons.add),
-        title: Text(l.signaturesNew),
-        onTap: () => showSignatureForm(context),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 56,
+          leading: const Icon(Icons.add),
+          title: Text(l.signaturesNew),
+          onTap: () => showSignatureForm(context),
+        ),
       ),
     );
   }

@@ -22,18 +22,21 @@ class AboutUpdateTile extends StatelessWidget {
 
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, segmentedListGap / 2),
-          child: ListTile(
-            tileColor: colorScheme.primaryContainer,
-            textColor: colorScheme.onPrimaryContainer,
-            iconColor: colorScheme.onPrimaryContainer,
-            shape: segmentedListShape(index: 0, count: 1),
-            minTileHeight: 72,
-            leading: const Icon(Icons.new_releases_outlined),
-            title: Text(l.settingsUpdateAvailable(release.version)),
-            trailing: FilledButton(
-              onPressed: updates.openUpdate,
-              child: Text(
-                kIsWeb ? l.settingsUpdateReload : l.settingsUpdateInstall,
+          child: Material(
+            type: MaterialType.transparency,
+            child: ListTile(
+              tileColor: colorScheme.primaryContainer,
+              textColor: colorScheme.onPrimaryContainer,
+              iconColor: colorScheme.onPrimaryContainer,
+              shape: segmentedListShape(index: 0, count: 1),
+              minTileHeight: 72,
+              leading: const Icon(Icons.new_releases_outlined),
+              title: Text(l.settingsUpdateAvailable(release.version)),
+              trailing: FilledButton(
+                onPressed: updates.openUpdate,
+                child: Text(
+                  kIsWeb ? l.settingsUpdateReload : l.settingsUpdateInstall,
+                ),
               ),
             ),
           ),

@@ -25,15 +25,18 @@ class DohServerTile extends StatelessWidget {
       ),
       child: ValueListenableBuilder(
         valueListenable: settings.dohServer,
-        builder: (context, dohServer, _) => ListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: index, count: count),
-          minTileHeight: 72,
-          leading: const Icon(Icons.dns_outlined),
-          title: Text(l.settingsDohServer),
-          subtitle: Text(dohServer),
-          trailing: const Icon(Icons.edit_outlined),
-          onTap: () => _edit(context, settings),
+        builder: (context, dohServer, _) => Material(
+          type: MaterialType.transparency,
+          child: ListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: index, count: count),
+            minTileHeight: 72,
+            leading: const Icon(Icons.dns_outlined),
+            title: Text(l.settingsDohServer),
+            subtitle: Text(dohServer),
+            trailing: const Icon(Icons.edit_outlined),
+            onTap: () => _edit(context, settings),
+          ),
         ),
       ),
     );

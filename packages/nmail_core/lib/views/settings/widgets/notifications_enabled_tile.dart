@@ -23,14 +23,17 @@ class NotificationsEnabledTile extends StatelessWidget {
       ),
       child: ValueListenableBuilder(
         valueListenable: settings.notificationsEnabled,
-        builder: (context, notificationsEnabled, _) => SwitchListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: 0, count: 1),
-          minTileHeight: 72,
-          secondary: const Icon(Icons.notifications_outlined),
-          title: Text(l.settingsEnableNotifications),
-          value: notificationsEnabled,
-          onChanged: settings.setNotificationsEnabled,
+        builder: (context, notificationsEnabled, _) => Material(
+          type: MaterialType.transparency,
+          child: SwitchListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: 0, count: 1),
+            minTileHeight: 72,
+            secondary: const Icon(Icons.notifications_outlined),
+            title: Text(l.settingsEnableNotifications),
+            value: notificationsEnabled,
+            onChanged: settings.setNotificationsEnabled,
+          ),
         ),
       ),
     );

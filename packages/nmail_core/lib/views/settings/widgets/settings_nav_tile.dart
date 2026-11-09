@@ -32,34 +32,37 @@ class SettingsNavTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: theme.colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 56,
-        leading: Badge(
-          isLabelVisible: showDot,
-          backgroundColor: theme.colorScheme.tertiary,
-          smallSize: 8,
-          child: Icon(icon),
-        ),
-        title: Text(title),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (badge != null)
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Text(
-                  badge!,
-                  style: theme.textTheme.labelLarge?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: theme.colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 56,
+          leading: Badge(
+            isLabelVisible: showDot,
+            backgroundColor: theme.colorScheme.tertiary,
+            smallSize: 8,
+            child: Icon(icon),
+          ),
+          title: Text(title),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (badge != null)
+                Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Text(
+                    badge!,
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
-              ),
-            const Icon(Icons.chevron_right),
-          ],
+              const Icon(Icons.chevron_right),
+            ],
+          ),
+          onTap: onTap,
         ),
-        onTap: onTap,
       ),
     );
   }

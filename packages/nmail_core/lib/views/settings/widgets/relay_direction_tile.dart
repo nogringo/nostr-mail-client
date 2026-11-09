@@ -27,28 +27,31 @@ class RelayDirectionTile extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: segmentedListGap / 2),
-      child: ListTile(
-        selected: isSelected,
-        tileColor: colorScheme.surfaceContainerHigh,
-        selectedTileColor: colorScheme.secondaryContainer,
-        selectedColor: colorScheme.onSecondaryContainer,
-        shape: segmentedListShape(
-          index: index,
-          count: count,
-          isSelected: isSelected,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          selected: isSelected,
+          tileColor: colorScheme.surfaceContainerHigh,
+          selectedTileColor: colorScheme.secondaryContainer,
+          selectedColor: colorScheme.onSecondaryContainer,
+          shape: segmentedListShape(
+            index: index,
+            count: count,
+            isSelected: isSelected,
+          ),
+          minTileHeight: 56,
+          title: Text(switch (marker) {
+            ReadWriteMarker.readWrite => l.relayReadWrite,
+            ReadWriteMarker.readOnly => l.relayRead,
+            ReadWriteMarker.writeOnly => l.relayWrite,
+          }),
+          subtitle: Text(switch (marker) {
+            ReadWriteMarker.readWrite => l.relayReadWriteDescription,
+            ReadWriteMarker.readOnly => l.relayReadDescription,
+            ReadWriteMarker.writeOnly => l.relayWriteDescription,
+          }),
+          onTap: isSelected ? null : onSelected,
         ),
-        minTileHeight: 56,
-        title: Text(switch (marker) {
-          ReadWriteMarker.readWrite => l.relayReadWrite,
-          ReadWriteMarker.readOnly => l.relayRead,
-          ReadWriteMarker.writeOnly => l.relayWrite,
-        }),
-        subtitle: Text(switch (marker) {
-          ReadWriteMarker.readWrite => l.relayReadWriteDescription,
-          ReadWriteMarker.readOnly => l.relayReadDescription,
-          ReadWriteMarker.writeOnly => l.relayWriteDescription,
-        }),
-        onTap: isSelected ? null : onSelected,
       ),
     );
   }

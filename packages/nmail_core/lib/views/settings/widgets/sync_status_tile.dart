@@ -29,16 +29,19 @@ class SyncStatusTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 72,
-        leading: const Icon(Icons.dns_outlined),
-        title: Text(
-          formatRelayUrl(status.relayUrl),
-          overflow: TextOverflow.ellipsis,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 72,
+          leading: const Icon(Icons.dns_outlined),
+          title: Text(
+            formatRelayUrl(status.relayUrl),
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text('$oldest → $newest'),
         ),
-        subtitle: Text('$oldest → $newest'),
       ),
     );
   }

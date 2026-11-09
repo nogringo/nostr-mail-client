@@ -39,21 +39,26 @@ class AccountTile extends StatelessWidget {
             horizontal: 16,
             vertical: segmentedListGap / 2,
           ),
-          child: ListTile(
-            selected: isActive,
-            tileColor: colorScheme.surfaceContainerHigh,
-            selectedTileColor: colorScheme.secondaryContainer,
-            selectedColor: colorScheme.onSecondaryContainer,
-            shape: segmentedListShape(
-              index: index,
-              count: count,
-              isSelected: isActive,
+          child: Material(
+            type: MaterialType.transparency,
+            child: ListTile(
+              selected: isActive,
+              tileColor: colorScheme.surfaceContainerHigh,
+              selectedTileColor: colorScheme.secondaryContainer,
+              selectedColor: colorScheme.onSecondaryContainer,
+              shape: segmentedListShape(
+                index: index,
+                count: count,
+                isSelected: isActive,
+              ),
+              leading: NostrAvatar(pubkey: pubkey, radius: 20),
+              title: NostrDisplayName(pubkey: pubkey),
+              subtitle: AccountSignerLabel(kind: auth.signerKindOf(pubkey)),
+              trailing: RemoveAccountButton(pubkey: pubkey),
+              onTap: isActive || isBusy
+                  ? null
+                  : () => auth.switchAccount(pubkey),
             ),
-            leading: NostrAvatar(pubkey: pubkey, radius: 20),
-            title: NostrDisplayName(pubkey: pubkey),
-            subtitle: AccountSignerLabel(kind: auth.signerKindOf(pubkey)),
-            trailing: RemoveAccountButton(pubkey: pubkey),
-            onTap: isActive || isBusy ? null : () => auth.switchAccount(pubkey),
           ),
         );
       },

@@ -34,28 +34,31 @@ class ThemeModeTile extends StatelessWidget {
         valueListenable: controller.themeMode,
         builder: (context, themeMode, _) {
           final isSelected = themeMode == mode;
-          return ListTile(
-            selected: isSelected,
-            tileColor: colorScheme.surfaceContainerHigh,
-            selectedTileColor: colorScheme.secondaryContainer,
-            selectedColor: colorScheme.onSecondaryContainer,
-            shape: segmentedListShape(
-              index: index,
-              count: count,
-              isSelected: isSelected,
+          return Material(
+            type: MaterialType.transparency,
+            child: ListTile(
+              selected: isSelected,
+              tileColor: colorScheme.surfaceContainerHigh,
+              selectedTileColor: colorScheme.secondaryContainer,
+              selectedColor: colorScheme.onSecondaryContainer,
+              shape: segmentedListShape(
+                index: index,
+                count: count,
+                isSelected: isSelected,
+              ),
+              minTileHeight: 56,
+              leading: Icon(switch (mode) {
+                ThemeMode.system => Icons.brightness_auto,
+                ThemeMode.light => Icons.light_mode,
+                ThemeMode.dark => Icons.dark_mode,
+              }),
+              title: Text(switch (mode) {
+                ThemeMode.system => l.settingsThemeAuto,
+                ThemeMode.light => l.settingsThemeLight,
+                ThemeMode.dark => l.settingsThemeDark,
+              }),
+              onTap: isSelected ? null : () => controller.setThemeMode(mode),
             ),
-            minTileHeight: 56,
-            leading: Icon(switch (mode) {
-              ThemeMode.system => Icons.brightness_auto,
-              ThemeMode.light => Icons.light_mode,
-              ThemeMode.dark => Icons.dark_mode,
-            }),
-            title: Text(switch (mode) {
-              ThemeMode.system => l.settingsThemeAuto,
-              ThemeMode.light => l.settingsThemeLight,
-              ThemeMode.dark => l.settingsThemeDark,
-            }),
-            onTap: isSelected ? null : () => controller.setThemeMode(mode),
           );
         },
       ),

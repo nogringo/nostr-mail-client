@@ -30,15 +30,18 @@ class AboutLinkTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 72,
-        leading: leading,
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.open_in_new),
-        onTap: () => launchUrl(Uri.parse(url)),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 72,
+          leading: leading,
+          title: Text(title),
+          subtitle: Text(subtitle),
+          trailing: const Icon(Icons.open_in_new),
+          onTap: () => launchUrl(Uri.parse(url)),
+        ),
       ),
     );
   }

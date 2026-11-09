@@ -28,15 +28,18 @@ class ScreenSecurityTile extends StatelessWidget {
       ),
       child: ValueListenableBuilder(
         valueListenable: settings.screenSecurity,
-        builder: (context, screenSecurity, _) => SwitchListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: index, count: count),
-          minTileHeight: 72,
-          secondary: const Icon(Icons.screen_lock_portrait_outlined),
-          title: Text(l.settingsScreenSecurity),
-          subtitle: Text(l.settingsScreenSecuritySubtitle),
-          value: screenSecurity,
-          onChanged: settings.setScreenSecurity,
+        builder: (context, screenSecurity, _) => Material(
+          type: MaterialType.transparency,
+          child: SwitchListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: index, count: count),
+            minTileHeight: 72,
+            secondary: const Icon(Icons.screen_lock_portrait_outlined),
+            title: Text(l.settingsScreenSecurity),
+            subtitle: Text(l.settingsScreenSecuritySubtitle),
+            value: screenSecurity,
+            onChanged: settings.setScreenSecurity,
+          ),
         ),
       ),
     );

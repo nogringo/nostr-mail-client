@@ -43,28 +43,31 @@ class DeliveryUrlRow extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 56,
-        title: Text(
-          label,
-          overflow: TextOverflow.ellipsis,
-          style: theme.textTheme.bodyMedium,
-        ),
-        subtitle: error == null
-            ? null
-            : Text(
-                error,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: delivery.status == DeliveryStatus.failed
-                      ? colorScheme.error
-                      : colorScheme.onSurfaceVariant,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 56,
+          title: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: theme.textTheme.bodyMedium,
+          ),
+          subtitle: error == null
+              ? null
+              : Text(
+                  error,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: delivery.status == DeliveryStatus.failed
+                        ? colorScheme.error
+                        : colorScheme.onSurfaceVariant,
+                  ),
                 ),
-              ),
-        trailing: Text(
-          status,
-          style: theme.textTheme.labelMedium?.copyWith(color: color),
+          trailing: Text(
+            status,
+            style: theme.textTheme.labelMedium?.copyWith(color: color),
+          ),
         ),
       ),
     );

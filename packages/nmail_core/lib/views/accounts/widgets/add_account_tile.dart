@@ -20,16 +20,19 @@ class AddAccountTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: 0, count: 1),
-        // Same width as the account avatars, so the titles line up.
-        leading: const SizedBox.square(
-          dimension: 40,
-          child: Center(child: Icon(Icons.person_add_outlined)),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: 0, count: 1),
+          // Same width as the account avatars, so the titles line up.
+          leading: const SizedBox.square(
+            dimension: 40,
+            child: Center(child: Icon(Icons.person_add_outlined)),
+          ),
+          title: Text(l.inboxAddAccount),
+          onTap: () => context.go(AppRoutes.addAccount),
         ),
-        title: Text(l.inboxAddAccount),
-        onTap: () => context.go(AppRoutes.addAccount),
       ),
     );
   }

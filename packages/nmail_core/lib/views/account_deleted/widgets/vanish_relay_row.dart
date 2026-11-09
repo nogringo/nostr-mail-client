@@ -38,14 +38,17 @@ class VanishRelayRow extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 56,
-        title: Text(formatRelayUrl(url), overflow: TextOverflow.ellipsis),
-        trailing: Text(
-          status,
-          style: theme.textTheme.labelMedium?.copyWith(color: color),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 56,
+          title: Text(formatRelayUrl(url), overflow: TextOverflow.ellipsis),
+          trailing: Text(
+            status,
+            style: theme.textTheme.labelMedium?.copyWith(color: color),
+          ),
         ),
       ),
     );

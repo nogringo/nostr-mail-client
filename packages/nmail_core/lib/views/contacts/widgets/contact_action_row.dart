@@ -46,21 +46,24 @@ class ContactActionRow extends StatelessWidget {
         // Anything but manual steals the hold-to-copy gesture: the long-press
         // trigger opens the bubble and the tile's tap never fires.
         triggerMode: TooltipTriggerMode.manual,
-        child: ListTile(
-          onTap: () => _copyValue(context),
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: index, count: count),
-          leading: leading ?? Icon(icon),
-          title: title,
-          trailing:
-              trailing ??
-              (onCompose == null
-                  ? null
-                  : IconButton(
-                      icon: const Icon(Icons.mail_outline),
-                      tooltip: l.inboxCompose,
-                      onPressed: onCompose,
-                    )),
+        child: Material(
+          type: MaterialType.transparency,
+          child: ListTile(
+            onTap: () => _copyValue(context),
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: index, count: count),
+            leading: leading ?? Icon(icon),
+            title: title,
+            trailing:
+                trailing ??
+                (onCompose == null
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.mail_outline),
+                        tooltip: l.inboxCompose,
+                        onPressed: onCompose,
+                      )),
+          ),
         ),
       ),
     );

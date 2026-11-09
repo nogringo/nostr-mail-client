@@ -22,40 +22,43 @@ class AboutAppTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        onTap: () => controller.onVersionTap(context),
-        tileColor: theme.colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: 0, count: 2),
-        minTileHeight: 72,
-        leading: Container(
-          width: 48,
-          height: 48,
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: theme.colorScheme.secondaryContainer,
-            shape: BoxShape.circle,
-          ),
-          child: SvgPicture.asset(
-            'icons/original_transparent_2x.svg',
-            colorFilter: ColorFilter.mode(
-              theme.colorScheme.onSecondaryContainer,
-              BlendMode.srcIn,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          onTap: () => controller.onVersionTap(context),
+          tileColor: theme.colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: 0, count: 2),
+          minTileHeight: 72,
+          leading: Container(
+            width: 48,
+            height: 48,
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.secondaryContainer,
+              shape: BoxShape.circle,
+            ),
+            child: SvgPicture.asset(
+              'icons/original_transparent_2x.svg',
+              colorFilter: ColorFilter.mode(
+                theme.colorScheme.onSecondaryContainer,
+                BlendMode.srcIn,
+              ),
             ),
           ),
-        ),
-        title: Row(
-          spacing: 8,
-          children: [
-            Text('Nmail', style: theme.textTheme.headlineMedium),
-            if (distribution != Distribution.standard)
-              const AboutDistributionChip(),
-          ],
-        ),
-        subtitle: ListenableBuilder(
-          listenable: controller,
-          builder: (context, _) => Text(
-            controller.version,
-            style: TextStyle(color: theme.colorScheme.primary),
+          title: Row(
+            spacing: 8,
+            children: [
+              Text('Nmail', style: theme.textTheme.headlineMedium),
+              if (distribution != Distribution.standard)
+                const AboutDistributionChip(),
+            ],
+          ),
+          subtitle: ListenableBuilder(
+            listenable: controller,
+            builder: (context, _) => Text(
+              controller.version,
+              style: TextStyle(color: theme.colorScheme.primary),
+            ),
           ),
         ),
       ),

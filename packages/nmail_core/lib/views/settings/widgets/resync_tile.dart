@@ -28,20 +28,23 @@ class ResyncTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 72,
-        leading: isSyncing
-            ? const SizedBox(
-                width: 24,
-                height: 24,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
-            : const Icon(Icons.sync),
-        title: Text(l.syncStatusResync),
-        subtitle: Text(l.syncStatusResyncSubtitle),
-        onTap: isSyncing ? null : onResync,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 72,
+          leading: isSyncing
+              ? const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.sync),
+          title: Text(l.syncStatusResync),
+          subtitle: Text(l.syncStatusResyncSubtitle),
+          onTap: isSyncing ? null : onResync,
+        ),
       ),
     );
   }

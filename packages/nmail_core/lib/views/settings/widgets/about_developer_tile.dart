@@ -23,43 +23,46 @@ class AboutDeveloperTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: theme.colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: 1, count: 2),
-        minTileHeight: 72,
-        isThreeLine: true,
-        titleAlignment: ListTileTitleAlignment.top,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 12,
-        ),
-        leading: NostrAvatar(pubkey: pubkey, radius: 24),
-        title: NostrDisplayName(
-          pubkey: pubkey,
-          style: theme.textTheme.headlineMedium,
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l.settingsDeveloper),
-            const SizedBox(height: 8),
-            const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AboutIconLinkButton(
-                  asset: 'icons/github.svg',
-                  tooltip: 'GitHub',
-                  url: AppConfig.developerGithubUrl,
-                ),
-                SizedBox(width: 8),
-                AboutIconLinkButton(
-                  asset: 'icons/nostr.svg',
-                  tooltip: 'Nostr',
-                  url: AppConfig.developerNostrUrl,
-                ),
-              ],
-            ),
-          ],
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: theme.colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: 1, count: 2),
+          minTileHeight: 72,
+          isThreeLine: true,
+          titleAlignment: ListTileTitleAlignment.top,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          leading: NostrAvatar(pubkey: pubkey, radius: 24),
+          title: NostrDisplayName(
+            pubkey: pubkey,
+            style: theme.textTheme.headlineMedium,
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l.settingsDeveloper),
+              const SizedBox(height: 8),
+              const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AboutIconLinkButton(
+                    asset: 'icons/github.svg',
+                    tooltip: 'GitHub',
+                    url: AppConfig.developerGithubUrl,
+                  ),
+                  SizedBox(width: 8),
+                  AboutIconLinkButton(
+                    asset: 'icons/nostr.svg',
+                    tooltip: 'Nostr',
+                    url: AppConfig.developerNostrUrl,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

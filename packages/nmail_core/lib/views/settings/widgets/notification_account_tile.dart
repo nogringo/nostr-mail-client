@@ -30,15 +30,18 @@ class NotificationAccountTile extends StatelessWidget {
       ),
       child: ValueListenableBuilder(
         valueListenable: settings.notificationsByAccount,
-        builder: (context, byAccount, _) => SwitchListTile(
-          tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: index, count: count),
-          minTileHeight: 72,
-          secondary: NostrAvatar(pubkey: pubkey),
-          title: NostrDisplayName(pubkey: pubkey),
-          value: byAccount[pubkey] ?? false,
-          onChanged: (value) =>
-              settings.setNotificationsEnabledFor(pubkey, value),
+        builder: (context, byAccount, _) => Material(
+          type: MaterialType.transparency,
+          child: SwitchListTile(
+            tileColor: colorScheme.surfaceContainerHigh,
+            shape: segmentedListShape(index: index, count: count),
+            minTileHeight: 72,
+            secondary: NostrAvatar(pubkey: pubkey),
+            title: NostrDisplayName(pubkey: pubkey),
+            value: byAccount[pubkey] ?? false,
+            onChanged: (value) =>
+                settings.setNotificationsEnabledFor(pubkey, value),
+          ),
         ),
       ),
     );

@@ -26,15 +26,18 @@ class HostingAddTile extends StatelessWidget {
         horizontal: 16,
         vertical: segmentedListGap / 2,
       ),
-      child: ListTile(
-        tileColor: colorScheme.surfaceContainerHigh,
-        shape: segmentedListShape(index: index, count: count),
-        minTileHeight: 56,
-        iconColor: colorScheme.primary,
-        textColor: colorScheme.primary,
-        leading: const Icon(Icons.add),
-        title: Text(label),
-        onTap: onTap,
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListTile(
+          tileColor: colorScheme.surfaceContainerHigh,
+          shape: segmentedListShape(index: index, count: count),
+          minTileHeight: 56,
+          iconColor: colorScheme.primary,
+          textColor: colorScheme.primary,
+          leading: const Icon(Icons.add),
+          title: Text(label),
+          onTap: onTap,
+        ),
       ),
     );
   }
