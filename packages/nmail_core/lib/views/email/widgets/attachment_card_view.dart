@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/utils/get_attachements.dart';
+import 'package:nmail_core/utils/safe_filename.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
 import 'package:nmail_core/views/email/widgets/image_thumbnail_view.dart';
 import 'package:nmail_core/views/email/widgets/pdf_thumbnail_view.dart';
@@ -17,7 +18,7 @@ class AttachmentCardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final filename = attachment.filename ?? '';
+    final filename = safeFilename(attachment.filename) ?? '';
     final icon = getAttachmentIcon(filename);
     final isImage = isImageFile(filename);
     final isPdf = isPdfFile(filename);

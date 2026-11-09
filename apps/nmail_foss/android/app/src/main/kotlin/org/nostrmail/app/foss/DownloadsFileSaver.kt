@@ -11,6 +11,7 @@ import java.io.OutputStream
 
 object DownloadsFileSaver {
     fun saveToDownloads(context: Context, fileName: String, bytes: ByteArray, mimeType: String): String {
+        require('/' !in fileName && fileName !in setOf("", ".", "..")) { "Invalid file name" }
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             saveWithMediaStoreApi(context, fileName, bytes, mimeType)
         } else {

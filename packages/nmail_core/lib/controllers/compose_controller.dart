@@ -45,6 +45,7 @@ import 'package:nmail_core/utils/metadata_extensions.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/utils/primary_email.dart';
 import 'package:nmail_core/utils/reply_quote.dart';
+import 'package:nmail_core/utils/safe_filename.dart';
 import 'package:nmail_core/utils/sender_name_helper.dart';
 import 'package:nmail_core/utils/signature_html.dart';
 import 'auth_controller.dart';
@@ -1355,7 +1356,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
       _prefill(
         () => attachments.add(
           ComposeAttachment(
-            filename: ref.filename ?? 'attachment',
+            filename: safeFilename(ref.filename) ?? 'attachment',
             data: bytes,
             mimeType: ref.contentType,
           ),
@@ -1383,7 +1384,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
               : await _nostrMailService.client.getAttachmentBytes(email, ref));
       if (bytes != null) {
         inlineImages[contentId] = ComposeAttachment(
-          filename: ref?.filename ?? 'image',
+          filename: safeFilename(ref?.filename) ?? 'image',
           data: bytes,
           mimeType:
               ref?.contentType ??

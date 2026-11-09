@@ -22,6 +22,7 @@ import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/utils/run_sender_verdict.dart';
+import 'package:nmail_core/utils/safe_filename.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/image_viewer_page.dart';
@@ -393,10 +394,8 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
     final l = AppLocalizations.of(AppRouter.rootContext!);
     try {
-      final subject = (email!.subject?.isEmpty ?? true)
-          ? l.emailDefaultFilename
-          : email!.subject!;
-      final fileName = subject.replaceAll(RegExp(r'[<>:"/\\|?*]'), '_');
+      final subject = safeFilename(email!.subject) ?? l.emailDefaultFilename;
+      final fileName = safeFilename('$subject.eml')!;
 
       final raw = await _ensureRawContent();
       if (raw == null) {
@@ -408,13 +407,13 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
       String result;
       if (PlatformHelper.isAndroid) {
         result = await AndroidFileSaver.saveToDownloads(
-          fileName: '$fileName.eml',
+          fileName: fileName,
           bytes: Uint8List.fromList(bytes),
           mimeType: 'message/rfc822',
         );
       } else {
         result = await FileSaver.instance.saveFile(
-          name: fileName,
+          name: p.basenameWithoutExtension(fileName),
           bytes: Uint8List.fromList(bytes),
           fileExtension: 'eml',
           mimeType: MimeType.other,
@@ -517,7 +516,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<void> downloadAttachment({required AttachmentRef ref}) async {
     final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
-    final filename = ref.filename ?? 'attachment';
+    final filename = safeFilename(ref.filename) ?? 'attachment';
     final nostrMailService = GetIt.I<NostrMailService>();
     final fileData = await nostrMailService.client.getAttachmentBytes(
       email!,
@@ -538,18 +537,15 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
       // Map common extensions to MIME types
       MimeType mimeType = getMimeType(extension);
 
-      // Clean filename (remove path if any)
-      final cleanName = p.basename(filename);
-
       if (PlatformHelper.isAndroid) {
         await AndroidFileSaver.saveToDownloads(
-          fileName: cleanName,
+          fileName: filename,
           bytes: fileData,
           mimeType: _getMimeTypeString(mimeType, extension),
         );
       } else {
         await FileSaver.instance.saveFile(
-          name: p.basenameWithoutExtension(cleanName),
+          name: p.basenameWithoutExtension(filename),
           bytes: fileData,
           fileExtension: extension,
           mimeType: mimeType,
@@ -573,7 +569,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     final nostrMailService = GetIt.I<NostrMailService>();
 
     for (final ref in attachments) {
-      final filename = ref.filename ?? 'attachment';
+      final filename = safeFilename(ref.filename) ?? 'attachment';
       final fileData = await nostrMailService.client.getAttachmentBytes(
         email!,
         ref,
@@ -593,18 +589,15 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
         // Map common extensions to MIME types
         MimeType mimeType = getMimeType(extension);
 
-        // Clean filename (remove path if any)
-        final cleanName = p.basename(filename);
-
         if (PlatformHelper.isAndroid) {
           await AndroidFileSaver.saveToDownloads(
-            fileName: cleanName,
+            fileName: filename,
             bytes: fileData,
             mimeType: _getMimeTypeString(mimeType, extension),
           );
         } else {
           await FileSaver.instance.saveFile(
-            name: p.basenameWithoutExtension(cleanName),
+            name: p.basenameWithoutExtension(filename),
             bytes: fileData,
             fileExtension: extension,
             mimeType: mimeType,
@@ -638,7 +631,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     if (email == null) return;
     showImageViewerPage(
       AppRouter.rootContext!,
-      filename: ref.filename ?? 'image',
+      filename: safeFilename(ref.filename) ?? 'image',
       imageData: GetIt.I<NostrMailService>().client.getAttachmentBytes(
         email!,
         ref,
@@ -650,7 +643,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<void> showPdfViewer({required AttachmentRef ref}) async {
     final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
-    final filename = ref.filename ?? 'document.pdf';
+    final filename = safeFilename(ref.filename) ?? 'document.pdf';
     final nostrMailService = GetIt.I<NostrMailService>();
     final pdfData = await nostrMailService.client.getAttachmentBytes(
       email!,
