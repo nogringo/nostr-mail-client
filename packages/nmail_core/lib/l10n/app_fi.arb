@@ -45,6 +45,8 @@
   "settingsUnifiedPushDistributorInstallSunup": "Asenna Sunup",
   "settingsAlwaysLoadImages": "Lataa kuvat aina",
   "settingsAlwaysLoadImagesSubtitle": "Yksityisyyden suojaamiseksi kuvat estetään oletuksena",
+  "settingsScreenSecurity": "Näytön suojaus",
+  "settingsScreenSecuritySubtitle": "Estää kuvakaappaukset ja piilottaa sisällön viimeisimmissä sovelluksissa",
   "settingsIdentities": "Henkilöllisyydet",
   "settingsEmailSignatureDefault": "Lähetetty Nmaililla",
   "signaturesTitle": "Allekirjoitukset",

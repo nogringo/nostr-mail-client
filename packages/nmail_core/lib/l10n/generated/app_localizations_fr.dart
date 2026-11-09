@@ -156,6 +156,13 @@ class AppLocalizationsFr extends AppLocalizations {
       'Les images sont bloquées par défaut pour la confidentialité';
 
   @override
+  String get settingsScreenSecurity => 'Sécurité de l\'écran';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'Bloque les captures d\'écran et masque le contenu dans les applications récentes';
+
+  @override
   String get settingsIdentities => 'Identités';
 
   @override

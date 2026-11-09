@@ -155,6 +155,13 @@ class AppLocalizationsPt extends AppLocalizations {
       'Imagens são bloqueadas por padrão para privacidade';
 
   @override
+  String get settingsScreenSecurity => 'Segurança do ecrã';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'Bloqueia capturas de ecrã e oculta o conteúdo nas apps recentes';
+
+  @override
   String get settingsIdentities => 'Identidades';
 
   @override
@@ -2736,6 +2743,13 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get settingsAlwaysLoadImagesSubtitle =>
       'Imagens são bloqueadas por padrão para privacidade';
+
+  @override
+  String get settingsScreenSecurity => 'Segurança da tela';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'Bloqueia capturas de tela e oculta o conteúdo nos apps recentes';
 
   @override
   String get settingsIdentities => 'Identidades';

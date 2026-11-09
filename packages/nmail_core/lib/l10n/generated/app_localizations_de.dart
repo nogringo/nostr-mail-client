@@ -156,6 +156,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Bilder werden standardmäßig aus Datenschutzgründen blockiert';
 
   @override
+  String get settingsScreenSecurity => 'Bildschirmschutz';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'Blockiert Screenshots und verbirgt Inhalte in den letzten Apps';
+
+  @override
   String get settingsIdentities => 'Identitäten';
 
   @override

@@ -155,6 +155,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'По умолчанию изображения блокируются для приватности';
 
   @override
+  String get settingsScreenSecurity => 'Защита экрана';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'Запрещает снимки экрана и скрывает содержимое в списке недавних приложений';
+
+  @override
   String get settingsIdentities => 'Идентичности';
 
   @override

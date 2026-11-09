@@ -155,6 +155,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Las imágenes se bloquean por defecto por privacidad';
 
   @override
+  String get settingsScreenSecurity => 'Seguridad de pantalla';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'Bloquea las capturas de pantalla y oculta el contenido en las apps recientes';
+
+  @override
   String get settingsIdentities => 'Identidades';
 
   @override

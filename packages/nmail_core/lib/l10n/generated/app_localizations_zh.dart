@@ -150,6 +150,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsAlwaysLoadImagesSubtitle => '为保护隐私,图片默认被屏蔽';
 
   @override
+  String get settingsScreenSecurity => '屏幕安全';
+
+  @override
+  String get settingsScreenSecuritySubtitle => '阻止截屏,并在最近任务中隐藏内容';
+
+  @override
   String get settingsIdentities => '身份';
 
   @override

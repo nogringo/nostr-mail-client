@@ -367,6 +367,18 @@ abstract class AppLocalizations {
   /// **'Images are blocked by default for privacy'**
   String get settingsAlwaysLoadImagesSubtitle;
 
+  /// Settings switch title for blocking screenshots (Android only)
+  ///
+  /// In en, this message translates to:
+  /// **'Screen security'**
+  String get settingsScreenSecurity;
+
+  /// Subtitle explaining what the screen security switch does
+  ///
+  /// In en, this message translates to:
+  /// **'Block screenshots and hide content in recent apps'**
+  String get settingsScreenSecuritySubtitle;
+
   /// Settings section header and identities screen title
   ///
   /// In en, this message translates to:

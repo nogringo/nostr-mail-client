@@ -6,7 +6,14 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/segmented_list_shape.dart';
 
 class AlwaysLoadImagesTile extends StatelessWidget {
-  const AlwaysLoadImagesTile({super.key});
+  const AlwaysLoadImagesTile({
+    super.key,
+    required this.index,
+    required this.count,
+  });
+
+  final int index;
+  final int count;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +30,7 @@ class AlwaysLoadImagesTile extends StatelessWidget {
         valueListenable: settings.alwaysLoadImages,
         builder: (context, alwaysLoadImages, _) => SwitchListTile(
           tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: 1, count: 3),
+          shape: segmentedListShape(index: index, count: count),
           minTileHeight: 72,
           secondary: const Icon(Icons.image_outlined),
           title: Text(l.settingsAlwaysLoadImages),

@@ -155,6 +155,13 @@ class AppLocalizationsFi extends AppLocalizations {
       'Yksityisyyden suojaamiseksi kuvat estetään oletuksena';
 
   @override
+  String get settingsScreenSecurity => 'Näytön suojaus';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'Estää kuvakaappaukset ja piilottaa sisällön viimeisimmissä sovelluksissa';
+
+  @override
   String get settingsIdentities => 'Henkilöllisyydet';
 
   @override

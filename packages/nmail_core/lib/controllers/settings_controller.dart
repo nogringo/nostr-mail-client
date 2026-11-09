@@ -17,6 +17,7 @@ import 'package:nmail_core/services/nostr_mail_service.dart';
 import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/services/push_subscription_service.dart';
+import 'package:nmail_core/services/screen_security.dart';
 import 'package:nmail_core/services/storage_service.dart';
 import 'package:nmail_core/services/theme_service.dart';
 import 'package:nmail_core/utils/seed_color_from_image.dart';
@@ -33,8 +34,10 @@ class SettingsController {
   static const themeModeKey = 'theme_mode';
   static const localeKey = 'locale';
   static const _debugToolsUnlockedKey = 'debug_tools_unlocked';
+  static const _screenSecurityKey = 'screen_security';
 
   final alwaysLoadImages = ValueNotifier(false);
+  final screenSecurity = ValueNotifier(false);
   final dohServer = ValueNotifier(defaultDohServer);
   final notificationsEnabled = ValueNotifier(false);
 
@@ -95,6 +98,7 @@ class SettingsController {
     _authSubscription?.cancel();
     for (final notifier in <ChangeNotifier>[
       alwaysLoadImages,
+      screenSecurity,
       dohServer,
       notificationsEnabled,
       notificationsByAccount,
@@ -127,9 +131,12 @@ class SettingsController {
       _storageService.getSetting<String>(_dohServerKey),
       _storageService.getSetting<bool>(_debugToolsUnlockedKey),
       _storageService.getSetting<String>(ThemeService.communityThemeKey),
+      _storageService.getSetting<bool>(_screenSecurityKey),
     ]);
 
     alwaysLoadImages.value = (results[0] as bool?) ?? false;
+    screenSecurity.value = (results[10] as bool?) ?? false;
+    await ScreenSecurity.apply(screenSecurity.value);
     emailSignature.value = _cachedSignature;
 
     backgroundImage.value = results[1] as String?;
@@ -216,6 +223,12 @@ class SettingsController {
   Future<void> setAlwaysLoadImages(bool value) async {
     alwaysLoadImages.value = value;
     await _storageService.saveSetting(_alwaysLoadImagesKey, value);
+  }
+
+  Future<void> setScreenSecurity(bool value) async {
+    screenSecurity.value = value;
+    await ScreenSecurity.apply(value);
+    await _storageService.saveSetting(_screenSecurityKey, value);
   }
 
   /// An empty [value] restores [defaultDohServer].

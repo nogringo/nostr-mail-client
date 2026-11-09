@@ -150,6 +150,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsAlwaysLoadImagesSubtitle => 'プライバシー保護のため、画像は既定でブロックされます';
 
   @override
+  String get settingsScreenSecurity => '画面のセキュリティ';
+
+  @override
+  String get settingsScreenSecuritySubtitle =>
+      'スクリーンショットをブロックし、最近使ったアプリで内容を非表示にします';
+
+  @override
   String get settingsIdentities => 'アイデンティティ';
 
   @override

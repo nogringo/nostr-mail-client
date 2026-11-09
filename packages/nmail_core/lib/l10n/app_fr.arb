@@ -45,6 +45,8 @@
   "settingsUnifiedPushDistributorInstallSunup": "Installer Sunup",
   "settingsAlwaysLoadImages": "Toujours charger les images",
   "settingsAlwaysLoadImagesSubtitle": "Les images sont bloquées par défaut pour la confidentialité",
+  "settingsScreenSecurity": "Sécurité de l'écran",
+  "settingsScreenSecuritySubtitle": "Bloque les captures d'écran et masque le contenu dans les applications récentes",
   "settingsIdentities": "Identités",
   "settingsEmailSignatureDefault": "Envoyé avec Nmail",
   "signaturesTitle": "Signatures",

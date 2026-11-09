@@ -45,6 +45,8 @@
   "settingsUnifiedPushDistributorInstallSunup": "Sunup をインストール",
   "settingsAlwaysLoadImages": "常に画像を読み込む",
   "settingsAlwaysLoadImagesSubtitle": "プライバシー保護のため、画像は既定でブロックされます",
+  "settingsScreenSecurity": "画面のセキュリティ",
+  "settingsScreenSecuritySubtitle": "スクリーンショットをブロックし、最近使ったアプリで内容を非表示にします",
   "settingsIdentities": "アイデンティティ",
   "settingsEmailSignatureDefault": "Nmail から送信",
   "signaturesTitle": "署名",

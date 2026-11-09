@@ -7,7 +7,10 @@ import 'package:nmail_core/utils/segmented_list_shape.dart';
 import 'doh_server_dialog.dart';
 
 class DohServerTile extends StatelessWidget {
-  const DohServerTile({super.key});
+  const DohServerTile({super.key, required this.index, required this.count});
+
+  final int index;
+  final int count;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +27,7 @@ class DohServerTile extends StatelessWidget {
         valueListenable: settings.dohServer,
         builder: (context, dohServer, _) => ListTile(
           tileColor: colorScheme.surfaceContainerHigh,
-          shape: segmentedListShape(index: 2, count: 3),
+          shape: segmentedListShape(index: index, count: count),
           minTileHeight: 72,
           leading: const Icon(Icons.dns_outlined),
           title: Text(l.settingsDohServer),

@@ -45,6 +45,8 @@
   "settingsUnifiedPushDistributorInstallSunup": "Установить Sunup",
   "settingsAlwaysLoadImages": "Всегда загружать изображения",
   "settingsAlwaysLoadImagesSubtitle": "По умолчанию изображения блокируются для приватности",
+  "settingsScreenSecurity": "Защита экрана",
+  "settingsScreenSecuritySubtitle": "Запрещает снимки экрана и скрывает содержимое в списке недавних приложений",
   "settingsIdentities": "Идентичности",
   "settingsEmailSignatureDefault": "Отправлено через Nmail",
   "signaturesTitle": "Подписи",

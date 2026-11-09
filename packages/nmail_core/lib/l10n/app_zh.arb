@@ -45,6 +45,8 @@
   "settingsUnifiedPushDistributorInstallSunup": "安装 Sunup",
   "settingsAlwaysLoadImages": "始终加载图片",
   "settingsAlwaysLoadImagesSubtitle": "为保护隐私,图片默认被屏蔽",
+  "settingsScreenSecurity": "屏幕安全",
+  "settingsScreenSecuritySubtitle": "阻止截屏,并在最近任务中隐藏内容",
   "settingsIdentities": "身份",
   "settingsEmailSignatureDefault": "通过 Nmail 发送",
   "signaturesTitle": "签名",

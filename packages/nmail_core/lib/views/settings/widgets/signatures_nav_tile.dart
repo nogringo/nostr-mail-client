@@ -6,7 +6,14 @@ import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'settings_nav_tile.dart';
 
 class SignaturesNavTile extends StatelessWidget {
-  const SignaturesNavTile({super.key});
+  const SignaturesNavTile({
+    super.key,
+    required this.index,
+    required this.count,
+  });
+
+  final int index;
+  final int count;
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +21,8 @@ class SignaturesNavTile extends StatelessWidget {
     return SettingsNavTile(
       icon: Icons.edit_note,
       title: l.signaturesTitle,
-      index: 0,
-      count: 3,
+      index: index,
+      count: count,
       onTap: () => context.go(AppRoutes.settingsSignatures),
     );
   }
