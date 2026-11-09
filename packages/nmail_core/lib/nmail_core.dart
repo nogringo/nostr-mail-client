@@ -13,7 +13,6 @@ export 'utils/contact_birthday_utils.dart';
 export 'utils/format_date.dart';
 export 'utils/format_date_time.dart';
 export 'utils/get_attachements.dart';
-export 'utils/get_mime_type.dart';
 export 'utils/html_image_scan.dart';
 export 'utils/inline_image_source.dart';
 export 'utils/metadata_extensions.dart';

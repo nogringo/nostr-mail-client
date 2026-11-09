@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:archive/archive.dart' show Archive, ArchiveFile, ZipEncoder;
 import 'package:enough_mail_plus/enough_mail.dart' show MailAddress;
-import 'package:file_saver/file_saver.dart';
+import 'package:file_picker/file_picker.dart' show FilePicker;
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mime/mime.dart' show lookupMimeType;
 import 'package:nostr_mail/nostr_mail.dart';
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/app/routes/app_routes.dart';
@@ -17,20 +19,21 @@ import 'package:nmail_core/models/email_person.dart';
 import 'package:nmail_core/models/mailbox.dart';
 import 'package:nmail_core/controllers/settings_controller.dart';
 import 'package:nmail_core/services/nostr_mail_service.dart';
-import 'package:nmail_core/utils/get_mime_type.dart';
 import 'package:nmail_core/utils/inline_image_source.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
 import 'package:nmail_core/utils/prepare_email_html.dart';
 import 'package:nmail_core/utils/run_sender_verdict.dart';
 import 'package:nmail_core/utils/safe_filename.dart';
 import 'package:nmail_core/utils/toast_helper.dart';
+import 'package:nmail_core/utils/unique_filename.dart';
+import 'package:nmail_core/utils/write_file_to_directory_io.dart'
+    if (dart.library.html) 'package:nmail_core/utils/write_file_to_directory_web.dart';
 import 'package:nmail_core/views/email/widgets/email_source_dialog.dart';
 import 'package:nmail_core/views/email/widgets/image_viewer_page.dart';
 import 'package:nmail_core/views/email/widgets/nip59_events_dialog.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_move_to_picker.dart';
 import 'package:nmail_core/views/mailboxes/widgets/show_tags_picker.dart';
 import 'package:nmail_core/views/shared/window_caption_inset.dart';
-import 'package:path/path.dart' as p;
 import 'package:pdfrx/pdfrx.dart';
 import 'package:nmail_core/services/android_file_saver.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
@@ -404,23 +407,20 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
       }
       final bytes = utf8.encode(raw);
 
-      String result;
       if (PlatformHelper.isAndroid) {
-        result = await AndroidFileSaver.saveToDownloads(
+        final path = await AndroidFileSaver.saveToDownloads(
           fileName: fileName,
-          bytes: Uint8List.fromList(bytes),
+          bytes: bytes,
           mimeType: 'message/rfc822',
         );
+        ToastHelper.success(AppRouter.rootContext!, l.emailSaved(path));
       } else {
-        result = await FileSaver.instance.saveFile(
-          name: p.basenameWithoutExtension(fileName),
-          bytes: Uint8List.fromList(bytes),
-          fileExtension: 'eml',
-          mimeType: MimeType.other,
+        await FilePicker.saveFile(
+          fileName: fileName,
+          bytes: bytes,
+          mimeType: 'message/rfc822',
         );
       }
-
-      ToastHelper.success(AppRouter.rootContext!, l.emailSaved(result));
     } catch (e) {
       ToastHelper.error(
         AppRouter.rootContext!,
@@ -528,31 +528,20 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     }
 
     try {
-      // Extract file extension
-      final extension = p
-          .extension(filename)
-          .toLowerCase()
-          .replaceFirst('.', '');
-
-      // Map common extensions to MIME types
-      MimeType mimeType = getMimeType(extension);
-
       if (PlatformHelper.isAndroid) {
         await AndroidFileSaver.saveToDownloads(
           fileName: filename,
           bytes: fileData,
-          mimeType: _getMimeTypeString(mimeType, extension),
+          mimeType: _mimeTypeOf(filename),
         );
+        ToastHelper.success(AppRouter.rootContext!, l.emailFileSaved);
       } else {
-        await FileSaver.instance.saveFile(
-          name: p.basenameWithoutExtension(filename),
+        await FilePicker.saveFile(
+          fileName: filename,
           bytes: fileData,
-          fileExtension: extension,
-          mimeType: mimeType,
+          mimeType: _mimeTypeOf(filename),
         );
       }
-
-      ToastHelper.success(AppRouter.rootContext!, l.emailFileSaved);
     } catch (e) {
       ToastHelper.error(
         AppRouter.rootContext!,
@@ -563,45 +552,40 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
   Future<void> downloadAllAttachments(List<AttachmentRef> attachments) async {
     final l = AppLocalizations.of(AppRouter.rootContext!);
+    final email = this.email;
     if (email == null) return;
+
+    String? directory;
+    if (PlatformHelper.isDesktop) {
+      directory = await FilePicker.getDirectoryPath();
+      if (directory == null) return;
+    }
+
+    final client = GetIt.I<NostrMailService>().client;
+    final zip = Archive();
     int successCount = 0;
     int failureCount = 0;
-    final nostrMailService = GetIt.I<NostrMailService>();
 
     for (final ref in attachments) {
       final filename = safeFilename(ref.filename) ?? 'attachment';
-      final fileData = await nostrMailService.client.getAttachmentBytes(
-        email!,
-        ref,
-      );
+      final fileData = await client.getAttachmentBytes(email, ref);
       if (fileData == null) {
         failureCount++;
         continue;
       }
 
       try {
-        // Extract file extension
-        final extension = p
-            .extension(filename)
-            .toLowerCase()
-            .replaceFirst('.', '');
-
-        // Map common extensions to MIME types
-        MimeType mimeType = getMimeType(extension);
-
         if (PlatformHelper.isAndroid) {
           await AndroidFileSaver.saveToDownloads(
             fileName: filename,
             bytes: fileData,
-            mimeType: _getMimeTypeString(mimeType, extension),
+            mimeType: _mimeTypeOf(filename),
           );
+        } else if (directory != null) {
+          await writeFileToDirectory(directory, filename, fileData);
         } else {
-          await FileSaver.instance.saveFile(
-            name: p.basenameWithoutExtension(filename),
-            bytes: fileData,
-            fileExtension: extension,
-            mimeType: mimeType,
-          );
+          final name = uniqueFilename(filename, (n) => zip.find(n) != null);
+          zip.addFile(ArchiveFile.bytes(name, fileData));
         }
         successCount++;
       } catch (e) {
@@ -609,11 +593,30 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
       }
     }
 
+    if (zip.isNotEmpty) {
+      final subject = safeFilename(email.subject) ?? l.emailDefaultFilename;
+      try {
+        await FilePicker.saveFile(
+          fileName: safeFilename('$subject.zip')!,
+          bytes: ZipEncoder().encodeBytes(zip),
+          mimeType: 'application/zip',
+        );
+      } catch (e) {
+        ToastHelper.error(
+          AppRouter.rootContext!,
+          l.emailFileSaveFailed(e.toString()),
+        );
+        return;
+      }
+    }
+
     if (failureCount == 0) {
-      ToastHelper.success(
-        AppRouter.rootContext!,
-        l.emailDownloadedAllSuccess(successCount),
-      );
+      if (PlatformHelper.isAndroid) {
+        ToastHelper.success(
+          AppRouter.rootContext!,
+          l.emailDownloadedAllSuccess(successCount),
+        );
+      }
     } else if (successCount == 0) {
       ToastHelper.error(
         AppRouter.rootContext!,
@@ -685,28 +688,8 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     }
   }
 
-  String _getMimeTypeString(MimeType mimeType, String extension) {
-    switch (mimeType) {
-      case MimeType.pdf:
-        return 'application/pdf';
-      case MimeType.jpeg:
-        return 'image/jpeg';
-      case MimeType.png:
-        return 'image/png';
-      case MimeType.gif:
-        return 'image/gif';
-      case MimeType.webp:
-        return 'image/webp';
-      case MimeType.text:
-        return 'text/plain';
-      case MimeType.xml:
-        return 'text/xml';
-      case MimeType.json:
-        return 'application/json';
-      case MimeType.zip:
-        return 'application/zip';
-      default:
-        return 'application/octet-stream';
-    }
-  }
+  // From the filename, not the sender's Content-Type, so Android MediaStore
+  // never appends an extension to match a mislabeled part.
+  String _mimeTypeOf(String filename) =>
+      lookupMimeType(filename) ?? 'application/octet-stream';
 }

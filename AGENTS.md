@@ -40,7 +40,7 @@ Current package metadata:
 | Local database / cache | `sembast`, `sembast_web`, `sqflite`, `sqflite_common_ffi`, `idb_shim` |
 | Offline queues | `broadcast_queue_shim_for_ndk`, `blossom_upload_queue_shim_for_ndk` |
 | Device connectivity | `connectivity_plus` |
-| Attachments / Blossom | `blossom_cache`, `file_picker`, `file_saver` |
+| Attachments / Blossom | `blossom_cache`, `file_picker`, `archive` |
 | Rich text editor | `flutter_quill`, `markdown_quill`, `vsc_quill_delta_to_html` |
 | MIME mail construction | `enough_mail_plus` |
 | HTML/PDF rendering | `flutter_widget_from_html_core`, `pdfrx` |

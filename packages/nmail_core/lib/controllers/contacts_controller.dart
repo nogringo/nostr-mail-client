@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -114,23 +113,21 @@ class ContactsController extends ChangeNotifier {
       final vcf = list.map((contact) => contact.vCard).join('\r\n');
       final bytes = Uint8List.fromList(utf8.encode(vcf));
 
-      String result;
       if (PlatformHelper.isAndroid) {
-        result = await AndroidFileSaver.saveToDownloads(
+        final path = await AndroidFileSaver.saveToDownloads(
           fileName: 'contacts.vcf',
           bytes: bytes,
           mimeType: 'text/vcard',
         );
+        if (!context.mounted) return;
+        ToastHelper.success(context, l.contactsExportSaved(path));
       } else {
-        result = await FileSaver.instance.saveFile(
-          name: 'contacts',
+        await FilePicker.saveFile(
+          fileName: 'contacts.vcf',
           bytes: bytes,
-          fileExtension: 'vcf',
-          mimeType: MimeType.other,
+          mimeType: 'text/vcard',
         );
       }
-      if (!context.mounted) return;
-      ToastHelper.success(context, l.contactsExportSaved(result));
     } catch (error) {
       if (!context.mounted) return;
       ToastHelper.error(context, l.contactsExportFailed(error.toString()));
