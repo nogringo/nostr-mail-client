@@ -86,23 +86,34 @@ class AddressBookVCardMapper {
       form.nostrPubkeys.map((pubkey) {
         final normalized = normalizeNostrPubkey(pubkey);
         if (normalized == null) {
-          throw AddressBookValidationException('Invalid Nostr identifier');
+          throw AddressBookValidationException(
+            AddressBookValidationError.invalidNostrIdentifier,
+            pubkey,
+          );
         }
         return normalized;
       }),
     );
 
     if (name.isEmpty) {
-      throw const AddressBookValidationException('Name is required');
+      throw const AddressBookValidationException(
+        AddressBookValidationError.nameRequired,
+      );
     }
     for (final email in emails) {
       if (!_isValidEmail(email)) {
-        throw AddressBookValidationException('Invalid email: $email');
+        throw AddressBookValidationException(
+          AddressBookValidationError.invalidEmail,
+          email,
+        );
       }
     }
     for (final phone in phones) {
       if (!_isValidPhone(phone)) {
-        throw AddressBookValidationException('Invalid phone: $phone');
+        throw AddressBookValidationException(
+          AddressBookValidationError.invalidPhone,
+          phone,
+        );
       }
     }
 

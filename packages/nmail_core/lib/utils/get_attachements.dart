@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:path/path.dart' as p;
 
 /// Format file size in human-readable format
-String formatFileSize(int bytes) {
+String formatFileSize(int bytes, AppLocalizations l) {
+  final format = NumberFormat('0.0', l.localeName);
   if (bytes < 1024) {
-    return '$bytes B';
+    return l.fileSizeBytes('$bytes');
   } else if (bytes < 1024 * 1024) {
-    final kb = (bytes / 1024).toStringAsFixed(1);
-    return '$kb KB';
+    return l.fileSizeKilobytes(format.format(bytes / 1024));
   } else if (bytes < 1024 * 1024 * 1024) {
-    final mb = (bytes / (1024 * 1024)).toStringAsFixed(1);
-    return '$mb MB';
+    return l.fileSizeMegabytes(format.format(bytes / (1024 * 1024)));
   } else {
-    final gb = (bytes / (1024 * 1024 * 1024)).toStringAsFixed(1);
-    return '$gb GB';
+    return l.fileSizeGigabytes(format.format(bytes / (1024 * 1024 * 1024)));
   }
 }
 

@@ -28,7 +28,7 @@ class AttachmentChip extends StatelessWidget {
       size: 20,
       color: colorScheme.primary,
     );
-    final size = formatFileSize(attachment.size);
+    final size = formatFileSize(attachment.size, l);
     final isImage = isImageFile(attachment.filename);
     const thumbnailSize = 32.0;
 

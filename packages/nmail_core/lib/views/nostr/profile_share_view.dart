@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 
 /// Stub view for shared nostr profiles (npub1*, nprofile1*).
 /// Real implementation will fetch the profile metadata and offer
@@ -21,7 +22,10 @@ class ProfileShareView extends StatelessWidget {
             children: [
               const Icon(Icons.person_outline, size: 64),
               const SizedBox(height: 16),
-              Text('Profile', style: Theme.of(context).textTheme.headlineSmall),
+              Text(
+                AppLocalizations.of(context).profileShareTitle,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
               const SizedBox(height: 8),
               SelectableText(
                 bech32,

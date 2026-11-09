@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_mail/nostr_mail.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/get_attachements.dart';
 import 'package:nmail_core/utils/safe_filename.dart';
 import 'package:nmail_core/views/email/email_controller.dart';
@@ -22,7 +23,7 @@ class AttachmentCardView extends StatelessWidget {
     final icon = getAttachmentIcon(filename);
     final isImage = isImageFile(filename);
     final isPdf = isPdfFile(filename);
-    final size = formatFileSize(attachment.size);
+    final size = formatFileSize(attachment.size, AppLocalizations.of(context));
     final borderRadius = BorderRadius.circular(16);
 
     return ConstrainedBox(

@@ -73,7 +73,7 @@ class ContactFormController extends ChangeNotifier {
   bool moreFieldsExpanded = false;
 
   bool isSaving = false;
-  String? error;
+  Object? error;
   final List<String> emails = [];
   final List<String> nostrIdentifiers = [];
   final List<String> phones = [];
@@ -162,7 +162,10 @@ class ContactFormController extends ChangeNotifier {
           .resolveNostrIdentifier(value);
       if (_isDisposed) return false;
       if (pubkey == null) {
-        error = 'Invalid Nostr identifier: $value';
+        error = AddressBookValidationException(
+          AddressBookValidationError.invalidNostrIdentifier,
+          value,
+        );
         notifyListeners();
         return false;
       }
@@ -218,7 +221,7 @@ class ContactFormController extends ChangeNotifier {
       );
       return true;
     } catch (saveError) {
-      error = saveError.toString();
+      error = saveError;
       return false;
     } finally {
       if (!_isDisposed) {

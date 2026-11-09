@@ -128,6 +128,15 @@ class AppLocalizationsRu extends AppLocalizations {
       'Получайте уведомления о новых письмах.';
 
   @override
+  String get notificationChannelName => 'Письма';
+
+  @override
+  String get notificationChannelDescription => 'Уведомления о новых письмах';
+
+  @override
+  String get notificationNewEmail => 'Новое письмо';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push-уведомления недоступны';
 
@@ -1103,6 +1112,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailDefaultFilename => 'email';
 
   @override
+  String get emailAttachmentDefaultFilename => 'вложение';
+
+  @override
+  String get emailImageDefaultFilename => 'изображение';
+
+  @override
+  String get emailPdfDefaultFilename => 'документ';
+
+  @override
   String emailSaved(String path) {
     return 'Письмо сохранено: $path';
   }
@@ -1244,6 +1262,26 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get emailAttachmentsTitle => 'Вложения';
+
+  @override
+  String fileSizeBytes(String size) {
+    return '$size Б';
+  }
+
+  @override
+  String fileSizeKilobytes(String size) {
+    return '$size КБ';
+  }
+
+  @override
+  String fileSizeMegabytes(String size) {
+    return '$size МБ';
+  }
+
+  @override
+  String fileSizeGigabytes(String size) {
+    return '$size ГБ';
+  }
 
   @override
   String get emailDownloadAll => 'Скачать всё';
@@ -1641,6 +1679,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get contactsSave => 'Сохранить';
 
   @override
+  String get contactsNameRequired => 'Укажите имя';
+
+  @override
+  String contactsInvalidEmail(String value) {
+    return 'Неверный адрес электронной почты: $value';
+  }
+
+  @override
+  String contactsInvalidPhone(String value) {
+    return 'Неверный номер телефона: $value';
+  }
+
+  @override
+  String contactsInvalidNostrIdentifier(String value) {
+    return 'Неверный идентификатор Nostr: $value';
+  }
+
+  @override
   String get contactsEdit => 'Редактировать контакт';
 
   @override
@@ -1700,6 +1756,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get contactsExportFilename => 'контакты';
+
+  @override
   String get contactsImportEmpty => 'В файле не найдено контактов';
 
   @override
@@ -1731,6 +1790,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileEditTitle => 'Редактирование профиля';
+
+  @override
+  String get profileShareTitle => 'Профиль';
 
   @override
   String get profileDisplayNameLabel => 'Отображаемое имя';

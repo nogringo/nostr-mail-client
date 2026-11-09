@@ -22,7 +22,7 @@ class AttachmentsSectionView extends StatelessWidget {
       0,
       (sum, attachment) => sum + attachment.size,
     );
-    final totalSizeText = formatFileSize(totalSize);
+    final totalSizeText = formatFileSize(totalSize, l);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

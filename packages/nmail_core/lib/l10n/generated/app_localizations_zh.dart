@@ -125,6 +125,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get settingsEnableNotificationsSubtitle => '收到新邮件时通知您。';
 
   @override
+  String get notificationChannelName => '邮件';
+
+  @override
+  String get notificationChannelDescription => '新邮件通知';
+
+  @override
+  String get notificationNewEmail => '新邮件';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle => '推送通知不可用';
 
   @override
@@ -1004,6 +1013,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailDefaultFilename => 'email';
 
   @override
+  String get emailAttachmentDefaultFilename => '附件';
+
+  @override
+  String get emailImageDefaultFilename => '图片';
+
+  @override
+  String get emailPdfDefaultFilename => '文档';
+
+  @override
   String emailSaved(String path) {
     return '邮件已保存: $path';
   }
@@ -1127,6 +1145,26 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get emailAttachmentsTitle => '附件';
+
+  @override
+  String fileSizeBytes(String size) {
+    return '$size B';
+  }
+
+  @override
+  String fileSizeKilobytes(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String fileSizeMegabytes(String size) {
+    return '$size MB';
+  }
+
+  @override
+  String fileSizeGigabytes(String size) {
+    return '$size GB';
+  }
 
   @override
   String get emailDownloadAll => '全部下载';
@@ -1515,6 +1553,24 @@ class AppLocalizationsZh extends AppLocalizations {
   String get contactsSave => '保存';
 
   @override
+  String get contactsNameRequired => '姓名为必填项';
+
+  @override
+  String contactsInvalidEmail(String value) {
+    return '无效的电子邮件地址：$value';
+  }
+
+  @override
+  String contactsInvalidPhone(String value) {
+    return '无效的电话号码：$value';
+  }
+
+  @override
+  String contactsInvalidNostrIdentifier(String value) {
+    return '无效的 Nostr 身份：$value';
+  }
+
+  @override
   String get contactsEdit => '编辑联系人';
 
   @override
@@ -1573,6 +1629,9 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
+  String get contactsExportFilename => '联系人';
+
+  @override
   String get contactsImportEmpty => '文件中未找到联系人';
 
   @override
@@ -1604,6 +1663,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get profileEditTitle => '编辑个人资料';
+
+  @override
+  String get profileShareTitle => '个人资料';
 
   @override
   String get profileDisplayNameLabel => '显示名称';

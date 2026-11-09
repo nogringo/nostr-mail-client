@@ -587,7 +587,7 @@ class ComposeController extends ChangeNotifier implements InlineImageSource {
           AppRouter.rootContext!,
           l.composeAttachmentsTooLarge(
             rejected.join(', '),
-            formatFileSize(_maxAttachmentsBytes),
+            formatFileSize(_maxAttachmentsBytes, l),
           ),
         );
       }

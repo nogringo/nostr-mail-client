@@ -71,6 +71,12 @@
   "@settingsEnableNotifications": { "description": "Toggle label to enable OS notifications for new emails" },
   "settingsEnableNotificationsSubtitle": "Get notified when a new email arrives.",
   "@settingsEnableNotificationsSubtitle": { "description": "Helper text under the enable-notifications toggle" },
+  "notificationChannelName": "Emails",
+  "@notificationChannelName": { "description": "Name of the Android notification channel for new emails, shown in the system notification settings" },
+  "notificationChannelDescription": "Notifications for new emails",
+  "@notificationChannelDescription": { "description": "Description of the Android notification channel for new emails, shown in the system notification settings" },
+  "notificationNewEmail": "New email",
+  "@notificationNewEmail": { "description": "Notification title used when a push message arrives without one" },
   "settingsUnifiedPushDistributorMissingTitle": "Push notifications unavailable",
   "@settingsUnifiedPushDistributorMissingTitle": { "description": "Settings tile title shown on Android FOSS builds when no UnifiedPush distributor is installed" },
   "settingsUnifiedPushDistributorMissingSubtitle": "Install a UnifiedPush distributor like Sunup to receive notifications in the background.",
@@ -706,6 +712,12 @@
   "@emailDeletePermanentlyMessage": { "description": "Confirmation message body when permanently deleting an email" },
   "emailDefaultFilename": "email",
   "@emailDefaultFilename": { "description": "Fallback filename used when downloading an email without a subject" },
+  "emailAttachmentDefaultFilename": "attachment",
+  "@emailAttachmentDefaultFilename": { "description": "Fallback filename used when saving an attachment that has no name" },
+  "emailImageDefaultFilename": "image",
+  "@emailImageDefaultFilename": { "description": "Fallback name shown in the image viewer for an image attachment that has no name" },
+  "emailPdfDefaultFilename": "document",
+  "@emailPdfDefaultFilename": { "description": "Fallback name, without the .pdf extension, shown in the PDF viewer for a PDF attachment that has no name" },
   "emailSaved": "Email saved: {path}",
   "@emailSaved": {
     "description": "Toast shown after downloading an email to disk, includes the saved path",
@@ -818,6 +830,34 @@
   "@emailRecipientBcc": { "description": "Recipients list header: Bcc (blind carbon copy)" },
   "emailAttachmentsTitle": "Attachments",
   "@emailAttachmentsTitle": { "description": "Section header above the attachment cards in the email body" },
+  "fileSizeBytes": "{size} B",
+  "@fileSizeBytes": {
+    "description": "File size in bytes. size is already formatted for the locale",
+    "placeholders": {
+      "size": { "type": "String" }
+    }
+  },
+  "fileSizeKilobytes": "{size} KB",
+  "@fileSizeKilobytes": {
+    "description": "File size in kilobytes. size is already formatted for the locale",
+    "placeholders": {
+      "size": { "type": "String" }
+    }
+  },
+  "fileSizeMegabytes": "{size} MB",
+  "@fileSizeMegabytes": {
+    "description": "File size in megabytes. size is already formatted for the locale",
+    "placeholders": {
+      "size": { "type": "String" }
+    }
+  },
+  "fileSizeGigabytes": "{size} GB",
+  "@fileSizeGigabytes": {
+    "description": "File size in gigabytes. size is already formatted for the locale",
+    "placeholders": {
+      "size": { "type": "String" }
+    }
+  },
   "emailDownloadAll": "Download all",
   "@emailDownloadAll": { "description": "Button label to download every attachment of the current email" },
   "emailDeliverySending": "Sending",
@@ -1103,6 +1143,29 @@
   "@contactsCancel": { "description": "Cancel button in contact dialogs" },
   "contactsSave": "Save",
   "@contactsSave": { "description": "Save button in contact dialogs" },
+  "contactsNameRequired": "Name is required",
+  "@contactsNameRequired": { "description": "Contact form error shown when saving a contact without a name" },
+  "contactsInvalidEmail": "Invalid email address: {value}",
+  "@contactsInvalidEmail": {
+    "description": "Contact form error naming the email address that failed validation",
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "contactsInvalidPhone": "Invalid phone number: {value}",
+  "@contactsInvalidPhone": {
+    "description": "Contact form error naming the phone number that failed validation",
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
+  "contactsInvalidNostrIdentifier": "Invalid Nostr identifier: {value}",
+  "@contactsInvalidNostrIdentifier": {
+    "description": "Contact form error naming the Nostr identifier (npub, nprofile, hex pubkey or NIP-05) that could not be resolved",
+    "placeholders": {
+      "value": { "type": "String" }
+    }
+  },
   "contactsEdit": "Edit contact",
   "@contactsEdit": { "description": "Tooltip for editing a contact" },
   "contactsCopyVCard": "Copy vCard",
@@ -1145,6 +1208,8 @@
     "description": "Error toast shown when exporting contacts fails",
     "placeholders": { "error": { "type": "String" } }
   },
+  "contactsExportFilename": "contacts",
+  "@contactsExportFilename": { "description": "Default filename, without the .vcf extension, of the exported contacts file" },
   "contactsImportEmpty": "No contacts found in the file",
   "@contactsImportEmpty": { "description": "Toast shown when an imported vCard file contains no contacts" },
   "contactsImportFailed": "Failed to import contacts: {error}",
@@ -1175,6 +1240,8 @@
   "@contactsImportSkip": { "description": "Conflict dialog action that skips contacts already present" },
   "profileEditTitle": "Edit Profile",
   "@profileEditTitle": { "description": "AppBar title of the profile editor" },
+  "profileShareTitle": "Profile",
+  "@profileShareTitle": { "description": "Title of the page opened from a shared npub or nprofile link" },
   "profileDisplayNameLabel": "Display Name",
   "@profileDisplayNameLabel": { "description": "Input label for the display name on the profile editor" },
   "profileDisplayNameHint": "Your full name or alias",

@@ -9,6 +9,7 @@ import 'package:nmail_core/services/notification_service.dart';
 import 'package:nmail_core/services/push_registration_service.dart';
 import 'package:nmail_core/services/push_subscription_service.dart';
 import 'package:nmail_core/utils/nostr_utils.dart';
+import 'package:nmail_core/utils/system_app_localizations.dart';
 import 'package:unifiedpush/unifiedpush.dart';
 
 /// UnifiedPush delivery for the FOSS flavor (no Google). Unlike FCM, the
@@ -116,7 +117,9 @@ class UnifiedPushHandler {
           (eventId ?? DateTime.now().microsecondsSinceEpoch.toString())
               .hashCode &
           0x7fffffff,
-      title: data?['title'] as String? ?? 'New email',
+      title:
+          data?['title'] as String? ??
+          systemAppLocalizations().notificationNewEmail,
       body: data?['body'] as String? ?? '',
       payload: nevent is String && nevent.isNotEmpty
           ? '${AppRoutes.inbox}/email/$nevent'

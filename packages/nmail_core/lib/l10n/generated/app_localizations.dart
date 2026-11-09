@@ -319,6 +319,24 @@ abstract class AppLocalizations {
   /// **'Get notified when a new email arrives.'**
   String get settingsEnableNotificationsSubtitle;
 
+  /// Name of the Android notification channel for new emails, shown in the system notification settings
+  ///
+  /// In en, this message translates to:
+  /// **'Emails'**
+  String get notificationChannelName;
+
+  /// Description of the Android notification channel for new emails, shown in the system notification settings
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications for new emails'**
+  String get notificationChannelDescription;
+
+  /// Notification title used when a push message arrives without one
+  ///
+  /// In en, this message translates to:
+  /// **'New email'**
+  String get notificationNewEmail;
+
   /// Settings tile title shown on Android FOSS builds when no UnifiedPush distributor is installed
   ///
   /// In en, this message translates to:
@@ -1963,6 +1981,24 @@ abstract class AppLocalizations {
   /// **'email'**
   String get emailDefaultFilename;
 
+  /// Fallback filename used when saving an attachment that has no name
+  ///
+  /// In en, this message translates to:
+  /// **'attachment'**
+  String get emailAttachmentDefaultFilename;
+
+  /// Fallback name shown in the image viewer for an image attachment that has no name
+  ///
+  /// In en, this message translates to:
+  /// **'image'**
+  String get emailImageDefaultFilename;
+
+  /// Fallback name, without the .pdf extension, shown in the PDF viewer for a PDF attachment that has no name
+  ///
+  /// In en, this message translates to:
+  /// **'document'**
+  String get emailPdfDefaultFilename;
+
   /// Toast shown after downloading an email to disk, includes the saved path
   ///
   /// In en, this message translates to:
@@ -2184,6 +2220,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Attachments'**
   String get emailAttachmentsTitle;
+
+  /// File size in bytes. size is already formatted for the locale
+  ///
+  /// In en, this message translates to:
+  /// **'{size} B'**
+  String fileSizeBytes(String size);
+
+  /// File size in kilobytes. size is already formatted for the locale
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB'**
+  String fileSizeKilobytes(String size);
+
+  /// File size in megabytes. size is already formatted for the locale
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB'**
+  String fileSizeMegabytes(String size);
+
+  /// File size in gigabytes. size is already formatted for the locale
+  ///
+  /// In en, this message translates to:
+  /// **'{size} GB'**
+  String fileSizeGigabytes(String size);
 
   /// Button label to download every attachment of the current email
   ///
@@ -2929,6 +2989,30 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get contactsSave;
 
+  /// Contact form error shown when saving a contact without a name
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get contactsNameRequired;
+
+  /// Contact form error naming the email address that failed validation
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email address: {value}'**
+  String contactsInvalidEmail(String value);
+
+  /// Contact form error naming the phone number that failed validation
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid phone number: {value}'**
+  String contactsInvalidPhone(String value);
+
+  /// Contact form error naming the Nostr identifier (npub, nprofile, hex pubkey or NIP-05) that could not be resolved
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Nostr identifier: {value}'**
+  String contactsInvalidNostrIdentifier(String value);
+
   /// Tooltip for editing a contact
   ///
   /// In en, this message translates to:
@@ -3037,6 +3121,12 @@ abstract class AppLocalizations {
   /// **'Failed to export contacts: {error}'**
   String contactsExportFailed(String error);
 
+  /// Default filename, without the .vcf extension, of the exported contacts file
+  ///
+  /// In en, this message translates to:
+  /// **'contacts'**
+  String get contactsExportFilename;
+
   /// Toast shown when an imported vCard file contains no contacts
   ///
   /// In en, this message translates to:
@@ -3090,6 +3180,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Profile'**
   String get profileEditTitle;
+
+  /// Title of the page opened from a shared npub or nprofile link
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileShareTitle;
 
   /// Input label for the display name on the profile editor
   ///

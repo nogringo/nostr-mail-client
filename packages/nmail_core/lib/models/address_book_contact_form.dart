@@ -48,11 +48,19 @@ class AddressBookContactForm {
   }
 }
 
-class AddressBookValidationException implements Exception {
-  final String message;
+enum AddressBookValidationError {
+  nameRequired,
+  invalidEmail,
+  invalidPhone,
+  invalidNostrIdentifier,
+}
 
-  const AddressBookValidationException(this.message);
+class AddressBookValidationException implements Exception {
+  final AddressBookValidationError error;
+  final String value;
+
+  const AddressBookValidationException(this.error, [this.value = '']);
 
   @override
-  String toString() => message;
+  String toString() => value.isEmpty ? error.name : '${error.name}: $value';
 }

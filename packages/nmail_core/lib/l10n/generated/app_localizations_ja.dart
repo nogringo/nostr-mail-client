@@ -125,6 +125,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsEnableNotificationsSubtitle => '新しいメールが届いたら通知します。';
 
   @override
+  String get notificationChannelName => 'メール';
+
+  @override
+  String get notificationChannelDescription => '新着メールの通知';
+
+  @override
+  String get notificationNewEmail => '新着メール';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle => 'プッシュ通知を利用できません';
 
   @override
@@ -1013,6 +1022,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailDefaultFilename => 'email';
 
   @override
+  String get emailAttachmentDefaultFilename => '添付ファイル';
+
+  @override
+  String get emailImageDefaultFilename => '画像';
+
+  @override
+  String get emailPdfDefaultFilename => 'ドキュメント';
+
+  @override
   String emailSaved(String path) {
     return 'メールを保存しました: $path';
   }
@@ -1136,6 +1154,26 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get emailAttachmentsTitle => '添付ファイル';
+
+  @override
+  String fileSizeBytes(String size) {
+    return '$size B';
+  }
+
+  @override
+  String fileSizeKilobytes(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String fileSizeMegabytes(String size) {
+    return '$size MB';
+  }
+
+  @override
+  String fileSizeGigabytes(String size) {
+    return '$size GB';
+  }
 
   @override
   String get emailDownloadAll => 'すべてダウンロード';
@@ -1527,6 +1565,24 @@ class AppLocalizationsJa extends AppLocalizations {
   String get contactsSave => '保存';
 
   @override
+  String get contactsNameRequired => '名前は必須です';
+
+  @override
+  String contactsInvalidEmail(String value) {
+    return '無効なメールアドレス: $value';
+  }
+
+  @override
+  String contactsInvalidPhone(String value) {
+    return '無効な電話番号: $value';
+  }
+
+  @override
+  String contactsInvalidNostrIdentifier(String value) {
+    return '無効な Nostr アイデンティティ: $value';
+  }
+
+  @override
   String get contactsEdit => '連絡先を編集';
 
   @override
@@ -1585,6 +1641,9 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
+  String get contactsExportFilename => '連絡先';
+
+  @override
   String get contactsImportEmpty => 'ファイルに連絡先が見つかりません';
 
   @override
@@ -1616,6 +1675,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get profileEditTitle => 'プロフィールを編集';
+
+  @override
+  String get profileShareTitle => 'プロフィール';
 
   @override
   String get profileDisplayNameLabel => '表示名';

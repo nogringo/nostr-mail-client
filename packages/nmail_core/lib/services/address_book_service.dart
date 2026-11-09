@@ -108,7 +108,8 @@ class AddressBookService {
       final pubkey = await resolveNostrIdentifier(input);
       if (pubkey == null) {
         throw AddressBookValidationException(
-          'Invalid Nostr identifier: $input',
+          AddressBookValidationError.invalidNostrIdentifier,
+          input,
         );
       }
       normalizedPubkeys.add(pubkey);

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../controllers/contact_form_controller.dart';
 import 'package:nmail_core/l10n/generated/app_localizations.dart';
+import 'package:nmail_core/models/address_book_contact_form.dart';
+import 'package:nmail_core/utils/address_book_validation_message.dart';
 import 'package:nmail_core/utils/address_book_vcard_mapper.dart';
 import '../../../widgets/nostr_avatar.dart';
 import 'contact_birthday_field.dart';
@@ -92,9 +94,12 @@ class ContactFormFields extends StatelessWidget {
           builder: (context, _) {
             final error = controller.error;
             if (error == null) return const SizedBox.shrink();
+            final message = error is AddressBookValidationException
+                ? error.localizedMessage(l)
+                : error.toString();
             return Padding(
               padding: const EdgeInsets.only(top: 12),
-              child: Text(error, style: TextStyle(color: colorScheme.error)),
+              child: Text(message, style: TextStyle(color: colorScheme.error)),
             );
           },
         ),

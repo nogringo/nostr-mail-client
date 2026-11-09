@@ -127,6 +127,16 @@ class AppLocalizationsFi extends AppLocalizations {
       'Saat ilmoituksen, kun uusi sähköposti saapuu.';
 
   @override
+  String get notificationChannelName => 'Sähköpostit';
+
+  @override
+  String get notificationChannelDescription =>
+      'Ilmoitukset uusista sähköposteista';
+
+  @override
+  String get notificationNewEmail => 'Uusi sähköposti';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push-ilmoitukset eivät ole käytettävissä';
 
@@ -1083,6 +1093,15 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailDefaultFilename => 'sähköposti';
 
   @override
+  String get emailAttachmentDefaultFilename => 'liite';
+
+  @override
+  String get emailImageDefaultFilename => 'kuva';
+
+  @override
+  String get emailPdfDefaultFilename => 'asiakirja';
+
+  @override
   String emailSaved(String path) {
     return 'Sähköposti tallennettu: $path';
   }
@@ -1225,6 +1244,26 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get emailAttachmentsTitle => 'Liitteet';
+
+  @override
+  String fileSizeBytes(String size) {
+    return '$size t';
+  }
+
+  @override
+  String fileSizeKilobytes(String size) {
+    return '$size kt';
+  }
+
+  @override
+  String fileSizeMegabytes(String size) {
+    return '$size Mt';
+  }
+
+  @override
+  String fileSizeGigabytes(String size) {
+    return '$size Gt';
+  }
 
   @override
   String get emailDownloadAll => 'Lataa kaikki';
@@ -1625,6 +1664,24 @@ class AppLocalizationsFi extends AppLocalizations {
   String get contactsSave => 'Tallenna';
 
   @override
+  String get contactsNameRequired => 'Nimi on pakollinen';
+
+  @override
+  String contactsInvalidEmail(String value) {
+    return 'Virheellinen sähköpostiosoite: $value';
+  }
+
+  @override
+  String contactsInvalidPhone(String value) {
+    return 'Virheellinen puhelinnumero: $value';
+  }
+
+  @override
+  String contactsInvalidNostrIdentifier(String value) {
+    return 'Virheellinen Nostr-identiteetti: $value';
+  }
+
+  @override
   String get contactsEdit => 'Muokkaa yhteystietoa';
 
   @override
@@ -1684,6 +1741,9 @@ class AppLocalizationsFi extends AppLocalizations {
   }
 
   @override
+  String get contactsExportFilename => 'yhteystiedot';
+
+  @override
   String get contactsImportEmpty => 'Tiedostosta ei löytynyt yhteystietoja';
 
   @override
@@ -1715,6 +1775,9 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get profileEditTitle => 'Muokkaa profiilia';
+
+  @override
+  String get profileShareTitle => 'Profiili';
 
   @override
   String get profileDisplayNameLabel => 'Näyttönimi';

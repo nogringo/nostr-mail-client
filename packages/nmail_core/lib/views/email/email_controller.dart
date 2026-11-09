@@ -516,7 +516,8 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<void> downloadAttachment({required AttachmentRef ref}) async {
     final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
-    final filename = safeFilename(ref.filename) ?? 'attachment';
+    final filename =
+        safeFilename(ref.filename) ?? l.emailAttachmentDefaultFilename;
     final nostrMailService = GetIt.I<NostrMailService>();
     final fileData = await nostrMailService.client.getAttachmentBytes(
       email!,
@@ -567,7 +568,8 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     int failureCount = 0;
 
     for (final ref in attachments) {
-      final filename = safeFilename(ref.filename) ?? 'attachment';
+      final filename =
+          safeFilename(ref.filename) ?? l.emailAttachmentDefaultFilename;
       final fileData = await client.getAttachmentBytes(email, ref);
       if (fileData == null) {
         failureCount++;
@@ -632,9 +634,10 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
   void showImageViewer({required AttachmentRef ref}) {
     if (email == null) return;
+    final l = AppLocalizations.of(AppRouter.rootContext!);
     showImageViewerPage(
       AppRouter.rootContext!,
-      filename: safeFilename(ref.filename) ?? 'image',
+      filename: safeFilename(ref.filename) ?? l.emailImageDefaultFilename,
       imageData: GetIt.I<NostrMailService>().client.getAttachmentBytes(
         email!,
         ref,
@@ -646,7 +649,8 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   Future<void> showPdfViewer({required AttachmentRef ref}) async {
     final l = AppLocalizations.of(AppRouter.rootContext!);
     if (email == null) return;
-    final filename = safeFilename(ref.filename) ?? 'document.pdf';
+    final filename =
+        safeFilename(ref.filename) ?? '${l.emailPdfDefaultFilename}.pdf';
     final nostrMailService = GetIt.I<NostrMailService>();
     final pdfData = await nostrMailService.client.getAttachmentBytes(
       email!,

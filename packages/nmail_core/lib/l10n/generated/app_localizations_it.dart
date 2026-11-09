@@ -128,6 +128,15 @@ class AppLocalizationsIt extends AppLocalizations {
       'Ricevi un avviso quando arriva una nuova email.';
 
   @override
+  String get notificationChannelName => 'Email';
+
+  @override
+  String get notificationChannelDescription => 'Notifiche delle nuove email';
+
+  @override
+  String get notificationNewEmail => 'Nuova email';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Notifiche push non disponibili';
 
@@ -1097,6 +1106,15 @@ class AppLocalizationsIt extends AppLocalizations {
   String get emailDefaultFilename => 'email';
 
   @override
+  String get emailAttachmentDefaultFilename => 'allegato';
+
+  @override
+  String get emailImageDefaultFilename => 'immagine';
+
+  @override
+  String get emailPdfDefaultFilename => 'documento';
+
+  @override
   String emailSaved(String path) {
     return 'Email salvata: $path';
   }
@@ -1246,6 +1264,26 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get emailAttachmentsTitle => 'Allegati';
+
+  @override
+  String fileSizeBytes(String size) {
+    return '$size B';
+  }
+
+  @override
+  String fileSizeKilobytes(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String fileSizeMegabytes(String size) {
+    return '$size MB';
+  }
+
+  @override
+  String fileSizeGigabytes(String size) {
+    return '$size GB';
+  }
 
   @override
   String get emailDownloadAll => 'Scarica tutto';
@@ -1645,6 +1683,24 @@ class AppLocalizationsIt extends AppLocalizations {
   String get contactsSave => 'Salva';
 
   @override
+  String get contactsNameRequired => 'Il nome è obbligatorio';
+
+  @override
+  String contactsInvalidEmail(String value) {
+    return 'Indirizzo email non valido: $value';
+  }
+
+  @override
+  String contactsInvalidPhone(String value) {
+    return 'Numero di telefono non valido: $value';
+  }
+
+  @override
+  String contactsInvalidNostrIdentifier(String value) {
+    return 'Identità Nostr non valida: $value';
+  }
+
+  @override
   String get contactsEdit => 'Modifica contatto';
 
   @override
@@ -1704,6 +1760,9 @@ class AppLocalizationsIt extends AppLocalizations {
   }
 
   @override
+  String get contactsExportFilename => 'contatti';
+
+  @override
   String get contactsImportEmpty => 'Nessun contatto trovato nel file';
 
   @override
@@ -1735,6 +1794,9 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get profileEditTitle => 'Modifica profilo';
+
+  @override
+  String get profileShareTitle => 'Profilo';
 
   @override
   String get profileDisplayNameLabel => 'Nome visualizzato';

@@ -112,10 +112,11 @@ class ContactsController extends ChangeNotifier {
     try {
       final vcf = list.map((contact) => contact.vCard).join('\r\n');
       final bytes = Uint8List.fromList(utf8.encode(vcf));
+      final fileName = '${l.contactsExportFilename}.vcf';
 
       if (PlatformHelper.isAndroid) {
         final path = await AndroidFileSaver.saveToDownloads(
-          fileName: 'contacts.vcf',
+          fileName: fileName,
           bytes: bytes,
           mimeType: 'text/vcard',
         );
@@ -123,7 +124,7 @@ class ContactsController extends ChangeNotifier {
         ToastHelper.success(context, l.contactsExportSaved(path));
       } else {
         await FilePicker.saveFile(
-          fileName: 'contacts.vcf',
+          fileName: fileName,
           bytes: bytes,
           mimeType: 'text/vcard',
         );

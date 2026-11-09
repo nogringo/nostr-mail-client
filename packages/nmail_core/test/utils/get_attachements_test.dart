@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:nmail_core/l10n/generated/app_localizations.dart';
 import 'package:nmail_core/utils/get_attachements.dart';
 
 void main() {
   group('Attachment utils', () {
     test('formatFileSize formats bytes, KB, MB and GB', () {
-      expect(formatFileSize(512), '512 B');
-      expect(formatFileSize(1536), '1.5 KB');
-      expect(formatFileSize(2 * 1024 * 1024), '2.0 MB');
-      expect(formatFileSize(3 * 1024 * 1024 * 1024), '3.0 GB');
+      final l = lookupAppLocalizations(const Locale('en'));
+      expect(formatFileSize(512, l), '512 B');
+      expect(formatFileSize(1536, l), '1.5 KB');
+      expect(formatFileSize(2 * 1024 * 1024, l), '2.0 MB');
+      expect(formatFileSize(3 * 1024 * 1024 * 1024, l), '3.0 GB');
+    });
+
+    test('formatFileSize uses the locale units and decimal separator', () {
+      final l = lookupAppLocalizations(const Locale('fr'));
+      expect(formatFileSize(512, l), '512 o');
+      expect(formatFileSize(1536, l), '1,5 Ko');
+      expect(formatFileSize(3 * 1024 * 1024 * 1024, l), '3,0 Go');
     });
 
     test(

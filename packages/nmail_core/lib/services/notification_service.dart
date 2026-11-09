@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'package:nmail_core/app/routes/app_router.dart';
 import 'package:nmail_core/utils/platform_helper.dart';
+import 'package:nmail_core/utils/system_app_localizations.dart';
 
 /// Displays local notifications. This is the presentation layer only; the
 /// wake-up source (FCM on nmail_standard, UnifiedPush on nmail_foss) lives in
@@ -10,36 +11,39 @@ import 'package:nmail_core/utils/platform_helper.dart';
 class NotificationService {
   final _plugin = FlutterLocalNotificationsPlugin();
 
-  static const _channel = AndroidNotificationChannel(
-    'emails',
-    'Emails',
-    description: 'Notifications for new emails',
-    importance: Importance.high,
-  );
+  late final AndroidNotificationChannel _channel;
 
   Future<NotificationService> init() async {
+    final l = systemAppLocalizations();
+    _channel = AndroidNotificationChannel(
+      'emails',
+      l.notificationChannelName,
+      description: l.notificationChannelDescription,
+      importance: Importance.high,
+    );
+
     // Permission flags are false here: we prompt explicitly via
     // requestPermissions() from the enable-notifications flow, not at startup.
-    const settings = InitializationSettings(
-      android: AndroidInitializationSettings('ic_stat_email'),
-      iOS: DarwinInitializationSettings(
+    final settings = InitializationSettings(
+      android: const AndroidInitializationSettings('ic_stat_email'),
+      iOS: const DarwinInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
         requestSoundPermission: false,
       ),
-      macOS: DarwinInitializationSettings(
+      macOS: const DarwinInitializationSettings(
         requestAlertPermission: false,
         requestBadgePermission: false,
         requestSoundPermission: false,
       ),
-      linux: LinuxInitializationSettings(defaultActionName: 'Open'),
-      windows: WindowsInitializationSettings(
+      linux: LinuxInitializationSettings(defaultActionName: l.actionOpen),
+      windows: const WindowsInitializationSettings(
         appName: 'Nmail',
         appUserModelId: 'Org.Nostrmail.App',
         // Never change: Windows registers notification activation under it.
         guid: 'acf19ad1-c4c1-43a8-8e51-8df54898ea0b',
       ),
-      web: WebInitializationSettings(),
+      web: const WebInitializationSettings(),
     );
 
     await _plugin.initialize(

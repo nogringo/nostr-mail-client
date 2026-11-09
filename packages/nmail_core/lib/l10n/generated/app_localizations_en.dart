@@ -128,6 +128,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'Get notified when a new email arrives.';
 
   @override
+  String get notificationChannelName => 'Emails';
+
+  @override
+  String get notificationChannelDescription => 'Notifications for new emails';
+
+  @override
+  String get notificationNewEmail => 'New email';
+
+  @override
   String get settingsUnifiedPushDistributorMissingTitle =>
       'Push notifications unavailable';
 
@@ -1082,6 +1091,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get emailDefaultFilename => 'email';
 
   @override
+  String get emailAttachmentDefaultFilename => 'attachment';
+
+  @override
+  String get emailImageDefaultFilename => 'image';
+
+  @override
+  String get emailPdfDefaultFilename => 'document';
+
+  @override
   String emailSaved(String path) {
     return 'Email saved: $path';
   }
@@ -1223,6 +1241,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailAttachmentsTitle => 'Attachments';
+
+  @override
+  String fileSizeBytes(String size) {
+    return '$size B';
+  }
+
+  @override
+  String fileSizeKilobytes(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String fileSizeMegabytes(String size) {
+    return '$size MB';
+  }
+
+  @override
+  String fileSizeGigabytes(String size) {
+    return '$size GB';
+  }
 
   @override
   String get emailDownloadAll => 'Download all';
@@ -1617,6 +1655,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contactsSave => 'Save';
 
   @override
+  String get contactsNameRequired => 'Name is required';
+
+  @override
+  String contactsInvalidEmail(String value) {
+    return 'Invalid email address: $value';
+  }
+
+  @override
+  String contactsInvalidPhone(String value) {
+    return 'Invalid phone number: $value';
+  }
+
+  @override
+  String contactsInvalidNostrIdentifier(String value) {
+    return 'Invalid Nostr identifier: $value';
+  }
+
+  @override
   String get contactsEdit => 'Edit contact';
 
   @override
@@ -1676,6 +1732,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get contactsExportFilename => 'contacts';
+
+  @override
   String get contactsImportEmpty => 'No contacts found in the file';
 
   @override
@@ -1707,6 +1766,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileEditTitle => 'Edit Profile';
+
+  @override
+  String get profileShareTitle => 'Profile';
 
   @override
   String get profileDisplayNameLabel => 'Display Name';
