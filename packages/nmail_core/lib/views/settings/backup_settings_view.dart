@@ -6,6 +6,7 @@ import 'package:nmail_core/utils/responsive_helper.dart';
 import 'package:nmail_core/widgets/controller_builder.dart';
 import 'widgets/settings_action_tile.dart';
 import 'widgets/settings_group.dart';
+import 'widgets/settings_section_header.dart';
 
 class BackupSettingsView extends StatelessWidget {
   const BackupSettingsView({super.key});
@@ -59,6 +60,24 @@ class BackupSettingsView extends StatelessWidget {
                         onTap: controller.isBusy
                             ? null
                             : () => controller.restoreBackup(context),
+                      ),
+                    ],
+                  ),
+                  SettingsSectionHeader(
+                    title: l.backupMailTitle,
+                    description: l.backupMailDescription,
+                  ),
+                  SettingsGroup(
+                    rows: [
+                      (index, count) => SettingsActionTile(
+                        icon: Icons.outbox_outlined,
+                        title: l.backupExportMail,
+                        isBusy: controller.isExportingMail,
+                        index: index,
+                        count: count,
+                        onTap: controller.isBusy
+                            ? null
+                            : () => controller.exportMail(context),
                       ),
                     ],
                   ),

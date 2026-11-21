@@ -2670,4 +2670,36 @@ class AppLocalizationsFr extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return 'Échec de la restauration de la sauvegarde : $error';
   }
+
+  @override
+  String get backupMailTitle => 'Autres applications de messagerie';
+
+  @override
+  String get backupMailDescription =>
+      'Un fichier mbox par dossier, que Thunderbird, Apple Mail et la plupart des applications de messagerie savent importer. Vos e-mails n\'y sont pas chiffrés.';
+
+  @override
+  String get backupExportMail => 'Exporter les e-mails';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'E-mails exportés : $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count e-mails n\'ont pas pu être inclus : leur contenu est indisponible',
+      one: '1 e-mail n\'a pas pu être inclus : son contenu est indisponible',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'Échec de l\'export des e-mails : $error';
+  }
 }

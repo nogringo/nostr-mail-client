@@ -893,5 +893,12 @@
   "backupRestoreRejected": "{count, plural, one{Se omitió 1 elemento no válido} other{Se omitieron {count} elementos no válidos}}",
   "backupRestoreWrongAccount": "Esta copia de seguridad pertenece a otra cuenta. Cambia a esa cuenta y vuelve a restaurarla.",
   "backupRestoreInvalidFile": "Este archivo no es una copia de seguridad de Nmail",
-  "backupRestoreFailed": "Error al restaurar la copia de seguridad: {error}"
+  "backupRestoreFailed": "Error al restaurar la copia de seguridad: {error}",
+
+  "backupMailTitle": "Otras aplicaciones de correo",
+  "backupMailDescription": "Un archivo mbox por carpeta, que Thunderbird, Apple Mail y la mayoría de las aplicaciones de correo pueden importar. Tus correos no están cifrados en él.",
+  "backupExportMail": "Exportar correos",
+  "backupExportMailSaved": "Correos exportados: {path}",
+  "backupExportMailMissing": "{count, plural, one{No se pudo incluir 1 correo: su contenido no está disponible} other{No se pudieron incluir {count} correos: su contenido no está disponible}}",
+  "backupExportMailFailed": "Error al exportar los correos: {error}"
 }

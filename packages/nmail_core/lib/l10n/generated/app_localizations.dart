@@ -4506,6 +4506,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to restore the backup: {error}'**
   String backupRestoreFailed(String error);
+
+  /// Backup page section header above the mbox export row
+  ///
+  /// In en, this message translates to:
+  /// **'Other mail apps'**
+  String get backupMailTitle;
+
+  /// Line under the section header saying what the mbox export is
+  ///
+  /// In en, this message translates to:
+  /// **'An mbox file per folder, which Thunderbird, Apple Mail and most mail apps can import. Your emails are not encrypted in it.'**
+  String get backupMailDescription;
+
+  /// Backup page row that exports the emails as mbox files
+  ///
+  /// In en, this message translates to:
+  /// **'Export emails'**
+  String get backupExportMail;
+
+  /// Toast shown on Android after the mbox export was saved to Downloads, includes the saved path
+  ///
+  /// In en, this message translates to:
+  /// **'Emails exported: {path}'**
+  String backupExportMailSaved(String path);
+
+  /// Shown after an mbox export when the content of some emails could not be read nor downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 email could not be included: its content is unavailable} other{{count} emails could not be included: their content is unavailable}}'**
+  String backupExportMailMissing(int count);
+
+  /// Error toast shown when the mbox export fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to export the emails: {error}'**
+  String backupExportMailFailed(String error);
 }
 
 class _AppLocalizationsDelegate

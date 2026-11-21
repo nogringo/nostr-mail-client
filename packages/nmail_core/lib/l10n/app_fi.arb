@@ -898,5 +898,12 @@
   "backupRestoreRejected": "{count, plural, one{1 virheellinen kohde ohitettiin} other{{count} virheellistä kohdetta ohitettiin}}",
   "backupRestoreWrongAccount": "Tämä varmuuskopio kuuluu toiselle tilille. Vaihda siihen tiliin ja palauta se sitten.",
   "backupRestoreInvalidFile": "Tämä tiedosto ei ole Nmail-varmuuskopio",
-  "backupRestoreFailed": "Varmuuskopion palautus epäonnistui: {error}"
+  "backupRestoreFailed": "Varmuuskopion palautus epäonnistui: {error}",
+
+  "backupMailTitle": "Muut sähköpostisovellukset",
+  "backupMailDescription": "Yksi mbox-tiedosto kansiota kohden, jonka Thunderbird, Apple Mail ja useimmat sähköpostisovellukset osaavat tuoda. Viestisi eivät ole siinä salattuina.",
+  "backupExportMail": "Vie viestit",
+  "backupExportMailSaved": "Viestit viety: {path}",
+  "backupExportMailMissing": "{count, plural, one{1 viestiä ei voitu sisällyttää: sen sisältö ei ole saatavilla} other{{count} viestiä ei voitu sisällyttää: niiden sisältö ei ole saatavilla}}",
+  "backupExportMailFailed": "Viestien vienti epäonnistui: {error}"
 }

@@ -2650,4 +2650,36 @@ class AppLocalizationsEs extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return 'Error al restaurar la copia de seguridad: $error';
   }
+
+  @override
+  String get backupMailTitle => 'Otras aplicaciones de correo';
+
+  @override
+  String get backupMailDescription =>
+      'Un archivo mbox por carpeta, que Thunderbird, Apple Mail y la mayoría de las aplicaciones de correo pueden importar. Tus correos no están cifrados en él.';
+
+  @override
+  String get backupExportMail => 'Exportar correos';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'Correos exportados: $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'No se pudieron incluir $count correos: su contenido no está disponible',
+      one: 'No se pudo incluir 1 correo: su contenido no está disponible',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'Error al exportar los correos: $error';
+  }
 }

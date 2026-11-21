@@ -1744,5 +1744,18 @@
   "backupRestoreInvalidFile": "This file is not an Nmail backup",
   "@backupRestoreInvalidFile": {"description": "Error toast shown when the picked file is not an Nmail backup"},
   "backupRestoreFailed": "Failed to restore the backup: {error}",
-  "@backupRestoreFailed": {"description": "Error toast shown when restoring the backup fails", "placeholders": {"error": {"type": "String"}}}
+  "@backupRestoreFailed": {"description": "Error toast shown when restoring the backup fails", "placeholders": {"error": {"type": "String"}}},
+
+  "backupMailTitle": "Other mail apps",
+  "@backupMailTitle": {"description": "Backup page section header above the mbox export row"},
+  "backupMailDescription": "An mbox file per folder, which Thunderbird, Apple Mail and most mail apps can import. Your emails are not encrypted in it.",
+  "@backupMailDescription": {"description": "Line under the section header saying what the mbox export is"},
+  "backupExportMail": "Export emails",
+  "@backupExportMail": {"description": "Backup page row that exports the emails as mbox files"},
+  "backupExportMailSaved": "Emails exported: {path}",
+  "@backupExportMailSaved": {"description": "Toast shown on Android after the mbox export was saved to Downloads, includes the saved path", "placeholders": {"path": {"type": "String"}}},
+  "backupExportMailMissing": "{count, plural, one{1 email could not be included: its content is unavailable} other{{count} emails could not be included: their content is unavailable}}",
+  "@backupExportMailMissing": {"description": "Shown after an mbox export when the content of some emails could not be read nor downloaded", "placeholders": {"count": {"type": "int"}}},
+  "backupExportMailFailed": "Failed to export the emails: {error}",
+  "@backupExportMailFailed": {"description": "Error toast shown when the mbox export fails", "placeholders": {"error": {"type": "String"}}}
 }

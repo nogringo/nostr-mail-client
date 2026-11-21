@@ -2641,4 +2641,36 @@ class AppLocalizationsFi extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return 'Varmuuskopion palautus epäonnistui: $error';
   }
+
+  @override
+  String get backupMailTitle => 'Muut sähköpostisovellukset';
+
+  @override
+  String get backupMailDescription =>
+      'Yksi mbox-tiedosto kansiota kohden, jonka Thunderbird, Apple Mail ja useimmat sähköpostisovellukset osaavat tuoda. Viestisi eivät ole siinä salattuina.';
+
+  @override
+  String get backupExportMail => 'Vie viestit';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'Viestit viety: $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count viestiä ei voitu sisällyttää: niiden sisältö ei ole saatavilla',
+      one: '1 viestiä ei voitu sisällyttää: sen sisältö ei ole saatavilla',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'Viestien vienti epäonnistui: $error';
+  }
 }

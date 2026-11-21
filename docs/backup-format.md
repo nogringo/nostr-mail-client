@@ -73,7 +73,9 @@ Requests.mbox
 <folder name>.mbox
 ```
 
-- `<folder name>` is the name of a user folder, with the characters `/ \ : * ? " < > |` replaced by `_`. Two folders whose file names collide get a ` (2)`, ` (3)`, etc. suffix.
+- `<folder name>` is the name of a user folder, with the characters `/ \ : * ? " < > |` replaced by `_`.
+- Files are named in the order above, then in the display order of the user folders. A file name equal to an earlier one, ignoring case, gets a ` (2)`, ` (3)`, etc. suffix.
+- An email in a folder the account no longer has goes to `Sent.mbox` when the account sent it, to `Inbox.mbox` otherwise.
 - A folder without email has no file.
 - Each file is in the `mboxrd` format. Each message is preceded by a `From ` line:
 

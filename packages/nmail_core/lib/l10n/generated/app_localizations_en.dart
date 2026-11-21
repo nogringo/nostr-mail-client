@@ -2625,4 +2625,36 @@ class AppLocalizationsEn extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return 'Failed to restore the backup: $error';
   }
+
+  @override
+  String get backupMailTitle => 'Other mail apps';
+
+  @override
+  String get backupMailDescription =>
+      'An mbox file per folder, which Thunderbird, Apple Mail and most mail apps can import. Your emails are not encrypted in it.';
+
+  @override
+  String get backupExportMail => 'Export emails';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'Emails exported: $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count emails could not be included: their content is unavailable',
+      one: '1 email could not be included: its content is unavailable',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'Failed to export the emails: $error';
+  }
 }

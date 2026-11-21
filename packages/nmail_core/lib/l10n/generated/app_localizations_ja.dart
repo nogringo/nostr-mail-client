@@ -2466,4 +2466,29 @@ class AppLocalizationsJa extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return 'バックアップの復元に失敗しました: $error';
   }
+
+  @override
+  String get backupMailTitle => 'ほかのメールアプリ';
+
+  @override
+  String get backupMailDescription =>
+      'フォルダごとに 1 つの mbox ファイルです。Thunderbird、Apple Mail など多くのメールアプリで読み込めます。メールは暗号化されていません。';
+
+  @override
+  String get backupExportMail => 'メールをエクスポート';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'メールをエクスポートしました: $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    return 'メール $count 件を含められませんでした: 内容を取得できません';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'メールのエクスポートに失敗しました: $error';
+  }
 }

@@ -2663,6 +2663,39 @@ class AppLocalizationsPt extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return 'Falha ao restaurar a cópia de segurança: $error';
   }
+
+  @override
+  String get backupMailTitle => 'Outras apps de email';
+
+  @override
+  String get backupMailDescription =>
+      'Um ficheiro mbox por pasta, que o Thunderbird, o Apple Mail e a maioria das apps de email conseguem importar. Os seus emails não estão cifrados no ficheiro.';
+
+  @override
+  String get backupExportMail => 'Exportar emails';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'Emails exportados: $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Não foi possível incluir $count emails: o seu conteúdo não está disponível',
+      one:
+          'Não foi possível incluir 1 email: o seu conteúdo não está disponível',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'Falha ao exportar os emails: $error';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -5321,5 +5354,38 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String backupRestoreFailed(String error) {
     return 'Falha ao restaurar o backup: $error';
+  }
+
+  @override
+  String get backupMailTitle => 'Outros apps de e-mail';
+
+  @override
+  String get backupMailDescription =>
+      'Um arquivo mbox por pasta, que o Thunderbird, o Apple Mail e a maioria dos apps de e-mail conseguem importar. Seus e-mails não ficam criptografados nele.';
+
+  @override
+  String get backupExportMail => 'Exportar e-mails';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'E-mails exportados: $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Não foi possível incluir $count e-mails: o conteúdo deles não está disponível',
+      one:
+          'Não foi possível incluir 1 e-mail: o conteúdo dele não está disponível',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'Falha ao exportar os e-mails: $error';
   }
 }

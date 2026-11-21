@@ -893,5 +893,12 @@
   "backupRestoreRejected": "無効な項目 {count} 件をスキップしました",
   "backupRestoreWrongAccount": "このバックアップは別のアカウントのものです。そのアカウントに切り替えてから復元してください。",
   "backupRestoreInvalidFile": "このファイルは Nmail のバックアップではありません",
-  "backupRestoreFailed": "バックアップの復元に失敗しました: {error}"
+  "backupRestoreFailed": "バックアップの復元に失敗しました: {error}",
+
+  "backupMailTitle": "ほかのメールアプリ",
+  "backupMailDescription": "フォルダごとに 1 つの mbox ファイルです。Thunderbird、Apple Mail など多くのメールアプリで読み込めます。メールは暗号化されていません。",
+  "backupExportMail": "メールをエクスポート",
+  "backupExportMailSaved": "メールをエクスポートしました: {path}",
+  "backupExportMailMissing": "メール {count} 件を含められませんでした: 内容を取得できません",
+  "backupExportMailFailed": "メールのエクスポートに失敗しました: {error}"
 }

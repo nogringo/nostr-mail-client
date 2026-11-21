@@ -2443,4 +2443,29 @@ class AppLocalizationsZh extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return '恢复备份失败：$error';
   }
+
+  @override
+  String get backupMailTitle => '其他邮件应用';
+
+  @override
+  String get backupMailDescription =>
+      '每个文件夹一个 mbox 文件，Thunderbird、Apple Mail 和大多数邮件应用都能导入。其中的邮件未加密。';
+
+  @override
+  String get backupExportMail => '导出邮件';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return '邮件已导出：$path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    return '有 $count 封邮件未能包含：其内容不可用';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return '导出邮件失败：$error';
+  }
 }

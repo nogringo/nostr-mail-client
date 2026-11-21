@@ -2677,4 +2677,37 @@ class AppLocalizationsRu extends AppLocalizations {
   String backupRestoreFailed(String error) {
     return 'Не удалось восстановить резервную копию: $error';
   }
+
+  @override
+  String get backupMailTitle => 'Другие почтовые приложения';
+
+  @override
+  String get backupMailDescription =>
+      'Один файл mbox на папку. Его умеют импортировать Thunderbird, Apple Mail и большинство почтовых приложений. Письма в нём не зашифрованы.';
+
+  @override
+  String get backupExportMail => 'Экспортировать письма';
+
+  @override
+  String backupExportMailSaved(String path) {
+    return 'Письма экспортированы: $path';
+  }
+
+  @override
+  String backupExportMailMissing(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Не удалось включить $count письма: их содержимое недоступно',
+      many: 'Не удалось включить $count писем: их содержимое недоступно',
+      few: 'Не удалось включить $count письма: их содержимое недоступно',
+      one: 'Не удалось включить $count письмо: его содержимое недоступно',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportMailFailed(String error) {
+    return 'Не удалось экспортировать письма: $error';
+  }
 }

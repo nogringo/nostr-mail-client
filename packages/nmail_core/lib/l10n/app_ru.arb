@@ -893,5 +893,12 @@
   "backupRestoreRejected": "{count, plural, one{Пропущен {count} недопустимый элемент} few{Пропущено {count} недопустимых элемента} many{Пропущено {count} недопустимых элементов} other{Пропущено {count} недопустимых элемента}}",
   "backupRestoreWrongAccount": "Эта резервная копия принадлежит другому аккаунту. Переключитесь на него, затем восстановите её.",
   "backupRestoreInvalidFile": "Этот файл не является резервной копией Nmail",
-  "backupRestoreFailed": "Не удалось восстановить резервную копию: {error}"
+  "backupRestoreFailed": "Не удалось восстановить резервную копию: {error}",
+
+  "backupMailTitle": "Другие почтовые приложения",
+  "backupMailDescription": "Один файл mbox на папку. Его умеют импортировать Thunderbird, Apple Mail и большинство почтовых приложений. Письма в нём не зашифрованы.",
+  "backupExportMail": "Экспортировать письма",
+  "backupExportMailSaved": "Письма экспортированы: {path}",
+  "backupExportMailMissing": "{count, plural, one{Не удалось включить {count} письмо: его содержимое недоступно} few{Не удалось включить {count} письма: их содержимое недоступно} many{Не удалось включить {count} писем: их содержимое недоступно} other{Не удалось включить {count} письма: их содержимое недоступно}}",
+  "backupExportMailFailed": "Не удалось экспортировать письма: {error}"
 }
