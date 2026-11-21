@@ -49,6 +49,7 @@ import '../../views/profile/profile_view.dart';
 import '../../views/relay_setup/relay_setup_view.dart';
 import '../../views/scheduled/scheduled_view.dart';
 import '../../views/settings/about_settings_view.dart';
+import '../../views/settings/backup_settings_view.dart';
 import '../../views/settings/appearance_settings_view.dart';
 import '../../views/settings/community_theme_view.dart';
 import '../../views/settings/community_themes_view.dart';
@@ -354,6 +355,10 @@ class AppRouter {
               GoRoute(
                 path: 'notifications',
                 builder: (_, _) => const NotificationsSettingsView(),
+              ),
+              GoRoute(
+                path: 'backup',
+                builder: (_, _) => const BackupSettingsView(),
               ),
               GoRoute(
                 path: 'hosting',

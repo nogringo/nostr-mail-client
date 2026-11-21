@@ -2580,4 +2580,74 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Menú, actualización disponible';
+
+  @override
+  String get settingsBackup => 'Copia de seguridad';
+
+  @override
+  String get backupIntro =>
+      'Una copia de seguridad es un archivo con tus correos, carpetas, borradores, ajustes y contactos. Tus correos siguen cifrados en él: solo tu clave puede abrirlos. Guárdala en un lugar seguro para recuperar tu correo si un servidor lo pierde.';
+
+  @override
+  String get backupExport => 'Exportar una copia de seguridad';
+
+  @override
+  String get backupExportSubtitle => 'Guarda todo tu buzón en un archivo';
+
+  @override
+  String get backupRestore => 'Restaurar una copia de seguridad';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Recupera los correos de una copia de seguridad de esta cuenta';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Copia de seguridad guardada: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'No se pudieron incluir $count correos grandes: su contenido no está disponible',
+      one:
+          'No se pudo incluir 1 correo grande: su contenido no está disponible',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Error al exportar la copia de seguridad: $error';
+  }
+
+  @override
+  String get backupRestored => 'Copia de seguridad restaurada';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Se omitieron $count elementos no válidos',
+      one: 'Se omitió 1 elemento no válido',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Esta copia de seguridad pertenece a otra cuenta. Cambia a esa cuenta y vuelve a restaurarla.';
+
+  @override
+  String get backupRestoreInvalidFile =>
+      'Este archivo no es una copia de seguridad de Nmail';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Error al restaurar la copia de seguridad: $error';
+  }
 }

@@ -883,5 +883,20 @@
   "settingsUpdateInstall": "Päivitä",
   "settingsUpdateReload": "Lataa uudelleen",
   "leftRailSettingsUpdateAvailable": "Asetukset, päivitys saatavilla",
-  "inboxMenuUpdateAvailable": "Valikko, päivitys saatavilla"
+  "inboxMenuUpdateAvailable": "Valikko, päivitys saatavilla",
+
+  "settingsBackup": "Varmuuskopio",
+  "backupIntro": "Varmuuskopio on tiedosto, joka sisältää viestisi, kansiosi, luonnoksesi, asetuksesi ja yhteystietosi. Viestit pysyvät siinä salattuina: vain avaimesi voi avata ne. Säilytä se turvallisessa paikassa, jotta saat viestisi takaisin, jos palvelin kadottaa ne.",
+  "backupExport": "Vie varmuuskopio",
+  "backupExportSubtitle": "Tallenna koko postilaatikkosi tiedostoon",
+  "backupRestore": "Palauta varmuuskopio",
+  "backupRestoreSubtitle": "Palauta tämän tilin varmuuskopion viestit",
+  "backupExportSaved": "Varmuuskopio tallennettu: {path}",
+  "backupExportMissingBlobs": "{count, plural, one{1 suurta viestiä ei voitu sisällyttää: sen sisältö ei ole saatavilla} other{{count} suurta viestiä ei voitu sisällyttää: niiden sisältö ei ole saatavilla}}",
+  "backupExportFailed": "Varmuuskopion vienti epäonnistui: {error}",
+  "backupRestored": "Varmuuskopio palautettu",
+  "backupRestoreRejected": "{count, plural, one{1 virheellinen kohde ohitettiin} other{{count} virheellistä kohdetta ohitettiin}}",
+  "backupRestoreWrongAccount": "Tämä varmuuskopio kuuluu toiselle tilille. Vaihda siihen tiliin ja palauta se sitten.",
+  "backupRestoreInvalidFile": "Tämä tiedosto ei ole Nmail-varmuuskopio",
+  "backupRestoreFailed": "Varmuuskopion palautus epäonnistui: {error}"
 }

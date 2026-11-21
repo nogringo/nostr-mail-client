@@ -878,5 +878,20 @@
   "settingsUpdateInstall": "Aktualisieren",
   "settingsUpdateReload": "Neu laden",
   "leftRailSettingsUpdateAvailable": "Einstellungen, Update verfügbar",
-  "inboxMenuUpdateAvailable": "Menü, Update verfügbar"
+  "inboxMenuUpdateAvailable": "Menü, Update verfügbar",
+
+  "settingsBackup": "Sicherung",
+  "backupIntro": "Eine Sicherung ist eine Datei mit deinen E-Mails, Ordnern, Entwürfen, Einstellungen und Kontakten. Deine E-Mails bleiben darin verschlüsselt: Nur dein Schlüssel kann sie öffnen. Bewahre sie an einem sicheren Ort auf, um deine E-Mails zurückzuholen, falls ein Server sie verliert.",
+  "backupExport": "Sicherung exportieren",
+  "backupExportSubtitle": "Speichere dein ganzes Postfach in einer Datei",
+  "backupRestore": "Sicherung wiederherstellen",
+  "backupRestoreSubtitle": "Hol die E-Mails einer Sicherung dieses Kontos zurück",
+  "backupExportSaved": "Sicherung gespeichert: {path}",
+  "backupExportMissingBlobs": "{count, plural, one{1 große E-Mail konnte nicht aufgenommen werden: Ihr Inhalt ist nicht verfügbar} other{{count} große E-Mails konnten nicht aufgenommen werden: Ihr Inhalt ist nicht verfügbar}}",
+  "backupExportFailed": "Export der Sicherung fehlgeschlagen: {error}",
+  "backupRestored": "Sicherung wiederhergestellt",
+  "backupRestoreRejected": "{count, plural, one{1 ungültiges Element wurde übersprungen} other{{count} ungültige Elemente wurden übersprungen}}",
+  "backupRestoreWrongAccount": "Diese Sicherung gehört zu einem anderen Konto. Wechsle zu diesem Konto und stelle sie dann wieder her.",
+  "backupRestoreInvalidFile": "Diese Datei ist keine Nmail-Sicherung",
+  "backupRestoreFailed": "Wiederherstellung der Sicherung fehlgeschlagen: {error}"
 }

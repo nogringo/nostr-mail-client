@@ -878,5 +878,20 @@
   "settingsUpdateInstall": "Mettre à jour",
   "settingsUpdateReload": "Recharger",
   "leftRailSettingsUpdateAvailable": "Paramètres, mise à jour disponible",
-  "inboxMenuUpdateAvailable": "Menu, mise à jour disponible"
+  "inboxMenuUpdateAvailable": "Menu, mise à jour disponible",
+
+  "settingsBackup": "Sauvegarde",
+  "backupIntro": "Une sauvegarde est un fichier qui contient vos e-mails, dossiers, brouillons, paramètres et contacts. Vos e-mails y restent chiffrés : seule votre clé peut les ouvrir. Conservez-la en lieu sûr pour retrouver vos e-mails si un serveur les perd.",
+  "backupExport": "Exporter une sauvegarde",
+  "backupExportSubtitle": "Enregistrez toute votre boîte dans un fichier",
+  "backupRestore": "Restaurer une sauvegarde",
+  "backupRestoreSubtitle": "Récupérez les e-mails d'une sauvegarde de ce compte",
+  "backupExportSaved": "Sauvegarde enregistrée : {path}",
+  "backupExportMissingBlobs": "{count, plural, one{1 gros e-mail n'a pas pu être inclus : son contenu est indisponible} other{{count} gros e-mails n'ont pas pu être inclus : leur contenu est indisponible}}",
+  "backupExportFailed": "Échec de l'export de la sauvegarde : {error}",
+  "backupRestored": "Sauvegarde restaurée",
+  "backupRestoreRejected": "{count, plural, one{1 élément invalide a été ignoré} other{{count} éléments invalides ont été ignorés}}",
+  "backupRestoreWrongAccount": "Cette sauvegarde appartient à un autre compte. Passez sur ce compte, puis restaurez-la.",
+  "backupRestoreInvalidFile": "Ce fichier n'est pas une sauvegarde Nmail",
+  "backupRestoreFailed": "Échec de la restauration de la sauvegarde : {error}"
 }

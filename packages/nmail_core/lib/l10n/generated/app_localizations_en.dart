@@ -2557,4 +2557,72 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Menu, update available';
+
+  @override
+  String get settingsBackup => 'Backup';
+
+  @override
+  String get backupIntro =>
+      'A backup is a file with your emails, folders, drafts, settings and contacts. Your emails stay encrypted in it: only your key can open them. Store it somewhere safe to get your mail back if a server loses it.';
+
+  @override
+  String get backupExport => 'Export a backup';
+
+  @override
+  String get backupExportSubtitle => 'Save your whole mailbox to a file';
+
+  @override
+  String get backupRestore => 'Restore a backup';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Bring back the emails of a backup of this account';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Backup saved: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count large emails could not be included: their content is unavailable',
+      one: '1 large email could not be included: its content is unavailable',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Failed to export the backup: $error';
+  }
+
+  @override
+  String get backupRestored => 'Backup restored';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count invalid items were skipped',
+      one: '1 invalid item was skipped',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'This backup belongs to another account. Switch to that account, then restore it.';
+
+  @override
+  String get backupRestoreInvalidFile => 'This file is not an Nmail backup';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Failed to restore the backup: $error';
+  }
 }

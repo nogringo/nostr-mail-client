@@ -42,6 +42,13 @@ class AccountSection extends StatelessWidget {
           if (nsec != null)
             (index, count) =>
                 CopySyncCodeTile(nsec: nsec, index: index, count: count),
+          (index, count) => SettingsNavTile(
+            icon: Icons.settings_backup_restore,
+            title: l.settingsBackup,
+            index: index,
+            count: count,
+            onTap: () => context.go(AppRoutes.settingsBackup),
+          ),
           if (kDebugMode || debugToolsUnlocked)
             (index, count) => SettingsNavTile(
               icon: Icons.bug_report_outlined,

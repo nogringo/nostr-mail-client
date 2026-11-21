@@ -2390,4 +2390,57 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => '菜单，有可用更新';
+
+  @override
+  String get settingsBackup => '备份';
+
+  @override
+  String get backupIntro =>
+      '备份是一个文件，包含您的邮件、文件夹、草稿、设置和联系人。邮件在其中保持加密，只有您的密钥才能打开。请将其保存在安全的地方，以便在服务器丢失邮件时找回。';
+
+  @override
+  String get backupExport => '导出备份';
+
+  @override
+  String get backupExportSubtitle => '将整个邮箱保存到一个文件';
+
+  @override
+  String get backupRestore => '恢复备份';
+
+  @override
+  String get backupRestoreSubtitle => '从此账户的备份中找回邮件';
+
+  @override
+  String backupExportSaved(String path) {
+    return '备份已保存：$path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    return '有 $count 封大邮件未能包含：其内容不可用';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return '导出备份失败：$error';
+  }
+
+  @override
+  String get backupRestored => '备份已恢复';
+
+  @override
+  String backupRestoreRejected(int count) {
+    return '已跳过 $count 个无效项';
+  }
+
+  @override
+  String get backupRestoreWrongAccount => '此备份属于另一个账户。请切换到该账户后再恢复。';
+
+  @override
+  String get backupRestoreInvalidFile => '此文件不是 Nmail 备份';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return '恢复备份失败：$error';
+  }
 }

@@ -2592,6 +2592,77 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Menu, atualização disponível';
+
+  @override
+  String get settingsBackup => 'Cópia de segurança';
+
+  @override
+  String get backupIntro =>
+      'Uma cópia de segurança é um ficheiro com os seus emails, pastas, rascunhos, definições e contactos. Os seus emails continuam cifrados no ficheiro: só a sua chave os pode abrir. Guarde-a num local seguro para recuperar o seu correio se um servidor o perder.';
+
+  @override
+  String get backupExport => 'Exportar uma cópia de segurança';
+
+  @override
+  String get backupExportSubtitle =>
+      'Guarde toda a sua caixa de correio num ficheiro';
+
+  @override
+  String get backupRestore => 'Restaurar uma cópia de segurança';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Recupere os emails de uma cópia de segurança desta conta';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Cópia de segurança guardada: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Não foi possível incluir $count emails grandes: o seu conteúdo não está disponível',
+      one:
+          'Não foi possível incluir 1 email grande: o seu conteúdo não está disponível',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Falha ao exportar a cópia de segurança: $error';
+  }
+
+  @override
+  String get backupRestored => 'Cópia de segurança restaurada';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count elementos inválidos foram ignorados',
+      one: '1 elemento inválido foi ignorado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Esta cópia de segurança pertence a outra conta. Mude para essa conta e restaure-a novamente.';
+
+  @override
+  String get backupRestoreInvalidFile =>
+      'Este ficheiro não é uma cópia de segurança do Nmail';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Falha ao restaurar a cópia de segurança: $error';
+  }
 }
 
 /// The translations for Portuguese, as used in Brazil (`pt_BR`).
@@ -5180,4 +5251,75 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get inboxMenuUpdateAvailable => 'Menu, atualização disponível';
+
+  @override
+  String get settingsBackup => 'Backup';
+
+  @override
+  String get backupIntro =>
+      'Um backup é um arquivo com seus e-mails, pastas, rascunhos, configurações e contatos. Seus e-mails continuam criptografados nele: só a sua chave pode abri-los. Guarde-o em um lugar seguro para recuperar seus e-mails se um servidor perdê-los.';
+
+  @override
+  String get backupExport => 'Exportar um backup';
+
+  @override
+  String get backupExportSubtitle =>
+      'Salve toda a sua caixa de correio em um arquivo';
+
+  @override
+  String get backupRestore => 'Restaurar um backup';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Recupere os e-mails de um backup desta conta';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Backup salvo: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Não foi possível incluir $count e-mails grandes: o conteúdo deles não está disponível',
+      one:
+          'Não foi possível incluir 1 e-mail grande: o conteúdo dele não está disponível',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Falha ao exportar o backup: $error';
+  }
+
+  @override
+  String get backupRestored => 'Backup restaurado';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count itens inválidos foram ignorados',
+      one: '1 item inválido foi ignorado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Este backup pertence a outra conta. Mude para essa conta e restaure-o novamente.';
+
+  @override
+  String get backupRestoreInvalidFile =>
+      'Este arquivo não é um backup do Nmail';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Falha ao restaurar o backup: $error';
+  }
 }

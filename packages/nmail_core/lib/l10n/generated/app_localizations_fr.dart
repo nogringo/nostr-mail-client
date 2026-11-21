@@ -2599,4 +2599,75 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Menu, mise à jour disponible';
+
+  @override
+  String get settingsBackup => 'Sauvegarde';
+
+  @override
+  String get backupIntro =>
+      'Une sauvegarde est un fichier qui contient vos e-mails, dossiers, brouillons, paramètres et contacts. Vos e-mails y restent chiffrés : seule votre clé peut les ouvrir. Conservez-la en lieu sûr pour retrouver vos e-mails si un serveur les perd.';
+
+  @override
+  String get backupExport => 'Exporter une sauvegarde';
+
+  @override
+  String get backupExportSubtitle =>
+      'Enregistrez toute votre boîte dans un fichier';
+
+  @override
+  String get backupRestore => 'Restaurer une sauvegarde';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Récupérez les e-mails d\'une sauvegarde de ce compte';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Sauvegarde enregistrée : $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count gros e-mails n\'ont pas pu être inclus : leur contenu est indisponible',
+      one:
+          '1 gros e-mail n\'a pas pu être inclus : son contenu est indisponible',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Échec de l\'export de la sauvegarde : $error';
+  }
+
+  @override
+  String get backupRestored => 'Sauvegarde restaurée';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count éléments invalides ont été ignorés',
+      one: '1 élément invalide a été ignoré',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Cette sauvegarde appartient à un autre compte. Passez sur ce compte, puis restaurez-la.';
+
+  @override
+  String get backupRestoreInvalidFile =>
+      'Ce fichier n\'est pas une sauvegarde Nmail';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Échec de la restauration de la sauvegarde : $error';
+  }
 }

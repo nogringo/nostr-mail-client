@@ -882,5 +882,20 @@
   "settingsUpdateInstall": "Atualizar",
   "settingsUpdateReload": "Recarregar",
   "leftRailSettingsUpdateAvailable": "Definições, atualização disponível",
-  "inboxMenuUpdateAvailable": "Menu, atualização disponível"
+  "inboxMenuUpdateAvailable": "Menu, atualização disponível",
+
+  "settingsBackup": "Cópia de segurança",
+  "backupIntro": "Uma cópia de segurança é um ficheiro com os seus emails, pastas, rascunhos, definições e contactos. Os seus emails continuam cifrados no ficheiro: só a sua chave os pode abrir. Guarde-a num local seguro para recuperar o seu correio se um servidor o perder.",
+  "backupExport": "Exportar uma cópia de segurança",
+  "backupExportSubtitle": "Guarde toda a sua caixa de correio num ficheiro",
+  "backupRestore": "Restaurar uma cópia de segurança",
+  "backupRestoreSubtitle": "Recupere os emails de uma cópia de segurança desta conta",
+  "backupExportSaved": "Cópia de segurança guardada: {path}",
+  "backupExportMissingBlobs": "{count, plural, one{Não foi possível incluir 1 email grande: o seu conteúdo não está disponível} other{Não foi possível incluir {count} emails grandes: o seu conteúdo não está disponível}}",
+  "backupExportFailed": "Falha ao exportar a cópia de segurança: {error}",
+  "backupRestored": "Cópia de segurança restaurada",
+  "backupRestoreRejected": "{count, plural, one{1 elemento inválido foi ignorado} other{{count} elementos inválidos foram ignorados}}",
+  "backupRestoreWrongAccount": "Esta cópia de segurança pertence a outra conta. Mude para essa conta e restaure-a novamente.",
+  "backupRestoreInvalidFile": "Este ficheiro não é uma cópia de segurança do Nmail",
+  "backupRestoreFailed": "Falha ao restaurar a cópia de segurança: {error}"
 }

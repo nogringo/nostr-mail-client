@@ -99,6 +99,13 @@ class AddressBookService {
     }
   }
 
+  /// Turns contact events that reached the NDK cache outside a sync, such as
+  /// a restored backup, into contacts.
+  Future<void> reconcile() async {
+    if (_currentPubkey == null) return;
+    await _book.reconcile();
+  }
+
   Future<AddressBookContact> saveContact(
     AddressBookContactForm form, {
     AddressBookContact? existing,

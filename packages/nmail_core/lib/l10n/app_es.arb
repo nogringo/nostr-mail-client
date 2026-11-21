@@ -878,5 +878,20 @@
   "settingsUpdateInstall": "Actualizar",
   "settingsUpdateReload": "Recargar",
   "leftRailSettingsUpdateAvailable": "Ajustes, actualización disponible",
-  "inboxMenuUpdateAvailable": "Menú, actualización disponible"
+  "inboxMenuUpdateAvailable": "Menú, actualización disponible",
+
+  "settingsBackup": "Copia de seguridad",
+  "backupIntro": "Una copia de seguridad es un archivo con tus correos, carpetas, borradores, ajustes y contactos. Tus correos siguen cifrados en él: solo tu clave puede abrirlos. Guárdala en un lugar seguro para recuperar tu correo si un servidor lo pierde.",
+  "backupExport": "Exportar una copia de seguridad",
+  "backupExportSubtitle": "Guarda todo tu buzón en un archivo",
+  "backupRestore": "Restaurar una copia de seguridad",
+  "backupRestoreSubtitle": "Recupera los correos de una copia de seguridad de esta cuenta",
+  "backupExportSaved": "Copia de seguridad guardada: {path}",
+  "backupExportMissingBlobs": "{count, plural, one{No se pudo incluir 1 correo grande: su contenido no está disponible} other{No se pudieron incluir {count} correos grandes: su contenido no está disponible}}",
+  "backupExportFailed": "Error al exportar la copia de seguridad: {error}",
+  "backupRestored": "Copia de seguridad restaurada",
+  "backupRestoreRejected": "{count, plural, one{Se omitió 1 elemento no válido} other{Se omitieron {count} elementos no válidos}}",
+  "backupRestoreWrongAccount": "Esta copia de seguridad pertenece a otra cuenta. Cambia a esa cuenta y vuelve a restaurarla.",
+  "backupRestoreInvalidFile": "Este archivo no es una copia de seguridad de Nmail",
+  "backupRestoreFailed": "Error al restaurar la copia de seguridad: {error}"
 }

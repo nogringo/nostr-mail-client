@@ -75,6 +75,7 @@ class AppRoutes {
   static const settingsMessages = '/settings/messages';
   static const settingsSignatures = '/settings/messages/signatures';
   static const settingsNotifications = '/settings/notifications';
+  static const settingsBackup = '/settings/backup';
   static const settingsHosting = '/settings/hosting';
   static const settingsDebugTools = '/settings/debug-tools';
   static const settingsAbout = '/settings/about';

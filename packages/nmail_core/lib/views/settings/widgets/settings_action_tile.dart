@@ -11,14 +11,20 @@ class SettingsActionTile extends StatelessWidget {
     required this.index,
     required this.count,
     required this.onTap,
+    this.subtitle,
+    this.isBusy = false,
     this.isDestructive = false,
   });
 
   final IconData icon;
   final String title;
+  final String? subtitle;
   final int index;
   final int count;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
+
+  /// Shows a spinner in place of [icon] while the action runs.
+  final bool isBusy;
   final bool isDestructive;
 
   @override
@@ -39,8 +45,16 @@ class SettingsActionTile extends StatelessWidget {
           minTileHeight: 56,
           iconColor: foreground,
           textColor: foreground,
-          leading: Icon(icon),
+          leading: isBusy
+              ? const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : Icon(icon),
           title: Text(title),
+          subtitle: subtitle == null ? null : Text(subtitle!),
+          enabled: onTap != null || isBusy,
           onTap: onTap,
         ),
       ),

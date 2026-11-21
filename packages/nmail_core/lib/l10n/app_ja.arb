@@ -878,5 +878,20 @@
   "settingsUpdateInstall": "アップデート",
   "settingsUpdateReload": "再読み込み",
   "leftRailSettingsUpdateAvailable": "設定、アップデートあり",
-  "inboxMenuUpdateAvailable": "メニュー、アップデートあり"
+  "inboxMenuUpdateAvailable": "メニュー、アップデートあり",
+
+  "settingsBackup": "バックアップ",
+  "backupIntro": "バックアップは、メール、フォルダ、下書き、設定、連絡先を含むファイルです。メールは暗号化されたまま保存され、開けるのはあなたの鍵だけです。サーバーがメールを失ったときに取り戻せるよう、安全な場所に保管してください。",
+  "backupExport": "バックアップをエクスポート",
+  "backupExportSubtitle": "メールボックス全体をファイルに保存します",
+  "backupRestore": "バックアップを復元",
+  "backupRestoreSubtitle": "このアカウントのバックアップからメールを取り戻します",
+  "backupExportSaved": "バックアップを保存しました: {path}",
+  "backupExportMissingBlobs": "大きなメール {count} 件を含められませんでした: 内容を取得できません",
+  "backupExportFailed": "バックアップのエクスポートに失敗しました: {error}",
+  "backupRestored": "バックアップを復元しました",
+  "backupRestoreRejected": "無効な項目 {count} 件をスキップしました",
+  "backupRestoreWrongAccount": "このバックアップは別のアカウントのものです。そのアカウントに切り替えてから復元してください。",
+  "backupRestoreInvalidFile": "このファイルは Nmail のバックアップではありません",
+  "backupRestoreFailed": "バックアップの復元に失敗しました: {error}"
 }

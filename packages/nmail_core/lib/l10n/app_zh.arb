@@ -878,5 +878,20 @@
   "settingsUpdateInstall": "更新",
   "settingsUpdateReload": "重新加载",
   "leftRailSettingsUpdateAvailable": "设置，有可用更新",
-  "inboxMenuUpdateAvailable": "菜单，有可用更新"
+  "inboxMenuUpdateAvailable": "菜单，有可用更新",
+
+  "settingsBackup": "备份",
+  "backupIntro": "备份是一个文件，包含您的邮件、文件夹、草稿、设置和联系人。邮件在其中保持加密，只有您的密钥才能打开。请将其保存在安全的地方，以便在服务器丢失邮件时找回。",
+  "backupExport": "导出备份",
+  "backupExportSubtitle": "将整个邮箱保存到一个文件",
+  "backupRestore": "恢复备份",
+  "backupRestoreSubtitle": "从此账户的备份中找回邮件",
+  "backupExportSaved": "备份已保存：{path}",
+  "backupExportMissingBlobs": "有 {count} 封大邮件未能包含：其内容不可用",
+  "backupExportFailed": "导出备份失败：{error}",
+  "backupRestored": "备份已恢复",
+  "backupRestoreRejected": "已跳过 {count} 个无效项",
+  "backupRestoreWrongAccount": "此备份属于另一个账户。请切换到该账户后再恢复。",
+  "backupRestoreInvalidFile": "此文件不是 Nmail 备份",
+  "backupRestoreFailed": "恢复备份失败：{error}"
 }

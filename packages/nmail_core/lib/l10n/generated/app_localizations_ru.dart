@@ -2601,4 +2601,80 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Меню, доступно обновление';
+
+  @override
+  String get settingsBackup => 'Резервная копия';
+
+  @override
+  String get backupIntro =>
+      'В резервной копии хранятся ваши письма, папки, черновики, настройки и контакты. Письма остаются в ней зашифрованными: открыть их может только ваш ключ. Храните её в надёжном месте, чтобы вернуть почту, если сервер её потеряет.';
+
+  @override
+  String get backupExport => 'Экспортировать резервную копию';
+
+  @override
+  String get backupExportSubtitle => 'Сохраните весь почтовый ящик в файл';
+
+  @override
+  String get backupRestore => 'Восстановить резервную копию';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Верните письма из резервной копии этого аккаунта';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Резервная копия сохранена: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Не удалось включить $count больших письма: их содержимое недоступно',
+      many:
+          'Не удалось включить $count больших писем: их содержимое недоступно',
+      few:
+          'Не удалось включить $count больших письма: их содержимое недоступно',
+      one:
+          'Не удалось включить $count большое письмо: его содержимое недоступно',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Не удалось экспортировать резервную копию: $error';
+  }
+
+  @override
+  String get backupRestored => 'Резервная копия восстановлена';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Пропущено $count недопустимых элемента',
+      many: 'Пропущено $count недопустимых элементов',
+      few: 'Пропущено $count недопустимых элемента',
+      one: 'Пропущен $count недопустимый элемент',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Эта резервная копия принадлежит другому аккаунту. Переключитесь на него, затем восстановите её.';
+
+  @override
+  String get backupRestoreInvalidFile =>
+      'Этот файл не является резервной копией Nmail';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Не удалось восстановить резервную копию: $error';
+  }
 }

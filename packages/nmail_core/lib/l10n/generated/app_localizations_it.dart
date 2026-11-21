@@ -2594,4 +2594,73 @@ class AppLocalizationsIt extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Menu, aggiornamento disponibile';
+
+  @override
+  String get settingsBackup => 'Backup';
+
+  @override
+  String get backupIntro =>
+      'Un backup è un file con le tue email, cartelle, bozze, impostazioni e contatti. Le email restano cifrate al suo interno: solo la tua chiave può aprirle. Conservalo in un posto sicuro per recuperare la posta se un server la perde.';
+
+  @override
+  String get backupExport => 'Esporta un backup';
+
+  @override
+  String get backupExportSubtitle => 'Salva tutta la tua casella in un file';
+
+  @override
+  String get backupRestore => 'Ripristina un backup';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Recupera le email di un backup di questo account';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Backup salvato: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Non è stato possibile includere $count email grandi: il loro contenuto non è disponibile',
+      one:
+          'Non è stato possibile includere 1 email grande: il suo contenuto non è disponibile',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Esportazione del backup non riuscita: $error';
+  }
+
+  @override
+  String get backupRestored => 'Backup ripristinato';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count elementi non validi sono stati ignorati',
+      one: '1 elemento non valido è stato ignorato',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Questo backup appartiene a un altro account. Passa a quell\'account, poi ripristinalo.';
+
+  @override
+  String get backupRestoreInvalidFile => 'Questo file non è un backup di Nmail';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Ripristino del backup non riuscito: $error';
+  }
 }

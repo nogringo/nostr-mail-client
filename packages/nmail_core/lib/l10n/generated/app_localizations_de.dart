@@ -2584,4 +2584,75 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Menü, Update verfügbar';
+
+  @override
+  String get settingsBackup => 'Sicherung';
+
+  @override
+  String get backupIntro =>
+      'Eine Sicherung ist eine Datei mit deinen E-Mails, Ordnern, Entwürfen, Einstellungen und Kontakten. Deine E-Mails bleiben darin verschlüsselt: Nur dein Schlüssel kann sie öffnen. Bewahre sie an einem sicheren Ort auf, um deine E-Mails zurückzuholen, falls ein Server sie verliert.';
+
+  @override
+  String get backupExport => 'Sicherung exportieren';
+
+  @override
+  String get backupExportSubtitle =>
+      'Speichere dein ganzes Postfach in einer Datei';
+
+  @override
+  String get backupRestore => 'Sicherung wiederherstellen';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Hol die E-Mails einer Sicherung dieses Kontos zurück';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Sicherung gespeichert: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count große E-Mails konnten nicht aufgenommen werden: Ihr Inhalt ist nicht verfügbar',
+      one:
+          '1 große E-Mail konnte nicht aufgenommen werden: Ihr Inhalt ist nicht verfügbar',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Export der Sicherung fehlgeschlagen: $error';
+  }
+
+  @override
+  String get backupRestored => 'Sicherung wiederhergestellt';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ungültige Elemente wurden übersprungen',
+      one: '1 ungültiges Element wurde übersprungen',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Diese Sicherung gehört zu einem anderen Konto. Wechsle zu diesem Konto und stelle sie dann wieder her.';
+
+  @override
+  String get backupRestoreInvalidFile =>
+      'Diese Datei ist keine Nmail-Sicherung';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Wiederherstellung der Sicherung fehlgeschlagen: $error';
+  }
 }

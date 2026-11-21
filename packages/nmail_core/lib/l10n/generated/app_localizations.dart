@@ -4422,6 +4422,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Menu, update available'**
   String get inboxMenuUpdateAvailable;
+
+  /// Settings row and page title for exporting and restoring a backup file
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get settingsBackup;
+
+  /// Paragraph at the top of the backup page saying what a backup holds
+  ///
+  /// In en, this message translates to:
+  /// **'A backup is a file with your emails, folders, drafts, settings and contacts. Your emails stay encrypted in it: only your key can open them. Store it somewhere safe to get your mail back if a server loses it.'**
+  String get backupIntro;
+
+  /// Backup page row that exports a backup file
+  ///
+  /// In en, this message translates to:
+  /// **'Export a backup'**
+  String get backupExport;
+
+  /// Subtitle of the export backup row
+  ///
+  /// In en, this message translates to:
+  /// **'Save your whole mailbox to a file'**
+  String get backupExportSubtitle;
+
+  /// Backup page row that restores a backup file, also the file picker title
+  ///
+  /// In en, this message translates to:
+  /// **'Restore a backup'**
+  String get backupRestore;
+
+  /// Subtitle of the restore backup row
+  ///
+  /// In en, this message translates to:
+  /// **'Bring back the emails of a backup of this account'**
+  String get backupRestoreSubtitle;
+
+  /// Toast shown on Android after the backup was saved to Downloads, includes the saved path
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved: {path}'**
+  String backupExportSaved(String path);
+
+  /// Shown after an export when the content of some large emails could not be read nor downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 large email could not be included: its content is unavailable} other{{count} large emails could not be included: their content is unavailable}}'**
+  String backupExportMissingBlobs(int count);
+
+  /// Error toast shown when exporting the backup fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to export the backup: {error}'**
+  String backupExportFailed(String error);
+
+  /// Toast shown once a backup was restored
+  ///
+  /// In en, this message translates to:
+  /// **'Backup restored'**
+  String get backupRestored;
+
+  /// Shown under the restored toast when invalid events or files of the backup were skipped
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 invalid item was skipped} other{{count} invalid items were skipped}}'**
+  String backupRestoreRejected(int count);
+
+  /// Error toast shown when the picked backup belongs to another account than the active one
+  ///
+  /// In en, this message translates to:
+  /// **'This backup belongs to another account. Switch to that account, then restore it.'**
+  String get backupRestoreWrongAccount;
+
+  /// Error toast shown when the picked file is not an Nmail backup
+  ///
+  /// In en, this message translates to:
+  /// **'This file is not an Nmail backup'**
+  String get backupRestoreInvalidFile;
+
+  /// Error toast shown when restoring the backup fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to restore the backup: {error}'**
+  String backupRestoreFailed(String error);
 }
 
 class _AppLocalizationsDelegate

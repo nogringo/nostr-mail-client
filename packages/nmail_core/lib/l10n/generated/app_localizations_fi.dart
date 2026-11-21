@@ -2571,4 +2571,74 @@ class AppLocalizationsFi extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'Valikko, päivitys saatavilla';
+
+  @override
+  String get settingsBackup => 'Varmuuskopio';
+
+  @override
+  String get backupIntro =>
+      'Varmuuskopio on tiedosto, joka sisältää viestisi, kansiosi, luonnoksesi, asetuksesi ja yhteystietosi. Viestit pysyvät siinä salattuina: vain avaimesi voi avata ne. Säilytä se turvallisessa paikassa, jotta saat viestisi takaisin, jos palvelin kadottaa ne.';
+
+  @override
+  String get backupExport => 'Vie varmuuskopio';
+
+  @override
+  String get backupExportSubtitle => 'Tallenna koko postilaatikkosi tiedostoon';
+
+  @override
+  String get backupRestore => 'Palauta varmuuskopio';
+
+  @override
+  String get backupRestoreSubtitle =>
+      'Palauta tämän tilin varmuuskopion viestit';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'Varmuuskopio tallennettu: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count suurta viestiä ei voitu sisällyttää: niiden sisältö ei ole saatavilla',
+      one:
+          '1 suurta viestiä ei voitu sisällyttää: sen sisältö ei ole saatavilla',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'Varmuuskopion vienti epäonnistui: $error';
+  }
+
+  @override
+  String get backupRestored => 'Varmuuskopio palautettu';
+
+  @override
+  String backupRestoreRejected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count virheellistä kohdetta ohitettiin',
+      one: '1 virheellinen kohde ohitettiin',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'Tämä varmuuskopio kuuluu toiselle tilille. Vaihda siihen tiliin ja palauta se sitten.';
+
+  @override
+  String get backupRestoreInvalidFile =>
+      'Tämä tiedosto ei ole Nmail-varmuuskopio';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'Varmuuskopion palautus epäonnistui: $error';
+  }
 }

@@ -882,5 +882,20 @@
   "settingsUpdateInstall": "Atualizar",
   "settingsUpdateReload": "Recarregar",
   "leftRailSettingsUpdateAvailable": "Configurações, atualização disponível",
-  "inboxMenuUpdateAvailable": "Menu, atualização disponível"
+  "inboxMenuUpdateAvailable": "Menu, atualização disponível",
+
+  "settingsBackup": "Backup",
+  "backupIntro": "Um backup é um arquivo com seus e-mails, pastas, rascunhos, configurações e contatos. Seus e-mails continuam criptografados nele: só a sua chave pode abri-los. Guarde-o em um lugar seguro para recuperar seus e-mails se um servidor perdê-los.",
+  "backupExport": "Exportar um backup",
+  "backupExportSubtitle": "Salve toda a sua caixa de correio em um arquivo",
+  "backupRestore": "Restaurar um backup",
+  "backupRestoreSubtitle": "Recupere os e-mails de um backup desta conta",
+  "backupExportSaved": "Backup salvo: {path}",
+  "backupExportMissingBlobs": "{count, plural, one{Não foi possível incluir 1 e-mail grande: o conteúdo dele não está disponível} other{Não foi possível incluir {count} e-mails grandes: o conteúdo deles não está disponível}}",
+  "backupExportFailed": "Falha ao exportar o backup: {error}",
+  "backupRestored": "Backup restaurado",
+  "backupRestoreRejected": "{count, plural, one{1 item inválido foi ignorado} other{{count} itens inválidos foram ignorados}}",
+  "backupRestoreWrongAccount": "Este backup pertence a outra conta. Mude para essa conta e restaure-o novamente.",
+  "backupRestoreInvalidFile": "Este arquivo não é um backup do Nmail",
+  "backupRestoreFailed": "Falha ao restaurar o backup: {error}"
 }

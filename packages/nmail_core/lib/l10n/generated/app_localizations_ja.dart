@@ -2412,4 +2412,58 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get inboxMenuUpdateAvailable => 'メニュー、アップデートあり';
+
+  @override
+  String get settingsBackup => 'バックアップ';
+
+  @override
+  String get backupIntro =>
+      'バックアップは、メール、フォルダ、下書き、設定、連絡先を含むファイルです。メールは暗号化されたまま保存され、開けるのはあなたの鍵だけです。サーバーがメールを失ったときに取り戻せるよう、安全な場所に保管してください。';
+
+  @override
+  String get backupExport => 'バックアップをエクスポート';
+
+  @override
+  String get backupExportSubtitle => 'メールボックス全体をファイルに保存します';
+
+  @override
+  String get backupRestore => 'バックアップを復元';
+
+  @override
+  String get backupRestoreSubtitle => 'このアカウントのバックアップからメールを取り戻します';
+
+  @override
+  String backupExportSaved(String path) {
+    return 'バックアップを保存しました: $path';
+  }
+
+  @override
+  String backupExportMissingBlobs(int count) {
+    return '大きなメール $count 件を含められませんでした: 内容を取得できません';
+  }
+
+  @override
+  String backupExportFailed(String error) {
+    return 'バックアップのエクスポートに失敗しました: $error';
+  }
+
+  @override
+  String get backupRestored => 'バックアップを復元しました';
+
+  @override
+  String backupRestoreRejected(int count) {
+    return '無効な項目 $count 件をスキップしました';
+  }
+
+  @override
+  String get backupRestoreWrongAccount =>
+      'このバックアップは別のアカウントのものです。そのアカウントに切り替えてから復元してください。';
+
+  @override
+  String get backupRestoreInvalidFile => 'このファイルは Nmail のバックアップではありません';
+
+  @override
+  String backupRestoreFailed(String error) {
+    return 'バックアップの復元に失敗しました: $error';
+  }
 }
