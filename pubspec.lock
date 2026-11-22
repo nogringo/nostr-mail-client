@@ -714,7 +714,7 @@ packages:
     description:
       path: "packages/core"
       ref: apps
-      resolved-ref: "89404a544f32799490c2413819a7cc185173922b"
+      resolved-ref: "79aa7ee7d210c0623ca10973ead0462093ee52bd"
       url: "https://github.com/nogringo/flutter_widget_from_html.git"
     source: git
     version: "0.18.0-beta.1"
