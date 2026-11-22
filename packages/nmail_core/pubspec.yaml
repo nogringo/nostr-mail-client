@@ -24,7 +24,7 @@ dependencies:
   file_picker: ^13.2.0
   flutter:
     sdk: flutter
-  flutter_local_notifications: ^22.3.0
+  flutter_local_notifications: ^23.0.3
   flutter_localizations:
     sdk: flutter
   flutter_quill: ^11.6.0
@@ -53,12 +53,12 @@ dependencies:
   ndk_drift: ^0.2.1-dev.0
   ndk_flutter: ^0.10.1-dev.1
   nostr_address_book: ^0.7.0
-  nostr_mail: ^8.0.0
+  nostr_mail: ^8.1.0
   package_info_plus: ^10.2.1
   pasteboard: ^0.6.0
   path: ^1.9.1
   path_provider: ^2.1.6
-  pdfrx: ^2.4.7
+  pdfrx: ^3.1.0
   rxdart: ^0.28.0
   sembast: ^3.8.9+1
   sembast_web: ^2.4.5+1
