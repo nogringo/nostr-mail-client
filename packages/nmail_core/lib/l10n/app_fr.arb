@@ -384,6 +384,8 @@
   "emailSelectRow": "Sélectionner",
 
   "emailNotFound": "E-mail introuvable",
+  "emailPrevious": "E-mail précédent",
+  "emailNext": "E-mail suivant",
   "emailSenderNpub": "npub de l'expéditeur : {npub}",
   "@emailSenderNpub": {
     "placeholders": {

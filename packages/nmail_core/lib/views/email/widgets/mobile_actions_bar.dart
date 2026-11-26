@@ -12,44 +12,45 @@ class MobileActionsBar extends StatelessWidget {
     final l = AppLocalizations.of(context);
     final emailController = EmailController.to;
 
+    // The bar is up before the email loads, so the delivery may come later.
     return ListenableBuilder(
-      // The delivery action waits for the queues to tell what this device sent.
-      listenable: Listenable.merge([
-        emailController,
-        ?emailController.delivery,
-      ]),
-      builder: (context, _) {
-        final actions = buildEmailActions(
-          context,
-          l,
-          emailController,
-          emailController.mailbox,
-        );
+      listenable: emailController,
+      builder: (context, _) => ListenableBuilder(
+        // The delivery action waits for the queues to tell what this device sent.
+        listenable: Listenable.merge([?emailController.delivery]),
+        builder: (context, _) {
+          final actions = buildEmailActions(
+            context,
+            l,
+            emailController,
+            emailController.mailbox,
+          );
 
-        const buttonWidth = 68.0;
-        // Always reserve space for delete + more_vert buttons (2 buttons).
-        const spaceForFixedButtons = buttonWidth * 2;
-        final remainingWidth =
-            MediaQuery.sizeOf(context).width - spaceForFixedButtons;
-        final maxButtons = ((remainingWidth - 16) / buttonWidth).floor();
+          const buttonWidth = 68.0;
+          // Always reserve space for delete + more_vert buttons (2 buttons).
+          const spaceForFixedButtons = buttonWidth * 2;
+          final remainingWidth =
+              MediaQuery.sizeOf(context).width - spaceForFixedButtons;
+          final maxButtons = ((remainingWidth - 16) / buttonWidth).floor();
 
-        final visibleCount = maxButtons.clamp(0, actions.primary.length);
-        final visibleActions = actions.primary.take(visibleCount).toList();
-        final overflowActions = actions.primary.skip(visibleCount).toList();
+          final visibleCount = maxButtons.clamp(0, actions.primary.length);
+          final visibleActions = actions.primary.take(visibleCount).toList();
+          final overflowActions = actions.primary.skip(visibleCount).toList();
 
-        return BottomAppBar(
-          child: Row(
-            children: [
-              ...visibleActions.map(
-                (action) => Expanded(child: _buildButton(action)),
-              ),
-              Expanded(child: _buildButton(actions.delete)),
-              if (overflowActions.isNotEmpty)
-                Expanded(child: _MoreButton(actions: overflowActions)),
-            ],
-          ),
-        );
-      },
+          return BottomAppBar(
+            child: Row(
+              children: [
+                ...visibleActions.map(
+                  (action) => Expanded(child: _buildButton(action)),
+                ),
+                Expanded(child: _buildButton(actions.delete)),
+                if (overflowActions.isNotEmpty)
+                  Expanded(child: _MoreButton(actions: overflowActions)),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 

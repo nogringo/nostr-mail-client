@@ -1969,6 +1969,18 @@ abstract class AppLocalizations {
   /// **'Email not found'**
   String get emailNotFound;
 
+  /// Tooltip on the email screen app bar button that opens the email listed above this one
+  ///
+  /// In en, this message translates to:
+  /// **'Previous email'**
+  String get emailPrevious;
+
+  /// Tooltip on the email screen app bar button that opens the email listed below this one
+  ///
+  /// In en, this message translates to:
+  /// **'Next email'**
+  String get emailNext;
+
   /// Header above the raw email source, showing the sender's npub-encoded pubkey
   ///
   /// In en, this message translates to:

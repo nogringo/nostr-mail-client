@@ -384,6 +384,8 @@
   "emailSelectRow": "选择",
 
   "emailNotFound": "未找到邮件",
+  "emailPrevious": "上一封邮件",
+  "emailNext": "下一封邮件",
   "emailSenderNpub": "发件人 npub: {npub}",
   "@emailSenderNpub": {
     "placeholders": {

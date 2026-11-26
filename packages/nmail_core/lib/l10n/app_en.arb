@@ -703,6 +703,10 @@
 
   "emailNotFound": "Email not found",
   "@emailNotFound": { "description": "Error shown on the email screen when the email id does not resolve" },
+  "emailPrevious": "Previous email",
+  "@emailPrevious": { "description": "Tooltip on the email screen app bar button that opens the email listed above this one" },
+  "emailNext": "Next email",
+  "@emailNext": { "description": "Tooltip on the email screen app bar button that opens the email listed below this one" },
   "emailSenderNpub": "Sender npub: {npub}",
   "@emailSenderNpub": {
     "description": "Header above the raw email source, showing the sender's npub-encoded pubkey",

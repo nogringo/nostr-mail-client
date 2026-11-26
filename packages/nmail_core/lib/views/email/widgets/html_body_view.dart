@@ -81,6 +81,9 @@ class HtmlBodyView extends StatelessWidget {
                       }
                       return null;
                     },
+              // fwfh's `root` element stands for the whole body while it parses.
+              onLoadingBuilder: (_, element, _) =>
+                  element.localName == 'root' ? const SizedBox.shrink() : null,
               onTapUrl: (url) {
                 confirmOpenLink(context, url);
                 return true;

@@ -384,6 +384,8 @@
   "emailSelectRow": "Выбрать",
 
   "emailNotFound": "Письмо не найдено",
+  "emailPrevious": "Предыдущее письмо",
+  "emailNext": "Следующее письмо",
   "emailSenderNpub": "npub отправителя: {npub}",
   "@emailSenderNpub": {
     "placeholders": {

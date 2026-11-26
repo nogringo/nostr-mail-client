@@ -389,6 +389,8 @@
   },
 
   "emailNotFound": "Sähköpostia ei löydy",
+  "emailPrevious": "Edellinen sähköposti",
+  "emailNext": "Seuraava sähköposti",
   "emailSenderNpub": "Lähettäjän npub: {npub}",
   "@emailSenderNpub": {
     "placeholders": {

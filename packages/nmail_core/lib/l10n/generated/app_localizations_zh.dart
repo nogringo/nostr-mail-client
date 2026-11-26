@@ -1005,6 +1005,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get emailNotFound => '未找到邮件';
 
   @override
+  String get emailPrevious => '上一封邮件';
+
+  @override
+  String get emailNext => '下一封邮件';
+
+  @override
   String emailSenderNpub(String npub) {
     return '发件人 npub: $npub';
   }

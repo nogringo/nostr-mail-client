@@ -1086,6 +1086,12 @@ class AppLocalizationsFi extends AppLocalizations {
   String get emailNotFound => 'Sähköpostia ei löydy';
 
   @override
+  String get emailPrevious => 'Edellinen sähköposti';
+
+  @override
+  String get emailNext => 'Seuraava sähköposti';
+
+  @override
   String emailSenderNpub(String npub) {
     return 'Lähettäjän npub: $npub';
   }

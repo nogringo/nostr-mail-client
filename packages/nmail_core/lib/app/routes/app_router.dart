@@ -186,8 +186,12 @@ class AppRouter {
                     path: AppRoutes.emailSegment,
                     builder: (_, state) {
                       final id = state.pathParameters['id']!;
-                      _ensureEmailController(id, Mailbox.requests);
-                      return const EmailView();
+                      _ensureEmailController(
+                        id,
+                        Mailbox.requests,
+                        extra: state.extra,
+                      );
+                      return EmailView(key: ValueKey(id));
                     },
                   ),
                 ],
@@ -435,8 +439,9 @@ class AppRouter {
           path: AppRoutes.emailSegment,
           builder: (_, state) {
             final id = state.pathParameters['id']!;
-            _ensureEmailController(id, mailboxOf(state));
-            return const EmailView();
+            _ensureEmailController(id, mailboxOf(state), extra: state.extra);
+            // go_router keeps the page when only :id changes.
+            return EmailView(key: ValueKey(id));
           },
         ),
         ...routes,
@@ -492,7 +497,12 @@ class AppRouter {
   /// (Re)register EmailController for `eventReference` only when needed.
   /// Builders can fire on rebuilds (refreshListenable, theme changes);
   /// we must not nuke an in-flight controller for the same event/mailbox.
-  static void _ensureEmailController(String eventReference, Mailbox? mailbox) {
+  /// An [extra] email is the preloaded one, dropped by web history restores.
+  static void _ensureEmailController(
+    String eventReference,
+    Mailbox? mailbox, {
+    Object? extra,
+  }) {
     if (GetIt.I.isRegistered<EmailController>()) {
       final existing = GetIt.I<EmailController>();
       if (existing.eventReference == eventReference &&
@@ -502,7 +512,11 @@ class AppRouter {
       GetIt.I.unregister<EmailController>();
     }
     GetIt.I.registerSingleton(
-      EmailController(eventReference: eventReference, mailbox: mailbox),
+      EmailController(
+        eventReference: eventReference,
+        mailbox: mailbox,
+        preloaded: extra is Email ? extra : null,
+      ),
       dispose: (controller) => controller.dispose(),
     );
   }

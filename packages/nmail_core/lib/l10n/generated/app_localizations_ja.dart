@@ -1015,6 +1015,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get emailNotFound => 'メールが見つかりません';
 
   @override
+  String get emailPrevious => '前のメール';
+
+  @override
+  String get emailNext => '次のメール';
+
+  @override
   String emailSenderNpub(String npub) {
     return '送信者の npub: $npub';
   }

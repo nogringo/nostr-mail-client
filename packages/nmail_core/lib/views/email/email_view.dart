@@ -10,6 +10,7 @@ import 'package:nmail_core/utils/responsive_helper.dart';
 import 'widgets/delivery_banner.dart';
 import 'widgets/desktop_actions_bar.dart';
 import 'widgets/email_body_view.dart';
+import 'widgets/email_navigation_buttons.dart';
 import 'widgets/header_view.dart';
 import 'widgets/mobile_actions_bar.dart';
 import 'widgets/sender_verdict_banner.dart';
@@ -47,75 +48,82 @@ class EmailView extends StatelessWidget {
       builder: (context, _) {
         final l = AppLocalizations.of(context);
         final isWide = ResponsiveHelper.isNotMobile(context);
+        final email = controller.email;
+        final isMissing = !controller.isLoading && email == null;
 
-        if (controller.isLoading) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: const Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        if (controller.email == null) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(child: Text(l.emailNotFound)),
-          );
-        }
-
-        Widget content = Scaffold(
+        // The bars stay up while the next email loads.
+        return Scaffold(
           appBar: AppBar(
             leading: BackButton(onPressed: () => _goBack(context, controller)),
+            actions: const [EmailNavigationButtons()],
+            actionsPadding: .only(right: 8),
           ),
-          bottomNavigationBar: !isWide ? const MobileActionsBar() : null,
-          body: SafeArea(
-            top: false,
-            child: Column(
-              children: [
-                const SenderVerdictBanner(),
-                const DeliveryBanner(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: ResponsiveCenter(
-                      maxWidth: 800,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          HeaderView(),
-                          // Desktop: actions bar between header and body
-                          if (isWide)
-                            Container(
-                              margin: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .outlineVariant
-                                        .withValues(alpha: 0.5),
+          bottomNavigationBar: isWide || isMissing
+              ? null
+              : const MobileActionsBar(),
+          // A listed email loads from the local store within a few frames.
+          body: controller.isLoading
+              ? (controller.summary == null
+                    ? const Center(child: CircularProgressIndicator())
+                    : null)
+              : email == null
+              ? Center(child: Text(l.emailNotFound))
+              : SafeArea(
+                  top: false,
+                  child: Column(
+                    children: [
+                      const SenderVerdictBanner(),
+                      const DeliveryBanner(),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: ResponsiveCenter(
+                            maxWidth: 800,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                HeaderView(),
+                                // Desktop: actions bar between header and body
+                                if (isWide)
+                                  Container(
+                                    margin: const EdgeInsets.fromLTRB(
+                                      16,
+                                      0,
+                                      16,
+                                      16,
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .outlineVariant
+                                              .withValues(alpha: 0.5),
+                                        ),
+                                      ),
+                                    ),
+                                    child: const DesktopActionsBar(),
+                                  )
+                                else
+                                  const SizedBox(height: 8),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
                                   ),
+                                  child: EmailBodyView(email: email),
                                 ),
-                              ),
-                              child: const DesktopActionsBar(),
-                            )
-                          else
-                            const SizedBox(height: 8),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: EmailBodyView(email: controller.email!),
+                              ],
+                            ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          ),
         );
-
-        return content;
       },
     );
   }

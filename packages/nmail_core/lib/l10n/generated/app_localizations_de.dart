@@ -1093,6 +1093,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get emailNotFound => 'E-Mail nicht gefunden';
 
   @override
+  String get emailPrevious => 'Vorherige E-Mail';
+
+  @override
+  String get emailNext => 'Nächste E-Mail';
+
+  @override
   String emailSenderNpub(String npub) {
     return 'Absender-npub: $npub';
   }

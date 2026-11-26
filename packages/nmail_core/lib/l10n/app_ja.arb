@@ -384,6 +384,8 @@
   "emailSelectRow": "選択",
 
   "emailNotFound": "メールが見つかりません",
+  "emailPrevious": "前のメール",
+  "emailNext": "次のメール",
   "emailSenderNpub": "送信者の npub: {npub}",
   "@emailSenderNpub": {
     "placeholders": {

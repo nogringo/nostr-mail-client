@@ -1105,6 +1105,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get emailNotFound => 'Письмо не найдено';
 
   @override
+  String get emailPrevious => 'Предыдущее письмо';
+
+  @override
+  String get emailNext => 'Следующее письмо';
+
+  @override
   String emailSenderNpub(String npub) {
     return 'npub отправителя: $npub';
   }

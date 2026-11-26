@@ -1098,6 +1098,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get emailNotFound => 'Email não encontrado';
 
   @override
+  String get emailPrevious => 'Email anterior';
+
+  @override
+  String get emailNext => 'Email seguinte';
+
+  @override
   String emailSenderNpub(String npub) {
     return 'npub do remetente: $npub';
   }
@@ -3788,6 +3794,12 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get emailNotFound => 'E-mail não encontrado';
+
+  @override
+  String get emailPrevious => 'E-mail anterior';
+
+  @override
+  String get emailNext => 'Próximo e-mail';
 
   @override
   String emailSenderNpub(String npub) {

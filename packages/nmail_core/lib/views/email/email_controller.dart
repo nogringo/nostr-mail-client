@@ -79,9 +79,24 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
   final Map<String, Future<Uint8List?>> _thumbnailLoads = {};
 
-  EmailController({required this.eventReference, this.mailbox}) {
+  final Map<String, Future<Email?>> _neighborLoads = {};
+
+  /// A [preloaded] email shows on the first frame, with no load.
+  EmailController({
+    required this.eventReference,
+    this.mailbox,
+    Email? preloaded,
+  }) {
     _showImages = GetIt.I<SettingsController>().alwaysLoadImages.value;
-    loadEmail();
+    // The list row lays out the actions bar before the email loads.
+    summary = GetIt.I<InboxController>().emails
+        .where((e) => e.id == eventReference)
+        .firstOrNull;
+    if (preloaded == null) {
+      loadEmail();
+    } else {
+      _show(preloaded);
+    }
   }
 
   @override
@@ -193,11 +208,10 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
 
   /// Check if Reply All should be shown (multiple recipients or cc/bcc)
   bool get shouldShowReplyAll {
-    if (email == null) return false;
-
-    final to = email!.mime.to ?? [];
-    final cc = email!.mime.cc ?? [];
-    final bcc = email!.mime.bcc ?? [];
+    final mime = email?.mime;
+    final to = mime?.to ?? summary?.to ?? [];
+    final cc = mime?.cc ?? summary?.cc ?? [];
+    final bcc = mime?.bcc ?? summary?.bcc ?? [];
 
     // Show Reply All if:
     // - More than 1 "to" recipient
@@ -210,6 +224,55 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
   bool get isEmailRead {
     if (email == null) return true;
     return GetIt.I<InboxController>().isEmailRead(email!.id);
+  }
+
+  bool hasNeighbor(int offset) => _neighbor(offset) != null;
+
+  /// The current email stays on screen until the neighbor has loaded.
+  Future<void> openNeighbor(int offset) async {
+    final neighbor = _neighbor(offset);
+    if (neighbor == null) return;
+    final loaded = await _loadNeighbor(neighbor.id);
+    if (_isDisposed) return;
+    AppRouter.router.go(neighbor.path, extra: loaded);
+  }
+
+  void _preloadNeighbors() {
+    for (final offset in const [-1, 1]) {
+      final id = _neighbor(offset)?.id;
+      if (id != null) _loadNeighbor(id);
+    }
+  }
+
+  Future<Email?> _loadNeighbor(String id) =>
+      _neighborLoads[id] ??= GetIt.I<InboxController>().loadEmail(id);
+
+  /// The email [offset] rows away in the list this one was opened from, or
+  /// null past either end of it.
+  ({String id, String path})? _neighbor(int offset) {
+    final mailbox = this.mailbox;
+    if (mailbox == null) return null;
+    final inbox = GetIt.I<InboxController>();
+    final id = email?.id ?? eventReference;
+    final current = inbox.emails.where((e) => e.id == id).firstOrNull;
+    if (current == null) return null;
+    // Unsearched requests are opened from one sender's list.
+    final senderKey = mailbox.isRequests && !inbox.isSearching
+        ? current.senderKey
+        : null;
+    final siblings = [
+      for (final e in inbox.emails)
+        if (senderKey == null || e.senderKey == senderKey) e,
+    ];
+    final index = siblings.indexOf(current) + offset;
+    if (index < 0 || index >= siblings.length) return null;
+    final neighborId = siblings[index].id;
+    return (
+      id: neighborId,
+      path: senderKey == null
+          ? AppRoutes.emailPath(mailbox, neighborId)
+          : AppRoutes.requestSenderEmailPath(senderKey, neighborId),
+    );
   }
 
   Future<void> showEmailSource() async {
@@ -260,7 +323,10 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
             eventId: reference.eventId,
             relays: reference.relays,
           );
+    await _show(loaded);
+  }
 
+  Future<void> _show(Email? loaded) async {
     email = loaded;
     _buildEmailHtml();
     isLoading = false;
@@ -271,6 +337,7 @@ class EmailController extends ChangeNotifier implements InlineImageSource {
     }
     if (!_isDisposed) notifyListeners();
     if (loaded == null) return;
+    _preloadNeighbors();
 
     // Auto-mark as read where unread shows (non-blocking).
     // Cold-start via share link (mailbox == null) does not auto-mark.

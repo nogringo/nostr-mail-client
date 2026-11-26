@@ -374,6 +374,8 @@
   "emailAttachmentCount": "{count, plural, one{{count} anexo} other{{count} anexos}}",
   "emailSelectRow": "Selecionar",
   "emailNotFound": "Email não encontrado",
+  "emailPrevious": "Email anterior",
+  "emailNext": "Email seguinte",
   "emailSenderNpub": "npub do remetente: {npub}",
   "@emailSenderNpub": {
     "placeholders": {
