@@ -12,7 +12,7 @@
         {
             "src": "favicon.ico",
             "type": "image/x-icon",
-            "sizes": "16x16 32x32"
+            "sizes": "16x16 32x32 48x48"
         },
         {
             "src": "icons/Icon-192.png",
