@@ -16,7 +16,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "org.nostrmail.app.foss"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     // NDK r28+ emits 16KB-aligned ELF segments by default.
     ndkVersion = "28.2.13676358"
 
@@ -24,10 +24,6 @@ android {
         isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     signingConfigs {
@@ -105,6 +101,12 @@ configurations.all {
     // unifiedpush pulls tink-android; another dep pulls the JVM tink, and the
     // two duplicate every class. Keep the Android variant.
     exclude(group = "com.google.crypto.tink", module = "tink")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
 }
 
 flutter {
