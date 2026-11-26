@@ -132,7 +132,7 @@ flutter run -d android
 
 # Build web (standard distribution)
 cd apps/nmail_standard
-flutter build web --release --output ../../build/web
+flutter build web --release --csp --output ../../build/web
 
 # Build Android standard distribution
 cd apps/nmail_standard
