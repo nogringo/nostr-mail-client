@@ -25,7 +25,10 @@ class OnboardingView extends StatelessWidget {
         fontWeight: FontWeight.w700,
         color: Theme.of(context).colorScheme.primary,
       ),
-      bodyTextStyle: const TextStyle(fontSize: 18.0),
+      bodyTextStyle: TextStyle(
+        fontSize: 18.0,
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
       bodyPadding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Theme.of(context).colorScheme.surface,
       imagePadding: EdgeInsets.zero,
