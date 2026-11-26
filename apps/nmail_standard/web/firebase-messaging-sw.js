@@ -36,15 +36,9 @@ self.addEventListener("notificationclick", (event) => {
 importScripts("https://www.gstatic.com/firebasejs/12.15.0/firebase-app-compat.js");
 importScripts("https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging-compat.js");
 
-firebase.initializeApp({
-  apiKey: "AIzaSyBYqjME1fTEo-D0UDaubnB3HtGWh2Q8BLM",
-  authDomain: "nostr-mail.firebaseapp.com",
-  projectId: "nostr-mail",
-  storageBucket: "nostr-mail.firebasestorage.app",
-  messagingSenderId: "309138530398",
-  appId: "1:309138530398:web:3b174d508664a3ce8694cf",
-  measurementId: "G-4SLVZC5G7S",
-});
+firebase.initializeApp(
+  Object.fromEntries(new URLSearchParams(self.location.search)),
+);
 
 const messaging = firebase.messaging();
 
@@ -58,7 +52,7 @@ messaging.onBackgroundMessage((message) => {
   self.registration.showNotification(title, {
     body,
     icon: "/icons/Icon-192.png",
-    badge: "/icons/Icon-192.png",
+    badge: "/icons/badge-96.png",
     data,
   });
 });

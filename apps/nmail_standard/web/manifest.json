@@ -3,10 +3,9 @@
     "short_name": "Nmail",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
+    "background_color": "#101B42",
+    "theme_color": "#101B42",
     "description": "Everyone has an email address but nobody owns it. Nostr solves this.",
-    "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
         {

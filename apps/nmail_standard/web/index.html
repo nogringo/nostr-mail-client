@@ -1,23 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="Everyone has an email address but nobody owns it. Nostr solves this.">
 
   <!-- iOS meta tags & icons -->
@@ -31,12 +17,48 @@
 
   <title>Nmail</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    #splash {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+    #splash svg {
+      width: 120px;
+      height: 129px;
+    }
+    @media (prefers-color-scheme: dark) {
+      #splash {
+        background: #000;
+      }
+    }
+  </style>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <div id="splash">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="220 200 584 628" aria-hidden="true">
+      <defs>
+        <linearGradient id="splash-envelope" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stop-color="#1AA8BE"/>
+          <stop offset="1" stop-color="#52DDCB"/>
+        </linearGradient>
+        <linearGradient id="splash-letter" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0" stop-color="#6A3BE4"/>
+          <stop offset="1" stop-color="#A57CFF"/>
+        </linearGradient>
+      </defs>
+      <path fill="url(#splash-letter)" d="M573.5 223.2L726.2 350.5A28 28 0 0 1 726.2 393.5L542.7 546.4A48 48 0 0 1 481.3 546.4L297.8 393.5A28 28 0 0 1 297.8 350.5L450.5 223.2A96 96 0 0 1 573.5 223.2Z"/>
+      <path fill="url(#splash-envelope)" d="M311.9 462.5L453.1 580.2A92 92 0 0 0 570.9 580.2L712.1 462.5A56 56 0 0 1 804 505.5L804 732A96 96 0 0 1 708 828L316 828A96 96 0 0 1 220 732L220 505.5A56 56 0 0 1 311.9 462.5Z"/>
+      <path fill="#fff" fill-opacity=".18" d="M512 601.5L248.1 799.9A96 96 0 0 0 316 828H708A96 96 0 0 0 775.9 799.9Z"/>
+    </svg>
+  </div>
   <script>
-    // Disable browser context menu to allow Flutter to handle right-click
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    window.addEventListener('flutter-first-frame', () => document.getElementById('splash').remove(), { once: true });
   </script>
+  <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

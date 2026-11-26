@@ -71,9 +71,23 @@ class FcmPush {
     _setToken(
       await messaging.getToken(
         vapidKey: kIsWeb ? _webVapidKey : null,
-        serviceWorkerScriptPath: kIsWeb ? 'firebase-messaging-sw.js' : null,
+        serviceWorkerScriptPath: kIsWeb ? _webServiceWorkerPath : null,
       ),
     );
+  }
+
+  // firebase-messaging-sw.js reads its Firebase config from this query string.
+  static String get _webServiceWorkerPath {
+    final options = DefaultFirebaseOptions.currentPlatform;
+    return Uri(
+      path: 'firebase-messaging-sw.js',
+      queryParameters: {
+        'apiKey': options.apiKey,
+        'appId': options.appId,
+        'messagingSenderId': options.messagingSenderId,
+        'projectId': options.projectId,
+      },
+    ).toString();
   }
 
   static void _handleTap(RemoteMessage message) {
