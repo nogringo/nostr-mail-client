@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="envelope" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#1AA8BE"/>
+      <stop offset="1" stop-color="#52DDCB"/>
+    </linearGradient>
+    <linearGradient id="letter" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#6A3BE4"/>
+      <stop offset="1" stop-color="#A57CFF"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#101B42"/>
+      <stop offset="1" stop-color="#22397C"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#ink)"/>
+  <g transform="translate(512 512) scale(1.06) translate(-512 -511)">
+    <path fill="url(#letter)" d="M573.5 223.2L726.2 350.5A28 28 0 0 1 726.2 393.5L542.7 546.4A48 48 0 0 1 481.3 546.4L297.8 393.5A28 28 0 0 1 297.8 350.5L450.5 223.2A96 96 0 0 1 573.5 223.2Z"/>
+    <path fill="url(#envelope)" d="M311.9 462.5L453.1 580.2A92 92 0 0 0 570.9 580.2L712.1 462.5A56 56 0 0 1 804 505.5L804 732A96 96 0 0 1 708 828L316 828A96 96 0 0 1 220 732L220 505.5A56 56 0 0 1 311.9 462.5Z"/>
+    <path fill="#fff" fill-opacity=".18" d="M512 601.5L248.1 799.9A96 96 0 0 0 316 828H708A96 96 0 0 0 775.9 799.9Z"/>
+  </g>
+</svg>
